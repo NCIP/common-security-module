@@ -11,4 +11,47 @@
 	
 	<definition name="show.login" path="/pages/Login.jsp" />
 		
+	<!-- Main layout -->  
+  <definition name="main.layout" path="/pages/layout.jsp">
+		<put name="title" value="CSM RI"/>
+		<put name="header" value="/pages/header.jsp"/>
+		<put name="menu" value="/pages/menu/leftnav.jsp"/>
+		<put name="body" value="/pages/welcome.jsp"/>
+	</definition>
+
+  <!-- section bases -->  
+      
+  <definition name="Home" extends="main.layout">  
+  	<put name="header" value="/pages/header/header2.jsp"/>  	   
+  </definition>	
+
+<definition name="Employee" extends="main.layout">  
+  	<put name="header" value="/pages/header/header3.jsp"/>  	    
+  </definition>	
+  
+  <definition name="Project" extends="main.layout">  
+  	<put name="header" value="/pages/header/header3.jsp"/>     
+  </definition>		
+		
+	<!-- home page -->	
+		
+	<definition name="Home.Main" extends="Home">
+    <put name="content"   value="pages/home.jsp" />
+    </definition>	
+	
+	<!-- Employee pages -->
+		
+	<definition name="Employee.Create" extends="Employee">
+    <put name="content"   value="pages/createemployee.jsp" />
+    </definition>		
+	
+	<!-- Project pages -->
+	
+	<definition name="Project.Create" extends="Project">
+    <put name="content"   value="pages/createproject.jsp" />
+    </definition>			
+		
+		
+		
+		
 </tiles-definitions>
