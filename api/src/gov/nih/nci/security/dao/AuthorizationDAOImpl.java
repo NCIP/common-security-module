@@ -2891,28 +2891,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			cn = s.connection();
 
-			StringBuffer stbr = new StringBuffer();
-			stbr.append("select pe.attribute");
-			stbr.append(" from protection_group pg,");
-			stbr.append("protection_element pe,");
-			stbr.append("protection_group_protection_element pgpe,");
-			stbr.append("user_group_role_protection_group ugrpg,");
-			stbr.append("user u,");
-			stbr.append("role_privilege rp,");
-			stbr.append("privilege p");
-			stbr
-					.append(" where pgpe.protection_group_id = pg.protection_group_id");
-			stbr
-					.append(" and pgpe.protection_element_id = pe.protection_element_id");
-			stbr.append(" and pe.object_id='" + objectTypeName + "'");
-			stbr
-					.append(" and pg.protection_group_id = ugrpg.protection_group_id");
-			stbr.append(" and ugrpg.user_id = u.user_id");
-			stbr.append(" and u.login_name='" + loginName + "'");
-			stbr.append(" and ugrpg.role_id = rp.role_id ");
-			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='" + privilegeName + "'");
-			String sql = stbr.toString();
+			String application_id = this.application.getApplicationId().toString();
+			String sql = Queries.getQueryForObjectMap(loginName,objectTypeName,privilegeName,application_id);
 			log.debug("SQL is : " + sql);
 			stmt = cn.createStatement();
 

@@ -175,9 +175,76 @@ public class Queries {
 		return stbr.toString();
 	}
 	
+	public static String getQueryForObjectMap(String loginName,String ObjectId,String privilegeName,String application_id){
+		 StringBuffer stbr = new StringBuffer();
+		stbr.append("and pe.object_id='").append(ObjectId).append("'");
+		stbr.append(" and u.login_name='").append(loginName).append("'");
+		stbr.append(" and p.privilege_name='").append(privilegeName).append("'");
+		stbr.append(" and pg.application_id=").append(application_id);
+		stbr.append(" and pe.application_id=").append(application_id);
+		
+		StringBuffer sqlBfr = new StringBuffer();
+		sqlBfr.append(getQueryForObjectMap_user());
+		sqlBfr.append(stbr.toString());
+		sqlBfr.append(" union ");
+		sqlBfr.append(getQueryForObjectMap_group());
+		sqlBfr.append(stbr.toString());
+		
+		return null;
+	}
+	
+	private static String getQueryForObjectMap_user(){
+		StringBuffer stbr = new StringBuffer();
+		stbr.append("select pe.attribute ");
+		stbr.append(" from protection_group pg,"); 
+		stbr.append(" protection_element pe,"); 
+		stbr.append(" protection_group_protection_element pgpe,"); 
+		stbr.append(" user_group_role_protection_group ugrpg,"); 
+		stbr.append(" user u,"); 
+		stbr.append(" role_privilege rp,"); 
+		stbr.append(" role r,");
+		stbr.append(" privilege p");  
+		stbr.append(" where ugrpg.role_id = r.role_id and");
+		stbr.append(" ugrpg.user_id = u.user_id and");
+		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and"); 
+		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
+		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
+		stbr.append(" r.role_id = rp.role_id and");
+		stbr.append(" rp.privilege_id = p.privilege_id ");
+		
+		
+		return stbr.toString();
+	}
+	private static String getQueryForObjectMap_group(){
+		StringBuffer stbr = new StringBuffer();
+		stbr.append("select pe.attribute");
+		stbr.append(" from protection_group pg,"); 
+		stbr.append(" protection_element pe,"); 
+		stbr.append(" protection_group_protection_element pgpe,"); 
+		stbr.append(" user_group_role_protection_group ugrpg,"); 
+		stbr.append(" user u,");
+		stbr.append(" user_group ug,");
+		stbr.append(" groups g,");
+		stbr.append(" role_privilege rp,"); 
+		stbr.append(" role r,");
+		stbr.append(" privilege p");  
+		stbr.append(" where ugrpg.role_id = r.role_id and");
+		stbr.append(" ugrpg.group_id = g.group_id and");
+		stbr.append(" g.group_id = ug.group_id and");
+		stbr.append(" ug.user_id = u.user_id and");
+		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and");
+		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
+		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
+		stbr.append(" r.role_id = rp.role_id and");
+		stbr.append(" rp.privilege_id = p.privilege_id ");
+		
+		return stbr.toString();
+	}
+	
 	public static void main(String[] args){
-		System.out.println(Queries.getQueryForCheckPermissionForUserAndGroup("hr_manager",
-				"gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction",
-				"EXECUTE","1"));
+		System.out.println(Queries.getQueryForUserAndGroupForAttribute("hr_manager",
+				"gov.nih.nci.security.ri.Employee","salary",
+				"Update","1"));
+		
 	}
 }
