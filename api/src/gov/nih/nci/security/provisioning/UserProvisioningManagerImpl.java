@@ -11,6 +11,7 @@ import gov.nih.nci.security.exceptions.*;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.Set;
 
 
 import javax.security.auth.Subject;
@@ -453,7 +454,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param roleId
 	 * 
 	 */
-	public Collection getPrivileges(String roleId) throws CSObjectNotFoundException{
+	public Set getPrivileges(String roleId) throws CSObjectNotFoundException{
 		return authorizationDAO.getPrivileges(roleId);
 	}
 

@@ -20,11 +20,11 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.SessionFactory;
 import java.util.List;
-import net.sf.hibernate.Hibernate;
+
 import net.sf.hibernate.expression.*;
 
 import gov.nih.nci.security.dao.hibernate.*;
-import java.util.ArrayList;
+import java.util.*;
 
 
 
@@ -158,6 +158,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		
 	}
 	
+	
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String, java.lang.String[], java.lang.String[])
 	 */
@@ -228,7 +230,27 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void createGroup(Group group) throws CSTransactionException {
 		// TODO Auto-generated method stub
-
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = sf.openSession();	
+			t = s.beginTransaction();
+			group.setApplication(application);
+			s.save(group);
+			t.commit();
+			s.close();
+			System.out.println( "Group ID is: " + group.getGroupId());
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createPrivilege(gov.nih.nci.security.authorization.domainobjects.Privilege)
@@ -464,7 +486,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public Role getRole(Long roleId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return (Role)this.getObjectByPrimaryKey(Role.class,roleId);
+		Role r = (Role)this.getObjectByPrimaryKey(Role.class,roleId);
+		r.setPrivileges(this.getPrivileges(roleId.toString()));
+		return r;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getRole(java.lang.String)
@@ -653,10 +677,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 	
-	public Collection getPrivileges(String roleId) throws CSObjectNotFoundException{
+	public Set getPrivileges(String roleId) throws CSObjectNotFoundException{
 		Session s = null;
 		
-		ArrayList result = new ArrayList();
+		//ArrayList result = new ArrayList();
+		Set result = new HashSet();
 		try{
 			s = sf.openSession();
 			RolePrivilege search = new RolePrivilege();

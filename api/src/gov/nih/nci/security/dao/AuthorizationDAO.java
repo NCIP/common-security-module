@@ -333,7 +333,7 @@ public interface AuthorizationDAO {
 	public Group getGroup(String groupName) throws CSObjectNotFoundException;
 
 	
-	public Collection getPrivileges(String roleId) throws CSObjectNotFoundException;
+	public Set getPrivileges(String roleId) throws CSObjectNotFoundException;
 	/**
 	 * @param searchCriteria
 	 * 

@@ -197,7 +197,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param roleId
 	 * 
 	 */
-	public Collection getPrivileges(String roleId) throws CSObjectNotFoundException;
+	public Set getPrivileges(String roleId) throws CSObjectNotFoundException;
 
 	/**
 	 * @param serachCriteria
