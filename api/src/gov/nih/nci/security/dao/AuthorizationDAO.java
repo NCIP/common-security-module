@@ -342,7 +342,7 @@ public interface AuthorizationDAO {
 	
 	public void createUser(User user) throws CSTransactionException;
 	
-	public void assignProtectionElement(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
+	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
 
 
 }

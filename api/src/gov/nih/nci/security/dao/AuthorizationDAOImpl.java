@@ -1341,7 +1341,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 	
-	public void assignProtectionElement(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
+	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
 		Session s = null;
 		Transaction t = null;
 		//log.debug("Running create test...");
