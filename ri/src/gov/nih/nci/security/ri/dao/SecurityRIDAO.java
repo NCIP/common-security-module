@@ -24,7 +24,7 @@ public class SecurityRIDAO {
 
 	static {
 		try {
-			setSessionFactory(new Configuration().configure()
+			setSessionFactory(new Configuration().configure( SecurityRIDAO.class.getClassLoader().getResource("/hibernate.cfg.xml") )
 					.buildSessionFactory());
 		} catch (Exception ex) {
 			log.fatal("Unable to create SessionFactory", ex);
