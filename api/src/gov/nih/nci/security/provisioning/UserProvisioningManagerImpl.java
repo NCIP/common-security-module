@@ -51,6 +51,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createProtectionGroup(ProtectionGroup protectionGroup){
+		authorizationDAO.createProtectionGroup(protectionGroup);
 
 	}
 
@@ -80,6 +81,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void modifyProtectionGroup(ProtectionGroup protectionGroup){
+		
+		authorizationDAO.modifyProtectionGroup(protectionGroup);
 
 	}
 
@@ -90,15 +93,15 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName){
-
+            
+		authorizationDAO.assignProtectionElements(protectionGroupName,protectionElementObjectName);
 	}
-
 	/**
 	 * @param protectionGroupName
 	 * 
 	 */
 	public void removeProtectionGroup(String protectionGroupName){
-
+		authorizationDAO.removeProtectionGroup(protectionGroupName);
 	}
 
 	/**
@@ -107,6 +110,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	public void removeProtectionElement(ProtectionElement element){
 
+		authorizationDAO.removeProtectionElement(element);
 	}
 
 	/**
