@@ -54,22 +54,14 @@ function MM_swapImage() { //v3.0
 
 					<h3>Welcome!</h3>
 
-					<p>Welcome to the User Provisioning Tool. You may begin by clicking on any menu option above, or you can follow our Recommended Workflow outlined below.  This page also includes an association diagram to help show how UPT security objects are related.</p>
+					<p>Welcome to the User Provisioning Tool. You may begin by clicking on any menu option above, or you can follow our Recommended Workflow outlined below.  This diagram shows how UPT security objects are related:</p>
 					</td>
 					<td width="30%">&nbsp;</td>
 				</tr>
-				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
-				<!--recommended flow-->
-				<tr class="home">
-					<td class="home" colspan="3">
-					<h3>Recommended Workflow</h3>
-					
-					<p>When initially adding an application, we recommend the following steps:</p>
-					</td>
-					<td class="home" width="27%">&nbsp;</td>
-				</tr>	
 				
-				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
+				
+				
+				
 				<!--
 				<!-- diagram -->
 	
@@ -98,9 +90,7 @@ function MM_swapImage() { //v3.0
         <tr> 
           <td width="98" height="50"><a href="javascript: setTable('<%=DisplayConstants.PRIVILEGE_ID%>')" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)"><img name="priv" border="0" src="images/privileges2.gif" width="98" height="50"></a></td>
         </tr>
-        <tr> 
-          <td width="98" height="50">&nbsp;</td>
-        </tr>
+        
         <tr> 
           <td width="98" height="50"><img src="images/create.gif" width="98" height="50"></td>
         </tr>
@@ -123,9 +113,7 @@ function MM_swapImage() { //v3.0
         <tr> 
           <td width="98" height="50"><img src="images/horizontal_line.gif" width="98" height="50"></td>
         </tr>
-        <tr> 
-          <td width="98" height="50">&nbsp;</td>
-        </tr>
+       
         <tr> 
           <td width="98" height="50">&nbsp;</td>
         </tr>
@@ -151,9 +139,7 @@ function MM_swapImage() { //v3.0
         <tr> 
           <td width="98" height="50"><a href="javascript: setTable('<%=DisplayConstants.ROLE_ID%>')" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('roles','','images/roles.gif',1)"><img name="roles" border="0" src="images/roles2.gif" width="98" height="50"></a></td>
         </tr>
-        <tr> 
-          <td width="98" height="50">&nbsp;</td>
-        </tr>
+        
         <tr> 
           <td width="98" height="50"><img src="images/assign.gif" width="98" height="50"></td>
         </tr>
@@ -179,9 +165,7 @@ function MM_swapImage() { //v3.0
         <tr> 
           <td width="98" height="50"><img src="images/horizontal_line.gif" width="98" height="50"></td>
         </tr>
-        <tr> 
-          <td width="98" height="50">&nbsp;</td>
-        </tr>
+       
         <tr> 
           <td width="98" height="50">&nbsp;</td>
         </tr>
@@ -192,9 +176,7 @@ function MM_swapImage() { //v3.0
         <tr> 
           <td valign="top" height="300"><img src="images/assoc_block2.gif" width="98" height="300"/></td>
         </tr>
-        <tr> 
-          <td width="98" height="50">&nbsp;</td>
-        </tr>
+        
         <tr> 
           <td width="98" height="50"><img src="images/associate.gif" width="98" height="50"></td>
         </tr>
@@ -213,7 +195,7 @@ function MM_swapImage() { //v3.0
 				
 				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
 				
-				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
+				
 	
 	
 	<!-- workflow begins-->
@@ -222,6 +204,18 @@ function MM_swapImage() { //v3.0
   <td colspan="4"> 
     <table cellpadding="0" cellspacing="0" border="0"
 				class="contentBegins">
+	<!--recommended flow-->
+				<tr class="home">
+					<td class="home" colspan="3">
+					<h3>Recommended Workflow</h3>
+					<p>When initially adding an application, we recommend the following steps:</p>
+					
+					</td>
+					<td class="home" width="27%">&nbsp;</td>
+				</tr>	
+	
+      <tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
+      
       <tr class="home"> 
         <td class="home" colspan="3">1. Create base objects - <b>Users</b>, <b>Protection</b> 
           <b>Elements</b>, and <b>Privileges</b></td>
@@ -244,7 +238,7 @@ function MM_swapImage() { //v3.0
       <!-- Section A -->
       <tr class="home"> 
         <td class="home" width="5%" align="center">&nbsp;</td>
-        <td colspan="2">Create <b>Groups</b></td>
+        <td class="home" colspan="2">Create <b>Groups</b></td>
         <td class="home" width="27%">&nbsp;</td>
       </tr>
       <!--
@@ -263,7 +257,7 @@ function MM_swapImage() { //v3.0
 				-->
       <tr class="home"> 
         <td class="home" width="5%" align="center">&nbsp;</td>
-        <td colspan="2">Assign <b>Users</b> to <b>Groups</b></td>
+        <td class="home" colspan="2">Assign <b>Users</b> to <b>Groups</b></td>
         <td class="home" width="27%">&nbsp;</td>
       </tr>
       <!--
@@ -293,9 +287,9 @@ function MM_swapImage() { //v3.0
       </tr>
       <!-- Section B -->
       <tr class="home"> 
-        <td class="home" width="5%" align="center" height="21">&nbsp;</td>
-        <td class="home" colspan="2" height="21">Create <b>Protection Groups</b></td>
-        <td class="home" width="27%" height="21">&nbsp;</td>
+        <td class="home" width="5%" align="center">&nbsp;</td>
+        <td class="home" colspan="2">Create <b>Protection Groups</b></td>
+        <td class="home" width="27%">&nbsp;</td>
       </tr>
       <!--
 				<tr class="home">
@@ -347,7 +341,7 @@ function MM_swapImage() { //v3.0
       <!-- Section C -->
       <tr class="home"> 
         <td class="home" width="5%" align="center">&nbsp;</td>
-        <td colspan="2"> Create <b>Roles</b> </td>
+        <td class="home" colspan="2"> Create <b>Roles</b> </td>
         <td class="home" width="27%">&nbsp;</td>
       </tr>
       <!--
@@ -360,7 +354,7 @@ function MM_swapImage() { //v3.0
 				-->
       <tr class="home"> 
         <td class="home" width="5%" align="center">&nbsp;</td>
-        <td colspan="2"> Assign <b>Privileges</b> to <b>Roles</b></td>
+        <td class="home" colspan="2"> Assign <b>Privileges</b> to <b>Roles</b></td>
         <td class="home" width="27%">&nbsp;</td>
       </tr>
       <!--
@@ -388,9 +382,9 @@ function MM_swapImage() { //v3.0
         <td class="home" colspan="4">&nbsp;</td>
       </tr>
       <tr class="home"> 
-        <td class="home" colspan="3" height="22">3. Associate rights with <b>Users</b> 
+        <td class="home" colspan="3">3. Associate rights with <b>Users</b> 
           and <b>Groups</b>. </td>
-        <td class="home" width="25%" height="22">&nbsp;</td>
+        <td class="home" width="27%">&nbsp;</td>
       </tr>
       <tr class="home"> 
         <td class="home" colspan="4">&nbsp;</td>
