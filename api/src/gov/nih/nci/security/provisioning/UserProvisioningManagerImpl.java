@@ -10,7 +10,7 @@ import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.*;
 
 import java.security.Principal;
-import java.util.Collection;
+
 import java.util.Set;
 
 
