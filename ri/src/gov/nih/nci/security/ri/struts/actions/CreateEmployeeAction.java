@@ -34,7 +34,7 @@ public class CreateEmployeeAction extends Action {
 		// TODO Auto-generated method stub
 		Employee employeeForm = (Employee) form;
 		
-		EmployeeDAO.saveOrUpdateEmployee( employeeForm );
+		EmployeeDAO.saveEmployee( employeeForm );
 		
 		return mapping.findForward( Constants.ACTION_SUCCESS );
 	}

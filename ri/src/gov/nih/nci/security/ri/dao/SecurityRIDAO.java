@@ -27,7 +27,7 @@ public class SecurityRIDAO {
 		}
 	}
 	
-	protected static void saveOrUpdateObject( Object o ) throws HibernateException {
+	protected static void saveObject( Object o ) throws HibernateException {
 		Session s = null;
 		try{
 			s = getSessionFactory().openSession();

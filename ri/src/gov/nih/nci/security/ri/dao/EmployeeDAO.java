@@ -16,8 +16,8 @@ public class EmployeeDAO extends SecurityRIDAO {
 
 	static final Logger log = Logger.getLogger(EmployeeDAO.class.getName());
 	
-	public static void saveOrUpdateEmployee( Employee empl ) throws HibernateException {
-		saveOrUpdateObject( empl );		
+	public static void saveEmployee( Employee empl ) throws HibernateException {
+		saveObject( empl );		
 	}
 	
 	public static void removeEmployee( Employee empl ) throws HibernateException {
