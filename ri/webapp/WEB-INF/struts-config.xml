@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<!--
+
+     This is a blank Struts configuration file with an example
+
+     welcome action/page and other commented sample elements.
+
+
+
+     Tiles and the Struts Validator are configured using the factory defaults
+
+     and are ready-to-use.
+
+
+
+     NOTE: If you have a generator tool to create the corresponding Java classes
+
+     for you, you could include the details in the "form-bean" declarations.
+
+     Otherwise, you would only define the "form-bean" element itself, with the
+
+     corresponding "name" and "type" attributes, as shown here.
+
+-->
+<struts-config>
+	<!-- ======================================== Form Bean Definitions -->
+	<form-beans>
+		<form-bean name="submitApplicationForm" type="gov.grants.apply.struts.forms.SubmitApplicationForm"/>
+		<form-bean name="getApplicationListForm" type="gov.grants.apply.struts.forms.GetApplicationListForm"/>
+		<form-bean name="getOpportunityListForm" type="gov.grants.apply.struts.forms.GetOpportunityListForm"/>
+		<form-bean name="getApplicationStatusDetailForm" type="gov.grants.apply.struts.forms.GetApplicationStatusDetailForm"/>
+	</form-beans>
+	<!-- ================================= Global Exception Definitions -->
+	<global-exceptions>
+		<exception key="" scope="request" type="java.lang.Exception" path="show.error.page" handler="gov.grants.apply.struts.DefaultExceptionHandler"/>
+	</global-exceptions>
+	<!-- =================================== Global Forward Definitions -->
+	<global-forwards>
+		<!-- Default forward to "Welcome" action -->
+	</global-forwards>
+	<!-- =================================== Action Mapping Definitions -->
+	<action-mappings>
+		<!-- Default "Welcome" action -->
+		<!-- Forwards to Welcome.jsp -->
+		<action path="/Welcome" forward="main.layout"/>
+		<action path="/viewErrorDetails" forward="show.error.details"/>
+		<action path="/viewGetOpportunityList" forward="get.opportunity.list"/>
+		<action input="get.opportunity.list" name="getOpportunityListForm" path="/getOpportunityList" type="gov.grants.apply.struts.actions.GetOpportunityListAction" scope="session" >
+			<forward name="success" path="get.opportunity.list"/>
+			<forward name="continue" path="get.opportunity.list"/>
+		</action>
+		<action name="submitApplicationForm" path="/viewSubmitApplication" forward="submit.application"/>
+		<action input="submit.application" name="submitApplicationForm" path="/submitApplication" type="gov.grants.apply.struts.actions.SubmitApplicationAction" scope="session" parameter="method">
+			<forward name="success" path="submit.application.response"/>
+			<forward name="continue" path="submit.application"/>
+		</action>
+		<action input="get.application.list" name="getApplicationListForm" path="/getApplicationList" type="gov.grants.apply.struts.actions.GetApplicationListAction" scope="session" parameter="method">
+			<forward name="success" path="get.application.list"/>
+		</action>
+		<action path="/viewGetApplicationList" forward="get.application.list"/>
+		<action path="/viewGetApplicationStatusDetail" forward="get.application.status.detail"/>
+		<action input="get.application.status.detail" name="getApplicationStatusDetailForm" path="/getApplicationStatusDetail" type="gov.grants.apply.struts.actions.GetApplicationStatusDetailAction" scope="session" >
+			<forward name="success" path="get.application.status.detail"/>
+			<forward name="continue" path="get.application.status.detail"/>
+		</action>
+		<action path="/popupGetApplicationStatusDetail" forward="get.application.status.detail.popup"/>
+		<action input="get.application.status.detail.popup" name="getApplicationStatusDetailForm" path="/popupGetApplicationStatusDetail" type="gov.grants.apply.struts.actions.GetApplicationStatusDetailAction" scope="session" >
+			<forward name="success" path="get.application.status.detail.popup"/>
+			<forward name="continue" path="get.application.status.detail.popup"/>
+		</action>
+	</action-mappings>
+	<!-- ===================================== Controller Configuration -->
+	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+	<!-- ================================ Message Resources Definitions -->
+	<message-resources parameter="resources.application"/>
+	<!-- ======================================= Plug Ins Configuration -->
+	<!-- ========== Tiles plugin ===================  -->
+	<!--												-->
+	<!--
+     This plugin initialize Tiles definition factory. This later can takes some
+	 parameters explained here after. The plugin first read parameters from web.xml, then
+	 overload them with parameters defined here. All parameters are optional.
+	 The plugin should be declared in each struts-config file.
+       - definitions-config: (optional)
+            Specify configuration file names. There can be several comma
+		    separated file names (default: ?? )
+       - moduleAware: (optional - struts1.1)
+            Specify if the Tiles definition factory is module aware. If true (default),
+			there will be one factory for each Struts module.
+			If false, there will be one common factory for all module. In this later case,
+			it is still needed to declare one plugin per module. The factory will be
+			initialized with parameters found in the first initialized plugin (generally the
+			one associated with the default module).
+			  true : One factory per module. (default)
+			  false : one single shared factory for all modules
+	   - definitions-parser-validate: (optional)
+	        Specify if xml parser should validate the Tiles configuration file.
+			  true : validate. DTD should be specified in file header. (default)
+			  false : no validation
+
+	  Paths found in Tiles definitions are relative to the main context.
+  -->
+	<!-- comment following if struts1.0.x -->
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
+		<set-property property="moduleAware" value="true"/>
+		<set-property property="definitions-parser-validate" value="true"/>
+	</plug-in>
+	<!-- end comment if struts1.0.x -->
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+	</plug-in>
+</struts-config>
