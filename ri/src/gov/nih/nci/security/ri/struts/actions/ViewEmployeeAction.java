@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -40,9 +39,9 @@ public class ViewEmployeeAction extends BaseAction implements Constants {
 	 *      javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
-	public ActionForward executeWorkflow(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ActionForward executeWorkflow(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		List searchResults = (List) request.getSession().getAttribute(
 				EMPLOYEE_LIST);
@@ -89,7 +88,7 @@ public class ViewEmployeeAction extends BaseAction implements Constants {
 
 			}
 		}
-
+		request.getSession().setAttribute( ORIGINAL_EMPLOYEE_OBJECT, theEmployee);
 		request.getSession().setAttribute(EMPLOYEE_FORM, theEmployee);
 		request.getSession().setAttribute(ASSIGNED_PROJECTS, assignedProjects);
 		request.getSession().setAttribute(UNASSIGNED_PROJECTS, allProjects);

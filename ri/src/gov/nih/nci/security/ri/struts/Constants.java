@@ -25,6 +25,7 @@ public interface Constants {
 	public static final String EMPLOYEE_ID = "EMPLOYEE_ID";
 	public static final String ASSIGNED_PROJECTS = "ASSIGNED_PROJECTS";
 	public static final String UNASSIGNED_PROJECTS = "UNASSIGNED_PROJECTS";
+	public static final String ORIGINAL_EMPLOYEE_OBJECT ="ORIGINAL_EMPLOYEE_OBJECT";
 	
 	
 	public static final String CSM_RI_CONTEXT_NAME = "csm_ri";
