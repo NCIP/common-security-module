@@ -31,7 +31,8 @@ public class UpdateEmployeeAction extends BaseAction {
 
 	/*
 	 * Updates the employee. The employee object is secured based on the
-	 * authorization policy defined in the authorization database.
+	 * authorization policy defined in the authorization database.  In addition,
+	 * only managers may update employee project associations.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,
@@ -85,6 +86,13 @@ public class UpdateEmployeeAction extends BaseAction {
 
 	}
 
+	/**
+	 * Returns true if the current user has EXECUTE privileges to
+	 * modify employee project associations.
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	private boolean isAuthorized(HttpServletRequest request) throws Exception {
 
 		String user = getUser(request).getUserName();

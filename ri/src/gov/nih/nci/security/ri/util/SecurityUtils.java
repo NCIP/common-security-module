@@ -45,6 +45,11 @@ public class SecurityUtils implements Constants {
 		return clazz.getName();
 	}
 	
+	/**
+	 * Returns the Object ID to check to verify access
+	 * to modify employee projects.
+	 * @return
+	 */
 	public static String getObjectIdForEmployeeProjecAccess(){
 		return "MODIFY_EMPLOYEE_PROJECT_ACTION"; 
 	}
