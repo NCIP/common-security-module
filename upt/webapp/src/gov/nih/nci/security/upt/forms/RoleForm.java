@@ -299,5 +299,11 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.assignPrivilegesToRole(this.roleId, this.associatedIds);
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
+	 */
+	public String getFormName() {
+		return DisplayConstants.ROLE_ID;
+	}
 
 }

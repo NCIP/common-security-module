@@ -28,6 +28,7 @@ public interface ForwardConstants
 	public static final String DELETE_SUCCESS="DeleteSuccess";
 	public static final String SEARCH_SUCCESS="SearchSuccess";	
 	public static final String LOGIN_SUCCESS="LoginSuccess";
+	public static final String LOGIN_FAILURE="LoginFailure";	
 	public static final String LOAD_ASSOCIATION_SUCCESS="LoadAssociationSuccess";
 	public static final String SET_ASSOCIATION_SUCCESS="SetAssociationSuccess";
 	public static final String LOAD_PARENT_ASSOCIATION_SUCCESS = "LoadParentAssociationSuccess";
@@ -46,6 +47,8 @@ public interface ForwardConstants
 	public static final String SEARCH_FAILURE = "SearchFailure";
 	public static final String LOAD_PROTECTIONGROUPASSOCIATION_FAILURE = "LoadProtectionGroupAssociationFailure";
 
+	public static final String LOGOUT_SUCCESS="LogoutSuccess";
+	public static final String LOGOUT_ACTION="LogoutAction";
 	
 	public static final String HOME_PAGE="HomePage";
 	public static final String LOGIN_PAGE="LoginPage";

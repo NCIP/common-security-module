@@ -30,7 +30,7 @@ public class DisplayConstants
 	public static final String MESSAGE_ID = "messageId";
 	public static final String ERROR_ID = "errorId";	
 	
-	public static final String USER_OBJECT = "USER_OBJECT";
+	public static final String LOGIN_OBJECT = "LOGIN_OBJECT";
 
 	public static final String ADD = "ADD";
 	public static final String SEARCH = "SEARCH";
@@ -50,7 +50,8 @@ public class DisplayConstants
 	public static final String USER_ID = "User";
 	public static final String PROTECTION_GROUP_ID = "ProtectionGroup";
 	public static final String PROTECTION_ELEMENT_ID = "ProtectionElement";
-
+	public static final String LOGOUT_ID = "Logout";
+	
 	public static final String HOME_NAME = "Home";
 	public static final String PRIVILEGE_NAME = "Privilege";
 	public static final String ROLE_NAME = "Role";

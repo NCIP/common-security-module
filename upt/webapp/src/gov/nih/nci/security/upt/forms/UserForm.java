@@ -625,5 +625,11 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		
 		request.setAttribute(DisplayConstants.ONLY_ROLES, DisplayConstants.ONLY_ROLES);	
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
+	 */
+	public String getFormName() {
+		return DisplayConstants.USER_ID;
+	}
 
 }

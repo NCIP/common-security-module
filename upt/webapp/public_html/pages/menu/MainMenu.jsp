@@ -37,8 +37,7 @@
 	%>
 	<html:hidden property="tableId" value="error" />
 	<table summary="" cellpadding="0" cellspacing="0" border="0" height="20">
-		<logic:present name="<%=DisplayConstants.USER_OBJECT%>">
-		<tr>
+		<logic:present name="<%=DisplayConstants.LOGIN_OBJECT%>">
 			<td width="1"><!-- anchor to skip main menu --><a href="#content"><img src="images/shim.gif" alt="Skip Menu" width="1" height="1" border="0" /></a></td>
 			<!-- link 1 begins -->
 			<%if (tableId.equalsIgnoreCase(DisplayConstants.HOME_ID)){%>
@@ -96,7 +95,10 @@
 			<%}%>
 			<!-- link 7 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="" /></td>
-		</tr>
+			<!-- link 8 begins -->			
+			<td height="20" class="mainMenuItemOver" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()" onclick="javascript: set('<%=DisplayConstants.USER_ID%>')"><a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')">LOG OUT</a></td>
+			<!-- link 8 ends -->			
+			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="" /></td>
 		</logic:present>
 	</table>
 </html:form>

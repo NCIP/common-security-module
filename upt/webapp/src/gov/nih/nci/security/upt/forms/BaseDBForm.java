@@ -23,6 +23,8 @@ import org.apache.struts.action.ActionMessages;
  */
 public interface BaseDBForm
 {
+	public String getFormName();
+	
 	public ArrayList getAddFormElements();
 
 	public ArrayList getDisplayFormElements();

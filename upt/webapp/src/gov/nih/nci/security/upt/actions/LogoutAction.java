@@ -28,23 +28,31 @@ import org.apache.struts.action.ActionMapping;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class LoginAction extends Action 
+public class LogoutAction extends Action 
 {
 	
-	private static final Category log = Category.getInstance(LoginAction.class);
+	private static final Category log = Category.getInstance(LogoutAction.class);
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
 		/* perform login task*/
-		HttpSession session = request.getSession(true);
-		UserProvisioningManager userProvisioningManager = SecurityServiceProvider.getUserProvisioningManger("security");
-		session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER, userProvisioningManager);
-		session.setAttribute(DisplayConstants.LOGIN_OBJECT,form);
-		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
+		HttpSession session = request.getSession();
 		if (log.isDebugEnabled())
 			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-					"||Login|Success|Login Successful and Forwarding to the Home Page||");		
-		return (mapping.findForward(ForwardConstants.LOGIN_SUCCESS));
+					"||Logout|Success|Logout Called and Forwarding to the Login Page||");		
+
+		
+		UserProvisioningManager userProvisioningManager = SecurityServiceProvider.getUserProvisioningManger("security");
+		session.removeAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		session.removeAttribute(DisplayConstants.LOGIN_OBJECT);
+		session.removeAttribute(DisplayConstants.CURRENT_TABLE_ID);
+		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
+		session.removeAttribute(DisplayConstants.CURRENT_FORM);
+		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
+		
+		session.invalidate();
+		
+		return (mapping.findForward(ForwardConstants.LOGOUT_SUCCESS));
 	}
 
 }

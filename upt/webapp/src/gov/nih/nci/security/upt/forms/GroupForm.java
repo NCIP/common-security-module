@@ -401,5 +401,11 @@ public class GroupForm extends ValidatorForm implements BaseDoubleAssociationFor
 		
 		request.setAttribute(DisplayConstants.ONLY_ROLES, DisplayConstants.ONLY_ROLES);	
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
+	 */
+	public String getFormName() {
+		return DisplayConstants.GROUP_ID;
+	}
 
 }

@@ -25,8 +25,7 @@
 		<forward name="Login" path="/Login.do" />
 		<forward name="Home" path="/Home.do" />
 		<forward name="MenuSelection" path="/MenuSelection.do" />
-		<forward name="PrivilegeDBOperation" path="/PrivilegeDBOperation.do" />
-		<forward name="RoleDBOperation" path="/RoleDBOperation.do" />
+		<forward name="LoginPage" path="Tiles.Login.Page" />
 	</global-forwards>
 	<action-mappings>
 		<action path="/Home"
@@ -42,7 +41,12 @@
 			validate="true" 
 			input="Tiles.Login.Page">
 			<forward name="LoginSuccess" path="Tiles.Home.Page" />
+			<forward name="LoginFailure" path="Tiles.Login.Page" />
 		</action>
+		<action path="/Logout"
+			type="gov.nih.nci.security.upt.actions.LogoutAction" >
+			<forward name="LogoutSuccess" path="Tiles.Login.Page" />
+		</action>		
 		<action path="/MenuSelection"
 			type="gov.nih.nci.security.upt.actions.MenuSelectionAction"
 			name="MenuForm" 
@@ -56,6 +60,7 @@
 			<forward name="ProtectionGroupHomePage" path="Tiles.ProtectionGroup.Home" />
 			<forward name="ProtectionElementHomePage" path="Tiles.ProtectionElement.Home" />
 			<forward name="HomePage" path="Tiles.Home.Page" />
+			<forward name="LogoutAction" path="/Logout.do" />
 		</action>
 		<action path="/PrivilegeDBOperation"
 			type="gov.nih.nci.security.upt.actions.CommonDBAction"

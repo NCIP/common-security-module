@@ -331,5 +331,11 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.assignProtectionElements(this.protectionGroupId, this.associatedIds);
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
+	 */
+	public String getFormName() {
+		return DisplayConstants.PROTECTION_GROUP_ID;
+	}
 
 }

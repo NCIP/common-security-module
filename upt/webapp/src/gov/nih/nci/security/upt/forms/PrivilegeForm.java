@@ -219,5 +219,11 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
+	 */
+	public String getFormName() {
+		return DisplayConstants.PRIVILEGE_ID;
+	}
 
 }
