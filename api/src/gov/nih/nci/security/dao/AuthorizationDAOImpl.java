@@ -1138,8 +1138,59 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 *      java.lang.String, java.lang.String[])
 	 */
 	public void removeGroupRoleFromProtectionGroup(String protectionGroupId,
-			String groupId, String[] roleId) throws CSTransactionException {
-		// TODO Auto-generated method stub
+			String groupId, String[] rolesId) throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			ProtectionGroup pgroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
+					new Long(protectionGroupId));
+			
+			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
+					new Long(groupId));
+			
+			for (int i = 0; i < rolesId.length; i++) {
+				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
+
+				intersection.setGroup(group);
+				intersection.setProtectionGroup(pgroup);
+				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+						new Long(rolesId[i]));
+				
+				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup",pgroup));
+				criteria.add(Expression.eq("group",group));
+				criteria.add(Expression.eq("role",role));
+				
+				List list = criteria.list();
+				
+				if(list.size()==0){
+					intersection.setRole(role);
+					intersection.setUpdateDate( new Date() );				
+					s.delete(intersection);
+				}
+
+			}
+
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 
 	}
 
@@ -1306,9 +1357,60 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserRoleFromProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String[])
 	 */
-	public void removeUserRoleFromProtectionGroup(String protectionGroupName,
-			String userName, String[] roles) throws CSTransactionException {
-		// TODO Auto-generated method stub
+	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId) throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			ProtectionGroup pgroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
+					new Long(protectionGroupId));
+			
+			User user = (User) this.getObjectByPrimaryKey(s, User.class,
+					new Long(userId));
+			
+			for (int i = 0; i < rolesId.length; i++) {
+				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
+
+				intersection.setUser(user);
+				intersection.setProtectionGroup(pgroup);
+				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+						new Long(rolesId[i]));
+				
+				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup",pgroup));
+				criteria.add(Expression.eq("user",user));
+				criteria.add(Expression.eq("role",role));
+				
+				List list = criteria.list();
+				
+				if(list.size()==0){
+					intersection.setRole(role);
+					intersection.setUpdateDate( new Date() );				
+					s.delete(intersection);
+				}
+
+			}
+
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
 
 	}
 
@@ -1609,5 +1711,13 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public void initialize(String applicationContextName) {
 		//do nothing...
 
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionGroupRoleContext()
+	 */
+	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

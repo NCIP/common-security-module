@@ -167,8 +167,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param roles
 	 * 
 	 */
-	public void removeUserRoleFromProtectionGroup(String protectionGroupName, String userName, String[] roles)throws CSTransactionException{
-		authorizationDAO.removeUserRoleFromProtectionGroup(protectionGroupName,userName,roles);
+	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId)throws CSTransactionException{
+		authorizationDAO.removeUserRoleFromProtectionGroup(protectionGroupId,userId,rolesId);
 	}
 
 	/**
@@ -489,6 +489,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	}
 	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException{
 		;
+	}
+	
+	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException{
+		return null;
 	}
 
 }

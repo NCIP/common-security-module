@@ -62,7 +62,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param roles
 	 * 
 	 */
-	public void removeUserRoleFromProtectionGroup(String protectionGroupName, String userName, String[] roles)throws CSTransactionException;
+	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId)throws CSTransactionException;
 
 	/**
 	 * @param role
@@ -213,6 +213,8 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
 	
 	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException;
+	
+	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException;
 
 }
 

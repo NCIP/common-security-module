@@ -113,8 +113,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	 * @param roles
 	 *  
 	 */
-	public void removeUserRoleFromProtectionGroup(String protectionGroupName,
-			String userName, String[] roles) throws CSTransactionException;
+	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId) throws CSTransactionException;
 
 	/**
 	 * @param permission
@@ -391,6 +390,8 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	public void removeProtectionElementsFromProtectionGroup(
 			String protectionGroupId, String[] protectionLementIds)
 			throws CSTransactionException;
+	
+	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException;
 
 }
 
