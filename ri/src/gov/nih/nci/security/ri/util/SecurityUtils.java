@@ -44,6 +44,10 @@ public class SecurityUtils implements Constants {
 	public static String getObjectIdForSecureMethodAccess(Class clazz) {
 		return clazz.getName();
 	}
+	
+	public static String getObjectIdForEmployeeProjecAccess(){
+		return "MODIFY_EMPLOYEE_PROJECT_ACTION"; 
+	}
 
 	
 	/**
