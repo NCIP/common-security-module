@@ -37,7 +37,7 @@ public class TestClient {
 	static UserProvisioningManager upm = null;
 	static{
 		try{
-		upm = SecurityServiceProvider.getUserProvisioningManger("SecurityXXX");
+		upm = SecurityServiceProvider.getUserProvisioningManager("SecurityXXX");
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

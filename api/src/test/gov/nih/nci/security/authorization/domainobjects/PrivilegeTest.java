@@ -26,8 +26,8 @@ import junit.framework.TestSuite;
  * Relations: Privilege extends java.lang.Object <br>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2005-01-19 23:37:35 $
- * @version $Revision: 1.3 $
+ * @date $Date: 2005-01-25 06:36:11 $
+ * @version $Revision: 1.4 $
  * 
  * @see gov.nih.nci.security.authorization.domainobjects.Privilege
  * @see some.other.package
@@ -56,7 +56,7 @@ public class PrivilegeTest extends TestCase {
 
 	protected Privilege create() throws Exception {
 		UserProvisioningManager upm = SecurityServiceProvider
-				.getUserProvisioningManger("Security");
+				.getUserProvisioningManager("Security");
 
 		Privilege p = new Privilege();
 		p.setName("ReadTest123");
@@ -72,7 +72,7 @@ public class PrivilegeTest extends TestCase {
 	private void delete(Privilege p) throws Exception {
 
 		UserProvisioningManager upm = SecurityServiceProvider
-				.getUserProvisioningManger("security");
+				.getUserProvisioningManager("security");
 
 		upm.removePrivilege("" + p.getId());
 		System.out.println( "Deleted privilege: " + p.getId());

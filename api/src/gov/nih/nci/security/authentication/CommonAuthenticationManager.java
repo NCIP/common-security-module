@@ -6,13 +6,17 @@
  */
 package gov.nih.nci.security.authentication;
 
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.authentication.callback.CSMCallbackHandler;
 import gov.nih.nci.security.exceptions.CSException;
+
+import javax.security.auth.Subject;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+import javax.security.auth.spi.LoginModule;
+
+import org.apache.log4j.Category;
 
 /**
  * This is the default implmentation of the {@link AuthenticationManager} interface.
@@ -29,6 +33,8 @@ import gov.nih.nci.security.exceptions.CSException;
  */
 public class CommonAuthenticationManager implements AuthenticationManager{
 
+	private static final Category log = Category.getInstance(CommonAuthenticationManager.class);		
+	
 	private String applicationContextName = null;
 	
 	/**
@@ -51,13 +57,15 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			LoginContext loginContext = new LoginContext(applicationContextName, csmCallbackHandler);
 			loginContext.login();
 			loginSuccessful = true;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is "+loginSuccessful+" for user "+userName+"|");			
 		}
 		catch (LoginException le)
 		{
-			System.out.println("ERROR: Login Credentials Failed");
-			le.printStackTrace();
 			loginSuccessful = false;
-			throw new CSException ("ERROR: Login Credentials Failed", le);
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is not successful for user "+userName+"|" + le.getMessage());			
+			throw new CSException (le.getMessage(), le);
 		}
 		return loginSuccessful;
 	}

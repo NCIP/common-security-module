@@ -12,55 +12,121 @@ import gov.nih.nci.security.exceptions.*;
 
 
 /**
- * The AuthorizationManager interface facilitates with programatic authorization
- * needs. This interfcae mainly deals with runtime authorization needs. Only one
- * AuthorizationManager will exist for a application. In other words the
- * AuthorizationManager exist in the context of an application.
- * @version 1.0
- * @created 03-Dec-2004 1:17:48 AM
+ * 
+ * This <code>Authorization Manager</code> interface provides all the
+ * authorization methods and services offered by the Common Security Module.
+ * This interface defines the contract that any class which wants to acts as an
+ * authorization manager should follow to be able to fit in the Common Security
+ * Framework. It defines the methods which are required for the purpose of
+ * authorizing a user against the configured authorization data. This
+ * interface by default is implemented by the
+ * {@link UserProvisioningManager}. If the client application wants to use its own
+ * Authorization Class, then it should implement the
+ * <code>AuthorizationManager</code> interface. Also an entry should be configured
+ * in the <code>ApplicationServiceConfig</code> file against the Application
+ * Context Name regsitering the class, which it wants to use, as shown below
+ * <p>
+ * <blockquote>
+ * 
+ * <pre>
+ *		<application>
+ *	   		<context-name>
+ *	   			FooApplication
+ *	      	</context-name>
+ *			:
+ *			:
+ *	      	<authorization>
+ *		      	<authorization-provider-class>
+ *	     			com.Foo.AuthorizationManagerClass
+ *	     		</authorization-provider-class>
+ *			</authorization>
+ *		</application>
+ * </pre>
+ * 
+ * </blockquote>
+ * <p>
+ * 
+ * If the client application wants to use just the authorization service then it can
+ * obtain the implementation of the <code>AuthorizationManager</code> interface from the 
+ * {@link SecurityServiceProvider} class.
+ * 
+ * @author Vinay Kumar(Ekagra Software Technologies Ltd.) 
+ * 
  */
+
 public interface AuthorizationManager {
 
 	/**
-	 * @param loginName
+	 * This method returns the User object from the database for the passed User's Login Name. If no User is
+	 * found then null is returned
+	 * @param loginName The Login Name of the User which is to be obtained
 	 * 
+	 * @return User The User object from the database for the passed Login Name
 	 */
 	public User getUser(String loginName);
 
+	/**
+	 * Returns the {@link ApplicationContext} for which the AuthorizationManager is instantiated. This 
+	 * ApplicationContext object contains the information about the application as well all the associated
+	 * data for the application
+	 * @return ApplicationContext The {@link ApplicaitonContext} object for which the AuthorizationManager is instantiated
+	 */
 	public ApplicationContext getApplicationContext();
 
 	/**
-	 * @param protectionGroupName
-	 * @param protectionElementObjectId
-	 * @param protectionElementAttributeName
+	 * Assigns a ProtectionElement to the Protection Group. The Protection Element is first retrieved using the passed
+	 * Object Id and Attribute Name from the database. Similarly the Protection Group is retrieved using the name passed.
+	 * Then both of these entities are associated in the database. If there is any error in the association then a 
+	 * {@link CSTransactionException} is thrown. These errors could be raised if it isnt able to retrieve either the 
+	 * Protection Element or Protection Group for the given data or there are any errors in the actual assignment
+	 * @param protectionGroupName The name of the Protection Group to which the Protection Element is to be associated
+	 * @param protectionElementObjectId The object Id of the Protection Element to which the Protection Group is to be associated
+	 * @param protectionElementAttributeName The attribute name of the Protection Element to which the Protection Group is to be associated
 	 * 
+	 * @throws CSTransactionException If it isnt able to retrieve either the  Protection Element or Protection Group 
+	 * for the given data or there are any errors in the actual assignment.
 	 */
 	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
-	 * @param protectionElementObjectId
-	 * @param userName
-	 * 
+	 * Assigns Owners for a Protection Elements. It retrieves the Protection Element from the database for the passed Object Id
+	 * The retrieves the User object for the list of USer Names passed. It then associated the Users as owners to the 
+	 * Protection Element
+	 * @param protectionElementObjectId The Object Id of the Protection Element to which the Owners are to be assigned
+	 * @param userNames The list of User names which are to be assigned as owners to the Protection Element
+	 * @throws CSTransactionException If it isnt able to retrieve either the  Protection Element or Users 
+	 * for the given data or there are any errors in the actual assignment.
 	 */
 	public void setOwnerForProtectionElement(String protectionElementObjectId, String[] userNames)throws CSTransactionException;
 
 	/**
-	 * @param protectionGroupName
-	 * @param protectionElementObjectId
+	 * Deassigns a ProtectionElement from the Protection Group. The Protection Element is first retrieved using the passed
+	 * Object Id from the database. Similarly the Protection Group is retrieved using the name passed.
+	 * Then both of these entities are de-associated in the database. If there is any error in the de-association then a 
+	 * {@link CSTransactionException} is thrown. These errors could be raised if it isnt able to retrieve either the 
+	 * Protection Element or Protection Group for the given data or there are any errors in the actual deassignment
+	 * @param protectionGroupName The name of the Protection Group from which the Protection Element is to be de-associated
+	 * @param protectionElementObjectId The object Id of the Protection Element from which the Protection Group is to be de-associated
 	 * 
+	 * @throws CSTransactionException If it isnt able to retrieve either the  Protection Element or Protection Group 
+	 * for the given data or there are any errors in the actual deassignment.
 	 */
 	public void deAssignProtectionElements(String protectionGroupName,String protectionElementObjectId)throws CSTransactionException;
 
 	/**
-	 * @param protectionElement
+	 * This method creates a new Protection Element in the database based on the data passed
+	 * @param protectionElement the Protection Element object which is to be created
 	 * 
+	 * @throws CSTransactionException If there is any exception in creating the Protection Element
 	 */
 	public void createProtectionElement(ProtectionElement protectionElement)throws CSTransactionException;
 
 	/**
+	 * 
 	 * @param permission
 	 * @param user
 	 * 
+	 * @return boolean
 	 */
 	public boolean checkPermission(AccessPermission permission, User user);
 
@@ -68,6 +134,7 @@ public interface AuthorizationManager {
 	 * @param permission
 	 * @param subject
 	 * 
+	 * @return boolean
 	 */
 	public boolean checkPermission(AccessPermission permission, Subject subject);
 
@@ -75,6 +142,7 @@ public interface AuthorizationManager {
 	 * @param permission
 	 * @param userName
 	 * 
+	 * @return boolean
 	 */
 	public boolean checkPermission(AccessPermission permission, String userName);
 
@@ -84,40 +152,57 @@ public interface AuthorizationManager {
 	 * @param attributeId
 	 * @param privilegeName
 	 * 
+	 * @return boolean
 	 */
 	public boolean checkPermission(String userName, String objectId, String attributeId, String privilegeName);
 
 	/**
+	 * This method verifies whether the User has the provided Privilege on the Protection Element.
+	 * This method retrieves the User object from the 
 	 * @param userName
 	 * @param objectId
 	 * @param privilegeName
 	 * 
+	 * @return boolean
+	 * @throws CSTransactionException
 	 */
 	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSTransactionException;
 
 	/**
 	 * @param userName
 	 * 
+	 * @return Principal[]
 	 */
 	public Principal[] getPrincipals(String userName);
 
 	/**
-	 * Returns the protection element for the passed object id
-	 * @param objectId
+	 * Retrieves the Protection Element object from the database for the passed Object Id
+	 * @param objectId The object Id of the Protection Element which is to be retrieved from the Database
 	 * 
+	 * @return ProtectionElement The Protection Element object which is returned from the database for the passed Object Id
+	 * @throws CSObjectNotFoundException if the Protection Element object is not found for the given object id
 	 */
 	public ProtectionElement getProtectionElement(String objectId)throws CSObjectNotFoundException;
 	/**
-	 * Returns the protection element for the passed object id
-	 * @param protectionElementId
+	 * Returns the Protection Element object from the database for the passed Protection Element Id
+	 * @param protectionElementId The id of the Protection Element object which is to be obtained
 	 * 
+	 * @return ProtectionElement The Protection Element object from the database for the passed Protection Element id
+	 * @throws CSObjectNotFoundException if the Protection Element object is not found for the given id
 	 */
 	public ProtectionElement getProtectionElementById(String protectionElementId) throws CSObjectNotFoundException;
 
 	/**
-	 * @param protectionGroupName
-	 * @param protectionElementObjectId
-	 * At run time only one protectionElement can be assigned to a protection group
+	 * Assigns a ProtectionElement to the Protection Group. The Protection Element is first retrieved using the passed
+	 * Object Id from the database. Similarly the Protection Group is retrieved using the name passed.
+	 * Then both of these entities are associated in the database. If there is any error in the association then a 
+	 * {@link CSTransactionException} is thrown. These errors could be raised if it isnt able to retrieve either the 
+	 * Protection Element or Protection Group for the given data or there are any errors in the actual assignment
+	 * @param protectionGroupName The name of the Protection Group to which the Protection Element is to be associated
+	 * @param protectionElementObjectId The object Id of the Protection Element to which the Protection Group is to be associated
+	 * 
+	 * @throws CSTransactionException If it isnt able to retrieve either the  Protection Element or Protection Group 
+	 * for the given data or there are any errors in the actual assignment.
 	 */
 	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException;
 
@@ -126,6 +211,7 @@ public interface AuthorizationManager {
 	 * @param protectionElementName
 	 * @param protectionElementAttributeName
 	 * 
+	 * @throws CSTransactionException
 	 */
 	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)throws CSTransactionException;
 
@@ -134,11 +220,13 @@ public interface AuthorizationManager {
 	 * @param protectionElementObjectNames
 	 * @param protectionElementAttributeNames
 	 * 
+	 * @throws CSTransactionException
 	 */
 	public void deAssignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames, String[] protectionElementAttributeNames) throws CSTransactionException;
 
 	/**
-	 * @param applicationContextName
+	 * Accepts the Application Context Name initialize this AuthorizationManager
+	 * @param applicationContextName The name of the application Context which is used to instantiate this Authorization Manager
 	 * 
 	 */
 	public void initialize(String applicationContextName);

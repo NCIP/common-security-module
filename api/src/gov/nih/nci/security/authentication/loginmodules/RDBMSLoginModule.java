@@ -7,6 +7,7 @@
 package gov.nih.nci.security.authentication.loginmodules;
 
 import gov.nih.nci.security.authentication.helper.RDBMSHelper;
+import gov.nih.nci.security.exceptions.CSException;
 
 import java.util.Map;
 import java.util.Hashtable;
@@ -30,8 +31,9 @@ public class RDBMSLoginModule extends CSMLoginModule
 	 * @param password the user entered password provided by the calling application
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * credentials and FALSE if the authentication fails
+	 * @throws CSException
 	 */
-	protected boolean validate(Map options, String user, char[] password)
+	protected boolean validate(Map options, String user, char[] password) throws CSException
 	{
 		return RDBMSHelper.authenticate (new Hashtable(options), user, password);
 	}

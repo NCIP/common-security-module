@@ -19,22 +19,31 @@ import javax.security.auth.Subject;
  * interface by default is implemented by the
  * {@link CommonAuthenticationManager}. If the client application wants to use its own
  * Authentication Class, then it should implement the
- * <code>AuthenticationManger</code> interface. Also an entry should be configured
- * in the <code>Authentication.Properties</code> file against the Application
+ * <code>AuthenticationManager</code> interface. Also an entry should be configured
+ * in the <code>ApplicationServiceConfig</code> file against the Application
  * Context Name regsitering the class, which it wants to use, as shown below
  * <p>
  * <blockquote>
  * 
  * <pre>
- * e.g.FooApplication = com.foo.foobar.FooClass
+ *		<application>
+ *	   		<context-name>
+ *	   			FooApplication
+ *	      	</context-name>
+ *	      	<authentication>
+ *		      	<authentication-provider-class>
+ *	     			com.Foo.AuthenticationManagerClass
+ *	     		</authentication-provider-class>
+ *			</authentication>
+ *			:
+ *			:
+ *		</application>
  * </pre>
  * 
  * </blockquote>
  * <p>
- * The methods provided by <code>Authentication Manager</code> are also exposed to the client application
- * through the {@link CommonSecurityManager} class. This class inturn obtains the appropriate implementation
- * of the <code>AuthenticationManager</code> interface through the {@link SecurityServiceProvider} class and uses it to perform the authentication.
- * However, if the client application wants to use just the authentication service then it can
+ * 
+ * If the client application wants to use just the authentication service then it can
  * obtain the implementation of the <code>AuthenticationManager</code> interface from the 
  * {@link SecurityServiceProvider} class.
  * 

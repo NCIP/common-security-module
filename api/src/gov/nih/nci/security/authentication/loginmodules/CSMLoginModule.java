@@ -6,6 +6,8 @@
  */
 package gov.nih.nci.security.authentication.loginmodules;
 
+import gov.nih.nci.security.exceptions.CSException;
+
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -17,6 +19,8 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
+
+import org.apache.log4j.Category;
 
 /**
  * This is the abstract base class which provides the common methods to be used for
@@ -30,6 +34,9 @@ import javax.security.auth.spi.LoginModule;
  */
 public abstract class CSMLoginModule implements LoginModule
 {
+
+	private static final Category log = Category.getInstance(CSMLoginModule.class);	
+	
 	private Subject 		subject;
 	private CallbackHandler callbackHandler;
 	private Map 			sharedState;
@@ -62,8 +69,11 @@ public abstract class CSMLoginModule implements LoginModule
 	public boolean login() throws LoginException
 	{
 		if (callbackHandler == null)
-			throw new LoginException("ERROR: CallbackHandler cannot be null");
-
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in obtaining the CallBack Handler |" );			
+			throw new LoginException("Error in obtaining Callback Handler");
+		}
 		Callback[] callbacks = new Callback[2];
 		callbacks[0] = new NameCallback("userid: ");
 		callbacks[1] = new PasswordCallback("password: ", false);
@@ -85,26 +95,43 @@ public abstract class CSMLoginModule implements LoginModule
 		}
 		catch (java.io.IOException e)
 		{
-			throw new LoginException("Error: " + e.getMessage());
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());			
+			throw new LoginException("Error in Creating the CallBack Handler");
 		}
 		catch (UnsupportedCallbackException e)
 		{
-			throw new LoginException("Error: " + e.getMessage());
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());
+			throw new LoginException("Error in Creating the CallBack Handler");
 		}
 
-		//now validate user
-		if (validate(options, userID, password))
-		{
-			loginSuccessful = true;
-		}
-		else
-		{
-			// clear the values			
-			loginSuccessful = false;
-			userID 			= null;
-			password 		= null;
-			throw new FailedLoginException("Invalid userid or password");
-		}
+		try {
+			//now validate user
+			if (validate(options, userID, password))
+			{
+				loginSuccessful = true;
+			}
+			else
+			{
+				// clear the values			
+				loginSuccessful = false;
+				userID 			= null;
+				password 		= null;
+				
+				throw new FailedLoginException("Invalid Login Credentails");
+			}
+		} catch (FailedLoginException fle) {
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |"+ fle.getMessage() );
+			throw new LoginException("Error in Creating the CallBack Handler");
+		} catch (CSException cse) {
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in Logging action |" + cse.getMessage() );
+			throw new LoginException("Error in login action" + cse.getMessage());
+		} 
+		if (log.isDebugEnabled())
+			log.debug("Authentication|||login|Success| Authentication is "+loginSuccessful+"|");
 		return loginSuccessful;
 	}
 	
@@ -146,7 +173,8 @@ public abstract class CSMLoginModule implements LoginModule
 	 * @param password the user entered password provided by the calling application
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * 		   	credentials and FALSE if the authentication fails
+	 * @throws CSException if the login has failed for any reasons
 	 */
-	protected abstract boolean validate(Map options, String user, char[] password);
+	protected abstract boolean validate(Map options, String user, char[] password) throws CSException;
 
 }

@@ -5,7 +5,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import test.gov.nih.nci.security.authentication.AuthenticationManagerFactoryTest;
 import test.gov.nih.nci.security.authentication.CommonAuthenticationManagerTest;
-import test.gov.nih.nci.security.authentication.CustomAuthenticationManagerTest;
 import test.gov.nih.nci.security.authorization.AuthorizationManagerFactoryTest;
 import test.gov.nih.nci.security.authorization.domainobjects.ApplicationContextTest;
 import test.gov.nih.nci.security.authorization.domainobjects.ApplicationTest;
@@ -49,7 +48,6 @@ public class SecurityTestSuite {
 		suite.addTest(new TestSuite(SecurityServiceProviderTest.class));
 		suite.addTest(new TestSuite(AuthenticationManagerFactoryTest.class));
 		suite.addTest(new TestSuite(CommonAuthenticationManagerTest.class));
-		suite.addTest(new TestSuite(CustomAuthenticationManagerTest.class));
 		suite.addTest(new TestSuite(AccessPermissionTest.class));
 		suite.addTest(new TestSuite(AuthPermissionCollectionTest.class));
 		suite.addTest(new TestSuite(PermissionAdapterFactoryTest.class));

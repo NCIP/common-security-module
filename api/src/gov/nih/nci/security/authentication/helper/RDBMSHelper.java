@@ -6,12 +6,16 @@
  */
 package gov.nih.nci.security.authentication.helper;
 
+import gov.nih.nci.security.exceptions.CSException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
+
+import org.apache.log4j.Category;
 
 /**
  *
@@ -23,6 +27,8 @@ import java.util.Hashtable;
  */
 public class RDBMSHelper {
 
+	private static final Category log = Category.getInstance(RDBMSHelper.class);	
+	
 	/**
 	 * Default Private Class Constructor
 	 *
@@ -45,8 +51,9 @@ public class RDBMSHelper {
 	 * 			application
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * 		   	credentials and FALSE if the authentication fails
+	 * @throws CSException
 	 */
-	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password)
+	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password) throws CSException
 	{		
 		
 		Connection connection = getConnection (connectionProperties);
@@ -120,11 +127,12 @@ public class RDBMSHelper {
 			}
 			catch (SQLException sqe)
 			{
-				sqe.printStackTrace();
-				System.out.println("Error closing the connection");
+				if (log.isDebugEnabled())
+					log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| Login is "+loginOK+" for the user "+userID+"and password "+password+"|");
 		return loginOK;
 	}
 
@@ -140,9 +148,10 @@ public class RDBMSHelper {
 	 * 			database
 	 * @return a connection to the database obtained using the properties 
 	 * 			provided
+	 * @throws CSException Throws exception in case of error connecting to the database
 	 * 
 	 */
-	private static Connection getConnection (Hashtable connectionProperties)
+	private static Connection getConnection (Hashtable connectionProperties) throws CSException
 	{
 		if (connectionProperties == null)
 			return null;
@@ -161,7 +170,9 @@ public class RDBMSHelper {
 		}
 		catch (ClassNotFoundException e)
 		{
-			e.printStackTrace();
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||getConnection|Failure| Error Loading Driver for Authentication Database|"+ e.getMessage());			
+			throw new CSException ("Unable to Load Driver for Authentication Database", e);
 		}
 
 		// Get the connection to the database
@@ -171,9 +182,12 @@ public class RDBMSHelper {
 		}
 		catch (SQLException e)
 		{
-			e.printStackTrace();
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||getConnection|Failure| Error Obtaining Connection for Authentication Database|"+ e.getMessage());
+			throw new CSException ("Unable to obtain connection for Authentication Database", e);
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authentication|||getConnection|Success| Success in Obtaining Connection for Authentication Database|");
 		return connection;
 	}
 

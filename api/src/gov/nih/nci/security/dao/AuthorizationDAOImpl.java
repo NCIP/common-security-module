@@ -62,24 +62,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) {
 		setHibernateSessionFactory(sf);
 		try {
-			log.debug("The context Name passed:" + applicationContextName);
-            Application app = this.getApplicationByName(applicationContextName);
-            if(app==null){
-            	throw new Exception("There is no aplication with this context Name");
-            }
-			//setApplication(getApplicationByName(applicationContextName));
-            this.setApplication(app);
-
-			log.debug("The Application:" + application.getApplicationId() + ":"
-					+ application.getApplicationDescription());
+			Application app = this.getApplicationByName(applicationContextName);
+			if (app == null) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|"+applicationContextName+"||AuthorizationDAOImpl|Failure|No Application found for the Context Name|");
+				throw new Exception("Unable to retrieve Application with this Context Name");
+			}
+			this.setApplication(app);
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new RuntimeException(
-					"Unable to Instantiate the AuthorizationDAOImpl"
-							+ ex.getMessage());
-
+			if (log.isDebugEnabled())
+				log.debug("Authorization|"+applicationContextName+"||AuthorizationDAOImpl|Failure|Cannot instantiate AuthorizationDAOImpl|"+ex.getMessage());
+			throw new RuntimeException("Unable to Instantiate the AuthorizationDAOImpl");
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|"+applicationContextName+"||AuthorizationDAOImpl|Success|Instantiated AuthorizationDAOImpl|");		
 	}
 
 	public void finalize() throws Throwable {
@@ -90,22 +87,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 	}
 
-	public void assignGroupsToUser(String userId, String[] groupIds)
-			throws CSTransactionException {
+	public void assignGroupsToUser(String userId, String[] groupIds)throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
-			//Set user_groups = user.getGroups();
-			//Group group = getGroup(groupId);
 			HashSet newGroups = new HashSet();
 			for (int k = 0; k < groupIds.length; k++) {
-				log.debug("The new list:" + groupIds[k]);
 				Group group = (Group) this.getObjectByPrimaryKey(Group.class,
 						groupIds[k]);
 				if (group != null) {
@@ -115,26 +107,28 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			user.setGroups(newGroups);
 			s.update(user);
-
 			t.commit();
-
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupsToUser|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to add a user id: "
-							+ userId + " to group ids: "
-							+ StringUtilities.stringArrayToString(groupIds), ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignGroupsToUser|Failure|Error occurred in assigning Groups "+StringUtilities.stringArrayToString(groupIds)+" to User "+ userId +"|"+ex.getMessage());
+			throw new CSTransactionException( "Error occurred in assigning Groups to User", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupsToUser|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignGroupsToUser|Success|Successful in assigning Groups "+StringUtilities.stringArrayToString(groupIds)+" to User "+ userId +"|");
 	}
 
 	/*
@@ -149,7 +143,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 
 			s = sf.openSession();
@@ -193,18 +187,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupsToUser|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to assign group id: "
-							+ groupId + " to protection group id: "
-							+ protectionGroupId + "with role ids: "
-							+ StringUtilities.stringArrayToString(rolesId), ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error Occured in assigning Roles "
+					+StringUtilities.stringArrayToString(rolesId)+" to Group "+ groupId +" and Protection Group"+protectionGroupId+"|"+ex.getMessage() );			
+			throw new CSTransactionException("Error occurred in assigning Protection Group and Roles to a Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignGroupRoleToProtectionGroup|Success|Successful in assigning Roles "
+					+StringUtilities.stringArrayToString(rolesId)+" to Group "+ groupId +" and Protection Group"+protectionGroupId+"|");
 	}
 
 	/*
@@ -219,7 +219,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
@@ -242,25 +241,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s.update(role);
 			t.commit();
 
-			//log.debug( "Privilege ID is: " +
-			// privilege.getId().doubleValue() );
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignPrivilegesToRole|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignPrivilegesToRole|Failure|Error Occured in assigning Privilege "
+					+StringUtilities.stringArrayToString(privilegeIds)+" to Role "+ roleId +"|"+ex.getMessage() );			
 			throw new CSTransactionException(
-					"A fatal error occurred while attempting to assign privilege ids: "
-							+ StringUtilities.stringArrayToString(privilegeIds)
-							+ " to role id: " + roleId, ex);
+					"An Error occurred in assigning Privileges to Role", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignPrivilegesToRole|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignPrivilegesToRole|Success|Success in assigning Privilege "
+				+StringUtilities.stringArrayToString(privilegeIds)+" to Role "+ roleId +"|" );			
 	}
 
 	/*
@@ -276,7 +280,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
 		try {
 
 			s = sf.openSession();
@@ -309,21 +312,26 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignProtectionElements|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to assign protection "
-							+ "element object id: " + protectionElementObjectId
-							+ " with protection element attribute "
-							+ protectionElementAttributeName
-							+ " to protection group name: "
-							+ protectionGroupName, ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignProtectionElements|Failure|Error Occured in assigning Protection Element with Object Id " + protectionElementObjectId
+							+ " with protection element attribute " + protectionElementAttributeName + " to protection group name: "
+							+ protectionGroupName+"|"+ ex.getMessage() );						
+			throw new CSTransactionException( "An Error occurred in assigning Protection Element to Protection Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignProtectionElements|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignProtectionElements|Success|Successful in assigning Protection Element with Object Id " + protectionElementObjectId
+						+ " with protection element attribute " + protectionElementAttributeName + " to protection group name: "
+						+ protectionGroupName+"|");						
 	}
 
 	/*
@@ -334,7 +342,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void assignProtectionElements(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException {
-		// TODO Auto-generated method stub
 
 		this.assignProtectionElements(protectionGroupName,
 				protectionElementObjectId, null);
@@ -352,7 +359,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 
 			s = sf.openSession();
@@ -396,20 +403,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignUserRoleToProtectionGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to a user id: "
-							+ userId + " with role ids: "
-							+ StringUtilities.stringArrayToString(rolesId)
-							+ " to protection group id: " + protectionGroupId,
-					ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error Occured in assigning Roles "
+					+StringUtilities.stringArrayToString(rolesId)+" to User "+ userId +" and Protection Group"+protectionGroupId+"|"+ex.getMessage() );			
+			throw new CSTransactionException("Error occurred in assigning Protection Group and Roles to a User", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignUserRoleToProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignGroupRoleToProtectionGroup|Success|Successful in assigning Roles "
+				+StringUtilities.stringArrayToString(rolesId)+" to User "+ userId +" and Protection Group"+protectionGroupId+"|");
 	}
 
 	/*
@@ -419,7 +430,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String)
 	 */
 	public boolean checkPermission(AccessPermission permission, String userName) {
-		// TODO Auto-generated method stub
 
 		return false;
 	}
@@ -431,7 +441,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      javax.security.auth.Subject)
 	 */
 	public boolean checkPermission(AccessPermission permission, Subject subject) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -442,7 +451,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      gov.nih.nci.security.authorization.domainobjects.User)
 	 */
 	public boolean checkPermission(AccessPermission permission, User user) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -454,7 +462,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public boolean checkPermission(String userName, String objectId,
 			String attributeId, String privilegeName) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -466,25 +473,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) throws CSTransactionException {
-		// TODO Auto-generated method stub
-
-		//log.debug("NOW____)))");
 		boolean test = false;
 		Session s = null;
 		Transaction t = null;
 		Connection cn = null;
-		//log.debug("Running create test...");
 		try {
-             
-			if(this.checkOwnerShip(userName,objectId)){
+
+			if (this.checkOwnerShip(userName, objectId)) {
 				return true;
 			}
 			s = sf.openSession();
 			t = s.beginTransaction();
 			cn = s.connection();
-
-			//User user = this.getUser(userName);
-			//ProtectionElement pe = this.getProtectionElement(objectId);
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("select 'X'");
@@ -510,17 +510,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String sql = stbr.toString();
 			PreparedStatement pstmt = cn.prepareStatement(sql);
 
-			//Long priv_id = new Long(privilegeName);
 			pstmt.setString(1, objectId);
 			pstmt.setString(2, userName);
 			pstmt.setString(3, privilegeName);
-			//log.debug("NOW____");
-			//log.debug(System.currentTimeMillis());
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				test = true;
 			}
-			//log.debug(System.currentTimeMillis());
 			rs.close();
 			pstmt.close();
 			t.commit();
@@ -530,19 +526,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to "
-							+ " check permission with user name: " + userName
-							+ " object id: " + objectId
-							+ " and privilege name " + privilegeName, ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"+userName+"|checkPermission|Failure|Error Occured in checking permissions with user id "
+						+ userName + " object id: " + objectId + " and privilege name " + privilegeName+"|"+ ex.getMessage());			
+			throw new CSTransactionException("An Error occurred while checking permissions", ex);
 		} finally {
 			try {
-				// cn.close(); Commented by Kunal on 01/14/05
+
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||"+userName+"|checkPermission|Success|Successful in checking permissions with user id "
+					+ userName + " object id: " + objectId + " and privilege name " + privilegeName+" and the result is "+test+"|");			
 		return test;
 	}
 
@@ -643,7 +645,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String[] protectionElementObjectNames,
 			String[] protectionElementAttributeNames)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -668,19 +669,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getProtectionElement(protectionElementObjectId);
 
 			String pgId = protectionGroup.getProtectionGroupId().toString();
-			String[] peIds = { protectionElement.getProtectionElementId()
-					.toString() };
+			String[] peIds = {protectionElement.getProtectionElementId()
+					.toString()};
 
 			this.removeProtectionElementsFromProtectionGroup(pgId, peIds);
 		} catch (Exception ex) {
-			throw new CSTransactionException(
-					"A fatal error occured while attempting to "
-							+ "de-assign protectionElementObjectId: "
-							+ protectionElementObjectId
-							+ " from protection group name: "
-							+ protectionGroupName, ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||deAssignProtectionElements|Failure|Error Occured in deassigning Protection Group "
+					+protectionGroupName+" and Protection Element "+ protectionElementObjectId +"|"+ex.getMessage() );						
+			throw new CSTransactionException("An error occured in deassigning Protection Element from Protection Group", ex);
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||deAssignProtectionElements|Success|Successful in deassigning Protection Group "
+				+protectionGroupName+" and Protection Element "+ protectionElementObjectId +"|");						
 	}
 
 	/*
@@ -689,7 +690,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getApplicationContext()
 	 */
 	public ApplicationContext getApplicationContext() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -699,7 +699,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getObjects(gov.nih.nci.security.dao.SearchCriteria)
 	 */
 	public List getObjects(SearchCriteria searchCriteria) {
-		// TODO Auto-generated method stub
 		Session s = null;
 		List result = new ArrayList();
 		try {
@@ -709,7 +708,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.createCriteria(searchCriteria.getObjectType());
 			Hashtable fieldValues = searchCriteria.getFieldAndValues();
 			Enumeration en = fieldValues.keys();
-			System.out.println("We here");
 			while (en.hasMoreElements()) {
 				String str = (String) en.nextElement();
 				int i = ((String) fieldValues.get(str)).indexOf("%");
@@ -725,14 +723,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			result = criteria.list();
 
 		} catch (Exception ex) {
-			log.fatal("Unable to get objects", ex);
-
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getObjects|Failure|Error in Obtaining Search Objects from Database |"+ex.getMessage());
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getObjects|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getObjects|Success|Successful in Searching objects from the database |");		
 		return result;
 	}
 
@@ -742,7 +744,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getPrincipals(java.lang.String)
 	 */
 	public Principal[] getPrincipals(String userName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -775,20 +776,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					Example.create(search)).list();
 
 			if (list.size() == 0) {
-				throw new CSObjectNotFoundException(
-						"Protection Element not found");
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionElement|Failure|Protection Element not found for object id "+objectId+" and attribute "+attribute+"|");				
+				throw new CSObjectNotFoundException("Protection Element not found");
 			}
 			pe = (ProtectionElement) list.get(0);
 
 		} catch (Exception ex) {
-			log.fatal("Unable to find Protection Element", ex);
-
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionElement|Failure|Error in obtaining Protection Element for object id "+objectId+" and attribute "+attribute+"|");				
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionElement|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionElement|Success|Successful in obtaining Protection Element for object id "+objectId+" and attribute "+attribute+"|");				
 		return pe;
 	}
 
@@ -810,7 +816,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public ProtectionGroup getProtectionGroup(String protectionGroupName)
 			throws CSObjectNotFoundException {
-		// TODO Auto-generated method stub
 		Session s = null;
 		ProtectionGroup pgrp = null;
 		try {
@@ -824,20 +829,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					Example.create(search)).list();
 
 			if (list.size() == 0) {
-				throw new CSObjectNotFoundException(
-						"Protection Group not found");
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionGroup|Failure|Protection Group not found for name "+protectionGroupName+"|");
+				throw new CSObjectNotFoundException("Protection Group not found");
 			}
 			pgrp = (ProtectionGroup) list.get(0);
 
 		} catch (Exception ex) {
-			log.fatal("Unable to find Protection group", ex);
-
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionGroup|Failure|Protection Group not found for name "+protectionGroupName+"|"+ex.getMessage());
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionGroup|Success|Protection Group found for name "+protectionGroupName+"|");
 		return pgrp;
 	}
 
@@ -847,7 +857,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getRole(java.lang.String)
 	 */
 	public Role getRole(String roleName) throws CSObjectNotFoundException {
-		// TODO Auto-generated method stub
 		Session s = null;
 		Role role = null;
 		try {
@@ -861,19 +870,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.add(Example.create(search)).list();
 
 			if (list.size() == 0) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getRole|Failure|Role not found for name "+roleName+"|");
 				throw new CSObjectNotFoundException("Role not found");
 			}
 			role = (Role) list.get(0);
 
 		} catch (Exception ex) {
-			log.fatal("Unable to find Protection Element", ex);
-
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getRole|Failure|Error in obtaining the Role for name "+roleName+"|"+ex.getMessage());
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getRole|Success|Successful in obtaining the Role for name "+roleName+"|");
 		return role;
 	}
 
@@ -908,14 +923,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 		} catch (Exception ex) {
-			log.fatal("Unable to find Group", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getUser|Failure|Error Occured in Getting User for Name "
+					+loginName + "|"+ex.getMessage() );
 
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getUser|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getUser|Success|Success in Getting User for Name "+loginName + "|" );
 		return user;
 	}
 
@@ -930,7 +951,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		Connection cn = null;
-		//log.debug("Running create test...");
+
 		try {
 
 			s = sf.openSession();
@@ -952,16 +973,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeGroupFromProtectionGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error Occured in deassigning Group "
+					+ groupId +" and Protection Group"+protectionGroupId+"|"+ex.getMessage() );			
+			throw new CSTransactionException("An error occured in deassigning Group and Protection Group", ex);
 		} finally {
 			try {
-				// cn.close(); Commented by Kunal on 01/14/05
+
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeGroupFromProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignGroupRoleToProtectionGroup|Success|Success in deassigning Group "
+				+ groupId +" and Protection Group"+protectionGroupId+"|");
 	}
 
 	/*
@@ -974,7 +1004,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String groupId, String[] rolesId) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 
 			s = sf.openSession();
@@ -1018,15 +1048,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeGroupRoleFromProtectionGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||removeGroupRoleFromProtectionGroup|Failure|Error Occured in assigning Roles "
+					+StringUtilities.stringArrayToString(rolesId)+" to Group "+ groupId +" and Protection Group"+protectionGroupId+"|"+ex.getMessage() );
+			throw new CSTransactionException("An error occured in assigning Roles and Protection Group to a Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||removeGroupRoleFromProtectionGroup|Success|Successful in assigning Roles "
+				+StringUtilities.stringArrayToString(rolesId)+" to Group "+ groupId +" and Protection Group"+protectionGroupId+"|" );
 	}
 
 	/*
@@ -1046,7 +1085,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
@@ -1062,23 +1101,29 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			t.commit();
-
-			//log.debug( "Privilege ID is: " +
-			// privilege.getId().doubleValue() );
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeUserFromGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||removeUserFromGroup|Failure|Error Occured in deassigning User "
+					+userId+" from Group "+ groupId +"|"+ex.getMessage() );			
+			throw new CSTransactionException("An error occured in deassigning User from a Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeUserFromGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||removeUserFromGroup|Success|Successful in deassigning User "
+				+userId+" from Group "+ groupId +"|");
 	}
 
 	/*
@@ -1092,7 +1137,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		Connection cn = null;
-		//log.debug("Running create test...");
+
 		try {
 
 			s = sf.openSession();
@@ -1114,16 +1159,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeUserFromProtectionGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||removeUserFromProtectionGroup|Failure|Error Occured in deassigning User "
+					+userId+" from Protection Group "+ protectionGroupId +"|"+ex.getMessage() );
+			throw new CSTransactionException("An error occured in deassigning User from Protection Group", ex);
 		} finally {
 			try {
-				// cn.close(); Commented by Kunal on 01/14/05
+
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeUserFromProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||removeUserFromProtectionGroup|Success|Successful in deassigning User "
+				+userId+" from Protection Group "+ protectionGroupId +"|");
 	}
 
 	/*
@@ -1136,7 +1190,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String userId, String[] rolesId) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 
 			s = sf.openSession();
@@ -1180,15 +1234,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeUserRoleFromProtectionGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||removeUserRoleFromProtectionGroup|Failure|Error Occured in deassigning Roles "
+					+StringUtilities.stringArrayToString(rolesId)+" and Protection Group "+ protectionGroupId +" for user "+userId+"|"+ex.getMessage() );
+			throw new CSTransactionException("An error occured in deassigning Roles and Protection Group for the User", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeUserRoleFromProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||removeUserRoleFromProtectionGroup|Success|Successful in deassigning Roles "
+				+StringUtilities.stringArrayToString(rolesId)+" and Protection Group "+ protectionGroupId +" for user "+userId+"|" );
 	}
 
 	/**
@@ -1201,12 +1264,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			User search = new User();
 			search.setLoginName(loginName);
 
-			//String query = "FROM
-			// gov.nih.nci.security.authorization.domianobjects.Application";
 			s = sf.openSession();
 			List list = s.createCriteria(User.class)
 					.add(Example.create(search)).list();
-			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
 
 			if (list.size() != 0) {
 				user = (User) list.get(0);
@@ -1219,6 +1279,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
 		return user;
@@ -1235,11 +1297,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String protectionElementObjectName,
 			String protectionElementAttributeName)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
 
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 
 			s = sf.openSession();
@@ -1269,15 +1330,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||setOwnerForProtectionElement|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||setOwnerForProtectionElement|Failure|Error Setting owner for Protection Element object Name"
+					+protectionElementObjectName+" and Attribute Id "+ protectionElementAttributeName +" for user "+loginName+"|"+ex.getMessage() );			
+			throw new CSTransactionException("An error occured in setting owner for the Protection Element", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||setOwnerForProtectionElement|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||setOwnerForProtectionElement|Success|Success in Setting owner for Protection Element object Name"
+				+protectionElementObjectName+" and Attribute Id "+ protectionElementAttributeName +" for user "+loginName+"|");
 	}
 
 	/*
@@ -1286,20 +1356,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#setOwnerForProtectionElement(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public void setOwnerForProtectionElement(
-			String protectionElementObjectId, String[] userNames)
-			throws CSTransactionException {
-		
+	public void setOwnerForProtectionElement(String protectionElementObjectId,
+			String[] userNames) throws CSTransactionException {
+
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
 
 			Set users = new HashSet();
-			
-			for(int i=0;i<userNames.length;i++){
+
+			for (int i = 0; i < userNames.length; i++) {
 				User user = this.getUser(userNames[i]);
 				users.add(user);
 			}
@@ -1307,11 +1376,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			pe.setObjectId(protectionElementObjectId);
 			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
 			List l = this.getObjects(sc);
-			
-			ProtectionElement protectionElement = (ProtectionElement)l.get(0);
+
+			ProtectionElement protectionElement = (ProtectionElement) l.get(0);
 
 			protectionElement.setOwners(users);
-			
+
 			s.update(protectionElement);
 			t.commit();
 
@@ -1320,44 +1389,48 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||setOwnerForProtectionElement|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to assign users: "
-							+ StringUtilities.stringArrayToString(userNames)
-							+ " to protection element with object id: " + protectionElementObjectId, ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||setOwnerForProtectionElement|Failure|Error Setting owner for Protection Element object Name"
+					+protectionElementObjectId+" for users "+StringUtilities.stringArrayToString(userNames)+"|"+ex.getMessage() );			
+			throw new CSTransactionException("An error occured in setting multiple owners for the Protection Element", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||setOwnerForProtectionElement|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-		
-		
-		
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||setOwnerForProtectionElement|Success|Successful in Setting owner for Protection Element object Name"
+				+protectionElementObjectId+" for users "+StringUtilities.stringArrayToString(userNames)+"|");			
 	}
 
 	public Set getPrivileges(String roleId) throws CSObjectNotFoundException {
 		Session s = null;
-		log.debug("The role: getting there");
-		//ArrayList result = new ArrayList();
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 					new Long(roleId));
-			log.debug("The role:" + role.getName());
 			result = role.getPrivileges();
-			log.debug("The result size:" + result.size());
-
 		} catch (Exception ex) {
-			log.error(ex);
-			throw new CSObjectNotFoundException("No Set found", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getPrivileges|Failure|Error obtaining Associated Privileges for Role id "+roleId+"|"+ex.getMessage() );
+			throw new CSObjectNotFoundException("An error occured in obtaining associated Privileges for the given Role", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignGroupRoleToProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getPrivileges|Success|Successful in obtaining Associated Privileges for Role id "+roleId+"|");
 		return result;
 	}
 
@@ -1368,18 +1441,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * t.commit(); log.debug("User ID is: " + user.getUserId()); } catch
 	 * (Exception ex) { log.error(ex); try { t.rollback(); } catch (Exception
 	 * ex3) { } throw new CSTransactionException("Could not create the user",
-	 * ex); } finally { try { s.close(); } catch (Exception ex2) { } } }
+	 * ex); } finally { try { s.close(); } catch  { } } }
 	 */
 
 	public void assignProtectionElements(String protectionGroupId,
 			String[] protectionElementIds) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
-			//log.debug("The original user Id:"+userId);
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
@@ -1413,15 +1485,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignProtectionElements|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignProtectionElements|Failure|Error Occured in assigning Protection Elements "
+					+StringUtilities.stringArrayToString(protectionElementIds)+" to Protection Group"+protectionGroupId+"|"+ex.getMessage() );
+			throw new CSTransactionException("An error occured in assigning Protection Elements to the Protection Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignProtectionElements|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignProtectionElements|Success|Successful in assigning Protection Elements "
+				+StringUtilities.stringArrayToString(protectionElementIds)+" to Protection Group"+protectionGroupId+"|");
 	}
 
 	public void removeProtectionElementsFromProtectionGroup(
@@ -1429,11 +1510,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
-			//log.debug("The original user Id:"+userId);
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
@@ -1459,14 +1539,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeProtectionElementsFromProtectionGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			log.debug("Authorization|||removeProtectionElementsFromProtectionGroup|Failure|Error Occured in deassigning Protection Elements "
+					+StringUtilities.stringArrayToString(protectionElementIds)+" to Protection Group"+protectionGroupId+"|"+ex.getMessage() );
+			throw new CSTransactionException("An error occured in deassigning Protection Elements from Protection Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeProtectionElementsFromProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		log.debug("Authorization|||removeProtectionElementsFromProtectionGroup|Success|Success in deassigning Protection Elements "
+				+StringUtilities.stringArrayToString(protectionElementIds)+" to Protection Group"+protectionGroupId+"|");
 	}
 
 	private Object getObjectByPrimaryKey(Session s, Class objectType,
@@ -1476,12 +1564,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Object obj = s.load(objectType, primaryKey);
 
 		if (obj == null) {
-			throw new CSObjectNotFoundException(objectType.getName()
-					+ " not found");
+			log.debug("Authorization|||getObjectByPrimaryKey|Failure|Not found object of type "+objectType.getName()+"|");
+			throw new CSObjectNotFoundException(objectType.getName() + " not found");
 		}
-
+		log.debug("Authorization|||getObjectByPrimaryKey|Success|Success in retrieving object of type "+objectType.getName()+"|");
 		return obj;
-
 	}
 
 	public Object getObjectByPrimaryKey(Class objectType, String primaryKey)
@@ -1496,16 +1583,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			oj = getObjectByPrimaryKey(s, objectType, new Long(primaryKey));
 
 		} catch (Exception ex) {
-			log.error(ex);
-			throw new CSObjectNotFoundException(objectType.getName()
-					+ " not found", ex);
+			log.debug("Authorization|||getObjectByPrimaryKey|Failure|Error in retrieving object of type "+objectType.getName()+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException(objectType.getName() + " not found", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getObjectByPrimaryKey|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		log.debug("Authorization|||getObjectByPrimaryKey|Success|Success in retrieving object of type "+objectType.getName()+"|");
 		return oj;
 	}
 
@@ -1527,15 +1615,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeObject|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||removeObject|Failure|Error in removing object of type "+oj.getClass().getName()+"|"+ex.getMessage());
 			throw new CSTransactionException("Bad", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||removeObject|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||removeObject|Success|Success in removing object of type "+oj.getClass().getName()+"|");
 	}
 
 	private Application getApplicationByName(String contextName)
@@ -1545,30 +1640,32 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			Application search = new Application();
 			search.setApplicationName(contextName);
-			//String query = "FROM
-			// gov.nih.nci.security.authorization.domianobjects.Application";
 			s = sf.openSession();
 			List list = s.createCriteria(Application.class).add(
 					Example.create(search)).list();
-			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
-			log.debug("Somwthing");
 			if (list.size() == 0) {
-				log.debug("Could not find the Application");
-				throw new CSObjectNotFoundException("Not found");
+				if (log.isDebugEnabled())
+					log.debug("Authorization|"+contextName+"||getApplicationByName|Failure|No Application Found for the Context Name "+contextName+"|");
+				throw new CSObjectNotFoundException("No Application Found for the given Context Name");
 			}
 			app = (Application) list.get(0);
 			log.debug("Found the Application");
 
 		} catch (Exception ex) {
-			log.fatal("Unable to find application context", ex);
-			throw new CSObjectNotFoundException("Application could not be found",ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|"+contextName+"||getApplicationByName|Failure|Error in obtaining application "+contextName+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException("An error occured in retrieving Application for the given Context Name", ex);
 
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getApplicationByName|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|"+contextName+"||getApplicationByName|Success|Application Found for the Context Name "+contextName+"|");
 		return app;
 	}
 
@@ -1590,164 +1687,163 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public Set getProtectionGroupRoleContextForUser(String userId)
 			throws CSObjectNotFoundException {
-		// TODO Auto-generated method stub
 		Set result = new HashSet();
 		Session s = null;
-		
+
 		Connection cn = null;
-		//log.debug("Running create test...");
+
 		try {
-            ArrayList pgIds = new ArrayList();
+			ArrayList pgIds = new ArrayList();
 			s = sf.openSession();
-			
+
 			cn = s.connection();
 
-			//User user = this.getUser(userName);
-			//ProtectionElement pe = this.getProtectionElement(objectId);
-
 			StringBuffer stbr = new StringBuffer();
-			stbr.append("SELECT distinct protection_group_id ");	
+			stbr.append("SELECT distinct protection_group_id ");
 			stbr.append("FROM user_group_role_protection_group ");
-			stbr.append("where user_id = "+userId);
-			
+			stbr.append("where user_id = " + userId);
+
 			String sql = stbr.toString();
 			Statement stmt = cn.createStatement();
 
-			
 			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
+			while (rs.next()) {
 				String pg_id = rs.getString(1);
 				pgIds.add(pg_id);
 			}
-			//log.debug(System.currentTimeMillis());
 			rs.close();
 			stmt.close();
-			
-			User user = (User)this.getObjectByPrimaryKey(User.class,userId);
-			  for(int i=0;i<pgIds.size();i++){
-			  	
-			  	ProtectionGroup pg = (ProtectionGroup)this.getObjectByPrimaryKey(ProtectionGroup.class,pgIds.get(i).toString());
-			  	Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+
+			User user = (User) this.getObjectByPrimaryKey(User.class, userId);
+			for (int i = 0; i < pgIds.size(); i++) {
+
+				ProtectionGroup pg = (ProtectionGroup) this
+						.getObjectByPrimaryKey(ProtectionGroup.class, pgIds
+								.get(i).toString());
+				Criteria criteria = s
+						.createCriteria(UserGroupRoleProtectionGroup.class);
 				criteria.add(Expression.eq("user", user));
 				criteria.add(Expression.eq("protectionGroup", pg));
 				List list = criteria.list();
-			  	
+
 				Iterator it = list.iterator();
 				Set roles = new HashSet();
-				while(it.hasNext()){
-					UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)it.next();
+				while (it.hasNext()) {
+					UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup) it
+							.next();
 					roles.add(ugrpg.getRole());
 				}
-				
+
 				ProtectionGroupRoleContext pgrc = new ProtectionGroupRoleContext();
-			  	pgrc.setProtectionGroup(pg);
-			  	pgrc.setRoles(roles);
-			  	result.add(pgrc);
-			  }
-			
+				pgrc.setProtectionGroup(pg);
+				pgrc.setRoles(roles);
+				result.add(pgrc);
+			}
 
 		} catch (Exception ex) {
-			log.error(ex);
-			throw new CSObjectNotFoundException("Error getting ProtectionGroupRoleContext", ex);
-			}
-			
-		 finally {
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionGroupRoleContextForUser|Failure|Error in obtaining the Protection Group - Role Context for the User Id "+userId+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException("An error occured in obtaining the Protection Group - Role Context for the User", ex);
+		}
+
+		finally {
 			try {
-				// cn.close(); Commented by Kunal on 01/14/05
+
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionGroupRoleContextForUser|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-		
-		
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionGroupRoleContextForUser|Success|Successful in obtaining the Protection Group - Role Context for the User Id "+userId+"|");
 		return result;
 	}
-	
-		public Set getProtectionGroupRoleContextForGroup(String groupId)
-		throws CSObjectNotFoundException {
-			// TODO Auto-generated method stub
-			Set result = new HashSet();
-			Session s = null;
-			
-			Connection cn = null;
-			//log.debug("Running create test...");
-			try {
-			    ArrayList pgIds = new ArrayList();
-				s = sf.openSession();
-				
-				cn = s.connection();
 
-	//User user = this.getUser(userName);
-	//ProtectionElement pe = this.getProtectionElement(objectId);
+	public Set getProtectionGroupRoleContextForGroup(String groupId)
+			throws CSObjectNotFoundException {
+		Set result = new HashSet();
+		Session s = null;
 
-	StringBuffer stbr = new StringBuffer();
-	stbr.append("SELECT distinct protection_group_id ");	
-	stbr.append("FROM user_group_role_protection_group ");
-	stbr.append("where group_id = "+groupId);
-	
-	String sql = stbr.toString();
-	Statement stmt = cn.createStatement();
+		Connection cn = null;
 
-	
-	ResultSet rs = stmt.executeQuery(sql);
-	while(rs.next()) {
-		String pg_id = rs.getString(1);
-		pgIds.add(pg_id);
-	}
-	//log.debug(System.currentTimeMillis());
-	rs.close();
-	stmt.close();
-	
-	Group group = (Group)this.getObjectByPrimaryKey(Group.class,groupId);
-	  for(int i=0;i<pgIds.size();i++){
-	  	
-	  	ProtectionGroup pg = (ProtectionGroup)this.getObjectByPrimaryKey(ProtectionGroup.class,pgIds.get(i).toString());
-	  	Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
-		criteria.add(Expression.eq("group", group));
-		criteria.add(Expression.eq("protectionGroup", pg));
-		List list = criteria.list();
-	  	
-		Iterator it = list.iterator();
-		Set roles = new HashSet();
-		while(it.hasNext()){
-			UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)it.next();
-			roles.add(ugrpg.getRole());
-		}
-		
-		ProtectionGroupRoleContext pgrc = new ProtectionGroupRoleContext();
-	  	pgrc.setProtectionGroup(pg);
-	  	pgrc.setRoles(roles);
-	  	result.add(pgrc);
-	  }
-	
+		try {
+			ArrayList pgIds = new ArrayList();
+			s = sf.openSession();
+
+			cn = s.connection();
+
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("SELECT distinct protection_group_id ");
+			stbr.append("FROM user_group_role_protection_group ");
+			stbr.append("where group_id = " + groupId);
+
+			String sql = stbr.toString();
+			Statement stmt = cn.createStatement();
+
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String pg_id = rs.getString(1);
+				pgIds.add(pg_id);
+			}
+			rs.close();
+			stmt.close();
+
+			Group group = (Group) this.getObjectByPrimaryKey(Group.class,
+					groupId);
+			for (int i = 0; i < pgIds.size(); i++) {
+
+				ProtectionGroup pg = (ProtectionGroup) this
+						.getObjectByPrimaryKey(ProtectionGroup.class, pgIds
+								.get(i).toString());
+				Criteria criteria = s
+						.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("group", group));
+				criteria.add(Expression.eq("protectionGroup", pg));
+				List list = criteria.list();
+
+				Iterator it = list.iterator();
+				Set roles = new HashSet();
+				while (it.hasNext()) {
+					UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup) it
+							.next();
+					roles.add(ugrpg.getRole());
+				}
+
+				ProtectionGroupRoleContext pgrc = new ProtectionGroupRoleContext();
+				pgrc.setProtectionGroup(pg);
+				pgrc.setRoles(roles);
+				result.add(pgrc);
+			}
 
 		} catch (Exception ex) {
-			log.error(ex);
-			throw new CSObjectNotFoundException("Error getting ProtectionGroupRoleContext", ex);
-			}
-			
-		 finally {
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionGroupRoleContextForUser|Failure|Error in obtaining the Protection Group - Role Context for the Group Id "+groupId+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException("An error occured in obtaining the Protection Group - Role Context for the Group", ex);
+		}
+
+		finally {
 			try {
-				// cn.close(); Commented by Kunal on 01/14/05
+
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionGroupRoleContextForUser|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-		
-		
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionGroupRoleContextForUser|Success|Successful in obtaining the Protection Group - Role Context for the Group Id "+groupId+"|");
 		return result;
-		}
+	}
 
 	public void modifyObject(Object obj) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
 		try {
-			log.debug("About to be Modified");
 			s = sf.openSession();
 			t = s.beginTransaction();
 
 			s.update(obj);
-			log.debug("Modified");
 			t.commit();
 
 		} catch (Exception ex) {
@@ -1755,15 +1851,23 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||modifyObject|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Object could not be modified:",
-					ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||modifyObject|Failure|Error in modifying the "+obj.getClass().getName()+"|"+ex.getMessage());
+			throw new CSTransactionException("An error occured in modifying the "+obj.getClass().getName(),	ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||modifyObject|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||modifyObject|Success|Successful in modifying the "+obj.getClass().getName()+"|");
+
 	}
 
 	public Application getApplication() {
@@ -1783,14 +1887,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException("Bad", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||createObject|Failure|Error in creating the "+obj.getClass().getName()+"|"+ex.getMessage());
+			throw new CSTransactionException("An error occured in modifying the "+obj.getClass().getName(),	ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||createObject|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||createObject|Success|Successful in creating the "+obj.getClass().getName()+"|");
 	}
 
 	/**
@@ -1800,103 +1912,114 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public void setApplication(Application application) {
 		this.application = application;
 	}
-	
-	public Set getGroups(String userId) throws CSObjectNotFoundException{
+
+	public Set getGroups(String userId) throws CSObjectNotFoundException {
 		Session s = null;
 		Set groups = new HashSet();
 		try {
 			s = sf.openSession();
-			
-			User user = (User) this.getObjectByPrimaryKey(s, User.class,new Long(userId));
+
+			User user = (User) this.getObjectByPrimaryKey(s, User.class,
+					new Long(userId));
 			groups = user.getGroups();
 			log.debug("The result size:" + groups.size());
-			
 
 		} catch (Exception ex) {
 			log.error(ex);
-			
-			throw new CSObjectNotFoundException(
-					"A fatal error occurred while getting groups for a user id: "
-							+ userId , ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getGroups|Failure|Error in obtaining Groups for User Id "+userId+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException("An error occurred while obtaining Associated Groups for the User", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getGroups|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-		
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getGroups|Success|Successful in obtaining Groups for User Id "+userId+"|");
 		return groups;
 
 	}
-	
-	public Set getProtectionElements(String protectionGroupId) throws CSObjectNotFoundException{
+
+	public Set getProtectionElements(String protectionGroupId)
+			throws CSObjectNotFoundException {
 		Session s = null;
-		log.debug("The role: getting there");
-		//ArrayList result = new ArrayList();
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
-			ProtectionGroup protectionGroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
-					new Long(protectionGroupId));
-			//log.debug("The role:" + role.getName());
+			ProtectionGroup protectionGroup = (ProtectionGroup) this
+					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+							protectionGroupId));
 			result = protectionGroup.getProtectionElements();
-			log.debug("The result size:" + result.size());
-            
+
 		} catch (Exception ex) {
-			log.error(ex);
-			throw new CSObjectNotFoundException("No Set found", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionElements|Failure|Error in obtaining Protection Elements for Protection Group Id "+protectionGroupId+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException("An error occurred while obtaining Associated Protection Elements for the Protection Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionElements|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionElements|Success|Succesful in obtaining Protection Elements for Protection Group Id "+protectionGroupId+"|");
 		return result;
 	}
-	
-	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException{
+
+	public Set getProtectionGroups(String protectionElementId)
+			throws CSObjectNotFoundException {
 		Session s = null;
-		log.debug("The role: getting there");
-		//ArrayList result = new ArrayList();
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
-			ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class,
-					new Long(protectionElementId));
-			//log.debug("The role:" + role.getName());
+			ProtectionElement protectionElement = (ProtectionElement) this
+					.getObjectByPrimaryKey(s, ProtectionElement.class,
+							new Long(protectionElementId));
 			result = protectionElement.getProtectionGroups();
 			log.debug("The result size:" + result.size());
-            
+
 		} catch (Exception ex) {
-			log.error(ex);
-			throw new CSObjectNotFoundException("No Set found", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionGroups|Failure|Error in obtaining Protection Groups for Protection Element Id "+protectionElementId+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException("An error occurred while obtaining Associated Protection Groups for the Protection Element", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionGroups|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionGroups|Success|Successful in obtaining Protection Groups for Protection Element Id "+protectionElementId+"|");
 		return result;
 	}
-	
-	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException{
+
+	public void assignToProtectionGroups(String protectionElementId,
+			String[] protectionGroupIds) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class,
-					new Long(protectionElementId));
+			ProtectionElement protectionElement = (ProtectionElement) this
+					.getObjectByPrimaryKey(s, ProtectionElement.class,
+							new Long(protectionElementId));
 
-			
 			Set newSet = new HashSet();
 
 			for (int k = 0; k < protectionGroupIds.length; k++) {
 				log.debug("The new list:" + protectionGroupIds[k]);
-				ProtectionGroup pg = (ProtectionGroup) this.getObjectByPrimaryKey(
-						ProtectionGroup.class, protectionGroupIds[k]);
+				ProtectionGroup pg = (ProtectionGroup) this
+						.getObjectByPrimaryKey(ProtectionGroup.class,
+								protectionGroupIds[k]);
 				if (pg != null) {
 					newSet.add(pg);
 				}
@@ -1905,77 +2028,92 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s.update(protectionElement);
 			t.commit();
 
-			
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignToProtectionGroups|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to assign group ids: "
-							+ StringUtilities.stringArrayToString(protectionGroupIds)
-							+ " to protection element id: " + protectionElementId, ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignToProtectionGroups|Failure|Error in assigning Protection Groups "							
+						+ StringUtilities.stringArrayToString(protectionGroupIds)+ " to protection element id "+ protectionElementId+"|"+ex.getMessage());
+			throw new CSTransactionException( "An error occurred in assigning Protection Groups to the Protection Element", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignToProtectionGroups|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignToProtectionGroups|Success|Successful in assigning Protection Groups Back Transaction"							
+					+ StringUtilities.stringArrayToString(protectionGroupIds)+ " to protection element id "+ protectionElementId+"|");
 	}
-	
-	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException{
+
+	public void assignParentProtectionGroup(String parentProtectionGroupId,
+			String childProtectionGroupId) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
 			ProtectionGroup parent = null;
-            if(parentProtectionGroupId!=null){
-			parent = (ProtectionGroup) this.getObjectByPrimaryKey(s,
-					ProtectionGroup.class, new Long(parentProtectionGroupId));
-            }
-            
-			ProtectionGroup child = (ProtectionGroup) this.getObjectByPrimaryKey(s,
-					ProtectionGroup.class, new Long(childProtectionGroupId));
-			
+			if (parentProtectionGroupId != null) {
+				parent = (ProtectionGroup) this.getObjectByPrimaryKey(s,
+						ProtectionGroup.class,
+						new Long(parentProtectionGroupId));
+			}
+
+			ProtectionGroup child = (ProtectionGroup) this
+					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+							childProtectionGroupId));
+
 			child.setParentProtectionGroup(parent);
-			
+
 			s.update(child);
 			t.commit();
 
-			
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignParentProtectionGroup|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to assign parent protection group: "
-							, ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||assignParentProtectionGroup|Failure|Error in assigning Parent Protection Groups"+							
+						parentProtectionGroupId+ " to protection group id "+ childProtectionGroupId+"|"+ex.getMessage());
+			throw new CSTransactionException( "An error occurred in assigning Parent Protection Group to the Protection Group", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||assignParentProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||assignParentProtectionGroup|Success|Successful in assigning Parent Protection Groups"+							
+					parentProtectionGroupId+ " to protection group id "+ childProtectionGroupId+"|");
 	}
-	
-	private ObjectAccessMap getObjectAccessMap(String objectTypeName,String loginName){
+
+	private ObjectAccessMap getObjectAccessMap(String objectTypeName,
+			String loginName) {
 		Hashtable accessMap = new Hashtable();
 		Session s = null;
-		
+
 		Connection cn = null;
-		
+
 		try {
 
 			s = sf.openSession();
-			
-			cn = s.connection();
 
+			cn = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("select pe.attribute");
@@ -1986,111 +2124,131 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append("user u,");
 			stbr.append("role_privilege rp,");
 			stbr.append("privilege p ");
-			stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
-			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
-			stbr.append(" and pe.protection_element_name="+objectTypeName);
-			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr
+					.append("where pgpe.protection_group_id = pg.protection_group_id ");
+			stbr
+					.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" and pe.protection_element_name=" + objectTypeName);
+			stbr
+					.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
 			stbr.append(" and ugrpg.user_id = u.user_id");
-			stbr.append(" and u.login_name="+loginName);
+			stbr.append(" and u.login_name=" + loginName);
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
 			stbr.append(" and p.privilege_name='NO_ACCESS");
 			String sql = stbr.toString();
 			Statement stmt = cn.createStatement();
-			
+
 			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
+			while (rs.next()) {
 				String att = rs.getString(1);
 				Boolean b = new Boolean(false);
-				accessMap.put(att,b);
+				accessMap.put(att, b);
 			}
 			rs.close();
 			stmt.close();
-			
 
 		} catch (Exception ex) {
-			log.error(ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getObjectAccessMap|Failure|Error in Obtaining the Object Access Map|"+ex.getMessage());
 		} finally {
 			try {
-				//cn.close();
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getObjectAccessMap|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-		return new ObjectAccessMap(objectTypeName,accessMap);
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getObjectAccessMap|Success|Successful in Obtaining the Object Access Map|");
+		return new ObjectAccessMap(objectTypeName, accessMap);
 	}
-	
-	public Object secureObject(String userName,Object obj){
+
+	public Object secureObject(String userName, Object obj) {
 		Object o = null;
-		try{
-			
+		try {
+
 			Class cl = obj.getClass();
 			System.out.println(cl.getName());
-			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),userName);
-				
+			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
+					userName);
+
 			o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
-			for(int i=0;i<methods.length;i++){
+			for (int i = 0; i < methods.length; i++) {
 				Method m = methods[i];
 				String name = m.getName();
-				if(name.startsWith("set")){
-					String att = name.substring(3,name.length());
-					if(!accessMap.hasAccess(att)){
-						m.invoke(o, new Object[] {null});
+				if (name.startsWith("set")) {
+					String att = name.substring(3, name.length());
+					if (!accessMap.hasAccess(att)) {
+						m.invoke(o, new Object[]{null});
 					}
 				}
 			}
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
+
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure Object the Object Access Map|"+ex.getMessage());
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||"+userName+"|getObjectAccessMap|Success| in Secure Object the Object Access Map|");
 		return o;
-		
+
 	}
-	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException{
-		
+	public Set getOwners(String protectionElementId)
+			throws CSObjectNotFoundException {
+
 		Session s = null;
-		
+
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
-			ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class,
-					new Long(protectionElementId));
-			
+			ProtectionElement protectionElement = (ProtectionElement) this
+					.getObjectByPrimaryKey(s, ProtectionElement.class,
+							new Long(protectionElementId));
+
 			result = protectionElement.getOwners();
-			log.debug("The result size:" + result.size());
 
 		} catch (Exception ex) {
-			log.error(ex);
-			throw new CSObjectNotFoundException("No Set found", ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getOwners|Failure|An Error occured in retrieving the Owners for the Protection Element Id "+protectionElementId+"|"+ex.getMessage());
+			throw new CSObjectNotFoundException("An Error occured in retrieving the Owners for the Protection Element", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getOwners|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getOwners|Success|Successful in retrieving the Owners for the Protection Element Id "+protectionElementId+"|");
 		return result;
 	}
-	
-	public void assignOwners(String protectionElementId,String[] userIds) throws CSTransactionException{
-		
+
+	public void assignOwners(String protectionElementId, String[] userIds)
+			throws CSTransactionException {
+
 		Session s = null;
 		Transaction t = null;
-		//log.debug("Running create test...");
+
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
 
 			Set users = new HashSet();
-			
-			for(int i=0;i<userIds.length;i++){
-				User user = (User)this.getObjectByPrimaryKey(User.class,userIds[i]);
+
+			for (int i = 0; i < userIds.length; i++) {
+				User user = (User) this.getObjectByPrimaryKey(User.class,
+						userIds[i]);
 				users.add(user);
 			}
-			ProtectionElement pe = (ProtectionElement)this.getObjectByPrimaryKey(ProtectionElement.class,protectionElementId);
+			ProtectionElement pe = (ProtectionElement) this
+					.getObjectByPrimaryKey(ProtectionElement.class,
+							protectionElementId);
 
 			pe.setOwners(users);
-			
+
 			s.update(pe);
 			t.commit();
 
@@ -2099,59 +2257,69 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||setOwners|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
 			}
-			throw new CSTransactionException(
-					"A fatal error occurred while attempting to assign users: "
-							+ StringUtilities.stringArrayToString(userIds)
-							+ " to protection element with id: " + protectionElementId, ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||setOwners|Failure|Error in assigning the Owners "+StringUtilities.stringArrayToString(userIds)+"for the Protection Element Id "+protectionElementId+"|");
+			throw new CSTransactionException("An error occured in assigning Owners to the Protection Element", ex);
 		} finally {
 			try {
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||setOwners|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
-		
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||setOwners|Success|Successful in assigning the Owners "+StringUtilities.stringArrayToString(userIds)+"for the Protection Element Id "+protectionElementId+"|");
 	}
-	private boolean checkOwnerShip(String userName,String protectionElementObjectId){
+	private boolean checkOwnerShip(String userName,
+			String protectionElementObjectId) {
 		boolean test = false;
 		Session s = null;
-		
+
 		Connection cn = null;
-		
+
 		try {
 
 			s = sf.openSession();
-			
-			cn = s.connection();
 
+			cn = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("Select 'X' ");
-			stbr.append("from user_protection_element upe, user u, protection_element pe ");
-			stbr.append("where pe.protection_element_id = upe.protection_element_id ");
+			stbr
+					.append("from user_protection_element upe, user u, protection_element pe ");
+			stbr
+					.append("where pe.protection_element_id = upe.protection_element_id ");
 			stbr.append("and  upe.user_id = u.user_id ");
-			stbr.append("and  u.login_name ='"+userName+"' ");
-			stbr.append("and  pe.object_id ='"+protectionElementObjectId+"'");
+			stbr.append("and  u.login_name ='" + userName + "' ");
+			stbr.append("and  pe.object_id ='" + protectionElementObjectId
+					+ "'");
 			String sql = stbr.toString();
 			Statement stmt = cn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				test = true;
 			}
-			//log.debug(System.currentTimeMillis());
 			rs.close();
 			stmt.close();
-			
 
 		} catch (Exception ex) {
-			log.error(ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"+userName+"|checkOwnerShip|Failure|Error in checking ownership for user "+userName+" and Protection Element "+protectionElementObjectId+"|"+ex.getMessage());
 		} finally {
 			try {
-				// cn.close(); Commented by Kunal on 01/14/05
+
 				s.close();
 			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkOwnerShip|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
 		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||"+userName+"|checkOwnerShip|Success|Successful in checking ownership for user "+userName+" and Protection Element "+protectionElementObjectId+"|");
 		return test;
 	}
 }

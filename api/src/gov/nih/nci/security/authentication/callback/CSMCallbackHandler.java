@@ -14,6 +14,8 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
+import org.apache.log4j.Category;
+
 /**
  * 
  * This class implements the CallbackHandler interface of JAAS. It provides
@@ -24,6 +26,9 @@ import javax.security.auth.callback.UnsupportedCallbackException;
  */
 public class CSMCallbackHandler implements CallbackHandler {
 
+	private static final Category log = Category.getInstance(CSMCallbackHandler.class);
+	
+	
 	private String _userID;
 	private String _password;
 
@@ -57,7 +62,9 @@ public class CSMCallbackHandler implements CallbackHandler {
 				PasswordCallback passwordCallback = (PasswordCallback) callbacks[i];
 				passwordCallback.setPassword(_password.toCharArray());
 			} else {
-				throw new UnsupportedCallbackException(callbacks[i], "Unrecognized Callback");
+				if (log.isDebugEnabled())
+					log.debug("Authentication||"+_userID+"|handle|Failure| Error in initializing the CallBack Handler |" );				
+				throw new UnsupportedCallbackException(callbacks[i], "Error in initializing the CallBack Handler");
 			}
 		}
 	}

@@ -36,8 +36,8 @@ import junit.framework.TestSuite;
  * </p>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2005-01-19 22:11:25 $
- * @version $Revision: 1.7 $
+ * @date $Date: 2005-01-25 06:36:12 $
+ * @version $Revision: 1.8 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
  * @see some.other.package
@@ -50,7 +50,7 @@ public class AuthorizationDAOImplTest extends TestCase {
 	static {
 		try{
 		upm = (UserProvisioningManager) SecurityServiceProvider
-				.getUserProvisioningManger("Security");
+				.getUserProvisioningManager("Security");
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

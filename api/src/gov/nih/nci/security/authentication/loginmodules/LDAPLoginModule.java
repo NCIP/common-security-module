@@ -7,6 +7,7 @@
 package gov.nih.nci.security.authentication.loginmodules;
 
 import gov.nih.nci.security.authentication.helper.LDAPHelper;
+import gov.nih.nci.security.exceptions.CSException;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -29,8 +30,9 @@ public class LDAPLoginModule extends CSMLoginModule
 	 * @param password the user entered password provided by the calling application
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * credentials and FALSE if the authentication fails
+	 * @throws CSException
 	 */
-	protected boolean validate (Map options, String user, char[] password)
+	protected boolean validate (Map options, String user, char[] password) throws CSException
 	{
 		return LDAPHelper.authenticate (new Hashtable(options), user, password);
 	}
