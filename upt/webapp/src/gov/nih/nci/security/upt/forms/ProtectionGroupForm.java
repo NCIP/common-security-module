@@ -329,6 +329,8 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 	public void setAssociationObject(HttpServletRequest request) throws Exception {
 
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		if (this.associatedIds == null)
+			this.associatedIds = new String[0];
 		userProvisioningManager.assignProtectionElements(this.protectionGroupId, this.associatedIds);
 	}
 	/* (non-Javadoc)

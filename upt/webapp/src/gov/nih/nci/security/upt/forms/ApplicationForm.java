@@ -345,6 +345,8 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	 */
 	public void setAssociationObject(HttpServletRequest request) throws Exception {
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		if (this.associatedIds == null)
+			this.associatedIds = new String[0];
 		userProvisioningManager.assignOwners(this.associatedProtectionElementId.toString(), this.associatedIds);
 	}
 	

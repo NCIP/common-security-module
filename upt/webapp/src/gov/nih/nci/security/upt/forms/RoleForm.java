@@ -297,6 +297,8 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	public void setAssociationObject(HttpServletRequest request) throws Exception {
 
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		if (this.associatedIds == null)
+			this.associatedIds = new String[0];
 		userProvisioningManager.assignPrivilegesToRole(this.roleId, this.associatedIds);
 	}
 	/* (non-Javadoc)

@@ -18,19 +18,12 @@
     		else
     		{		
 	    		var len = document.associationForm.associatedIds.length;
-	    		if (len == 0)
+	    		for (i=0 ; i < len ; i++)
 	    		{
-	    			alert("A Protection Group must be selected for association");
+	    			document.associationForm.associatedIds[i].selected = true;
 	    		}
-	    		else
-	    		{
-		    		for (i=0 ; i < len ; i++)
-		    		{
-		    			document.associationForm.associatedIds[i].selected = true;
-		    		}
-		    		document.associationForm.operation.value=target;
-		    		document.associationForm.submit();
-				}
+	    		document.associationForm.operation.value=target;
+	    		document.associationForm.submit();
 			}
 	    }    	
     	// selSwitch functions

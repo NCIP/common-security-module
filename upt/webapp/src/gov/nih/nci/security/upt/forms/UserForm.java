@@ -513,6 +513,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	public void setAssociationObject(HttpServletRequest request) throws Exception {
 
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		if (this.associatedIds == null)
+			this.associatedIds = new String[0];
 		userProvisioningManager.assignGroupsToUser(this.userId, this.associatedIds);
 	}
 	/* (non-Javadoc)

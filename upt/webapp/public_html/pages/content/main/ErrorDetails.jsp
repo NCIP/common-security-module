@@ -29,7 +29,7 @@
           <td align="center">
  
             <P>
-               <bean:write name='<%=DisplayConstants.ERROR_DETAIL %>' />
+               <bean:write name='<%=DisplayConstants.ERROR_DETAILS %>' />
             </P>
           </td>
        </tr>
