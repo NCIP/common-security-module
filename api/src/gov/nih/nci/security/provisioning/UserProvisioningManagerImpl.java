@@ -291,13 +291,14 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	}
 
 	/**
-	 * @param privilegesName
-	 * @param roleName
+	 * @param roleId
+	 * @param privilegeIds
 	 * 
 	 */
-	public void assignPrivilegesToRole(String[] privilegesName, String roleName) throws CSTransactionException{
-
+	public void assignPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException{
+		
 	}
+
 
 	/**
 	 * Returns the protection element for the passed object id
@@ -451,6 +452,13 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	public Role getRole(String roleName) throws CSObjectNotFoundException{
 		return null;
+	}
+	/**
+	 * @param roleId
+	 * 
+	 */
+	public Role getRoleById(String roleId) throws CSObjectNotFoundException{
+		return authorizationDAO.getRole(new Long(roleId));
 	}
 
 	/**

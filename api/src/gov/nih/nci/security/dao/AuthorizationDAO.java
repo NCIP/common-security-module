@@ -182,11 +182,11 @@ public interface AuthorizationDAO {
 	public void removePrivilege(String privilegeId)throws CSTransactionException;
 
 	/**
-	 * @param privilegesName
-	 * @param roleName
+	 * @param roleId
+	 * @param privilegeIds
 	 * 
 	 */
-	public void assignPrivilegesToRole(String[] privilegesName, String roleName)throws CSTransactionException;
+	public void assignPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException;
 
 	/**
 	 * Returns the protection element for the passed object id

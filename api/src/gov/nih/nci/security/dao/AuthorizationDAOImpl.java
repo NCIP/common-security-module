@@ -68,11 +68,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignPrivilegesToRole(java.lang.String[], java.lang.String)
 	 */
-	public void assignPrivilegesToRole(String[] privilegesName, String roleName)
-			throws CSTransactionException {
-		// TODO Auto-generated method stub
-
+	
+	public void assignPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException{
+		
 	}
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String, java.lang.String[], java.lang.String[])
 	 */
@@ -228,6 +228,28 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void createRole(Role role) throws CSTransactionException {
 		// TODO Auto-generated method stub
+		
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = sf.openSession();	
+			t = s.beginTransaction();
+			role.setApplication(application);
+			s.save(role);
+			t.commit();
+			s.close();
+			System.out.println( "Role ID is: " + role.getId().doubleValue() );
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
 
 	}
 	/* (non-Javadoc)
@@ -357,7 +379,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public Role getRole(Long roleId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		return (Role)this.getObjectByPrimaryKey(Role.class,roleId);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getRole(java.lang.String)
@@ -422,7 +444,28 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void modifyRole(Role role) throws CSTransactionException {
 		// TODO Auto-generated method stub
-
+		Session s = null;
+		Transaction t = null;
+		try {
+			
+			s = sf.openSession();	
+			t = s.beginTransaction();
+			s.update(role);
+			System.out.println( "Modified");
+			t.commit();
+			s.close();
+			
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroup(java.lang.String)
@@ -452,31 +495,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void removePrivilege(String privilegeId)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
-		Session s = null;
-		Transaction t = null;
-		try {
-			System.out.println( "About to be Deleted");
-			s = sf.openSession();	
-			t = s.beginTransaction();
-			Privilege p = new Privilege();
-			p.setId(new Long(privilegeId));
-			s.delete(p);
-			System.out.println( "Deleted");
-			t.commit();
-			s.close();
-			//System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
-		} catch (Exception ex) {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw new CSTransactionException("Bad",ex);
-		}
+		Privilege p = new Privilege();
+		p.setId(new Long(privilegeId));
+		this.removeObject(p);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removePrivilegesFromRole(java.lang.String, java.lang.String[])
@@ -507,7 +528,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void removeRole(String roleId) throws CSTransactionException {
 		// TODO Auto-generated method stub
-
+		     Role r = new Role();
+		     r.setId(new Long(roleId));
+            this.removeObject(r);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserFromGroup(java.lang.String, java.lang.String)
@@ -580,6 +603,33 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		
 		return oj;
+	}
+	private void removeObject(Object oj) throws CSTransactionException{
+		
+		Session s = null;
+		Transaction t = null;
+		try {
+			
+			s = sf.openSession();	
+			t = s.beginTransaction();
+			
+			s.delete(oj);
+			
+			t.commit();
+			s.close();
+			 
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
+		
 	}
 	private Application getApplicationByName(String contextName) throws CSObjectNotFoundException{
 		Session s = null;
