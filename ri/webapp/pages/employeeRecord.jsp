@@ -2,17 +2,23 @@
 
 <html:form method="post" action="createEmployee">
 
-<table summary="" cellpadding="0" cellspacing="0" border="0"
-	class="contentPage" width="100%" height="100%">
-	<tr>
-		<td valign="top">
-		<table cellpadding="0" cellspacing="0" border="0"
-			class="contentBegins">
-			<tr>
-				<td>
-				<table summary="" cellpadding="3" cellspacing="0" border="0"
-					align="center">
-					<tr>
+<BR>
+
+	<table summary="" cellpadding="0" cellspacing="0" border="0"
+		class="contentPage" width="100%" height="100%">
+		<tr>
+			<td valign="top">
+			<table cellpadding="0" cellspacing="0" border="0"
+				class="contentBegins">
+				<tr>
+				<td align="center"><h2>Create an Employee Record</h2>
+				</td>
+				</tr>
+				<tr>
+					<td>
+					<table summary="" cellpadding="3" cellspacing="0" border="0"
+						align="center">
+						<tr>
 						<td class="formMessage" colspan="3">* indicates a required field</td>
 					</tr>
 					<tr>
@@ -30,13 +36,13 @@
 						<td class="formRequiredNotice" width="5">*</td>
 						<td class="formRequiredLabel">Last name:</td>
 						<td class="dataCellText"><html:text property="lastName" size="10"
-							maxlength="60" tabindex="12" /></td>
+							maxlength="100" tabindex="12" /></td>
 					</tr>
 					<tr>
 						<td class="formRequiredNotice" width="5">*</td>
 						<td class="formRequiredLabel">First name:</td>
 						<td class="dataCellText"><html:text property="firstName" size="10"
-							maxlength="60" tabindex="13" /></td>
+							maxlength="100" tabindex="13" /></td>
 					</tr>
 					<tr>
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
@@ -81,13 +87,13 @@
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
 						<td class="formRequiredLabel">Email address:</td>
 						<td class="dataCellText"><html:text property="emailAddr" size="10"
-							maxlength="60" tabindex="20" /></td>
+							maxlength="100" tabindex="20" /></td>
 					</tr>
 					<tr>
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
 						<td class="formRequiredLabel">Social Security Number:</td>
 						<td class="dataCellText"><html:text property="ssn" size="10"
-							maxlength="60" tabindex="21" /></td>
+							maxlength="100" tabindex="21" /></td>
 					</tr>
 
 

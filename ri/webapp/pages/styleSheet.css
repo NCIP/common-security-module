@@ -371,7 +371,6 @@ DATA TABLE BEGINS
   font-family:arial,helvetica,verdana,sans-serif;
   background-color:#9999FF; /* constant: medium gray */
   color:#000000; /* constant: black */
-  font-weight:bold;
   border-right:1px solid #FF9933; /* constant: dark gray */
   border-bottom:1px solid #FF9933; /* constant: dark gray */
 }
