@@ -20,9 +20,12 @@
         name="id"
         type="java.lang.Long"
         column="PRIVILEGE_ID"
-    >
-        <generator class="assigned" />
+        unsaved-value="null"
+        >
+     <generator class="identity"/>
     </id>
+    
+           
 
     <property
         name="name"
@@ -38,4 +41,5 @@
     />
    
 </class>
+
 </hibernate-mapping>

@@ -24,8 +24,8 @@ import net.sf.hibernate.Transaction;
  * Relations: Privilege extends java.lang.Object <br>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-06 22:15:16 $
- * @version $Revision: 1.2 $
+ * @date $Date: 2004-12-07 04:06:03 $
+ * @version $Revision: 1.3 $
  * 
  * @see gov.nih.nci.security.authorization.domainobjects.Privilege
  * @see some.other.package
@@ -133,6 +133,7 @@ public class PrivilegeTest extends TestCase {
 			p.setName("TestName");
 			s.save(p);
 			t.commit();
+			System.out.println( "Privilege ID is: " + p.getId().doubleValue() );
 		} catch (Exception ex) {
 			try {
 				s.close();
