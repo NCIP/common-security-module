@@ -14,6 +14,7 @@ import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.hibernate.ProtectionGroupProtectionElement;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.security.Principal;
 import java.sql.Connection;
@@ -41,14 +42,11 @@ import net.sf.hibernate.expression.Expression;
 
 import org.apache.log4j.Logger;
 
-
 /**
  * @version 1.0
  * @created 03-Dec-2004 1:17:47 AM
  */
 public class AuthorizationDAOImpl implements AuthorizationDAO {
-
-	
 
 	static final Logger log = Logger.getLogger(AuthorizationDAOImpl.class
 			.getName());
@@ -58,20 +56,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	private Application application = null;
 
 	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) {
-		this.sf = sf;
+		setHibernateSessionFactory(sf);
 		try {
-			log.debug("The context Name passed:"
-					+ applicationContextName);
-			this.application = this
-					.getApplicationByName(applicationContextName);
-			//this.application=
-			// (Application)this.getObjectByPrimaryKey(Application.class,new
-			// Long("1"));
-			log.debug("The Application:"
-					+ application.getApplicationId() + ":"
+			log.debug("The context Name passed:" + applicationContextName);
+
+			setApplication(getApplicationByName(applicationContextName));
+
+			log.debug("The Application:" + application.getApplicationId() + ":"
 					+ application.getApplicationDescription());
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			throw new RuntimeException(
+					"Unable to Instantiate the AuthorizationDAOImpl"
+							+ ex.getMessage());
+
 		}
 	}
 
@@ -83,7 +82,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 	}
 
-	public void assignGroupsToUser(String userId,String[] groupIds)
+	public void assignGroupsToUser(String userId, String[] groupIds)
 			throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
@@ -97,17 +96,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//Set user_groups = user.getGroups();
 			//Group group = getGroup(groupId);
 			HashSet newGroups = new HashSet();
-			for (int k = 0; k <groupIds.length; k++) {
+			for (int k = 0; k < groupIds.length; k++) {
 				log.debug("The new list:" + groupIds[k]);
-				Group group = (Group)this.getObjectByPrimaryKey(Group.class,groupIds[k]);
+				Group group = (Group) this.getObjectByPrimaryKey(Group.class,
+						groupIds[k]);
 				if (group != null) {
 					newGroups.add(group);
 				}
 			}
-			
-				user.setGroups(newGroups);
-				s.update(user);
-			
+
+			user.setGroups(newGroups);
+			s.update(user);
 
 			t.commit();
 
@@ -117,7 +116,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				t.rollback();
 			} catch (Exception ex3) {
 			}
-			throw new CSTransactionException("Bad", ex);
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to add a user id: "
+							+ userId + " to group ids: "
+							+ StringUtilities.stringArrayToString(groupIds), ex);
 		} finally {
 			try {
 				s.close();
@@ -133,6 +135,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignGroupRoleToProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
+
 	public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			String groupId, String[] rolesId) throws CSTransactionException {
 
@@ -183,7 +186,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				t.rollback();
 			} catch (Exception ex3) {
 			}
-			throw new CSTransactionException("Bad", ex);
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to assign group id: "
+							+ groupId + " to protection group id: "
+							+ protectionGroupId + "with role ids: "
+							+ StringUtilities.stringArrayToString(rolesId), ex);
 		} finally {
 			try {
 				s.close();
@@ -223,7 +230,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					newPrivs.add(pr);
 				}
 			}
-            role.setPrivileges(newPrivs);
+			role.setPrivileges(newPrivs);
 			s.update(role);
 			t.commit();
 
@@ -235,7 +242,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				t.rollback();
 			} catch (Exception ex3) {
 			}
-			throw new CSTransactionException("Bad", ex);
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to assign privilege ids: "
+							+ StringUtilities.stringArrayToString(privilegeIds)
+							+ " to role id: " + roleId, ex);
 		} finally {
 			try {
 				s.close();
@@ -292,7 +302,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				t.rollback();
 			} catch (Exception ex3) {
 			}
-			throw new CSTransactionException("Bad", ex);
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to assign protection "
+							+ "element object id: " + protectionElementObjectId
+							+ " with protection element attribute "
+							+ protectionElementAttributeName
+							+ " to protection group name: "
+							+ protectionGroupName, ex);
 		} finally {
 			try {
 				s.close();
@@ -373,7 +389,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				t.rollback();
 			} catch (Exception ex3) {
 			}
-			throw new CSTransactionException("Bad", ex);
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to a user id: "
+							+ userId + " with role ids: "
+							+ StringUtilities.stringArrayToString(rolesId)
+							+ " to protection group id: " + protectionGroupId,
+					ex);
 		} finally {
 			try {
 				s.close();
@@ -391,7 +412,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public boolean checkPermission(AccessPermission permission, String userName) {
 		// TODO Auto-generated method stub
-		
+
 		return false;
 	}
 
@@ -436,7 +457,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String, java.lang.String)
 	 */
 	public boolean checkPermission(String userName, String objectId,
-			String privilegeName) {
+			String privilegeName) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 		//log.debug("NOW____)))");
@@ -499,7 +520,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				t.rollback();
 			} catch (Exception ex3) {
 			}
-			//throw new CSTransactionException("Bad", ex);
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to "
+							+ " check permission with user name: " + userName
+							+ " object id: " + objectId
+							+ " and privilege name " + privilegeName, ex);
 		} finally {
 			try {
 				cn.close();
@@ -516,100 +541,46 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createGroup(gov.nih.nci.security.authorization.domainobjects.Group)
 	 */
 	/**
-	public void createGroup(Group group) throws CSTransactionException {
-		// TODO Auto-generated method stub
-		Session s = null;
-		Transaction t = null;
-		try {
-			s = sf.openSession();
-			t = s.beginTransaction();
-			group.setApplication(application);
-			group.setUpdateDate(new Date());
-			s.save(group);
-			t.commit();
-			log.debug("Group ID is: " + group.getGroupId());
-		} catch (Exception ex) {
-			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw new CSTransactionException("Bad", ex);
-		} finally {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-		}
-	}
-	*/
-    /**
-	public void createPrivilege(Privilege privilege)
-			throws CSTransactionException {
-		// TODO Auto-generated method stub
-		Session s = null;
-		Transaction t = null;
-		try {
-			s = sf.openSession();
-			t = s.beginTransaction();
-			privilege.setUpdateDate(new Date());
-			s.save(privilege);
-			t.commit();
-
-			log.debug("Privilege ID is: " + privilege.getId().doubleValue());
-		} catch (Exception ex) {
-			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw new CSTransactionException("Bad", ex);
-		} finally {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-		}
-
-	}
-    */
+	 * public void createGroup(Group group) throws CSTransactionException { //
+	 * TODO Auto-generated method stub Session s = null; Transaction t = null;
+	 * try { s = sf.openSession(); t = s.beginTransaction();
+	 * group.setApplication(application); group.setUpdateDate(new Date());
+	 * s.save(group); t.commit(); log.debug("Group ID is: " +
+	 * group.getGroupId()); } catch (Exception ex) { log.error(ex); try {
+	 * t.rollback(); } catch (Exception ex3) { } throw new
+	 * CSTransactionException("Bad", ex); } finally { try { s.close(); } catch
+	 * (Exception ex2) { } } }
+	 */
+	/**
+	 * public void createPrivilege(Privilege privilege) throws
+	 * CSTransactionException { // TODO Auto-generated method stub Session s =
+	 * null; Transaction t = null; try { s = sf.openSession(); t =
+	 * s.beginTransaction(); privilege.setUpdateDate(new Date());
+	 * s.save(privilege); t.commit();
+	 * 
+	 * log.debug("Privilege ID is: " + privilege.getId().doubleValue()); } catch
+	 * (Exception ex) { log.error(ex); try { t.rollback(); } catch (Exception
+	 * ex3) { } throw new CSTransactionException("Bad", ex); } finally { try {
+	 * s.close(); } catch (Exception ex2) { } } }
+	 */
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement)
 	 */
 	/**
-	public void createProtectionElement(ProtectionElement protectionElement)
-			throws CSTransactionException {
-		Session s = null;
-		Transaction t = null;
-		try {
-			s = sf.openSession();
-			t = s.beginTransaction();
-			protectionElement.setApplication(application);
-			protectionElement.setUpdateDate(new Date());
-			s.save(protectionElement);
-			t.commit();
-			log.debug("Protection element ID is: "
-					+ protectionElement.getProtectionElementId());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw new CSTransactionException(
-					"Protection Element could not be created:", ex);
-		} finally {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-		}
-
-	}
-	*/
+	 * public void createProtectionElement(ProtectionElement protectionElement)
+	 * throws CSTransactionException { Session s = null; Transaction t = null;
+	 * try { s = sf.openSession(); t = s.beginTransaction();
+	 * protectionElement.setApplication(application);
+	 * protectionElement.setUpdateDate(new Date()); s.save(protectionElement);
+	 * t.commit(); log.debug("Protection element ID is: " +
+	 * protectionElement.getProtectionElementId()); } catch (Exception ex) {
+	 * ex.printStackTrace(); log.error(ex); try { t.rollback(); } catch
+	 * (Exception ex3) { } throw new CSTransactionException( "Protection Element
+	 * could not be created:", ex); } finally { try { s.close(); } catch
+	 * (Exception ex2) { } } }
+	 */
 
 	/*
 	 * (non-Javadoc)
@@ -617,36 +588,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createProtectionGroup(gov.nih.nci.security.authorization.domainobjects.ProtectionGroup)
 	 */
 	/**
-	public void createProtectionGroup(ProtectionGroup protectionGroup)
-			throws CSTransactionException {
-		Session s = null;
-		Transaction t = null;
-		try {
-			s = sf.openSession();
-			t = s.beginTransaction();
-			protectionGroup.setApplication(application);
-			protectionGroup.setUpdateDate(new Date());
-			s.save(protectionGroup);
-			t.commit();
-			log.debug("Protection group ID is: "
-					+ protectionGroup.getProtectionGroupId());
-		} catch (Exception ex) {
-			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw new CSTransactionException(
-					"Protection group could not be created:", ex);
-		} finally {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-		}
-
-	}
-	*/
+	 * public void createProtectionGroup(ProtectionGroup protectionGroup) throws
+	 * CSTransactionException { Session s = null; Transaction t = null; try { s =
+	 * sf.openSession(); t = s.beginTransaction();
+	 * protectionGroup.setApplication(application);
+	 * protectionGroup.setUpdateDate(new Date()); s.save(protectionGroup);
+	 * t.commit(); log.debug("Protection group ID is: " +
+	 * protectionGroup.getProtectionGroupId()); } catch (Exception ex) {
+	 * log.error(ex); try { t.rollback(); } catch (Exception ex3) { } throw new
+	 * CSTransactionException( "Protection group could not be created:", ex); }
+	 * finally { try { s.close(); } catch (Exception ex2) { } } }
+	 */
 
 	/*
 	 * (non-Javadoc)
@@ -654,35 +606,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createRole(gov.nih.nci.security.authorization.domainobjects.Role)
 	 */
 	/**
-	public void createRole(Role role) throws CSTransactionException {
-		// TODO Auto-generated method stub
-
-		Session s = null;
-		Transaction t = null;
-		try {
-			s = sf.openSession();
-			t = s.beginTransaction();
-			role.setApplication(application);
-			role.setUpdateDate(new Date());
-			s.save(role);
-			t.commit();
-			log.debug("Role ID is: " + role.getId().doubleValue());
-		} catch (Exception ex) {
-			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw new CSTransactionException("Bad", ex);
-		} finally {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-		}
-
-	}
-	*/
+	 * public void createRole(Role role) throws CSTransactionException { // TODO
+	 * Auto-generated method stub
+	 * 
+	 * Session s = null; Transaction t = null; try { s = sf.openSession(); t =
+	 * s.beginTransaction(); role.setApplication(application);
+	 * role.setUpdateDate(new Date()); s.save(role); t.commit(); log.debug("Role
+	 * ID is: " + role.getId().doubleValue()); } catch (Exception ex) {
+	 * log.error(ex); try { t.rollback(); } catch (Exception ex3) { } throw new
+	 * CSTransactionException("Bad", ex); } finally { try { s.close(); } catch
+	 * (Exception ex2) { } } }
+	 */
 
 	/*
 	 * (non-Javadoc)
@@ -728,7 +662,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			this.removeProtectionElementsFromProtectionGroup(pgId, peIds);
 		} catch (Exception ex) {
-			throw new CSTransactionException("Deassignement failed", ex);
+			throw new CSTransactionException(
+					"A fatal error occured while attempting to "
+							+ "de-assign protectionElementObjectId: "
+							+ protectionElementObjectId
+							+ " from protection group name: "
+							+ protectionGroupName, ex);
 		}
 
 	}
@@ -743,9 +682,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return null;
 	}
 
-	
-
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -756,26 +692,26 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		List result = new ArrayList();
 		try {
-			
+
 			s = sf.openSession();
-			Criteria criteria = s.createCriteria(searchCriteria.getObjectType());
+			Criteria criteria = s
+					.createCriteria(searchCriteria.getObjectType());
 			Hashtable fieldValues = searchCriteria.getFieldAndValues();
-            Enumeration en = fieldValues.keys();
-            System.out.println("We here");
-            while(en.hasMoreElements()){
-            	String str = (String)en.nextElement();
-            	int i = ((String)fieldValues.get(str)).indexOf("%");
-            	 if(i!=-1){
-            	 	criteria.add(Expression.like(str,fieldValues.get(str)));
-            	 }else{
-            	 	criteria.add(Expression.eq(str,fieldValues.get(str)));
-            	 }
-            }
-            if(fieldValues.size()==0){
-            	criteria.add(Expression.eqProperty("1","1"));
-            }
-            result = criteria.list();
-			
+			Enumeration en = fieldValues.keys();
+			System.out.println("We here");
+			while (en.hasMoreElements()) {
+				String str = (String) en.nextElement();
+				int i = ((String) fieldValues.get(str)).indexOf("%");
+				if (i != -1) {
+					criteria.add(Expression.like(str, fieldValues.get(str)));
+				} else {
+					criteria.add(Expression.eq(str, fieldValues.get(str)));
+				}
+			}
+			if (fieldValues.size() == 0) {
+				criteria.add(Expression.eqProperty("1", "1"));
+			}
+			result = criteria.list();
 
 		} catch (Exception ex) {
 			log.fatal("Unable to get objects", ex);
@@ -804,9 +740,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getPrivilege(java.lang.String)
 	 */
-	
-
-	
 
 	/*
 	 * (non-Javadoc)
@@ -859,8 +792,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -898,8 +829,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		return pgrp;
 	}
-
-	
 
 	/*
 	 * (non-Javadoc)
@@ -964,7 +893,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Iterator it = groups.iterator();
 			while (it.hasNext()) {
 				Group grp = (Group) it.next();
-				log.debug("The group Id:" + grp.getGroupId());
+				log.debug("The user Id:" + grp.getGroupId());
 			}
 
 		} catch (Exception ex) {
@@ -1089,18 +1018,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 
-	
-
-	
-
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeRole(java.lang.String)
 	 */
-	
 
 	/*
 	 * (non-Javadoc)
@@ -1368,7 +1290,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
-			Role role = (Role) this.getObjectByPrimaryKey(s,Role.class,new Long(roleId));
+			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+					new Long(roleId));
 			log.debug("The role:" + role.getName());
 			result = role.getPrivileges();
 			log.debug("The result size:" + result.size());
@@ -1384,33 +1307,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		return result;
 	}
-   /**
-	public void createUser(User user) throws CSTransactionException {
-		Session s = null;
-		Transaction t = null;
-		try {
-			s = sf.openSession();
-			t = s.beginTransaction();
-			user.setUpdateDate(new Date());
-			s.save(user);
-			t.commit();
-			log.debug("User ID is: " + user.getUserId());
-		} catch (Exception ex) {
-			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw new CSTransactionException("Could not create the user", ex);
-		} finally {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-		}
 
-	}
-	*/
+	/**
+	 * public void createUser(User user) throws CSTransactionException { Session
+	 * s = null; Transaction t = null; try { s = sf.openSession(); t =
+	 * s.beginTransaction(); user.setUpdateDate(new Date()); s.save(user);
+	 * t.commit(); log.debug("User ID is: " + user.getUserId()); } catch
+	 * (Exception ex) { log.error(ex); try { t.rollback(); } catch (Exception
+	 * ex3) { } throw new CSTransactionException("Could not create the user",
+	 * ex); } finally { try { s.close(); } catch (Exception ex2) { } } }
+	 */
 
 	public void assignProtectionElements(String protectionGroupId,
 			String[] protectionElementIds) throws CSTransactionException {
@@ -1509,8 +1415,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 	}
-
-	
 
 	private Object getObjectByPrimaryKey(Session s, Class objectType,
 			Long primaryKey) throws HibernateException,
@@ -1628,38 +1532,34 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * (non-Javadoc)
 	 * 
 	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionGroupRoleContext()
-	 * We might not implement this method
+	 *      We might not implement this method
 	 */
 	public Set getProtectionGroupRoleContext(String userId)
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
-	
-	public void modifyObject(Object obj) throws CSTransactionException{
+
+	public void modifyObject(Object obj) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
 		try {
 			log.debug("About to be Modified");
 			s = sf.openSession();
 			t = s.beginTransaction();
-			
+
 			s.update(obj);
 			log.debug("Modified");
 			t.commit();
 
-			
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();
 			} catch (Exception ex3) {
 			}
-			throw new CSTransactionException(
-					"Object could not be modified:", ex);
+			throw new CSTransactionException("Object could not be modified:",
+					ex);
 		} finally {
 			try {
 				s.close();
@@ -1667,10 +1567,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 	}
-	public Application getApplication(){
+
+	public Application getApplication() {
 		return this.application;
 	}
-	public void createObject(Object obj) throws CSTransactionException{
+
+	public void createObject(Object obj) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
 		try {
@@ -1693,4 +1595,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 	}
 
+	/**
+	 * @param application
+	 *            The application to set.
+	 */
+	public void setApplication(Application application) {
+		this.application = application;
+	}
 }
