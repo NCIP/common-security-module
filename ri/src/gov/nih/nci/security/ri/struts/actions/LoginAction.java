@@ -12,9 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 
 /**
  * Logs a User into the RI using the CSM Authentication module.
@@ -36,10 +39,10 @@ public class LoginAction extends Action implements Constants {
 	 *      javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
-	public ActionForward execute(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String forward = Constants.ACTION_SUCCESS;
 		// TODO Auto-generated method stub
 		LoginForm loginForm = (LoginForm) form;
 		log.debug("Login ID: " + loginForm.getLoginID());
@@ -47,8 +50,15 @@ public class LoginAction extends Action implements Constants {
 		log.debug("System Config file is: "
 				+ System.getProperty("gov.nih.nci.security.configFile"));
 		//check login using Authentication Manager
-		boolean loginSuccess = getAuthenticationManager().login(
-				loginForm.getLoginID(), loginForm.getPassword());
+
+		boolean loginSuccess = false;
+		try {
+			loginSuccess = getAuthenticationManager().login(
+					loginForm.getLoginID(), loginForm.getPassword());
+		} catch (CSException ex) {
+			loginSuccess = false;
+			log.debug("The user was denied access to the csm applicaiton.", ex);
+		}
 
 		if (loginSuccess) {
 			request.getSession().setAttribute(
@@ -56,10 +66,16 @@ public class LoginAction extends Action implements Constants {
 					EmployeeDAO
 							.searchEmployeeByUserName(loginForm.getLoginID())
 							.get(0));
-			return mapping.findForward(Constants.ACTION_SUCCESS);
+
 		} else {
-			return mapping.findForward(Constants.ACTION_FAILURE);
+			ActionErrors errors = new ActionErrors();
+			errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"access.application.denied"));
+			saveErrors(request, errors);
+			forward = Constants.ACCESS_DENIED;
 		}
+		
+		return mapping.findForward(forward);
 	}
 
 	protected AuthenticationManager getAuthenticationManager()

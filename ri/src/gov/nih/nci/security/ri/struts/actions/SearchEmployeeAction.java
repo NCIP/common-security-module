@@ -1,4 +1,3 @@
-
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.exceptions.CSException;
@@ -27,9 +26,9 @@ import org.apache.struts.action.ActionMapping;
  */
 /**
  * @author Brian
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
  */
 public class SearchEmployeeAction extends BaseAction implements Permissions {
 
@@ -38,8 +37,8 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 
 	/*
 	 * Action searches the database for the criteria that matches the attributes
-	 * in the Employee object. A List of employees are retured.  Authorization
-	 * is then performed to filter the results.
+	 * in the Employee object. A List of employees are retured. Authorization is
+	 * then performed to filter the results.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,
@@ -53,7 +52,7 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 
 		List searchResult = EmployeeDAO.searchEmployee((Employee) form);
 		//check permission for viewing from the search result
-		List secureResult = doAuthorization( request, searchResult );
+		List secureResult = doAuthorization(request, searchResult);
 		request.getSession().setAttribute(EMPLOYEE_LIST, secureResult);
 
 		return mapping.findForward(ACTION_SUCCESS);
@@ -61,39 +60,44 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 	}
 
 	/**
-	 * Validates that the User has READ access for the employee or
-	 * if it his own record.
+	 * Validates that the User has READ access for the employee or if it his own
+	 * record.
 	 * 
 	 * @param request
 	 * @param employees
 	 * @throws CSException
 	 */
-	private List doAuthorization(HttpServletRequest request, List employees) throws CSException {
+	private List doAuthorization(HttpServletRequest request, List employees)
+			throws Exception {
 		Iterator i = employees.iterator();
 		String user = getUser(request).getUserName();
-		List filterList = new LinkedList(); 
+		List filterList = new LinkedList();
+		try {
+			while (i.hasNext()) {
+				Employee empl = (Employee) i.next();
+				log.debug("Checking permission for employee "
+						+ empl.getLastName());
+				if (getAuthorizationManager().checkPermission(user,
+						SecurityUtils.getEmployeeObjectId(empl), READ)) {
+					//add only employees from the list where
+					//access is granted for READ permission
+					//or they must be the owner
+					//Peformance will also be better
+					//since creating a new list is faster
+					//than deleteing from an existing list.
+					filterList.add(empl);
+				}
 
-		while (i.hasNext()) {
-			Employee empl = (Employee) i.next();
-			log.debug( "Checking permission for employee " + empl.getLastName());
-			if (getAuthorizationManager().checkPermission(user,
-					SecurityUtils.getEmployeeObjectId(empl), READ)) {
-				//add only employees from the list where 
-				//access is granted for READ permission
-				//or they must be the owner
-				//Peformance will also be better 
-				//since creating a new list is faster
-				//than deleteing from an existing list.
-				filterList.add( empl );
 			}
 
+		} catch (CSException ex) {
+			log.fatal("The Security Service encountered "
+					+ "a fatal exception.", ex);
+			throw new Exception(
+					"The Security Service encountered a fatal exception.", ex);
 		}
-		
-		
-		
-		return filterList;
-	
 
+		return filterList;
 
 	}
 }
