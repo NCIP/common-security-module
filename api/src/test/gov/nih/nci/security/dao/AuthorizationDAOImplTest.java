@@ -2,10 +2,13 @@
 
 package test.gov.nih.nci.security.dao;
 
-import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import junit.framework.TestCase;
@@ -29,8 +32,8 @@ import junit.framework.TestSuite;
  * </p>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-16 21:17:28 $
- * @version $Revision: 1.2 $
+ * @date $Date: 2004-12-20 13:55:58 $
+ * @version $Revision: 1.3 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
  * @see some.other.package
@@ -176,22 +179,18 @@ public class AuthorizationDAOImplTest extends TestCase {
 	/**
 	 * Test method: void assignProtectionElements(String, String[])
 	 */
-	public void testAssignProtectionElements() {
-		//Must test for the following parameters!
-		String str[] = { null, "\u0000", " " };
-		//Must test for the following parameters!
-		//String[];
+	public void testAssignProtectionElements() throws CSTransactionException {
+		ProtectionGroup pg = createProtectionGroup();
+		ProtectionElement pe = createProtectionElement();
+		ProtectionElement pe2 = createProtectionElement();
+		
+		upm.assignProtectionElements( pg.getProtectionGroupId().toString(),
+				new String[]{ pe.getProtectionElementId().toString(),
+							  pe2.getProtectionElementId().toString() } );
+		
 
 	}
 
-	/**
-	 * Test method: void setOwnerForProtectionElement(String, String)
-	 */
-	public void testSetOwnerForProtectionElement_1() {
-		//Must test for the following parameters!
-		String str[] = { null, "\u0000", " " };
-
-	}
 
 	/**
 	 * Test method: void setOwnerForProtectionElement(String, String, String)
@@ -224,13 +223,31 @@ public class AuthorizationDAOImplTest extends TestCase {
 
 	}
 
-	/**
-	 * Test method: void createProtectionElement(ProtectionElement)
-	 */
-	public void testCreateProtectionElement() {
-		//Must test for the following parameters!
-		//ProtectionElement;
+	public void testCreateAndRemoveProtectionElement() throws CSTransactionException {
+		ProtectionElement pe = createProtectionElement();
+		removeProtectionElement(pe);
 
+	}
+
+	/**
+	 * Test method: void createPrivilege(Privilege)
+	 */
+	protected ProtectionElement createProtectionElement() throws CSTransactionException {
+
+		ProtectionElement pe = new ProtectionElement();
+		pe.setObjectId( "" + System.currentTimeMillis() );
+		pe.setProtectionElementDescription( "Test Desc");
+		pe.setProtectionElementName( "Test PE Name" + System.currentTimeMillis());
+			
+		upm.createProtectionElement( pe );
+		System.out.println("Created PE with ID: " + pe.getProtectionElementId() );
+		return pe;
+
+	}
+
+	private void removeProtectionElement(ProtectionElement pe) throws CSTransactionException {
+		upm.removeProtectionElement(pe.getProtectionElementId().toString());
+		System.out.println("Deleted PE with ID: " + pe.getProtectionElementId());
 	}
 
 	/**
@@ -255,13 +272,34 @@ public class AuthorizationDAOImplTest extends TestCase {
 
 	}
 
-	/**
-	 * Test method: void createProtectionGroup(ProtectionGroup)
-	 */
-	public void testCreateProtectionGroup() {
-		//Must test for the following parameters!
-		//ProtectionGroup;
+	public void testCreateAndRemoveProtectionGroup()
+			throws CSTransactionException {
+		ProtectionGroup g = createProtectionGroup();
+		removeProtectionGroup(g);
 
+	}
+
+	/**
+	 * Test method: void createPrivilege(Privilege)
+	 */
+	protected ProtectionGroup createProtectionGroup()
+			throws CSTransactionException {
+
+		ProtectionGroup g = new ProtectionGroup();
+		g.setProtectionGroupDescription("Test PG Desc");
+		g.setProtectionGroupName("Test PG Name" + System.currentTimeMillis());
+		upm.createProtectionGroup(g);
+		System.out.println("Created Protection Group with ID: "
+				+ g.getProtectionGroupId());
+		return g;
+
+	}
+
+	private void removeProtectionGroup(ProtectionGroup g)
+			throws CSTransactionException {
+		upm.removeProtectionGroup(g.getProtectionGroupId().toString());
+		System.out.println("Deleted Protection Group with ID: "
+				+ g.getProtectionGroupId());
 	}
 
 	/**
@@ -315,13 +353,30 @@ public class AuthorizationDAOImplTest extends TestCase {
 
 	}
 
-	/**
-	 * Test method: void createRole(Role)
-	 */
-	public void testCreateRole() {
-		//Must test for the following parameters!
-		//Role;
+	public void testCreateAndRemoveRole() throws CSTransactionException {
+		Role r = createRole();
+		removeRole(r);
 
+	}
+
+	/**
+	 * Test method: void createPrivilege(Privilege)
+	 */
+	protected Role createRole() throws CSTransactionException {
+
+		Role r = new Role();
+		r.setDesc("Test Role Desc");
+		r.setName("Test Role Name" + System.currentTimeMillis());
+
+		upm.createRole(r);
+		System.out.println("Created Role with ID: " + r.getId());
+		return r;
+
+	}
+
+	private void removeRole(Role r) throws CSTransactionException {
+		upm.removeRole(r.getId().toString());
+		System.out.println("Deleted role with ID: " + r.getId());
 	}
 
 	/**
@@ -333,17 +388,10 @@ public class AuthorizationDAOImplTest extends TestCase {
 
 	}
 
-	/**
-	 * Test method: void removeRole(String)
-	 */
-	public void testRemoveRole() {
-
-	}
-
-	public void testCreateAndRemovePrivilege() throws CSTransactionException{
+	public void testCreateAndRemovePrivilege() throws CSTransactionException {
 		Privilege p = createPrivilege();
-		removePrivilege( p );
-		
+		removePrivilege(p);
+
 	}
 
 	/**
@@ -353,17 +401,17 @@ public class AuthorizationDAOImplTest extends TestCase {
 
 		Privilege p = new Privilege();
 		p.setDesc("Test Desc");
-		p.setName("Test Name");
+		p.setName("Test Name"  + System.currentTimeMillis());
 
 		upm.createPrivilege(p);
-		System.out.println( "Created Privilege with ID: " + p.getId() );
+		System.out.println("Created Privilege with ID: " + p.getId());
 		return p;
 
 	}
 
 	private void removePrivilege(Privilege p) throws CSTransactionException {
-		upm.removePrivilege( p.getId().toString() );
-		System.out.println( "Deleted privilege with ID: "+ p.getId() );
+		upm.removePrivilege(p.getId().toString());
+		System.out.println("Deleted privilege with ID: " + p.getId());
 	}
 
 	/**
@@ -397,13 +445,29 @@ public class AuthorizationDAOImplTest extends TestCase {
 
 	}
 
-	/**
-	 * Test method: void createGroup(Group)
-	 */
-	public void testCreateGroup() {
-		//Must test for the following parameters!
-		//Group;
+	public void testCreateAndRemoveGroup() throws CSTransactionException {
+		Group g = createGroup();
+		removeGroup(g);
 
+	}
+
+	/**
+	 * Test method: void createPrivilege(Privilege)
+	 */
+	protected Group createGroup() throws CSTransactionException {
+
+		Group g = new Group();
+		g.setGroupDesc("Test Desc");
+		g.setGroupName("Test Name" + System.currentTimeMillis());
+		upm.createGroup(g);
+		System.out.println("Created group with ID: " + g.getGroupId());
+		return g;
+
+	}
+
+	private void removeGroup(Group g) throws CSTransactionException {
+		upm.removeGroup(g.getGroupId().toString());
+		System.out.println("Deleted group with ID: " + g.getGroupId());
 	}
 
 	/**
@@ -446,10 +510,16 @@ public class AuthorizationDAOImplTest extends TestCase {
 	 * Test method: void assignGroupRoleToProtectionGroup(String, String,
 	 * String)
 	 */
-	public void testAssignGroupRoleToProtectionGroup() {
-		//Must test for the following parameters!
-		String str[] = { null, "\u0000", " " };
+	public void testAssignGroupRoleToProtectionGroup()
+			throws CSTransactionException {
+		Group g = createGroup();
+		Role r = createRole();
+		Role r2 = createRole();
 
+		ProtectionGroup pg = createProtectionGroup();
+		upm.assignGroupRoleToProtectionGroup( pg.getProtectionGroupId()
+				.toString(), g.getGroupId().toString(), new String[] {
+				r.getId().toString(), r2.getId().toString() });
 	}
 
 	/**

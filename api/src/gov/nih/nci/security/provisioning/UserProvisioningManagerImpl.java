@@ -393,8 +393,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param rolesId
 	 * 
 	 */
-	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId)throws CSTransactionException{
-
+	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId[])throws CSTransactionException{
+		authorizationDAO.assignGroupRoleToProtectionGroup( protectionGroupId, groupId, rolesId );
 	}
 
 	/**
