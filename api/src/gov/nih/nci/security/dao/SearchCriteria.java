@@ -12,5 +12,5 @@ public abstract class SearchCriteria {
 	
 	public abstract Class getObjectType();
 	public abstract Hashtable getFieldAndValues();
-
+	public abstract String getMessage();
 }

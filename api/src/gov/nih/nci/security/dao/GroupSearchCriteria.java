@@ -43,4 +43,11 @@ public class GroupSearchCriteria extends SearchCriteria{
 		// TODO Auto-generated method stub
 		return Group.class;
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.SearchCriteria#getMessage()
+	 */
+	public String getMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -42,4 +42,11 @@ public class ProtectionGroupSearchCriteria extends SearchCriteria{
 		// TODO Auto-generated method stub
 		return ProtectionGroup.class;
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.SearchCriteria#getMessage()
+	 */
+	public String getMessage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
