@@ -29,10 +29,10 @@ public class GroupSearchCriteria extends SearchCriteria{
 		// TODO Auto-generated method stub
 	   Hashtable ht = new Hashtable();
 		if(group.getName()!=null){
-			ht.put("name",group.getName());
+			ht.put("groupName",group.getName());
 			}
 			if(ht.size()==0){
-				ht.put("name","%");
+				ht.put("groupName","%");
 			}
 			return ht;
 	}
