@@ -24,12 +24,7 @@ import org.apache.struts.action.ActionMapping;
  * @author Brian Husted
  *  
  */
-/**
- * @author Brian
- * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
- */
+
 public class SearchEmployeeAction extends BaseAction implements Permissions {
 
 	static final Logger log = Logger.getLogger(SearchEmployeeAction.class

@@ -81,7 +81,7 @@ public class UpdateEmployeeAction extends BaseAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					Constants.MESSAGE_ID, "Updated Employee Successfully"));
 		} else {
-
+			//warn the user they don't have privilege to update employee projects
 			messages
 			 .add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 				"access.modify.employee_project.denied",
