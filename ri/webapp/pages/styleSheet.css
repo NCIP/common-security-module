@@ -391,6 +391,7 @@ DATA TABLE BEGINS
   color:#000000; /* constant: black */
 }
 .dataCellText{ /* for text output cells */
+  background-color:#FFFFCC; /* constant: light gray */	
   border-right:1px solid #FF9933; /* constant: dark gray */
   border-bottom:1px solid #FF9933; /* constant: dark gray */
   text-align:left;
