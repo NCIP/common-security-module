@@ -15,7 +15,7 @@ package gov.nih.nci.security.constants;
 public class Constants
 {
 	public static final String INITIAL_CONTEXT = "com.sun.jndi.ldap.LdapCtxFactory";
-	public static final String LDAP_HOST = "LDAP_HOST";
-	public static final String LDAP_SEARCHABLE_BASE = "LDAP_SEARCHABLE_BASE";
-	public static final String LDAP_USER_ID_LABEL = "LDAP_USER_ID_LABEL";
+	public static final String LDAP_HOST = "ldapHost";
+	public static final String LDAP_SEARCHABLE_BASE = "ldapSearchableBase";
+	public static final String LDAP_USER_ID_LABEL = "ldapUserIdLabel";
 }
