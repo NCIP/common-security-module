@@ -106,5 +106,18 @@ public class Privilege {
 	public void setUpdateDate(java.util.Date newVal){
 		this.updateDate= newVal;
 	}
+	
+	/**
+	 * @param obj
+	 * 
+	 */
+	public boolean equals(Object obj){
+		Privilege other = (Privilege)obj;
+		if(this.id.toString().equals(other.getId().toString())){
+			return true;
+		}else{
+		return false;
+		}
+	}
 
 }
