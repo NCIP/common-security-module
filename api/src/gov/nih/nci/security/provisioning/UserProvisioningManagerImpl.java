@@ -861,7 +861,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	public Principal[] getPrincipals(String userName) {
 		// TODO Auto-generated method stub
-		return null;
+		return authorizationDAO.getPrincipals(userName);
 	}
 	
 	public java.util.List getProtectionGroups(){
