@@ -9,8 +9,12 @@ import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+
+import java.util.Date;
+
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
@@ -32,8 +36,8 @@ import junit.framework.TestSuite;
  * </p>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-20 13:55:58 $
- * @version $Revision: 1.3 $
+ * @date $Date: 2004-12-22 21:45:53 $
+ * @version $Revision: 1.4 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
  * @see some.other.package
@@ -195,10 +199,11 @@ public class AuthorizationDAOImplTest extends TestCase {
 	/**
 	 * Test method: void setOwnerForProtectionElement(String, String, String)
 	 */
-	public void testSetOwnerForProtectionElement() {
-		//Must test for the following parameters!
-		String str[] = { null, "\u0000", " " };
-
+	public void testSetOwnerForProtectionElement() throws CSTransactionException {
+		User u = createUser();
+		ProtectionElement pe = createProtectionElement();
+		upm.setOwnerForProtectionElement( pe.getObjectId(), u.getLoginName() );
+		
 	}
 
 	/**
@@ -444,6 +449,25 @@ public class AuthorizationDAOImplTest extends TestCase {
 		//String[];
 
 	}
+	
+	protected User createUser() throws CSTransactionException{
+		User u = new User();
+		u.setDepartment( "TestDept");
+		u.setEmailId( "test@test.gov");
+		u.setEndDate( new Date() );
+		u.setFirstName( "TestFirstName");
+		u.setLastName( "TestLastName");
+		u.setLoginName( "TestLoginName"+ System.currentTimeMillis());
+		u.setOrganization("TestOrg");
+		u.setPassword( "testPwd");
+		u.setLastName( "TestLastName");
+		u.setPhoneNumber( "TestPhone");
+		u.setStartDate( new Date() );
+		u.setTitle( "TestTitle");
+		upm.createUser( u );
+		return u;
+	}
+	
 
 	public void testCreateAndRemoveGroup() throws CSTransactionException {
 		Group g = createGroup();

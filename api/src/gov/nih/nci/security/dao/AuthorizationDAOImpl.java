@@ -9,12 +9,16 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.UserProtectionElement;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.hibernate.ProtectionGroupProtectionElement;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
 import java.security.Principal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,8 +27,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.Subject;
-
-import java.sql.*;
 
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
@@ -49,7 +51,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public Role getRoleById(String roleId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return (Role)this.getObjectByPrimaryKey(Role.class,new Long(roleId));
+		return (Role) this.getObjectByPrimaryKey(Role.class, new Long(roleId));
 	}
 
 	static final Logger log = Logger.getLogger(AuthorizationDAOImpl.class
@@ -94,8 +96,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			User user = (User) this.getObjectByPrimaryKey(s, User.class, new Long(
-					userId));
+			User user = (User) this.getObjectByPrimaryKey(s, User.class,
+					new Long(userId));
 			Set user_groups = user.getGroups();
 			Group group = getGroup(new Long(groupId));
 
@@ -129,7 +131,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignGroupRoleToProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
-public void assignGroupRoleToProtectionGroup(String protectionGroupId,
+	public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			String groupId, String[] rolesId) throws CSTransactionException {
 
 		Session s = null;
@@ -140,12 +142,13 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			ProtectionGroup pgroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
-					new Long(protectionGroupId));
-			
+			ProtectionGroup pgroup = (ProtectionGroup) this
+					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+							protectionGroupId));
+
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
-			
+
 			for (int i = 0; i < rolesId.length; i++) {
 				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
 
@@ -153,17 +156,18 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 				intersection.setProtectionGroup(pgroup);
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
-				
-				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup",pgroup));
-				criteria.add(Expression.eq("group",group));
-				criteria.add(Expression.eq("role",role));
-				
+
+				Criteria criteria = s
+						.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup", pgroup));
+				criteria.add(Expression.eq("group", group));
+				criteria.add(Expression.eq("role", role));
+
 				List list = criteria.list();
-				
-				if(list.size()==0){
+
+				if (list.size() == 0) {
 					intersection.setRole(role);
-					intersection.setUpdateDate( new Date() );				
+					intersection.setUpdateDate(new Date());
 					s.save(intersection);
 				}
 
@@ -185,6 +189,7 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			}
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -202,15 +207,15 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class, new Long(
-					roleId));
+			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+					new Long(roleId));
 
 			Set currPriv = role.getPrivileges();
 
 			for (int k = 0; k < privilegeIds.length; k++) {
 				log.debug("The new list:" + privilegeIds[k]);
-				Privilege pr = (Privilege) this.getObjectByPrimaryKey(
-						s, Privilege.class, new Long(privilegeIds[k]));
+				Privilege pr = (Privilege) this.getObjectByPrimaryKey(s,
+						Privilege.class, new Long(privilegeIds[k]));
 				if (pr != null && !currPriv.contains(pr)) {
 					currPriv.add(pr);
 				}
@@ -256,23 +261,25 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			ProtectionGroup protectionGroup = getProtectionGroup( protectionGroupName );
-			ProtectionElement protectionElement = getProtectionElement( protectionElementObjectId );
-			
-			Criteria criteria = s.createCriteria(ProtectionGroupProtectionElement.class);
-			criteria.add(Expression.eq("protectionGroup",protectionGroup));
-			criteria.add(Expression.eq("protectionElement",protectionElement));
-			
+			ProtectionGroup protectionGroup = getProtectionGroup(protectionGroupName);
+			ProtectionElement protectionElement = getProtectionElement(
+					protectionElementObjectId, protectionElementAttributeName);
+
+			Criteria criteria = s
+					.createCriteria(ProtectionGroupProtectionElement.class);
+			criteria.add(Expression.eq("protectionGroup", protectionGroup));
+			criteria.add(Expression.eq("protectionElement", protectionElement));
+
 			List list = criteria.list();
-          
-			 if(list.size()==0){
-			 	ProtectionGroupProtectionElement pgpe = new ProtectionGroupProtectionElement();
-			 	pgpe.setProtectionElement(protectionElement);
-			 	pgpe.setProtectionGroup(protectionGroup);
-			 	pgpe.setUpdateDate(new Date());
-			 	
-			 	s.save(pgpe);
-			 }
+
+			if (list.size() == 0) {
+				ProtectionGroupProtectionElement pgpe = new ProtectionGroupProtectionElement();
+				pgpe.setProtectionElement(protectionElement);
+				pgpe.setProtectionGroup(protectionGroup);
+				pgpe.setUpdateDate(new Date());
+
+				s.save(pgpe);
+			}
 
 			t.commit();
 
@@ -301,8 +308,9 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public void assignProtectionElements(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException {
 		// TODO Auto-generated method stub
-		
-		 this.assignProtectionElements(protectionGroupName,protectionElementObjectId,null);
+
+		this.assignProtectionElements(protectionGroupName,
+				protectionElementObjectId, null);
 
 	}
 
@@ -323,12 +331,13 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			ProtectionGroup pgroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
-					new Long(protectionGroupId));
-			
+			ProtectionGroup pgroup = (ProtectionGroup) this
+					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+							protectionGroupId));
+
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
-			
+
 			for (int i = 0; i < rolesId.length; i++) {
 				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
 
@@ -336,17 +345,18 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 				intersection.setProtectionGroup(pgroup);
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
-				
-				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup",pgroup));
-				criteria.add(Expression.eq("user",user));
-				criteria.add(Expression.eq("role",role));
-				
+
+				Criteria criteria = s
+						.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup", pgroup));
+				criteria.add(Expression.eq("user", user));
+				criteria.add(Expression.eq("role", role));
+
 				List list = criteria.list();
-				
-				if(list.size()==0){
+
+				if (list.size() == 0) {
 					intersection.setRole(role);
-					intersection.setUpdateDate( new Date() );				
+					intersection.setUpdateDate(new Date());
 					s.save(intersection);
 				}
 
@@ -367,7 +377,6 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			} catch (Exception ex2) {
 			}
 		}
-		
 
 	}
 
@@ -425,24 +434,22 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) {
 		// TODO Auto-generated method stub
-		
+
 		//System.out.println("NOW____)))");
-		boolean  test = false;
+		boolean test = false;
 		Session s = null;
 		Transaction t = null;
 		Connection cn = null;
 		//log.debug("Running create test...");
 		try {
-			
 
 			s = sf.openSession();
 			t = s.beginTransaction();
 			cn = s.connection();
-			
+
 			//User user = this.getUser(userName);
 			//ProtectionElement pe = this.getProtectionElement(objectId);
-			
-			
+
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("select 'X'");
 			stbr.append("from protection_group pg,");
@@ -452,10 +459,13 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			stbr.append("user u,");
 			stbr.append("role_privilege rp,");
 			stbr.append("privilege p ");
-			stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
-			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr
+					.append("where pgpe.protection_group_id = pg.protection_group_id ");
+			stbr
+					.append(" and pgpe.protection_element_id = pe.protection_element_id");
 			stbr.append(" and pe.object_id=?");
-			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr
+					.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
 			stbr.append(" and ugrpg.user_id = u.user_id");
 			stbr.append(" and u.login_name=?");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
@@ -463,15 +473,15 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			stbr.append(" and p.privilege_name=?");
 			String sql = stbr.toString();
 			PreparedStatement pstmt = cn.prepareStatement(sql);
-			
+
 			//Long priv_id = new Long(privilegeName);
-			pstmt.setString(1,objectId);
-			pstmt.setString(2,userName);
-			pstmt.setString(3,privilegeName);
+			pstmt.setString(1, objectId);
+			pstmt.setString(2, userName);
+			pstmt.setString(3, privilegeName);
 			//System.out.println("NOW____");
 			//System.out.println(System.currentTimeMillis());
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				test = true;
 			}
 			//System.out.println(System.currentTimeMillis());
@@ -668,10 +678,10 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#deAssignProtectionElements(java.lang.String,
 	 *      java.lang.String[], java.lang.String[])
 	 */
-	     /**
-	      * Don't implement this method 'cause from authorization manager
-	      * no body will pass an array 
-	      */
+	/**
+	 * Don't implement this method 'cause from authorization manager no body
+	 * will pass an array
+	 */
 	public void deAssignProtectionElements(String protectionGroupName,
 			String[] protectionElementObjectNames,
 			String[] protectionElementAttributeNames)
@@ -693,20 +703,22 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 */
 	public void deAssignProtectionElements(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException {
-	
-		  try{
-			ProtectionGroup protectionGroup = this.getProtectionGroup(protectionGroupName);
-			ProtectionElement protectionElement = this.getProtectionElement(protectionElementObjectId);
-			
+
+		try {
+			ProtectionGroup protectionGroup = this
+					.getProtectionGroup(protectionGroupName);
+			ProtectionElement protectionElement = this
+					.getProtectionElement(protectionElementObjectId);
+
 			String pgId = protectionGroup.getProtectionGroupId().toString();
-			String[] peIds = {protectionElement.getProtectionElementId().toString()};
-			
-			this.removeProtectionElementsFromProtectionGroup(pgId,peIds);
-		  }catch(Exception ex){
-		  	throw new CSTransactionException("Deassignement failed",ex);
-		  }
-			
-			
+			String[] peIds = { protectionElement.getProtectionElementId()
+					.toString() };
+
+			this.removeProtectionElementsFromProtectionGroup(pgId, peIds);
+		} catch (Exception ex) {
+			throw new CSTransactionException("Deassignement failed", ex);
+		}
+
 	}
 
 	/*
@@ -724,9 +736,9 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getGroup(java.lang.Long)
 	 */
-	public Group getGroup( Long groupId) throws CSObjectNotFoundException {
+	public Group getGroup(Long groupId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return (Group) this.getObjectByPrimaryKey( Group.class, groupId);
+		return (Group) this.getObjectByPrimaryKey(Group.class, groupId);
 	}
 
 	/*
@@ -826,14 +838,17 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.String)
 	 */
-	public ProtectionElement getProtectionElement(String objectId)
-			throws CSObjectNotFoundException {
+	public ProtectionElement getProtectionElement(String objectId,
+			String attribute) throws CSObjectNotFoundException {
 		Session s = null;
 		ProtectionElement pe = null;
 		try {
 			ProtectionElement search = new ProtectionElement();
 			search.setObjectId(objectId);
 			search.setApplication(application);
+			if (attribute != null) {
+				search.setAttribute(attribute);
+			}
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
 			s = sf.openSession();
@@ -856,6 +871,17 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			}
 		}
 		return pe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.String)
+	 */
+	public ProtectionElement getProtectionElement(String objectId)
+			throws CSObjectNotFoundException {
+		return getProtectionElement(objectId, null);
+
 	}
 
 	/*
@@ -936,12 +962,11 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
 			s = sf.openSession();
-			List list = s.createCriteria(Role.class).add(
-					Example.create(search)).list();
+			List list = s.createCriteria(Role.class)
+					.add(Example.create(search)).list();
 
 			if (list.size() == 0) {
-				throw new CSObjectNotFoundException(
-						"Role not found");
+				throw new CSObjectNotFoundException("Role not found");
 			}
 			role = (Role) list.get(0);
 
@@ -1175,11 +1200,11 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			PreparedStatement pstmt = cn.prepareStatement(sql);
 			Long pg_id = new Long(protectionGroupId);
 			Long g_id = new Long(groupId);
-			pstmt.setLong(1,pg_id.longValue());
-			pstmt.setLong(2,g_id.longValue());
-			
+			pstmt.setLong(1, pg_id.longValue());
+			pstmt.setLong(2, g_id.longValue());
+
 			int i = pstmt.executeUpdate();
-			
+
 			t.commit();
 
 		} catch (Exception ex) {
@@ -1215,12 +1240,13 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			ProtectionGroup pgroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
-					new Long(protectionGroupId));
-			
+			ProtectionGroup pgroup = (ProtectionGroup) this
+					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+							protectionGroupId));
+
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
-			
+
 			for (int i = 0; i < rolesId.length; i++) {
 				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
 
@@ -1228,17 +1254,18 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 				intersection.setProtectionGroup(pgroup);
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
-				
-				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup",pgroup));
-				criteria.add(Expression.eq("group",group));
-				criteria.add(Expression.eq("role",role));
-				
+
+				Criteria criteria = s
+						.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup", pgroup));
+				criteria.add(Expression.eq("group", group));
+				criteria.add(Expression.eq("role", role));
+
 				List list = criteria.list();
-				
-				if(list.size()==0){
+
+				if (list.size() == 0) {
 					intersection.setRole(role);
-					intersection.setUpdateDate( new Date() );				
+					intersection.setUpdateDate(new Date());
 					s.delete(intersection);
 				}
 
@@ -1342,8 +1369,8 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
-			User user = (User) this.getObjectByPrimaryKey(s, User.class, new Long(
-					userId));
+			User user = (User) this.getObjectByPrimaryKey(s, User.class,
+					new Long(userId));
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
 			Set groups = user.getGroups();
@@ -1394,11 +1421,11 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			PreparedStatement pstmt = cn.prepareStatement(sql);
 			Long pg_id = new Long(protectionGroupId);
 			Long u_id = new Long(userId);
-			pstmt.setLong(1,pg_id.longValue());
-			pstmt.setLong(2,u_id.longValue());
-			
+			pstmt.setLong(1, pg_id.longValue());
+			pstmt.setLong(2, u_id.longValue());
+
 			int i = pstmt.executeUpdate();
-			
+
 			t.commit();
 
 		} catch (Exception ex) {
@@ -1416,7 +1443,6 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			}
 		}
 
-
 	}
 
 	/*
@@ -1425,7 +1451,8 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserRoleFromProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String[])
 	 */
-	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId) throws CSTransactionException {
+	public void removeUserRoleFromProtectionGroup(String protectionGroupId,
+			String userId, String[] rolesId) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
 		//log.debug("Running create test...");
@@ -1434,12 +1461,13 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			ProtectionGroup pgroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
-					new Long(protectionGroupId));
-			
+			ProtectionGroup pgroup = (ProtectionGroup) this
+					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+							protectionGroupId));
+
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
-			
+
 			for (int i = 0; i < rolesId.length; i++) {
 				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
 
@@ -1447,17 +1475,18 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 				intersection.setProtectionGroup(pgroup);
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
-				
-				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup",pgroup));
-				criteria.add(Expression.eq("user",user));
-				criteria.add(Expression.eq("role",role));
-				
+
+				Criteria criteria = s
+						.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup", pgroup));
+				criteria.add(Expression.eq("user", user));
+				criteria.add(Expression.eq("role", role));
+
 				List list = criteria.list();
-				
-				if(list.size()==0){
+
+				if (list.size() == 0) {
 					intersection.setRole(role);
-					intersection.setUpdateDate( new Date() );				
+					intersection.setUpdateDate(new Date());
 					s.delete(intersection);
 				}
 
@@ -1479,6 +1508,39 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			}
 		}
 
+	}
+
+	/**
+	 *  
+	 */
+	private User getLightWeightUser(String loginName) {
+		Session s = null;
+		User user = null;
+		try {
+			User search = new User();
+			search.setLoginName(loginName);
+
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = sf.openSession();
+			List list = s.createCriteria(User.class)
+					.add(Example.create(search)).list();
+			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
+
+			if (list.size() != 0) {
+				user = (User) list.get(0);
+			}
+
+		} catch (Exception ex) {
+			log.fatal("Unable to find Group", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return user;
 
 	}
 
@@ -1488,11 +1550,60 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#setOwnerForProtectionElement(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
-	public void setOwnerForProtectionElement(String userName,
+	public void setOwnerForProtectionElement(String loginName,
 			String protectionElementObjectName,
 			String protectionElementAttributeName)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
+
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			User user = getLightWeightUser(loginName);
+			ProtectionElement pe = getProtectionElement(
+					protectionElementObjectName, protectionElementAttributeName);
+
+			/*
+			 * Criteria criteria =
+			 * s.createCriteria(UserProtectionElement.class);
+			 * criteria.add(Expression.eq("user", user));
+			 * criteria.add(Expression.eq("protectionElement", pe));
+			 */
+
+			/*
+			 * List list = criteria.list();
+			 * 
+			 * if (list.size() == 0) {
+			 *  }
+			 */
+
+			UserProtectionElement intersection = new UserProtectionElement();
+
+			intersection.setUser(user);
+			intersection.setProtectionElement(pe);
+			intersection.setUpdateDate(new Date());
+			s.save(intersection);
+
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 
 	}
 
@@ -1506,7 +1617,8 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			String protectionElementObjectName, String userName)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
-
+		setOwnerForProtectionElement(userName, protectionElementObjectName,
+				null);
 	}
 
 	public Set getPrivileges(String roleId) throws CSObjectNotFoundException {
@@ -1573,25 +1685,24 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
-			
-			
-			
+
 			for (int i = 0; i < protectionElementIds.length; i++) {
-				ProtectionGroupProtectionElement intersection = new
-				ProtectionGroupProtectionElement();
+				ProtectionGroupProtectionElement intersection = new ProtectionGroupProtectionElement();
 				ProtectionElement protectionElement = (ProtectionElement) this
 						.getObjectByPrimaryKey(s, ProtectionElement.class,
 								new Long(protectionElementIds[i]));
-				
-				Criteria criteria = s.createCriteria(ProtectionGroupProtectionElement.class);
-				criteria.add(Expression.eq("protectionGroup",protectionGroup));
-				criteria.add(Expression.eq("protectionElement",protectionElement));	
+
+				Criteria criteria = s
+						.createCriteria(ProtectionGroupProtectionElement.class);
+				criteria.add(Expression.eq("protectionGroup", protectionGroup));
+				criteria.add(Expression.eq("protectionElement",
+						protectionElement));
 				List list = criteria.list();
-				if(list.size()==0){
-					intersection.setProtectionGroup( protectionGroup );
-					intersection.setProtectionElement( protectionElement );
-					intersection.setUpdateDate( new Date() );
-					s.save( intersection );
+				if (list.size() == 0) {
+					intersection.setProtectionGroup(protectionGroup);
+					intersection.setProtectionElement(protectionElement);
+					intersection.setUpdateDate(new Date());
+					s.save(intersection);
 				}
 
 			}
@@ -1628,22 +1739,17 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
-			
-			
-			
+
 			for (int i = 0; i < protectionElementIds.length; i++) {
-				ProtectionGroupProtectionElement intersection = new
-				ProtectionGroupProtectionElement();
+				ProtectionGroupProtectionElement intersection = new ProtectionGroupProtectionElement();
 				ProtectionElement protectionElement = (ProtectionElement) this
 						.getObjectByPrimaryKey(s, ProtectionElement.class,
 								new Long(protectionElementIds[i]));
-				
-				
-					intersection.setProtectionGroup( protectionGroup );
-					intersection.setProtectionElement( protectionElement );
-					intersection.setUpdateDate( new Date() );
-				    this.removeObject(intersection);
-				
+
+				intersection.setProtectionGroup(protectionGroup);
+				intersection.setProtectionElement(protectionElement);
+				intersection.setUpdateDate(new Date());
+				this.removeObject(intersection);
 
 			}
 
@@ -1667,31 +1773,33 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	private void assignProtectionElement(ProtectionGroup pg, String peId) {
 
 	}
-	
-	private Object getObjectByPrimaryKey( Session s, Class objectType, Long primaryKey) throws HibernateException, CSObjectNotFoundException {
-		
-			Object obj = s.load(objectType, primaryKey);
 
-			if (obj == null) {
-				throw new CSObjectNotFoundException(objectType.getName()
-						+ " not found");
-			}
-			
-			return obj;
+	private Object getObjectByPrimaryKey(Session s, Class objectType,
+			Long primaryKey) throws HibernateException,
+			CSObjectNotFoundException {
+
+		Object obj = s.load(objectType, primaryKey);
+
+		if (obj == null) {
+			throw new CSObjectNotFoundException(objectType.getName()
+					+ " not found");
+		}
+
+		return obj;
 
 	}
-	
+
 	private Object getObjectByPrimaryKey(Class objectType, Long primaryKey)
-		throws CSObjectNotFoundException {
+			throws CSObjectNotFoundException {
 		Object oj = null;
-		
+
 		Session s = null;
-		
+
 		try {
-			
-			s = sf.openSession();	
-			oj = getObjectByPrimaryKey( s, objectType, primaryKey );
-			
+
+			s = sf.openSession();
+			oj = getObjectByPrimaryKey(s, objectType, primaryKey);
+
 		} catch (Exception ex) {
 			log.error(ex);
 			throw new CSObjectNotFoundException(objectType.getName()
@@ -1702,10 +1810,9 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			} catch (Exception ex2) {
 			}
 		}
-		
+
 		return oj;
 	}
-
 
 	private void removeObject(Object oj) throws CSTransactionException {
 
@@ -1779,11 +1886,14 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionGroupRoleContext()
 	 */
-	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException {
+	public Set getProtectionGroupRoleContext(String userId)
+			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
-    }
+	}
 }

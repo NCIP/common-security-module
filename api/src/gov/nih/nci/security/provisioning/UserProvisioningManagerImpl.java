@@ -340,7 +340,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void setOwnerForProtectionElement(String userName, String protectionElementObjectName, String protectionElementAttributeName)throws CSTransactionException{
-
+		authorizationDAO.setOwnerForProtectionElement( userName, protectionElementObjectName, protectionElementAttributeName );
 	}
 
 	/**

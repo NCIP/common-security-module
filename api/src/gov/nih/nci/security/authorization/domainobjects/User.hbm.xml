@@ -127,7 +127,7 @@
         
     </property>
     
-    <set name="groups" table="user_group">
+    <set name="groups" lazy="true" table="user_group">
            <key column="user_id"/>
            <many-to-many column="group_id" class="gov.nih.nci.security.authorization.domainobjects.Group"/>
      </set>
