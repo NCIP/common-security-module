@@ -40,7 +40,7 @@
 				</tr>
 
 				<tr>
-					<td class="dataCellText"><select name="availableprojects" multiple
+					<td class="dataCellText"><html:select name="assignedprojects" multiple="true"
 						style="width:115px;" size="10" />
 					<td class="formRequiredLabel2" align="center"><input type="button"
 						value="Add" style="width:70px;font:8pt"> <br>
@@ -48,7 +48,7 @@
 					<input type="button" value="Remove" style="width:70px;font:8pt"> <br>
 					</td>
 
-					<td class="dataCellText"><select name="assignedprojects" multiple
+					<td class="dataCellText"><html:select name="availableprojects" multiple="true"
 						style="width:115px;" size="10" /></td>
 
 				</tr>
