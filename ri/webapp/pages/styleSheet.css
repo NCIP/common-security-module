@@ -276,6 +276,16 @@ FORM BEGINS
   border-right:1px solid #FF9933; /* constant: dark gray */
   border-bottom:1px solid #FF9933; /* constant: dark gray */
 	text-align:right;
+	
+}
+.formText{ /* for the non-required form labels */
+  font-family:arial,helvetica,verdana,sans-serif;
+  font-size:0.8em;
+  background-color:#FFFFCC; /* constant: light gray */
+  color:#000000; /* constant: black */
+  border-right:1px solid #FF9933; /* constant: dark gray */
+  border-bottom:1px solid #FF9933; /* constant: dark gray */
+	text-align:left;
 }
 .formTitle{ /* for header cells (top) of forms */
   font-family:arial,helvetica,verdana,sans-serif;

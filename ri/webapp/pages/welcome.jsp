@@ -64,16 +64,17 @@
 					<tr>
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
 
-						<td class="formRequiredLabel">
+						<td class="formText">
 
+<br>
 
 Welcome to the NCICB Common Security Module 
         					Reference Implementation.
-    					<br>
+    					<br><br>
     
-    					This RI, combined with a thorough Reference Implementation Guide, is designed to show how CSM integrates with an application.  Please see the guide for more detailed information.<br>
+    					This RI, combined with the Reference Implementation Guide, is designed to show how CSM integrates with an application.  Please see the guide for more detailed information.<br>
     						
-    
+    <br>
     					To begin, select from 
 					the left menu to: 
 					<br>a) Create a new employee record
@@ -90,22 +91,12 @@ Welcome to the NCICB Common Security Module
 					</tr>
 
 
-					<tr>
-						<td align="right" colspan="3">
-							<!-- action buttons begins -->
-							<table cellpadding="4" cellspacing="0" border="0">
-								<tr>
-									<td><html:submit/></td>
-									<td><input class="actionButton" type="reset" value="Reset" /></td>
-								</tr>
-							</table>
-							<!-- action buttons end -->
-						</td>
-					</tr>
 				</table>
 			</td>
 		</tr>
 	</table>
 </td>
 </tr>
-</table>
+<tr>
+<td align="right"><img src="pages/images/beachball.gif"/><td>
+</tr>
