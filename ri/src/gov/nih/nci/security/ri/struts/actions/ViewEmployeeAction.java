@@ -31,7 +31,7 @@ import org.apache.struts.action.ActionMessages;
  * @author Brian Husted
  *  
  */
-public class ViewEmployeeAction extends BaseAction implements Constants {
+public class ViewEmployeeAction extends BaseAction  {
 
 	static final Logger log = Logger.getLogger(ViewEmployeeAction.class
 			.getName());
@@ -125,7 +125,7 @@ public class ViewEmployeeAction extends BaseAction implements Constants {
 		 * have READ access on the Employee Class
 		 */
 
-		if (getAuthorizationManager().checkIsOwnerForProtectionElement(
+		if (getAuthorizationManager().checkOwnership(
 				getUser(request).getUserName(),
 				SecurityUtils.getEmployeeObjectId(theEmployee))) {
 			log.debug( "The user is the owner of the record");
@@ -134,8 +134,7 @@ public class ViewEmployeeAction extends BaseAction implements Constants {
 
 		if (getAuthorizationManager().checkPermission(
 				getUser(request).getUserName(),
-				SecurityUtils.getEmployeeClassObjectId(),
-				SecurityUtils.getEmployeeClassAttr(), Permissions.READ)) {
+				SecurityUtils.getEmployeeObjectId(theEmployee), Permissions.READ)) {
 			log.debug( "The user has READ permission");
 			return true;
 		}

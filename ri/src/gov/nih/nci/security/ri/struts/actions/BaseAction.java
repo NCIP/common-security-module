@@ -11,11 +11,14 @@ import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.ri.exception.UserNotAuthenticatedException;
 import gov.nih.nci.security.ri.struts.Constants;
+import gov.nih.nci.security.ri.util.Permissions;
+import gov.nih.nci.security.ri.util.SecurityUtils;
 import gov.nih.nci.security.ri.valueObject.Employee;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -27,7 +30,10 @@ import org.apache.struts.action.ActionMapping;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public abstract class BaseAction extends Action implements Constants {
+public abstract class BaseAction extends Action implements Constants,
+		Permissions {
+
+	static final Logger log = Logger.getLogger(BaseAction.class.getName());
 
 	/*
 	 * (non-Javadoc)
@@ -48,13 +54,13 @@ public abstract class BaseAction extends Action implements Constants {
 		return executeWorkflow(mapping, form, request, response);
 	}
 
-	public AuthorizationManager getAuthorizationManager() throws CSException {
+	protected AuthorizationManager getAuthorizationManager() throws CSException {
 		return AuthorizationManagerFactory
 				.getAuthorizationManager(CSM_RI_CONTEXT_NAME);
 	}
-	
-	public Employee getUser( HttpServletRequest request ){
-	  return (Employee)request.getSession().getAttribute( USER );
+
+	protected Employee getUser(HttpServletRequest request) {
+		return (Employee) request.getSession().getAttribute(USER);
 	}
 
 	public abstract ActionForward executeWorkflow(ActionMapping arg0,

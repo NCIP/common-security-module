@@ -56,7 +56,21 @@ public class Employee extends ValidatorForm implements Serializable, Cloneable {
 	private String userName;
 
 	private String password;
+	
+	private String businessUnit;
 
+	/**
+	 * @return Returns the businessUnit.
+	 */
+	public String getBusinessUnit() {
+		return businessUnit;
+	}
+	/**
+	 * @param businessUnit The businessUnit to set.
+	 */
+	public void setBusinessUnit(String businessUnit) {
+		this.businessUnit = businessUnit;
+	}
 	/**
 	 * @return Returns the password.
 	 */

@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionMapping;
  * @author Brian Husted
  *  
  */
-public class UpdateEmployeeAction extends BaseAction implements Constants {
+public class UpdateEmployeeAction extends BaseAction {
 
 	static final Logger log = Logger.getLogger(UpdateEmployeeAction.class
 			.getName());
@@ -45,6 +45,8 @@ public class UpdateEmployeeAction extends BaseAction implements Constants {
 		log.debug( "The original salary is: " + originalObject.getSalary() );
 		Employee mutatedObject = (Employee) form;
 
+		//secure the object by setting attributes to null where
+		//the UPDATE_DENIED access is specified
 		Employee securedObject = (Employee) getAuthorizationManager()
 				.secureUpdate(getUser(request).getUserName(), originalObject,
 						mutatedObject);

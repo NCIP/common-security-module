@@ -24,12 +24,12 @@ import org.apache.struts.action.ActionMapping;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class CreateProjectAction extends BaseAction {
+public class CreateProjectAction extends SecureAction {
 	
 	/* (non-Javadoc)
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
-	public ActionForward executeWorkflow(ActionMapping mapping, ActionForm form,
+	public ActionForward executeSecureWorkflow(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		Project projectForm = (Project) form;

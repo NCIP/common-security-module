@@ -22,12 +22,11 @@ public class SecurityUtils {
 		return "gov.nih.nci.security.ri.valueObject.Employee_" + empl.getEmployeeId();
 	}
 	
-	public static String getEmployeeClassObjectId(){
-		return "gov.nih.nci.security.ri.valueObject.Employee";
-	}
 	
-	public static String getEmployeeClassAttr(){
-		return "class";
-	}
+	public static String getObjectIdForSecureMethodAccess( Class clazz ){
+		return clazz.getName();		
+    }
+	
+	
 	
 }
