@@ -9,7 +9,7 @@ package test.gov.nih.nci.security;
 
 
 import java.util.Iterator;
-import java.util.Set;
+
 
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -26,11 +26,9 @@ public class TestClient {
     public void testPrivilegeCreate(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
     	Privilege p = new Privilege();
-    	p.setName("ReadTest123");
-    	p.setDesc("Reading test123");
+    	p.setName("Update");
+    	p.setDesc("Update Access");
     	try{
-    	upm.createPrivilege(p);
-    	System.out.println("The returned id is:"+p.getId());
     	upm.createPrivilege(p);
     	System.out.println("The returned id is:"+p.getId());
     	}catch(Exception ex){
@@ -61,10 +59,11 @@ public class TestClient {
     
     public void testModifyCreate(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-    	Privilege p = new Privilege();
-    	p.setId(new Long("13"));
-    	p.setName("ReadTest123_updated");
+    	
     	try{
+    	 Privilege p = upm.getPrivilege("2");
+    	 p.setName("Create");
+    	 p.setDesc("Create Access");
     	upm.modifyPrivilege(p);
     	}catch(Exception ex){
     		ex.printStackTrace();
@@ -73,9 +72,8 @@ public class TestClient {
     public void testRoleCreate(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
     	Role r = new Role();
-    	r.setName("TestRole2");
-    	r.setDesc("Test Role Desc 2");
-    	
+    	r.setName("Role_name_1");
+    	r.setDesc("Role_Desc_1");
     	try{
     	upm.createRole(r);
     	System.out.println("The returned id is:"+r.getId());
@@ -144,10 +142,10 @@ public class TestClient {
 		//ts.testPrivilegeDelete();
 		//ts.testModifyCreate();
 		//ts.testPrivilegeFind();
-		//ts.testRoleCreate();
+		ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
 		//ts.assignPrivilegeToRoles();
-		ts.getPrivileges();
+		//ts.getPrivileges();
 	}
 }

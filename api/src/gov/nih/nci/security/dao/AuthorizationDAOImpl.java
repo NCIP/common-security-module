@@ -45,8 +45,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) {
 		this.sf = sf;
 		try {
-			this.application = this
-					.getApplicationByName(applicationContextName);
+			System.out.println("The context Name passed:"+applicationContextName);
+			//this.application = this.getApplicationByName(applicationContextName);
+			this.application= (Application)this.getObjectByPrimaryKey(Application.class,new Long("1"));
+			System.out.println("The Application:"+application.getApplicationId()+":"+application.getApplicationDescription());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -786,7 +788,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug("About to be Modified");
 			s = sf.openSession();
 			t = s.beginTransaction();
-			s.saveOrUpdate(privilege);
+			privilege.setUpdateDate(new Date());
+			s.update(privilege);
 			log.debug("Modified");
 			t.commit();
 
@@ -1134,9 +1137,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
 			log.debug("Somwthing");
 			if (list.size() == 0) {
+				System.out.println("Could not find the Application");
 				throw new CSObjectNotFoundException("Not found");
 			}
 			app = (Application) list.get(0);
+			System.out.println("Found the Application");
 
 		} catch (Exception ex) {
 			log.fatal("Unable to find application context", ex);
