@@ -120,6 +120,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName){
 
+		authorizationDAO.setOwnerForProtectionElement(protectionElementObjectName,userName);
 	}
 
 	/**
@@ -129,7 +130,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void assignUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId){
-
+           
+		authorizationDAO.assignUserRoleToProtectionGroup(userId,rolesId,protectionGroupId);
 	}
 
 	/**
@@ -139,6 +141,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName){
 
+		authorizationDAO.deAssignProtectionElements(protectionElementObjectNames,protectionGroupName);
 	}
 
 	/**
@@ -146,7 +149,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createProtectionElement(ProtectionElement protectionElement){
-
+		authorizationDAO.createProtectionElement(protectionElement);
 	}
 
 	/**
@@ -156,7 +159,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeUserRoleFromProtectionGroup(String protectionGroupName, String userName, String[] roles){
-
+		authorizationDAO.removeUserRoleFromProtectionGroup(protectionGroupName,userName,roles);
 	}
 
 	/**
@@ -165,7 +168,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public boolean checkPermission(AccessPermission permission, User user){
-		return false;
+		
+		return authorizationDAO.checkPermission(permission,user);
 	}
 
 	/**
@@ -173,6 +177,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createRole(Role role){
+		
+		authorizationDAO.createRole(role);
 
 	}
 
@@ -182,7 +188,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public boolean checkPermission(AccessPermission permission, Subject subject){
-		return false;
+	   return authorizationDAO.checkPermission(permission,subject);
 	}
 
 	/**
@@ -190,7 +196,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void modifyRole(Role role){
-
+		authorizationDAO.modifyRole(role);
 	}
 
 	/**
@@ -199,7 +205,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public boolean checkPermission(AccessPermission permission, String userName){
-		return false;
+		return authorizationDAO.checkPermission(permission,userName);
 	}
 
 	/**
@@ -215,7 +221,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeRole(String roleId){
-
+		authorizationDAO.removeRole(roleId);
 	}
 
 	/**
@@ -226,7 +232,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public boolean checkPermission(String userName, String objectId, String attributeId, String privilegeName){
-		return false;
+		return authorizationDAO.checkPermission(userName,objectId,attributeId,privilegeName);
 	}
 
 	/**
@@ -234,7 +240,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createPrivilege(Privilege privilege){
-
+		authorizationDAO.createPrivilege(privilege);
 	}
 
 	/**
@@ -244,7 +250,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public boolean checkPermission(String userName, String objectId, String privilegeName){
-		return false;
+		return authorizationDAO.checkPermission(userName,objectId,privilegeName);
 	}
 
 	/**
@@ -252,7 +258,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void modifyPrivilege(Privilege privilege){
-
+          
 	}
 
 	/**
