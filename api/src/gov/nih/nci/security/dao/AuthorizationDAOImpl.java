@@ -1602,8 +1602,6 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	
 	private Object getObjectByPrimaryKey( Session s, Class objectType, Long primaryKey) throws HibernateException, CSObjectNotFoundException {
 		
-			s = sf.openSession();
-
 			Object obj = s.load(objectType, primaryKey);
 
 			if (obj == null) {
