@@ -103,10 +103,10 @@ public class SecurityRIDAO {
 	 * @return Returns the sessionFactory.
 	 */
 	protected static SessionFactory getSessionFactory() {
-		if (sessionFactory != null) {
+		if (sessionFactory == null) {
 
 			synchronized (SecurityRIDAO.class) {
-				if (sessionFactory != null) {
+				if (sessionFactory == null) {
 
 					try {
 						URL url = SecurityRIDAO.class.getClassLoader()
