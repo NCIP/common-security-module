@@ -1,10 +1,10 @@
-
+<%@ include file= "/pages/imports.jsp" %>
 <body bgcolor="#FFFF66">
 
  
 <table background="<html:rewrite href="pages/images/beachball.gif"/>" border="0" cellspacing=0 cellpadding=0>
    <TR>        
-      
+      <td width="20%"></td>
     <TD WIDTH="70%" align="center" valign="middle" class="welcomeContent">
     
     <table>
