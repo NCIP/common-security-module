@@ -67,6 +67,7 @@
 		
 		<action input="main.layout" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
 			<forward name="success" path="main.layout"/>
+			<forward name="access_denied" path="/Welcome.do" />
 		</action>	
 		
 		
