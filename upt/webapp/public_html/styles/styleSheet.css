@@ -70,6 +70,27 @@ tr.home{
 	border:0px;
 }
 
+td.appMenu{
+  font-size:0.7em;
+  font-weight:bold;
+  font-family:arial,helvetica,verdana,sans-serif;
+  color:#CCCCCC;
+  border-top:.8px; 
+  border-bottom:.8px; 
+
+}
+
+td.appMenu2{
+  font-size:0.7em;
+  font-weight:bold;
+  font-family:arial,helvetica,verdana,sans-serif;
+  color:#FFFFFF;
+  border-top:.8px; 
+  border-bottom:.8px;
+  padding-left:1em;
+
+}
+
 
 
 td.mainMenu{
