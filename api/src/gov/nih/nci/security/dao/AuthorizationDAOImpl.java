@@ -1719,5 +1719,5 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
-	}
+    }
 }
