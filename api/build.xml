@@ -23,14 +23,25 @@
 		description="compile the source ">
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac srcdir="${src}" destdir="${build}" debug="true" deprecation="true">
-			<classpath>
-				<fileset dir="${lib}">
-					<include name="*.jar" />
-				</fileset>
-			</classpath>
-		</javac>
-		<copy file="${src}\hibernate.properties" todir="${build}" />
-		<delete dir="${build}\resources"/>
+					<classpath>
+						<fileset dir="${lib}">
+							<include name="*.jar" />
+						</fileset>
+					</classpath>
+				</javac>
+				<copy todir="${build}/gov/nih/nci/security/authorization/domainobjects">
+					<fileset dir="${src}/gov/nih/nci/security/authorization/domainobjects">
+						<include name="**/*.xml" />
+					</fileset>
+				</copy>
+				<copy todir="${build}/gov/nih/nci/security/dao/hibernate">
+					<fileset dir="${src}/gov/nih/nci/security/dao/hibernate">
+						<include name="**/*.xml" />
+					</fileset>
+				</copy>
+				<copy file="${src}\hibernate.properties" todir="${build}" />
+				<delete dir="${build}\resources"/>
+
 	</target>
 
 	<target name="dist" depends="compile" description="generate the distribution">
