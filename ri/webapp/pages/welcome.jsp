@@ -1,6 +1,6 @@
 <%@ include file= "/pages/imports.jsp" %>
 
-<body bgcolor="#FFFF66">
+<!--<body bgcolor="#FFFF66">
 <table>
    <TR>        
       <td width="5"></td>
@@ -42,4 +42,70 @@
    </TR>
 </TABLE>
 
-</body>
+</body>-->
+<BR>
+<table summary="" cellpadding="0" cellspacing="0" border="0"
+		class="contentPage" width="100%" height="100%">
+		<tr>
+			<td valign="top">
+			<table cellpadding="0" cellspacing="0" border="0"
+				class="contentBegins">
+				<tr>
+				<td align="center"><h2>Home</h2>
+				</td>
+				</tr>
+				<tr>
+					<td>
+					<table summary="" cellpadding="3" cellspacing="0" border="0"
+						align="center">
+						<tr>
+						<td class="formTitle" height="20" colspan="3">HOME</td>
+					</tr>
+					<tr>
+						<td class="formRequiredNotice" width="5">&nbsp;</td>
+
+						<td class="formRequiredLabel">
+
+
+Welcome to the NCICB Common Security Module 
+        					Reference Implementation.
+    					<br>
+    
+    					This RI, combined with a thorough Reference Implementation Guide, is designed to show how CSM integrates with an application.  Please see the guide for more detailed information.<br>
+    						
+    
+    					To begin, select from 
+					the left menu to: 
+					<br>a) Create a new employee record
+					<br>b) Search for an employee record
+					<br>c) Create a new project
+					
+					
+
+
+
+
+
+</td>					
+					</tr>
+
+
+					<tr>
+						<td align="right" colspan="3">
+							<!-- action buttons begins -->
+							<table cellpadding="4" cellspacing="0" border="0">
+								<tr>
+									<td><html:submit/></td>
+									<td><input class="actionButton" type="reset" value="Reset" /></td>
+								</tr>
+							</table>
+							<!-- action buttons end -->
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</td>
+</tr>
+</table>
