@@ -1,13 +1,6 @@
 package gov.nih.nci.security.dao;
 
-import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
-import gov.nih.nci.security.authorization.domainobjects.Group;
-import gov.nih.nci.security.authorization.domainobjects.Privilege;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
-import gov.nih.nci.security.authorization.domainobjects.Role;
-import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.authorization.domainobjects.*;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -30,9 +23,10 @@ public interface AuthorizationDAO {
 	 * @param protectionGroup
 	 *  
 	 */
+	/**
 	public void createProtectionGroup(ProtectionGroup protectionGroup)
 			throws CSTransactionException;
-
+     */
 	/**
 	 * @param loginName
 	 *  
@@ -40,6 +34,8 @@ public interface AuthorizationDAO {
 	public User getUser(String loginName);
 
 	public ApplicationContext getApplicationContext();
+	
+	public Application getApplication();
 
 	
 	/**
@@ -87,9 +83,10 @@ public interface AuthorizationDAO {
 	 * @param protectionElement
 	 *  
 	 */
+	/**
 	public void createProtectionElement(ProtectionElement protectionElement)
 			throws CSTransactionException;
-
+      */
 	/**
 	 * @param protectionGroupName
 	 * @param userName
@@ -109,7 +106,7 @@ public interface AuthorizationDAO {
 	 * @param role
 	 *  
 	 */
-	public void createRole(Role role) throws CSTransactionException;
+	//public void createRole(Role role) throws CSTransactionException;
 
 	/**
 	 * @param permission
@@ -142,9 +139,10 @@ public interface AuthorizationDAO {
 	 * @param privilege
 	 *  
 	 */
+	/**
 	public void createPrivilege(Privilege privilege)
 			throws CSTransactionException;
-
+    */
 	/**
 	 * @param userName
 	 * @param objectId
@@ -194,7 +192,7 @@ public interface AuthorizationDAO {
 	 * @param group
 	 *  
 	 */
-	public void createGroup(Group group) throws CSTransactionException;;
+	//public void createGroup(Group group) throws CSTransactionException;;
 
 	/**
 	 * @param userName
@@ -303,7 +301,7 @@ public interface AuthorizationDAO {
 	 */
 	public java.util.List getObjects(SearchCriteria searchCriteria);
 
-	public void createUser(User user) throws CSTransactionException;
+	//public void createUser(User user) throws CSTransactionException;
 
 	public void assignProtectionElements(String protectionGroupId,
 			String[] protectionElementIds) throws CSTransactionException;
@@ -323,5 +321,7 @@ public interface AuthorizationDAO {
 	public void modifyObject(Object obj) throws CSTransactionException;
 	
 	public Object getObjectByPrimaryKey(Class objectType, String primaryKey)throws CSObjectNotFoundException;
+	
+	public void createObject(Object obj) throws CSTransactionException;
 }
 

@@ -509,6 +509,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createGroup(gov.nih.nci.security.authorization.domainobjects.Group)
 	 */
+	/**
 	public void createGroup(Group group) throws CSTransactionException {
 		// TODO Auto-generated method stub
 		Session s = null;
@@ -535,7 +536,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 	}
-
+	*/
+    /**
 	public void createPrivilege(Privilege privilege)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
@@ -564,12 +566,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
-
+    */
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement)
 	 */
+	/**
 	public void createProtectionElement(ProtectionElement protectionElement)
 			throws CSTransactionException {
 		Session s = null;
@@ -600,12 +603,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createProtectionGroup(gov.nih.nci.security.authorization.domainobjects.ProtectionGroup)
 	 */
+	/**
 	public void createProtectionGroup(ProtectionGroup protectionGroup)
 			throws CSTransactionException {
 		Session s = null;
@@ -635,12 +640,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createRole(gov.nih.nci.security.authorization.domainobjects.Role)
 	 */
+	/**
 	public void createRole(Role role) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
@@ -669,6 +676,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
@@ -1370,7 +1378,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		return result;
 	}
-
+   /**
 	public void createUser(User user) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
@@ -1396,6 +1404,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	*/
 
 	public void assignProtectionElements(String protectionGroupId,
 			String[] protectionElementIds) throws CSTransactionException {
@@ -1652,6 +1661,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 	}
-	
-	
+	public Application getApplication(){
+		return this.application;
+	}
+	public void createObject(Object obj) throws CSTransactionException{
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+			s.save(obj);
+			t.commit();
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+	}
+
 }

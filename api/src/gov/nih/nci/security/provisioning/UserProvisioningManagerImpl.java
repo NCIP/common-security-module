@@ -62,8 +62,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createProtectionGroup(ProtectionGroup protectionGroup) throws CSTransactionException{
+		protectionGroup.setApplication(authorizationDAO.getApplication());
+		protectionGroup.setUpdateDate(new Date());
+		authorizationDAO.createObject(protectionGroup);
 		
-		authorizationDAO.createProtectionGroup(protectionGroup);
+		//authorizationDAO.createProtectionGroup(protectionGroup);
 
 	}
 
@@ -175,7 +178,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createProtectionElement(ProtectionElement protectionElement)throws CSTransactionException{
-		authorizationDAO.createProtectionElement(protectionElement);
+		protectionElement.setApplication(authorizationDAO.getApplication());
+		protectionElement.setUpdateDate(new Date());
+		authorizationDAO.createObject(protectionElement);
+		
+		//authorizationDAO.createProtectionElement(protectionElement);
 	}
 
 	/**
@@ -203,8 +210,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createRole(Role role)throws CSTransactionException{
+		role.setApplication(authorizationDAO.getApplication());
+		role.setUpdateDate(new Date());
+		authorizationDAO.createObject(role);
 		
-		authorizationDAO.createRole(role);
+		//authorizationDAO.createRole(role);
 
 	}
 
@@ -273,7 +283,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createPrivilege(Privilege privilege) throws CSTransactionException{
-		authorizationDAO.createPrivilege(privilege);
+		privilege.setUpdateDate(new Date());
+		authorizationDAO.createObject(privilege);
+		//authorizationDAO.createPrivilege(privilege);
 	}
 
 	/**
@@ -361,7 +373,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createGroup(Group group)throws CSTransactionException{
-		authorizationDAO.createGroup(group);
+		group.setApplication(authorizationDAO.getApplication());
+		group.setUpdateDate(new Date());
+		authorizationDAO.createObject(group);
+		//authorizationDAO.createGroup(group);
 	}
 
 	/**
@@ -520,7 +535,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.getObjects(searchCriteria);
 	}
 	public void createUser(User user) throws CSTransactionException{
-		authorizationDAO.createUser(user);
+		user.setUpdateDate(new Date());
+		authorizationDAO.createObject(user);
+		//authorizationDAO.createUser(user);
 	}
 	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
 		authorizationDAO.assignProtectionElements(protectionGroupId,protectionElementIds);
