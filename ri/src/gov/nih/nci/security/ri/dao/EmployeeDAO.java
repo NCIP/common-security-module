@@ -39,11 +39,13 @@ public class EmployeeDAO extends SecurityRIDAO {
 	 * @param empl
 	 * @throws HibernateException
 	 */
-	public static void updateEmployee(Employee empl) throws HibernateException {
+	public static Employee updateEmployee(Employee empl) throws HibernateException {
 
 		log.debug("Updating employee now..");
 		updateObject(empl);
 		log.debug("Employee updated!");
+		
+		return searchEmployeeByPrimaryKey(empl.getEmployeeId());
 
 	}
 

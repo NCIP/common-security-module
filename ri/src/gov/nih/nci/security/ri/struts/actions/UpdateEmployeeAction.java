@@ -57,11 +57,17 @@ public class UpdateEmployeeAction extends BaseAction {
 		Employee securedObject = (Employee) getAuthorizationManager()
 				.secureUpdate(getUser(request).getUserName(), originalObject,
 						mutatedObject);
+		securedObject = EmployeeDAO.updateEmployee(securedObject);
+		
+		log.debug("The salary after secure update is: "
+				+ securedObject.getSalary());
 
-		EmployeeDAO.updateEmployee(securedObject);
 
 		if (isAuthorized(request)) {
 			EmployeeDAO.updateEmployeeProjects(securedObject);
+			log.debug("The salary after updating employee projects is: "
+					+ securedObject.getSalary());
+
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					Constants.MESSAGE_ID, "Updated Employee Successfully"));
 		} else {

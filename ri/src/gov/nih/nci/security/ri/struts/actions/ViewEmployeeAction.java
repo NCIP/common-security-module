@@ -107,7 +107,6 @@ public class ViewEmployeeAction extends BaseAction {
 			log.debug("The Record selected for view was: "
 					+ theEmployee.getUserName());
 
-			request.getSession().setAttribute(EMPLOYEE_FORM, theEmployee);
 			request.getSession().setAttribute(ASSIGNED_PROJECTS,
 					assignedProjects);
 			request.getSession().setAttribute(UNASSIGNED_PROJECTS, allProjects);
@@ -130,37 +129,45 @@ public class ViewEmployeeAction extends BaseAction {
 	 */
 	private boolean isAuthorized(HttpServletRequest request,
 			Employee theEmployee) throws Exception {
+		boolean isAuthorized = false;
 		try {
 			/*
 			 * To gain view access the user must own the record or the user must
 			 * have READ access on the Employee Class
 			 */
 
+			
 			if (getAuthorizationManager().checkOwnership(
 					getUser(request).getUserName(),
 					SecurityUtils.getEmployeeObjectId(theEmployee))) {
 				log.debug("The user is the owner of the record");
-				return true;
-			}
-
-			if (getAuthorizationManager().checkPermission(
+				request.getSession().setAttribute(EMPLOYEE_FORM, theEmployee);
+				isAuthorized = true;
+			} else if (getAuthorizationManager().checkPermission(
 					getUser(request).getUserName(),
 					SecurityUtils.getEmployeeObjectId(theEmployee),
 					Permissions.READ)) {
-				log.debug("The user has READ permission");
-				return true;
+				log.debug("The user has READ permission.");
+				Employee secureObject = (Employee) getAuthorizationManager()
+						.secureObject(getUser(request).getUserName(),
+								theEmployee);
+				log.debug("Secure Object has been called.");
+				request.getSession().setAttribute(EMPLOYEE_FORM, secureObject);
+				isAuthorized = true;
+			} else {
+
+				log.debug("The Access was denied for the User "
+						+ "to View this Record.");
+
+				ActionErrors messages = new ActionErrors();
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+						"access.view.denied", new String[] {
+								theEmployee.getLastName(),
+								", " + theEmployee.getFirstName() }));
+
+				saveErrors(request, messages);
+
 			}
-
-			log.debug("The Access was denied for the User "
-					+ "to View this Record.");
-
-			ActionErrors messages = new ActionErrors();
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"access.view.denied", new String[] {
-							theEmployee.getLastName(),
-							", " + theEmployee.getFirstName() }));
-
-			saveErrors(request, messages);
 
 		} catch (CSException ex) {
 			log.fatal("The Security Service encountered "
@@ -169,7 +176,7 @@ public class ViewEmployeeAction extends BaseAction {
 					"The Security Service encountered a fatal exception.", ex);
 		}
 
-		return false;
+		return isAuthorized;
 
 	}
 
