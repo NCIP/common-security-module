@@ -60,6 +60,19 @@ public class CreateEmployeeAction extends SecureAction {
 		return mapping.findForward(Constants.ACTION_SUCCESS);
 	}
 
+	/**
+	 * Method performs the following authorization:
+	 * Creates a protection element that represents the employee record
+	 * Creates the employee protection element to protected the Employee's data
+	 * Create a User in the security schema for Authorization
+	 * Assigns the employee to a business unit
+	 * Assigns the employee as the owner of their record
+	 * Assigns full access to HR Managers only
+	 * 
+	 * @param request
+	 * @param empl
+	 * @throws CSException
+	 */
 	private void doAuthorization(HttpServletRequest request, Employee empl)
 			throws CSException {
 
