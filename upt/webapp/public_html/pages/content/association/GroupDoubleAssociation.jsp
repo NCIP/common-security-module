@@ -29,7 +29,7 @@
 			
 			if (len == 0)
 			{
-				alert ("Aleast One Protection Group should be selected");
+				alert ("At least one Protection Group should be selected");
 				return;
 			}
 			else if (len > 1)
@@ -44,7 +44,7 @@
 	    		var roleLen = document.associationForm.roleAssociatedIds.length;
 				if (roleLen == 0)
 				{
-					alert ("Aleast One Role should be selected");
+					alert ("At least one Role should be selected");
 					return;
 				}
 		       	else
@@ -114,7 +114,7 @@
 		var roleLen = document.associationForm.roleAssociatedIds.length;
 		if (roleLen == 0)
 		{
-			alert ("Aleast One Role should be selected");
+			alert ("At least one Role should be selected");
 			return;
 		}
 	   	else
