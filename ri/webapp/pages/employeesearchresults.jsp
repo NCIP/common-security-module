@@ -1,7 +1,7 @@
 
 <%@ include file="/pages/imports.jsp"%>
 
-
+<br>
 
 <table summary="" cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
@@ -9,6 +9,10 @@
 		<td valign="top">
 		<table cellpadding="0" cellspacing="0" border="0"
 			class="contentBegins">
+			<tr>
+							<td align="center"><h2>Search Results</h2>
+							</td>
+				</tr>
 			<tr>
 				<td>
 
