@@ -1,14 +1,21 @@
 package gov.nih.nci.security;
-import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
-import javax.security.auth.Subject;
+import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
+import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.SecurityServiceProvider;
+
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Set;
 
-import gov.nih.nci.security.exceptions.*;
+import javax.security.auth.Subject;
 
 
 
@@ -267,7 +274,7 @@ public interface AuthorizationManager {
 	public Object secureObject(String userName, Object obj) throws CSException;
 	
 	/**
-	 * This methods works the same way as the {@link secureObject} except that it accepts an collection of Objects
+	 * This methods works the same way as the <code>secureObject</code> except that it accepts an collection of Objects
 	 * rather then single instance
 	 * @param userName The user name for the User who is trying to access the object
 	 * @param objects The collection Java Bean data objects whose attribute needs to be protected.
