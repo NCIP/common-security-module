@@ -42,7 +42,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	private AuthorizationDAO authorizationDAO;
 
 	public UserProvisioningManagerImpl(String applicationContextName){
-		
+		/**
+		 *  Ultimately we have to use ApplicationSessionFactory class
+		 *  to get appropriate sessionFcatory for a application.
+		 */
 		SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		authorizationDAO = (AuthorizationDAO)(adi);

@@ -16,6 +16,8 @@ import java.io.*;
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
+ * This class will be used by UserProvisioningManagerImpl to get
+ * appropriate sessionFactory handle
  */
 public class ApplicationSessionFactory {
 
