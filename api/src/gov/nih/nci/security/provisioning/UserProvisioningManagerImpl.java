@@ -12,6 +12,7 @@ import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
@@ -239,17 +240,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		authorizationDAO.removeUserRoleFromProtectionGroup(protectionGroupId,userId,rolesId);
 	}
 
-	/**
-	 * @param permission
-	 * @param user
-	 * 
-	 * @return boolean
-	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(AccessPermission, User)
-	 */
-	public boolean checkPermission(AccessPermission permission, User user){
-		
-		return authorizationDAO.checkPermission(permission,user);
-	}
+	
 
 	/**
 	 * @param role
@@ -271,9 +262,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param subject
 	 * 
 	 * @return boolean
+	 * @throws CSException
 	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(AccessPermission, Subject)
 	 */
-	public boolean checkPermission(AccessPermission permission, Subject subject){
+	public boolean checkPermission(AccessPermission permission, Subject subject) throws CSException{
 	   return authorizationDAO.checkPermission(permission,subject);
 	}
 
@@ -295,7 +287,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @return boolean
 	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(AccessPermission, String)
 	 */
-	public boolean checkPermission(AccessPermission permission, String userName){
+	public boolean checkPermission(AccessPermission permission, String userName) throws CSException{
 		return authorizationDAO.checkPermission(permission,userName);
 	}
 
@@ -358,7 +350,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @throws CSTransactionException
 	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(String, String, String)
 	 */
-	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSTransactionException{
+	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSException{
 		return authorizationDAO.checkPermission(userName,objectId,privilegeName);
 	}
 
@@ -463,17 +455,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		authorizationDAO.setOwnerForProtectionElement( userName, protectionElementName, protectionElementAttributeName );
 	}
 
-	/**
-	 * @param protectionGroupName
-	 * @param protectionElementObjectNames
-	 * @param protectionElementAttributeNames
-	 * 
-	 * @throws CSTransactionException
-	 * @see gov.nih.nci.security.AuthorizationManager#deAssignProtectionElements(String, String[], String[])
-	 */
-	public void deAssignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames, String[] protectionElementAttributeNames)throws CSTransactionException{
-
-	}
+	
 
 	/**
 	 * @param groupId

@@ -121,30 +121,24 @@ public interface AuthorizationManager {
 	 */
 	public void createProtectionElement(ProtectionElement protectionElement)throws CSTransactionException;
 
-	/**
-	 * 
-	 * @param permission
-	 * @param user
-	 * 
-	 * @return boolean
-	 */
-	public boolean checkPermission(AccessPermission permission, User user);
-
+	
 	/**
 	 * @param permission
 	 * @param subject
 	 * 
 	 * @return boolean
+	 * @throws CSException
 	 */
-	public boolean checkPermission(AccessPermission permission, Subject subject);
+	public boolean checkPermission(AccessPermission permission, Subject subject) throws CSException;
 
 	/**
 	 * @param permission
 	 * @param userName
 	 * 
 	 * @return boolean
+	 * @throws CSException
 	 */
-	public boolean checkPermission(AccessPermission permission, String userName);
+	public boolean checkPermission(AccessPermission permission, String userName) throws CSException;
 
 	/**
 	 * @param userName
@@ -166,7 +160,7 @@ public interface AuthorizationManager {
 	 * @return boolean
 	 * @throws CSTransactionException
 	 */
-	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSTransactionException;
+	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSException;
 
 	/**
 	 * @param userName
@@ -215,14 +209,7 @@ public interface AuthorizationManager {
 	 */
 	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)throws CSTransactionException;
 
-	/**
-	 * @param protectionGroupName
-	 * @param protectionElementObjectNames
-	 * @param protectionElementAttributeNames
-	 * 
-	 * @throws CSTransactionException
-	 */
-	public void deAssignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames, String[] protectionElementAttributeNames) throws CSTransactionException;
+	
 
 	/**
 	 * Accepts the Application Context Name initialize this AuthorizationManager

@@ -25,6 +25,7 @@ import gov.nih.nci.security.dao.*;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 
 
@@ -35,9 +36,14 @@ import java.util.List;
  */
 public class TestClient {
 	static UserProvisioningManager upm = null;
+	
 	static{
 		try{
-		upm = SecurityServiceProvider.getUserProvisioningManager("SecurityXXX");
+		Properties p = System.getProperties();
+		p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationsecurityConfig.xml");
+		upm = SecurityServiceProvider.getUserProvisioningManager("security");
+		//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
+		
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -266,18 +272,17 @@ public class TestClient {
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
-			for(int i=1;i<5001;i++){
+
 				User user = new User();
-				user.setLoginName("login_name_"+i);
-				user.setFirstName("User_first_name_"+i);
-				user.setLastName("User_last_name_"+i);
-				user.setDepartment("NCI_"+i);
+				user.setLoginName("vinaykumar");
+				user.setFirstName("User_first_name_");
+				user.setLastName("User_last_name_");
+				user.setDepartment("NCI_");
 				user.setEmailId(user.getLastName()+"@mail.nih.nci.gov");
 				user.setOrganization("NIH");
 				
 				upm.createUser(user);
 				System.out.println("The returned id is"+user.getUserId());
-			}
 			
 			
 		}catch(Exception ex){
@@ -545,8 +550,9 @@ public class TestClient {
 			//role.setName("role_name_1");
 			//Group grp = new Group();
 			User user = new User();
-			user.setLoginName("login_name_1");
-			user.setFirstName("%");
+			//user.setLoginName("login_name_1");
+			//user.setFirstName("%");
+			user.setDepartment("security");
 			//ProtectionElement pe = new ProtectionElement();
 			//pe.setProtectionElementName("PE_name_1");
 			//grp.setGroupName("g%");
@@ -564,6 +570,16 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void assignOwners(){
+		try{
+			String[] uids = {"1","2"};
+			String peIds = "3";
+			upm.assignOwners(peIds,uids);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
 		//ts.testPrivilegeCreate();
@@ -576,10 +592,10 @@ public class TestClient {
 		//ts.assignPrivilegeToRoles();
 		//ts.getPrivileges();
 		//ts.testGroupCreate();
-		//ts.testUserCreate();
+		ts.testUserCreate();
 		//ts.getProtectionGroupRoleContextForUser("345");		
 		//ts.getProtectionGroupRoleContextForGroup("131");
-		ts.getProtectionGroupById("131");
+		//ts.getProtectionGroupById("131");
 		//ts.getUser();
 		//ts.testProtectionGroupCreate();
 		//ts.testProtectionGroupModify();
@@ -602,6 +618,7 @@ public class TestClient {
 		//ts.testKunalCode();
 		//ts.getGroups("5020");
 		//ts.getProtectionGroupById("34");
+		//ts.assignOwners();
 
 	}
 }

@@ -2,6 +2,7 @@ package gov.nih.nci.security.dao;
 
 import gov.nih.nci.security.authorization.domainobjects.*;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
@@ -95,13 +96,7 @@ public interface AuthorizationDAO {
 	 */
 	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId) throws CSTransactionException;
 
-	/**
-	 * @param permission
-	 * @param user
-	 *  
-	 */
-	public boolean checkPermission(AccessPermission permission, User user);
-
+	
 	/**
 	 * @param role
 	 *  
@@ -111,9 +106,10 @@ public interface AuthorizationDAO {
 	/**
 	 * @param permission
 	 * @param subject
+	 * @throws CSException
 	 *  
 	 */
-	public boolean checkPermission(AccessPermission permission, Subject subject);
+	public boolean checkPermission(AccessPermission permission, Subject subject) throws CSException;
 
 	
 	/**
@@ -121,7 +117,7 @@ public interface AuthorizationDAO {
 	 * @param userName
 	 *  
 	 */
-	public boolean checkPermission(AccessPermission permission, String userName);
+	public boolean checkPermission(AccessPermission permission, String userName) throws CSException;
 
 	
 
@@ -150,7 +146,7 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public boolean checkPermission(String userName, String objectId,
-			String privilegeName) throws CSTransactionException;
+			String privilegeName) throws CSException;
 
 	
 
@@ -204,16 +200,7 @@ public interface AuthorizationDAO {
 	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)
 			throws CSTransactionException;;
 
-	/**
-	 * @param protectionGroupName
-	 * @param protectionElementObjectNames
-	 * @param protectionElementAttributeNames
-	 *  
-	 */
-	public void deAssignProtectionElements(String protectionGroupName,
-			String[] protectionElementObjectNames,
-			String[] protectionElementAttributeNames)
-			throws CSTransactionException;;
+	
 
 	
 	

@@ -14,5 +14,12 @@ public class StringUtilities {
 		}
 		return buf.toString();
 	}
+	
+	public static String getClassName(String fullClassName)
+	{
+		int i = fullClassName.lastIndexOf(".");
+		String name = fullClassName.substring(i+1,fullClassName.length());
+		return name;
+	}
 
 }
