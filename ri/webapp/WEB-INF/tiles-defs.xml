@@ -14,7 +14,7 @@
 	<!-- Main layout -->
 	<definition name="main.layout" path="/pages/layout.jsp">
 		<put name="title" value="CSM RI" />		
-		<put name="header" value="/pages/header/header2.jsp" />
+		<put name="header" value="/pages/header/header.jsp" />
 		<put name="notepad" value="/pages/menu/notepad.jsp" />
 		<put name="menu" value="/pages/menu/leftnav.jsp" />
 		<put name="body" value="/pages/welcome.jsp" />
@@ -26,7 +26,7 @@
 	<definition name="show.error.details"
 		path="/pages/ShowErrorDetail.jsp" />
 
-	<!-- section bases -->
+	<!-- section bases (took this out in favor of one header
 
 	<definition name="Home" extends="main.layout">
 		<put name="header" value="/pages/header/header2.jsp" />
@@ -39,31 +39,33 @@
 	<definition name="Project" extends="main.layout">
 		<put name="header" value="/pages/header/header1.jsp" />
 	</definition>
+	
+	-->
 
 	<!-- Home page -->
 
-	<definition name="Home.Main" extends="Home">
+	<definition name="Home.Main" extends="main.layout">
 		<put name="body" value="/pages/home.jsp" />
 		<put name="menu" value="/pages/menu/leftnav_home.jsp"/>
 	</definition>
 
 	<!-- Employee pages -->
 
-	<definition name="show.create.employee" extends="Employee">
+	<definition name="show.create.employee" extends="main.layout">
 		<put name="body" value="/pages/createemployee.jsp" />
 		<put name="menu" value="/pages/menu/leftnav_createemployee.jsp"/>
 	</definition>
 	
-	<definition name="show.employee" extends="Employee">
+	<definition name="show.employee" extends="main.layout">
 		<put name="body" value="/pages/employeeDetail.jsp" />
 	</definition>
 
-	<definition name="show.search.employee" extends="Employee">
+	<definition name="show.search.employee" extends="main.layout">
 		<put name="body" value="/pages/searchemployee.jsp" />
 		<put name="menu" value="/pages/menu/leftnav_searchemployee.jsp"/>
 	</definition>
 
-<definition name="show.employee.search.results" extends="Employee">
+<definition name="show.employee.search.results" extends="main.layout">
 		<put name="body" value="/pages/employeesearchresults.jsp" />
 		<put name="menu" value="/pages/menu/leftnav_searchemployee.jsp"/>
 	</definition>
@@ -71,7 +73,7 @@
 
 	<!-- Project pages -->
 
-	<definition name="show.create.project" extends="Project">
+	<definition name="show.create.project" extends="main.layout">
 		<put name="body" value="/pages/createProject.jsp" />
 		<put name="menu" value="/pages/menu/leftnav_createproject.jsp"/>
 	</definition>
