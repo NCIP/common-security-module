@@ -15,24 +15,15 @@
     name="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup" 
     table="protection_group"
 >
-    <meta attribute="class-description" inherit="false">
-       @hibernate.class
-        table="protection_group"
-    </meta>
+    
 
     <id
         name="protectionGroupId"
         type="java.lang.Long"
         column="PROTECTION_GROUP_ID"
-    >
-        <meta attribute="field-description">
-           @hibernate.id
-            generator-class="assigned"
-            type="java.lang.Long"
-            column="PROTECTION_GROUP_ID"
-
-        </meta>
-        <generator class="assigned" />
+        unsaved-value="null"
+        >
+     <generator class="identity"/>
     </id>
 
     <property
@@ -42,12 +33,7 @@
         not-null="true"
         length="100"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="PROTECTION_GROUP_NAME"
-            length="100"
-            not-null="true"
-        </meta>    
+        
     </property>
     <property
         name="protectionGroupDescription"
@@ -55,11 +41,7 @@
         column="PROTECTION_GROUP_DESCRIPTION"
         length="200"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="PROTECTION_GROUP_DESCRIPTION"
-            length="200"
-        </meta>    
+        
     </property>
     <property
         name="largeElementCountFlag"
@@ -68,12 +50,7 @@
         not-null="true"
         length="1"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="LARGE_ELEMENT_COUNT_FLAG"
-            length="1"
-            not-null="true"
-        </meta>    
+        
     </property>
     <property
         name="updateDate"
@@ -82,118 +59,31 @@
         not-null="true"
         length="10"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="UPDATE_DATE"
-            length="10"
-            not-null="true"
-        </meta>    
+        
     </property>
 
     <!-- Associations -->
   
     <!-- bi-directional one-to-many association to ProtectionGroup -->
-    <set
-        name="protectionGroups"
-        lazy="true"
-        inverse="true"
-		cascade="none"
-    >
-        <meta attribute="field-description">
-           @hibernate.set
-            lazy="true"
-            inverse="true"
-            cascade="none"
-
-           @hibernate.collection-key
-            column="PARENT_PROTECTION_GROUP_ID"
-
-           @hibernate.collection-one-to-many
-            class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
-        </meta>
-        <key>
-            <column name="PARENT_PROTECTION_GROUP_ID" />
-        </key>
-        <one-to-many 
-            class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
-        />
-    </set>
+    
     <!-- bi-directional many-to-one association to ProtectionGroup -->
     <many-to-one
         name="protectionGroup"
         class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
         not-null="true"
     >
-        <meta attribute="field-description">
-           @hibernate.many-to-one
-            not-null="true"
-           @hibernate.column name="PARENT_PROTECTION_GROUP_ID"         
-        </meta>
+        
         <column name="PARENT_PROTECTION_GROUP_ID" />
     </many-to-one>
-    <!-- bi-directional one-to-many association to UserGroupRoleProtectionGroup -->
-    <set
-        name="userGroupRoleProtectionGroups"
-        lazy="true"
-        inverse="true"
-		cascade="none"
-    >
-        <meta attribute="field-description">
-           @hibernate.set
-            lazy="true"
-            inverse="true"
-            cascade="none"
-
-           @hibernate.collection-key
-            column="PROTECTION_GROUP_ID"
-
-           @hibernate.collection-one-to-many
-            class="gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionGroup"
-        </meta>
-        <key>
-            <column name="PROTECTION_GROUP_ID" />
-        </key>
-        <one-to-many 
-            class="gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionGroup"
-        />
-    </set>
-    <!-- bi-directional one-to-many association to ProtectionGroupProtectionElement -->
-    <set
-        name="protectionGroupProtectionElements"
-        lazy="true"
-        inverse="true"
-		cascade="none"
-    >
-        <meta attribute="field-description">
-           @hibernate.set
-            lazy="true"
-            inverse="true"
-            cascade="none"
-
-           @hibernate.collection-key
-            column="PROTECTION_GROUP_ID"
-
-           @hibernate.collection-one-to-many
-            class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroupProtectionElement"
-        </meta>
-        <key>
-            <column name="PROTECTION_GROUP_ID" />
-        </key>
-        <one-to-many 
-            class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroupProtectionElement"
-        />
-    </set>
+    
+    
     <!-- bi-directional many-to-one association to Application -->
     <many-to-one
         name="application"
         class="gov.nih.nci.security.authorization.domainobjects.Application"
         not-null="true"
     >
-        <meta attribute="field-description">
-           @hibernate.many-to-one
-            not-null="true"
-           @hibernate.column name="APPLICATION_ID"         
-        </meta>
+       
         <column name="APPLICATION_ID" />
     </many-to-one>
 
