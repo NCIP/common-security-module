@@ -27,14 +27,12 @@
 <struts-config>
 	<!-- ======================================== Form Bean Definitions -->
 	<form-beans>
-		<form-bean name="submitApplicationForm" type="gov.grants.apply.struts.forms.SubmitApplicationForm"/>
-		<form-bean name="getApplicationListForm" type="gov.grants.apply.struts.forms.GetApplicationListForm"/>
-		<form-bean name="getOpportunityListForm" type="gov.grants.apply.struts.forms.GetOpportunityListForm"/>
-		<form-bean name="getApplicationStatusDetailForm" type="gov.grants.apply.struts.forms.GetApplicationStatusDetailForm"/>
+		<form-bean name="loginForm" type="gov.nih.nci.security.ri.struts.forms.LoginForm"/>
+		
 	</form-beans>
 	<!-- ================================= Global Exception Definitions -->
 	<global-exceptions>
-		<exception key="" scope="request" type="java.lang.Exception" path="show.error.page" handler="gov.grants.apply.struts.DefaultExceptionHandler"/>
+		<exception key="" scope="request" type="java.lang.Exception" path="show.error.page" handler="gov.nih.nci.security.ri.struts.DefaultExceptionHandler"/>
 	</global-exceptions>
 	<!-- =================================== Global Forward Definitions -->
 	<global-forwards>
@@ -44,32 +42,13 @@
 	<action-mappings>
 		<!-- Default "Welcome" action -->
 		<!-- Forwards to Welcome.jsp -->
-		<action path="/Welcome" forward="main.layout"/>
+		<action path="/Welcome" forward="show.login"/>
 		<action path="/viewErrorDetails" forward="show.error.details"/>
-		<action path="/viewGetOpportunityList" forward="get.opportunity.list"/>
-		<action input="get.opportunity.list" name="getOpportunityListForm" path="/getOpportunityList" type="gov.grants.apply.struts.actions.GetOpportunityListAction" scope="session" >
-			<forward name="success" path="get.opportunity.list"/>
-			<forward name="continue" path="get.opportunity.list"/>
+		
+		<action input="login" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
+			<forward name="success" path="show.login"/>
 		</action>
-		<action name="submitApplicationForm" path="/viewSubmitApplication" forward="submit.application"/>
-		<action input="submit.application" name="submitApplicationForm" path="/submitApplication" type="gov.grants.apply.struts.actions.SubmitApplicationAction" scope="session" parameter="method">
-			<forward name="success" path="submit.application.response"/>
-			<forward name="continue" path="submit.application"/>
-		</action>
-		<action input="get.application.list" name="getApplicationListForm" path="/getApplicationList" type="gov.grants.apply.struts.actions.GetApplicationListAction" scope="session" parameter="method">
-			<forward name="success" path="get.application.list"/>
-		</action>
-		<action path="/viewGetApplicationList" forward="get.application.list"/>
-		<action path="/viewGetApplicationStatusDetail" forward="get.application.status.detail"/>
-		<action input="get.application.status.detail" name="getApplicationStatusDetailForm" path="/getApplicationStatusDetail" type="gov.grants.apply.struts.actions.GetApplicationStatusDetailAction" scope="session" >
-			<forward name="success" path="get.application.status.detail"/>
-			<forward name="continue" path="get.application.status.detail"/>
-		</action>
-		<action path="/popupGetApplicationStatusDetail" forward="get.application.status.detail.popup"/>
-		<action input="get.application.status.detail.popup" name="getApplicationStatusDetailForm" path="/popupGetApplicationStatusDetail" type="gov.grants.apply.struts.actions.GetApplicationStatusDetailAction" scope="session" >
-			<forward name="success" path="get.application.status.detail.popup"/>
-			<forward name="continue" path="get.application.status.detail.popup"/>
-		</action>
+
 	</action-mappings>
 	<!-- ===================================== Controller Configuration -->
 	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>

@@ -2,35 +2,13 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
        "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
 <tiles-definitions>
-	<definition name="main.layout" path="/pages/layout.jsp">
-		<put name="title" value="Grants.gov - Applicant S2S Reference Implementation: Web Services DEMO"/>
+	<!--  <definition name="main.layout" path="/pages/layout.jsp">
+		<put name="title" value="CSM RI"/>
 		<put name="header" value="/pages/header.jsp"/>
 		<put name="menu" value="/pages/menu.jsp"/>
 		<put name="body" value="/pages/welcome.jsp"/>
-	</definition>
-	<definition name="get.opportunity.list" extends="main.layout">
-		<put name="body" value="/pages/GetOpportunityList.jsp"/>
-	</definition>
-	<definition name="submit.application" extends="main.layout">
-		<put name="body" value="/pages/SubmitApplication.jsp"/>
-	</definition>
-	<definition name="submit.application.response" extends="main.layout">
-		<put name="body" value="/pages/SubmitAppResponse.jsp"/>
-	</definition>
-	<definition name="get.application.list" extends="main.layout">
-		<put name="body" value="/pages/GetApplicationList.jsp"/>
-	</definition>
-	<definition name="show.application.list" extends="main.layout">
-		<put name="body" value="/pages/ShowApplicationList.jsp"/>
-	</definition>
-	<definition name="get.application.status.detail" extends="main.layout">
-		<put name="body" value="/pages/GetApplicationStatusDetail.jsp"/>
-	</definition>
-	<definition name="show.error.page" extends="main.layout">
-		<put name="body" value="/pages/custom500.jsp"/>
-	</definition>
-	<definition name="show.error.details" extends="main.layout">
-		<put name="body" value="/pages/ShowErrorDetail.jsp"/>
-	</definition>
-	<definition name="get.application.status.detail.popup" path="/pages/GetApplicationStatusDetailPopUp.jsp" />
+	</definition> -->
+	
+	<definition name="show.login" path="/pages/Login.jsp" />
+		
 </tiles-definitions>
