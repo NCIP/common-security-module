@@ -549,7 +549,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and u.login_name='"+userName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='"+privilegeName);
+			stbr.append(" and p.privilege_name='"+privilegeName+"'");
 
 			String sql = stbr.toString();
 		    stmt = cn.createStatement();
@@ -655,7 +655,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and u.login_name='"+userName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='"+privilegeName);
+			stbr.append(" and p.privilege_name='"+privilegeName+"'");
 			String sql = stbr.toString();
 			stmt = cn.createStatement();
 			rs = stmt.executeQuery(sql);
@@ -729,7 +729,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and u.login_name='"+userName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='"+privilegeName);
+			stbr.append(" and p.privilege_name='"+privilegeName+"'");
 			String sql = stbr.toString();
 			stmt = cn.createStatement();
 	      
@@ -801,7 +801,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and u.login_name='"+userName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='"+privilegeName);
+			stbr.append(" and p.privilege_name='"+privilegeName+"'");
 			String sql = stbr.toString();
 			stmt = cn.createStatement();
 			
