@@ -46,51 +46,51 @@ public class ViewEmployeeAction extends Action implements Constants {
 		// TODO Auto-generated method stub
 		List searchResults = (List) request.getSession().getAttribute(
 				EMPLOYEE_LIST);
-
 		Iterator i = searchResults.iterator();
+		
 		String temp = (String) request.getParameter(EMPLOYEE_ID);
-		if ( temp == null || temp.length() <= 0){
-			temp = (String) request.getSession().getAttribute( EMPLOYEE_ID );
+		if (temp == null || temp.length() <= 0) {
+			temp = (String) request.getSession().getAttribute(EMPLOYEE_ID);
 		}
 		Long employeeId = new Long(temp);
-		List allProjects = ProjectDAO.searchProject( new Project() );
+		
+		Employee theEmployee = null;
 		while (i.hasNext()) {
-			Employee e = (Employee) i.next();
-			if (employeeId.compareTo(e.getEmployeeId()) == 0) {
-				request.getSession().setAttribute(EMPLOYEE_FORM, e);
-
-				Set s = e.getEmployeeProjects();
-				
-				if (s != null) {
-					List assignedProjects = new LinkedList();
-					Iterator iter = s.iterator();
-					while (iter.hasNext()) {
-						EmployeeProject ep = (EmployeeProject) iter.next();
-
-						Iterator allProjectIter = allProjects.iterator();
-						while ( allProjectIter.hasNext() ){
-							Project p = (Project) allProjectIter.next();
-							if ( ep.getProject().getProjectId().compareTo( p.getProjectId() ) == 0 ){
-								allProjects.remove(p);
-								break;
-							}
-						}
-						assignedProjects.add(ep.getProject());
-					}
-					request.getSession().setAttribute(ASSIGNED_PROJECTS, assignedProjects);
-					
-					
-					
-				}
-				request.getSession().setAttribute( UNASSIGNED_PROJECTS, allProjects );
-				
-
+			Employee tempEmployee = (Employee) i.next();
+			if (employeeId.compareTo(tempEmployee.getEmployeeId()) == 0) {
+				theEmployee = tempEmployee;
 				log.debug("Found Employee with ID: "
-						+ e.getEmployeeId().longValue());
-
+						+ tempEmployee.getEmployeeId().longValue());
 				break;
+
 			}
 		}
+
+		Set s = theEmployee.getEmployeeProjects();
+		List assignedProjects = new LinkedList();
+		List allProjects = ProjectDAO.searchProject(new Project());
+
+		if (s != null) {
+			Iterator iter = s.iterator();
+			while (iter.hasNext()) {
+				EmployeeProject ep = (EmployeeProject) iter.next();
+
+				Iterator allProjectIter = allProjects.iterator();
+				while (allProjectIter.hasNext()) {
+					Project p = (Project) allProjectIter.next();
+					if (ep.getProject().getProjectId().compareTo(
+							p.getProjectId()) == 0) {
+						allProjects.remove(p);
+						break;
+					}
+				}
+				assignedProjects.add(ep.getProject());
+			}
+		}
+
+		request.getSession().setAttribute( EMPLOYEE_FORM, theEmployee );
+		request.getSession().setAttribute(ASSIGNED_PROJECTS, assignedProjects);
+		request.getSession().setAttribute(UNASSIGNED_PROJECTS, allProjects);
 
 		return mapping.findForward(ACTION_SUCCESS);
 	}

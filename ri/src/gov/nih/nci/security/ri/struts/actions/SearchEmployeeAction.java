@@ -47,6 +47,7 @@ public class SearchEmployeeAction extends Action implements Constants {
 
 		List searchResult = EmployeeDAO.searchEmployee((Employee) form);
 		request.getSession().setAttribute(EMPLOYEE_LIST, searchResult);
+		
 
 		return mapping.findForward(ACTION_SUCCESS);
 

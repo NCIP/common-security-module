@@ -59,7 +59,7 @@
 		
 		
 		<action input="login" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" scope="session" >
-			<forward name="success" path="show.employee" />
+			<forward name="success" path="/viewEmployee.do" />
 		</action>
 		
 		<action input="login" name="employeeForm" path="/searchEmployee" type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction" scope="session" >

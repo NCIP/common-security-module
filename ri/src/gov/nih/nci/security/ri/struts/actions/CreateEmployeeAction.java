@@ -44,8 +44,10 @@ public class CreateEmployeeAction extends Action implements Constants {
 		Employee employeeForm = (Employee) form;
 
 		EmployeeDAO.saveEmployee(employeeForm);
-		
-		request.getSession().setAttribute( EMPLOYEE_FORM, employeeForm);
+		List l = new LinkedList();
+		l.add( employeeForm );
+		request.getSession().setAttribute( EMPLOYEE_ID, employeeForm.getEmployeeId().toString());
+		request.getSession().setAttribute( EMPLOYEE_LIST, l);
 
 		return mapping.findForward(Constants.ACTION_SUCCESS);
 	}

@@ -102,6 +102,7 @@
 				</tr>
 				
 				<bean:define name="<%=Constants.UNASSIGNED_PROJECTS%>" id="availableIds" type="java.util.List"/>
+				
 				<bean:define name="<%=Constants.ASSIGNED_PROJECTS%>" id="associatedIds" type="java.util.List"/>				
 					
 

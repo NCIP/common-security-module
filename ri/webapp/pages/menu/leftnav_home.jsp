@@ -66,12 +66,6 @@
 				<td height="3"></td>
 			</tr>
 
-			<tr>
-				<td align="center" height="20" class="mainMenuItem">SEARCH PROJECT
-				</td>
-			</tr>
-
-
 		</table>
 		</td>
 	</tr>
