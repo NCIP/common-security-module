@@ -1437,6 +1437,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 					new Long(roleId));
 			result = role.getPrivileges();
+			log.debug("The result size is: "+result.size());
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log.debug("Authorization|||getPrivileges|Failure|Error obtaining Associated Privileges for Role id "+roleId+"|"+ex.getMessage() );
@@ -1962,6 +1963,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
 			result = protectionGroup.getProtectionElements();
+			log.debug("The result size is: "+result.size());
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
@@ -2217,6 +2219,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							new Long(protectionElementId));
 
 			result = protectionElement.getOwners();
+			log.debug("The result size is: "+result.size());
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
