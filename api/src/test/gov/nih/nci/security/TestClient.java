@@ -22,7 +22,7 @@ import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
  */
 public class TestClient {
     public void testPrivilegeCreate(){
-    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
     	Privilege p = new Privilege();
     	p.setName("ReadTest123");
     	p.setDesc("Reading test123");
@@ -36,7 +36,7 @@ public class TestClient {
     	}
     }
     public void testPrivilegeDelete(){
-    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	
     	try{
     	upm.removePrivilege("10");
@@ -46,10 +46,10 @@ public class TestClient {
     	}
     }
     public void testPrivilegeFind(){
-    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	
     	try{
-    	Privilege p = upm.getPrivilege("10");
+    	Privilege p = upm.getPrivilege("2");
     	System.out.println(p.getName());
     	
     	}catch(Exception ex){
@@ -58,7 +58,7 @@ public class TestClient {
     }
     
     public void testModifyCreate(){
-    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	Privilege p = new Privilege();
     	p.setId(new Long("13"));
     	p.setName("ReadTest123_updated");
