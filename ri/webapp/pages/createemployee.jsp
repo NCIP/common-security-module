@@ -136,12 +136,29 @@
 									
 									<td class="formRequiredLabel">Business Unit:</td>
 									<td class="dataCellText"><html:radio style="formFieldSized"
-										property="businessUnit" value="<%=Constants.TECHNOLOGY_DIVISION%>" />&nbsp;Information Technology&nbsp;&nbsp;<html:radio
+										property="businessUnit" value="<%=Constants.TECHNOLOGY_DIVISION%>" />&nbsp;Information Technology&nbsp;&nbsp;
+										<html:radio
 										style="formFieldSized" property="businessUnit"
-										value="<%=Constants.BUSINESS_DIVISION%>" />&nbsp;Business Development&nbsp;&nbsp;<html:radio
+										value="<%=Constants.BUSINESS_DIVISION%>" />
+										&nbsp;Business Development&nbsp;&nbsp;<html:radio
 										style="formFieldSized" property="businessUnit"
-										value="<%=Constants.HR_DIVISION%>" />&nbsp;Human Resources</td>
+										value="<%=Constants.HR_DIVISION%>" />&nbsp;Human Resources
+									</td>
 								</tr>
+								
+								<tr>
+									<td class="formRequiredNotice" width="5" >*</td>
+									
+									<td class="formRequiredLabel">Is the employee a Manager:</td>
+									<td class="dataCellText"><html:radio style="formFieldSized"
+										property="managerStatus" value="<%=Constants.YES%>" />&nbsp;<%=Constants.YES%>&nbsp;&nbsp;
+										<html:radio
+										style="formFieldSized" property="managerStatus"
+										value="<%=Constants.NO%>" />
+										&nbsp;<%=Constants.NO%>&nbsp;&nbsp;
+									</td>
+								</tr>
+								
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required
 									field</td>
