@@ -98,5 +98,5 @@ Welcome to the NCICB Common Security Module
 </td>
 </tr>
 <tr>
-<td align="right"><img src="pages/images/beachball.gif"/><td>
+<td align="right" height="300"><img src="pages/images/beachball.gif"/><td>
 </tr>

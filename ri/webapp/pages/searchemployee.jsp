@@ -50,4 +50,5 @@
 </td>
 </tr>
 </table>
+<table width="1" height="380"><tr><td></td></tr></table>
 </html:form>
