@@ -410,14 +410,18 @@ public class TestClient {
 	}
 	public void getObjects(){
 		try{
-			Role role = new Role();
-			role.setName("role_name_1");
-			SearchCriteria sc = new RoleSearchCriteria(role);
+			//Role role = new Role();
+			//role.setName("role_name_1");
+			Group grp = new Group();
+			grp.setGroupName("g%");
+			//SearchCriteria sc = new RoleSearchCriteria(role);
+			SearchCriteria sc = new GroupSearchCriteria(grp);
 			List result = upm.getObjects(sc);
 			   Iterator it = result.iterator();
 			   while(it.hasNext()){
-			   	Role p = (Role)it.next();
-			   	System.out.println(p.getName()+":"+p.getDesc());
+			   //	Role p = (Role)it.next();
+			   	Group gr = (Group)it.next();
+			   	System.out.println(gr.getGroupName()+":"+gr.getGroupDesc());
 			   }
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -429,7 +433,7 @@ public class TestClient {
 		//ts.testPrivilegeDelete();
 		//ts.testModifyCreate();
 		//ts.testPrivilegeFind();
-		ts.testRoleCreate();
+		//ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
 		//ts.assignPrivilegeToRoles();
@@ -448,6 +452,6 @@ public class TestClient {
 		//ts.populatePgPe();
 		//ts.populateUgrpg();
 		//ts.checkPermission();
-		//ts.getObjects();
+		ts.getObjects();
 	}
 }

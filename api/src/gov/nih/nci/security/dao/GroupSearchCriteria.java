@@ -28,8 +28,8 @@ public class GroupSearchCriteria extends SearchCriteria{
 	public Hashtable getFieldAndValues() {
 		// TODO Auto-generated method stub
 	   Hashtable ht = new Hashtable();
-		if(group.getName()!=null){
-			ht.put("groupName",group.getName());
+		if(group.getGroupName()!=null){
+			ht.put("groupName",group.getGroupName());
 			}
 			if(ht.size()==0){
 				ht.put("groupName","%");
