@@ -75,6 +75,7 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 
 		while (i.hasNext()) {
 			Employee empl = (Employee) i.next();
+			log.debug( "Checking permission for employee " + empl.getLastName());
 			if (getAuthorizationManager().checkPermission(user,
 					SecurityUtils.getEmployeeObjectId(empl), READ)) {
 				//add only employees from the list where 
