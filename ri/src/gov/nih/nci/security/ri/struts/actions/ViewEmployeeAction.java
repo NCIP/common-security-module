@@ -1,5 +1,6 @@
 package gov.nih.nci.security.ri.struts.actions;
 
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.ri.dao.ProjectDAO;
 import gov.nih.nci.security.ri.util.Permissions;
 import gov.nih.nci.security.ri.util.SecurityUtils;
@@ -30,23 +31,20 @@ import org.apache.struts.action.ActionMessages;
  * @author Brian Husted
  *  
  */
-public class ViewEmployeeAction extends BaseAction  {
+public class ViewEmployeeAction extends BaseAction {
 
 	static final Logger log = Logger.getLogger(ViewEmployeeAction.class
 			.getName());
 
 	/*
-	 * Action for retreiving an employee for a detailed view.  Authorization
-	 * is performed to ensure that the User has access to view the 
-	 * employee's record.
+	 * Action for retreiving an employee for a detailed view. Authorization is
+	 * performed to ensure that the User has access to view the employee's
+	 * record.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,
 	 *      javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
-	 */
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.ri.struts.actions.BaseAction#executeWorkflow(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	public ActionForward executeWorkflow(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
@@ -122,8 +120,8 @@ public class ViewEmployeeAction extends BaseAction  {
 	}
 
 	/**
-	 * Returns true if the current User has READ access or is 
-	 * the owner of the employee record.
+	 * Returns true if the current User has READ access or is the owner of the
+	 * employee record.
 	 * 
 	 * @param request
 	 * @param theEmployee
@@ -132,35 +130,44 @@ public class ViewEmployeeAction extends BaseAction  {
 	 */
 	private boolean isAuthorized(HttpServletRequest request,
 			Employee theEmployee) throws Exception {
+		try {
+			/*
+			 * To gain view access the user must own the record or the user must
+			 * have READ access on the Employee Class
+			 */
 
-		/*
-		 * To gain view access the user must own the record or the user must
-		 * have READ access on the Employee Class
-		 */
+			if (getAuthorizationManager().checkOwnership(
+					getUser(request).getUserName(),
+					SecurityUtils.getEmployeeObjectId(theEmployee))) {
+				log.debug("The user is the owner of the record");
+				return true;
+			}
 
-		if (getAuthorizationManager().checkOwnership(
-				getUser(request).getUserName(),
-				SecurityUtils.getEmployeeObjectId(theEmployee))) {
-			log.debug( "The user is the owner of the record");
-			return true;
+			if (getAuthorizationManager().checkPermission(
+					getUser(request).getUserName(),
+					SecurityUtils.getEmployeeObjectId(theEmployee),
+					Permissions.READ)) {
+				log.debug("The user has READ permission");
+				return true;
+			}
+
+			log.debug("The Access was denied for the User "
+					+ "to View this Record.");
+
+			ActionErrors messages = new ActionErrors();
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"access.view.denied", new String[] {
+							theEmployee.getLastName(),
+							", " + theEmployee.getFirstName() }));
+
+			saveErrors(request, messages);
+
+		} catch (CSException ex) {
+			log.fatal("The Security Service encountered "
+					+ "a fatal exception.", ex);
+			throw new Exception(
+					"The Security Service encountered a fatal exception.", ex);
 		}
-
-		if (getAuthorizationManager().checkPermission(
-				getUser(request).getUserName(),
-				SecurityUtils.getEmployeeObjectId(theEmployee), Permissions.READ)) {
-			log.debug( "The user has READ permission");
-			return true;
-		}
-
-		log.debug("The Access was denied for the User "
-				+ "to View this Record.");
-
-		ActionErrors messages = new ActionErrors();
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-				"access.view.denied", new String[] { theEmployee.getLastName(),
-						", " + theEmployee.getFirstName() }));
-
-		saveErrors(request, messages);
 
 		return false;
 

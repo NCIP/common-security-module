@@ -1,5 +1,6 @@
 package gov.nih.nci.security.ri.struts.actions;
 
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.ri.dao.EmployeeDAO;
 import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.util.SecurityUtils;
@@ -31,7 +32,7 @@ public class UpdateEmployeeAction extends BaseAction {
 
 	/*
 	 * Updates the employee. The employee object is secured based on the
-	 * authorization policy defined in the authorization database.  In addition,
+	 * authorization policy defined in the authorization database. In addition,
 	 * only managers may update employee project associations.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
@@ -64,15 +65,20 @@ public class UpdateEmployeeAction extends BaseAction {
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					Constants.MESSAGE_ID, "Updated Employee Successfully"));
 		} else {
-			
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-					"access.modify.employee_project.denied", new String[] {
-							getUser(request).getUserName(),
-							", " + SecurityUtils.getObjectIdForEmployeeProjecAccess() }));
 
-			
+			messages
+					.add(
+							ActionMessages.GLOBAL_MESSAGE,
+							new ActionMessage(
+									"access.modify.employee_project.denied",
+									new String[] {
+											getUser(request).getUserName(),
+											", "
+													+ SecurityUtils
+															.getObjectIdForEmployeeProjecAccess() }));
+
 		}
-		
+
 		saveMessages(request, messages);
 
 		List l = new LinkedList();
@@ -87,8 +93,9 @@ public class UpdateEmployeeAction extends BaseAction {
 	}
 
 	/**
-	 * Returns true if the current user has EXECUTE privileges to
-	 * modify employee project associations.
+	 * Returns true if the current user has EXECUTE privileges to modify
+	 * employee project associations.
+	 * 
 	 * @param request
 	 * @return
 	 * @throws Exception
@@ -96,9 +103,20 @@ public class UpdateEmployeeAction extends BaseAction {
 	private boolean isAuthorized(HttpServletRequest request) throws Exception {
 
 		String user = getUser(request).getUserName();
+		boolean isAuthorized = false;
+		try {
+			isAuthorized = getAuthorizationManager()
+					.checkPermission(user,
+							SecurityUtils.getObjectIdForEmployeeProjecAccess(),
+							EXECUTE);
 
-		return getAuthorizationManager().checkPermission(user,
-				SecurityUtils.getObjectIdForEmployeeProjecAccess(), EXECUTE);
+		} catch (CSException ex) {
+			log.fatal("The Security Service encountered "
+					+ "a fatal exception.", ex);
+			throw new Exception(
+					"The Security Service encountered a fatal exception.", ex);
+		}
+		return isAuthorized;
 	}
 
 }
