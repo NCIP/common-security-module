@@ -27,7 +27,7 @@
 		<td valign="top" class="leftMenu" width="100%" height="100%">
 		<table>
 			<tr>
-				<td><img src="pages/images/dilbert.gif"></td>
+				<td><img src="pages/images/rocket.gif"></td>
 			</tr>
 			<tr>
 				<td align="center" height="20" class="mainMenuItemOver"><html:link

@@ -16,7 +16,7 @@
 
                     <!-- banner begins -->
                     <tr>
-                      <td class="bannerHome"><img src="pages/images/bannerHome.gif" height="140"></td>
+                      <td class="bannerHome"><img src="pages/images/bannerHomeNew.gif" height="140"></td>
                     </tr>
                     <!-- banner begins -->
 
@@ -50,7 +50,7 @@
 																                                        <td class="sidebarTitle" height="20">HUMAN RESOURCES</td>
 																                                      </tr>
 																                                      <tr>
-																                                      								<td class="sidebarContent" align="center" height="91"><img src="pages/images/catbert_use.gif"></td>
+																                                      								<td class="sidebarContent" align="center" height="91"><img src="pages/images/HR.gif"></td>
 																                                      	</tr>
 
 																                                      <tr>
@@ -64,7 +64,7 @@
 								                                        <td class="sidebarTitle" height="20">MANAGEMENT</td>
 								                                      </tr>
 								                                       <tr>
-																	  																                                      								<td class="sidebarContent" align="center" height="91"><img src="pages/images/boss_use.gif"></td>
+																	  																                                      								<td class="sidebarContent" align="center" height="91"><img src="pages/images/Boss.gif"></td>
 																                                      	</tr>
 								                                      <tr>
 								                                        <td class="sidebarContent" valign="top">Assign projects and track assignments.  View records of your entire team, and gather the vital contact information you need to call your people to action at night and on the weekends.</td>
@@ -77,7 +77,7 @@
 								  								                                        <td class="sidebarTitle" height="20">EMPLOYEES</td>
 								  								                                      </tr>
 								  								                                       <tr>
-																									  																                                      								<td class="sidebarContent" align="center" height="91"><img src="pages/images/dilbert_use.gif"></td>
+																									  																                                      								<td class="sidebarContent" align="center" height="91"><img src="pages/images/Emp.gif"></td>
 																                                      	</tr>
 								  								                                      <tr>
 								  								                                        <td class="sidebarContent" valign="top">View and modify your contact information when your address and phone number changes.  Following each annual review, watch your salary daily to confirm that it doesn't increase.</td>
