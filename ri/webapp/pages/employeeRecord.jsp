@@ -75,7 +75,7 @@
 						<td class="formRequiredNotice" width="5">*</td>
 						<td class="formRequiredLabel">Phone number:</td>
 						<td class="dataCellText"><html:text property="phoneNumber"
-							size="10" maxlength="14" tabindex="19" /></td>
+							size="10" maxlength="19" tabindex="19" /></td>
 					</tr>
 					<tr>
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
@@ -87,7 +87,7 @@
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
 						<td class="formRequiredLabel">Social Security Number:</td>
 						<td class="dataCellText"><html:text property="ssn" size="10"
-							maxlength="60" tabindex="20" /></td>
+							maxlength="60" tabindex="21" /></td>
 					</tr>
 
 
@@ -105,7 +105,7 @@
 						<td class="formRequiredNotice" width="5">*</td>
 						<td class="formRequiredLabel">Salary:</td>
 						<td class="dataCellText"><html:text property="salary" size="10"
-							maxlength="14" tabindex="19" /></td>
+							maxlength="14" tabindex="22" /></td>
 					</tr>
 
 
