@@ -15,9 +15,9 @@
 					<tr>
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
 
-						<td class="formRequiredLabel"><label for="field1">Search Records (enter last name) :</label></td>
+						<td class="formRequiredLabel"><label for="field1">Search Records (enter last name) :  </label></td>
 
-						<td class="formField"><input class="formFieldSized" type="text" name="field1" id="field1" size="30" /></td>
+						<td class="formField"><html:text property="lastName"/></td>					
 					</tr>
 
 
