@@ -593,4 +593,16 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.getGroups(userId);
 	}
 	
+	public Set getProtectionElements(String protectionGroupId) throws CSObjectNotFoundException{
+		return authorizationDAO.getProtectionElements(protectionGroupId);
+	}
+	
+	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException{
+		return authorizationDAO.getProtectionGroups(protectionElementId);
+	}
+	
+	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException{
+		authorizationDAO.assignToProtectionGroups(protectionElementId,protectionGroupIds);
+	}
+	
 }

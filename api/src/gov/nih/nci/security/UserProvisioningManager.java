@@ -232,5 +232,11 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void removeUser(String userId)throws CSTransactionException;
 	
 	public Set getGroups(String userId) throws CSObjectNotFoundException;
+	
+	public Set getProtectionElements(String protectionGroupId) throws CSObjectNotFoundException;
+	
+	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException;
+	
+	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
 }
 

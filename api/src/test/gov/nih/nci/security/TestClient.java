@@ -62,6 +62,28 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+	public void testGetProtectionElements(){
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		
+		try{
+			java.util.Set pes = upm.getProtectionElements("54");
+			System.out.println(pes.size());
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void testGetProtectionGroups(){
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		
+		try{
+			java.util.Set pes = upm.getProtectionGroups("19");
+			System.out.println(pes.size());
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 	public void testPrivilegeDelete(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
@@ -150,6 +172,18 @@ public class TestClient {
 		String roleId = "54";
 		try{
 			upm.assignPrivilegesToRole(roleId,privilegeIds);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void assignToProtectionGroups(){
+		
+		String[] protectionGroupIds = {"80","81","87","93"};
+		
+		String protectionElementId = "19";
+		try{
+			upm.assignToProtectionGroups(protectionElementId,protectionGroupIds);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -455,6 +489,10 @@ public class TestClient {
 		//ts.populatePgPe();
 		//ts.populateUgrpg();
 		//ts.checkPermission();
-		ts.getObjects();
+		//ts.getObjects();
+		//ts.testGetProtectionElements();
+		//ts.testGetProtectionGroups();
+		ts.assignToProtectionGroups();
+		ts.testGetProtectionGroups();
 	}
 }

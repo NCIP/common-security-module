@@ -325,5 +325,13 @@ public interface AuthorizationDAO {
 	public void createObject(Object obj) throws CSTransactionException;
 	
 	public Set getGroups(String userId) throws CSObjectNotFoundException;
+	
+	public Set getProtectionElements(String protectionGroupId) throws CSObjectNotFoundException;
+
+	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException;
+	
+	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
+
+		
 }
 

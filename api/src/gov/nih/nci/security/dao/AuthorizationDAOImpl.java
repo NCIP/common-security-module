@@ -1631,4 +1631,100 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return groups;
 
 	}
+	
+	public Set getProtectionElements(String protectionGroupId) throws CSObjectNotFoundException{
+		Session s = null;
+		log.debug("The role: getting there");
+		//ArrayList result = new ArrayList();
+		Set result = new HashSet();
+		try {
+			s = sf.openSession();
+			ProtectionGroup protectionGroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
+					new Long(protectionGroupId));
+			//log.debug("The role:" + role.getName());
+			result = protectionGroup.getProtectionElements();
+			log.debug("The result size:" + result.size());
+            
+		} catch (Exception ex) {
+			log.error(ex);
+			throw new CSObjectNotFoundException("No Set found", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return result;
+	}
+	
+	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException{
+		Session s = null;
+		log.debug("The role: getting there");
+		//ArrayList result = new ArrayList();
+		Set result = new HashSet();
+		try {
+			s = sf.openSession();
+			ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class,
+					new Long(protectionElementId));
+			//log.debug("The role:" + role.getName());
+			result = protectionElement.getProtectionGroups();
+			log.debug("The result size:" + result.size());
+            
+		} catch (Exception ex) {
+			log.error(ex);
+			throw new CSObjectNotFoundException("No Set found", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return result;
+	}
+	
+	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException{
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class,
+					new Long(protectionElementId));
+
+			
+			Set newSet = new HashSet();
+
+			for (int k = 0; k < protectionGroupIds.length; k++) {
+				log.debug("The new list:" + protectionGroupIds[k]);
+				ProtectionGroup pg = (ProtectionGroup) this.getObjectByPrimaryKey(
+						ProtectionGroup.class, protectionGroupIds[k]);
+				if (pg != null) {
+					newSet.add(pg);
+				}
+			}
+			protectionElement.setProtectionGroups(newSet);
+			s.update(protectionElement);
+			t.commit();
+
+			
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to assign group ids: "
+							+ StringUtilities.stringArrayToString(protectionGroupIds)
+							+ " to protection element id: " + protectionElementId, ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
+	}
 }
