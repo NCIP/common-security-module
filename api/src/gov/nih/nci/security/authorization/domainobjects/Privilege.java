@@ -1,5 +1,7 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
+import java.io.Serializable;
+
 
 
 
@@ -11,6 +13,8 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @created 03-Dec-2004 1:17:50 AM
  */
 public class Privilege {
+
+	
 
 	/**
 	 * This is the name of the privilege.
