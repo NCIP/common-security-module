@@ -1,12 +1,13 @@
 <%@ include file="/pages/imports.jsp"%>
 
-<html:form method="post" action="creatEmployee">
+<html:html>
+<html:form method="post" action="createEmployee">
 
 	<BR>
 
-	<P ALIGN="center">
-	<h2>Create Employee</h2>
-	</P>
+	<P>
+	<h2 align="center">Create Employee</h2>
+
 
 	<table>
 		<tr>
@@ -72,15 +73,11 @@
 								<tr>
 									<td class="formRequiredNotice" width="5">*</td>
 									<td class="formRequiredLabel">State:</td>
-									<td class="dataCellText"><html:text property=state" size="10" maxlength="50" tabindex="17" />
-									
-									
-									<!-- State - have to hook up with form<html:select property="state" size="1" tabindex="17">
-									<bean:define id="stateOptions" name="createemployeeForm" property="stateOptions" type="java.util.Collection"/>
-									<html:options collection="stateOptions" property="value" labelProperty="label"/>
-								</html:select>--></td>
+									<td class="dataCellText"><html:text property="state" size="10"
+										maxlength="50" tabindex="17"></td>
 								</tr>
-								-->
+
+
 								<tr>
 									<td class="formRequiredNotice" width="5">*</td>
 									<td class="formRequiredLabel">Zip:</td>
@@ -126,7 +123,7 @@
 									<td align="right" colspan="3"><!-- action buttons begins -->
 									<table cellpadding="4" cellspacing="0" border="0">
 										<tr>
-											<td><html:submit/></td>
+											<td><html:submit /></td>
 											<td><input class="actionButton" type="reset" value="Reset" /></td>
 										</tr>
 									</table>
@@ -143,3 +140,4 @@
 		</tr>
 	</table>
 </html:form>
+<html:html>

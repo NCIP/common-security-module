@@ -1,0 +1,65 @@
+<%@ include file="/pages/imports.jsp"%>
+
+<html:form method="post" action="createProject">
+
+	<BR>
+
+	<P ALIGN="center">
+	<h2>Create Project</h2>
+	</P>
+
+	<table>
+		<tr>
+			<td valign="top">
+
+			<table summary="" cellpadding="0" cellspacing="0" border="0"
+				class="contentPage" width="100%" height="100%">
+				<tr>
+					<td valign="top">
+					<table cellpadding="0" cellspacing="0" border="0"
+						class="contentBegins">
+						<tr>
+							<td>
+							<table summary="" cellpadding="3" cellspacing="0" border="0"
+								align="center">
+								<tr>
+									<td class="formMessage" colspan="3">* indicates a required
+									field</td>
+								</tr>
+								<tr>
+									<td class="formTitle" height="20" colspan="3">PROJECT</td>
+								</tr>
+
+								<tr>
+									<td class="formRequiredNotice" width="5">*</td>
+									<td class="formRequiredLabel">Project name:</td>
+									<td class="dataCellText"><html:text property="name"
+										size="10" maxlength="60" tabindex="12" /></td>
+								</tr>
+								<tr>
+									<td class="formRequiredNotice" width="5">*</td>
+									<td class="formRequiredLabel">Project description:</td>
+									<td class="dataCellText"><html:text property="description"
+										size="10" maxlength="60" tabindex="13" /></td>
+								</tr>
+								<tr>
+									<td align="right" colspan="3"><!-- action buttons begins -->
+									<table cellpadding="4" cellspacing="0" border="0">
+										<tr>
+											<td><html:submit/></td>
+											<td><input class="actionButton" type="reset" value="Reset" /></td>
+										</tr>
+									</table>
+									<!-- action buttons end --></td>
+								</tr>
+							</table>
+							</td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+	</table>
+</html:form>

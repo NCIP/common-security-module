@@ -72,6 +72,15 @@ HDR AND FTR BEGINS
   padding-top:0.4em;
 }
 
+
+.leftMenu{
+  background-color:#336699;/* constant: dark blue */
+  font-size:1.3em;
+  font-weight:bold;
+ }
+
+
+
 /*###############
 MENU BEGINS 
 ###############*/

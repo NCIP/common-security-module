@@ -14,14 +14,18 @@ public class Project extends ValidatorForm implements Serializable {
 
     /** persistent field */
     private String name;
+    
+    /** persistent field */
+    private String description;
 
     /** persistent field */
     private Set employeeProjects;
 
     /** full constructor */
-    public Project(Long projectId, String name, Set employeeProjects) {
+    public Project(Long projectId, String name, String description, Set employeeProjects) {
         this.projectId = projectId;
         this.name = name;
+        this.description = description;
         this.employeeProjects = employeeProjects;
     }
 
@@ -43,6 +47,16 @@ public class Project extends ValidatorForm implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+   /* new description */
+    
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set getEmployeeProjects() {

@@ -1,84 +1,96 @@
-<%@ include file= "/pages/imports.jsp" %>
+<%@ include file="/pages/imports.jsp"%>
 
 
-<table cellpadding="0" cellspacing="0" border="0" height="120" width="175" height="100%">
+<table cellpadding="0" cellspacing="0" border="0" width="175"
+	height="100%">
 
 
+<!-- notepad row -->
+	<tr>
+		<td valign="top" class="leftMenu" width="175" height="150">
+			<table background="<html:rewrite href="pages/images/notepad.gif"/>"
+				width="175" height="150" border="0" cellspacing=0 cellpadding=0>
+				<tr>
+					<td align="center"><br>Your Name:<br>
+								Brian Husted
+								<br><br>			
+				
+					Your Role:<br>
+						Employee</td>
+				</tr>
+			</table>
+		</td>
+	</tr>	
+		<!-- notepad ends   -->
+	<!-- menu row -->		
+	<tr>
+		<td valign="top" class="leftMenu" width="100%" height="100%">
+		<table>
+			<tr>
+				<td><img src="pages/images/dilbert.gif"></td>
+			</tr>
+			<tr>
+				<td align="center" height="20" class="mainMenuItemOver"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
+					onclick="document.location.href='home.html'"><a
+					class="mainMenuLink" href="home.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HOME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				</td>
+			</tr>
+			<tr>
+				<td height="3"></td>
+			</tr>
+			<tr>
+				<td align="center" height="20" class="mainMenuItem"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
+					onclick="document.location.href='createemployee.html'"><html:link
+					action="viewCreateEmployee">
+					<p class="mainMenuLink">CREATE EMPLOYEE</p>
+				</html:link></td>
+			</tr>
+			<tr>
+				<td height="3"></td>
+			</tr>
+
+			<tr>
+				<td height="20" align="center" class="mainMenuItem"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
+					onclick="document.location.href='searchemployee.html'"><a
+					class="mainMenuLink" href="searchemployee.html">SEARCH EMPLOYEE</a>
+				</td>
+			</tr>
+
+			<tr>
+				<td height="3"></td>
+			</tr>
 
 
+			<tr>
+				<td align="center" height="20" class="mainMenuItem"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
+					onclick="document.location.href='createproject.html'"><a
+					class="mainMenuLink" href="createproject.html">CREATE PROJECT</a></td>
+			</tr>
 
-<tr>
-<td class="mainMenu">
+			<tr>
+				<td height="3"></td>
+			</tr>
 
-
-
-<!-- notepad begins -->
-
-
-<table background="<html:rewrite href="pages/images/notepad.gif"/>" class="contentPage" width="175" border="0" cellspacing=0 cellpadding=0>
-<tr><td class="contentBegins" align="center">Your Name:<br>Brian Husted</td></tr>
-<tr><td class="contentBegins" align="center">Your Role:<br>Employee</td></tr></table>
-
-<!-- 
-<table>
-<tr><td><img src="pages/images/notepad.gif"></td></tr></table>-->
-
-
-<!-- notepad ends   -->
-
-
-<table>
-
-<tr><td><img src="pages/images/dilbert.gif"></td></tr>
-
-<tr>
-<td align="center" height="20" class="mainMenuItemOver" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()" onclick="document.location.href='home.html'">
-                        <a class="mainMenuLink" href="home.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HOME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                      </td>
-</tr>
+			<tr>
+				<td align="center" height="20" class="mainMenuItem"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
+					onclick="document.location.href='searchproject.html'"><a
+					class="mainMenuLink" href="searchproject.html">SEARCH PROJECT</a></td>
+			</tr>
 
 
-
-<!--<tr><td>&nbsp;</td></tr>
-
-
-<!--<tr><td><img src="pages/images/wally.gif"></td></tr>-->
-<tr><td height="3"></td></tr>
-
-	 <tr>
-	    <td align="center" height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()" onclick="document.location.href='createemployee.html'">
-	     <html:link action="viewCreateEmployee"><p class="mainMenuLink" >CREATE EMPLOYEE</p> </html:link>
-	     </td>
-	  </tr>
-
-
-<tr><td height="3"></td></tr>
-
-	  <tr>
-	     <td height="20" align="center" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()" onclick="document.location.href='searchemployee.html'">
-	      <a class="mainMenuLink" href="searchemployee.html">SEARCH EMPLOYEE</a>
-	      </td>
-	   </tr>
-
-<tr><td height="3"></td></tr>
-
-
-<tr>
-	    <td align="center" height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()" onclick="document.location.href='createproject.html'">
-	     <a class="mainMenuLink" href="createproject.html">CREATE PROJECT</a>
-	     </td>
-	  </tr>
-
-<tr><td height="3"></td></tr>
-
-	  <tr>
-	     <td  align="center" height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()" onclick="document.location.href='searchproject.html'">
-	      <a class="mainMenuLink" href="searchproject.html">SEARCH PROJECT</a>
-	      </td>
-	   </tr>
-
-
-</table>
-</td>
-</tr>
+		</table>
+		</td>
+	</tr>
+	<!-- menu row ends -->
+	
 </table>

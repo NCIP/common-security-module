@@ -13,7 +13,7 @@
 		<td>
 			<table width="100%" height="100" border="0" cellspacing="0" cellpadding="0" class="header2">
 				<tr>
-					<td height="100" align="left"><a href="#"><img src="pages/images/header2.gif" alt="Application Header" hspace="10" border="0"></a></td>
+					<td valign="top" height="100" align="left"><a href="#"><img src="pages/images/header2.gif" alt="Application Header" hspace="10" border="0"></a></td>
 				</tr>
 			</table>
 		</td>
