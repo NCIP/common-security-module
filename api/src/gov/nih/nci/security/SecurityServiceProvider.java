@@ -56,11 +56,21 @@ public class SecurityServiceProvider {
 	}
 
 	/**
-	 * @param applicationContextName
+	 * Obtains an instance of {@link AuthenticationManager} implementation from the
+	 * {@link AuthenticationManagerFactory} class, for the Application Context/Name provide.
+	 * If an custom Authentication Manager Class is registered for the application then the
+	 * {@link AuthenticationManagerFactory} class will instantiate the same and return it.
+	 * If no configuration is found then the default {@link CommonAuthenticationManager} class
+	 * is instantiated and returned.
 	 * 
+	 * @param applicationContextName The name or context of the calling application. This parameter is used to retrieve
+	 * the implementation class for that Application from the property file if it is configured.
+	 * @return The implementation of the {@link AuthenticationManager} interface is returned based on the
+	 * configuration for the application
 	 */
-	public static AuthenticationManager getAutheticationManager(String applicationContextName){
-		return null;
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName)
+	{
+		return AuthenticationManagerFactory.getAuthenticationManager(applicationContextName);		
 	}
 	
 

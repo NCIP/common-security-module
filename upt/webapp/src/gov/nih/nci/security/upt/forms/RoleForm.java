@@ -22,15 +22,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.validator.ValidatorForm;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
@@ -38,7 +37,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class RoleForm extends ActionForm implements BaseAssociationForm
+public class RoleForm extends ValidatorForm implements BaseAssociationForm
 {
 	
 	private String roleId;
@@ -158,27 +157,23 @@ public class RoleForm extends ActionForm implements BaseAssociationForm
 		return formElementList;
 	}
 
-	public void reset(ActionMapping mapping, HttpServletRequest request)
-	{
-		this.roleActiveFlag = DisplayConstants.YES;
-		this.roleDescription = "";
-		this.roleName = "";
-		this.roleUpdateDate = "";
-		this.associatedIds = null;
-		
-		Map map=request.getParameterMap();
-	}
-	
 	public void resetForm()
 	{
-		this.roleUpdateDate = "";
-		this.roleActiveFlag = DisplayConstants.YES;
-		this.roleDescription = "";
 		this.roleId = "";
 		this.roleName = "";
+		this.roleDescription = "";
+		this.roleActiveFlag = DisplayConstants.YES;
+		this.roleUpdateDate = "";
 		this.associatedIds = null;
 	}
 
+	public void reset(ActionMapping mapping, HttpServletRequest request)
+	{
+		this.roleName = "";
+		this.roleDescription = "";
+		this.roleActiveFlag = DisplayConstants.YES;
+		this.associatedIds = null;		
+	}
 
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)

@@ -39,12 +39,28 @@
 					<td>
 					<table summary="" cellpadding="3" cellspacing="0" border="0" align="center">
 						<tr>
-							<td class="formMessage" colspan="3">* indicates a required field</td>
+						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
+							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+									<td class="formMessage" colspan="3">* indicates a required field</td>
+								</logic:equal>
+								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+									<td class="formMessage" colspan="3">Suffix with % to perform wildcard searches</td>
+								</logic:equal>
+							</logic:equal>
 						</tr>
 						<tr>
-							<td class="formTitle" height="20" colspan="3">ROLE DETAIL SCREEN</td>
+							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+									<td class="formTitle" height="20" colspan="3">ENTER THE NEW ROLE DETAILS</td>								</logic:equal>
+								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+									<td class="formTitle" height="20" colspan="3">ENTER THE ROLE SEARCH CRITERIA</td>
+								</logic:equal>
+							</logic:equal>
+							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+									<td class="formTitle" height="20" colspan="3">ROLE DETAILS</td>
+							</logic:notEqual>
 						</tr>
-						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="searchFormElements" id="formElements" />
@@ -80,12 +96,12 @@
 									</logic:equal>
 								</tr>
 							</logic:iterate>
-						</logic:present>
 						<tr>
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+										<td><html:submit style="actionButton" onclick="history.goback();">Back</html:submit></td>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('create');">Add</html:submit></td>
 										</logic:equal>
@@ -95,18 +111,21 @@
 										<td><html:reset style="actionButton">Reset</html:reset></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
+										</logic:equal>
+										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
+										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('delete');">Delete</html:submit></td>
-									</tr>
-									<tr>
-										<td></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
 									</logic:notEqual>
-
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
 						</tr>
+						</logic:present>
 					</table>
 					</td>
 				</tr>

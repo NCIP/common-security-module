@@ -93,16 +93,16 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	
 	public void resetForm()
 	{
-		this.privilegeDescription = "";
 		this.privilegeId = "";
 		this.privilegeName = "";
+		this.privilegeDescription = "";
 		this.privilegeUpdateDate = "";
 	}
 
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
-		this.privilegeDescription = "";
 		this.privilegeName = "";
+		this.privilegeDescription = "";
 	}
 
 	

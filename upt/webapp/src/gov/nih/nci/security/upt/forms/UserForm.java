@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.validator.ValidatorForm;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
@@ -37,7 +37,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class UserForm extends ActionForm implements BaseAssociationForm
+public class UserForm extends ValidatorForm implements BaseAssociationForm
 {
 	
 	private String userId;
@@ -257,7 +257,6 @@ public class UserForm extends ActionForm implements BaseAssociationForm
 		this.userEmailId = "";
 		this.userStartDate = "";
 		this.userEndDate = "";
-		this.userUpdateDate = "";
 		this.associatedIds = null;		
 	}
 
@@ -439,7 +438,6 @@ public class UserForm extends ActionForm implements BaseAssociationForm
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 
 		Collection associatedGroups = (Collection)userProvisioningManager.getGroups(this.userId);
-		
 		Group group = new Group();
 		SearchCriteria searchCriteria = new GroupSearchCriteria(group);
 		Collection totalGroups = (Collection)userProvisioningManager.getObjects(searchCriteria);

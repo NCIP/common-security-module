@@ -16,35 +16,8 @@ import java.util.List;
  */
 public class SearchResult 
 {
-	private String fieldName;
-	private String primaryIdName;
 	private List searchResultObjects;
 	
-	
-	/**
-	 * @return Returns the primaryIdName.
-	 */
-	public String getPrimaryIdName() {
-		return primaryIdName;
-	}
-	/**
-	 * @param primaryIdName The primaryIdName to set.
-	 */
-	public void setPrimaryIdName(String primaryIdName) {
-		this.primaryIdName = primaryIdName;
-	}
-	/**
-	 * @return Returns the fieldName.
-	 */
-	public String getFieldName() {
-		return fieldName;
-	}
-	/**
-	 * @param fieldName The fieldName to set.
-	 */
-	public void setFieldName(String fieldName) {
-		this.fieldName = fieldName;
-	}
 	/**
 	 * @return Returns the searchResultObjects.
 	 */

@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.validator.ValidatorForm;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
@@ -37,7 +37,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ProtectionElementForm extends ActionForm implements BaseAssociationForm{
+public class ProtectionElementForm extends ValidatorForm implements BaseAssociationForm{
 
 	private String protectionElementId;
 	private String protectionElementName;
@@ -145,6 +145,7 @@ public class ProtectionElementForm extends ActionForm implements BaseAssociation
 		this.protectionElementObjectId = "";
 		this.protectionElementAttribute = "";
 		this.protectionElementUpdateDate = "";
+		this.associatedIds = null;
 	}
 	
 	
@@ -155,7 +156,7 @@ public class ProtectionElementForm extends ActionForm implements BaseAssociation
 		this.protectionElementDescription = "";
 		this.protectionElementObjectId = "";
 		this.protectionElementAttribute = "";
-		this.protectionElementUpdateDate = "";
+		this.associatedIds = null;
 	}
 	
 	public ArrayList getAddFormElements()

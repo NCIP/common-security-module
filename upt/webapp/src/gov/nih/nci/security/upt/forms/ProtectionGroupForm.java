@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.validator.ValidatorForm;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
@@ -37,7 +37,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ProtectionGroupForm extends ActionForm implements BaseAssociationForm
+public class ProtectionGroupForm extends ValidatorForm implements BaseAssociationForm
 {
 	private String protectionGroupId;
 	private String protectionGroupName;
@@ -170,8 +170,6 @@ public class ProtectionGroupForm extends ActionForm implements BaseAssociationFo
 		this.protectionGroupName = "";
 		this.protectionGroupDescription = "";
 		this.protectionGroupLargeCountFlag = DisplayConstants.NO;
-		this.protectionGroupUpdateDate = "";
-		this.protectionGroupParentProtectionGroupName = "";
 		this.associatedIds = null;		
 	}
 	

@@ -33,7 +33,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
 	}
 
-	public Subject getAuthenticatedObject(){
+	public Object getAuthenticatedObject(){
 		return null;
 	}
 

@@ -173,6 +173,18 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+
+	public void testGetProtectionGroupById(){
+		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		
+		try{
+			ProtectionElement pe = upm.getProtectionElementById("20044");
+			System.out.println("Protection Element" + pe.getProtectionElementName());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
 	
 	public void assignPrivilegeToRoles(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
@@ -506,11 +518,12 @@ public class TestClient {
 		//ts.populatePgPe();
 		//ts.populateUgrpg();
 		//ts.checkPermission();
-		ts.getObjects();
+		//ts.getObjects();
 		//ts.testGetProtectionElements();
 		//ts.testGetProtectionGroups();
 		//ts.assignToProtectionGroups();
 		//ts.testGetProtectionGroups();
+		ts.testGetProtectionGroupById();
 		//ts.testUserDelete();
 	}
 }
