@@ -69,12 +69,10 @@
 		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\ApplicationSecurityConfig.xml"/>		
 		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\csmupt.hibernate.cfg.xml"/>		
 		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\security.hibernate.cfg.xml"/>
-		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\hibernate.properties"/>		
-		<copy file="${src.home}\gov\nih\nci\security\upt\resources\hibernate.properties" todir="${build.home}\WEB-INF\classes" overwrite="true"/>
+		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\hibernate.properties"/>
 		<copy todir="${dist.home}">
-			<fileset dir="${src.home}\gov\nih\nci\security\upt\resources" includes="*.xml" />
+			<fileset dir="${basedir}\upt\resources" />
 		</copy>
-		<delete quiet="true" file="${dist.home}\hibernate.properties"/>
 	</target>
 
 	<target name="dist" depends="init,compile" description="Creates war file">
