@@ -8,6 +8,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.*;
+import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
@@ -16,11 +17,19 @@ import java.util.Set;
 
 import javax.security.auth.Subject;
 
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import net.sf.hibernate.SessionFactory;
+
+
+
 /**
  * @version 1.0
  * @created 03-Dec-2004 1:17:47 AM
  */
 public class AuthorizationDAOImpl implements AuthorizationDAO {
+	
+	private SessionFactory sf = null;
 
 	public AuthorizationDAOImpl() {
 
@@ -28,6 +37,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	public void finalize() throws Throwable {
 
+	}
+	public void setHibernateSessionFactory(SessionFactory sf){
+		this.sf=sf;
 	}
 
 	/* (non-Javadoc)
@@ -132,11 +144,63 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createPrivilege(gov.nih.nci.security.authorization.domainobjects.Privilege)
 	 */
-	public void createPrivilege(Privilege privilege)
+	public void createPrivilegeXXX(Privilege privilege)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		System.out.println("Running create test...");
+		try {
+			s = HibernateSessionFactory.currentSession();
+
+			t = s.beginTransaction();
+			//Privilege p = new Privilege();
+			
+			//p.setDesc("TestDesc");
+			//p.setName("TestName");
+			s.save(privilege);
+			t.commit();
+			System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
+
 
 	}
+	
+	public void createPrivilege(Privilege privilege)
+				throws CSTransactionException {
+			// TODO Auto-generated method stub
+			Session s = null;
+			Transaction t = null;
+			try {
+				s = sf.openSession();	
+				t = s.beginTransaction();
+				s.save(privilege);
+				t.commit();
+				System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
+			} catch (Exception ex) {
+				try {
+					s.close();
+				} catch (Exception ex2) {
+				}
+				try {
+					t.rollback();
+				} catch (Exception ex3) {
+				}
+				throw new CSTransactionException("Bad",ex);
+			}
+			
+			
+			}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement)
 	 */

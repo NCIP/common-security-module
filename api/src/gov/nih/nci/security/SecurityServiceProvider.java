@@ -3,8 +3,11 @@ import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.authentication.AuthenticationManagerFactory;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.dao.AuthorizationDAO;
+import gov.nih.nci.security.dao.AuthorizationDAOSessionFactory;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
+import net.sf.hibernate.SessionFactory;
+
 
 
 
@@ -40,8 +43,10 @@ public class SecurityServiceProvider {
 	public static UserProvisioningManager getUserProvisioningManger(String contextName){
 		
 		UserProvisioningManager userProvisioingManager = null;
-		
-		AuthorizationDAO authorizationDAO = (AuthorizationDAO)(new AuthorizationDAOImpl());
+		SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(contextName);
+		AuthorizationDAOImpl adi = new AuthorizationDAOImpl();
+		adi.setHibernateSessionFactory(sf);
+		AuthorizationDAO authorizationDAO = (AuthorizationDAO)(adi);
 		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl();
 		userProvisioningManagerImpl.setAuthorizationDAO(authorizationDAO);
 		userProvisioingManager = (UserProvisioningManager)userProvisioningManagerImpl;			
