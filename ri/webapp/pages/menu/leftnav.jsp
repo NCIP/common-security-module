@@ -33,9 +33,10 @@
 				<td align="center" height="20" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="document.location.href='home.html'"><a
-					class="mainMenuLink" href="home.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HOME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				</td>
+					onclick="document.location.href='home.html'"><html:link
+					action="viewHome">
+					<p class="mainMenuLink">HOME</p>
+				</html:link></td>
 			</tr>
 			<tr>
 				<td height="3"></td>
@@ -57,8 +58,8 @@
 				<td height="20" align="center" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="document.location.href='searchemployee.html'"><a
-					class="mainMenuLink" href="searchemployee.html">SEARCH EMPLOYEE</a>
+					onclick="document.location.href='searchemployee.html'"><html:link
+					action="viewSearchEmployee"><p class="mainMenuLink">SEARCH EMPLOYEE</p></html:link>
 				</td>
 			</tr>
 
@@ -71,8 +72,9 @@
 				<td align="center" height="20" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="document.location.href='createproject.html'"><a
-					class="mainMenuLink" href="createproject.html">CREATE PROJECT</a></td>
+					onclick="document.location.href='createproject.html'"><html:link
+					action="viewCreateProject"><p class="mainMenuLink">CREATE PROJECT</p></html:link>
+				</td>
 			</tr>
 
 			<tr>

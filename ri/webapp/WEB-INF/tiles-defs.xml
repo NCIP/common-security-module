@@ -7,56 +7,70 @@
 		<put name="header" value="/pages/header.jsp"/>
 		<put name="menu" value="/pages/menu.jsp"/>
 		<put name="body" value="/pages/welcome.jsp"/>
-	</definition> -->
-	
+		</definition> -->
+
 	<definition name="show.login" path="/pages/Login.jsp" />
-		
-	<!-- Main layout -->  
-  <definition name="main.layout" path="/pages/layout.jsp">
-		<put name="title" value="CSM RI"/>
-		<put name="header" value="/pages/header.jsp"/>
-		<put name="menu" value="/pages/menu/leftnav.jsp"/>
-		<put name="body" value="/pages/welcome.jsp"/>
+
+	<!-- Main layout -->
+	<definition name="main.layout" path="/pages/layout.jsp">
+		<put name="title" value="CSM RI" />
+		<put name="header" value="/pages/header.jsp" />
+		<put name="menu" value="/pages/menu/leftnav.jsp" />
+		<put name="body" value="/pages/welcome.jsp" />
+	</definition>
+
+	<definition name="show.error.page" path="/pages/custom500.jsp" />
+
+
+	<definition name="show.error.details"
+		path="/pages/ShowErrorDetail.jsp" />
+
+	<!-- section bases -->
+
+	<definition name="Home" extends="main.layout">
+		<put name="header" value="/pages/header/header2.jsp" />
+	</definition>
+
+	<definition name="Employee" extends="main.layout">
+		<put name="header" value="/pages/header/header3.jsp" />
+	</definition>
+
+	<definition name="Project" extends="main.layout">
+		<put name="header" value="/pages/header/header3.jsp" />
+	</definition>
+
+	<!-- Home page -->
+
+	<definition name="Home.Main" extends="Home">
+		<put name="body" value="/pages/home.jsp" />
+	</definition>
+
+	<!-- Employee pages -->
+
+	<definition name="show.create.employee" extends="Employee">
+		<put name="body" value="/pages/createemployee.jsp" />
 	</definition>
 	
-    <definition name="show.error.page" path="/pages/custom500.jsp" />
+	<definition name="show.employee" extends="Employee">
+		<put name="body" value="/pages/employeeDetail.jsp" />
+	</definition>
 
-	
-	<definition name="show.error.details" path="/pages/ShowErrorDetail.jsp"/>
-	
-  <!-- section bases -->  
-      
-  <definition name="Home" extends="main.layout">  
-  	<put name="header" value="/pages/header/header2.jsp"/>  	   
-  </definition>	
+	<definition name="show.search.employee" extends="Employee">
+		<put name="body" value="/pages/searchemployee.jsp" />
+	</definition>
 
-<definition name="Employee" extends="main.layout">  
-  	<put name="header" value="/pages/header/header3.jsp"/>  	    
-  </definition>	
-  
-  <definition name="Project" extends="main.layout">  
-  	<put name="header" value="/pages/header/header3.jsp"/>     
-  </definition>		
-		
-	<!-- Home page -->	
-		
-	<definition name="Home.Main" extends="Home">
-   	 <put name="body"   value="/pages/home.jsp" />
-    </definition>	
-	
-	<!-- Employee pages -->
-		
-	<definition name="show.create.employee" extends="Employee">
-    <put name="body"   value="/pages/createemployee.jsp" />
-    </definition>		
-	
+<definition name="show.employee.search.results" extends="Employee">
+		<put name="body" value="/pages/employeesearchresults.jsp" />
+	</definition>
+
+
 	<!-- Project pages -->
-	
+
 	<definition name="show.create.project" extends="Project">
-    <put name="body"   value="/pages/createProject.jsp" />
-    </definition>			
-		
-		
-		
-		
+		<put name="body" value="/pages/createProject.jsp" />
+	</definition>
+
+
+
+
 </tiles-definitions>

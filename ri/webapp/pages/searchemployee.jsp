@@ -1,6 +1,8 @@
 <%@ include file= "/pages/imports.jsp" %>
 
+<% request.getSession().setAttribute( Constants.EMPLOYEE_FORM, new gov.nih.nci.security.ri.valueObject.Employee()); %>
 
+<html:form method="post" action="searchEmployee" >
 <table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top">
@@ -26,7 +28,7 @@
 							<!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<td><input class="actionButton" type="submit" value="Submit" /></td>
+									<td><html:submit/></td>
 									<td><input class="actionButton" type="reset" value="Reset" /></td>
 								</tr>
 							</table>
@@ -40,3 +42,4 @@
 </td>
 </tr>
 </table>
+</html:form>

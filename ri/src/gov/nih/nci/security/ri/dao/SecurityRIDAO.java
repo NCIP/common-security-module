@@ -42,6 +42,22 @@ public class SecurityRIDAO {
 		}
 	}
 	
+	
+	protected static void updateObject( Object o ) throws HibernateException {
+		Session s = null;
+		try{
+			s = getSessionFactory().openSession();
+			Transaction t = s.beginTransaction();
+					
+			s.update( o );
+			t.commit();
+			
+			
+		} finally {
+			try{ s.close(); }catch( Exception ex ){}
+		}
+	}
+	
 	protected static void deleteObject( Object o ) throws HibernateException {
 		Session s = null;
 		try{			

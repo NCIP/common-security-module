@@ -45,9 +45,12 @@
 		<!-- Default "Welcome" action -->
 		<!-- Forwards -->
 		<action path="/Welcome" forward="show.login"/>
+		<action path="/viewHome" forward="main.layout" />
 		<action path="/viewErrorDetails" forward="show.error.details"/>
 		<action path="/viewCreateEmployee" name="employeeForm" forward="show.create.employee"/>
 		<action path="/viewCreateProject" name="projectForm" forward="show.create.project"/>
+		<action path="/viewSearchEmployee" name="employeeForm" forward="show.search.employee"/>
+
 		<!-- actions -->
 		
 		<action input="login" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
@@ -56,12 +59,28 @@
 		
 		
 		<action input="login" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" scope="session" >
-			<forward name="success" path="main.layout"/>
+			<forward name="success" path="show.employee" />
 		</action>
 		
-		<action input="createProject" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" scope="session" >
+		<action input="login" name="employeeForm" path="/searchEmployee" type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction" scope="session" >
+			<forward name="success" path="show.employee.search.results"/>
+		</action>
+		
+		<action input="searchEmployee" name="employeeForm" path="/viewEmployee" type="gov.nih.nci.security.ri.struts.actions.ViewEmployeeAction" scope="session" >
+			<forward name="success" path="show.employee"/>
+		</action>
+		
+			
+		<action input="viewEmployee" name="employeeForm" path="/updateEmployee" type="gov.nih.nci.security.ri.struts.actions.UpdateEmployeeAction" scope="session" >
+			<forward name="success" path="show.employee"/>
+		</action>
+		
+		
+		<action input="login" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" scope="session" >
 			<forward name="success" path="show.create.project"/>
 		</action>
+		
+		
 		
 	</action-mappings>
 	<!-- ===================================== Controller Configuration -->
