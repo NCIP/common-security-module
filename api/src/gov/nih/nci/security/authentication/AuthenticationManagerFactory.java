@@ -7,6 +7,7 @@
 package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSException;
 
 import java.io.File;
@@ -23,20 +24,36 @@ import org.jdom.input.SAXBuilder;
  * interface. This class reads the <code>Authentication.Properties</code> file to determine which implementation of the
  * <code>AuthenticationManager</code> is to be used. If the client application wants to use its own
  * Authentication Class, then it should implement the {@link AuthenticationManager} interface. Also an entry should be configured
- * in the <code>Authentication.Properties</code> file against the Application
+ * in the <code>ApplicationServiceConfig</code> file against the Application
  * Context Name regsitering the class, which it wants to use, as shown below
  * <p>
  * <blockquote>
  * 
  * <pre>
- * e.g.FooApplication = com.foo.foobar.FooClass
+ *		<application>
+ *	   		<context-name>
+ *	   			FooApplication
+ *	      	</context-name>
+ *	      	<authentication>
+ *		      	<authentication-provider-class>
+ *	     			com.Foo.AuthenticationManagerClass
+ *	     		</authentication-provider-class>
+ *			</authentication>
+ *			:
+ *			:
+ *		</application>
  * </pre>
  * 
  * </blockquote>
  * <p>
- * However, if no entry is found for the application in the <code>Authentication.Properties</code> file, then the default
+ * 
+ * However, if no entry is found for the application in the <code>ApplicationSecurityConfig.xml</code> file, then the default
  * implementation is used. The factory instantiate an instance of the {@link CommonAuthenticationManager} class and returns it
  * type casted as an object of <code>AuthenticationManager</code> interface.
+ * 
+ * If the client application wants to use just the authentication service then it can
+ * obtain the implementation of the <code>AuthenticationManager</code> interface from the 
+ * {@link SecurityServiceProvider} class.
  * 
  * @author Kunal Modi (Ekagra Software Technologies)
  *
