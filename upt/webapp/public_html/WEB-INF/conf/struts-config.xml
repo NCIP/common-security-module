@@ -5,6 +5,8 @@
 	<form-beans>
 		<form-bean name="LoginForm"
 			type="gov.nih.nci.security.upt.forms.LoginForm" />
+		<form-bean name="MenuForm"
+			type="gov.nih.nci.security.upt.forms.MenuForm" />			
 		<form-bean name="PrivilegeForm"
 			type="gov.nih.nci.security.upt.forms.PrivilegeForm" />
 		<form-bean name="RoleForm"
@@ -17,8 +19,6 @@
 			type="gov.nih.nci.security.upt.forms.ProtectionElementForm" />
 		<form-bean name="UserForm"
 			type="gov.nih.nci.security.upt.forms.UserForm" />
-		<form-bean name="MenuForm"
-			type="gov.nih.nci.security.upt.forms.MenuForm" />
 	</form-beans>
 	<global-exceptions />
 	<global-forwards>
@@ -39,7 +39,7 @@
 			type="gov.nih.nci.security.upt.actions.LoginAction" 
 			name="LoginForm"
 			scope="session" 
-			validate="false" 
+			validate="true" 
 			input="Tiles.Login.Page">
 			<forward name="LoginSuccess" path="Tiles.Home.Page" />
 		</action>
@@ -47,7 +47,7 @@
 			type="gov.nih.nci.security.upt.actions.MenuSelectionAction"
 			name="MenuForm" 
 			scope="session" 
-			validate="false"
+			validate="true"
 			input="Tiles.Login.Page">
 			<forward name="RoleHomePage" path="Tiles.Role.Home" />
 			<forward name="GroupHomePage" path="Tiles.Group.Home" />
@@ -63,12 +63,12 @@
 			scope="session" 
 			validate="false"
 			parameter="operation" 
-			input="Tiles.Detail.Screen">
-			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
-			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
-			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
-			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
-			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			input="Tiles.Privilege.Detail.Screen">
+			<forward name="LoadAddSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.Privilege.Detail.Screen" />
 			<forward name="DeleteSuccess" path="Tiles.Privilege.Home" />
 			<forward name="SearchSuccess" path="Tiles.Privilege.Search.Result" />
 		</action>
@@ -78,16 +78,16 @@
 			scope="session" 
 			validate="false"
 			parameter="operation" 
-			input="Tiles.Detail.Screen">
-			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
-			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
-			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
-			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
-			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			input="Tiles.Role.Detail.Screen">
+			<forward name="LoadAddSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.Role.Detail.Screen" />
 			<forward name="DeleteSuccess" path="Tiles.Role.Home" />
 			<forward name="SearchSuccess" path="Tiles.Role.Search.Result" />
 			<forward name="LoadAssociationSuccess" path="Tiles.Role.Association.Screen" />
-			<forward name="SetAssociationSuccess" path="Tiles.Detail.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.Role.Detail.Screen" />
 		</action>
 		<action path="/ProtectionGroupDBOperation"
 			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
@@ -95,16 +95,16 @@
 			scope="session" 
 			validate="false"
 			parameter="operation" 
-			input="Tiles.Detail.Screen">
-			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
-			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
-			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
-			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
-			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			input="Tiles.ProtectionGroup.Detail.Screen">
+			<forward name="LoadAddSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
 			<forward name="DeleteSuccess" path="Tiles.ProtectionGroup.Home" />
 			<forward name="SearchSuccess" path="Tiles.ProtectionGroup.Search.Result" />
 			<forward name="LoadAssociationSuccess" path="Tiles.ProtectionGroup.Association.Screen" />
-			<forward name="SetAssociationSuccess" path="Tiles.Detail.Screen" />			
+			<forward name="SetAssociationSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />			
 		</action>
 		<action path="/GroupDBOperation"
 			type="gov.nih.nci.security.upt.actions.CommonDBAction"
@@ -112,12 +112,12 @@
 			scope="session" 
 			validate="false"
 			parameter="operation"
-			input="Tiles.Detail.Screen">
-			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
-			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
-			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
-			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
-			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			input="Tiles.Group.Detail.Screen">
+			<forward name="LoadAddSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.Group.Detail.Screen" />
 			<forward name="DeleteSuccess" path="Tiles.Group.Home" />
 			<forward name="SearchSuccess" path="Tiles.Group.Search.Result" />
 		</action>
@@ -127,16 +127,16 @@
 			scope="session" 
 			validate="false"
 			parameter="operation" 
-			input="Tiles.Detail.Screen">
-			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
-			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
-			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
-			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
-			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			input="Tiles.ProtectionElement.Detail.Screen">
+			<forward name="LoadAddSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
 			<forward name="DeleteSuccess" path="Tiles.ProtectionElement.Home" />
 			<forward name="SearchSuccess" path="Tiles.ProtectionElement.Search.Result" />
 			<forward name="LoadAssociationSuccess" path="Tiles.ProtectionElement.Association.Screen" />
-			<forward name="SetAssociationSuccess" path="Tiles.Detail.Screen" />						
+			<forward name="SetAssociationSuccess" path="Tiles.ProtectionElement.Detail.Screen" />						
 		</action>
 		<action path="/UserDBOperation"
 			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
@@ -144,16 +144,16 @@
 			scope="session" 
 			validate="false"
 			parameter="operation" 
-			input="Tiles.Detail.Screen">
-			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
-			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
-			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
-			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
-			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			input="Tiles.User.Detail.Screen">
+			<forward name="LoadAddSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.User.Detail.Screen" />
 			<forward name="DeleteSuccess" path="Tiles.User.Home" />
 			<forward name="SearchSuccess" path="Tiles.User.Search.Result" />
 			<forward name="LoadAssociationSuccess" path="Tiles.User.Association.Screen" />
-			<forward name="SetAssociationSuccess" path="Tiles.Detail.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.User.Detail.Screen" />
 		</action>
 	</action-mappings>
 

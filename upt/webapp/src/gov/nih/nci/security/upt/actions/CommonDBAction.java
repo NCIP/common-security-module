@@ -41,8 +41,8 @@ public class CommonDBAction extends DispatchAction
 		
 		baseDBForm.resetForm();
 
-		request.setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.ADD);
-		request.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.ADD);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.LOAD_ADD_SUCCESS));
 	}
 	
@@ -52,8 +52,8 @@ public class CommonDBAction extends DispatchAction
 		
 		baseDBForm.resetForm();
 
-		request.setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.SEARCH);
-		request.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.SEARCH);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_SUCCESS));
 	}
 
@@ -63,6 +63,13 @@ public class CommonDBAction extends DispatchAction
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		try
 		{
+			errors = form.validate(mapping, request);
+			if(!errors.isEmpty()) 
+			{
+				saveErrors(request,errors);
+				(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+				return mapping.getInputForward();
+			}
 			baseDBForm.buildDBObject(request);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Add Successful"));
 			saveMessages( request, messages );
@@ -72,7 +79,7 @@ public class CommonDBAction extends DispatchAction
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));
 			saveErrors( request,errors );
 		}
-		request.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.CREATE_SUCCESS));
 	}
 
@@ -93,7 +100,7 @@ public class CommonDBAction extends DispatchAction
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
 			saveErrors( request,errors );
 		}
-		request.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.READ_SUCCESS));
 
 	}
@@ -103,6 +110,13 @@ public class CommonDBAction extends DispatchAction
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		try
 		{
+			errors = form.validate(mapping, request);
+			if(!errors.isEmpty()) 
+			{
+				saveErrors(request,errors);
+				(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+				return mapping.getInputForward();
+			}			
 			baseDBForm.buildDBObject(request);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Update Successful"));
 			saveMessages( request, messages );
@@ -112,7 +126,7 @@ public class CommonDBAction extends DispatchAction
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
 			saveErrors( request,errors );
 		}
-		request.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.UPDATE_SUCCESS));
 	}
 	
@@ -130,7 +144,7 @@ public class CommonDBAction extends DispatchAction
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
 			saveErrors( request,errors );
 		}
-		request.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.DELETE_SUCCESS));
 	}
 	
@@ -150,7 +164,7 @@ public class CommonDBAction extends DispatchAction
 			saveErrors( request,errors );
 		}
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
-		return (mapping.findForward(ForwardConstants.SEARCH_SUCCESS));		
+		return (mapping.findForward(ForwardConstants.SEARCH_SUCCESS));	
 	}
 	
 }

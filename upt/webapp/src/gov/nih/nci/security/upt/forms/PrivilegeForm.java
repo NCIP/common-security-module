@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
+import org.apache.struts.validator.ValidatorForm;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
@@ -33,7 +33,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class PrivilegeForm extends ActionForm implements BaseDBForm
+public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 {
 	private String privilegeId;
 	private String privilegeName;
@@ -103,7 +103,6 @@ public class PrivilegeForm extends ActionForm implements BaseDBForm
 	{
 		this.privilegeDescription = "";
 		this.privilegeName = "";
-		this.privilegeUpdateDate = "";
 	}
 
 	

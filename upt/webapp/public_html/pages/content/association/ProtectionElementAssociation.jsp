@@ -119,7 +119,7 @@
 						<br>
 					</td>
 					<td width="35%" valign="top">
-					<html:form styleId="associationForm" action = "<%="/ProtectionGroupDBOperation"%>">
+					<html:form styleId="associationForm" action = "<%="/ProtectionElementDBOperation"%>">
 					<html:hidden property="operation" value="error"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>

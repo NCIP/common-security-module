@@ -44,7 +44,7 @@
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table summary="" cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-<html:form action="/Login">
+						<html:form action="/Login">
 							<!-- login begins -->
 							<tr>
 								<td valign="top">
@@ -57,12 +57,21 @@
 										<td class="sidebarContent">
 										<table cellpadding="2" cellspacing="0" border="0">
 											<tr>
-												<td class="sidebarLogin" align="right"><label for="loginID">LOGIN ID</label></td>
+												<td colspan="2">
+													<html:errors/>
+												</td>
+											</tr>
+											<tr>
+												<td class="sidebarLogin" align="right"><label for="loginId">LOGIN ID</label></td>
 												<td class="formFieldLogin"><html:text style="formField" size="14" property="loginId" value="" /></td>
 											</tr>
 											<tr>
 												<td class="sidebarLogin" align="right"><label for="password">PASSWORD</label></td>
 												<td class="formFieldLogin"><html:password style="formField" size="14" property="password" value="" /></td>
+											</tr>
+											<tr>
+												<td class="sidebarLogin" align="right"><label for="applicationContextName">APPLICATION CONTEXT NAME</label></td>
+												<td class="formFieldLogin"><html:text style="formField" size="14" property="applicationContextName" value="" /></td>
 											</tr>
 											<tr>
 												<td>&nbsp;</td>
@@ -75,7 +84,7 @@
 								</td>
 							</tr>
 							<!-- login ends -->
-</html:form>
+						</html:form>
 							<!-- what's new begins -->
 							<tr>
 								<td valign="top">

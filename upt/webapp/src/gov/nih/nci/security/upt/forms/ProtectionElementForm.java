@@ -37,7 +37,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ProtectionElementForm extends ActionForm implements BaseDBForm{
+public class ProtectionElementForm extends ActionForm implements BaseAssociationForm{
 
 	private String protectionElementId;
 	private String protectionElementName;
@@ -212,7 +212,7 @@ public class ProtectionElementForm extends ActionForm implements BaseDBForm{
 	public void buildDisplayForm(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		ProtectionElement protectionElement = userProvisioningManager.getProtectionElement(this.protectionElementId);
+		ProtectionElement protectionElement = userProvisioningManager.getProtectionElementById(this.protectionElementId);
 
 		this.protectionElementName = protectionElement.getProtectionElementName();
 		this.protectionElementDescription = protectionElement.getProtectionElementDescription();
@@ -229,12 +229,21 @@ public class ProtectionElementForm extends ActionForm implements BaseDBForm{
 	public void buildDBObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		ProtectionElement protectionElement = new ProtectionElement();
+		ProtectionElement protectionElement = null;
+		
+		if ((this.protectionElementId == null) || ((this.protectionElementId).equalsIgnoreCase("")))
+		{
+			protectionElement = new ProtectionElement();
+		}
+		else
+		{
+			protectionElement = userProvisioningManager.getProtectionElementById(this.protectionElementId);
+		}
 
 		protectionElement.setProtectionElementName(this.protectionElementName);
 		protectionElement.setProtectionElementDescription(this.protectionElementDescription);
-		this.protectionElementObjectId = protectionElement.getObjectId();
-		this.protectionElementAttribute = protectionElement.getAttribute();
+		protectionElement.setObjectId(this.protectionElementObjectId);
+		protectionElement.setAttribute(this.protectionElementAttribute);
 		
 		
 		if ((this.protectionElementId == null) || ((this.protectionElementId).equalsIgnoreCase("")))
@@ -248,6 +257,8 @@ public class ProtectionElementForm extends ActionForm implements BaseDBForm{
 		{
 			protectionElement.setProtectionElementId(new Long(this.protectionElementId));
 			userProvisioningManager.modifyProtectionElement(protectionElement);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.protectionElementUpdateDate = simpleDateFormat.format(protectionElement.getUpdateDate());
 		}
 	}
 	/* (non-Javadoc)
@@ -267,9 +278,20 @@ public class ProtectionElementForm extends ActionForm implements BaseDBForm{
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionElement protectionElement = new ProtectionElement();
-		protectionElement.setProtectionElementName(this.protectionElementName);
-		protectionElement.setObjectId(this.protectionElementObjectId);
-		protectionElement.setAttribute(this.protectionElementAttribute);
+		
+		if (this.protectionElementName != null && !this.protectionElementName.equalsIgnoreCase(""))
+			protectionElement.setProtectionElementName(this.protectionElementName);
+		else
+			protectionElement.setProtectionElementName("%");
+		if (this.protectionElementObjectId != null && !this.protectionElementObjectId.equalsIgnoreCase(""))
+			protectionElement.setObjectId(this.protectionElementObjectId);
+		else
+			protectionElement.setObjectId("%");
+		if (this.protectionElementAttribute != null && !this.protectionElementAttribute.equalsIgnoreCase(""))
+			protectionElement.setAttribute(this.protectionElementAttribute);
+		else
+			protectionElement.setAttribute("%");
+		
 		SearchCriteria searchCriteria = new ProtectionElementSearchCriteria(protectionElement);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		if ( list == null || list.isEmpty())

@@ -37,7 +37,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class UserForm extends ActionForm implements BaseDBForm
+public class UserForm extends ActionForm implements BaseAssociationForm
 {
 	
 	private String userId;
@@ -332,9 +332,12 @@ public class UserForm extends ActionForm implements BaseDBForm
 		this.userEmailId = user.getEmailId();
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-		this.userStartDate = simpleDateFormat.format(user.getStartDate());
-		this.userEndDate = simpleDateFormat.format(user.getEndDate());
-		this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());
+		if (user.getStartDate() != null)
+			this.userStartDate = simpleDateFormat.format(user.getStartDate());
+		if (user.getEndDate() != null)
+			this.userEndDate = simpleDateFormat.format(user.getEndDate());
+		if (user.getUpdateDate() != null)
+			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());
 	}
 	
 	/* (non-Javadoc)
@@ -362,9 +365,9 @@ public class UserForm extends ActionForm implements BaseDBForm
 		user.setEmailId(this.getUserEmailId());
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-		if (this.userStartDate != null && this.userStartDate.equalsIgnoreCase(""))
+		if (this.userStartDate != null && !this.userStartDate.equalsIgnoreCase(""))
 			user.setStartDate(simpleDateFormat.parse(this.getUserStartDate()));
-		if (this.userEndDate != null && this.userEndDate.equalsIgnoreCase(""))
+		if (this.userEndDate != null && !this.userEndDate.equalsIgnoreCase(""))
 			user.setEndDate(simpleDateFormat.parse(this.getUserEndDate()));
 
 		

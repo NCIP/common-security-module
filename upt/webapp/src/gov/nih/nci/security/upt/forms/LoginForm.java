@@ -6,7 +6,7 @@
  */
 package gov.nih.nci.security.upt.forms;
 
-import org.apache.struts.action.ActionForm;
+import org.apache.struts.validator.ValidatorForm;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
@@ -14,10 +14,11 @@ import org.apache.struts.action.ActionForm;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class LoginForm extends ActionForm 
+public class LoginForm extends ValidatorForm 
 {
 	private String loginId;
 	private String password;
+	private String applicationContextName;
 	
 	/**
 	 * @return Returns the loginId.
@@ -43,5 +44,16 @@ public class LoginForm extends ActionForm
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	/**
+	 * @return Returns the applicationContextName.
+	 */
+	public String getApplicationContextName() {
+		return applicationContextName;
+	}
+	/**
+	 * @param applicationContextName The applicationContextName to set.
+	 */
+	public void setApplicationContextName(String applicationContextName) {
+		this.applicationContextName = applicationContextName;
+	}
 }
