@@ -36,8 +36,8 @@ import junit.framework.TestSuite;
  * </p>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-22 21:45:53 $
- * @version $Revision: 1.4 $
+ * @date $Date: 2004-12-22 22:50:56 $
+ * @version $Revision: 1.5 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
  * @see some.other.package
@@ -202,6 +202,7 @@ public class AuthorizationDAOImplTest extends TestCase {
 	public void testSetOwnerForProtectionElement() throws CSTransactionException {
 		User u = createUser();
 		ProtectionElement pe = createProtectionElement();
+		upm.setOwnerForProtectionElement( pe.getObjectId(), u.getLoginName() );
 		upm.setOwnerForProtectionElement( pe.getObjectId(), u.getLoginName() );
 		
 	}

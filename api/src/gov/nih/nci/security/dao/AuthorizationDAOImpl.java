@@ -1568,27 +1568,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ProtectionElement pe = getProtectionElement(
 					protectionElementObjectName, protectionElementAttributeName);
 
-			/*
-			 * Criteria criteria =
-			 * s.createCriteria(UserProtectionElement.class);
-			 * criteria.add(Expression.eq("user", user));
-			 * criteria.add(Expression.eq("protectionElement", pe));
-			 */
+			Criteria criteria = s.createCriteria(UserProtectionElement.class);
+			criteria.add(Expression.eq("user", user));
+			criteria.add(Expression.eq("protectionElement", pe));
 
-			/*
-			 * List list = criteria.list();
-			 * 
-			 * if (list.size() == 0) {
-			 *  }
-			 */
+			List list = criteria.list();
+			if (list.size() <= 0) {
+				UserProtectionElement intersection = new UserProtectionElement();
 
-			UserProtectionElement intersection = new UserProtectionElement();
-
-			intersection.setUser(user);
-			intersection.setProtectionElement(pe);
-			intersection.setUpdateDate(new Date());
-			s.save(intersection);
-
+				intersection.setUser(user);
+				intersection.setProtectionElement(pe);
+				intersection.setUpdateDate(new Date());
+				s.save(intersection);
+			}
 			t.commit();
 
 		} catch (Exception ex) {
