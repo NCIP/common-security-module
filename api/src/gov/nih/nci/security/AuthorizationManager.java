@@ -150,12 +150,13 @@ public interface AuthorizationManager {
 	 * The method checks if the user has passed privilege on the atribute for the passed object.
 	 * @param userName
 	 * @param objectId
-	 * @param attributeId
+	 * @param attributeName
 	 * @param privilegeName
 	 * 
 	 * @return boolean
+	 * @throws CSException
 	 */
-	public boolean checkPermission(String userName, String objectId, String attributeId, String privilegeName);
+	public boolean checkPermission(String userName, String objectId, String attributeName, String privilegeName) throws CSException;
 
 	/**
 	 * This method verifies whether the User has the provided Privilege on the Protection Element.

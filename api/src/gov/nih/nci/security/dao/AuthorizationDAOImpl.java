@@ -478,8 +478,85 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public boolean checkPermission(String userName, String objectId,
-			String attributeId, String privilegeName) {
-		return false;
+			String attributeName, String privilegeName) throws CSException{
+		
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		boolean test = false;
+		Session s = null;
+
+		Connection cn = null;
+		test = this.checkOwnerShip(userName,objectId);
+		if(test) return true;
+		
+		if(attributeName==null){
+			return false;
+		}
+
+		try {
+
+			s = sf.openSession();
+
+			cn = s.connection();
+
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("select 'X'");
+			stbr.append(" from protection_group pg,");
+			stbr.append(" protection_element pe,");
+			stbr.append(" protection_group_protection_element pgpe,");
+			stbr.append(" user_group_role_protection_group ugrpg,");
+			stbr.append(" user u,");
+			stbr.append(" groups g,");
+			stbr.append(" user_group ug,");
+			stbr.append(" role_privilege rp,");
+			stbr.append(" privilege p ");
+			stbr.append(" where pgpe.protection_group_id = pg.protection_group_id"); 
+			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" and pe.object_id= ?");
+			stbr.append(" and pe.attribute=?");
+			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr.append(" and (( ugrpg.group_id = g.group_id");
+			stbr.append("       and ug.user_id = u.user_id)");
+			stbr.append("       or ");
+			stbr.append("     (ugrpg.user_id = u.user_id))");
+			stbr.append(" and u.login_name=?");
+			stbr.append(" and ugrpg.role_id = rp.role_id ");
+			stbr.append(" and rp.privilege_id = p.privilege_id");
+			stbr.append(" and rp.privilege_name = ?");
+
+			String sql = stbr.toString();
+			   pstmt = cn.prepareStatement(sql);
+			
+			         		pstmt.setString(1,objectId);
+					 		pstmt.setString(2,attributeName);
+					 		pstmt.setString(3,userName);
+					 	    pstmt.setString(4,privilegeName);
+					 	    rs = pstmt.executeQuery();
+					 	
+					 	if(rs.next()){
+					 		test = true;
+					 	}
+					 	rs.close();
+					 	
+			pstmt.close();
+
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Failed to get privileges for "+userName +"|"+ ex.getMessage());
+			  throw new CSException("Failed to get privileges for "+userName +"|"+ ex.getMessage(),ex);
+		} finally {
+			try {
+
+				s.close();
+				rs.close();
+				pstmt.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getPrivilegeMap|Failure|Error in Closing Session |"+ex2.getMessage());
+			}
+		}
+		
+		return test;
 	}
 	
 	public boolean checkPermission(String userName, String objectId,
@@ -780,7 +857,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getPrincipals(java.lang.String)
 	 */
 	public Principal[] getPrincipals(String userName) {
-		return null;
+		ArrayList al = new ArrayList();
+		Set groups = new HashSet();
+		try{
+			User user = this.getUser(userName);
+			al.add((Principal)user);
+			groups = this.getGroups(user.getUserId().toString());
+			Iterator it = groups.iterator();
+			while(it.hasNext()){
+				Group grp = (Group)it.next();
+				al.add((Principal)grp);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return (Principal[])(al.toArray());
 	}
 
 	/*
@@ -2157,7 +2248,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and u.login_name='" + loginName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='NO_ACCESS'");
+			stbr.append(" and p.privilege_name='Read'");
 			String sql = stbr.toString();
 			System.out.println("SQL is : "+sql);
 			Statement stmt = cn.createStatement();
@@ -2165,7 +2256,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				String att = rs.getString(1);
-				Boolean b = new Boolean(false);
+				Boolean b = new Boolean(true);
 				accessMap.put(att.toLowerCase(), b);
 			}
 			rs.close();

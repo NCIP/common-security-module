@@ -130,7 +130,7 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public boolean checkPermission(String userName, String objectId,
-			String attributeId, String privilegeName);
+			String attributeId, String privilegeName) throws CSException;
 
 	/**
 	 * @param privilege

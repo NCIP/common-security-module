@@ -24,10 +24,10 @@ public class ObjectAccessMap {
 		this.accessMap=accessMap;
 	}
 	public boolean hasAccess(String attributeName){
-		boolean hasAccess = true;
+		boolean hasAccess = false;
 		Boolean value = (Boolean)accessMap.get(attributeName.toLowerCase());
 		if(value!=null){
-			hasAccess = false;
+			hasAccess = true;
 		}
 		return hasAccess;
 	}
