@@ -136,7 +136,8 @@ public interface AuthorizationDAO {
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) throws CSException;
 
-	
+	public boolean checkIsOwnerForProtectionElement(String userName,
+			String protectionElementObjectId);
 
 	/**
 	 * @param userName

@@ -513,7 +513,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if(StringUtilities.isBlank(objectId)){
 			throw new CSException("objectId can't be null!");
 		}
-		test = this.checkOwnerShip(userName,objectId);
+		test = this.checkIsOwnerForProtectionElement(userName,objectId);
 		if(test) return true;
 		
 		if(attributeName==null||privilegeName==null){
@@ -591,7 +591,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if(StringUtilities.isBlank(objectId)){
 			throw new CSException("objectId can't be null!");
 		}
-		test = this.checkOwnerShip(userName,objectId);
+		test = this.checkIsOwnerForProtectionElement(userName,objectId);
 		if(test) return true;
 		
 		 if(typeOfAccess.equalsIgnoreCase("MIXED")){
@@ -2667,7 +2667,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (log.isDebugEnabled())
 			log.debug("Authorization|||setOwners|Success|Successful in assigning the Owners "+StringUtilities.stringArrayToString(userIds)+"for the Protection Element Id "+protectionElementId+"|");
 	}
-	private boolean checkOwnerShip(String userName,
+	public boolean checkIsOwnerForProtectionElement(String userName,
 			String protectionElementObjectId) {
 		boolean test = false;
 		Session s = null;
@@ -2697,22 +2697,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (rs.next()) {
 				test = true;
 			}
-			rs.close();
-			stmt.close();
-
+			
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log.debug("Authorization||"+userName+"|checkOwnerShip|Failure|Error in checking ownership for user "+userName+" and Protection Element "+protectionElementObjectId+"|"+ex.getMessage());
 		} finally {
 			try {
-
-				s.close();
 				rs.close();
 				stmt.close();
+				
+				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkOwnerShip|Failure|Error in Closing Session |"+ex2.getMessage());
 			}
+			
+			try{
+				s.close();
+			}catch( Exception ex ){}
 		}
 		if (log.isDebugEnabled())
 			log.debug("Authorization||"+userName+"|checkOwnerShip|Success|Successful in checking ownership for user "+userName+" and Protection Element "+protectionElementObjectId+"|");
