@@ -174,7 +174,12 @@ public class Group implements Principal {
 	 * 
 	 */
 	public boolean equals(Object obj){
+		Group other = (Group)obj;
+		if(this.groupId.toString().equals(other.getGroupId().toString())){
+			return true;
+		}else{
 		return false;
+		}
 	}
 
 	public String toString(){
