@@ -36,7 +36,7 @@
 					<h2>User</h2>
 
 					<h3>User Home</h3>
-
+					<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
 					<p>This is the User section of the User Provisioning Tool. A User
 					is simply someone that requires access to your application. Users
 					can have an associated Protection Group and Roles. <br>
@@ -44,6 +44,15 @@
 					details, and associate or deassociate Users with Protection Groups
 					and Roles. Please begin by selecting either Create a New User or
 					Select an Existing User.</p>
+					</logic:notPresent>
+					<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+					<p>This is the User section of the Super Admin Mode of the User Provisioning Tool. 
+					Here users can be assigned as UPT administrators for their particular application(s). 
+					They will have the right to create and modify Roles, Groups, etc. 
+					In this section you may create new Users or modify exiting User details. 
+					Then in the Application section you may assign that User to any Application. 
+					Please begin by selecting either Create a New User or Select an Existing User.</p>
+					</logic:present>
 					</td>
 				</tr>
 				<tr>
