@@ -1,4 +1,7 @@
 package gov.nih.nci.security;
+import java.util.Collection;
+import java.util.Set;
+
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
@@ -104,14 +107,6 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void assignPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException;
 
 	/**
-	 * @param role
-	 * @param privilegeName
-	 *  We will drop this method now. There is no need for this method.
-	 * assignPrivilegesToRole will delete existing relations and then put all new relations in place.
-	 */
-	public void removePrivilegesFromRole(String role, String[] privilegeName)throws CSTransactionException;
-
-	/**
 	 * @param group
 	 * 
 	 */
@@ -198,6 +193,11 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * 
 	 */
 	public Role getRoleById(String roleId) throws CSObjectNotFoundException;
+	/**
+	 * @param roleId
+	 * 
+	 */
+	public Collection getPrivileges(String roleId) throws CSObjectNotFoundException;
 
 	/**
 	 * @param serachCriteria

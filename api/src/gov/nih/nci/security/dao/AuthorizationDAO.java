@@ -10,6 +10,8 @@ import gov.nih.nci.security.authorization.jaas.*;
 import gov.nih.nci.security.exceptions.*;
 
 import java.security.Principal;
+import java.util.Set;
+import java.util.Collection;
 
 import javax.security.auth.Subject;
 
@@ -208,13 +210,6 @@ public interface AuthorizationDAO {
 	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames)throws CSTransactionException;
 
 	/**
-	 * @param role
-	 * @param privilegeName
-	 * 
-	 */
-	public void removePrivilegesFromRole(String role, String[] privilegeName)throws CSTransactionException;;
-
-	/**
 	 * @param group
 	 * 
 	 */
@@ -337,6 +332,8 @@ public interface AuthorizationDAO {
 	 */
 	public Group getGroup(String groupName) throws CSObjectNotFoundException;
 
+	
+	public Collection getPrivileges(String roleId) throws CSObjectNotFoundException;
 	/**
 	 * @param searchCriteria
 	 * 

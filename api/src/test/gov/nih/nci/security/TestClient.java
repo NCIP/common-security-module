@@ -8,6 +8,9 @@
 package test.gov.nih.nci.security;
 
 
+import java.util.Iterator;
+import java.util.Set;
+
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.*;
@@ -107,12 +110,29 @@ public class TestClient {
     
     public void assignPrivilegeToRoles(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-    	 //String[] privilegeIds = {"2", "3","5"};
+    	 String[] privilegeIds = {"2", "3","5"};
     	 //String[] privilegeIds = {"1", "4","6"};
-    	 String[] privilegeIds = {"1", "3","6"};
+    	 //String[] privilegeIds = {"1", "3","6"};
+    	 //String[] privilegeIds = {};
     	 String roleId = "1";
     	 try{
     	 	upm.assignPrivilegesToRole(roleId,privilegeIds);
+    	 }catch(Exception ex){
+    	 	ex.printStackTrace();
+    	 }
+    }
+    
+    public void getPrivileges(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+    	 
+    	 String roleId = "1";
+    	 try{
+    	 	java.util.Collection result = upm.getPrivileges(roleId);
+    	 	Iterator it = result.iterator();
+    	 	while(it.hasNext()){
+    	 		Privilege p = (Privilege)it.next();
+    	 		System.out.println(p.getId().toString()+":"+p.getName()+":"+p.getDesc());
+    	 	}
     	 }catch(Exception ex){
     	 	ex.printStackTrace();
     	 }
@@ -127,6 +147,7 @@ public class TestClient {
 		//ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
-		ts.assignPrivilegeToRoles();
+		//ts.assignPrivilegeToRoles();
+		ts.getPrivileges();
 	}
 }

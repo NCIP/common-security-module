@@ -16,10 +16,28 @@ import java.util.*;
 public class ObjectSetUtil {
 	
 	public static Collection intersect(Collection firstSet,Collection secondSet){
-		return null;
+		ArrayList result = new ArrayList();
+		Iterator it = firstSet.iterator();
+		while(it.hasNext()){
+			Object oj = it.next();
+			if(secondSet.contains(oj)){
+				result.add(oj);
+			}
+		}
+		return result;
 	}
 	public static Collection minus(Collection toBeDeletedFrom,Collection tobeDeleted){
-		return null;
+		ArrayList result = new ArrayList(toBeDeletedFrom);
+		
+		Iterator it = tobeDeleted.iterator();
+		while(it.hasNext()){
+			Object oj = it.next();
+			if(toBeDeletedFrom.contains(oj)){
+				result.remove(oj);
+			}
+		}
+		
+		return result;
 	}
     public static Collection union(Collection firstSet,Collection secondSet){
     	return null;

@@ -585,14 +585,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.removeObject(p);
 	}
 	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removePrivilegesFromRole(java.lang.String, java.lang.String[])
-	 */
-	public void removePrivilegesFromRole(String role, String[] privilegeName)
-			throws CSTransactionException {
-		// TODO Auto-generated method stub
-
-	}
-	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement)
 	 */
 	public void removeProtectionElement(ProtectionElement element)
@@ -659,6 +651,36 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public Collection getPrivileges(String roleId) throws CSObjectNotFoundException{
+		Session s = null;
+		
+		ArrayList result = new ArrayList();
+		try{
+			s = sf.openSession();
+			RolePrivilege search = new RolePrivilege();
+			Role r = new Role();
+			r.setId(new Long(roleId));
+			List list = s.createCriteria(RolePrivilege.class).add(Example.create(search)).list();
+			Iterator it = list.iterator();
+			while(it.hasNext()){
+				RolePrivilege rp = (RolePrivilege)it.next();
+				Privilege p = rp.getPrivilege();
+				result.add(p);
+			}
+			
+		}catch (Exception ex) {
+				
+				//ex.printStackTrace();
+				try {
+					s.close();
+							} catch (Exception ex2) {
+							}
+				
+							throw new CSObjectNotFoundException("No Set found",ex);
+			}
+		   return result;
 	}
 	private Object getObjectByPrimaryKey(Class objectType,Long primaryKey)throws CSObjectNotFoundException{
 		Object oj = null;
