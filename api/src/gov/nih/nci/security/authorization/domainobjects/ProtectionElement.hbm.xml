@@ -60,15 +60,7 @@
     >
         
     </property>
-    <property
-        name="protectionElementTypeId"
-        type="long"
-        column="PROTECTION_ELEMENT_TYPE_ID"
-        not-null="true"
-        length="10"
-    >
-        
-    </property>
+    
     <property
         name="updateDate"
         type="java.sql.Date"

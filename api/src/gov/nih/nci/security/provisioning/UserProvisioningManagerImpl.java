@@ -304,7 +304,16 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public ProtectionElement getProtectionElement(String objectId) throws CSObjectNotFoundException{
-		return null;
+		return authorizationDAO.getProtectionElement(objectId);
+	}
+	
+	/**
+	 * Returns the protection element for the passed object id
+	 * @param objectId
+	 * 
+	 */
+	public ProtectionElement getProtectionElement(Long protectionElementId) throws CSObjectNotFoundException{
+		return authorizationDAO.getProtectionElement(protectionElementId);
 	}
 
 	/**

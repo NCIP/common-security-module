@@ -397,6 +397,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			t.commit();
 			log.debug("Protection element ID is: " + protectionElement.getProtectionElementId());
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			log.error(ex);
 			try {
 				t.rollback();
