@@ -17,10 +17,10 @@
   
   
  <!-- Pages Begin --> 
-  <definition name="UPTLogin" extends="Base">
+  <definition name="Login" extends="Base">
   	<put name="Content"   value="pages/content/UPTLogin.jsp" />
   </definition>
   
-  
+    
   
   </tiles-definitions>
