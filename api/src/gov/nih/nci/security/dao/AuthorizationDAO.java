@@ -268,7 +268,7 @@ public interface AuthorizationDAO {
 	 * @param rolesId
 	 * 
 	 */
-	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId)throws CSTransactionException;;
+	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String[] rolesId)throws CSTransactionException;;
 
 	/**
 	 * Returns the privilege for the passed name privilege id

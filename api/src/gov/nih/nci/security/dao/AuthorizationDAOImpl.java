@@ -36,13 +36,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public void addUserToGroup(String groupId, String user)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
+		/**
+		 *  insert into usergroup table (groupid,userid);
+		 */
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignGroupRoleToProtectionGroup(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void assignGroupRoleToProtectionGroup(String protectionGroupId,
-			String groupId, String rolesId) throws CSTransactionException {
+			String groupId, String[] rolesId) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
