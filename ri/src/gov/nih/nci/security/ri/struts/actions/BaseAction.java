@@ -33,7 +33,7 @@ public abstract class BaseAction extends Action implements Constants,
 
 	static final Logger log = Logger.getLogger(BaseAction.class.getName());
 
-	static AuthorizationManager am = null;
+	static AuthorizationManager authMgr = null;
 
 	/*
 	 * Method ensures that the user is authenticated before calling the
@@ -66,16 +66,16 @@ public abstract class BaseAction extends Action implements Constants,
 	 */
 	protected AuthorizationManager getAuthorizationManager() throws CSException {
 
-		if (am == null) {
+		if (authMgr == null) {
 			synchronized (BaseAction.class) {
-				if (am == null) {
-					am = SecurityServiceProvider
+				if (authMgr == null) {
+					authMgr = SecurityServiceProvider
 						   .getAuthorizationManager(CSM_RI_CONTEXT_NAME);
 				}
 			}
 		}
 
-		return am;
+		return authMgr;
 
 	}
 
