@@ -25,7 +25,7 @@
 
 <html:form styleId="searchResultForm"
 	action="<%="/UserDBOperation"%>">
-	<html:hidden property="operation" value="error" />
+	<html:hidden property="operation" value="read" />
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<tr>
@@ -37,6 +37,21 @@
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0"
 				width="100%" class="contentBegins">
+				<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
+				<tr>
+					<td>
+						<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
+							<tr>
+								<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
+							</tr>
+							<tr class="dataRowDark">
+								<td class="formRequiredLabel" width="40%" scope="row"><label>User Login Name</label></td>
+								<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				</logic:notEqual>
 				<tr>
 					<td>
 					<table summary="" cellpadding="0" cellspacing="0" border="0"

@@ -189,19 +189,35 @@
 				<h2>Group, Protection Group and Roles Association</h2>
 				</td>
 			</tr>
+				<logic:notEqual name="GroupForm" property="groupName" value="<%=DisplayConstants.BLANK%>">
+				<tr>
+					<td>
+						<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
+							<tr>
+								<td class="formTitle" height="20" colspan="2">SELECTED GROUP</td>
+							</tr>
+							<tr class="dataRowDark">
+								<td class="formRequiredLabel" width="40%" scope="row"><label>Group Name</label></td>
+								<td class="formField" width="60%"><bean:write name="GroupForm" property="groupName" /></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
 				<table summary="" cellpadding="3" cellspacing="10" border="0"
 					height="100%">
 					<tr>
-						<td><html:messages id="message"
-							property="<%= org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE %>">
-							<li><bean:write name="message" /></li>
-						</html:messages></td>
+						<td class="infoMessage">
+		  				<html:messages id="message" message="true">
+		  				<bean:write name="message"/>
+		  				</html:messages>				
+		  				</td>
 					</tr>
 					<html:form styleId="associationForm"
 						action="<%="/GroupDBOperation"%>">
-						<html:hidden property="operation" value="error" />
+						<html:hidden property="operation" value="read" />
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 							<tr>
 								<bean:define
@@ -264,7 +280,7 @@
 							<table summary="" cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
-									<td class="sidebarTitle" height="20">AVAILABLE ROLE GROUPS</td>
+									<td class="sidebarTitle" height="20">AVAILABLE ROLES</td>
 								</tr>
 								<tr>
 									<td class="formField" align="center"><select multiple
@@ -288,7 +304,7 @@
 								width="100%" class="sidebarSection">
 								<tr>
 
-									<td class="sidebarTitle" height="20">ASSIGNED ROLE GROUPS</td>
+									<td class="sidebarTitle" height="20">ASSIGNED ROLES</td>
 								</tr>
 								<tr>
 									<td class="formField" align="center"><select multiple

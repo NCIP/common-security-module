@@ -41,15 +41,13 @@ import org.apache.struts.action.ActionMessages;
  */
 public class ProtectionGroupAction extends CommonAssociationAction 
 {
-
-	private ActionErrors errors = new ActionErrors();
-	private ActionMessages messages = new ActionMessages();
-	
 	private static final Category logProtectionGroup = Category.getInstance(ProtectionGroupAction.class);
 	
 	public ActionForward loadParentAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;
 		HttpSession session = request.getSession();
@@ -84,6 +82,9 @@ public class ProtectionGroupAction extends CommonAssociationAction
 	
 	public ActionForward setParentAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;
 		HttpSession session = request.getSession();
@@ -93,9 +94,6 @@ public class ProtectionGroupAction extends CommonAssociationAction
 				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|setParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-		
-		errors.clear();
-
 		try
 		{
 			// TO-DO replace assignProtectionGroups with setOwners or such method

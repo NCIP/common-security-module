@@ -27,10 +27,26 @@
  	}
 // -->
 </script>
-
+<bean:define id="submitValue" value="error" />
+<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+		<bean:define id="submitValue" value="create" />
+	</logic:equal>
+	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+		<bean:define id="submitValue" value="search" />
+	</logic:equal>
+</logic:equal>
+<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+		<bean:define id="submitValue" value="loadAdd" />
+	</logic:equal>
+	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+		<bean:define id="submitValue" value="loadSearchResult" />
+	</logic:equal>
+</logic:notEqual>
 <html:form styleId="detailsForm" action="/ApplicationDBOperation">
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:hidden property="operation" value="error"/>
+	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
@@ -38,10 +54,10 @@
 					<td>
 					<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
-							<td colspan="3">
-			  				<html:messages id="message" property="<%= org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE %>">
-			  				<li><bean:write name="message"/></li>
-			  				</html:messages>				
+							<td class="infoMessage" colspan="3">
+			  				<html:messages id="message" message="true">
+			  				<bean:write name="message"/>
+			  				</html:messages>	
 			  				</td>
 						</tr>
 						<tr>

@@ -54,11 +54,11 @@
 					<table summary="" cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr>
-							<td><html:messages id="message"
-								property="<%= org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE %>">
-								<li><bean:write name="message" /></li>
+			  				<td class="infoMessage"><html:messages id="message" message="true">
+								<bean:write name="message" />
 							</html:messages></td>
 						</tr>
+						<tr><td><br></br></td></tr>
 						<tr>
 							<td valign="top">
 							<table summary="" cellpadding="0" cellspacing="0" border="0"

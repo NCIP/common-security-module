@@ -86,16 +86,31 @@
 					<h2>User and Groups Association</h2>
 				</td>
 			</tr>
+			<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
+			<tr>
+				<td>
+					<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
+						<tr>
+							<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
+						</tr>
+						<tr class="dataRowDark">
+							<td class="formRequiredLabel" width="40%" scope="row"><label>User Login Name</label></td>
+							<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
 				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%">
 					<tr>
-						<td>
-		  				<html:messages id="message" property="<%= org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE %>">
-		  				<li><bean:write name="message"/></li>
+						<td class="infoMessage">
+		  				<html:messages id="message" message="true">
+		  				<bean:write name="message"/>
 		  				</html:messages>				
 		  				</td>
-					</tr>					
+					</tr>
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
@@ -126,7 +141,7 @@
 					</td>
 					<td width="35%" valign="top">
 					<html:form styleId="associationForm" action = "<%="/UserDBOperation"%>">
-					<html:hidden property="operation" value="error"/>
+					<html:hidden property="operation" value="read"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 

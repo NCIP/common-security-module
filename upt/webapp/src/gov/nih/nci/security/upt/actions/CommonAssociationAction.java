@@ -33,13 +33,13 @@ import org.apache.struts.action.ActionMessages;
  */
 public class CommonAssociationAction extends CommonDBAction
 {
-	private ActionErrors errors = new ActionErrors();
-	private ActionMessages messages = new ActionMessages();
-
 	private static final Category logAssociation = Category.getInstance(CommonAssociationAction.class);
 	
 	public ActionForward loadAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;
 		
@@ -48,8 +48,6 @@ public class CommonAssociationAction extends CommonDBAction
 				logAssociation.debug("||"+baseAssociationForm.getFormName()+"|loadAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-
-		errors.clear();
 		try
 		{
 			baseAssociationForm.buildAssociationObject(request);
@@ -72,6 +70,9 @@ public class CommonAssociationAction extends CommonDBAction
 	
 	public ActionForward setAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;
 		
@@ -80,12 +81,10 @@ public class CommonAssociationAction extends CommonDBAction
 				logAssociation.debug("||"+baseAssociationForm.getFormName()+"|setAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-
-		errors.clear();
 		try
 		{
-			baseAssociationForm.setAssociationObject(request);
 			baseAssociationForm.buildDisplayForm(request);
+			baseAssociationForm.setAssociationObject(request);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Updation Successful"));
 			saveMessages( request, messages );
 		}

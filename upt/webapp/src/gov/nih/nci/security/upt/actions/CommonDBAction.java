@@ -36,13 +36,13 @@ import org.apache.struts.actions.DispatchAction;
  */
 public class CommonDBAction extends DispatchAction
 {
-	private ActionErrors errors = new ActionErrors();
-	private ActionMessages messages = new ActionMessages();
-	
 	private static final Category logDB = Category.getInstance(CommonDBAction.class);
 	
 	public ActionForward loadHome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -65,7 +65,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward loadAdd(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -89,6 +91,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward loadSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -112,6 +117,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward loadSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -132,6 +140,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -140,7 +151,6 @@ public class CommonDBAction extends DispatchAction
 				logDB.debug("||"+baseDBForm.getFormName()+"|create|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-		errors.clear();
 		try
 		{
 			errors = form.validate(mapping, request);
@@ -178,6 +188,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward read(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -186,8 +199,6 @@ public class CommonDBAction extends DispatchAction
 				logDB.debug("||"+baseDBForm.getFormName()+"|read|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-
-		errors.clear();
 		if (baseDBForm.getPrimaryId() == null || baseDBForm.getPrimaryId().equalsIgnoreCase(""))
 		{
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "A record needs to be selected first to view details" ));
@@ -221,6 +232,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -229,8 +243,6 @@ public class CommonDBAction extends DispatchAction
 				logDB.debug("||"+baseDBForm.getFormName()+"|update|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-		
-		errors.clear();
 		try
 		{
 			errors = form.validate(mapping, request);
@@ -267,6 +279,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -275,8 +290,6 @@ public class CommonDBAction extends DispatchAction
 				logDB.debug("||"+baseDBForm.getFormName()+"|delete|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-
-		errors.clear();
 		try
 		{
 			baseDBForm.removeDBObject(request);
@@ -302,6 +315,9 @@ public class CommonDBAction extends DispatchAction
 	
 	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
 		
@@ -310,8 +326,6 @@ public class CommonDBAction extends DispatchAction
 				logDB.debug("||"+baseDBForm.getFormName()+"|search|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
-
-		errors.clear();
 		try
 		{
 			SearchResult searchResult = baseDBForm.searchObjects(request,errors,messages);

@@ -187,6 +187,11 @@ td.subMenuFooter{ /* for the last row in the submenu left of the footer menu */
   border-bottom:1px solid #CCCCCC; /* constant: medium gray */
   border-right:1px solid #CCCCCC; /* constant: medium gray */
 }
+td.infoMessage{ /* for the last row in the submenu left of the footer menu */
+  font-family:verdana, arial, helvetica, sans-serif;
+  color:#0000FF; /* constant: blue */
+}
+
 
 /*############### 
 LINKS BEGIN 

@@ -82,7 +82,7 @@
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
-														for="applicationContextName">APPLICATION CONTEXT NAME</label></td>
+														for="applicationContextName">APPLICATION NAME</label></td>
 													<td class="formFieldLogin"><html:text style="formField"
 														size="14" property="applicationContextName" value="" /></td>
 												</tr>

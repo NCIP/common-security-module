@@ -39,14 +39,13 @@ import org.jdom.input.SAXBuilder;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LoginAction extends Action 
-{
-	
-	private ActionErrors errors = new ActionErrors();
-	
+{	
 	private static final Category log = Category.getInstance(LoginAction.class);
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
+		ActionErrors errors = new ActionErrors();		
+
 		AuthenticationManager authenticationManager = null;
 		AuthorizationManager authorizationManager = null;
 		UserProvisioningManager userProvisioningManager = null;
