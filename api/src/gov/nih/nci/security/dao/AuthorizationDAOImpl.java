@@ -475,7 +475,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Connection cn = null;
 		//log.debug("Running create test...");
 		try {
-
+             
+			if(this.checkOwnerShip(userName,objectId)){
+				return true;
+			}
 			s = sf.openSession();
 			t = s.beginTransaction();
 			cn = s.connection();
@@ -2108,5 +2111,47 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 		
+	}
+	private boolean checkOwnerShip(String userName,String protectionElementObjectId){
+		boolean test = false;
+		Session s = null;
+		
+		Connection cn = null;
+		
+		try {
+
+			s = sf.openSession();
+			
+			cn = s.connection();
+
+
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("Select 'X' ");
+			stbr.append("from user_protection_element upe, user u, protection_element pe ");
+			stbr.append("where pe.protection_element_id = upe.protection_element_id ");
+			stbr.append("and  upe.user_id = u.user_id ");
+			stbr.append("and  u.login_name ='"+userName+"' ");
+			stbr.append("and  pe.object_id ='"+protectionElementObjectId+"'");
+			String sql = stbr.toString();
+			Statement stmt = cn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				test = true;
+			}
+			//log.debug(System.currentTimeMillis());
+			rs.close();
+			stmt.close();
+			
+
+		} catch (Exception ex) {
+			log.error(ex);
+		} finally {
+			try {
+				// cn.close(); Commented by Kunal on 01/14/05
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return test;
 	}
 }
