@@ -1,9 +1,8 @@
-<BR>
-<BR>
-<BR>
-<BR>
 
-<TABLE BORDER="0" ALIGN="center" WIDTH="100%">
+<body bgcolor="#FFFF66">
+
+ 
+<table background="<html:rewrite href="pages/images/beachball.gif"/>" border="0" cellspacing=0 cellpadding=0>
    <TR>        
       
     <TD WIDTH="70%"> <P CLASS="header-1" ALIGN="center">Welcome to the NCICB Common Security Module <br>
@@ -17,3 +16,5 @@
 	  <td width="30%">&nbsp;</td>
    </TR>
 </TABLE>
+
+</body"
