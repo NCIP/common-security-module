@@ -49,13 +49,13 @@
 		<action path="/viewHome" forward="main.layout"  validate="false"/>
 		<action path="/viewErrorDetails" forward="show.error.details" validate="false"/>
 		
-		<action input="main.layout" path="/viewCreateEmployee" name="employeeForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateEmployeeAction" validate="false">
+		<action input="main.layout" path="/viewCreateEmployee" name="employeeForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateEmployeeAction" validate="false" scope="session">
 		    <forward name="success" path="show.create.employee"/>
 			<forward name="access_denied" path="/viewHome.do" />
 		</action>
 		
 		
-		<action input="main.layout" path="/viewCreateProject" name="projectForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction" validate="false">
+		<action input="main.layout" path="/viewCreateProject" name="projectForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction" validate="false" scope="session">
 		       <forward name="success" path="show.create.project"/>
 			   <forward name="access_denied" path="/viewHome.do" />
 		
