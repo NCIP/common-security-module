@@ -1622,7 +1622,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 		Transaction t = null;
-
+         if(StringUtilities.isBlank(protectionElementObjectId)){
+         	throw new CSTransactionException("object Id can't be null!");
+         }
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
@@ -1631,7 +1633,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			for (int i = 0; i < userNames.length; i++) {
 				User user = this.getUser(userNames[i]);
+				if(user!=null){
 				users.add(user);
+				}
 			}
 			ProtectionElement pe = new ProtectionElement();
 			pe.setObjectId(protectionElementObjectId);
