@@ -449,16 +449,18 @@ public class TestClient {
 		try{
 			//Role role = new Role();
 			//role.setName("role_name_1");
-			Group grp = new Group();
-			grp.setGroupName("g%");
+			//Group grp = new Group();
+			ProtectionElement pe = new ProtectionElement();
+			pe.setProtectionElementName("PE_name_1");
+			//grp.setGroupName("g%");
 			//SearchCriteria sc = new RoleSearchCriteria(role);
-			SearchCriteria sc = new GroupSearchCriteria(grp);
+			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
 			List result = upm.getObjects(sc);
 			   Iterator it = result.iterator();
 			   while(it.hasNext()){
 			   //	Role p = (Role)it.next();
-			   	Group gr = (Group)it.next();
-			   	System.out.println(gr.getGroupName()+":"+gr.getGroupDesc());
+			   	ProtectionElement pe1 = (ProtectionElement)it.next();
+			   	System.out.println(pe1.getProtectionElementName()+":"+pe1.getProtectionElementDescription());
 			   }
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -489,10 +491,10 @@ public class TestClient {
 		//ts.populatePgPe();
 		//ts.populateUgrpg();
 		//ts.checkPermission();
-		//ts.getObjects();
+		ts.getObjects();
 		//ts.testGetProtectionElements();
 		//ts.testGetProtectionGroups();
-		ts.assignToProtectionGroups();
-		ts.testGetProtectionGroups();
+		//ts.assignToProtectionGroups();
+		//ts.testGetProtectionGroups();
 	}
 }
