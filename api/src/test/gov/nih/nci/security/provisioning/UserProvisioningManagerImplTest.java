@@ -18,8 +18,7 @@ import junit.framework.TestSuite;
  *     UserProvisioningManagerImpl implements gov.nih.nci.security.UserProvisioningManager </p>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-07 21:35:11 $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * 
  * @see gov.nih.nci.security.provisioning.UserProvisioningManagerImpl
  * @see some.other.package

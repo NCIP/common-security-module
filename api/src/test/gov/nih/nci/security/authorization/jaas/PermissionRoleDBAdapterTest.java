@@ -18,11 +18,11 @@ import junit.framework.TestSuite;
  *     PermissionRoleDBAdapter implements gov.nih.nci.security.authorization.jaas.PermissionAdapter </p>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-07 21:35:09 $
- * @version $Revision: 1.1 $
+ * @date $Date: 2005-02-04 17:46:51 $
+ * @version $Revision: 1.2 $
  * 
  * @see gov.nih.nci.security.authorization.jaas.PermissionRoleDBAdapter
- * @see some.other.package
+ * 
  */
 
 public class PermissionRoleDBAdapterTest extends TestCase

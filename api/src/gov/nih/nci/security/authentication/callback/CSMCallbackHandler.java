@@ -49,7 +49,7 @@ public class CSMCallbackHandler implements CallbackHandler {
 	 * of the class. It creates a NameCallback and PasswordCallback which holds
 	 * the user entered userID and password which are provided by the calling 
 	 * application.
-	 * @see javax.security.auth.callback.CallbackHandler#handle(javax.security.auth.callback.Callback)
+	 * 
 	 */
 	public void handle(Callback[] callbacks) throws IOException,
 			UnsupportedCallbackException {

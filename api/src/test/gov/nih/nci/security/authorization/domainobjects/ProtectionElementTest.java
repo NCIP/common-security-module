@@ -17,11 +17,11 @@ import junit.framework.TestSuite;
  *     ProtectionElement extends java.lang.Object <br>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-07 21:35:04 $
- * @version $Revision: 1.1 $
+ * @date $Date: 2005-02-04 17:46:51 $
+ * @version $Revision: 1.2 $
  * 
  * @see gov.nih.nci.security.authorization.domainobjects.ProtectionElement
- * @see some.other.package
+ * 
  */
 
 public class ProtectionElementTest extends TestCase

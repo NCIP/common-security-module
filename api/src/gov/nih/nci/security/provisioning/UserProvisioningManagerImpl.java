@@ -145,7 +145,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementAttributeName
 	 * 
 	 * @throws CSTransactionException
-	 * @see gov.nih.nci.security.AuthorizationManager#assignProtectionElements(String, String, String)
+	 * 
 	 */
 	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName) throws CSTransactionException{
             
@@ -427,7 +427,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementObjectId
 	 * 
 	 * @throws CSTransactionException
-	 * @see gov.nih.nci.security.AuthorizationManager#assignProtectionElements(String, String)
+	 * 
 	 */
 	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException{
             authorizationDAO.assignProtectionElement(protectionGroupName,protectionElementObjectId);
@@ -448,7 +448,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 
 	/**
 	 * @param userName
-	 * @param protectionElementName String
+	 * @param protectionElementObjectId String
 	 * @param protectionElementAttributeName
 	 * 
 	 * @throws CSTransactionException

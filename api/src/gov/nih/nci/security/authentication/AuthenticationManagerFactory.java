@@ -24,24 +24,24 @@ import org.jdom.input.SAXBuilder;
  * interface. This class reads the <code>Authentication.Properties</code> file to determine which implementation of the
  * <code>AuthenticationManager</code> is to be used. If the client application wants to use its own
  * Authentication Class, then it should implement the {@link AuthenticationManager} interface. Also an entry should be configured
- * in the <code>ApplicationServiceConfig</code> file against the Application
+ * in the <code>ApplicationSecurityConfig</code> file against the Application
  * Context Name regsitering the class, which it wants to use, as shown below
  * <p>
  * <blockquote>
  * 
  * <pre>
- *		<application>
- *	   		<context-name>
+ *		&lt;application&gt;
+ *	   		&lt;context-name&gt;
  *	   			FooApplication
- *	      	</context-name>
- *	      	<authentication>
- *		      	<authentication-provider-class>
+ *	      	&lt;/context-name&gt;
+ *	      	&lt;authentication&gt;
+ *		      	&lt;authentication-provider-class&gt;
  *	     			com.Foo.AuthenticationManagerClass
- *	     		</authentication-provider-class>
- *			</authentication>
+ *	     		&lt;/authentication-provider-class&gt;
+ *			&lt;/authentication&gt;
  *			:
  *			:
- *		</application>
+ *		&lt;/application&gt;
  * </pre>
  * 
  * </blockquote>

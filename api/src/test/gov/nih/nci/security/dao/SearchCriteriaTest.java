@@ -16,12 +16,12 @@ import junit.framework.TestSuite;
  * <p> Relations:
  *     SearchCriteria extends java.lang.Object <br>
  * 
- * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-07 21:35:10 $
- * @version $Revision: 1.1 $
+ * @author Vinay Kumar
+ 
+ * @version $Revision: 1.2 $
  * 
  * @see gov.nih.nci.security.dao.SearchCriteria
- * @see some.other.package
+ * 
  */
 
 public class SearchCriteriaTest extends TestCase

@@ -177,7 +177,7 @@ public interface AuthorizationDAO {
 	
 	/**
 	 * @param userName
-	 * @param protectionElementName
+	 * @param protectionElementObjectId
 	 * @param protectionElementAttributeName
 	 * @throws CSTransactionException
 	 */

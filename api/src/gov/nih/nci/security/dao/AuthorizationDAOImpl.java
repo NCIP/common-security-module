@@ -53,7 +53,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @version 1.0
- * @created 03-Dec-2004 1:17:47 AM
+ * created 03-Dec-2004 1:17:47 AM
  */
 public class AuthorizationDAOImpl implements AuthorizationDAO {
 

@@ -35,12 +35,12 @@ import junit.framework.TestSuite;
  * AuthorizationDAOImpl implements gov.nih.nci.security.dao.AuthorizationDAO
  * </p>
  * 
- * @author Your Name Your email - Your Company
- * @date $Date: 2005-01-25 06:36:12 $
- * @version $Revision: 1.8 $
+ * @author Brian Husted
+ *
+ * @version $Revision: 1.9 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
- * @see some.other.package
+ * 
  */
 
 public class AuthorizationDAOImplTest extends TestCase {
