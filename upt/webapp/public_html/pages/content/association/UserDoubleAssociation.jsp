@@ -16,121 +16,54 @@
 <script> 
     <!--
     	
-    // selSwitch functions
-	<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
-
-   	function setAndSubmitPG(target)
+  	function setAndSubmit(target)
 	{
-		var len = document.associationForm.protectionGroupAssociatedIds.length;
-		
-		if (len == 0)
-		{
-			alert ("Aleast One Protection Group should be selected");
-			return;
-		}
-		else if (len > 1)
-		{
-			alert ("Only a Single Protection Group can be selected");
-			return;
-		}
-		else
-		{
-   			document.associationForm.protectionGroupAssociatedIds[0].selected = true;
-
-    		var roleLen = document.associationForm.roleAssociatedIds.length;
-			if (roleLen == 0)
-			{
-				alert ("Aleast One Role should be selected");
-				return;
-			}
-	       	else
-	       	{
-		       	for (i=0 ; i < roleLen ; i++)
-	    		{
-	    			document.associationForm.roleAssociatedIds[i].selected = true;
-	    		}
-
-	    		document.associationForm.operation.value=target;
-	    		document.associationForm.submit();
-	    	}
-	    }
+		document.associationForm.operation.value=target;
 	}
 	
-	function selSwitchPG(btn)
-	{
-	   var i= btnType = 0;
-	   var isavailableProtectionGroupIds = doIt = false;
-	
-	   if (btn.value == "Assign" || btn.value == "Deassign") 
-	      btnType = 1;
-	   else if (btn.value == "Assign All" || btn.value == "Deassign All") 
-	      btnType = 2;
-	   else
-	      btnType = 3;
-	
-      isavailableProtectionGroupIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
+	<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 
-      with ( ((isavailableProtectionGroupIds)? document.associationForm.availableProtectionGroupIds: document.associationForm.protectionGroupAssociatedIds) )
-      {
-         for (i = 0; i < length; i++)
-         {
-            doIt = false;
-            if (btnType == 1)
-            { 
-               if(options[i].selected) doIt = true;
-            }
-            else if (btnType == 2)
-            {
-               doIt = true;
-            } 
-            else 
-               if (!options[i].selected) doIt = true;
-             
-            if (doIt)
-            {
-               with (options[i])
-               {
-                  if (isavailableProtectionGroupIds)
-                     document.associationForm.protectionGroupAssociatedIds.options[document.associationForm.protectionGroupAssociatedIds.length] = new Option( text, value );
-                  else
-                     document.associationForm.availableProtectionGroupIds.options[document.associationForm.availableProtectionGroupIds.length] = new Option( text, value );
-               } 
-               options[i] = null;
-               i--;
-            } 
-         } // end for loop
-         if (options[0] != null)
-            options[0].selected = true;
-      } // end with isavailableProtectionGroupIds
-	} //-->    
-	</logic:notPresent>
-
-	<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
-
-		function setAndSubmitRole(target)
+	   	function setAndSubmitPG(target)
 		{
-			var roleLen = document.associationForm.roleAssociatedIds.length;
-			if (roleLen == 0)
+			var len = document.associationForm.protectionGroupAssociatedIds.length;
+			
+			if (len == 0)
 			{
-				alert ("Aleast One Role should be selected");
+				alert ("Aleast One Protection Group should be selected");
 				return;
 			}
-		   	else
-		   	{
-		       	for (i=0 ; i < roleLen ; i++)
-				{
-					document.associationForm.roleAssociatedIds[i].selected = true;
-				}
-		
-				document.associationForm.operation.value=target;
-				document.associationForm.submit();
+			else if (len > 1)
+			{
+				alert ("Only a Single Protection Group can be selected");
+				return;
 			}
+			else
+			{
+	   			document.associationForm.protectionGroupAssociatedIds[0].selected = true;
+	
+	    		var roleLen = document.associationForm.roleAssociatedIds.length;
+				if (roleLen == 0)
+				{
+					alert ("Aleast One Role should be selected");
+					return;
+				}
+		       	else
+		       	{
+			       	for (i=0 ; i < roleLen ; i++)
+		    		{
+		    			document.associationForm.roleAssociatedIds[i].selected = true;
+		    		}
+	
+		    		document.associationForm.operation.value=target;
+		    		document.associationForm.submit();
+		    	}
+		    }
 		}
-
-		function selSwitchRole(btn)
+		
+		function selSwitchPG(btn)
 		{
 		   var i= btnType = 0;
-		   var isavailableRoleIds = doIt = false;
+		   var isavailableProtectionGroupIds = doIt = false;
 		
 		   if (btn.value == "Assign" || btn.value == "Deassign") 
 		      btnType = 1;
@@ -139,9 +72,9 @@
 		   else
 		      btnType = 3;
 		
-	      isavailableRoleIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
+	      isavailableProtectionGroupIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
 	
-	      with ( ((isavailableRoleIds)? document.associationForm.availableRoleIds: document.associationForm.roleAssociatedIds) )
+	      with ( ((isavailableProtectionGroupIds)? document.associationForm.availableProtectionGroupIds: document.associationForm.protectionGroupAssociatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -161,10 +94,10 @@
 	            {
 	               with (options[i])
 	               {
-	                  if (isavailableRoleIds)
-	                     document.associationForm.roleAssociatedIds.options[document.associationForm.roleAssociatedIds.length] = new Option( text, value );
+	                  if (isavailableProtectionGroupIds)
+	                     document.associationForm.protectionGroupAssociatedIds.options[document.associationForm.protectionGroupAssociatedIds.length] = new Option( text, value );
 	                  else
-	                     document.associationForm.availableRoleIds.options[document.associationForm.availableRoleIds.length] = new Option( text, value );
+	                     document.associationForm.availableProtectionGroupIds.options[document.associationForm.availableProtectionGroupIds.length] = new Option( text, value );
 	               } 
 	               options[i] = null;
 	               i--;
@@ -172,9 +105,77 @@
 	         } // end for loop
 	         if (options[0] != null)
 	            options[0].selected = true;
-	      } // end with isavailableRoleIds
-		}    //-->
-	</logic:present>
+	      } // end with isavailableProtectionGroupIds
+		} //-->    
+	</logic:notPresent>
+
+	function setAndSubmitRole(target)
+	{
+		var roleLen = document.associationForm.roleAssociatedIds.length;
+		if (roleLen == 0)
+		{
+			alert ("Aleast One Role should be selected");
+			return;
+		}
+	   	else
+	   	{
+	       	for (i=0 ; i < roleLen ; i++)
+			{
+				document.associationForm.roleAssociatedIds[i].selected = true;
+			}
+	
+			document.associationForm.operation.value=target;
+			document.associationForm.submit();
+		}
+	}
+
+	function selSwitchRole(btn)
+	{
+	   var i= btnType = 0;
+	   var isavailableRoleIds = doIt = false;
+	
+	   if (btn.value == "Assign" || btn.value == "Deassign") 
+	      btnType = 1;
+	   else if (btn.value == "Assign All" || btn.value == "Deassign All") 
+	      btnType = 2;
+	   else
+	      btnType = 3;
+	
+      isavailableRoleIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
+
+      with ( ((isavailableRoleIds)? document.associationForm.availableRoleIds: document.associationForm.roleAssociatedIds) )
+      {
+         for (i = 0; i < length; i++)
+         {
+            doIt = false;
+            if (btnType == 1)
+            { 
+               if(options[i].selected) doIt = true;
+            }
+            else if (btnType == 2)
+            {
+               doIt = true;
+            } 
+            else 
+               if (!options[i].selected) doIt = true;
+             
+            if (doIt)
+            {
+               with (options[i])
+               {
+                  if (isavailableRoleIds)
+                     document.associationForm.roleAssociatedIds.options[document.associationForm.roleAssociatedIds.length] = new Option( text, value );
+                  else
+                     document.associationForm.availableRoleIds.options[document.associationForm.availableRoleIds.length] = new Option( text, value );
+               } 
+               options[i] = null;
+               i--;
+            } 
+         } // end for loop
+         if (options[0] != null)
+            options[0].selected = true;
+      } // end with isavailableRoleIds
+	}    //-->
     </script>
 
 <table summary="" cellpadding="0" cellspacing="0" border="0"

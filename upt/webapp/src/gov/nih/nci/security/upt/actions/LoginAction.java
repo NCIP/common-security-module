@@ -162,7 +162,7 @@ public class LoginAction extends Action
 		
 		try
 		{
-			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManger(loginForm.getApplicationContextName());
+			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());
 			if (null == userProvisioningManager)
 			{
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			

@@ -11,15 +11,28 @@
     <!--
     	function setAndSubmit(target)
     	{
-    		document.associationForm.operation.value=target;
-    		var len = document.associationForm.associatedIds.length;
-    		for (i=0 ; i < len ; i++)
+    		if (target == "read")
     		{
-    			document.associationForm.associatedIds[i].selected = true;
+	    		document.associationForm.operation.value=target;
     		}
-    		document.associationForm.submit();
-    	}
-    	
+    		else
+    		{		
+	    		var len = document.associationForm.associatedIds.length;
+	    		if (len == 0)
+	    		{
+	    			alert("A Group must be selected for association");
+	    		}
+	    		else
+	    		{
+		    		for (i=0 ; i < len ; i++)
+		    		{
+		    			document.associationForm.associatedIds[i].selected = true;
+		    		}
+		    		document.associationForm.operation.value=target;
+		    		document.associationForm.submit();
+				}
+			}
+	    }    	
     	// selSwitch functions
 
 		function selSwitch(btn)
@@ -145,7 +158,7 @@
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</html:submit></td>
+						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
 					</tr>
 				</table>
 				</td>				

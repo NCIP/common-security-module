@@ -23,6 +23,8 @@ public interface BaseDoubleAssociationForm extends BaseAssociationForm
 	
 	public String[] getRoleAssociatedIds();
 	
+	public String getProtectionGroupAssociatedId();
+	
 	public void buildDoubleAssociationObject(HttpServletRequest request)throws Exception;
 
 	public void setDoubleAssociationObject(HttpServletRequest request)throws Exception;

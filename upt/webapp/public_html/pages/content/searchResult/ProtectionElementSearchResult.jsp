@@ -35,36 +35,18 @@
 		<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0"
-				class="contentBegins">
+				width="100%" class="contentBegins">
 				<tr>
 					<td>
 					<table summary="" cellpadding="0" cellspacing="0" border="0"
-						width="600">
+						width="100%">
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>
-						<!-- paging begins -->
 						<logic:present name="<%=DisplayConstants.SEARCH_RESULT%>">
 							<bean:define name="<%=DisplayConstants.SEARCH_RESULT%>"
 								property="searchResultObjects" id="searchResultObjects" />
 							<bean:define id="oddRow" value="true" />
-							<tr>
-								<td align="right" class="dataPagingSection" height="20">
-								<table cellpadding="0" cellspacing="0" border="0">
-									<tr>
-										<td class="dataPagingText" align="right"><a
-											class="dataPagingLink"
-											href="javascript: setAndSubmit('next')">&lt;&lt; Previous</a></td>
-										<td class="dataPagingText" align="center">| 1 - 5 of 10 |</td>
-										<td class="dataPagingText" align="left"><a
-											class="dataPagingLink"
-											href="javascript: setAndSubmit('next')">Next &gt;&gt;</a></td>
-									</tr>
-								</table>
-								</td>
-							</tr>
-							<!-- paging ends -->
-
 							<tr>
 								<td>
 								<table summary="Enter summary of data here" cellpadding="3"
@@ -89,13 +71,13 @@
 													style="formFieldSized" property="protectionElementId"
 													value="<%=searchResultObject.getProtectionElementId().toString()%>" /></td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="protectionElementName" /></td>
+													name="searchResultObject" property="protectionElementName" />&nbsp;</td>
 												<td class="dataCellText" width="30%"><bean:write
-													name="searchResultObject" property="protectionElementDescription" /></td>
+													name="searchResultObject" property="protectionElementDescription" />&nbsp;</td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="objectId" /></td>
+													name="searchResultObject" property="objectId" />&nbsp;</td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="attribute" /></td>
+													name="searchResultObject" property="attribute" />&nbsp;</td>
 											</tr>
 										<%}else{ oddRow = "true";%>
 											<tr class="dataRowDark">
@@ -103,13 +85,13 @@
 													style="formFieldSized" property="protectionElementId"
 													value="<%=searchResultObject.getProtectionElementId().toString()%>" /></td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="protectionElementName" /></td>
+													name="searchResultObject" property="protectionElementName" />&nbsp;</td>
 												<td class="dataCellText" width="30%"><bean:write
-													name="searchResultObject" property="protectionElementDescription" /></td>
+													name="searchResultObject" property="protectionElementDescription" />&nbsp;</td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="objectId" /></td>
+													name="searchResultObject" property="objectId" />&nbsp;</td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="attribute" /></td>
+													name="searchResultObject" property="attribute" />&nbsp;</td>
 											</tr>
 										<%}%>
 									</logic:iterate>

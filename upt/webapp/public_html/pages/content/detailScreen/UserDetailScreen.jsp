@@ -12,7 +12,18 @@
 <!--
    	function setAndSubmit(target)
    	{
-  		document.detailsForm.operation.value=target;
+   		if (target == "delete")
+   		{
+   			if (confirm("Are you sure you want to delete the record?"))
+   			{
+   				document.detailsForm.operation.value=target;
+				document.detailsForm.submit();
+			}
+		}
+		else
+		{
+	  		document.detailsForm.operation.value=target;
+	  	}
  	}
 // -->
 </script>
@@ -21,23 +32,23 @@
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<html:hidden property="operation" value="error"/>
 			<tr>
-				<td>
-  				<html:messages id="message" property="<%= org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE %>">
-  				<li><bean:write name="message"/></li>
-  				</html:messages>				
-  				</td>
-			</tr>
-			<tr>
-				<td>
-				<html:errors />
-				</td>
-			</tr>
-			<tr>
 			<td valign="top">
-			<table cellpadding="0" cellspacing="0" border="0" class="contentBegins">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="3" cellspacing="0" border="0" align="center">
+					<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+						<tr>
+							<td colspan="3">
+			  				<html:messages id="message" property="<%= org.apache.struts.action.ActionMessages.GLOBAL_MESSAGE %>">
+			  				<li><bean:write name="message"/></li>
+			  				</html:messages>				
+			  				</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+							<html:errors />
+							</td>
+						</tr>
 						<tr>
 						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
@@ -45,7 +56,7 @@
 									<td class="formMessage" colspan="3">* indicates a required field</td>
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formMessage" colspan="3">Suffix with % to perform wildcard searches</td>
+									<td class="formMessage" colspan="3">Use % to perform wildcard searches</td>
 								</logic:equal>
 							</logic:equal>
 						</tr>
@@ -118,7 +129,7 @@
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('delete');">Delete</html:submit></td>
+										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
 										<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">View PG Role Associations</html:submit></td>

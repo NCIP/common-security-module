@@ -122,7 +122,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		{
 			Collection associatedProtectionGroupRoleContexts = baseDoubleAssociationForm.buildProtectionGroupAssociationObject(request);
 			if (associatedProtectionGroupRoleContexts.size() != 0)
-				(request.getSession()).setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET, associatedProtectionGroupRoleContexts);
+				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET, associatedProtectionGroupRoleContexts);
 			else
 			{
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Group and Roles Found"));			
@@ -161,6 +161,15 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
 		errors.clear();
+		if (baseDoubleAssociationForm.getProtectionGroupAssociatedId() == null || baseDoubleAssociationForm.getProtectionGroupAssociatedId().equalsIgnoreCase(""))
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "A record needs to be selected first" ));
+			saveErrors( request,errors );
+			if (logDoubleAssociation.isDebugEnabled())
+				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+					"|"+baseDoubleAssociationForm.getFormName()+"|removeProtectionGroupAssociation|Failure|No Protection Group Id selected for "+baseDoubleAssociationForm.getFormName()+" object||");
+			return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));
+		}
 		try
 		{
 			baseDoubleAssociationForm.removeProtectionGroupAssociation(request);
@@ -195,6 +204,15 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
 		errors.clear();
+		if (baseDoubleAssociationForm.getProtectionGroupAssociatedId() == null || baseDoubleAssociationForm.getProtectionGroupAssociatedId().equalsIgnoreCase(""))
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "A record needs to be selected first" ));
+			saveErrors( request,errors );
+			if (logDoubleAssociation.isDebugEnabled())
+				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+					"|"+baseDoubleAssociationForm.getFormName()+"|loadRoleAssociation|Failure|No Protection Group Id selected for "+baseDoubleAssociationForm.getFormName()+" object||");
+			return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));
+		}		
 		try
 		{
 			baseDoubleAssociationForm.buildRoleAssociationObject(request);

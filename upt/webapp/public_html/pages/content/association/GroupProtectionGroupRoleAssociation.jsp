@@ -36,11 +36,16 @@
 		<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0"
-				class="contentBegins">
+				width="100%" class="contentBegins">
 				<tr>
 					<td>
 					<table summary="" cellpadding="0" cellspacing="0" border="0"
-						width="600">
+						width="100%">
+						<tr>
+							<td>
+							<html:errors />
+							</td>
+						</tr>
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>

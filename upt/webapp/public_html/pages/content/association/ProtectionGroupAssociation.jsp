@@ -11,15 +11,28 @@
     <!--
     	function setAndSubmit(target)
     	{
-    		document.associationForm.operation.value=target;
-    		var len = document.associationForm.parentAssociatedIds.length;
-    		for (i=0 ; i < len ; i++)
+    		if (target == "read")
     		{
-    			document.associationForm.parentAssociatedIds[i].selected = true;
+	    		document.associationForm.operation.value=target;
     		}
-    		document.associationForm.submit();
-    	}
-    	
+    		else
+    		{		
+	    		var len = document.associationForm.associatedIds.length;
+	    		if (len == 0)
+	    		{
+	    			alert("A Protection Element must be selected for association");
+	    		}
+	    		else
+	    		{
+		    		for (i=0 ; i < len ; i++)
+		    		{
+		    			document.associationForm.associatedIds[i].selected = true;
+		    		}
+		    		document.associationForm.operation.value=target;
+		    		document.associationForm.submit();
+				}
+			}
+	    }    	
     	// selSwitch functions
 
 		function selSwitch(btn)
@@ -36,7 +49,7 @@
 		
 	      isavailableIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
 	
-	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.associationForm.parentAssociatedIds) )
+	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.associationForm.associatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -57,7 +70,7 @@
 	               with (options[i])
 	               {
 	                  if (isavailableIds)
-	                     document.associationForm.parentAssociatedIds.options[document.associationForm.parentAssociatedIds.length] = new Option( text, value );
+	                     document.associationForm.associatedIds.options[document.associationForm.associatedIds.length] = new Option( text, value );
 	                  else
 	                     document.dummyForm.availableIds.options[document.dummyForm.availableIds.length] = new Option( text, value );
 	               } 
@@ -92,7 +105,7 @@
 					</tr>					
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
-					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="parentAssociatedIds" type="java.util.Collection"/>				
+					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
 					<td width="35%" valign="top">
 					<form name="dummyForm">
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
@@ -128,8 +141,8 @@
 						</tr>
 						<tr>
 						<td class="formField" align="center">
-							<select name="parentAssociatedIds" multiple style="width:200px;" size="6">
-							<logic:iterate name="parentAssociatedIds" id="protectionElement" type="ProtectionElement">
+							<select name="associatedIds" multiple style="width:200px;" size="6">
+							<logic:iterate name="associatedIds" id="protectionElement" type="ProtectionElement">
 								<option value="<bean:write name="protectionElement" property="protectionElementId" />"><bean:write name="protectionElement" property="protectionElementName" /></option>
 							</logic:iterate>
 	                    	</select>
@@ -145,7 +158,7 @@
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</html:submit></td>
+						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
 					</tr>
 				</table>
 				</td>				
