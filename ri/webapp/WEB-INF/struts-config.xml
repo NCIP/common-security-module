@@ -48,8 +48,19 @@
 		<action path="/Welcome" forward="show.login"/>
 		<action path="/viewHome" forward="main.layout" />
 		<action path="/viewErrorDetails" forward="show.error.details"/>
-		<action path="/viewCreateEmployee" name="employeeForm" forward="show.create.employee"/>
-		<action path="/viewCreateProject" name="projectForm" forward="show.create.project"/>
+		
+		<action path="/viewCreateEmployee" name="employeeForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateEmployeeAction">
+		    <forward name="success" path="show.create.employee"/>
+			<forward name="access_denied" path="/viewHome.do" />
+		</action>
+		
+		
+		<action path="/viewCreateProject" name="projectForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction">
+		       <forward name="success" path="show.create.project"/>
+			   <forward name="access_denied" path="/viewHome.do" />
+		
+		</action>
+		
 		<action path="/viewSearchEmployee" name="employeeForm" forward="show.search.employee"/>
 
 		<!-- actions -->
@@ -61,6 +72,8 @@
 		
 		<action input="login" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" scope="session" >
 			<forward name="success" path="/viewEmployee.do" />
+			
+
 		</action>
 		
 		<action input="login" name="employeeForm" path="/searchEmployee" type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction" scope="session" >
@@ -81,7 +94,9 @@
 		
 		<action input="login" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" scope="session" >
 			<forward name="success" path="show.create.project"/>
+			<forward name="access_denied" path="/viewHome.do" />
 		</action>
+		
       <action path="/base" type="gov.nih.nci.security.ri.action.BaseAction" />
 		
 		
