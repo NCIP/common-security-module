@@ -363,7 +363,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public ProtectionElement getProtectionElementById(String protectionElementId) throws CSObjectNotFoundException{
-		return null;
+		return (ProtectionElement)authorizationDAO.getObjectByPrimaryKey(ProtectionElement.class,protectionElementId);
 		//authorizationDAO.getProtectionElement(protectionElementId);
 	}
 
@@ -577,15 +577,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	}
 	
 	public void removeUser(String userId)throws CSTransactionException{
-		User user = new User();
-		 user.setUserId(new Long(userId));
-		 user.setDepartment("VV");
-		 user.setEmailId("tt");
-		 user.setFirstName("ll");
-		 user.setLastName("vv");
-		 user.setLastName("jj");
-		 user.setOrganization("kk");
+		try{
+		User user = this.getUserById(userId);
 		 authorizationDAO.removeObject(user);
+		}catch(CSObjectNotFoundException ex){
+			throw new CSTransactionException("Failed to find this user with userId:"+userId,ex);
+		}
 		
 	}
 	
