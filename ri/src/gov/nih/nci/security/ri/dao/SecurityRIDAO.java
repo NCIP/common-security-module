@@ -26,7 +26,7 @@ public class SecurityRIDAO {
 	static {
 		try {
 			URL url = SecurityRIDAO.class.getClassLoader().getResource(
-					"/hibernate.cfg.xml");
+					"hibernate.cfg.xml");
 			log.debug( "The url to the config file is: " + url.toString() );
 			setSessionFactory(new Configuration().configure(url)
 					.buildSessionFactory());
