@@ -131,8 +131,8 @@ public class TestClient {
 		try{
 		Properties p = System.getProperties();
 		p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationsecurityConfig.xml");
-		//upm = SecurityServiceProvider.getUserProvisioningManager("security");
-		upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
+		upm = SecurityServiceProvider.getUserProvisioningManager("security");
+		//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 		//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 		
 		}catch(Exception ex){
@@ -561,7 +561,8 @@ public class TestClient {
 			//String pgId = "10";
 			//upm.assignProtectionElements(pgId,peIds);
 			//Role r = upm.getRoleById("2");
-			upm.assignUserRoleToProtectionGroup("700",new String[]{"54"},"35");
+			//upm.assignUserRoleToProtectionGroup("700",new String[]{"54"},"35");
+			upm.assignGroupRoleToProtectionGroup("151","162",new String[]{"60","57"});
 			
 			
 		}catch(Exception ex){
@@ -749,7 +750,8 @@ public class TestClient {
 	}
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
-		ts.checkPermission();
+		//ts.checkPermission();
+		ts.assignUserRoleToProtectionGroup();
 
 	}
 }
