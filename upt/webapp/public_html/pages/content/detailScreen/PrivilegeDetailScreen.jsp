@@ -70,12 +70,31 @@
 						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+								<tr>
+									<td class="formMessage" colspan="3">Enter the details to add a new Privilege. 
+									The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
+									The <b>Privilege Description</b> is a brief summary about the Privilege.</td>
+								</tr>
+								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
+								</tr>
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formMessage" colspan="3">Use % to perform wildcard searches</td>
+								<tr>
+									<td class="formMessage" colspan="3">Search for an existing Privilege by entering the <b>Privilege Name</b></td>
+								</tr>
+								<tr>
+									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
+								</tr>
 								</logic:equal>
 							</logic:equal>
+							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+								<tr>
+									<td class="formMessage" colspan="3">Update the details of the displayed Privilege. 
+									The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
+									The <b>Privilege Description</b> is a brief summary about the Privilege. The <b>Update Date</b>indicate the date when this Privilege's Details were last updated</td>
+								</tr>							
+							</logic:notEqual>
 						</tr>
 						<tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">

@@ -69,17 +69,41 @@
 						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+								<tr>
+									<td class="formMessage" colspan="3">Enter the details to add a new Application. 
+									The <b>Application Name</b> uniquely identifies	the Application and is a required field. 
+									The <b>Application Description</b> is a brief summary about the application. The <b>Application Declarative Flag</b> 
+									indicates whether application uses Declarative security or not. The <b>Application Active Flag</b> indicates if the
+									 Application is currently active or not.</td>
+								</tr>
+								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
+								</tr>
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formMessage" colspan="3">Use % to perform wildcard searches</td>
+								<tr>
+									<td class="formMessage" colspan="3">Search for an existing application by entering the <b>Application Name</b></td>
+								</tr>
+								<tr>
+									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
+								</tr>
 								</logic:equal>
 							</logic:equal>
+							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+								<tr>
+									<td class="formMessage" colspan="3">Update the details of the displayed Application. 
+									The <b>Application Name</b> uniquely identifies	the Application and is a required field. 
+									The <b>Application Description</b> is a brief summary about the application. The <b>Application Declarative Flag</b> 
+									indicates whether application uses Declarative Security or not. The <b>Application Active Flag</b> indicates if the
+									 Application is currently active or not. The <b>Update Date</b>indicate the date when this Application's Details were last updated</td>
+								</tr>							
+							</logic:notEqual>
 						</tr>
 						<tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE NEW APPLICATION DETAILS</td>								</logic:equal>
+									<td class="formTitle" height="20" colspan="3">ENTER THE NEW APPLICATION DETAILS</td>
+								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 									<td class="formTitle" height="20" colspan="3">ENTER THE APPLICATION SEARCH CRITERIA</td>
 								</logic:equal>
@@ -146,7 +170,7 @@
 										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated Admins</html:submit></td>
 									</logic:notEqual>
 								</tr>
 							</table>

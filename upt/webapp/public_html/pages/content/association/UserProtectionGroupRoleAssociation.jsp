@@ -120,9 +120,9 @@
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('read');">Back</html:submit></td>
 										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove Protection Group Association</html:submit></td>											
+											onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove PG & Roles</html:submit></td>											
 										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('loadRoleAssociation');">Update Role Association</html:submit></td>
+											onclick="setAndSubmit('loadRoleAssociation');">Associated Roles</html:submit></td>
 									</tr>
 								</table>
 								<!-- action buttons end --></td>

@@ -42,7 +42,7 @@
 					<td>
 						<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
 							<tr>
-								<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
+								<td class="formTitle" height="20" colspan="2">SELECTED GROUP</td>
 							</tr>
 							<tr class="dataRowDark">
 								<td class="formRequiredLabel" width="40%" scope="row"><label>Group Name</label></td>
@@ -121,9 +121,9 @@
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('read');">Back</html:submit></td>
 										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove Protection Group Association</html:submit></td>											
+											onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove PG & Roles</html:submit></td>											
 										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('loadRoleAssociation');">Update Role Association</html:submit></td>
+											onclick="setAndSubmit('loadRoleAssociation');">Associated Roles</html:submit></td>
 									</tr>
 								</table>
 								<!-- action buttons end --></td>

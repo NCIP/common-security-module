@@ -70,7 +70,9 @@
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
-									<td class="formMessage" colspan="3">******** Text to be added here for the Add Form</td>
+									<td class="formMessage" colspan="3">Enter the details to add a new Group. 
+									The <b>Group Name</b> uniquely identifies the Group and is a required field. 
+									The <b>Group Description</b> is a brief summary about the Group.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
@@ -78,7 +80,7 @@
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">******** Text to be added here for the Search Form</td>
+									<td class="formMessage" colspan="3">Search for an existing Group by entering the <b>Group Name</b></td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -87,7 +89,9 @@
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3">******** Text to be added here for the Update Form</td>
+									<td class="formMessage" colspan="3">Update the details of the displayed Group. 
+									The <b>Group Name</b> uniquely identifies the Group and is a required field. 
+									The <b>Group Description</b> is a brief summary about the Group. The <b>Update Date</b>indicate the date when this Group's Details were last updated</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>
@@ -161,8 +165,8 @@
 										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">View PG Role Associations</html:submit></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Add Associations</html:submit></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">Associated PG & Roles</html:submit></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
 									</logic:notEqual>
 								</tr>
 							</table>

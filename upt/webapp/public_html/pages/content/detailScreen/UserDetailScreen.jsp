@@ -69,7 +69,12 @@
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
-									<td class="formMessage" colspan="3">******** Text to be added here for the Add Form</td>
+									<td class="formMessage" colspan="3">Enter the details to add a new User. 
+									The <b>User Login Name</b> uniquely identifies the User and is a required field. 
+									The <b>User First Name</b> and <b>User Last Name</b> identifies the User. The <b>User Organization, User Department</b>
+									 and <b>User Title</b> provides his work details. The <b>User Phone Number</b> and <b>User Email Id</b> provides the contact details for the User.
+									The <b>User Password</b> can be entered if the same schema is also going to be used for Authentication.
+									The <b>User Start Date</b> and <b>User End Date</b> determine the period for which the User is a valid User</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
@@ -77,7 +82,8 @@
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">******** Text to be added here for the Search Form</td>
+									<td class="formMessage" colspan="3">Search for an existing User by entering the 
+									<b>User Login Name, User First Name, User Last Name, User Organization, User Department</b> or <b>User Email Id</b></td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -86,7 +92,12 @@
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3">******** Text to be added here for the Update Form</td>
+									<td class="formMessage" colspan="3">Update the details of the displayed User. 
+									The <b>User Login Name</b> uniquely identifies the User and is a required field. 
+									The <b>User First Name</b> and <b>User Last Name</b> identifies the User. The <b>User Organization, User Department</b>
+									 and <b>User Title</b> provides his work details. The <b>User Phone Number</b> and <b>User Email Id</b> provides the contact details for the User.
+									The <b>User Password</b> can be entered if the same schema is also going to be used for Authentication.
+									The <b>User Start Date</b> and <b>User End Date</b> determine the period for which the User is a valid User</td>
 								</tr>							
 							</logic:notEqual>
 						<tr>
@@ -160,16 +171,15 @@
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
 										<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">View PG Role Associations</html:submit></td>
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Add Associations</html:submit></td>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated Groups</html:submit></td>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">Associated PG & Roles</html:submit></td>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
 										</logic:notPresent>
 									</logic:notEqual>
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
 						</logic:present>
-						</tr>
 					</table>
 					</td>
 				</tr>

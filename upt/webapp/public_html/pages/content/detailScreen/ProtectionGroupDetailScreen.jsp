@@ -66,14 +66,39 @@
 							</td>
 						</tr>
 						<tr>
+						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+								<tr>
+									<td class="formMessage" colspan="3">Enter the details to add a new Protection Group. 
+									The <b>Protection Group Name</b> uniquely identifies the Protection Group and is a required field. 
+									The <b>Protection Group Description</b> is a brief summary about the Protection Group. 
+									The <b>Protection Group Large Count Flag</b> is used to indicate if the Protection Group has a large
+									number of associated Protection Elements</td>
+								</tr>
+								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
+								</tr>
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formMessage" colspan="3">Use % to perform wildcard searches</td>
+								<tr>
+									<td class="formMessage" colspan="3">Search for an existing Protection Group by entering the <b>Protection Group Name</b></td>
+								</tr>
+								<tr>
+									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
+								</tr>
 								</logic:equal>
 							</logic:equal>
+							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+								<tr>
+									<td class="formMessage" colspan="3">Update the details of the displayed Protection Group. 
+									The <b>Protection Group Name</b> uniquely identifies the Protection Group and is a required field. 
+									The <b>Protection Group Description</b> is a brief summary about the Protection Group. 
+									The <b>Update Date</b>indicate the date when this Protection Group's Details were last updated.
+									The <b>Protection Group Large Count Flag</b> is used to indicate if the Protection Group has a large
+									number of associated Protection Elements</td>
+								</tr>							
+							</logic:notEqual>
 						</tr>
 						<tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
@@ -87,7 +112,6 @@
 									<td class="formTitle" height="20" colspan="3">PROTECTION GROUP DETAILS</td>
 							</logic:notEqual>
 						</tr>
-						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="searchFormElements" id="formElements" />
@@ -146,8 +170,8 @@
 										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadParentAssociation');">View Parent Associations</html:submit></td>										
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadParentAssociation');">Associated Parent PG</html:submit></td>										
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated PEs</html:submit></td>
 									</logic:notEqual>
 								</tr>
 							</table>
