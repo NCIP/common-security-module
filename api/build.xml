@@ -47,8 +47,8 @@
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
-		<copy file="${src}\gov\nih\nci\security\system\ApplicationSecurityConfig.xml" todir="${distProperties}"/>
-		<copy file="${src}\hibernate.cfg.xml" todir="${distProperties}"/>
+<!--	<copy file="${src}\gov\nih\nci\security\system\ApplicationSecurityConfig.xml" todir="${distProperties}"/>
+		<copy file="${src}\hibernate.cfg.xml" todir="${distProperties}"/> -->
 	</target>
 
 	<target name="clean" description="perform the clean up">
