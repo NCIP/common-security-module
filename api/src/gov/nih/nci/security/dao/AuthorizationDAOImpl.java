@@ -47,7 +47,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public Role getRoleById(String roleId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		return (Role)this.getObjectByPrimaryKey(Role.class,new Long(roleId));
 	}
 
 	static final Logger log = Logger.getLogger(AuthorizationDAOImpl.class
@@ -537,6 +537,10 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#deAssignProtectionElements(java.lang.String,
 	 *      java.lang.String[], java.lang.String[])
 	 */
+	     /**
+	      * Don't implement this method 'cause from authorization manager
+	      * no body will pass an array 
+	      */
 	public void deAssignProtectionElements(String protectionGroupName,
 			String[] protectionElementObjectNames,
 			String[] protectionElementAttributeNames)
@@ -558,7 +562,20 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 */
 	public void deAssignProtectionElements(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException {
-		;
+	
+		  try{
+			ProtectionGroup protectionGroup = this.getProtectionGroup(protectionGroupName);
+			ProtectionElement protectionElement = this.getProtectionElement(protectionElementObjectId);
+			
+			String pgId = protectionGroup.getProtectionGroupId().toString();
+			String[] peIds = {protectionElement.getProtectionElementId().toString()};
+			
+			this.removeProtectionElementsFromProtectionGroup(pgId,peIds);
+		  }catch(Exception ex){
+		  	throw new CSTransactionException("Deassignement failed",ex);
+		  }
+			
+			
 	}
 
 	/*
@@ -779,7 +796,34 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 */
 	public Role getRole(String roleName) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Session s = null;
+		Role role = null;
+		try {
+			Role search = new Role();
+			search.setName(roleName);
+			search.setApplication(application);
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = sf.openSession();
+			List list = s.createCriteria(Role.class).add(
+					Example.create(search)).list();
+
+			if (list.size() == 0) {
+				throw new CSObjectNotFoundException(
+						"Role not found");
+			}
+			role = (Role) list.get(0);
+
+		} catch (Exception ex) {
+			log.fatal("Unable to find Protection Element", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return role;
 	}
 
 	/*

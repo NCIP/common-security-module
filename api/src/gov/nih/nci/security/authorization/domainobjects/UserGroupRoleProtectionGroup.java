@@ -5,6 +5,7 @@ import java.util.Date;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 
+
 /** @author Hibernate CodeGenerator */
 public class UserGroupRoleProtectionGroup implements Serializable {
 
@@ -15,19 +16,24 @@ public class UserGroupRoleProtectionGroup implements Serializable {
     private Date updateDate;
 
     /** persistent field */
-    private gov.nih.nci.security.authorization.domainobjects.Group group;
+    private Group group;
 
     /** persistent field */
-    private gov.nih.nci.security.authorization.domainobjects.User user;
+    private User user;
 
     /** persistent field */
-    private gov.nih.nci.security.authorization.domainobjects.ProtectionGroup protectionGroup;
+    private ProtectionGroup protectionGroup;
 
     /** persistent field */
     private gov.nih.nci.security.authorization.domainobjects.Role role;
 
     /** full constructor */
-    public UserGroupRoleProtectionGroup(Long userGroupRoleProtectionGroupId, Date updateDate, gov.nih.nci.security.authorization.domainobjects.Group group, gov.nih.nci.security.authorization.domainobjects.User user, gov.nih.nci.security.authorization.domainobjects.ProtectionGroup protectionGroup, gov.nih.nci.security.authorization.domainobjects.Role role) {
+    public UserGroupRoleProtectionGroup(Long userGroupRoleProtectionGroupId, 
+    		                            Date updateDate, 
+										Group group, 
+										User user, 
+										ProtectionGroup protectionGroup, 
+										Role role) {
         this.userGroupRoleProtectionGroupId = userGroupRoleProtectionGroupId;
         this.updateDate = updateDate;
         this.group = group;
@@ -56,35 +62,35 @@ public class UserGroupRoleProtectionGroup implements Serializable {
         this.updateDate = updateDate;
     }
 
-    public gov.nih.nci.security.authorization.domainobjects.Group getGroup() {
+    public Group getGroup() {
         return this.group;
     }
 
-    public void setGroup(gov.nih.nci.security.authorization.domainobjects.Group group) {
+    public void setGroup(Group group) {
         this.group = group;
     }
 
-    public gov.nih.nci.security.authorization.domainobjects.User getUser() {
+    public User getUser() {
         return this.user;
     }
 
-    public void setUser(gov.nih.nci.security.authorization.domainobjects.User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public gov.nih.nci.security.authorization.domainobjects.ProtectionGroup getProtectionGroup() {
+    public ProtectionGroup getProtectionGroup() {
         return this.protectionGroup;
     }
 
-    public void setProtectionGroup(gov.nih.nci.security.authorization.domainobjects.ProtectionGroup protectionGroup) {
+    public void setProtectionGroup(ProtectionGroup protectionGroup) {
         this.protectionGroup = protectionGroup;
     }
 
-    public gov.nih.nci.security.authorization.domainobjects.Role getRole() {
+    public Role getRole() {
         return this.role;
     }
 
-    public void setRole(gov.nih.nci.security.authorization.domainobjects.Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
