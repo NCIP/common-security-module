@@ -1,5 +1,5 @@
 insert into application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-values ("<<upt_context_name>>","UPT Super Admin Application",0,1,sysdate());
+values ("<<upt_context_name>>","UPT Super Admin Application",0,0,sysdate());
 
 insert into user (LOGIN_NAME,FIRST_NAME,LAST_NAME,UPDATE_DATE)
 values ("<<super_admin_login_id>>","<<super_admin_first_name >> ","<<super_admin_last_name >> ",sysdate());
