@@ -18,25 +18,18 @@
     		else
     		{		
 	    		var len = document.associationForm.parentAssociatedIds.length;
-	    		if (len == 0)
+    			if (len > 1)
 	    		{
-	    			alert("A Parent Protection Group must be selected for association");
+	    			alert ("Only single Parent Protection Group can be associated")
 	    		}
 	    		else
 	    		{
-	    			if (len > 1)
+		    		for (i=0 ; i < len ; i++)
 		    		{
-		    			alert ("Only single Parent Protection Group can be associated")
+		    			document.associationForm.parentAssociatedIds[i].selected = true;
 		    		}
-		    		else
-		    		{
-			    		for (i=0 ; i < len ; i++)
-			    		{
-			    			document.associationForm.parentAssociatedIds[i].selected = true;
-			    		}
-			    		document.associationForm.operation.value=target;
-			    		document.associationForm.submit();
-					}
+		    		document.associationForm.operation.value=target;
+		    		document.associationForm.submit();
 				}
 			}
 	    }

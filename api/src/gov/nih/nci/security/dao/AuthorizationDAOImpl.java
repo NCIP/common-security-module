@@ -2082,15 +2082,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = sf.openSession();
 			t = s.beginTransaction();
 			ProtectionGroup parent = null;
+
+			ProtectionGroup child = (ProtectionGroup) this
+			.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+					childProtectionGroupId));
+
 			if (parentProtectionGroupId != null) {
 				parent = (ProtectionGroup) this.getObjectByPrimaryKey(s,
 						ProtectionGroup.class,
 						new Long(parentProtectionGroupId));
 			}
-
-			ProtectionGroup child = (ProtectionGroup) this
-					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
-							childProtectionGroupId));
+			else
+			{
+				parent = null;	
+			}
 
 			child.setParentProtectionGroup(parent);
 

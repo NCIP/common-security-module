@@ -462,7 +462,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 			user.setOrganization(this.userOrganization);
 		if (this.userDepartment != null && !(this.userDepartment.trim().equalsIgnoreCase("")))
 			user.setDepartment(this.userDepartment);
-		if (this.userDepartment != null && !(this.userDepartment.trim().equalsIgnoreCase("")))
+		if (this.userEmailId != null && !(this.userEmailId.trim().equalsIgnoreCase("")))
 			user.setEmailId(this.userEmailId);
 		
 		SearchCriteria searchCriteria = new UserSearchCriteria(user);

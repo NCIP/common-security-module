@@ -102,6 +102,10 @@ public class ProtectionGroupAction extends CommonAssociationAction
 			{
 				parentProtectionGroupId = protectionGroupForm.getParentAssociatedIds()[0];
 			}
+			else
+			{
+				parentProtectionGroupId = null;
+			}
 			
 			userProvisioningManager.assignParentProtectionGroup(parentProtectionGroupId, protectionGroupForm.getProtectionGroupId());
 			protectionGroupForm.buildDisplayForm(request);
