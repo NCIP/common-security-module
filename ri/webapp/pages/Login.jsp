@@ -44,7 +44,7 @@
 														</tr>
 														<tr>
 															<td colspan="3" class="welcomeContent" valign="top"
-																height="100">Welcome to the Employee Records Management System
+																height="100%">Welcome to the Employee Records Management System
 															(ERMS) for ABC Company - your ONE STOP solution for all your
 															employee record needs. Employee records hold all the vital
 															information a company needs to manage each employee. It's
@@ -69,13 +69,13 @@
 											<table cellpadding="0" cellspacing="0" border="0">
 												<tr>
 													<td class="sidebarLogin" align="right"><label for="loginID">LOGIN
-													ID</label></td>
+													ID</label>&nbsp;</td>
 													<td class="formFieldLogin"><html:text property="loginID"
 														size="14" /></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
-														for="password">PASSWORD</label></td>
+														for="password">PASSWORD</label>&nbsp;</td>
 													<td class="formFieldLogin"><html:text property="password"
 														size="14" /></td>
 												</tr>
