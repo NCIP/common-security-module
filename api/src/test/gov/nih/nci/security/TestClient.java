@@ -71,12 +71,15 @@ public class TestClient {
     }
     public void testRoleCreate(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-    	Role r = new Role();
-    	r.setName("Role_name_1");
-    	r.setDesc("Role_Desc_1");
+    	
     	try{
-    	upm.createRole(r);
-    	System.out.println("The returned id is:"+r.getId());
+    	  for(int i=3;i<11;i++){
+    		Role r = new Role();
+        	r.setName("Role_name_"+i);
+        	r.setDesc("Role_Desc_"+i);
+    	    upm.createRole(r);
+    	  }
+    	
     	
     	}catch(Exception ex){
     		ex.printStackTrace();
@@ -136,16 +139,34 @@ public class TestClient {
     	 }
     }
     
+    public void testGroupCreate(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  for(int i=1;i<101;i++){
+    	  	Group grp = new Group();
+    		grp.setGroupName("Group_Name_"+i);
+    		grp.setGroupDesc("Group_Desc_"+i);
+    	    upm.createGroup(grp);
+    	  }
+    	
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
 		//ts.testPrivilegeCreate();
 		//ts.testPrivilegeDelete();
 		//ts.testModifyCreate();
 		//ts.testPrivilegeFind();
-		ts.testRoleCreate();
+		//ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
 		//ts.assignPrivilegeToRoles();
 		//ts.getPrivileges();
+		ts.testGroupCreate();
 	}
 }

@@ -46,8 +46,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 		try {
 			System.out.println("The context Name passed:"+applicationContextName);
-			//this.application = this.getApplicationByName(applicationContextName);
-			this.application= (Application)this.getObjectByPrimaryKey(Application.class,new Long("1"));
+			this.application = this.getApplicationByName(applicationContextName);
+			//this.application= (Application)this.getObjectByPrimaryKey(Application.class,new Long("1"));
 			System.out.println("The Application:"+application.getApplicationId()+":"+application.getApplicationDescription());
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -291,6 +291,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = sf.openSession();
 			t = s.beginTransaction();
 			group.setApplication(application);
+			group.setUpdateDate(new Date());
 			s.save(group);
 			t.commit();
 			log.debug("Group ID is: " + group.getGroupId());

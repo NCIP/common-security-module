@@ -321,7 +321,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void createGroup(Group group)throws CSTransactionException{
-
+		authorizationDAO.createGroup(group);
 	}
 
 	/**
