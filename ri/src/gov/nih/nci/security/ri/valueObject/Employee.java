@@ -54,6 +54,10 @@ public class Employee extends ValidatorForm implements Serializable {
 
     /** persistent field */
     private Set employees;
+    
+    private String[] associatedIds;
+    private String[] availableIds;
+    
 
     /** full constructor */
     public Employee(Long employeeId, String firstName, String middleName, String lastName, String phoneNumber, String streetAddr, String city, String state, String salary, String ssn, gov.nih.nci.security.ri.valueObject.Employee employee, Set employeeProjects, Set employees) {
@@ -219,5 +223,30 @@ public class Employee extends ValidatorForm implements Serializable {
 	 */
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+	
+	/**
+	 * @return Returns the associatedIds.
+	 */
+	public String[] getAssociatedIds() {
+		return associatedIds;
+	}
+	/**
+	 * @param associatedIds The associatedIds to set.
+	 */
+	public void setAssociatedIds(String[] associatedIds) {
+		this.associatedIds = associatedIds;
+	}
+	/**
+	 * @return Returns the availableIds.
+	 */
+	public String[] getAvailableIds() {
+		return availableIds;
+	}
+	/**
+	 * @param availableIds The availableIds to set.
+	 */
+	public void setAvailableIds(String[] availableIds) {
+		this.availableIds = availableIds;
 	}
 }

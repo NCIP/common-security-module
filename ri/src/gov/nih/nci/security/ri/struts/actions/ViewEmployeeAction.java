@@ -1,10 +1,15 @@
 package gov.nih.nci.security.ri.struts.actions;
 
+import gov.nih.nci.security.ri.dao.ProjectDAO;
 import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.valueObject.Employee;
+import gov.nih.nci.security.ri.valueObject.EmployeeProject;
+import gov.nih.nci.security.ri.valueObject.Project;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,9 +28,9 @@ import org.apache.struts.action.ActionMapping;
  *  
  */
 public class ViewEmployeeAction extends Action implements Constants {
-	
-	static final Logger log = Logger.getLogger(ViewEmployeeAction.class.getName());
 
+	static final Logger log = Logger.getLogger(ViewEmployeeAction.class
+			.getName());
 
 	/*
 	 * Action for retreiving an employee for a detailed view.
@@ -48,9 +53,38 @@ public class ViewEmployeeAction extends Action implements Constants {
 
 		while (i.hasNext()) {
 			Employee e = (Employee) i.next();
-			if (employeeId.compareTo(e.getEmployeeId()) == 0 ) {
+			if (employeeId.compareTo(e.getEmployeeId()) == 0) {
 				request.getSession().setAttribute(EMPLOYEE_FORM, e);
-				log.debug( "Found Employee with ID: " + e.getEmployeeId().longValue() );
+
+				Set s = e.getEmployeeProjects();
+				List allProjects = ProjectDAO.searchProject( new Project() );
+				if (s != null) {
+					List assignedProjects = new LinkedList();
+					Iterator iter = s.iterator();
+					while (iter.hasNext()) {
+						EmployeeProject ep = (EmployeeProject) iter.next();
+
+						Iterator allProjectIter = allProjects.iterator();
+						while ( allProjectIter.hasNext() ){
+							Project p = (Project) allProjectIter.next();
+							if ( ep.getProject().getProjectId().compareTo( p.getProjectId() ) == 0 ){
+								allProjects.remove(p);
+								break;
+							}
+						}
+						assignedProjects.add(ep.getProject());
+					}
+					request.getSession().setAttribute(ASSIGNED_PROJECTS, assignedProjects);
+					
+					
+					request.getSession().setAttribute( UNASSIGNED_PROJECTS, allProjects );
+				}
+				
+				
+
+				log.debug("Found Employee with ID: "
+						+ e.getEmployeeId().longValue());
+
 				break;
 			}
 		}

@@ -1,5 +1,9 @@
 package gov.nih.nci.security.ri.dao;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
@@ -26,47 +30,77 @@ public class SecurityRIDAO {
 			log.fatal("Unable to create SessionFactory", ex);
 		}
 	}
-	
-	protected static void saveObject( Object o ) throws HibernateException {
+
+	protected static void saveObject(Object o) throws HibernateException {
 		Session s = null;
-		try{
+		try {
 			s = getSessionFactory().openSession();
 			Transaction t = s.beginTransaction();
-					
-			s.save( o );
+
+			s.save(o);
 			t.commit();
-			
-			
+
 		} finally {
-			try{ s.close(); }catch( Exception ex ){}
+			try {
+				s.close();
+			} catch (Exception ex) {
+			}
 		}
 	}
-	
-	
-	protected static void updateObject( Object o ) throws HibernateException {
+
+	protected static void updateObject(Object o) throws HibernateException {
 		Session s = null;
-		try{
+		try {
 			s = getSessionFactory().openSession();
 			Transaction t = s.beginTransaction();
-					
-			s.update( o );
+
+			s.update(o);
 			t.commit();
-			
-			
+
 		} finally {
-			try{ s.close(); }catch( Exception ex ){}
+			try {
+				s.close();
+			} catch (Exception ex) {
+			}
 		}
 	}
-	
-	protected static void deleteObject( Object o ) throws HibernateException {
+
+	protected static void deleteObject(Object o) throws HibernateException {
 		Session s = null;
-		try{			
-			s = getSessionFactory().openSession();			
-			s.delete( o );						
-			
+		try {
+			s = getSessionFactory().openSession();
+			s.delete(o);
+
 		} finally {
-			try{ s.close(); }catch( Exception ex ){}
+			try {
+				s.close();
+			} catch (Exception ex) {
+			}
 		}
+	}
+
+	public static List searchObjectByPrimaryKey(Class c, List primaryKeys)
+			throws HibernateException {
+
+		Session s = null;
+		List l = new LinkedList();
+
+		try {
+
+			s = getSessionFactory().openSession();
+			Iterator i = primaryKeys.iterator();
+			while (i.hasNext()) {
+				l.add(s.load(c, (Long) i.next()));
+			}
+			return l;
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex) {
+			}
+		}
+
 	}
 
 	/**

@@ -1,20 +1,18 @@
 
 <%@ include file="/pages/imports.jsp"%>
 
-
 <html:form method="post" action="updateEmployee">
 
-<script> 
-    <!--
+	<script> 
     	function setAndSubmit(target)
     	{
-    		document.form[0].operation.value=target;
-    		var len = document.form[0].assignedprojects.length;
+    		document.employeeForm.operation.value=target;
+    		var len = document.employeeForm.associatedIds.length;
     		for (i=0 ; i < len ; i++)
     		{
-    			document.form[0].assignedprojects[i].selected = true;
+    			document.employeeForm.associatedIds[i].selected = true;
     		}
-    		document.form[0].submit();
+    		document.employeeForm.submit();
     	}
     	
     	// selSwitch functions
@@ -33,7 +31,7 @@
 		
 	      isavailableIds = (btn.value.indexOf('Add') != -1) ? true : false;     
 	
-	      with ( ((isavailableIds)? document.dummyForm.availableprojects: document.form[0].assignedprojects) )
+	      with ( ((isavailableIds)? document.employeeForm.availableIds: document.employeeForm.associatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -54,9 +52,9 @@
 	               with (options[i])
 	               {
 	                  if (isavailableIds)
-	                     document.form[0].assignedprojects.options[document.form[0].assignedprojects.length] = new Option( text, value );
+	                     document.employeeForm.associatedIds.options[document.employeeForm.associatedIds.length] = new Option( text, value );
 	                  else
-	                     document.dummyForm.availableprojects.options[document.dummyForm.availableprojects.length] = new Option( text, value );
+	                     document.employeeForm.availableIds.options[document.employeeForm.availableIds.length] = new Option( text, value );
 	               } 
 	               options[i] = null;
 	               i--;
@@ -65,7 +63,7 @@
 	         if (options[0] != null)
 	            options[0].selected = true;
 	      } // end with isavailableIds
-		}    // -->
+		}    
     </script>
 
 
@@ -103,19 +101,41 @@
 
 					<td class="formRequiredLabel2">Available Projects</td>
 				</tr>
+				
+				<bean:define name="<%=Constants.UNASSIGNED_PROJECTS%>" id="availableIds" type="java.util.List"/>
+				<bean:define name="<%=Constants.ASSIGNED_PROJECTS%>" id="associatedIds" type="java.util.List"/>				
+					
 
 				<tr>
-					<td class="dataCellText">
-					<select name="assignedprojects" multiple="true"
-						style="width:115px;" size="10" />
+					<td class="dataCellText"><select name="associatedIds" multiple
+						style="width:115px;" size="10">
+						<logic:iterate name="associatedIds"
+							id="project" type="Project">
+							<option
+								value='<bean:write name="project" property="projectId" />'><bean:write
+								name="project" property="name" /></option>
+						</logic:iterate>
+
+					</select>
 					<td class="formRequiredLabel2" align="center"><input type="button"
-						value="Add" style="width:70px;font:8pt"> <br>
+						value="Add" style="width:70px;font:8pt" onclick="selSwitch(this);">
 					<br>
-					<input type="button" value="Remove" style="width:70px;font:8pt"> <br>
+					<br>
+					<input type="button" value="Remove" style="width:70px;font:8pt"
+						onclick="selSwitch(this);"> <br>
 					</td>
 
-					<td class="dataCellText"><html:select name="availableprojects" multiple="true"
-						style="width:115px;" size="10" /></td>
+					<td class="dataCellText">
+					  <select name="availableIds" multiple
+						style="width:115px;" size="10">
+						<logic:iterate name="availableIds"
+							id="project" type="Project">
+							<option
+								value='<bean:write name="project" property="projectId" />'><bean:write
+								name="project" property="name" /></option>
+						</logic:iterate>
+					   </select>
+					</td>
 
 				</tr>
 				<tr>
@@ -128,5 +148,4 @@
 					<!-- action buttons end --></td>
 				</tr>
 			</table>
-</html:form>
-
+			</html:form>
