@@ -18,8 +18,10 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.junk.RandomIntGenerator;
+import gov.nih.nci.security.dao.*;
 
 import java.util.Iterator;
+import java.util.List;
 
 
 
@@ -383,7 +385,7 @@ public class TestClient {
 		}
 	}
 	public void populateUgrpg(){
-		for(int i=1;i<5000;i++){	    	 	
+		for(int i=1;i<10000;i++){	    	 	
 			priv_populateUgrpg();
 		}
 	}
@@ -399,6 +401,21 @@ public class TestClient {
 			System.out.println(System.currentTimeMillis());
 			System.out.println(am.checkPermission("login_name_4322","x_y_z_11919","Delete"));
 			System.out.println(System.currentTimeMillis());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void getObjects(){
+		try{
+			Role role = new Role();
+			role.setName("role_name_1");
+			SearchCriteria sc = new RoleSearchCriteria(role);
+			List result = upm.getObjects(sc);
+			   Iterator it = result.iterator();
+			   while(it.hasNext()){
+			   	Role p = (Role)it.next();
+			   	System.out.println(p.getName()+":"+p.getDesc());
+			   }
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -427,6 +444,7 @@ public class TestClient {
 		//ts.assignUserRoleToProtectionGroup();
 		//ts.populatePgPe();
 		//ts.populateUgrpg();
-		ts.checkPermission();
+		//ts.checkPermission();
+		ts.getObjects();
 	}
 }

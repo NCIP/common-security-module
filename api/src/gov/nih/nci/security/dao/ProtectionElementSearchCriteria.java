@@ -36,6 +36,9 @@ public class ProtectionElementSearchCriteria extends SearchCriteria{
 		 if(pe.getAttribute()!=null){
 		 	ht.put("attribute",pe.getAttribute());
 		 }
+		 if(ht.size()==0){
+		 	ht.put("protectionElementName","%");
+		 }
 		return ht;
 	}
 	/* (non-Javadoc)

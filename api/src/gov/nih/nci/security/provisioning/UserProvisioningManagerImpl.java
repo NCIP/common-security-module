@@ -478,8 +478,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param searchCriteria
 	 * 
 	 */
-	public java.util.Set getObjects(SearchCriteria searchCriteria){
-		return null;
+	public java.util.List getObjects(SearchCriteria searchCriteria){
+		return authorizationDAO.getObjects(searchCriteria);
 	}
 	public void createUser(User user) throws CSTransactionException{
 		authorizationDAO.createUser(user);

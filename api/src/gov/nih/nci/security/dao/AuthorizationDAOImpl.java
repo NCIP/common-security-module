@@ -25,6 +25,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Hashtable;
+import java.util.Enumeration;
+import java.util.ArrayList;
 
 import javax.security.auth.Subject;
 
@@ -37,6 +40,7 @@ import net.sf.hibernate.expression.Example;
 import net.sf.hibernate.expression.Expression;
 
 import org.apache.log4j.Logger;
+
 
 /**
  * @version 1.0
@@ -388,6 +392,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public boolean checkPermission(AccessPermission permission, String userName) {
 		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -783,9 +788,42 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getObjects(gov.nih.nci.security.dao.SearchCriteria)
 	 */
-	public Set getObjects(SearchCriteria searchCriteria) {
+	public List getObjects(SearchCriteria searchCriteria) {
 		// TODO Auto-generated method stub
-		return null;
+		Session s = null;
+		List result = new ArrayList();
+		try {
+			
+			s = sf.openSession();
+			Criteria criteria = s.createCriteria(searchCriteria.getObjectType());
+			Hashtable fieldValues = searchCriteria.getFieldAndValues();
+            Enumeration en = fieldValues.keys();
+            System.out.println("We here");
+            while(en.hasMoreElements()){
+            	String str = (String)en.nextElement();
+            	int i = ((String)fieldValues.get(str)).indexOf("%");
+            	 if(i!=-1){
+            	 	criteria.add(Expression.like(str,fieldValues.get(str)));
+            	 }else{
+            	 	criteria.add(Expression.eq(str,fieldValues.get(str)));
+            	 }
+            }
+            if(fieldValues.size()==0){
+            	criteria.add(Expression.eqProperty("1","1"));
+            }
+            result = criteria.list();
+			
+
+		} catch (Exception ex) {
+			log.fatal("Unable to get objects", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return result;
 	}
 
 	/*
@@ -1882,6 +1920,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * (non-Javadoc)
 	 * 
 	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionGroupRoleContext()
+	 * We might not implement this method
 	 */
 	public Set getProtectionGroupRoleContext(String userId)
 			throws CSObjectNotFoundException {

@@ -380,7 +380,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	 * @param searchCriteria
 	 *  
 	 */
-	public java.util.Set getObjects(SearchCriteria searchCriteria);
+	public java.util.List getObjects(SearchCriteria searchCriteria);
 
 	public void createUser(User user) throws CSTransactionException;
 

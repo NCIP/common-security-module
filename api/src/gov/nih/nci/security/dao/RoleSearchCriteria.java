@@ -26,7 +26,12 @@ public class RoleSearchCriteria extends SearchCriteria{
 	public Hashtable getFieldAndValues() {
 		// TODO Auto-generated method stub
 		Hashtable ht = new Hashtable();
+		if(role.getName()!=null){
 		ht.put("name",role.getName());
+		}
+		if(ht.size()==0){
+			ht.put("name","%");
+		}
 		return ht;
 	}
 	/* (non-Javadoc)

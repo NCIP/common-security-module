@@ -29,7 +29,12 @@ public class PrivilegeSearchCriteria extends SearchCriteria{
 	public Hashtable getFieldAndValues() {
 		// TODO Auto-generated method stub
 		Hashtable ht = new Hashtable();
+		if(priv.getName()!=null){
 		ht.put("name",priv.getName());
+		}
+		if(ht.size()==0){
+			ht.put("name","%");
+		}
 		return ht;
 	}
 	/* (non-Javadoc)
