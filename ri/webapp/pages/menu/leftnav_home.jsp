@@ -4,7 +4,7 @@
 
 		<table>
 			<tr>
-				<td><img src="pages/images/rocket.gif"></td>
+				<td><br><br></td>
 			</tr>
 			<tr>
 				<td align="center" height="20" class="mainMenuItemOver"><html:link
