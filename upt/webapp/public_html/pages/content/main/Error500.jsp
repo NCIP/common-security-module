@@ -39,7 +39,7 @@
         </tr>
   		<tr>
           <td align="center">
-           	 <html:link action="Home" >
+           	 <html:link action="Home.do" >
 					Click here to go back to Home Page
 		  	 </html:link>
 		   </td>

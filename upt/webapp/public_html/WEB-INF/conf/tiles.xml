@@ -23,6 +23,23 @@
 		<put name="Content" value="/pages/content/main/Login.jsp" />
 	</definition>
 	
+	<!-- Footer Pages -->
+	<definition name="Tiles.Footer.Accessibility" extends="Base">
+		<put name="Content" value="/pages/content/footer/Accessibility.jsp" />
+	</definition>
+	<definition name="Tiles.Footer.ContactUs" extends="Base">
+		<put name="Content" value="/pages/content/footer/ContactUs.jsp" />
+	</definition>
+	<definition name="Tiles.Footer.Privacy" extends="Base">
+		<put name="Content" value="/pages/content/footer/Privacy.jsp" />
+	</definition>
+	<definition name="Tiles.Footer.ApplicationSupport" extends="Base">
+		<put name="Content" value="/pages/content/footer/ApplicationSupport.jsp" />
+	</definition>
+	<definition name="Tiles.Footer.Disclaimer" extends="Base">
+		<put name="Content" value="/pages/content/footer/Disclaimer.jsp" />
+	</definition>
+	
 	<!-- Error Pages -->
 	<definition name="Tiles.500.Error.Page" extends="Base">
 		<put name="Content" value="/pages/content/main/Error500.jsp" />

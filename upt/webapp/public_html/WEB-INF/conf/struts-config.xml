@@ -32,7 +32,15 @@
 		<forward name="LoginPage" path="Tiles.Login.Page" />
 	</global-forwards>
 	<action-mappings>
+	
+		<action path="/FooterContactUs" forward="Tiles.Footer.ContactUs"/>
+		<action path="/FooterApplicationSupport" forward="Tiles.Footer.ApplicationSupport"/>
+		<action path="/FooterAccessibility" forward="Tiles.Footer.Accessibility"/>
+		<action path="/FooterPrivacy" forward="Tiles.Footer.Privacy"/>
+		<action path="/FooterDisclaimer" forward="Tiles.Footer.Disclaimer"/>
+
 		<action path="/ViewErrorDetails" forward="Tiles.500.Error.DetailsPage"/>
+
 		<action path="/Home"
 			type="gov.nih.nci.security.upt.actions.HomeAction"
 			input="Tiles.Login.Page">
