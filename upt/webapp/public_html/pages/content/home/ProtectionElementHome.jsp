@@ -39,8 +39,8 @@
 					<h3>Protection Element Home</h3>
 
 					<p>This is the Protection Element section of the User Provisioning
-					Tool. A Protection Element is a data set that has a controlled
-					access as defined by Roles and Protection Elements. By identifying
+					Tool. A Protection Element is any entity (typically data) that has controlled
+					access. By identifying
 					individual Protection Elements, it becomes easier to control access
 					to important application data.<br>
 					In this section you may create new Protection Elements or modify
