@@ -1,6 +1,5 @@
 package gov.nih.nci.security.ri.struts.actions;
 
-import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -21,7 +20,7 @@ import org.apache.struts.action.ActionMapping;
 
 /**
  * This is the base class for all other Actions. The class provides generic
- * methods that are resuable by all subclasses. In addition, this method ensures
+ * methods that are resuable by all subclasses. In addition, this class ensures
  * that the user is authenticated before calling the executeWorkflow of the
  * subclass. If the User is not authenticated then an
  * UserNotAuthenticatedException is thrown.
@@ -35,8 +34,6 @@ public abstract class BaseAction extends Action implements Constants,
 	static final Logger log = Logger.getLogger(BaseAction.class.getName());
 
 	static AuthorizationManager am = null;
-
-	
 
 	/*
 	 * Method ensures that the user is authenticated before calling the
@@ -59,12 +56,22 @@ public abstract class BaseAction extends Action implements Constants,
 		return executeWorkflow(mapping, form, request, response);
 	}
 
+	/**
+	 * Returns the Authorization Manager for the CSM RI.
+	 * This method follows the singleton pattern so that
+	 * only one AuthorizationManager is created.
+	 * 
+	 * @return
+	 * @throws CSException
+	 */
 	protected AuthorizationManager getAuthorizationManager() throws CSException {
 
-		synchronized (BaseAction.class) {
-			if (am == null) {
-				am = SecurityServiceProvider
-						.getAuthorizationManager(CSM_RI_CONTEXT_NAME);
+		if (am == null) {
+			synchronized (BaseAction.class) {
+				if (am == null) {
+					am = SecurityServiceProvider
+						   .getAuthorizationManager(CSM_RI_CONTEXT_NAME);
+				}
 			}
 		}
 
@@ -72,19 +79,40 @@ public abstract class BaseAction extends Action implements Constants,
 
 	}
 
-	
-
+	/**
+	 * Returns the UserProvisioningManager singleton object.
+	 * 
+	 * @return
+	 * @throws CSException
+	 */
 	protected UserProvisioningManager getUserProvisioningManager()
 			throws CSException {
 		return (UserProvisioningManager) getAuthorizationManager();
 	}
 
+	/**
+	 * Returns the current User authenticated by CSM Authentication.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	protected Employee getUser(HttpServletRequest request) {
 		return (Employee) request.getSession().getAttribute(USER);
 	}
 
-	public abstract ActionForward executeWorkflow(ActionMapping arg0,
-			ActionForm arg1, HttpServletRequest arg2, HttpServletResponse arg3)
-			throws Exception;
+	/**
+	 * Subclasses should implement the action's business logic in this method
+	 * and can be sure that an authenticated user is present.
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public abstract ActionForward executeWorkflow(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 	// TODO Auto-generated method stub
 }

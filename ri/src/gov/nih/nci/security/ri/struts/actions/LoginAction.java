@@ -32,8 +32,9 @@ public class LoginAction extends Action implements Constants {
 	static AuthenticationManager authM = null;
 
 	/*
-	 * Authenticates the user and stores in the session.
-	 * 
+	 * Authenticates the user using the CSM AuthenticationManager
+	 * and stores in the session.
+	 *  
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,
 	 *      javax.servlet.http.HttpServletRequest,
@@ -42,45 +43,53 @@ public class LoginAction extends Action implements Constants {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		String forward = Constants.ACTION_SUCCESS;
+		
 		// TODO Auto-generated method stub
 		LoginForm loginForm = (LoginForm) form;
 		log.debug("Login ID: " + loginForm.getLoginID());
 		log.debug("Login Pwd: " + loginForm.getPassword());
 		log.debug("System Config file is: "
 				+ System.getProperty("gov.nih.nci.security.configFile"));
-		//check login using Authentication Manager
-
+		
+		//check login credentials using Authentication Manager
 		boolean loginSuccess = false;
 		try {
 			loginSuccess = getAuthenticationManager().login(
 					loginForm.getLoginID(), loginForm.getPassword());
 		} catch (CSException ex) {
 			loginSuccess = false;
-			log.debug("The user was denied access to the csm applicaiton.", ex);
+			log.debug("The user was denied access to the csm application.", ex);
 		}
 
+		String forward = Constants.ACTION_SUCCESS;
 		if (loginSuccess) {
-			request.getSession().setAttribute(
-					USER,
-					EmployeeDAO
-							.searchEmployeeByUserName(loginForm.getLoginID())
-							.get(0));
+			forward = Constants.ACTION_SUCCESS;
+			request.getSession().setAttribute(USER,	EmployeeDAO
+			  .searchEmployeeByUserName(loginForm.getLoginID()).get(0));
 
 		} else {
+			forward = Constants.ACCESS_DENIED;
 			ActionErrors errors = new ActionErrors();
 			errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					"access.application.denied"));
-			saveErrors(request, errors);
-			forward = Constants.ACCESS_DENIED;
+			saveErrors(request, errors);			
 		}
 		
 		return mapping.findForward(forward);
 	}
 
+	
+	/**
+	 * Returns the AuthenticationManager for the CSM RI.
+	 * This method follows the singleton pattern so that
+	 * only one AuthenticationManager is created for the
+	 * CSM RI.
+	 * @return
+	 * @throws CSException
+	 */
 	protected AuthenticationManager getAuthenticationManager()
 			throws CSException {
-		synchronized (BaseAction.class) {
+		synchronized (LoginAction.class) {
 			if (authM == null) {
 				authM = SecurityServiceProvider
 						.getAuthenticationManager(CSM_RI_CONTEXT_NAME);

@@ -16,6 +16,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.hibernate.HibernateException;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
@@ -49,68 +51,25 @@ public class ViewEmployeeAction extends BaseAction {
 	public ActionForward executeWorkflow(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+
+		Employee theEmployee = findEmployeeForView(request);
+
 		String forward = ACTION_SUCCESS;
-
-		List searchResults = (List) request.getSession().getAttribute(
-				EMPLOYEE_LIST);
-		Iterator i = searchResults.iterator();
-
-		String temp = (String) request.getParameter(EMPLOYEE_ID);
-		if (temp == null || temp.length() <= 0) {
-			temp = (String) request.getSession().getAttribute(EMPLOYEE_ID);
-		}
-		Long employeeId = new Long(temp);
-
-		Employee theEmployee = null;
-		while (i.hasNext()) {
-			Employee tempEmployee = (Employee) i.next();
-			if (employeeId.compareTo(tempEmployee.getEmployeeId()) == 0) {
-				theEmployee = tempEmployee;
-				log.debug("Found Employee with ID: "
-						+ tempEmployee.getEmployeeId().longValue());
-				break;
-
-			}
-		}
-
-		Set employeeProjects = theEmployee.getEmployeeProjects();
-		List assignedProjects = new LinkedList();
-		List allProjects = ProjectDAO.searchProject(new Project());
-
-		if (employeeProjects != null) {
-			Iterator employeeProjectsIter = employeeProjects.iterator();
-			while (employeeProjectsIter.hasNext()) {
-				EmployeeProject ep = (EmployeeProject) employeeProjectsIter
-						.next();
-				assignedProjects.add(ep.getProject());
-
-				Iterator allProjectIter = allProjects.iterator();
-				while (allProjectIter.hasNext()) {
-					Project p = (Project) allProjectIter.next();
-					if (ep.getProject().getProjectId().compareTo(
-							p.getProjectId()) == 0) {
-						allProjects.remove(p);
-						break;
-					}
-				}
-
-			}
-		}
-
+		//Ensure the user has access to view the employee record
 		if (isAuthorized(request, theEmployee)) {
-
+			forward = ACTION_SUCCESS;
+			//copy the employee object and store in
+			//session to support a secureUpdate
+			//See UpdateEmployeeAction for more detail
 			request.getSession().setAttribute(ORIGINAL_EMPLOYEE_OBJECT,
 					new Employee(theEmployee));
+			setEmployeeProjectsForView( request, theEmployee );
+			
 			log.debug("The User was granted Access to view the Record");
 			log.debug("The User was: " + getUser(request).getUserName());
 			log.debug("The Record selected for view was: "
 					+ theEmployee.getUserName());
-
-			request.getSession().setAttribute(ASSIGNED_PROJECTS,
-					assignedProjects);
-			request.getSession().setAttribute(UNASSIGNED_PROJECTS, allProjects);
-
+	
 		} else {
 			forward = ACCESS_DENIED;
 		}
@@ -136,7 +95,6 @@ public class ViewEmployeeAction extends BaseAction {
 			 * have READ access on the Employee Class
 			 */
 
-			
 			if (getAuthorizationManager().checkOwnership(
 					getUser(request).getUserName(),
 					SecurityUtils.getEmployeeObjectId(theEmployee))) {
@@ -148,9 +106,10 @@ public class ViewEmployeeAction extends BaseAction {
 					SecurityUtils.getEmployeeObjectId(theEmployee),
 					Permissions.READ)) {
 				log.debug("The user has READ permission.");
-				/*Employee secureObject =(Employee) getAuthorizationManager()
-						.secureObject(getUser(request).getUserName(),
-								theEmployee);*/
+				/*
+				 * Employee secureObject =(Employee) getAuthorizationManager()
+				 * .secureObject(getUser(request).getUserName(), theEmployee);
+				 */
 				log.debug("Secure Object has been called.");
 				request.getSession().setAttribute(EMPLOYEE_FORM, theEmployee);
 				isAuthorized = true;
@@ -177,6 +136,68 @@ public class ViewEmployeeAction extends BaseAction {
 		}
 
 		return isAuthorized;
+
+	}
+
+	private Employee findEmployeeForView(HttpServletRequest request) {
+
+		//Obtain the Employee's ID that was selected for
+		//detailed view
+		String temp = (String) request.getParameter(EMPLOYEE_ID);
+		if (temp == null || temp.length() <= 0) {
+			temp = (String) request.getSession().getAttribute(EMPLOYEE_ID);
+		}
+		Long employeeId = new Long(temp);
+
+		//Find the Employee selected for detail view
+		List searchResults = (List) request.getSession().getAttribute(
+				EMPLOYEE_LIST);
+
+		Iterator i = searchResults.iterator();
+		Employee theEmployee = null;
+		while (i.hasNext()) {
+			Employee tempEmployee = (Employee) i.next();
+			if (employeeId.compareTo(tempEmployee.getEmployeeId()) == 0) {
+				theEmployee = tempEmployee;
+				log.debug("Found Employee with ID: "
+						+ tempEmployee.getEmployeeId().longValue());
+				break;
+
+			}
+		}
+
+		return theEmployee;
+	}
+
+	private void setEmployeeProjectsForView(HttpServletRequest request, Employee theEmployee)
+			throws HibernateException {
+		Set employeeProjects = theEmployee.getEmployeeProjects();
+		List assignedProjects = new LinkedList();
+		List allProjects = ProjectDAO.searchProject(new Project());
+
+		if (employeeProjects != null) {
+			Iterator employeeProjectsIter = employeeProjects.iterator();
+			while (employeeProjectsIter.hasNext()) {
+				EmployeeProject ep = (EmployeeProject) employeeProjectsIter
+						.next();
+				assignedProjects.add(ep.getProject());
+
+				Iterator allProjectIter = allProjects.iterator();
+				while (allProjectIter.hasNext()) {
+					Project p = (Project) allProjectIter.next();
+					if (ep.getProject().getProjectId().compareTo(
+							p.getProjectId()) == 0) {
+						allProjects.remove(p);
+						break;
+					}
+				}
+
+			}
+		}
+		
+		request.getSession().setAttribute(ASSIGNED_PROJECTS,
+				assignedProjects);
+		request.getSession().setAttribute(UNASSIGNED_PROJECTS, allProjects);
 
 	}
 
