@@ -10,6 +10,11 @@ import java.util.*;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.cfg.Configuration;
 import java.io.*;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+
 
 /**
  * @author kumarvi
@@ -38,11 +43,60 @@ public class ApplicationSessionFactory {
 		 *   appSessionFactories.put(applicationContextName,sf);
 		 * }
 		 */
+		
+		Document configDocument = getConfigDocument();
+		Element applicationsElement = configDocument.getRootElement();
+		List applications = applicationsElement.getChildren("application");
+		 Iterator appIterator  = applications.iterator();
+		 while(appIterator.hasNext()){
+		 	Element application = (Element)appIterator.next();
+		 	Element context = application.getChild("context");
+		 	String context_name = context.getAttributeValue("context-name");
+		 	Element authorization = application.getChild("authorization");
+		 	Element hibernate_config_file = authorization.getChild("hibernate-config-file");
+		 	String file_name = hibernate_config_file.getAttributeValue("name");
+		 	SessionFactory sf = initSessionFactory(file_name);
+		 	appSessionFactories.put(context_name,sf);
+		 	
+		 }
 	}
 	public static SessionFactory getSessionFactory(String applicationContextName){
 		/**
 		 *  return (SessionFactory)appSessionFactories.get(applicationContextName);
 		 */
 		return null;
+	}
+	
+	private static Document getConfigDocument(){
+		try {
+            SAXBuilder builder = new SAXBuilder();
+            Document configDoc = builder.build(new File("ApplicationSecurityConfig.xml"));
+            return configDoc;
+        } catch(JDOMException e) {
+            e.printStackTrace();
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+	}
+	
+	private static SessionFactory initSessionFactory(String fileName){
+		SessionFactory sf = null;
+		try{
+			/**
+			 * We will use this commented out the style for creating sessionfactory
+			 */
+		 File f = new File(fileName);
+	     //File f = new File("config/myfile.cfg.xml");
+		 
+		 sf = new Configuration().configure(f).buildSessionFactory();
+			//sf = new Configuration().configure().buildSessionFactory();
+			 
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return sf;
 	}
 }
