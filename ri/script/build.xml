@@ -90,7 +90,11 @@ WEBAPP_WAR=${BUILD_DIR}/csm-ri.war
 		
 		<!-- WEB-INF directory within the war file -->
    		<mkdir dir="${WAR_WEBINF}" />
-   		
+		
+		<!-- WEB-INF directory within the war file -->
+		<mkdir dir="${WAR_CLASSES}" />
+		   		
+		
    		<!-- Directory for the jar files required by the app -->
    		<mkdir dir="${JAR_DIR}" />
 		
@@ -143,6 +147,9 @@ WEBAPP_WAR=${BUILD_DIR}/csm-ri.war
 			<fileset dir="${WEBAPP_DIR}" includes="**/*.xsd" />
 
      	  </copy>
+		 <copy todir="${WAR_CLASSES}">
+		 	<fileset dir="${JAVA}" includes="hibernate.cfg.xml"/>
+		 </copy>
  	</target>
 	
 	<!-- Package compiled classes into a jar -->
