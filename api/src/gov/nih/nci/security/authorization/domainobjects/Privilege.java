@@ -1,14 +1,9 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
 
-
-
-
-
-
 /**
  * This class is used to define the operations and different access levels which
- * can be associated with a user. e.g "Create", "Read", "Update", "Delete" etc..
+ * can be associated with a role. e.g "Create", "Read", "Update", "Delete" etc.
  * @version 1.0
  * @created 03-Dec-2004 1:17:50 AM
  */
