@@ -30,7 +30,7 @@
 					name="notepad" /></td>
 			</tr>
 			<tr>
-				<td valign="top" class="leftMenu" width="100%" height="100%"><tiles:get
+				<td valign="top" class="leftMenu" width="175" height="100%"><tiles:get
 					name="menu" /></td>
 			</tr>
 
