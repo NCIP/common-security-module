@@ -6,7 +6,7 @@
 <TABLE BORDER="0" ALIGN="center" WIDTH="100%">
    <TR>        
       
-    <TD WIDTH="90%"> <P CLASS="header-1" ALIGN="center">Welcome to the NCICB Common Security Module <br>
+    <TD WIDTH="70%"> <P CLASS="header-1" ALIGN="center">Welcome to the NCICB Common Security Module <br>
         Reference Implementation</P>
         
       <BR>
@@ -14,5 +14,6 @@
         the menu to continue </font></strong> </P>
 
 	  </TD>
+	  <td width="30%">&nbsp;</td>
    </TR>
 </TABLE>

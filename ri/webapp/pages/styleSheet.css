@@ -258,6 +258,16 @@ FORM BEGINS
   border-bottom:1px solid #FF9933; /* constant: dark gray */
 	text-align:right;
 }
+.formRequiredLabel2{ /* for the required form labels */
+  font-family:arial,helvetica,verdana,sans-serif;
+  font-size:0.7em;
+  font-weight:bold;
+  background-color:#FFFFCC; /* constant: light gray */
+  color:#000000; /* constant: black */
+  border-right:1px solid #FF9933; /* constant: dark gray */
+  border-bottom:1px solid #FF9933; /* constant: dark gray */
+	text-align:center;
+}
 .formLabel{ /* for the non-required form labels */
   font-family:arial,helvetica,verdana,sans-serif;
   font-size:0.7em;
