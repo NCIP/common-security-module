@@ -4,21 +4,19 @@ import java.security.Permission;
 import java.security.PermissionCollection;
 import java.util.Enumeration;
 import java.util.Vector;
-import java.util.Iterator;
-
-
-import java.security.PermissionCollection;
-
 
 
 
 
 /**
  * AuthPermissionCollection.java
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.1 2004-12-06 17:45:58 hustedb Exp $ $Log: not supported by cvs2svn $
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.1 2004-12-06 17:45:58 hustedb Exp $ Revision 1.1  2004/12/03 19:05:50  hustedb
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.1 2004-12-06 17:45:58 hustedb Exp $ initial release
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.1 2004-12-06 17:45:58 hustedb Exp $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.2 2005-01-19 23:36:16 kumarv Exp $ $Log: not supported by cvs2svn $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.2 2005-01-19 23:36:16 kumarv Exp $ Revision 1.1  2004/12/06 17:45:58  hustedb
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.2 2005-01-19 23:36:16 kumarv Exp $ moving code to api dir
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.2 2005-01-19 23:36:16 kumarv Exp $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.2 2005-01-19 23:36:16 kumarv Exp $ Revision 1.1  2004/12/03 19:05:50  hustedb
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.2 2005-01-19 23:36:16 kumarv Exp $ initial release
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.2 2005-01-19 23:36:16 kumarv Exp $
  * @version 1.0
  * @created 03-Dec-2004 1:17:48 AM
  */

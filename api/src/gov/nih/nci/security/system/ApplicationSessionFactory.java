@@ -66,6 +66,9 @@ public class ApplicationSessionFactory {
 		SessionFactory sf = null;
 		
 		 sf = (SessionFactory)appSessionFactories.get(applicationContextName);
+		 if(sf==null){
+		 	sf = getFromHotInitialization(applicationContextName);
+		 }
 		
 		 if(sf==null){
 		 	throw new CSException("Could not initialize session factory");
@@ -104,6 +107,31 @@ public class ApplicationSessionFactory {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+		return sf;
+	}
+	
+	private static SessionFactory getFromHotInitialization(String applicationContextName){
+		
+		SessionFactory sf = null;
+		Document configDocument = getConfigDocument();
+		Element applicationsElement = configDocument.getRootElement();
+		List applications = applicationsElement.getChildren("application");
+		 Iterator appIterator  = applications.iterator();
+		 while(appIterator.hasNext()){
+		 	Element application = (Element)appIterator.next();
+		 	Element context = application.getChild("context");
+		 	String context_name = context.getAttributeValue("context-name");
+		 	
+		 	 if(context_name.equalsIgnoreCase(applicationContextName)){
+				 	Element authorization = application.getChild("authorization");
+				 	Element hibernate_config_file = authorization.getChild("hibernate-config-file");
+				 	String file_name = hibernate_config_file.getAttributeValue("name");
+				 	sf = initSessionFactory(file_name);
+				 	appSessionFactories.put(context_name,sf);
+				 	break;
+		 	 }
+		 	
+		 }
 		return sf;
 	}
 }

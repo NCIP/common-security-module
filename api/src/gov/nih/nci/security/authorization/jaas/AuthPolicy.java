@@ -4,8 +4,7 @@ import java.security.*;
 import java.security.PermissionCollection;
 import java.security.ProtectionDomain;
 import javax.security.auth.Subject;
-import java.util.Enumeration;
-import java.util.Set;
+
 
 
 
@@ -15,10 +14,13 @@ import java.util.Set;
 /**
  * GenericAuthPolicy.java  in java JRE /lib/security/java.security, set: policy.
  * provider=com.jdj.jaas.AuthPolicy
- * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.1 2004-12-06 17:45:59 hustedb Exp $ $Log: not supported by cvs2svn $
- * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.1 2004-12-06 17:45:59 hustedb Exp $ Revision 1.1  2004/12/03 19:05:50  hustedb
- * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.1 2004-12-06 17:45:59 hustedb Exp $ initial release
- * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.1 2004-12-06 17:45:59 hustedb Exp $
+ * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.2 2005-01-19 23:36:24 kumarv Exp $ $Log: not supported by cvs2svn $
+ * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.2 2005-01-19 23:36:24 kumarv Exp $ Revision 1.1  2004/12/06 17:45:59  hustedb
+ * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.2 2005-01-19 23:36:24 kumarv Exp $ moving code to api dir
+ * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.2 2005-01-19 23:36:24 kumarv Exp $
+ * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.2 2005-01-19 23:36:24 kumarv Exp $ Revision 1.1  2004/12/03 19:05:50  hustedb
+ * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.2 2005-01-19 23:36:24 kumarv Exp $ initial release
+ * @author ghuang   $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java,v 1.2 2005-01-19 23:36:24 kumarv Exp $
  * @version 1.0
  * @created 03-Dec-2004 1:17:48 AM
  */

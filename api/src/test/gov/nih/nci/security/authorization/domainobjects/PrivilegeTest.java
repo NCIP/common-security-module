@@ -5,11 +5,10 @@ package test.gov.nih.nci.security.authorization.domainobjects;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
-import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+
+
 
 /**
  * PrivilegeTest (Copyright 2001 Your Company)
@@ -27,8 +26,8 @@ import net.sf.hibernate.Transaction;
  * Relations: Privilege extends java.lang.Object <br>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-13 22:26:05 $
- * @version $Revision: 1.2 $
+ * @date $Date: 2005-01-19 23:37:35 $
+ * @version $Revision: 1.3 $
  * 
  * @see gov.nih.nci.security.authorization.domainobjects.Privilege
  * @see some.other.package
