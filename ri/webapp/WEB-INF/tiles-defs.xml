@@ -33,7 +33,7 @@
   	<put name="header" value="/pages/header/header3.jsp"/>     
   </definition>		
 		
-	<!-- home page -->	
+	<!-- Home page -->	
 		
 	<definition name="Home.Main" extends="Home">
     <put name="content"   value="pages/home.jsp" />
