@@ -1,6 +1,7 @@
 package gov.nih.nci.security.dao;
 
 import gov.nih.nci.security.authorization.domainobjects.*;
+import java.util.Iterator;
 
 import gov.nih.nci.security.authorization.jaas.*;
 import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
@@ -18,6 +19,8 @@ import net.sf.hibernate.SessionFactory;
 import java.util.List;
 import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.expression.*;
+
+import gov.nih.nci.security.dao.hibernate.*;
 
 
 
@@ -70,6 +73,54 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	
 	public void assignPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException{
+		  
+		Session s = null;
+		Transaction t = null;
+		//System.out.println("Running create test...");
+		try {
+			s = sf.openSession();
+
+			t = s.beginTransaction();
+			Role r = this.getRole(new Long(roleId));
+			/**
+			 * First check if there are some privileges for this role
+			 * If there are any then delete them.
+			 */
+			RolePrivilege search = new RolePrivilege();
+			search.setRole(r);
+			
+			List list = s.createCriteria(RolePrivilege.class).add(Example.create(search)).list();
+			
+			Iterator it = list.iterator();
+			while(it.hasNext()){
+				RolePrivilege rp1 = (RolePrivilege)it.next();
+				s.delete(rp1);
+			}
+			
+			for( int i=0;i<privilegeIds.length;i++){
+				String rp_id = (String)privilegeIds[i];
+				Privilege p = this.getPrivilege(rp_id);
+				RolePrivilege rp = new RolePrivilege();
+				rp.setPrivilege(p);
+				rp.setRole(r);
+				rp.setUpdateDate(new java.util.Date());
+				s.save(rp);
+			}
+			
+			t.commit();
+			s.close();
+			//System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
 		
 	}
 
