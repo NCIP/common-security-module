@@ -237,5 +237,7 @@ public interface AuthorizationManager {
 	 * @throws CSObjectNotFoundException if the Protection Element object is not found for the given id
 	 */
 	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException;
+	
+	public Collection getPrivilegeMap(String userName,Collection protectionElements) throws CSException;
 }
 

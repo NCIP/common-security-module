@@ -892,4 +892,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.secureCollection(userName,objects);
 	}
 	
+	public Collection getPrivilegeMap(String userName,Collection protectionElements) throws CSException{
+		return authorizationDAO.getPrivilegeMap(userName,protectionElements);
+	}
+	
 }

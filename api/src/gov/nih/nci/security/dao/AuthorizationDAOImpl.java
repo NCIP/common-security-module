@@ -1,6 +1,7 @@
 package gov.nih.nci.security.dao;
 
 import gov.nih.nci.security.authorization.ObjectAccessMap;
+import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.Group;
@@ -26,6 +27,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 
 import java.util.Collection;
 import java.util.Date;
@@ -617,7 +619,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append("user_group_role_protection_group ugrpg,");
 			stbr.append("user u,");
 			stbr.append("groups g,");
-			stbr.append("user_group g,");
+			stbr.append("user_group ug,");
 			stbr.append("role_privilege rp,");
 			stbr.append("privilege p ");
 			stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
@@ -2405,7 +2407,94 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	}
 	
 	public Collection getPrivilegeMap(String userName,Collection pEs) throws CSException{
+		ArrayList result = new ArrayList();
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		boolean test = false;
+		Session s = null;
+
+		Connection cn = null;
+
+		try {
+
+			s = sf.openSession();
+
+			cn = s.connection();
+
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("select distinct(p.privilege_name)");
+			stbr.append(" from protection_group pg,");
+			stbr.append(" protection_element pe,");
+			stbr.append(" protection_group_protection_element pgpe,");
+			stbr.append(" user_group_role_protection_group ugrpg,");
+			stbr.append(" user u,");
+			stbr.append(" groups g,");
+			stbr.append(" user_group ug,");
+			stbr.append(" role_privilege rp,");
+			stbr.append(" privilege p ");
+			stbr.append(" where pgpe.protection_group_id = pg.protection_group_id"); 
+			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" and pe.object_id= ?");
+			stbr.append(" and pe.attribute=?");
+			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr.append(" and (( ugrpg.group_id = g.group_id");
+			stbr.append("       and ug.user_id = u.user_id)");
+			stbr.append("       or ");
+			stbr.append("     (ugrpg.user_id = u.user_id))");
+			stbr.append(" and u.login_name=?");
+			stbr.append(" and ugrpg.role_id = rp.role_id ");
+			stbr.append(" and rp.privilege_id = p.privilege_id");
+
+			String sql = stbr.toString();
+			   pstmt = cn.prepareStatement(sql);
+			
+			 Iterator it = pEs.iterator();
+					 while(it.hasNext()){
+					 	ProtectionElement pe = (ProtectionElement)it.next();
+					 	ArrayList privs = new ArrayList();
+					 	if(pe.getObjectId()!=null){
+					 		pstmt.setString(1,pe.getObjectId());
+					 		if(pe.getAttribute()!=null){
+					 			pstmt.setString(2,pe.getAttribute());
+					 		}else{
+					 			pstmt.setNull(2,Types.LONGVARCHAR);
+					 		}
+					 		pstmt.setString(3,userName);
+					 	}
+					 	
+					 	    rs = pstmt.executeQuery();
+					 	
+					 	while(rs.next()){
+					 		String priv = rs.getString(1);
+					 		Privilege p = new Privilege();
+					 		p.setName(priv);
+					 		privs.add(p);
+					 	}
+					 	rs.close();
+					 	ObjectPrivilegeMap opm = new ObjectPrivilegeMap(pe,privs);
+					 	result.add(opm); 
+					 }
+			
+			
+			
+			pstmt.close();
+
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Failed to get privileges for "+userName +"|"+ ex.getMessage());
+			  throw new CSException("Failed to get privileges for "+userName +"|"+ ex.getMessage(),ex);
+		} finally {
+			try {
+
+				s.close();
+				rs.close();
+				pstmt.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getPrivilegeMap|Failure|Error in Closing Session |"+ex2.getMessage());
+			}
+		}
 		
-		return null;
+		return result;
 	}
 }

@@ -329,5 +329,7 @@ public interface AuthorizationDAO {
 	public Object secureObject(String userName, Object obj) throws CSException;
 	
 	public Collection secureCollection(String userName,Collection objects) throws CSException;
+	
+	public Collection getPrivilegeMap(String userName,Collection pEs) throws CSException;
 }
 
