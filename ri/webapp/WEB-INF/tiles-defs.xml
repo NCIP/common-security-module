@@ -47,7 +47,7 @@
 	<!-- Employee pages -->
 		
 	<definition name="show.create.employee" extends="Employee">
-    <put name="body"   value="/pages/createEmployee.jsp" />
+    <put name="body"   value="/pages/createemployee.jsp" />
     </definition>		
 	
 	<!-- Project pages -->
