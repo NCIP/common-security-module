@@ -48,5 +48,11 @@ public interface Constants {
 	public static final String BUSINESS_DIVISION = "BUSINESS_DIVISION";
 	
 	public static final String HR_DIVISION = "HR_DIVISION";
+	
+	public static final String YES = "YES";
+	public static final String NO = "NO";
+	
+	
+	
 
 }

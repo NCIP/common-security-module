@@ -49,7 +49,21 @@ public class Employee extends ValidatorForm implements Serializable, Cloneable {
 
 	/** persistent field */
 	private Set employeeProjects;
+	
+	private String managerStatus;
 
+	/**
+	 * @return Returns the managerStatus.
+	 */
+	public String getManagerStatus() {
+		return managerStatus;
+	}
+	/**
+	 * @param managerStatus The managerStatus to set.
+	 */
+	public void setManagerStatus(String managerStatus) {
+		this.managerStatus = managerStatus;
+	}
 	/** persistent field */
 	private Set employees;
 

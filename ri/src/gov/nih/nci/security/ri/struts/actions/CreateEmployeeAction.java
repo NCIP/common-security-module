@@ -1,12 +1,7 @@
-/*
- * Created on Jan 7, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.ri.dao.EmployeeDAO;
 import gov.nih.nci.security.ri.struts.Constants;
@@ -25,10 +20,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * @author Brian
- * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ * @author Brian Husted
+ *  
  */
 public class CreateEmployeeAction extends SecureAction {
 
@@ -62,36 +55,59 @@ public class CreateEmployeeAction extends SecureAction {
 		return mapping.findForward(Constants.ACTION_SUCCESS);
 	}
 
-	private void doAuthorization(HttpServletRequest request,
-			Employee employeeForm) throws CSException {
+	private void doAuthorization(HttpServletRequest request, Employee empl)
+			throws CSException {
 
+		
+		
+		//Create a protection element that represents the employee record
 		ProtectionElement pe = new ProtectionElement();
-		pe.setObjectId(SecurityUtils.getEmployeeObjectId(employeeForm));
-		pe.setProtectionElementName("EMPLOYEE_RECORD_"
-				+ employeeForm.getEmployeeId());
+		pe.setObjectId(SecurityUtils.getEmployeeObjectId(empl));
+		pe.setProtectionElementName("EMPLOYEE_RECORD_" + empl.getEmployeeId());
 		pe
 				.setProtectionElementDescription("The gov.nih.nci.security.ri.valueObject.Employee Object");
 
 		//create the employee protection element to protected the
 		//employee's data
 		getAuthorizationManager().createProtectionElement(pe);
-
-		//need the ability to create user in CSM database!!!
-
-		//assign the employee as owner of record
-		getAuthorizationManager().setOwnerForProtectionElement(
-				employeeForm.getUserName(), pe.getObjectId(), null);
+		
+		User user = createUser( empl );
+        //Create the User for Authorization
+		getUserProvisioningManager().createUser(user );
+		//Assign the User to the appropriate UserGroup
+		getUserProvisioningManager().assignUserToGroup( user.getLoginName(),
+				SecurityUtils.getEmployeeGroup(empl));
+		
 
 		//assign the employee to his business unit
 		getAuthorizationManager().assignProtectionElement(
-				employeeForm.getBusinessUnit(), pe.getObjectId());
+		   empl.getBusinessUnit(), pe.getObjectId());
 		
-		//assign access to the employee for HR Division
-		getAuthorizationManager().assignProtectionElement(
-				HR_DIVISION, pe.getObjectId());
-		
-		
+		//assign the employee as owner of record
+		getAuthorizationManager().setOwnerForProtectionElement(
+				empl.getUserName(), pe.getObjectId(), null);
+
+		//If they are not part of HR division then add
+		//employee record so that HR managers can view
+		//all employee data
+		if (!HR_DIVISION.equals(empl.getBusinessUnit())) {
+			//assign access to the employee for HR Division
+			getAuthorizationManager().assignProtectionElement(HR_DIVISION,
+					pe.getObjectId());
+		}
 
 	}
-
+	
+	private User createUser( Employee empl ){
+		User user = new User();
+		user.setLoginName(empl.getUserName());
+		user.setLastName(empl.getLastName());
+		user.setFirstName(empl.getFirstName());
+		user.setEmailId(empl.getEmailAddr());
+		user.setOrganization(empl.getBusinessUnit());
+		user.setPassword(empl.getPassword());
+		user.setPhoneNumber(empl.getPhoneNumber());
+		user.setDepartment(empl.getBusinessUnit());
+		return user;
+	}
 }
