@@ -908,4 +908,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.checkOwnership(userName,protectionElementObjectId);
 	}
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignUserToGroup(java.lang.String, java.lang.String)
+	 */
+	public void assignUserToGroup(String userName, String groupName)
+			throws CSTransactionException {
+		// TODO Auto-generated method stub
+		authorizationDAO.assignUserToGroup( userName, groupName );
+	}
 }

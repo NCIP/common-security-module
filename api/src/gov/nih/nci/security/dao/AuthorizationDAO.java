@@ -53,6 +53,10 @@ public interface AuthorizationDAO {
 
 	
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignUserToGroup(java.lang.String, java.lang.String)
+	 */
+	public void assignUserToGroup(String userId,String groupName)throws CSTransactionException;
 
 	/**
 	 * @param protectionElementObjectId

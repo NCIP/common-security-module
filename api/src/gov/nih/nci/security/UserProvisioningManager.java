@@ -173,6 +173,16 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @throws CSTransactionException If there are any errors in the Assignment
 	 */
 	public void assignGroupsToUser(String userId,String[] groupIds)throws CSTransactionException;
+	
+	/**
+	 * Assigns a User to a Group
+	 *
+	 * @param userName the User Name to which the Group will be assigned
+	 * @param groupName The Group Name which is to be assigned to the User
+	 * @throws CSTransactionException If there are any errors in the Assignment
+	 */
+	public void assignUserToGroup(String userName,String groupName)throws CSTransactionException;
+
 
 	/**
 	 * @param groupId
