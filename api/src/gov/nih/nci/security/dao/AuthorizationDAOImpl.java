@@ -8,6 +8,8 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.*;
+import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
+import gov.nih.nci.security.exceptions.CSTransactionException;
 
 import java.security.Principal;
 import java.util.Set;
@@ -28,35 +30,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 
-	
-
-	
-
-	
-
-
-	/**
-	 * @param permission
-	 * @param subject
-	 *  
-	 */
-	public boolean checkPermission(AccessPermission permission, Subject subject) {
-		return false;
-	}
-
-	/**
-	 * @param permission
-	 * @param userName
-	 *  
-	 */
-	public boolean checkPermission(AccessPermission permission, String userName) {
-		return false;
-	}
-
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#addUserToGroup(java.lang.String, java.lang.String)
 	 */
-	public void addUserToGroup(String groupId, String user) {
+	public void addUserToGroup(String groupId, String user)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -64,14 +42,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignGroupRoleToProtectionGroup(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void assignGroupRoleToProtectionGroup(String protectionGroupId,
-			String groupId, String rolesId) {
+			String groupId, String rolesId) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignPrivilegesToRole(java.lang.String[], java.lang.String)
 	 */
-	public void assignPrivilegesToRole(String[] privilegesName, String roleName) {
+	public void assignPrivilegesToRole(String[] privilegesName, String roleName)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -80,7 +59,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void assignProtectionElements(String protectionGroupName,
 			String[] protectionElementObjectName,
-			String[] protectionElementAttributeName) {
+			String[] protectionElementAttributeName)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -88,7 +68,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String, java.lang.String[])
 	 */
 	public void assignProtectionElements(String protectionGroupName,
-			String[] protectionElementObjectNames) {
+			String[] protectionElementObjectNames)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -96,9 +77,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignUserRoleToProtectionGroup(java.lang.String, java.lang.String[], java.lang.String)
 	 */
 	public void assignUserRoleToProtectionGroup(String userId,
-			String[] rolesId, String protectionGroupId) {
+			String[] rolesId, String protectionGroupId)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#checkPermission(gov.nih.nci.security.authorization.jaas.AccessPermission, java.lang.String)
+	 */
+	public boolean checkPermission(AccessPermission permission, String userName) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#checkPermission(gov.nih.nci.security.authorization.jaas.AccessPermission, javax.security.auth.Subject)
+	 */
+	public boolean checkPermission(AccessPermission permission, Subject subject) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#checkPermission(gov.nih.nci.security.authorization.jaas.AccessPermission, gov.nih.nci.security.authorization.domainobjects.User)
@@ -126,35 +122,38 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createGroup(gov.nih.nci.security.authorization.domainobjects.Group)
 	 */
-	public void createGroup(Group group) {
+	public void createGroup(Group group) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createPrivilege(gov.nih.nci.security.authorization.domainobjects.Privilege)
 	 */
-	public void createPrivilege(Privilege privilege) {
+	public void createPrivilege(Privilege privilege)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement)
 	 */
-	public void createProtectionElement(ProtectionElement protectionElement) {
+	public void createProtectionElement(ProtectionElement protectionElement)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createProtectionGroup(gov.nih.nci.security.authorization.domainobjects.ProtectionGroup)
 	 */
-	public void createProtectionGroup(ProtectionGroup protectionGroup) {
+	public void createProtectionGroup(ProtectionGroup protectionGroup)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#createRole(gov.nih.nci.security.authorization.domainobjects.Role)
 	 */
-	public void createRole(Role role) {
+	public void createRole(Role role) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -163,7 +162,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void deAssignProtectionElements(String protectionGroupName,
 			String[] protectionElementObjectNames,
-			String[] protectionElementAttributeNames) {
+			String[] protectionElementAttributeNames)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -171,7 +171,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#deAssignProtectionElements(java.lang.String[], java.lang.String)
 	 */
 	public void deAssignProtectionElements(
-			String[] protectionElementObjectNames, String protectionGroupName) {
+			String[] protectionElementObjectNames, String protectionGroupName)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -179,6 +180,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getApplicationContext()
 	 */
 	public ApplicationContext getApplicationContext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getGroup(java.lang.Long)
+	 */
+	public Group getGroup(Long groupId) throws CSObjectNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getGroup(java.lang.String)
+	 */
+	public Group getGroup(String groupName) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -199,28 +214,54 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getPrivilege(java.lang.String)
 	 */
-	public Privilege getPrivilege(String privilegeId) {
+	public Privilege getPrivilege(String privilegeId)
+			throws CSObjectNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.Long)
+	 */
+	public ProtectionElement getProtectionElement(Long protectionElementId)
+			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.String)
 	 */
-	public ProtectionElement getProtectionElement(String objectId) {
+	public ProtectionElement getProtectionElement(String objectId)
+			throws CSObjectNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionGroup(java.lang.Long)
+	 */
+	public ProtectionGroup getProtectionGroup(Long protectionGroupId)
+			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionGroup(java.lang.String)
 	 */
-	public ProtectionGroup getProtectionGroup(String protectionGroupName) {
+	public ProtectionGroup getProtectionGroup(String protectionGroupName)
+			throws CSObjectNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getRole(java.lang.Long)
+	 */
+	public Role getRole(Long roleId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getRole(java.lang.String)
 	 */
-	public Role getRole(String roleName) {
+	public Role getRole(String roleName) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -234,35 +275,37 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#modifyGroup(gov.nih.nci.security.authorization.domainobjects.Group)
 	 */
-	public void modifyGroup(Group group) {
+	public void modifyGroup(Group group) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#modifyPrivilege(gov.nih.nci.security.authorization.domainobjects.Privilege)
 	 */
-	public void modifyPrivilege(Privilege privilege) {
+	public void modifyPrivilege(Privilege privilege)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#modifyProtectionGroup(gov.nih.nci.security.authorization.domainobjects.ProtectionGroup)
 	 */
-	public void modifyProtectionGroup(ProtectionGroup protectionGroup) {
+	public void modifyProtectionGroup(ProtectionGroup protectionGroup)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#modifyRole(gov.nih.nci.security.authorization.domainobjects.Role)
 	 */
-	public void modifyRole(Role role) {
+	public void modifyRole(Role role) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroup(java.lang.String)
 	 */
-	public void removeGroup(String groupId) {
+	public void removeGroup(String groupId) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -270,7 +313,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroupFromProtectionGroup(java.lang.String, java.lang.String)
 	 */
 	public void removeGroupFromProtectionGroup(String protectionGroupId,
-			String groupId) {
+			String groupId) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -278,49 +321,54 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroupRoleFromProtectionGroup(java.lang.String, java.lang.String, java.lang.String[])
 	 */
 	public void removeGroupRoleFromProtectionGroup(String protectionGroupId,
-			String groupId, String[] roleId) {
+			String groupId, String[] roleId) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removePrivilege(java.lang.String)
 	 */
-	public void removePrivilege(String privilegeId) {
+	public void removePrivilege(String privilegeId)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removePrivilegesFromRole(java.lang.String, java.lang.String[])
 	 */
-	public void removePrivilegesFromRole(String role, String[] privilegeName) {
+	public void removePrivilegesFromRole(String role, String[] privilegeName)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement)
 	 */
-	public void removeProtectionElement(ProtectionElement element) {
+	public void removeProtectionElement(ProtectionElement element)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeProtectionGroup(java.lang.String)
 	 */
-	public void removeProtectionGroup(String protectionGroupName) {
+	public void removeProtectionGroup(String protectionGroupName)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeRole(java.lang.String)
 	 */
-	public void removeRole(String roleId) {
+	public void removeRole(String roleId) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserFromGroup(java.lang.String, java.lang.String)
 	 */
-	public void removeUserFromGroup(String groupId, String userId) {
+	public void removeUserFromGroup(String groupId, String userId)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -328,7 +376,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserFromProtectionGroup(java.lang.String, java.lang.String)
 	 */
 	public void removeUserFromProtectionGroup(String protectionGroupId,
-			String userId) {
+			String userId) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -336,7 +384,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserRoleFromProtectionGroup(java.lang.String, java.lang.String, java.lang.String[])
 	 */
 	public void removeUserRoleFromProtectionGroup(String protectionGroupName,
-			String userName, String[] roles) {
+			String userName, String[] roles) throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -345,7 +393,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void setOwnerForProtectionElement(String userName,
 			String protectionElementObjectName,
-			String protectionElementAttributeName) {
+			String protectionElementAttributeName)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
@@ -353,7 +402,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#setOwnerForProtectionElement(java.lang.String, java.lang.String)
 	 */
 	public void setOwnerForProtectionElement(
-			String protectionElementObjectName, String userName) {
+			String protectionElementObjectName, String userName)
+			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
 	}
