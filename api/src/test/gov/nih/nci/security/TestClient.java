@@ -185,7 +185,7 @@ public class TestClient {
     public void getUser(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	 
-    	 String loginName = "login_name_4";
+    	 String loginName = "login_name_15";
     	 try{
     	 	User user = upm.getUser(loginName);
     	 	System.out.println(user.getFirstName()+":"+user.getEmailId());
@@ -270,7 +270,7 @@ public class TestClient {
     	  //upm.addUserToGroup("2","15");
     	  //upm.addUserToGroup("2","16");
     	  //upm.addUserToGroup("2","445");
-    	  upm.addUserToGroup("3","1000");
+    	  upm.addUserToGroup("3","15");
     	
     	}catch(Exception ex){
     		ex.printStackTrace();
@@ -304,12 +304,12 @@ public class TestClient {
 		//ts.getPrivileges();
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
-		//ts.getUser();
+		ts.getUser();
 		//ts.testProtectionGroupCreate();
 		//ts.testProtectionGroupModify();
 		//ts.testProtectionElementCreate();
 		//ts.getProtectionElement();
-		ts.addUserToGroup();
+		//ts.addUserToGroup();
 		//ts.removeUserFromGroup();
 	}
 }

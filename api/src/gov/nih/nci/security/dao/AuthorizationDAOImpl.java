@@ -79,17 +79,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = sf.openSession();
 
-			
+			System.out.println("The original user Id:"+userId);
+			Group grp = new Group();
+			grp.setGroupId(new Long(groupId));
 			//User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
 			//System.out.println("The user id ="+user.getUserId());
+			System.out.println("The user id ="+grp.getGroupId());
 			/**
 			 * First check if there are some privileges for this role If there
 			 * are any then delete them.
 			 */
 			UserGroup search = new UserGroup();
-			User user = new User();
-			user.setUserId(new Long(userId));
-			search.setUser(user);
+			search.setGroup(grp);
+			//search.setUser(user);
 
 			List list = s.createCriteria(UserGroup.class).add(Example.create(search)).list();
 			ArrayList oldList = new ArrayList();
@@ -107,7 +109,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			 	Group g = this.getGroup(new Long(groupId));
 			 	UserGroup ugToBeSaved = new UserGroup();
 			 	ugToBeSaved.setGroup(g);
-			 	ugToBeSaved.setUser(user);
+			 	//ugToBeSaved.setUser(user);
 			 	s.save(ugToBeSaved);
 			 }
 			t.commit();
@@ -813,6 +815,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				user = (User) list.get(0);
 			}
 			
+			Collection groups = user.getGroups();
+			Iterator it = groups.iterator();
+			while(it.hasNext()){
+				Group grp = (Group)it.next();
+				System.out.println("The group Id:"+grp.getGroupId());
+			}
+			
 
 		} catch (Exception ex) {
 			log.fatal("Unable to find Group", ex);
@@ -1168,6 +1177,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			RolePrivilege search = new RolePrivilege();
 			Role r = new Role();
 			r.setId(new Long(roleId));
+			search.setRole(r);
 			List list = s.createCriteria(RolePrivilege.class).add(
 					Example.create(search)).list();
 			Iterator it = list.iterator();
