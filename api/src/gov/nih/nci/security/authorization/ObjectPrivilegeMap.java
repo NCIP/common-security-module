@@ -6,6 +6,10 @@
  */
 package gov.nih.nci.security.authorization;
 
+import java.util.Collection;
+
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+
 /**
  * @author kumarvi
  *
@@ -13,5 +17,18 @@ package gov.nih.nci.security.authorization;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ObjectPrivilegeMap {
-
+	
+	private ProtectionElement pe;
+	private Collection privileges;
+	
+	public ObjectPrivilegeMap(ProtectionElement pe,Collection privileges){
+		this.pe=pe;
+		this.privileges= privileges;
+	}
+    public ProtectionElement getProtectionElement(){
+    	return this.pe;
+    }
+    public Collection getPrivileges(){
+    	return privileges;
+    }
 }
