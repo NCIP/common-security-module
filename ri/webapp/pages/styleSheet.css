@@ -55,7 +55,7 @@ HDR AND FTR BEGINS
 }
 
 .header2{ /* for the cell that contains the application header */
-  background-color:#CC66CC; /* purple */
+  background-color:#660066; /* purple */
   border-left:1px solid #9999FF; /* constant: medium gray */
   border-right:1px solid #9999FF; /* constant: medium gray */
   border-top:1px solid #9999FF; /* constant: medium gray */
