@@ -12,27 +12,18 @@
 -->
 
 <class 
-    name="gov.nih.nci.security.authorization.domainobjects.UserGroup" 
+    name="gov.nih.nci.security.dao.hibernate.UserGroup" 
     table="user_group"
 >
-    <meta attribute="class-description" inherit="false">
-       @hibernate.class
-        table="user_group"
-    </meta>
+    
 
     <id
         name="userGroupId"
         type="java.lang.Long"
         column="USER_GROUP_ID"
-    >
-        <meta attribute="field-description">
-           @hibernate.id
-            generator-class="assigned"
-            type="java.lang.Long"
-            column="USER_GROUP_ID"
-
-        </meta>
-        <generator class="assigned" />
+        unsaved-value="null"
+         >
+        <generator class="identity"/>
     </id>
 
 
@@ -44,11 +35,7 @@
         class="gov.nih.nci.security.authorization.domainobjects.Group"
         not-null="true"
     >
-        <meta attribute="field-description">
-           @hibernate.many-to-one
-            not-null="true"
-           @hibernate.column name="GROUP_ID"         
-        </meta>
+       
         <column name="GROUP_ID" />
     </many-to-one>
     <!-- bi-directional many-to-one association to User -->
@@ -57,11 +44,7 @@
         class="gov.nih.nci.security.authorization.domainobjects.User"
         not-null="true"
     >
-        <meta attribute="field-description">
-           @hibernate.many-to-one
-            not-null="true"
-           @hibernate.column name="USER_ID"         
-        </meta>
+        
         <column name="USER_ID" />
     </many-to-one>
 

@@ -68,7 +68,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#addUserToGroup(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public void addUserToGroup(String groupId, String user)
+	public void addUserToGroup(String groupId, String userId)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
 		/**
