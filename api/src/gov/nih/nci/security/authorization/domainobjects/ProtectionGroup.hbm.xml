@@ -68,7 +68,7 @@
     
     <!-- bi-directional many-to-one association to ProtectionGroup -->
     <many-to-one
-        name="protectionGroup"
+        name="parentProtectionGroup"
         class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
         not-null="true"
     >
