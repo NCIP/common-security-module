@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.authorization.domainobjects.UserGroup" 
+    table="user_group"
+>
+    <meta attribute="class-description" inherit="false">
+       @hibernate.class
+        table="user_group"
+    </meta>
+
+    <id
+        name="userGroupId"
+        type="java.lang.Long"
+        column="USER_GROUP_ID"
+    >
+        <meta attribute="field-description">
+           @hibernate.id
+            generator-class="assigned"
+            type="java.lang.Long"
+            column="USER_GROUP_ID"
+
+        </meta>
+        <generator class="assigned" />
+    </id>
+
+
+    <!-- Associations -->
+  
+    <!-- bi-directional many-to-one association to Group -->
+    <many-to-one
+        name="group"
+        class="gov.nih.nci.security.authorization.domainobjects.Group"
+        not-null="true"
+    >
+        <meta attribute="field-description">
+           @hibernate.many-to-one
+            not-null="true"
+           @hibernate.column name="GROUP_ID"         
+        </meta>
+        <column name="GROUP_ID" />
+    </many-to-one>
+    <!-- bi-directional many-to-one association to User -->
+    <many-to-one
+        name="user"
+        class="gov.nih.nci.security.authorization.domainobjects.User"
+        not-null="true"
+    >
+        <meta attribute="field-description">
+           @hibernate.many-to-one
+            not-null="true"
+           @hibernate.column name="USER_ID"         
+        </meta>
+        <column name="USER_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

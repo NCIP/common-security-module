@@ -245,10 +245,10 @@ public interface AuthorizationDAO {
 
 	/**
 	 * @param groupId
-	 * @param user
+	 * @param userId
 	 * 
 	 */
-	public void addUserToGroup(String groupId, String user)throws CSTransactionException;;
+	public void addUserToGroup(String groupId, String userId)throws CSTransactionException;;
 
 	/**
 	 * @param groupId
