@@ -31,6 +31,14 @@ import net.sf.hibernate.SessionFactory;
  */
 public class UserProvisioningManagerImpl implements UserProvisioningManager {
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#addUserToGroup(java.lang.String, java.lang.String)
+	 */
+	public void addUserToGroup(String groupId, String userId)
+			throws CSTransactionException {
+		// TODO Auto-generated method stub
+
+	}
 	/**
 	 * The applicationContext is an instance of ApplicationContext class. It has all
 	 * the information and configuration for an application.
@@ -294,7 +302,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param privilegeName
 	 * 
 	 */
-	public boolean checkPermission(String userName, String objectId, String privilegeName){
+	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSTransactionException{
 		return authorizationDAO.checkPermission(userName,objectId,privilegeName);
 	}
 
