@@ -1,6 +1,8 @@
 
 package gov.nih.nci.security.ri.struts.actions;
 
+import gov.nih.nci.security.ri.struts.Constants;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,7 +24,7 @@ public class ViewCreateProjectAction extends SecureAction  {
 	public ActionForward executeSecureWorkflow(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		// TODO Auto-generated method stub
+		request.getSession().setAttribute( Constants.PROJECT_FORM, new gov.nih.nci.security.ri.valueObject.Project());
 		return mapping.findForward( ACTION_SUCCESS );
 	}
 

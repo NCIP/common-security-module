@@ -31,6 +31,8 @@ public interface Constants {
 	public static final String USER = "USER";
 
 	public static final String EMPLOYEE_FORM = "employeeForm";
+	
+	public static final String PROJECT_FORM = "projectForm";	
 
 	public static final String EMPLOYEE_ID = "EMPLOYEE_ID";
 

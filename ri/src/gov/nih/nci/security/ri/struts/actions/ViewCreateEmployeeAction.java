@@ -1,6 +1,8 @@
 
 package gov.nih.nci.security.ri.struts.actions;
 
+import gov.nih.nci.security.ri.struts.Constants;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +24,7 @@ public class ViewCreateEmployeeAction extends SecureAction  {
 	public ActionForward executeSecureWorkflow(ActionMapping mapping,
 			ActionForm arg1, HttpServletRequest arg2, HttpServletResponse arg3)
 			throws Exception {
+		arg2.getSession().setAttribute( Constants.EMPLOYEE_FORM, new gov.nih.nci.security.ri.valueObject.Employee());
 		return mapping.findForward( ACTION_SUCCESS );
 	}
 
