@@ -6,62 +6,71 @@
 
 <web-app>
 
-  <!-- Standard Action Servlet Configuration (with debugging) -->
-  <servlet>
-    <servlet-name>action</servlet-name>
-    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
-    <init-param>
-      <param-name>config</param-name>
-      <param-value>/WEB-INF/struts-config.xml</param-value>
-    </init-param>
+	<!-- Standard Action Servlet Configuration (with debugging) -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
 
-	<load-on-startup>1</load-on-startup>
-  </servlet>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
-
-
-  <!-- Standard Action Servlet Mapping -->
-  <servlet-mapping>
-    <servlet-name>action</servlet-name>
-    <url-pattern>*.do</url-pattern>
-  </servlet-mapping>
-
-  <!-- The Usual Welcome File List -->
-  <welcome-file-list>
-    <welcome-file>/pages/index.jsp</welcome-file>
-  </welcome-file-list>
-
-   <error-page>
-      <error-code>404</error-code>
-      <location>/pages/custom404.htm</location>
-   </error-page>
+	<servlet>
+		<servlet-name>log4j-init</servlet-name>
+		<servlet-class>
+			gov.nih.nci.security.ri.util.Log4jInit
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
 
-  <!-- Struts Tag Library Descriptors -->
-  <taglib>
-    <taglib-uri>/tags/struts-bean</taglib-uri>
-    <taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
-  </taglib>
+	<!-- Standard Action Servlet Mapping -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
 
-  <taglib>
-    <taglib-uri>/tags/struts-html</taglib-uri>
-    <taglib-location>/WEB-INF/struts-html.tld</taglib-location>
-  </taglib>
+	<!-- The Usual Welcome File List -->
+	<welcome-file-list>
+		<welcome-file>/pages/index.jsp</welcome-file>
+	</welcome-file-list>
 
-  <taglib>
-    <taglib-uri>/tags/struts-logic</taglib-uri>
-    <taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
-  </taglib>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/pages/custom404.htm</location>
+	</error-page>
 
-  <taglib>
-    <taglib-uri>/tags/struts-nested</taglib-uri>
-    <taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
-  </taglib>
 
-  <taglib>
-    <taglib-uri>/tags/struts-tiles</taglib-uri>
-    <taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
-  </taglib>
+	<!-- Struts Tag Library Descriptors -->
+	<taglib>
+		<taglib-uri>/tags/struts-bean</taglib-uri>
+		<taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-html</taglib-uri>
+		<taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-logic</taglib-uri>
+		<taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-nested</taglib-uri>
+		<taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+	</taglib>
+
+	<taglib>
+		<taglib-uri>/tags/struts-tiles</taglib-uri>
+		<taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
+	</taglib>
 
 
 </web-app>
