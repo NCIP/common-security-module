@@ -1,8 +1,6 @@
 /*
  * Created on Jan 13, 2005
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.authorization;
 
@@ -10,10 +8,11 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
+ * This class repesents a structure conating the access of
+ * a user on the attributes of an object
+ * 
  * @author kumarvi
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
  */
 public class ObjectAccessMap {
 	
@@ -23,6 +22,13 @@ public class ObjectAccessMap {
 		this.objectName=objectName;
 		this.accessMap=accessMap;
 	}
+	
+	/**
+	 * The methods checks the permission of a user on the attribute
+	 * of an object.
+	 * @param attributeName
+	 * @return boolean
+	 */
 	public boolean hasAccess(String attributeName){
 		boolean hasAccess = false;
 		Boolean value = (Boolean)accessMap.get(attributeName.toLowerCase());

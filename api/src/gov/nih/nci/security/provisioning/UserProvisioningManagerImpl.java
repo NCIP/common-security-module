@@ -328,8 +328,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @return boolean
 	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(String, String, String, String)
 	 */
-	public boolean checkPermission(String userName, String objectId, String attributeId, String privilegeName){
-		return authorizationDAO.checkPermission(userName,objectId,attributeId,privilegeName);
+	public boolean checkPermission(String userName, String objectId, String attributeId, String privilegeName)throws CSException{
+		return authorizationDAO.checkPermission(userName,objectId,attributeId,privilegeName) ;
 	}
 
 	/**
