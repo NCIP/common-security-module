@@ -620,7 +620,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 																	 privilegeName,
 																	 application_id);
 			
-			System.out.println(sql);
+			log.debug(sql);
 																	 
 			stmt = cn.createStatement();
 			rs = stmt.executeQuery(sql);
@@ -759,7 +759,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	private boolean checkPermissionForUserAndGroup(String userName,
 			String objectId, String privilegeName) throws CSException {
-		System.out.println("Method:checkPermissionForUserAndGroup()");
+		log.debug("Method:checkPermissionForUserAndGroup()");
 		boolean test = false;
 		Session s = null;
 		Statement stmt = null;
@@ -984,11 +984,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (fieldValues.size() == 0) {
 				criteria.add(Expression.eqProperty("1", "1"));
 			}
-			System.out.println("Message from debug: ObjectType="+searchCriteria.getObjectType().getName());
+			log.debug("Message from debug: ObjectType="+searchCriteria.getObjectType().getName());
 			
 			//boolean t = searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User")||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege");
 			
-			//System.out.println("Test:"+t);
+			//log.debug("Test:"+t);
 			
 			//if(!t){
 			//	criteria.add(Expression.eq("application", this.application));
