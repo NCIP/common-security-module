@@ -427,8 +427,8 @@ table.contentPage{ /* for overall top style for a content page */
   font-family:arial,helvetica,verdana,sans-serif;
   font-size:0.7em;
   color:#000000; /* constant: black */
-  border-left:1px solid #9999FF; /* constant: light gray */
-  border-right:1px solid #9999FF; /* constant: light gray */
+  /*border-left:1px solid #9999FF;  constant: light gray */
+  /*border-right:1px solid #9999FF;  constant: light gray */
 }
 table.contentBegins{ /* for overall top style for first cell in content area (not home page) */
   font-family:arial,helvetica,verdana,sans-serif;
