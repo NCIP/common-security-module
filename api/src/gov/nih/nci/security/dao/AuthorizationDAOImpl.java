@@ -20,6 +20,8 @@ import javax.security.auth.Subject;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.SessionFactory;
+import java.util.List;
+import net.sf.hibernate.Hibernate;
 
 
 
@@ -286,7 +288,27 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public Privilege getPrivilege(String privilegeId)
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Session s = null;
+		Privilege p = null;
+		try {
+			String query = "SELECT privilege FROM privilege IN CLASS gov.nih.nci.security.authorization.domianobjects.Privilege where privilege.id=:id";
+			s = sf.openSession();	
+			List list = s.find(query,privilegeId,Hibernate.STRING);
+			if(list.size()==0){
+				throw new CSObjectNotFoundException("Object is not found");
+			}
+			p = (Privilege)list.get(0);
+			
+			
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			
+			
+		}
+		return p;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.Long)
