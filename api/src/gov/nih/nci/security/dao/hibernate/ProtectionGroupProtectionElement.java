@@ -11,6 +11,7 @@ import java.util.Date;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import gov.nih.nci.security.authorization.domainobjects.*;
 
 /** 
  *        @hibernate.class
@@ -26,13 +27,13 @@ public class ProtectionGroupProtectionElement implements Serializable {
     private Date updateDate;
 
     /** persistent field */
-    private gov.nih.nci.security.authorization.domainobjects.ProtectionElement protectionElement;
+    private ProtectionElement protectionElement;
 
     /** persistent field */
-    private gov.nih.nci.security.authorization.domainobjects.ProtectionGroup protectionGroup;
+    private ProtectionGroup protectionGroup;
 
     /** full constructor */
-    public ProtectionGroupProtectionElement(Long protectionGroupProtectionElementId, Date updateDate, gov.nih.nci.security.authorization.domainobjects.ProtectionElement protectionElement, gov.nih.nci.security.authorization.domainobjects.ProtectionGroup protectionGroup) {
+    public ProtectionGroupProtectionElement(Long protectionGroupProtectionElementId, Date updateDate, ProtectionElement protectionElement, ProtectionGroup protectionGroup) {
         this.protectionGroupProtectionElementId = protectionGroupProtectionElementId;
         this.updateDate = updateDate;
         this.protectionElement = protectionElement;
@@ -79,11 +80,11 @@ public class ProtectionGroupProtectionElement implements Serializable {
      *            @hibernate.column name="PROTECTION_ELEMENT_ID"         
      *         
      */
-    public gov.nih.nci.security.authorization.domainobjects.ProtectionElement getProtectionElement() {
+    public ProtectionElement getProtectionElement() {
         return this.protectionElement;
     }
 
-    public void setProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement protectionElement) {
+    public void setProtectionElement(ProtectionElement protectionElement) {
         this.protectionElement = protectionElement;
     }
 
@@ -93,11 +94,11 @@ public class ProtectionGroupProtectionElement implements Serializable {
      *            @hibernate.column name="PROTECTION_GROUP_ID"         
      *         
      */
-    public gov.nih.nci.security.authorization.domainobjects.ProtectionGroup getProtectionGroup() {
+    public ProtectionGroup getProtectionGroup() {
         return this.protectionGroup;
     }
 
-    public void setProtectionGroup(gov.nih.nci.security.authorization.domainobjects.ProtectionGroup protectionGroup) {
+    public void setProtectionGroup(ProtectionGroup protectionGroup) {
         this.protectionGroup = protectionGroup;
     }
 
