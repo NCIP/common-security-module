@@ -39,9 +39,16 @@ public class EmployeeDAO extends SecurityRIDAO {
 	 * @param empl
 	 * @throws HibernateException
 	 */
-	public static Employee updateEmployee(Employee empl)
-			throws HibernateException {
+	public static void updateEmployee(Employee empl) throws HibernateException {
 
+		log.debug("Updating employee now..");
+		updateObject(empl);
+		log.debug("Employee updated!");
+
+	}
+
+	public static void updateEmployeeProjects(Employee empl)
+			throws HibernateException {
 		String[] associatedIds = empl.getAssociatedIds();
 
 		log.debug("Resetting employee projects...");
@@ -59,9 +66,12 @@ public class EmployeeDAO extends SecurityRIDAO {
 					EmployeeProject ep = (EmployeeProject) iter.next();
 					session.delete(ep);
 				}
+
 				empl.setEmployeeProjects(null);
 			}
+
 			if (associatedIds != null && associatedIds.length > 0) {
+
 				log.debug("There are " + associatedIds.length
 						+ " associated ids");
 				for (int i = 0; i < associatedIds.length; i++) {
@@ -95,11 +105,6 @@ public class EmployeeDAO extends SecurityRIDAO {
 
 		}
 
-		log.debug("Updating employee now..");
-		updateObject(empl);
-		log.debug("Employee updated!");
-
-		return searchEmployeeByPrimaryKey(empl.getEmployeeId());
 	}
 
 	/**
