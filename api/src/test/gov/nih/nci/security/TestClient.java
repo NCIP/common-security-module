@@ -37,12 +37,16 @@ import java.util.List;
 public class TestClient {
 	static UserProvisioningManager upm = null;
 	static{
-		upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		try{
+		upm = SecurityServiceProvider.getUserProvisioningManger("SecurityXXX");
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 	
 	
 	public void testPrivilegeCreate(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		Privilege p1 = new Privilege();
 		p1.setName("Update");
 		p1.setDesc("Update Access");
@@ -88,7 +92,7 @@ public class TestClient {
 		}
 	}
 	public void testPrivilegeDelete(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
 			upm.removePrivilege("1");
@@ -124,7 +128,7 @@ public class TestClient {
 	*/
 	
 	public void testModifyCreate(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
 			//Privilege p = upm.getPrivilege("2");
@@ -137,7 +141,7 @@ public class TestClient {
 		}
 	}
 	public void testRoleCreate(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			//for(int i=1;i<11;i++){
@@ -156,7 +160,7 @@ public class TestClient {
 	}
 	
 	public void testRoleDelete(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
 			upm.removeRole("2");
@@ -178,7 +182,7 @@ public class TestClient {
 	}
 	
 	public void testModifyRole(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
 			Role r = upm.getRoleById("3");
@@ -190,7 +194,7 @@ public class TestClient {
 	}
 
 	public void testGetProtectionGroupById(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
 			ProtectionElement pe = upm.getProtectionElementById("20044");
@@ -202,7 +206,7 @@ public class TestClient {
 
 	
 	public void assignPrivilegeToRoles(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		//String[] privilegeIds = {"1", "2","3"};
 		//String[] privilegeIds = {"1","2"};
 		String[] privilegeIds = {"27","29"};
@@ -228,7 +232,7 @@ public class TestClient {
 	}
 	
 	public void getPrivileges(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		String roleId = "1";
 		try{
@@ -244,7 +248,7 @@ public class TestClient {
 	}
 	
 	public void testGroupCreate(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			for(int i=1;i<101;i++){
@@ -260,7 +264,7 @@ public class TestClient {
 		}
 	}
 	public void testUserCreate(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			for(int i=1;i<5001;i++){
@@ -298,7 +302,7 @@ public class TestClient {
 	}
 	
 	public void testProtectionGroupCreate(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			for(int i=1;i<101;i++){
@@ -331,7 +335,7 @@ public class TestClient {
 	}
 	*/
 	public void testProtectionElementCreate(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			for(int i=1;i<100000;i++){
@@ -351,7 +355,7 @@ public class TestClient {
 	}
 	
 	public void getProtectionElement(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			
@@ -384,7 +388,7 @@ public class TestClient {
 	}
 	*/
 	public void removeUserFromGroup(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			
@@ -397,7 +401,7 @@ public class TestClient {
 	}
 	
 	public void assignProtectioElement(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			String[] peIds = {"22","33","44","55"};
@@ -411,7 +415,7 @@ public class TestClient {
 	}
 	
 	public void assignUserRoleToProtectionGroup(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
 			//String[] peIds = {"10","12","13","15"};
@@ -575,7 +579,7 @@ public class TestClient {
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
 		//ts.getProtectionGroupRoleContextForUser("345");		
-		ts.getProtectionGroupRoleContextForGroup("131");
+		//ts.getProtectionGroupRoleContextForGroup("131");
 		ts.getProtectionGroupById("131");
 		//ts.getUser();
 		//ts.testProtectionGroupCreate();

@@ -63,8 +63,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		setHibernateSessionFactory(sf);
 		try {
 			log.debug("The context Name passed:" + applicationContextName);
-
-			setApplication(getApplicationByName(applicationContextName));
+            Application app = this.getApplicationByName(applicationContextName);
+            if(app==null){
+            	throw new Exception("There is no aplication with this context Name");
+            }
+			//setApplication(getApplicationByName(applicationContextName));
+            this.setApplication(app);
 
 			log.debug("The Application:" + application.getApplicationId() + ":"
 					+ application.getApplicationDescription());
@@ -1554,6 +1558,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		} catch (Exception ex) {
 			log.fatal("Unable to find application context", ex);
+			throw new CSObjectNotFoundException("Application could not be found",ex);
 
 		} finally {
 			try {

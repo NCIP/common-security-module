@@ -6,6 +6,8 @@
  */
 package gov.nih.nci.security.system;
 
+import gov.nih.nci.security.exceptions.CSException;
+
 import java.util.*;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.cfg.Configuration;
@@ -60,11 +62,15 @@ public class ApplicationSessionFactory {
 		 	
 		 }
 	}
-	public static SessionFactory getSessionFactory(String applicationContextName){
-		/**
-		 *  return (SessionFactory)appSessionFactories.get(applicationContextName);
-		 */
-		return null;
+	public static SessionFactory getSessionFactory(String applicationContextName) throws CSException{
+		SessionFactory sf = null;
+		
+		 sf = (SessionFactory)appSessionFactories.get(applicationContextName);
+		
+		 if(sf==null){
+		 	throw new CSException("Could not initialize session factory");
+		 }
+		return sf;
 	}
 	
 	private static Document getConfigDocument(){

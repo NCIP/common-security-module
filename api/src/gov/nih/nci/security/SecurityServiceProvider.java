@@ -1,6 +1,7 @@
 package gov.nih.nci.security;
 import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.authentication.AuthenticationManagerFactory;
+import gov.nih.nci.security.exceptions.CSException;
 
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
@@ -38,11 +39,15 @@ public class SecurityServiceProvider {
 	 * @param contextName
 	 * 
 	 */
-	public static UserProvisioningManager getUserProvisioningManger(String contextName){
+	public static UserProvisioningManager getUserProvisioningManger(String contextName) throws CSException{
 		
-		UserProvisioningManager userProvisioingManager = null;	
+		UserProvisioningManager userProvisioingManager = null;
+		try{
 		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName);		
-		userProvisioingManager = (UserProvisioningManager)userProvisioningManagerImpl;			
+		userProvisioingManager = (UserProvisioningManager)userProvisioningManagerImpl;
+		}catch(Exception ex){
+			throw new CSException("Could  not initialize Manager",ex);
+		}
 		return userProvisioingManager;
 	}
 
@@ -50,7 +55,7 @@ public class SecurityServiceProvider {
 	 * @param applicationContextName
 	 * 
 	 */
-	public static AuthorizationManager getAuthorizationManager(String applicationContextName){
+	public static AuthorizationManager getAuthorizationManager(String applicationContextName)throws CSException{
 		
 		return (AuthorizationManager)(getUserProvisioningManger(applicationContextName));
 	}
