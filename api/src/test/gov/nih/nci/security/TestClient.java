@@ -107,7 +107,9 @@ public class TestClient {
     
     public void assignPrivilegeToRoles(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-    	 String[] privilegeIds = {"2", "3","5"};
+    	 //String[] privilegeIds = {"2", "3","5"};
+    	 //String[] privilegeIds = {"1", "4","6"};
+    	 String[] privilegeIds = {"1", "3","6"};
     	 String roleId = "1";
     	 try{
     	 	upm.assignPrivilegesToRole(roleId,privilegeIds);

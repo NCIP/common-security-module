@@ -21,6 +21,7 @@ import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.expression.*;
 
 import gov.nih.nci.security.dao.hibernate.*;
+import java.util.ArrayList;
 
 
 
@@ -78,6 +79,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		//System.out.println("Running create test...");
 		try {
+			
+			ArrayList toBeInserted = new ArrayList();
+			
+			ArrayList toBeScanned = new ArrayList();
+			for(int k=0;k<privilegeIds.length;k++){
+				toBeScanned.add(privilegeIds[k]);
+			}
+			toBeInserted = (ArrayList)toBeScanned.clone();
 			s = sf.openSession();
 
 			t = s.beginTransaction();
@@ -94,11 +103,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Iterator it = list.iterator();
 			while(it.hasNext()){
 				RolePrivilege rp1 = (RolePrivilege)it.next();
-				s.delete(rp1);
+				Privilege priv = rp1.getPrivilege();
+				if(toBeScanned.contains(priv.getId().toString())){
+					toBeInserted.remove(priv.getId().toString());
+				}else{
+					s.delete(rp1);
+				}
+				
 			}
 			
-			for( int i=0;i<privilegeIds.length;i++){
-				String rp_id = (String)privilegeIds[i];
+			for( int i=0;i<toBeInserted.size();i++){
+				String rp_id = (String)toBeInserted.get(i);
 				Privilege p = this.getPrivilege(rp_id);
 				RolePrivilege rp = new RolePrivilege();
 				rp.setPrivilege(p);
