@@ -337,11 +337,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 		Transaction t = null;
-
+        ArrayList roles = new ArrayList();
 		try {
 
 			s = sf.openSession();
 			t = s.beginTransaction();
+			
+			for (int i = 0; i < rolesId.length; i++){
+				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+						new Long(rolesId[i]));
+				roles.add(role);
+			}
 
 			ProtectionGroup pgroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
@@ -349,33 +355,39 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
-
-			for (int i = 0; i < rolesId.length; i++) {
-				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
-
-				intersection.setGroup(group);
-				intersection.setProtectionGroup(pgroup);
-				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
-						new Long(rolesId[i]));
-
-				Criteria criteria = s
-						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup", pgroup));
-				criteria.add(Expression.eq("group", group));
-				criteria.add(Expression.eq("role", role));
-
-				List list = criteria.list();
-
-				if (list.size() == 0) {
-					intersection.setRole(role);
-					intersection.setUpdateDate(new Date());
-					s.save(intersection);
-				}else{
-					UserGroupRoleProtectionGroup toBeDeleted = (UserGroupRoleProtectionGroup)list.get(0);
-					s.delete(toBeDeleted);
-				}
-
+			
+						
+			Criteria criteria = s
+					.createCriteria(UserGroupRoleProtectionGroup.class);
+			criteria.add(Expression.eq("protectionGroup", pgroup));
+			criteria.add(Expression.eq("group", group));
+			
+			List list = criteria.list();
+			
+			for(int k=0;k<list.size();k++){
+				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
+				Role r = ugrpg.getRole();
+				  if(!roles.contains(r)){
+				  	s.delete(ugrpg);
+				  	
+				  }else{
+				  	roles.remove(r);
+				  }
 			}
+			
+			for(int j=0;j<roles.size();j++){
+				Role leftOverRole = (Role)roles.get(j);
+				UserGroupRoleProtectionGroup toBeSaved = new UserGroupRoleProtectionGroup();
+			  	toBeSaved.setGroup(group);
+			  	toBeSaved.setProtectionGroup(pgroup);
+			  	toBeSaved.setRole(leftOverRole);
+                toBeSaved.setUpdateDate(new Date());
+                s.save(toBeSaved);
+			}
+			
+			
+
+			
 
 			t.commit();
 
@@ -609,45 +621,50 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
+		ArrayList roles = new ArrayList();
 
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
+			for (int i = 0; i < rolesId.length; i++){
+				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+						new Long(rolesId[i]));
+				roles.add(role);
+			}
 			ProtectionGroup pgroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
+			
+			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+			criteria.add(Expression.eq("protectionGroup", pgroup));
+			criteria.add(Expression.eq("user", user));
+			
 
-			for (int i = 0; i < rolesId.length; i++) {
-				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
-
-				intersection.setUser(user);
-				intersection.setProtectionGroup(pgroup);
-				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
-						new Long(rolesId[i]));
-
-				Criteria criteria = s
-						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup", pgroup));
-				criteria.add(Expression.eq("user", user));
-				criteria.add(Expression.eq("role", role));
-
-				List list = criteria.list();
-
-				
-				if (list.size() == 0) {
-					intersection.setRole(role);
-					intersection.setUpdateDate(new Date());
-					s.save(intersection);
-				}else{
-					UserGroupRoleProtectionGroup toBeDeleted = (UserGroupRoleProtectionGroup)list.get(0);
-					s.delete(toBeDeleted);
-				}
-
+			List list = criteria.list();
+			for(int k=0;k<list.size();k++){
+				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
+				Role r = ugrpg.getRole();
+				  if(!roles.contains(r)){
+				  	s.delete(ugrpg);
+				  	
+				  }else{
+				  	roles.remove(r);
+				  }
 			}
-
+			
+			for(int j=0;j<roles.size();j++){
+				Role leftOverRole = (Role)roles.get(j);
+				UserGroupRoleProtectionGroup toBeSaved = new UserGroupRoleProtectionGroup();
+			  	toBeSaved.setUser(user);
+			  	toBeSaved.setProtectionGroup(pgroup);
+			  	toBeSaved.setRole(leftOverRole);
+                toBeSaved.setUpdateDate(new Date());
+                s.save(toBeSaved);
+			}
+			
 			t.commit();
 
 		} catch (Exception ex) {
