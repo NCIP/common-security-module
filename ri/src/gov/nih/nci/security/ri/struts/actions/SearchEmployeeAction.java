@@ -3,20 +3,18 @@ package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.ri.dao.EmployeeDAO;
-import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.util.Permissions;
 import gov.nih.nci.security.ri.util.SecurityUtils;
 import gov.nih.nci.security.ri.valueObject.Employee;
 
-import java.security.acl.Permission;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -26,6 +24,12 @@ import org.apache.struts.action.ActionMapping;
  * 
  * @author Brian Husted
  *  
+ */
+/**
+ * @author Brian
+ *
+ * TODO To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Style - Code Templates
  */
 public class SearchEmployeeAction extends BaseAction implements Permissions {
 
@@ -56,21 +60,40 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 
 	}
 
+	/**
+	 * Validates that the User has READ access for the employee or
+	 * if it his own record.
+	 * 
+	 * @param request
+	 * @param employees
+	 * @throws CSException
+	 */
 	private void doAuthorization(HttpServletRequest request, List employees) throws CSException {
 		Iterator i = employees.iterator();
 		String user = getUser(request).getUserName();
+		List employeeList = new LinkedList(); 
 
 		while (i.hasNext()) {
 			Employee empl = (Employee) i.next();
-			if (! getAuthorizationManager().checkPermission(user,
+			if (getAuthorizationManager().checkPermission(user,
 					SecurityUtils.getEmployeeObjectId(empl), READ)) {
-				//remove any employees from the list where 
-				//access is not granted for READ permission
+				//add only employees from the list where 
+				//access is granted for READ permission
 				//or they must be the owner
-				i.remove();
+				employeeList.add( empl );
 			}
 
 		}
+		
+		////////////////////////////////
+		//DO NOT REMOVE////////////////
+		//modify the reference to point 
+		//to the filtered employee list
+		//Peformance will also be better 
+		//since creating a new list is faster
+		//than deleteing from an existing list.
+		employees = employeeList;
+		//////////////////////////////////////
 
 	}
 }
