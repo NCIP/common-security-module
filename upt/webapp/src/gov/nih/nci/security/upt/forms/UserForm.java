@@ -12,7 +12,6 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.dao.UserSearchCriteria;
-import gov.nih.nci.security.upt.constants.Constants;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
@@ -25,7 +24,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
@@ -399,16 +397,34 @@ public class UserForm extends ValidatorForm implements BaseAssociationForm
 
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		User user = new User();
-		user.setLoginName(this.userLoginName);
-		user.setFirstName(this.userFirstName);
-		user.setLastName(this.userLastName);
-		user.setOrganization(this.userOrganization);
-		user.setDepartment(this.userDepartment);
-		user.setEmailId(this.userEmailId);
+		
+		if (this.userLoginName != null && !(this.userLoginName.trim().equalsIgnoreCase("")))
+			user.setLoginName(this.userLoginName);
+		else
+			user.setLoginName("%");
+		if (this.userFirstName != null && !(this.userFirstName.trim().equalsIgnoreCase("")))
+			user.setFirstName(this.userFirstName);
+		else
+			user.setFirstName("%");
+		if (this.userLastName != null && !(this.userLastName.trim().equalsIgnoreCase("")))
+			user.setLastName(this.userLastName);
+		else
+			user.setLastName("%");
+		if (this.userOrganization != null && !(this.userOrganization.trim().equalsIgnoreCase("")))
+			user.setOrganization(this.userOrganization);
+		else
+			user.setOrganization("%");
+		if (this.userDepartment != null && !(this.userDepartment.trim().equalsIgnoreCase("")))
+			user.setDepartment(this.userDepartment);
+		else
+			user.setDepartment("%");
+		if (this.userDepartment != null && !(this.userDepartment.trim().equalsIgnoreCase("")))
+			user.setEmailId(this.userEmailId);
+		else
+			user.setEmailId("%");
+		
 		SearchCriteria searchCriteria = new UserSearchCriteria(user);
 		List list = userProvisioningManager.getObjects(searchCriteria);
-		if ( list == null || list.isEmpty())
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(Constants.NO_OBJECT_FOUND));
 		SearchResult searchResult = new SearchResult();
 		searchResult.setSearchResultObjects(list);
 		return searchResult;

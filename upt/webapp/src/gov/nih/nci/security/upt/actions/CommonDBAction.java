@@ -14,6 +14,7 @@ import gov.nih.nci.security.upt.viewobjects.SearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -34,6 +35,19 @@ public class CommonDBAction extends DispatchAction
 {
 	private ActionErrors errors = new ActionErrors();
 	private ActionMessages messages = new ActionMessages();
+	
+
+	
+	public ActionForward loadHome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		HttpSession session = request.getSession(true);
+
+		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
+		session.removeAttribute(DisplayConstants.CURRENT_FORM);
+		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
+		
+		return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));	
+	}
 	
 	public ActionForward loadAdd(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
@@ -56,11 +70,19 @@ public class CommonDBAction extends DispatchAction
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_SUCCESS));
 	}
+	
+	public ActionForward loadSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));
+	}
+	
+	
 
 	
 	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		BaseDBForm baseDBForm = (BaseDBForm)form;
+		errors.clear();
 		try
 		{
 			errors = form.validate(mapping, request);
@@ -87,9 +109,12 @@ public class CommonDBAction extends DispatchAction
 	public ActionForward read(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		BaseDBForm baseDBForm = (BaseDBForm)form;
+		errors.clear();
 		if (baseDBForm.getPrimaryId() == null || baseDBForm.getPrimaryId().equalsIgnoreCase(""))
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("You need to select a record."));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "A record needs to be selected first to view details" ));
+			saveErrors( request,errors );
+			return (mapping.findForward(ForwardConstants.READ_FAILURE));
 		}
 		try
 		{
@@ -108,6 +133,7 @@ public class CommonDBAction extends DispatchAction
 	public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		BaseDBForm baseDBForm = (BaseDBForm)form;
+		errors.clear();
 		try
 		{
 			errors = form.validate(mapping, request);
@@ -133,6 +159,7 @@ public class CommonDBAction extends DispatchAction
 	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		BaseDBForm baseDBForm = (BaseDBForm)form;
+		errors.clear();
 		try
 		{
 			baseDBForm.removeDBObject(request);
@@ -151,9 +178,17 @@ public class CommonDBAction extends DispatchAction
 	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		BaseDBForm baseDBForm = (BaseDBForm)form;
+		errors.clear();
 		try
 		{
 			SearchResult searchResult = baseDBForm.searchObjects(request,errors,messages);
+
+			if ( searchResult.getSearchResultObjects() == null || searchResult.getSearchResultObjects().isEmpty())
+			{
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "The search criteria returned zero results"));
+				saveErrors( request,errors );
+				return (mapping.findForward(ForwardConstants.SEARCH_FAILURE));					
+			}
 			(request.getSession()).setAttribute(DisplayConstants.SEARCH_RESULT, searchResult);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Search Successful"));
 			saveMessages( request, messages );

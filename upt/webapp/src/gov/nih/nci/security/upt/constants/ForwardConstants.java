@@ -18,8 +18,10 @@ public interface ForwardConstants
 	public static final String FAILURE="failure" ;
 	public static final String CANCEL="cancel" ;
 	
+	public static final String LOAD_HOME_SUCCESS = "LoadHomeSuccess";
 	public static final String LOAD_ADD_SUCCESS="LoadAddSuccess";
 	public static final String LOAD_SEARCH_SUCCESS="LoadSearchSuccess";
+	public static final String LOAD_SEARCH_RESULT_SUCCESS="LoadSearchResultSuccess";	
 	public static final String CREATE_SUCCESS="CreateSuccess";
 	public static final String READ_SUCCESS="ReadSuccess";
 	public static final String UPDATE_SUCCESS="UpdateSuccess";
@@ -29,6 +31,8 @@ public interface ForwardConstants
 	public static final String LOAD_ASSOCIATION_SUCCESS="LoadAssociationSuccess";
 	public static final String SET_ASSOCIATION_SUCCESS="SetAssociationSuccess";
 
+	public static final String READ_FAILURE = "ReadFailure";
+	public static final String SEARCH_FAILURE = "SearchFailure";
 	
 	public static final String HOME_PAGE="HomePage";
 	public static final String LOGIN_PAGE="LoginPage";

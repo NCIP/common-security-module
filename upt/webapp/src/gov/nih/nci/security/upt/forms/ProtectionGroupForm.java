@@ -12,7 +12,6 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
-import gov.nih.nci.security.upt.constants.Constants;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
@@ -25,7 +24,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
@@ -244,8 +242,8 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 		protectionGroup.setProtectionGroupName(this.protectionGroupName);
 		protectionGroup.setProtectionGroupDescription(this.protectionGroupDescription);
 		
-		if (this.protectionGroupLargeCountFlag == DisplayConstants.YES) protectionGroup.setLargeElementCountFlag(Constants.YES);
-			else protectionGroup.setLargeElementCountFlag(Constants.NO);
+		if (this.protectionGroupLargeCountFlag == DisplayConstants.YES) protectionGroup.setLargeElementCountFlag(DisplayConstants.ONE);
+			else protectionGroup.setLargeElementCountFlag(DisplayConstants.ZERO);
 		
 		protectionGroup.setParentProtectionGroup(this.protectionGroupParentProtectionGroup);
 		
@@ -280,11 +278,14 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionGroup protectionGroup = new ProtectionGroup();
-		protectionGroup.setProtectionGroupName(this.protectionGroupName);
+		
+		if (this.protectionGroupName != null && !(this.protectionGroupName.trim().equalsIgnoreCase("")))
+			protectionGroup.setProtectionGroupName(this.protectionGroupName);
+		else
+			protectionGroup.setProtectionGroupName("%");
+		
 		SearchCriteria searchCriteria = new ProtectionGroupSearchCriteria(protectionGroup);
 		List list = userProvisioningManager.getObjects(searchCriteria);
-		if ( list == null || list.isEmpty())
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(Constants.NO_OBJECT_FOUND));
 		SearchResult searchResult = new SearchResult();
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
@@ -313,7 +314,7 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 
-		Collection associatedProtectionElements = (Collection)(userProvisioningManager.getProtectionGroupById(this.protectionGroupId)).getProtectionElements();
+		Collection associatedProtectionElements = (Collection)userProvisioningManager.getProtectionElements(this.protectionGroupId);
 		
 		ProtectionElement protectionElement = new ProtectionElement();
 		SearchCriteria searchCriteria = new ProtectionElementSearchCriteria(protectionElement);

@@ -10,7 +10,6 @@ import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
-import gov.nih.nci.security.upt.constants.Constants;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
@@ -21,7 +20,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
@@ -208,11 +206,14 @@ public class GroupForm extends ValidatorForm implements BaseDBForm
 	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception {
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		Group group = new Group();
-		group.setGroupName(this.groupName);
+		
+		if (this.groupName != null && !(this.groupName.trim().equalsIgnoreCase("")))
+			group.setGroupName(this.groupName);
+		else
+			group.setGroupName("%");
+		
 		SearchCriteria searchCriteria = new GroupSearchCriteria(group);
 		List list = userProvisioningManager.getObjects(searchCriteria);
-		if ( list == null || list.isEmpty())
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(Constants.NO_OBJECT_FOUND));
 		SearchResult searchResult = new SearchResult();
 		searchResult.setSearchResultObjects(list);
 		return searchResult;

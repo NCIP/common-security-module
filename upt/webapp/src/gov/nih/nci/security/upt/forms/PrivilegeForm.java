@@ -10,7 +10,6 @@ import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.dao.PrivilegeSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
-import gov.nih.nci.security.upt.constants.Constants;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
@@ -21,7 +20,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
@@ -210,11 +208,13 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception {
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		Privilege privilege = new Privilege();
-		privilege.setName(this.privilegeName);
+		
+		if (this.privilegeName != null && !(this.privilegeName.trim().equalsIgnoreCase("")))
+			privilege.setName(this.privilegeName);
+		else
+			privilege.setName("%");
 		SearchCriteria searchCriteria = new PrivilegeSearchCriteria(privilege);
 		List list = userProvisioningManager.getObjects(searchCriteria);
-		if ( list == null || list.isEmpty())
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(Constants.NO_OBJECT_FOUND));
 		SearchResult searchResult = new SearchResult();
 		searchResult.setSearchResultObjects(list);
 		return searchResult;

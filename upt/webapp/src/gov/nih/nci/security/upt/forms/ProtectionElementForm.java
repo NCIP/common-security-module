@@ -12,7 +12,6 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
-import gov.nih.nci.security.upt.constants.Constants;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
@@ -25,7 +24,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
@@ -177,7 +175,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 
 		formElementList.add(new FormElement("Protection Element Name", "protectionElementName", getProtectionElementName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Description", "protectionElementDescription", getProtectionElementDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Update Date", "protectionElementUpdateDate", getProtectionElementUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 
@@ -280,23 +278,21 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionElement protectionElement = new ProtectionElement();
 		
-		if (this.protectionElementName != null && !this.protectionElementName.equalsIgnoreCase(""))
+		if (this.protectionElementName != null && !(this.protectionElementName.trim().equalsIgnoreCase("")))
 			protectionElement.setProtectionElementName(this.protectionElementName);
 		else
 			protectionElement.setProtectionElementName("%");
-		if (this.protectionElementObjectId != null && !this.protectionElementObjectId.equalsIgnoreCase(""))
+		if (this.protectionElementObjectId != null && !(this.protectionElementObjectId.trim().equalsIgnoreCase("")))
 			protectionElement.setObjectId(this.protectionElementObjectId);
 		else
 			protectionElement.setObjectId("%");
-		if (this.protectionElementAttribute != null && !this.protectionElementAttribute.equalsIgnoreCase(""))
+		if (this.protectionElementAttribute != null && !(this.protectionElementAttribute.trim().equalsIgnoreCase("")))
 			protectionElement.setAttribute(this.protectionElementAttribute);
 		else
 			protectionElement.setAttribute("%");
 		
 		SearchCriteria searchCriteria = new ProtectionElementSearchCriteria(protectionElement);
 		List list = userProvisioningManager.getObjects(searchCriteria);
-		if ( list == null || list.isEmpty())
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(Constants.NO_OBJECT_FOUND));
 		SearchResult searchResult = new SearchResult();
 		searchResult.setSearchResultObjects(list);
 		return searchResult;

@@ -28,6 +28,7 @@ public class DisplayConstants
 	public static final String CURRENT_ACTION = "CURRENT_ACTION";
 
 	public static final String MESSAGE_ID = "messageId";
+	public static final String ERROR_ID = "errorId";	
 	
 	public static final String USER_OBJECT = "USER_OBJECT";
 
@@ -63,5 +64,8 @@ public class DisplayConstants
 
 	public static final String ASSIGNED_SET = "ASSIGNED_SET";
 	public static final String AVAILABLE_SET = "AVAILABLE_SET";
+
+	public static byte ONE = 1;
+	public static byte ZERO = 0;
 	
 }

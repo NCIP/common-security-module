@@ -36,6 +36,7 @@ public class CommonAssociationAction extends CommonDBAction
 	public ActionForward loadAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;
+		errors.clear();
 		try
 		{
 			baseAssociationForm.buildAssociationObject(request);
@@ -53,6 +54,7 @@ public class CommonAssociationAction extends CommonDBAction
 	public ActionForward setAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;
+		errors.clear();
 		try
 		{
 			baseAssociationForm.setAssociationObject(request);

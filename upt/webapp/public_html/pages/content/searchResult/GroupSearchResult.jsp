@@ -37,6 +37,9 @@
 			<table cellpadding="0" cellspacing="0" border="0"
 				class="contentBegins">
 				<tr>
+					<td><html:errors/></td>
+				<tr>
+				<tr>
 					<td>
 					<table summary="" cellpadding="0" cellspacing="0" border="0"
 						width="600">
@@ -108,6 +111,8 @@
 								<td align="right" class="actionSection"><!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
+										<td><html:submit style="actionButton"
+											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('read');">View Details</html:submit></td>
 									</tr>
