@@ -36,19 +36,21 @@
 	</definition>
 
 	<definition name="Project" extends="main.layout">
-		<put name="header" value="/pages/header/header3.jsp" />
+		<put name="header" value="/pages/header/header1.jsp" />
 	</definition>
 
 	<!-- Home page -->
 
 	<definition name="Home.Main" extends="Home">
 		<put name="body" value="/pages/home.jsp" />
+		<put name="menu" value="/pages/menu/leftnav_home.jsp"/>
 	</definition>
 
 	<!-- Employee pages -->
 
 	<definition name="show.create.employee" extends="Employee">
 		<put name="body" value="/pages/employeeRecord.jsp" />
+		<put name="menu" value="/pages/menu/leftnav_createemployee.jsp"/>
 	</definition>
 	
 	<definition name="show.employee" extends="Employee">
@@ -57,10 +59,12 @@
 
 	<definition name="show.search.employee" extends="Employee">
 		<put name="body" value="/pages/searchemployee.jsp" />
+		<put name="menu" value="/pages/menu/leftnav_searchemployee.jsp"/>
 	</definition>
 
 <definition name="show.employee.search.results" extends="Employee">
 		<put name="body" value="/pages/employeesearchresults.jsp" />
+		<put name="menu" value="/pages/menu/leftnav_searchemployee.jsp"/>
 	</definition>
 
 
@@ -68,6 +72,7 @@
 
 	<definition name="show.create.project" extends="Project">
 		<put name="body" value="/pages/createProject.jsp" />
+		<put name="menu" value="/pages/menu/leftnav_createproject.jsp"/>
 	</definition>
 
 
