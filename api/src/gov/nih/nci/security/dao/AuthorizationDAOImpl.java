@@ -382,7 +382,29 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void createProtectionElement(ProtectionElement protectionElement)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+			protectionElement.setApplication(application);
+			protectionElement.setUpdateDate(new Date());
+			s.save(protectionElement);
+			t.commit();
+			log.debug("Protection element ID is: " + protectionElement.getProtectionElementId());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Protection Element could not be created:", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 
 	}
 
@@ -393,7 +415,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void createProtectionGroup(ProtectionGroup protectionGroup)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+			protectionGroup.setApplication(application);
+			protectionGroup.setUpdateDate(new Date());
+			s.save(protectionGroup);
+			t.commit();
+			log.debug("Protection group ID is: " + protectionGroup.getProtectionGroupId());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Protection group could not be created:", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
 
 	}
 
@@ -411,6 +456,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = sf.openSession();
 			t = s.beginTransaction();
 			role.setApplication(application);
+			role.setUpdateDate(new Date());
 			s.save(role);
 			t.commit();
 			log.debug("Role ID is: " + role.getId().doubleValue());
@@ -474,7 +520,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public Group getGroup(Long groupId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		return (Group)this.getObjectByPrimaryKey(Group.class,groupId);
 	}
 
 	/*
@@ -484,7 +530,34 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public Group getGroup(String groupName) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Session s = null;
+		Group grp = null;
+		try {
+			Group search = new Group();
+			search.setGroupName(groupName);
+			search.setApplication(application);
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = sf.openSession();
+			List list = s.createCriteria(Group.class).add(
+					Example.create(search)).list();
+			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
+			
+			if (list.size() == 0) {
+				throw new CSObjectNotFoundException("Group not found");
+			}
+			grp = (Group) list.get(0);
+
+		} catch (Exception ex) {
+			log.fatal("Unable to find Group", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return grp;
 	}
 
 	/*
@@ -528,8 +601,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		 * catch (Exception ex2) { }
 		 *  } return p;
 		 */
-		Application app = this.getApplicationByName("Security");
-		log.debug(app.getApplicationDescription());
+		
 
 		return (Privilege) this.getObjectByPrimaryKey(Privilege.class,
 				new Long(privilegeId));
@@ -543,7 +615,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public ProtectionElement getProtectionElement(Long protectionElementId)
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		return (ProtectionElement)this.getObjectByPrimaryKey(ProtectionElement.class,protectionElementId);
 	}
 
 	/*
@@ -553,8 +625,34 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public ProtectionElement getProtectionElement(String objectId)
 			throws CSObjectNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Session s = null;
+		ProtectionElement pe = null;
+		try {
+			ProtectionElement search = new ProtectionElement();
+			search.setObjectId(objectId);
+			search.setApplication(application);
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = sf.openSession();
+			List list = s.createCriteria(ProtectionElement.class).add(
+					Example.create(search)).list();
+			
+			
+			if (list.size() == 0) {
+				throw new CSObjectNotFoundException("Protection Element not found");
+			}
+			pe = (ProtectionElement)list.get(0);
+
+		} catch (Exception ex) {
+			log.fatal("Unable to find Protection Element", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return pe;
 	}
 
 	/*
@@ -565,7 +663,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public ProtectionGroup getProtectionGroup(Long protectionGroupId)
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		return (ProtectionGroup)this.getObjectByPrimaryKey(ProtectionGroup.class,protectionGroupId);
 	}
 
 	/*
@@ -576,7 +674,34 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public ProtectionGroup getProtectionGroup(String protectionGroupName)
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Session s = null;
+		ProtectionGroup pgrp = null;
+		try {
+			ProtectionGroup search = new ProtectionGroup();
+			search.setProtectionGroupName(protectionGroupName);
+			search.setApplication(application);
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = sf.openSession();
+			List list = s.createCriteria(ProtectionGroup.class).add(
+					Example.create(search)).list();
+			
+			
+			if (list.size() == 0) {
+				throw new CSObjectNotFoundException("Protection Group not found");
+			}
+			pgrp = (ProtectionGroup) list.get(0);
+
+		} catch (Exception ex) {
+			log.fatal("Unable to find Protection group", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return pgrp;
 	}
 
 	/*
@@ -618,7 +743,32 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void modifyGroup(Group group) throws CSTransactionException {
 		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		try {
+			log.debug("About to be Modified");
+			s = sf.openSession();
+			t = s.beginTransaction();
+			group.setUpdateDate(new Date());
+			s.update(group);
+			log.debug("Modified");
+			t.commit();
 
+			//log.debug( "Privilege ID is: " +
+			// privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Group Object could not be modified:", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 	}
 
 	/*
@@ -663,7 +813,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void modifyProtectionGroup(ProtectionGroup protectionGroup)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+			protectionGroup.setUpdateDate(new Date());
+			s.update(protectionGroup);
+			log.debug("Modified");
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Protection group could not be modified", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 
 	}
 
@@ -706,6 +879,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void removeGroup(String groupId) throws CSTransactionException {
 		// TODO Auto-generated method stub
+		/**
+		 * This method should remove all the children
+		 * Namely all the reocrds form user_group table where this 
+		 * group is refernced
+		 * Also
+		 * All the records from the user_group_role_protection_group
+		 */
 
 	}
 
@@ -764,6 +944,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public void removeProtectionGroup(String protectionGroupName)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
+		/**
+		 * All the children should be removed 
+		 * Namely - all the records from protection_elements
+		 * all the records from user_group_role_protectiongroup
+		 */
 
 	}
 
