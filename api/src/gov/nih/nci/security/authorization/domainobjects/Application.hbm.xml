@@ -37,13 +37,7 @@
         column="APPLICATION_DESCRIPTION"
         length="200"
     />
-    <property
-        name="declarativeFlag"
-        type="byte"
-        column="DECLARATIVE_FLAG"
-        not-null="true"
-        length="1"
-    />
+    
     <property
         name="activeFlag"
         type="byte"
