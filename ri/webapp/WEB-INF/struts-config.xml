@@ -34,6 +34,7 @@
 	</form-beans>
 	<!-- ================================= Global Exception Definitions -->
 	<global-exceptions>
+		<exception key="" scope="request" type="gov.nih.nci.security.ri.exception.UserNotAuthenticatedException" path="show.login" />
 		<exception key="" scope="request" type="java.lang.Exception" path="show.error.page" handler="gov.nih.nci.security.ri.struts.DefaultExceptionHandler"/>
 	</global-exceptions>
 	<!-- =================================== Global Forward Definitions -->
@@ -79,6 +80,7 @@
 		<action input="login" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" scope="session" >
 			<forward name="success" path="show.create.project"/>
 		</action>
+      <action path="/base" type="gov.nih.nci.security.ri.action.BaseAction" />
 		
 		
 		
