@@ -57,6 +57,12 @@
         length="50"
     />
     <property
+        name="emailAddr"
+        type="java.lang.String"
+        column="EMAIL_ADDR"
+        length="50"
+    />
+    <property
         name="city"
         type="java.lang.String"
         column="CITY"
@@ -67,6 +73,12 @@
         type="java.lang.String"
         column="STATE"
         length="3"
+    />
+    <property
+        name="zip"
+        type="java.lang.String"
+        column="ZIP"
+        length="10"
     />
     <property
         name="salary"

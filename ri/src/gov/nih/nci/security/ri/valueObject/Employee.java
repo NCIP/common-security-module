@@ -2,6 +2,7 @@ package gov.nih.nci.security.ri.valueObject;
 
 import java.io.Serializable;
 import java.util.Set;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.validator.ValidatorForm;
 
@@ -38,6 +39,12 @@ public class Employee extends ValidatorForm implements Serializable {
 
     /** nullable persistent field */
     private String ssn;
+    
+    /** nullable persistent field */
+    private String emailAddr;
+    
+    /** nullable persistent field */
+    private String zip;
 
     /** persistent field */
     private gov.nih.nci.security.ri.valueObject.Employee employee;
@@ -189,4 +196,28 @@ public class Employee extends ValidatorForm implements Serializable {
             .toString();
     }
 
+	/**
+	 * @return Returns the emailAddr.
+	 */
+	public String getEmailAddr() {
+		return emailAddr;
+	}
+	/**
+	 * @param emailAddr The emailAddr to set.
+	 */
+	public void setEmailAddr(String emailAddr) {
+		this.emailAddr = emailAddr;
+	}
+	/**
+	 * @return Returns the zip.
+	 */
+	public String getZip() {
+		return zip;
+	}
+	/**
+	 * @param zip The zip to set.
+	 */
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
 }

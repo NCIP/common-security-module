@@ -1,6 +1,8 @@
 
 package gov.nih.nci.security.ri.dao;
 
+import java.sql.Timestamp;
+
 import gov.nih.nci.security.ri.valueObject.Employee;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -23,6 +25,8 @@ public class EmployeeDAO extends SecurityRIDAO {
 	public static void removeEmployee( Employee empl ) throws HibernateException {
 	    deleteObject( empl );
 	}
+	
+	
 	
 	
 	
