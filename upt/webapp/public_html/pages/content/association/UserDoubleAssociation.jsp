@@ -224,7 +224,7 @@
 					<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
 						<tr>
 							<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Roles</b> 
-							for the selected <b>User</b> and <b>Protection Group</b>. To remove the complete association Deassign all the <b>Roles</b>.</td>
+							for the selected <b>User</b> and <b>Protection Group</b>.</td>
 						</tr>
 					</logic:present>
 					<html:form styleId="associationForm"

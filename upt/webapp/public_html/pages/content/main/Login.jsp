@@ -107,9 +107,7 @@
 										<td class="sidebarTitle" height="20">WHAT'S NEW</td>
 									</tr>
 									<tr>
-										<td class="sidebarContent">What's new message. What's new
-										message. What's new message. What's new message. What's new
-										message.</td>
+										<td class="sidebarContent">CSM is now available for the caCORE 3.0 release!</td>
 									</tr>
 								</table>
 								</td>
@@ -125,9 +123,7 @@
 										<td class="sidebarTitle" height="20">DID YOU KNOW?</td>
 									</tr>
 									<tr>
-										<td class="sidebarContent" valign="top">Did you know message.
-										Did you know message. Did you know message. Did you know
-										message.</td>
+										<td class="sidebarContent" valign="top">You can use CSM for all of your authentication and authorization needs.</td>
 									</tr>
 								</table>
 								</td>

@@ -8,7 +8,9 @@
 
 <table width="100%" height="50" border="0" cellspacing="0" cellpadding="0" class="subhdrBG">
 							<tr>
-								<td height="50" width="400" align="left"><a href="#"><img src="images/appLogo.gif" alt="Application Logo" hspace="10" border="0"></a></td>
+							
+							
+								<td height="50" width="400" align="left"><html:link forward="Home"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
 								<logic:present name="<%=DisplayConstants.LOGIN_OBJECT%>">
 								<bean:define name="<%=DisplayConstants.LOGIN_OBJECT%>" id="loginObject" type="LoginForm" />
 								<td width="200" align="right">
