@@ -5,6 +5,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import javax.security.auth.Subject;
 import java.security.Principal;
+import gov.nih.nci.security.exceptions.*;
 
 
 
@@ -34,27 +35,27 @@ public interface AuthorizationManager {
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName);
+	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName)throws CSTransactionException;
 
 	/**
 	 * @param protectionElementObjectName
 	 * @param userName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName);
+	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName)throws CSTransactionException;
 
 	/**
 	 * @param protectionElementObjectNames
 	 * @param protectionGroupName
 	 * 
 	 */
-	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName);
+	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName)throws CSTransactionException;
 
 	/**
 	 * @param protectionElement
 	 * 
 	 */
-	public void createProtectionElement(ProtectionElement protectionElement);
+	public void createProtectionElement(ProtectionElement protectionElement)throws CSTransactionException;
 
 	/**
 	 * @param permission
@@ -105,14 +106,14 @@ public interface AuthorizationManager {
 	 * @param objectId
 	 * 
 	 */
-	public ProtectionElement getProtectionElement(String objectId);
+	public ProtectionElement getProtectionElement(String objectId)throws CSObjectNotFoundException;
 
 	/**
 	 * @param protectionGroupName
 	 * @param protectionElementObjectNames
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames);
+	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames)throws CSTransactionException;
 
 	/**
 	 * @param userName
@@ -120,7 +121,7 @@ public interface AuthorizationManager {
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String userName, String protectionElementObjectName, String protectionElementAttributeName);
+	public void setOwnerForProtectionElement(String userName, String protectionElementObjectName, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName
@@ -128,7 +129,7 @@ public interface AuthorizationManager {
 	 * @param protectionElementAttributeNames
 	 * 
 	 */
-	public void deAssignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames, String[] protectionElementAttributeNames);
+	public void deAssignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames, String[] protectionElementAttributeNames) throws CSTransactionException;
 
 	/**
 	 * @param applicationContextName
