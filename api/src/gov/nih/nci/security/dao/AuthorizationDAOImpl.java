@@ -24,6 +24,8 @@ import java.util.Set;
 
 import javax.security.auth.Subject;
 
+import java.sql.*;
+
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
@@ -151,10 +153,19 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 				intersection.setProtectionGroup(pgroup);
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
-				intersection.setRole(role);
-				intersection.setUpdateDate( new Date() );
 				
-				s.save(intersection);
+				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup",pgroup));
+				criteria.add(Expression.eq("group",group));
+				criteria.add(Expression.eq("role",role));
+				
+				List list = criteria.list();
+				
+				if(list.size()==0){
+					intersection.setRole(role);
+					intersection.setUpdateDate( new Date() );				
+					s.save(intersection);
+				}
 
 			}
 
@@ -304,7 +315,59 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public void assignUserRoleToProtectionGroup(String userId,
 			String[] rolesId, String protectionGroupId)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			ProtectionGroup pgroup = (ProtectionGroup) this.getObjectByPrimaryKey(s, ProtectionGroup.class,
+					new Long(protectionGroupId));
+			
+			User user = (User) this.getObjectByPrimaryKey(s, User.class,
+					new Long(userId));
+			
+			for (int i = 0; i < rolesId.length; i++) {
+				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
+
+				intersection.setUser(user);
+				intersection.setProtectionGroup(pgroup);
+				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+						new Long(rolesId[i]));
+				
+				Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("protectionGroup",pgroup));
+				criteria.add(Expression.eq("user",user));
+				criteria.add(Expression.eq("role",role));
+				
+				List list = criteria.list();
+				
+				if(list.size()==0){
+					intersection.setRole(role);
+					intersection.setUpdateDate( new Date() );				
+					s.save(intersection);
+				}
+
+			}
+
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		
 
 	}
 
@@ -1031,7 +1094,40 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 */
 	public void removeGroupFromProtectionGroup(String protectionGroupId,
 			String groupId) throws CSTransactionException {
-		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		Connection cn = null;
+		//log.debug("Running create test...");
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+			cn = s.connection();
+			String sql = "delete from user_group_role_protection_group where protection_group_id=? and group_id=?";
+			PreparedStatement pstmt = cn.prepareStatement(sql);
+			Long pg_id = new Long(protectionGroupId);
+			Long g_id = new Long(groupId);
+			pstmt.setLong(1,pg_id.longValue());
+			pstmt.setLong(2,g_id.longValue());
+			
+			int i = pstmt.executeUpdate();
+			
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				cn.close();
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 
 	}
 
@@ -1166,7 +1262,41 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	 */
 	public void removeUserFromProtectionGroup(String protectionGroupId,
 			String userId) throws CSTransactionException {
-		// TODO Auto-generated method stub
+		Session s = null;
+		Transaction t = null;
+		Connection cn = null;
+		//log.debug("Running create test...");
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+			cn = s.connection();
+			String sql = "delete from user_group_role_protection_group where protection_group_id=? and user_id=?";
+			PreparedStatement pstmt = cn.prepareStatement(sql);
+			Long pg_id = new Long(protectionGroupId);
+			Long u_id = new Long(userId);
+			pstmt.setLong(1,pg_id.longValue());
+			pstmt.setLong(2,u_id.longValue());
+			
+			int i = pstmt.executeUpdate();
+			
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				cn.close();
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
 
 	}
 
