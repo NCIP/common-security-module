@@ -24,7 +24,7 @@
 <!-- notepad begins -->
 
 
-<table background="<html:rewrite href="images/notepad.gif"/>" class="contentPage" width="175" border="0" cellspacing=0 cellpadding=0>
+<table background="<html:rewrite href="pages/images/notepad.gif"/>" class="contentPage" width="175" border="0" cellspacing=0 cellpadding=0>
 <tr><td class="contentBegins" align="center">Your Name:<br>Brian Husted</td></tr>
 <tr><td class="contentBegins" align="center">Your Role:<br>Employee</td></tr></table>
 
