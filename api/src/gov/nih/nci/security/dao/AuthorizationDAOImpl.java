@@ -354,6 +354,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
+			privilege.setUpdateDate(new Date());
 			s.save(privilege);
 			t.commit();
 

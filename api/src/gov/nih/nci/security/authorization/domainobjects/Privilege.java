@@ -1,6 +1,6 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
-import java.io.Serializable;
+
 
 
 
@@ -28,6 +28,8 @@ public class Privilege {
 	 * It is the unique id by for this privilege.
 	 */
 	private Long id;
+	
+	private java.util.Date updateDate;
 
 	public Privilege(){
 
@@ -89,6 +91,20 @@ public class Privilege {
 	 */
 	public void setName(String newVal){
 		name = newVal;
+	}
+	
+	/**
+	 * The date when the privilege information was updated
+	 */
+	public java.util.Date getUpdateDate(){
+		return updateDate;
+	}
+	
+	/**
+	 * The date when the privilege information was updated
+	 */
+	public void setUpdateDate(java.util.Date newVal){
+		this.updateDate= newVal;
 	}
 
 }
