@@ -98,7 +98,7 @@
     <!-- bi-directional one-to-many association to EmployeeProject -->
     <set
         name="employeeProjects"
-        lazy="true"
+        lazy="false"
         inverse="true"
 		cascade="none"
     >
