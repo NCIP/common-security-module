@@ -529,7 +529,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ " and privilege name " + privilegeName, ex);
 		} finally {
 			try {
-				cn.close();
+				// cn.close(); Commented by Kunal on 01/14/05
 				s.close();
 			} catch (Exception ex2) {
 			}
@@ -947,7 +947,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSTransactionException("Bad", ex);
 		} finally {
 			try {
-				cn.close();
+				// cn.close(); Commented by Kunal on 01/14/05
 				s.close();
 			} catch (Exception ex2) {
 			}
@@ -1109,7 +1109,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSTransactionException("Bad", ex);
 		} finally {
 			try {
-				cn.close();
+				// cn.close(); Commented by Kunal on 01/14/05
 				s.close();
 			} catch (Exception ex2) {
 			}
@@ -1601,7 +1601,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			
 		 finally {
 			try {
-				cn.close();
+				// cn.close(); Commented by Kunal on 01/14/05
 				s.close();
 			} catch (Exception ex2) {
 			}
@@ -1676,7 +1676,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			
 		 finally {
 			try {
-				cn.close();
+				// cn.close(); Commented by Kunal on 01/14/05
 				s.close();
 			} catch (Exception ex2) {
 			}

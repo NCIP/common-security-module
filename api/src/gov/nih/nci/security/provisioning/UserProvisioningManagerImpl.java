@@ -474,7 +474,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeUserFromProtectionGroup(String protectionGroupId, String userId) throws CSTransactionException{
-
+		authorizationDAO.removeUserFromProtectionGroup(protectionGroupId,userId);
 	}
 
 	/**
@@ -493,7 +493,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeGroupFromProtectionGroup(String protectionGroupId, String groupId) throws CSTransactionException{
-
+		authorizationDAO.removeGroupFromProtectionGroup(protectionGroupId,groupId);
 	}
 
 	/**

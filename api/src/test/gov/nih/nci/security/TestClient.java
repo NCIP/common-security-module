@@ -102,8 +102,8 @@ public class TestClient {
 		
 		try{
 			ProtectionGroup child = upm.getProtectionGroupById(id);
-			ProtectionGroup parent = child.getParentProtectionGroup();
-			System.out.println(parent.getProtectionGroupId());
+//			ProtectionGroup parent = child.getParentProtectionGroup();
+			System.out.println(" >>>>>>>>>>>>> " + child.getProtectionGroupId());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
