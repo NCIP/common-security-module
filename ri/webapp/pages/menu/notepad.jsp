@@ -10,12 +10,11 @@
 			<table background="<html:rewrite href="pages/images/notepad.gif"/>"
 				width="175" height="150" border="0" cellspacing=0 cellpadding=0>
 				<tr>
-					<td align="center"><br>Your Name:<br>
-								Brian Husted
+					<td align="center"><br><br><br>Your Name:<br>
+								My Name
 								<br><br>			
 				
-					Your Role:<br>
-						Employee</td>
+					</td>
 				</tr>
 			</table>
 		<!--</td>
