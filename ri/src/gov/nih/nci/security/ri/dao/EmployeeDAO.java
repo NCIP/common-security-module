@@ -49,7 +49,7 @@ public class EmployeeDAO extends SecurityRIDAO {
 
 	}
 
-	public static void updateEmployeeProjects(Employee empl)
+	public static Employee updateEmployeeProjects(Employee empl)
 			throws HibernateException {
 		String[] associatedIds = empl.getAssociatedIds();
 
@@ -106,6 +106,8 @@ public class EmployeeDAO extends SecurityRIDAO {
 			}
 
 		}
+		
+		return searchEmployeeByPrimaryKey(empl.getEmployeeId());
 
 	}
 

@@ -148,11 +148,11 @@ public class ViewEmployeeAction extends BaseAction {
 					SecurityUtils.getEmployeeObjectId(theEmployee),
 					Permissions.READ)) {
 				log.debug("The user has READ permission.");
-				Employee secureObject = (Employee) getAuthorizationManager()
+				/*Employee secureObject =(Employee) getAuthorizationManager()
 						.secureObject(getUser(request).getUserName(),
-								theEmployee);
+								theEmployee);*/
 				log.debug("Secure Object has been called.");
-				request.getSession().setAttribute(EMPLOYEE_FORM, secureObject);
+				request.getSession().setAttribute(EMPLOYEE_FORM, theEmployee);
 				isAuthorized = true;
 			} else {
 

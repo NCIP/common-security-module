@@ -52,21 +52,29 @@ public class UpdateEmployeeAction extends BaseAction {
 		log.debug("The original salary is: " + originalObject.getSalary());
 		Employee mutatedObject = (Employee) form;
 
+		String[] associatedIds = mutatedObject.getAssociatedIds();
+		String[] availableIds = mutatedObject.getAvailableIds();
+		log.debug( "The user name before secureUpdate: " +  mutatedObject.getUserName() );
 		//secure the object by setting attributes to null where
 		//the UPDATE_DENIED access is specified
 		Employee securedObject = (Employee) getAuthorizationManager()
 				.secureUpdate(getUser(request).getUserName(), originalObject,
 						mutatedObject);
+		log.debug( "The user name before update: " +  securedObject.getUserName() );
 		securedObject = EmployeeDAO.updateEmployee(securedObject);
+
+		log.debug( "The user name after update: " +  securedObject.getUserName() );
 		
 		log.debug("The salary after secure update is: "
 				+ securedObject.getSalary());
 
-
 		if (isAuthorized(request)) {
-			EmployeeDAO.updateEmployeeProjects(securedObject);
+			securedObject.setAssociatedIds(associatedIds);
+			securedObject.setAvailableIds(availableIds);
+			securedObject = EmployeeDAO.updateEmployeeProjects(securedObject);
 			log.debug("The salary after updating employee projects is: "
 					+ securedObject.getSalary());
+			log.debug( "The user name after update project: " +  securedObject.getUserName() );
 
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					Constants.MESSAGE_ID, "Updated Employee Successfully"));
