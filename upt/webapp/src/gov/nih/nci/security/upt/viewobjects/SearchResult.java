@@ -11,7 +11,7 @@ package gov.nih.nci.security.upt.viewobjects;
  *<!-- LICENSE_TEXT_START -->
  *
  *The NCICB Common Security Module's User Provisioning Tool (UPT) Software License,
- *Version 1.0 Copyright 2004-2005 Ekagra Software Technologies Limited ('Ekagra')
+ *Version 3.0 Copyright 2004-2005 Ekagra Software Technologies Limited ('Ekagra')
  *
  *Copyright Notice.  The software subject to this notice and license includes both
  *human readable source code form and machine readable, binary, object code form
