@@ -3,8 +3,14 @@
       <context context-name="security">
       </context>
       <authentication>
+      	<custom-implementation>
+      		<!-- Fully qualified class name-->
+      	</custom-implementation>
       </authentication>
       <authorization>
+      	<custom-implementation>
+      		<!-- Fully qualified class name-->
+      	</custom-implementation>
         <hibernate-config-file name="">
         </hibernate-config-file>
       </authorization>
