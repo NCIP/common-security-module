@@ -101,9 +101,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName) throws CSTransactionException{
+	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName) throws CSTransactionException{
             
-		authorizationDAO.assignProtectionElements(protectionGroupName,protectionElementObjectName);
+		authorizationDAO.assignProtectionElements(protectionGroupName,protectionElementObjectId);
 	}
 	/**
 	 * @param protectionGroupName
@@ -318,10 +318,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 
 	/**
 	 * @param protectionGroupName
-	 * @param protectionElementObjectNames
+	 * @param protectionElementObjectId
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames)throws CSTransactionException{
+	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException{
 
 	}
 

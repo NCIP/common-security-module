@@ -112,8 +112,8 @@ public class TestClient {
     public void assignPrivilegeToRoles(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	 //String[] privilegeIds = {"1", "2","3"};
-    	 String[] privilegeIds = {"1","2"};
-    	 //String[] privilegeIds = {"1", "3","6"};
+    	 //String[] privilegeIds = {"1","2"};
+    	 String[] privilegeIds = {"1", "3","4"};
     	 //String[] privilegeIds = {};
     	 String roleId = "1";
     	 try{
@@ -303,8 +303,8 @@ public class TestClient {
 		//ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
-		//ts.assignPrivilegeToRoles();
-		ts.getPrivileges();
+		ts.assignPrivilegeToRoles();
+		//ts.getPrivileges();
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
 		//ts.getUser();

@@ -338,8 +338,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String[], java.lang.String[])
 	 */
 	public void assignProtectionElements(String protectionGroupName,
-			String[] protectionElementObjectName,
-			String[] protectionElementAttributeName)
+			String protectionElementObjectId,
+			String protectionElementAttributeName)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
@@ -352,7 +352,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String[])
 	 */
 	public void assignProtectionElements(String protectionGroupName,
-			String[] protectionElementObjectNames)
+			String protectionElementObjectId)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
