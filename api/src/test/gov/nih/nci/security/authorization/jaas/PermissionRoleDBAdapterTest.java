@@ -6,7 +6,7 @@ package test.gov.nih.nci.security.authorization.jaas;
  *
  *<!-- LICENSE_TEXT_START -->
  *
- *The NCICB Common Security Module (CSM) Software License, Version 1.0 Copyright
+ *The NCICB Common Security Module (CSM) Software License, Version 3.0 Copyright
  *2004-2005 Ekagra Software Technologies Limited ('Ekagra')
  *
  *Copyright Notice.  The software subject to this notice and license includes both
@@ -107,8 +107,8 @@ import junit.framework.TestSuite;
  *     PermissionRoleDBAdapter implements gov.nih.nci.security.authorization.jaas.PermissionAdapter </p>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2005-03-18 19:23:18 $
- * @version $Revision: 1.3 $
+ * @date $Date: 2005-03-29 17:13:43 $
+ * @version $Revision: 1.4 $
  * 
  * @see gov.nih.nci.security.authorization.jaas.PermissionRoleDBAdapter
  * 

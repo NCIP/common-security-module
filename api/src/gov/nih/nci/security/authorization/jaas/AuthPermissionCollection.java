@@ -4,7 +4,7 @@ package gov.nih.nci.security.authorization.jaas;
  *
  *<!-- LICENSE_TEXT_START -->
  *
- *The NCICB Common Security Module (CSM) Software License, Version 1.0 Copyright
+ *The NCICB Common Security Module (CSM) Software License, Version 3.0 Copyright
  *2004-2005 Ekagra Software Technologies Limited ('Ekagra')
  *
  *Copyright Notice.  The software subject to this notice and license includes both
@@ -99,16 +99,19 @@ import java.util.Vector;
 
 /**
  * AuthPermissionCollection.java
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $ $Log: not supported by cvs2svn $
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $ Revision 1.2  2005/01/19 23:36:16  kumarv
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $ *** empty log message ***
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $ Revision 1.1  2004/12/06 17:45:58  hustedb
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $ moving code to api dir
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $ Revision 1.1  2004/12/03 19:05:50  hustedb
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $ initial release
- * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.3 2005-03-18 19:23:08 modik Exp $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ $Log: not supported by cvs2svn $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ Revision 1.3  2005/03/18 19:23:08  modik
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ Inserted the license text on top of every java file
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ Revision 1.2  2005/01/19 23:36:16  kumarv
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ *** empty log message ***
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ Revision 1.1  2004/12/06 17:45:58  hustedb
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ moving code to api dir
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ Revision 1.1  2004/12/03 19:05:50  hustedb
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $ initial release
+ * @author ghuang  Create:5-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java,v 1.4 2005-03-29 17:12:39 modik Exp $
  * @version 1.0
  * @created 03-Dec-2004 1:17:48 AM
  */

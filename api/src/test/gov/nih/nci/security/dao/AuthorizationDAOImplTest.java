@@ -6,7 +6,7 @@ package test.gov.nih.nci.security.dao;
  *
  *<!-- LICENSE_TEXT_START -->
  *
- *The NCICB Common Security Module (CSM) Software License, Version 1.0 Copyright
+ *The NCICB Common Security Module (CSM) Software License, Version 3.0 Copyright
  *2004-2005 Ekagra Software Technologies Limited ('Ekagra')
  *
  *Copyright Notice.  The software subject to this notice and license includes both
@@ -126,7 +126,7 @@ import junit.framework.TestSuite;
  * 
  * @author Brian Husted
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
  * 
