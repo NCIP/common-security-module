@@ -11,10 +11,6 @@
 		<fileset dir="webapp/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
-		<fileset dir="lib">
-			<include name="**/*.jar"/>
-		</fileset>
-
 	</path>
   	
   	<!-- Initialize local.properties -->
@@ -40,7 +36,6 @@ PROPERTY_FILE=${localProperties}
 
 #WebLogic specific options
 J2EE_JAR=
-LIB=lib
 SRC=src
 JAVA=${SRC}
 BUILD_DIR=build
@@ -49,6 +44,7 @@ BUILD_SRC=${CLASSES}/src
 WAR_DIR=${BUILD_DIR}/wardir
 WEBAPP_DIR=webapp
 WEBINF=${WEBAPP_DIR}/WEB-INF
+LIB=${WEBINF}/lib
 WEBXML=${WEBINF}/web.xml
 WAR_WEBINF=${WAR_DIR}/WEB-INF
 JAR_DIR=${WAR_WEBINF}/lib
@@ -71,10 +67,7 @@ WEBAPP_WAR=${BUILD_DIR}/csm-ri.war
 		<fileset dir="webapp/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
-		<fileset dir="lib">
-			<include name="**/*.jar"/>
-		</fileset>
-                <pathelement location="${J2EE_JAR}"/>
+		  <pathelement location="${J2EE_JAR}"/>
            </classpath>
           </javadoc>
           <echo message="Javadoc complete" />
