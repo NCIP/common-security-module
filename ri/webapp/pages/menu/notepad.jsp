@@ -17,7 +17,7 @@
 			<table background="<html:rewrite href="pages/images/notepad.gif"/>"
 				width="175" height="150" border="0" cellspacing=0 cellpadding=0>
 				<tr>
-					<td align="center"><br><br>Your Name:<br>
+					<td align="center"><br>Your Name:<br>
 						<bean:define name="USER" id="user" type="Employee" />
 						<bean:write name="user" property="firstName" />
 						<br>
