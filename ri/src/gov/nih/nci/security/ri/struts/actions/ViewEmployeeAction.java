@@ -88,7 +88,9 @@ public class ViewEmployeeAction extends BaseAction implements Constants {
 
 			}
 		}
-		request.getSession().setAttribute( ORIGINAL_EMPLOYEE_OBJECT, theEmployee);
+		
+		request.getSession().setAttribute( ORIGINAL_EMPLOYEE_OBJECT, new Employee( theEmployee) );
+		log.debug( "The Salary from the View Object is: " + theEmployee.getSalary() );
 		request.getSession().setAttribute(EMPLOYEE_FORM, theEmployee);
 		request.getSession().setAttribute(ASSIGNED_PROJECTS, assignedProjects);
 		request.getSession().setAttribute(UNASSIGNED_PROJECTS, allProjects);

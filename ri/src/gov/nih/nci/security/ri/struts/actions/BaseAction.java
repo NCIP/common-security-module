@@ -11,6 +11,7 @@ import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.ri.exception.UserNotAuthenticatedException;
 import gov.nih.nci.security.ri.struts.Constants;
+import gov.nih.nci.security.ri.valueObject.Employee;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,10 @@ public abstract class BaseAction extends Action implements Constants {
 	public AuthorizationManager getAuthorizationManager() throws CSException {
 		return AuthorizationManagerFactory
 				.getAuthorizationManager(CSM_RI_CONTEXT_NAME);
+	}
+	
+	public Employee getUser( HttpServletRequest request ){
+	  return (Employee)request.getSession().getAttribute( USER );
 	}
 
 	public abstract ActionForward executeWorkflow(ActionMapping arg0,
