@@ -214,7 +214,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.AuthorizationManager#deAssignProtectionElements(String, String)
 	 */
 	public void deAssignProtectionElements(String protectionGroupName,String protectionElementObjectId)throws CSTransactionException{
-		;
+		authorizationDAO.deAssignProtectionElements(protectionGroupName,protectionElementObjectId);
 	}
 
 
@@ -225,6 +225,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.AuthorizationManager#createProtectionElement(ProtectionElement)
 	 */
 	public void createProtectionElement(ProtectionElement protectionElement)throws CSTransactionException{
+		if(protectionElement==null){
+			throw new CSTransactionException("protection element could not be created as it is null");
+		}
 		protectionElement.setApplication(authorizationDAO.getApplication());
 		protectionElement.setUpdateDate(new Date());
 		authorizationDAO.createObject(protectionElement);

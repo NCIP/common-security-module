@@ -22,6 +22,7 @@ import gov.nih.nci.security.junk.RandomIntGenerator;
 import gov.nih.nci.security.util.ObjectSetUtil;
 import gov.nih.nci.security.dao.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -85,11 +86,11 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	public void testGetProtectionGroups(){
+	public void getProtectionGroups(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
-			java.util.Set pes = upm.getProtectionGroups("19");
+			java.util.Set pes = upm.getProtectionGroups("yuy");
 			System.out.println(pes.size());
 			
 		}catch(Exception ex){
@@ -169,6 +170,44 @@ public class TestClient {
 		
 		try{
 			upm.removeRole("2");
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void getPrincipals(){
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			am.getPrincipals("  ");
+			
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void secureCollection(){
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			am.secureCollection("  ",new ArrayList());
+			
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void getPrivilegeMap(){
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			ArrayList al = new ArrayList();
+			
+			am.getPrivilegeMap("kumarvi",al);
+			
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -296,7 +335,7 @@ public class TestClient {
 	
 	public void getUser(){
 		
-		String loginName = "login_name_15";
+		String loginName = "   ";
 		try{
 			User user = upm.getUser(loginName);
 			System.out.println(user.getFirstName()+":"+user.getEmailId());
@@ -342,6 +381,7 @@ public class TestClient {
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
+			/**
 			for(int i=1;i<100000;i++){
 				ProtectionElement pe = new ProtectionElement();
 				pe.setProtectionElementName("PE_Name_"+i);
@@ -351,10 +391,14 @@ public class TestClient {
 				upm.createProtectionElement(pe);
 				System.out.println("The returned id is"+pe.getProtectionElementId());
 			}
-			
+			*/
+			ProtectionElement pe = new ProtectionElement();
+			pe.setProtectionElementId(new Long(20));
+			upm.createProtectionElement(pe);
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
+			System.out.println("Error:"+ex.getMessage());
 		}
 	}
 	
@@ -410,11 +454,12 @@ public class TestClient {
 		try{
 			String[] peIds = {"22","33","44","55"};
 			String pgId = "3";
-			upm.assignProtectionElements(pgId,peIds);
-			
+			//upm.assignProtectionElements(pgId,peIds);
+			AuthorizationManager am = (AuthorizationManager)upm;
+			am.assignProtectionElement("protection_group_name_=1","45 ","yrh");
 			
 		}catch(Exception ex){
-			ex.printStackTrace();
+			System.out.println("Error:"+ex.getMessage());
 		}
 	}
 	
@@ -486,10 +531,22 @@ public class TestClient {
 			System.out.println(System.currentTimeMillis());
 			//System.out.println(am.checkPermission("login_name_4322","x_y_z_11919","Delete"));
 			//System.out.println(am.checkPermission("kumarvi","csmupt",null));
-			System.out.println(am.checkPermission("login_name_2121","x_y_z_17385","Delete"));
-			System.out.println(System.currentTimeMillis());
+			//System.out.println(am.checkPermission("login_name_2121","x_y_z_17385","Delete"));
+			//System.out.println(System.currentTimeMillis());
+			boolean f = am.checkPermission("dighn","dgkhn","Jungle");
 		}catch(Exception ex){
 			ex.printStackTrace();
+			System.out.println("Error:"+ex.getMessage());
+		}
+	}
+	public void deAssignProtectionElement(){
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			
+			am.deAssignProtectionElements("  rrrrr","X_Y_Z_2121");
+		}catch(Exception ex){
+			ex.printStackTrace();
+			System.out.println("Error:"+ex.getMessage());
 		}
 	}
 	public void testKunalCode(){
@@ -599,44 +656,7 @@ public class TestClient {
 	}
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
-		//ts.testPrivilegeCreate();
-		//ts.testPrivilegeDelete();
-		//ts.testModifyCreate();
-		//ts.testPrivilegeFind();
-		//ts.testRoleCreate();
-		//ts.testRoleDelete();
-		//ts.testModifyRole();
-		//ts.assignPrivilegeToRoles();
-		//ts.getPrivileges();
-		//ts.testGroupCreate();
-		//ts.testUserCreate();
-		//ts.getProtectionGroupRoleContextForUser("345");		
-		//ts.getProtectionGroupRoleContextForGroup("131");
-		//ts.getProtectionGroupById("131");
-		//ts.getUser();
-		//ts.testProtectionGroupCreate();
-		//ts.testProtectionGroupModify();
-		//ts.testProtectionElementCreate();
-		//ts.getProtectionElement();
-		//ts.addUserToGroup();
-		//ts.removeUserFromGroup();
-		//ts.assignProtectioElement();
-		//ts.assignUserRoleToProtectionGroup();
-		//ts.populatePgPe();
-		//ts.populateUgrpg();
-		ts.checkPermission();
-		//ts.getObjects();
-		//ts.testGetProtectionElements();
-		//ts.testGetProtectionGroups();
-		//ts.assignToProtectionGroups();
-		//ts.testGetProtectionGroups();
-		//ts.testGetProtectionGroupById();
-		//ts.testUserDelete();
-		//ts.testKunalCode();
-		//ts.getGroups("5020");
-		//ts.getProtectionGroupById("34");
-		//ts.assignOwners();
-		//ts.testSecureObject();
+		ts.secureCollection();
 
 	}
 }

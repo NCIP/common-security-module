@@ -288,14 +288,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		try {
-
+            
 			s = sf.openSession();
 			t = s.beginTransaction();
+			
+			if(StringUtilities.isBlank(protectionGroupName)){
+            	throw new CSTransactionException("The protectionGroupName can't be null");
+            }
+            if(StringUtilities.isBlank(protectionElementObjectId)){
+            	throw new CSTransactionException("The protectionElementObjectId can't be null");
+            }
 
 			ProtectionGroup protectionGroup = getProtectionGroup(protectionGroupName);
 			ProtectionElement protectionElement = getProtectionElement(
 					protectionElementObjectId, protectionElementAttributeName);
-
+             
+						
 			Criteria criteria = s
 					.createCriteria(ProtectionGroupProtectionElement.class);
 			criteria.add(Expression.eq("protectionGroup", protectionGroup));
@@ -310,6 +318,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				pgpe.setUpdateDate(new Date());
 
 				s.save(pgpe);
+			}else{
+				throw new CSTransactionException("This association already exist!");
 			}
 
 			t.commit();
@@ -437,7 +447,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String)
 	 */
 	public boolean checkPermission(AccessPermission permission, String userName) throws CSException{
-		
+		if(permission==null){
+			throw new CSException("permission can't be null !");
+		}
 		String objectId = permission.getName();
 		String privilege = permission.getActions();
 		
@@ -455,11 +467,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public boolean checkPermission(AccessPermission permission, Subject subject) throws CSException{
 		
 		boolean test = false;
+		if(permission==null){
+			throw new CSException("permission can't be null!");
+		}
 		String objectId = permission.getName();
 		String privilege = permission.getActions();
-		
+		if(subject==null){
+			throw new CSException("subject can't be null!");
+		}
 		Set ps = subject.getPrincipals();
+		if(ps.size()==0){
+			throw new CSException("The subject has no principals!");
+		}
 		Iterator it = ps.iterator();
+		
 		while(it.hasNext()){
 			Principal p = (Principal)it.next();
 			String userName = p.getName();
@@ -486,8 +507,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 
 		Connection cn = null;
-		if(userName==null||objectId==null){
-			return false;
+		if(StringUtilities.isBlank(userName)){
+			throw new CSException("user name can't be null!");
+		}
+		if(StringUtilities.isBlank(objectId)){
+			throw new CSException("objectId can't be null!");
 		}
 		test = this.checkOwnerShip(userName,objectId);
 		if(test) return true;
@@ -565,8 +589,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) throws CSException {
 		boolean test = false;
-		if(userName==null||objectId==null){
-			return false;
+		
+		if(StringUtilities.isBlank(userName)){
+			throw new CSException("user name can't be null!");
+		}
+		if(StringUtilities.isBlank(objectId)){
+			throw new CSException("objectId can't be null!");
 		}
 		test = this.checkOwnerShip(userName,objectId);
 		if(test) return true;
@@ -850,6 +878,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			ProtectionGroup protectionGroup = this
 					.getProtectionGroup(protectionGroupName);
+			
 			ProtectionElement protectionElement = this
 					.getProtectionElement(protectionElementObjectId);
 
@@ -859,9 +888,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			this.removeProtectionElementsFromProtectionGroup(pgId, peIds);
 		} catch (Exception ex) {
-			if (log.isDebugEnabled())
+			if (log.isDebugEnabled()){
 				log.debug("Authorization|||deAssignProtectionElements|Failure|Error Occured in deassigning Protection Group "
-					+protectionGroupName+" and Protection Element "+ protectionElementObjectId +"|"+ex.getMessage() );						
+					+protectionGroupName+" and Protection Element "+ protectionElementObjectId +"|"+ex.getMessage() );
+			}
 			throw new CSTransactionException("An error occured in deassigning Protection Element from Protection Group\n"+ex.getMessage(), ex);
 		}
 		if (log.isDebugEnabled())
@@ -943,8 +973,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public Principal[] getPrincipals(String userName) {
 		ArrayList al = new ArrayList();
 		Set groups = new HashSet();
+		Principal[] ps = null;
+		if(StringUtilities.isBlank(userName)){
+			return null;
+		}
+		
 		try{
 			User user = this.getUser(userName);
+			if(user==null){
+				return null;
+			}
 			al.add((Principal)user);
 			groups = this.getGroups(user.getUserId().toString());
 			Iterator it = groups.iterator();
@@ -955,7 +993,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return (Principal[])(al.toArray());
+		//TypeuWant[] a = (TypeuWant [] ) arraylist.toArray(new TypeUWant[arraylist.size()])
+        ps = (Principal[])al.toArray(new Principal[al.size()]);
+
+		  
+		return ps;
 	}
 
 	/*
@@ -973,6 +1015,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String attribute) throws CSObjectNotFoundException {
 		Session s = null;
 		ProtectionElement pe = null;
+		if(StringUtilities.isBlank(objectId)){
+			throw new CSObjectNotFoundException("The protection element can't be searched with null objectId");
+			}
 		try {
 			ProtectionElement search = new ProtectionElement();
 			search.setObjectId(objectId);
@@ -989,13 +1034,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (list.size() == 0) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||getProtectionElement|Failure|Protection Element not found for object id "+objectId+" and attribute "+attribute+"|");				
-				throw new CSObjectNotFoundException("Protection Element not found");
+				throw new CSObjectNotFoundException("Protection Element not found with these attributes");
 			}
 			pe = (ProtectionElement) list.get(0);
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
-				log.debug("Authorization|||getProtectionElement|Failure|Error in obtaining Protection Element for object id "+objectId+" and attribute "+attribute+"|");				
+				log.debug("Authorization|||getProtectionElement|Failure|Error in obtaining Protection Element for object id "+objectId+" and attribute "+attribute+"|");
+			throw new CSObjectNotFoundException("Protection Element is not found with object id= "+objectId+" and attributeName= "+attribute);
 		} finally {
 			try {
 				s.close();
@@ -1029,6 +1075,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSObjectNotFoundException {
 		Session s = null;
 		ProtectionGroup pgrp = null;
+		if(StringUtilities.isBlank(protectionGroupName)){
+			throw new CSObjectNotFoundException("The protection group can't searched with null name");
+		}
 		try {
 			ProtectionGroup search = new ProtectionGroup();
 			search.setProtectionGroupName(protectionGroupName);
@@ -1047,8 +1096,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			pgrp = (ProtectionGroup) list.get(0);
 
 		} catch (Exception ex) {
-			if (log.isDebugEnabled())
+			if (log.isDebugEnabled()){
 				log.debug("Authorization|||getProtectionGroup|Failure|Protection Group not found for name "+protectionGroupName+"|"+ex.getMessage());
+			}
+			throw new CSObjectNotFoundException("Protection Group not found for name "+protectionGroupName);
 		} finally {
 			try {
 				s.close();
@@ -1504,6 +1555,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 		Transaction t = null;
+		if(StringUtilities.isBlank(loginName)){
+			throw new CSTransactionException("login name can't be null");
+		}
 
 		try {
 
@@ -1511,6 +1565,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			t = s.beginTransaction();
 
 			User user = getLightWeightUser(loginName);
+			if(user==null){
+				throw new CSTransactionException("No user found for this login name");
+			}
 			ProtectionElement pe = getProtectionElement(
 					protectionElementObjectId, protectionElementAttributeName);
 
@@ -1755,6 +1812,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Long primaryKey) throws HibernateException,
 			CSObjectNotFoundException {
 
+		if(primaryKey==null){
+			throw new CSObjectNotFoundException("The primary key can't be null");
+		}
 		Object obj = s.load(objectType, primaryKey);
 
 		if (obj == null) {
@@ -1770,7 +1830,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Object oj = null;
 
 		Session s = null;
-
+          if(StringUtilities.isBlank(primaryKey)){
+          	throw new CSObjectNotFoundException("The primary key can't be null");
+          }
 		try {
 
 			s = sf.openSession();
@@ -2172,6 +2234,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
+			if(StringUtilities.isBlank(protectionElementId)){
+				throw new CSObjectNotFoundException("Primary key can't be null");
+			}
 			ProtectionElement protectionElement = (ProtectionElement) this
 					.getObjectByPrimaryKey(s, ProtectionElement.class,
 							new Long(protectionElementId));
@@ -2365,6 +2430,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	public Object secureObject(String userName, Object obj) throws CSException{
 		Object o = null;
+		if(StringUtilities.isBlank(userName)){
+			throw new CSException("No user name have been supplied!");
+		}
+		if(obj==null){
+			return obj;
+		}
 		try {
 
 			Class cl = obj.getClass();
@@ -2414,6 +2485,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (collection.size()==0){
 	    	return collection;
 	    }
+		if(StringUtilities.isBlank(userName)){
+			throw new CSException("No userName have been supplied!");
+		}
 		try {
 			Iterator it = collection.iterator();
             List l = (List)collection;
@@ -2599,6 +2673,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 
 		Connection cn = null;
+		
+		if(StringUtilities.isBlank(userName)){
+			throw new CSException("userName can't be null!");
+		}
+		if(pEs==null){
+			throw new CSException("protection elements collection can't be null!");
+		}
+		if(pEs.size()==0){
+			return result;
+		}
 
 		try {
 
