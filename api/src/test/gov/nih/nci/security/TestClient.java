@@ -15,6 +15,7 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.junk.RandomIntGenerator;
@@ -91,6 +92,18 @@ public class TestClient {
 		
 		try{
 			upm.removePrivilege("1");
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void getProtectionGroupById(String id){
+		
+		
+		try{
+			ProtectionGroup child = upm.getProtectionGroupById(id);
+			ProtectionGroup parent = child.getParentProtectionGroup();
+			System.out.println(parent.getProtectionGroupId());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -496,6 +509,34 @@ public class TestClient {
 		}
 	}
 	
+	public void getProtectionGroupRoleContextForUser(String id){
+		try{
+			Collection cal = upm.getProtectionGroupRoleContextForUser(id);
+			Iterator it = cal.iterator();
+			while(it.hasNext()){
+				ProtectionGroupRoleContext gp = (ProtectionGroupRoleContext)it.next();
+				System.out.println(gp.getProtectionGroup().getProtectionGroupName());
+				System.out.println(gp.getRoles().size());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void getProtectionGroupRoleContextForGroup(String id){
+		try{
+			Collection cal = upm.getProtectionGroupRoleContextForGroup(id);
+			Iterator it = cal.iterator();
+			while(it.hasNext()){
+				ProtectionGroupRoleContext gp = (ProtectionGroupRoleContext)it.next();
+				System.out.println(gp.getProtectionGroup().getProtectionGroupName());
+				System.out.println(gp.getRoles().size());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
 	public void getObjects(){
 		try{
 			//Role role = new Role();
@@ -553,7 +594,10 @@ public class TestClient {
 		//ts.testGetProtectionGroups();
 		//ts.testGetProtectionGroupById();
 		//ts.testUserDelete();
-		ts.testKunalCode();
+		//ts.testKunalCode();
 		//ts.getGroups("5020");
+		//ts.getProtectionGroupById("34");
+		//ts.getProtectionGroupRoleContextForUser("345");
+		ts.getProtectionGroupRoleContextForGroup("131");
 	}
 }

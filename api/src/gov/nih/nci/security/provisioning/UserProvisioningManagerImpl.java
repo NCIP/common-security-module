@@ -554,8 +554,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		;
 	}
 	
-	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException{
-		return null;
+	public Set getProtectionGroupRoleContextForUser(String userId) throws CSObjectNotFoundException{
+		return authorizationDAO.getProtectionGroupRoleContextForUser(userId);
+	}
+	
+	public Set getProtectionGroupRoleContextForGroup(String groupId) throws CSObjectNotFoundException{
+		return authorizationDAO.getProtectionGroupRoleContextForGroup(groupId);
 	}
 	
 	public Group getGroupById(String groupId) throws CSObjectNotFoundException{

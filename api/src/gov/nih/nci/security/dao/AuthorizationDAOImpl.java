@@ -6,6 +6,7 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionGroup;
@@ -20,6 +21,7 @@ import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -1534,11 +1536,155 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionGroupRoleContext()
 	 *      We might not implement this method
 	 */
-	public Set getProtectionGroupRoleContext(String userId)
+	public Set getProtectionGroupRoleContextForUser(String userId)
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Set result = new HashSet();
+		Session s = null;
+		
+		Connection cn = null;
+		//log.debug("Running create test...");
+		try {
+            ArrayList pgIds = new ArrayList();
+			s = sf.openSession();
+			
+			cn = s.connection();
+
+			//User user = this.getUser(userName);
+			//ProtectionElement pe = this.getProtectionElement(objectId);
+
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("SELECT distinct protection_group_id ");	
+			stbr.append("FROM user_group_role_protection_group ");
+			stbr.append("where user_id = "+userId);
+			
+			String sql = stbr.toString();
+			Statement stmt = cn.createStatement();
+
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				String pg_id = rs.getString(1);
+				pgIds.add(pg_id);
+			}
+			//log.debug(System.currentTimeMillis());
+			rs.close();
+			stmt.close();
+			
+			User user = (User)this.getObjectByPrimaryKey(User.class,userId);
+			  for(int i=0;i<pgIds.size();i++){
+			  	
+			  	ProtectionGroup pg = (ProtectionGroup)this.getObjectByPrimaryKey(ProtectionGroup.class,pgIds.get(i).toString());
+			  	Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+				criteria.add(Expression.eq("user", user));
+				criteria.add(Expression.eq("protectionGroup", pg));
+				List list = criteria.list();
+			  	
+				Iterator it = list.iterator();
+				Set roles = new HashSet();
+				while(it.hasNext()){
+					UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)it.next();
+					roles.add(ugrpg.getRole());
+				}
+				
+				ProtectionGroupRoleContext pgrc = new ProtectionGroupRoleContext();
+			  	pgrc.setProtectionGroup(pg);
+			  	pgrc.setRoles(roles);
+			  	result.add(pgrc);
+			  }
+			
+
+		} catch (Exception ex) {
+			log.error(ex);
+			throw new CSObjectNotFoundException("Error getting ProtectionGroupRoleContext", ex);
+			}
+			
+		 finally {
+			try {
+				cn.close();
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		
+		
+		return result;
 	}
+	
+		public Set getProtectionGroupRoleContextForGroup(String groupId)
+		throws CSObjectNotFoundException {
+			// TODO Auto-generated method stub
+			Set result = new HashSet();
+			Session s = null;
+			
+			Connection cn = null;
+			//log.debug("Running create test...");
+			try {
+			    ArrayList pgIds = new ArrayList();
+				s = sf.openSession();
+				
+				cn = s.connection();
+
+	//User user = this.getUser(userName);
+	//ProtectionElement pe = this.getProtectionElement(objectId);
+
+	StringBuffer stbr = new StringBuffer();
+	stbr.append("SELECT distinct protection_group_id ");	
+	stbr.append("FROM user_group_role_protection_group ");
+	stbr.append("where group_id = "+groupId);
+	
+	String sql = stbr.toString();
+	Statement stmt = cn.createStatement();
+
+	
+	ResultSet rs = stmt.executeQuery(sql);
+	while(rs.next()) {
+		String pg_id = rs.getString(1);
+		pgIds.add(pg_id);
+	}
+	//log.debug(System.currentTimeMillis());
+	rs.close();
+	stmt.close();
+	
+	Group group = (Group)this.getObjectByPrimaryKey(Group.class,groupId);
+	  for(int i=0;i<pgIds.size();i++){
+	  	
+	  	ProtectionGroup pg = (ProtectionGroup)this.getObjectByPrimaryKey(ProtectionGroup.class,pgIds.get(i).toString());
+	  	Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+		criteria.add(Expression.eq("group", group));
+		criteria.add(Expression.eq("protectionGroup", pg));
+		List list = criteria.list();
+	  	
+		Iterator it = list.iterator();
+		Set roles = new HashSet();
+		while(it.hasNext()){
+			UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)it.next();
+			roles.add(ugrpg.getRole());
+		}
+		
+		ProtectionGroupRoleContext pgrc = new ProtectionGroupRoleContext();
+	  	pgrc.setProtectionGroup(pg);
+	  	pgrc.setRoles(roles);
+	  	result.add(pgrc);
+	  }
+	
+
+		} catch (Exception ex) {
+			log.error(ex);
+			throw new CSObjectNotFoundException("Error getting ProtectionGroupRoleContext", ex);
+			}
+			
+		 finally {
+			try {
+				cn.close();
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		
+		
+		return result;
+		}
 
 	public void modifyObject(Object obj) throws CSTransactionException {
 		Session s = null;

@@ -310,9 +310,10 @@ public interface AuthorizationDAO {
 			String protectionGroupId, String[] protectionLementIds)
 			throws CSTransactionException;
 	
-	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException;
+	public Set getProtectionGroupRoleContextForUser(String userId) throws CSObjectNotFoundException;
 	
-	
+	public Set getProtectionGroupRoleContextForGroup(String groupId) throws CSObjectNotFoundException;
+
 	
 	
 	
