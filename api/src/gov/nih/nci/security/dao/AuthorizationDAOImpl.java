@@ -370,6 +370,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					intersection.setRole(role);
 					intersection.setUpdateDate(new Date());
 					s.save(intersection);
+				}else{
+					UserGroupRoleProtectionGroup toBeDeleted = (UserGroupRoleProtectionGroup)list.get(0);
+					s.delete(toBeDeleted);
 				}
 
 			}
@@ -608,6 +611,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 
 		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
 			ProtectionGroup pgroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
@@ -631,12 +636,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 				List list = criteria.list();
 
-				s = sf.openSession();
-				t = s.beginTransaction();
+				
 				if (list.size() == 0) {
 					intersection.setRole(role);
 					intersection.setUpdateDate(new Date());
 					s.save(intersection);
+				}else{
+					UserGroupRoleProtectionGroup toBeDeleted = (UserGroupRoleProtectionGroup)list.get(0);
+					s.delete(toBeDeleted);
 				}
 
 			}
