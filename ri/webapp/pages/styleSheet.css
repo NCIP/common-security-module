@@ -44,12 +44,30 @@ HDR AND FTR BEGINS
 .hdrBG{ /* for the cell that contains the required cancer.gov header */
   background-color:#66CC66; /* constant: red */
 }
-.subhdrBG{ /* for the cell that contains the application header */
-  background-color:#CCCCFF; /* lighter */
+
+
+
+.header1{ /* for the cell that contains the application header */
+  background-color:#33CC33; /* green */
   border-left:1px solid #9999FF; /* constant: medium gray */
   border-right:1px solid #9999FF; /* constant: medium gray */
   border-top:1px solid #9999FF; /* constant: medium gray */
 }
+
+.header2{ /* for the cell that contains the application header */
+  background-color:#CC66CC; /* purple */
+  border-left:1px solid #9999FF; /* constant: medium gray */
+  border-right:1px solid #9999FF; /* constant: medium gray */
+  border-top:1px solid #9999FF; /* constant: medium gray */
+}
+
+.header3{ /* for the cell that contains the application header */
+  background-color:#FF3333; /* red */
+  border-left:1px solid #9999FF; /* constant: medium gray */
+  border-right:1px solid #9999FF; /* constant: medium gray */
+  border-top:1px solid #9999FF; /* constant: medium gray */
+}
+
 .ftrTable{ /* for the table that contains the footer */
   padding-top:0.4em;
 }
@@ -58,25 +76,30 @@ HDR AND FTR BEGINS
 MENU BEGINS 
 ###############*/
 td.mainMenu{
-  background-color:#FF9933; /* constant: dark gray */
+  background-color:#336699; /* constant: dark blue */
   font-family:arial,helvetica,verdana,sans-serif;
-  border-bottom:1px solid #9999FF; /* constant: medium gray */
-  border:1px solid #9999FF; /* constant: medium gray */
+  border-bottom:1px solid #9999FF; /* constant: light blue */
+  border:1px solid #9999FF; /* constant: light blue */
 }
+
+/* menu colors  */
 td.mainMenuItem{ /* for the off state of the main menu (top) cells */
-  font-size:0.6em;
+  font-size:0.8em;
   font-weight:bold;
-  background-color:#FF9933; /* constant: dark gray */
+  background-color:#9999FF; /* constant: light blue */
   padding-left:1em;
   padding-right:1em;
 }
 td.mainMenuItemOver{ /* for the over state of the main menu (top) cells */
-  font-size:0.6em;
+  font-size:0.8em;
   font-weight:bold;
-  background-color:#FFFF66; /* darker */
+  background-color:#FF9933; /* orange*/
   padding-left:1em;
   padding-right:1em;
 }
+
+
+
 td.footerMenu{ /* for the basic style of the footer menu (bottom) area */
   background-color:#FF9933; /* constant: dark gray */
   font-family:arial,helvetica,verdana,sans-serif;
