@@ -131,7 +131,8 @@ public class TestClient {
 		try{
 		Properties p = System.getProperties();
 		p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationsecurityConfig.xml");
-		upm = SecurityServiceProvider.getUserProvisioningManager("security");
+		//upm = SecurityServiceProvider.getUserProvisioningManager("security");
+		upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 		//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 		
 		}catch(Exception ex){
@@ -179,8 +180,8 @@ public class TestClient {
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
-			java.util.Set pes = upm.getProtectionGroups("yuy");
-			System.out.println(pes.size());
+			 upm.getProtectionGroups();
+			//System.out.println(pes.size());
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -622,7 +623,10 @@ public class TestClient {
 			//System.out.println(am.checkPermission("kumarvi","csmupt",null));
 			//System.out.println(am.checkPermission("login_name_2121","x_y_z_17385","Delete"));
 			//System.out.println(System.currentTimeMillis());
-			boolean f = am.checkPermission("dighn","dgkhn","Jungle");
+			boolean f = am.checkPermission("c3pr_sa","c3pr.Menu.Home","View");
+			//boolean f = am.checkPermission("login_name_3","X_Y_Z_999","abc","update");
+			
+			System.out.println("Got result"+f);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			System.out.println("Error:"+ex.getMessage());
@@ -697,17 +701,17 @@ public class TestClient {
 			//Role role = new Role();
 			//role.setName("role_name_1");
 			//Group grp = new Group();
-			//User user = new User();
+			User user = new User();
 			//user.setLoginName("login_name_1");
 			//user.setFirstName("%");
 			//user.setDepartment("security");
-			ProtectionElement pe = new ProtectionElement();
-			pe.setObjectId("%");
-			//pe.setProtectionElementName("PE_name_1");
+			//ProtectionElement pe = new ProtectionElement();
+			//pe.setObjectId("%");
+			//pe.setProtectionElementName("PE_name_3");
 			//grp.setGroupName("g%");
 			//SearchCriteria sc = new RoleSearchCriteria(role);
-			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
-			//SearchCriteria sc = new UserSearchCriteria(user);
+			//SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			SearchCriteria sc = new UserSearchCriteria(user);
 			System.out.print(new java.util.Date());
 			List result = upm.getObjects(sc);
 			System.out.println(result.size());
@@ -745,7 +749,7 @@ public class TestClient {
 	}
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
-		ts.secureCollection();
+		ts.checkPermission();
 
 	}
 }
