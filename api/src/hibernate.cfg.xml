@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 2.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-2.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <!-- properties  -->
+        <property name="connection.username">ncisecurity</property>
+        <property name="connection.url">jdbc:mysql://cbiodev104.nci.nih.gov:3306/csd</property>
+        <property name="dialect">net.sf.hibernate.dialect.MySQLDialect.java</property>
+        <property name="connection.password">ncisecurity</property>
+        <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
+
+        <property name="dialect">net.sf.hibernate.dialect.OracleDialect</property>	   
+
+        <mapping resource="gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml"/>
+	        
+    </session-factory>
+
+</hibernate-configuration>
