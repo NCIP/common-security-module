@@ -16,8 +16,18 @@ import gov.nih.nci.security.ri.valueObject.Employee;
  */
 public class SecurityUtils {
 
+	
+	
 	public static String getEmployeeObjectId ( Employee empl ){
 		return "gov.nih.nci.security.ri.valueObject.Employee_" + empl.getEmployeeId();
+	}
+	
+	public static String getEmployeeClassObjectId(){
+		return "gov.nih.nci.security.ri.valueObject.Employee";
+	}
+	
+	public static String getEmployeeClassAttr(){
+		return "class";
 	}
 	
 }

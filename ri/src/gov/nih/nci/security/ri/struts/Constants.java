@@ -15,6 +15,7 @@ public interface Constants {
 
 	public static final String ACTION_SUCCESS = "success";
 	public static final String ACTION_CONTINUE = "continue";
+	public static final String ACCESS_DENIED = "access_denied";
 	public static final String LOGIN_FORWARD = "Welcome";
 	public static final String ACTION_FAILURE = "failure";
 	public static final String ERROR_DETAIL = "ERROR_DETAIL";

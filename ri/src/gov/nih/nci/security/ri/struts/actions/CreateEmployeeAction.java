@@ -6,8 +6,10 @@
  */
 package gov.nih.nci.security.ri.struts.actions;
 
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.ri.dao.EmployeeDAO;
 import gov.nih.nci.security.ri.struts.Constants;
+import gov.nih.nci.security.ri.util.SecurityUtils;
 import gov.nih.nci.security.ri.valueObject.Employee;
 
 import java.util.LinkedList;
@@ -37,17 +39,32 @@ public class CreateEmployeeAction extends BaseAction implements Constants {
 	 *      javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
-	public ActionForward executeWorkflow(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ActionForward executeWorkflow(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		Employee employeeForm = (Employee) form;
 
 		EmployeeDAO.saveEmployee(employeeForm);
+
+		ProtectionElement pe = new ProtectionElement();
+		pe.setObjectId( SecurityUtils.getEmployeeObjectId( employeeForm ) );
+		pe.setProtectionElementName("EMPLOYEE_RECORD");
+		pe
+				.setProtectionElementDescription("The gov.nih.nci.security.ri.valueObject.Employee Object");
+
+		getAuthorizationManager().createProtectionElement(pe);
+		
+		//need the ability to create user in CSM database!!!
+
+		getAuthorizationManager().setOwnerForProtectionElement(
+				employeeForm.getUserName(), pe.getObjectId(), null);
+
 		List l = new LinkedList();
-		l.add( employeeForm );
-		request.getSession().setAttribute( EMPLOYEE_ID, employeeForm.getEmployeeId().toString());
-		request.getSession().setAttribute( EMPLOYEE_LIST, l);
+		l.add(employeeForm);
+		request.getSession().setAttribute(EMPLOYEE_ID,
+				employeeForm.getEmployeeId().toString());
+		request.getSession().setAttribute(EMPLOYEE_LIST, l);
 
 		return mapping.findForward(Constants.ACTION_SUCCESS);
 	}
