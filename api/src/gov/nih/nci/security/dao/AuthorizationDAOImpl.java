@@ -79,14 +79,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = sf.openSession();
 
-			t = s.beginTransaction();
-			User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
-			System.out.println("The user id ="+user.getUserId());
+			
+			//User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
+			//System.out.println("The user id ="+user.getUserId());
 			/**
 			 * First check if there are some privileges for this role If there
 			 * are any then delete them.
 			 */
 			UserGroup search = new UserGroup();
+			User user = new User();
+			user.setUserId(new Long(userId));
 			search.setUser(user);
 
 			List list = s.createCriteria(UserGroup.class).add(Example.create(search)).list();
@@ -99,7 +101,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				System.out.println("The old group id ="+group.getGroupId());
 				log.debug("The old List" + group.getGroupId().toString());
 			}
-
+			t = s.beginTransaction();
 			 if(!oldList.contains(groupId)){
 			 	System.out.println("Inside");
 			 	Group g = this.getGroup(new Long(groupId));
@@ -183,6 +185,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				RolePrivilege rp1 = (RolePrivilege) it.next();
 				Privilege priv = rp1.getPrivilege();
 				oldList.add(priv.getId().toString());
+				System.out.println("The old Priv Id:"+priv.getId().toString());
 				log.debug("The old List" + priv.getId().toString());
 			}
 
@@ -194,6 +197,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			while (toBeInsertedIt.hasNext()) {
 				String rp_id = (String) toBeInsertedIt.next();
+				System.out.println("To Be Inserted: " + rp_id);
 				log.debug("To Be Inserted: " + rp_id);
 				Privilege p = this.getPrivilege(rp_id);
 				RolePrivilege rp = new RolePrivilege();
@@ -205,6 +209,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			while (toBeRemovedIt.hasNext()) {
 
 				String p_id = (String) toBeRemovedIt.next();
+				System.out.println("To Be Removed: " + p_id);
 				log.debug("To Be Removed: " + p_id);
 				Privilege p = new Privilege();
 				p.setId(new Long(p_id));
