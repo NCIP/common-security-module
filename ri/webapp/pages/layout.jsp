@@ -5,6 +5,7 @@
 		<TITLE><tiles:getAsString name="title"/></TITLE>
 
         <link rel="stylesheet" href="pages/styleSheet.css"/>
+        <script src="pages/script.js" type="text/javascript"></script>
 	</HEAD>
 	<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 	<TABLE height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" valign="top">
