@@ -2,6 +2,8 @@
 
 package test.gov.nih.nci.security.authorization.domainobjects;
 
+import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
 import junit.framework.TestCase;
@@ -25,8 +27,8 @@ import net.sf.hibernate.Transaction;
  * Relations: Privilege extends java.lang.Object <br>
  * 
  * @author Your Name Your email - Your Company
- * @date $Date: 2004-12-07 21:35:04 $
- * @version $Revision: 1.1 $
+ * @date $Date: 2004-12-13 22:26:05 $
+ * @version $Revision: 1.2 $
  * 
  * @see gov.nih.nci.security.authorization.domainobjects.Privilege
  * @see some.other.package
@@ -44,109 +46,37 @@ public class PrivilegeTest extends TestCase {
 		super(name);
 	}
 
-	/**
-	 * Used by JUnit (called before each test method)
-	 */
-	protected void setUp() {
-		//privilege = new Privilege();
-	}
+	
 
-	/**
-	 * Used by JUnit (called after each test method)
-	 */
-	protected void tearDown() {
-		privilege = null;
-	}
+	public void testCreateAndDelete() throws Exception {
 
-	/**
-	 * Test the constructor: Privilege()
-	 */
-	public void testPrivilege() {
+		Privilege p = create();
+		delete(p);
 
 	}
 
-	/**
-	 * Test method: void finalize() finalize throws java.lang.Throwable
-	 */
-	public void testFinalize() {
+	protected Privilege create() throws Exception {
+		UserProvisioningManager upm = SecurityServiceProvider
+				.getUserProvisioningManger("Security");
+
+		Privilege p = new Privilege();
+		p.setName("ReadTest123");
+		p.setDesc("Reading test123");
+
+		upm.createPrivilege(p);
+		System.out.println("Created privilege with id: " + p.getId());
+		
+		return p;
 
 	}
 
-	/**
-	 * Test method: String getName()
-	 */
-	public void testGetName() {
+	private void delete(Privilege p) throws Exception {
 
-	}
+		UserProvisioningManager upm = SecurityServiceProvider
+				.getUserProvisioningManger("security");
 
-	/**
-	 * Test method: void setName(String)
-	 */
-	public void testSetName() {
-		//Must test for the following parameters!
-		String str[] = { null, "\u0000", " " };
-
-	}
-
-	/**
-	 * Test method: String getDesc()
-	 */
-	public void testGetDesc() {
-
-	}
-
-	/**
-	 * Test method: java.lang.Long getId()
-	 */
-	public void testGetId() {
-
-	}
-
-	/**
-	 * Test method: void setDesc(String)
-	 */
-	public void testSetDesc() {
-		//Must test for the following parameters!
-		String str[] = { null, "\u0000", " " };
-
-	}
-
-	/**
-	 * Test method: void setId(Long)
-	 */
-	public void testSetId() {
-		//Must test for the following parameters!
-		//Long;
-
-	}
-
-	public void testCreate() throws Exception {
-		Session s = null;
-		Transaction t = null;
-		System.out.println("Running create test...");
-		try {
-			s = HibernateSessionFactory.currentSession();
-
-			t = s.beginTransaction();
-			Privilege p = new Privilege();
-			
-			p.setDesc("TestDesc");
-			p.setName("TestName");
-			s.save(p);
-			t.commit();
-			System.out.println( "Privilege ID is: " + p.getId().doubleValue() );
-		} catch (Exception ex) {
-			try {
-				s.close();
-			} catch (Exception ex2) {
-			}
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-			}
-			throw ex;
-		}
-
+		upm.removePrivilege("" + p.getId());
+		System.out.println( "Deleted privilege: " + p.getId());
 	}
 
 	/**
@@ -159,5 +89,5 @@ public class PrivilegeTest extends TestCase {
 		junit.textui.TestRunner.run(new TestSuite(PrivilegeTest.class));
 	}
 
-	private Privilege privilege;
+	
 }
