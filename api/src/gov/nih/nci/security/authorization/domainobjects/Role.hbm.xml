@@ -29,6 +29,7 @@
         name="name"
         type="java.lang.String"
         column="ROLE_NAME"
+        not-null="true"
         length="100"
     />
     <property

@@ -31,6 +31,7 @@
         name="name"
         type="java.lang.String"
         column="PRIVILEGE_NAME"
+        not-null="true"
         length="100"
     />
     <property
@@ -38,6 +39,14 @@
         type="java.lang.String"
         column="PRIVILEGE_DESCRIPTION"
         length="200"
+    />
+    
+    <property
+            name="updateDate"
+            type="java.sql.Date"
+            column="UPDATE_DATE"
+            not-null="true"
+            length="10"
     />
    
 </class>
