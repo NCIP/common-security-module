@@ -10,3 +10,5 @@ values("<<upt_context_name>>","UPT Super Admin Application","<<upt_context_name>
 	 
 insert into user_protection_element(PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
 values(1,1,sysdate());
+
+COMMIT;
