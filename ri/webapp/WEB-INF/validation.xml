@@ -21,11 +21,7 @@
 
     </global>
 
-    <formset>
-
-
-
-    </formset>
+    
 
     <!-- An example formset for another locale
     <formset language="fr">

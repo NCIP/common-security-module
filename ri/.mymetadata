@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+   type="WEB"
+   name="security_ri"
+   id="myeclipse.1105126155343"
+   context-root="/security_ri"
+   j2ee-spec="1.3"
+   archive="security_ri.war">
+   <attributes>
+      <attribute name="webrootdir" value="webapp" />
+   </attributes>
+</project-module>
+
