@@ -15,6 +15,20 @@ public class StringUtilities {
 		return buf.toString();
 	}
 	
+	public static boolean isBlank(String str){
+	     boolean test = false;
+	     
+	     if(str==null){
+	        test= true;
+	     }else{
+	     	String str1 = str.trim();
+	       if(str1.equals("")){
+	         test = true;
+	       }
+	     }
+	     return test;
+	  }
+	
 	public static String getClassName(String fullClassName)
 	{
 		int i = fullClassName.lastIndexOf(".");
