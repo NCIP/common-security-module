@@ -14,7 +14,7 @@
 	<!-- Main layout -->
 	<definition name="main.layout" path="/pages/layout.jsp">
 		<put name="title" value="CSM RI" />
-		<put name="header" value="/pages/header2.jsp" />
+		<put name="header" value="/pages/header/header2.jsp" />
 		<put name="menu" value="/pages/menu/leftnav.jsp" />
 		<put name="body" value="/pages/welcome.jsp" />
 	</definition>
@@ -32,11 +32,11 @@
 	</definition>
 
 	<definition name="Employee" extends="main.layout">
-		<put name="header" value="/pages/header/header1.jsp" />
+		<put name="header" value="/pages/header/header3.jsp" />
 	</definition>
 
 	<definition name="Project" extends="main.layout">
-		<put name="header" value="/pages/header/header3.jsp" />
+		<put name="header" value="/pages/header/header1.jsp" />
 	</definition>
 
 	<!-- Home page -->
