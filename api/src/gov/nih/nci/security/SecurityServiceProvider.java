@@ -72,8 +72,9 @@ public class SecurityServiceProvider {
 	 * the implementation class for that Application from the property file if it is configured.
 	 * @return The implementation of the {@link AuthenticationManager} interface is returned based on the
 	 * configuration for the application
+	 * @throws CSException
 	 */
-	public static AuthenticationManager getAuthenticationManager(String applicationContextName)
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName) throws CSException
 	{
 		return AuthenticationManagerFactory.getAuthenticationManager(applicationContextName);		
 	}

@@ -11,6 +11,8 @@
 			type="gov.nih.nci.security.upt.forms.PrivilegeForm" />
 		<form-bean name="RoleForm"
 			type="gov.nih.nci.security.upt.forms.RoleForm" />
+		<form-bean name="ApplicationForm"
+			type="gov.nih.nci.security.upt.forms.ApplicationForm" />
 		<form-bean name="GroupForm"
 			type="gov.nih.nci.security.upt.forms.GroupForm" />
 		<form-bean name="ProtectionGroupForm"
@@ -21,7 +23,7 @@
 			type="gov.nih.nci.security.upt.forms.UserForm" />
 	</form-beans>
 	<global-exceptions>
-		<exception key="" scope="request" type="java.lang.Exception" path="Tiles.500.Error.Page" handler="gov.nih.nci.security.upt.resources.DefaultExceptionHandler"/>
+		<exception key="" scope="request" type="java.lang.Exception" path="Tiles.500.Error.Page" handler="gov.nih.nci.security.upt.exceptionHandler.DefaultExceptionHandler"/>
 	</global-exceptions>
 	<global-forwards>
 		<forward name="Login" path="/Login.do" />
@@ -44,6 +46,7 @@
 			validate="true" 
 			input="Tiles.Login.Page">
 			<forward name="LoginSuccess" path="Tiles.Home.Page" />
+			<forward name="AdminLoginSuccess" path="Tiles.SuperAdmin.Home.Page" />			
 			<forward name="LoginFailure" path="Tiles.Login.Page" />
 		</action>
 		<action path="/Logout"
@@ -56,6 +59,7 @@
 			scope="session" 
 			validate="true"
 			input="Tiles.Login.Page">
+			<forward name="ApplicationHomePage" path="Tiles.Application.Home" />
 			<forward name="RoleHomePage" path="Tiles.Role.Home" />
 			<forward name="GroupHomePage" path="Tiles.Group.Home" />
 			<forward name="UserHomePage" path="Tiles.User.Home" />
@@ -63,6 +67,7 @@
 			<forward name="ProtectionGroupHomePage" path="Tiles.ProtectionGroup.Home" />
 			<forward name="ProtectionElementHomePage" path="Tiles.ProtectionElement.Home" />
 			<forward name="HomePage" path="Tiles.Home.Page" />
+			<forward name="AdminHomePage" path="Tiles.SuperAdmin.Home.Page" />			
 			<forward name="LogoutAction" path="/Logout.do" />
 		</action>
 		<action path="/PrivilegeDBOperation"
@@ -204,6 +209,27 @@
 			<forward name="SetDoubleAssociationSuccess" path="Tiles.User.Detail.Screen" />
 			<forward name="SetRoleAssociationSuccess" path="Tiles.User.Detail.Screen" />			
 		</action>
+		<action path="/ApplicationDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			name="ApplicationForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.Application.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.Application.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.Application.Search.Result" />
+			<forward name="CreateSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.Application.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.Application.Home" />
+			<forward name="SearchSuccess" path="Tiles.Application.Search.Result" />
+			<forward name="LoadAssociationSuccess" path="Tiles.Application.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="SearchFailure" path="Tiles.Application.Detail.Screen" />
+		</action>		
 	</action-mappings>
 
 	<controller bufferSize="4096" debug="0" />

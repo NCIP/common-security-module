@@ -6,6 +6,8 @@
  */
 package gov.nih.nci.security;
 
+import gov.nih.nci.security.exceptions.CSException;
+
 /**
  * This class provides the single common interface for the entire Common Security Module.
  * It exposes all the authentication and the authorization services provided the Common Security Module. 
@@ -45,8 +47,9 @@ public class CommonSecurityManager
 	 * It should be provided in a non-encrypted format as simple {@link String} object.
 	 * @return <code>TRUE</code> if the authentication was sucessful using the provided user 
 	 * 		   	credentials and <code>FALSE</code> if the authentication fails.
+	 * @throws CSException
 	 */
-	public boolean login (String applicationContextName, String userName, String password)
+	public boolean login (String applicationContextName, String userName, String password) throws CSException
 	{
 		AuthenticationManager authenticationManager = SecurityServiceProvider.getAuthenticationManager(applicationContextName);
 		return authenticationManager.login(userName,password);

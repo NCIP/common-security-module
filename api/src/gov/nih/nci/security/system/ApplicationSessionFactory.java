@@ -47,19 +47,19 @@ public class ApplicationSessionFactory {
 		 */
 		
 		Document configDocument = getConfigDocument();
-		Element applicationsElement = configDocument.getRootElement();
-		List applications = applicationsElement.getChildren("application");
+		Element securityConfig = configDocument.getRootElement();
+		Element applicationList = securityConfig.getChild("application-list");
+		List applications = applicationList.getChildren("application");
 		 Iterator appIterator  = applications.iterator();
 		 while(appIterator.hasNext()){
 		 	Element application = (Element)appIterator.next();
-		 	Element context = application.getChild("context");
-		 	String context_name = context.getAttributeValue("context-name");
+		 	Element contextName = application.getChild("context-name");
+		 	String contextNameValue = contextName.getText().trim();
 		 	Element authorization = application.getChild("authorization");
-		 	Element hibernate_config_file = authorization.getChild("hibernate-config-file");
-		 	String file_name = hibernate_config_file.getAttributeValue("name");
-		 	SessionFactory sf = initSessionFactory(file_name);
-		 	appSessionFactories.put(context_name,sf);
-		 	
+		 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");
+		 	String hibernateFileName = hibernateConfigFile.getText().trim();
+		 	SessionFactory sf = initSessionFactory(hibernateFileName);
+		 	appSessionFactories.put(contextNameValue,sf);
 		 }
 	}
 	public static SessionFactory getSessionFactory(String applicationContextName) throws CSException{
@@ -79,8 +79,9 @@ public class ApplicationSessionFactory {
 	private static Document getConfigDocument(){
 		Document configDoc = null;
 		try {
+			String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
             SAXBuilder builder = new SAXBuilder();
-            configDoc = builder.build(new File("ApplicationSecurityConfig.xml"));
+            configDoc = builder.build(new File(configFilePath));
             return configDoc;
         } catch(JDOMException e) {
             e.printStackTrace();
@@ -114,23 +115,22 @@ public class ApplicationSessionFactory {
 		
 		SessionFactory sf = null;
 		Document configDocument = getConfigDocument();
-		Element applicationsElement = configDocument.getRootElement();
-		List applications = applicationsElement.getChildren("application");
-		 Iterator appIterator  = applications.iterator();
-		 while(appIterator.hasNext()){
+		Element securityConfig = configDocument.getRootElement();
+		Element applicationList = securityConfig.getChild("application-list");
+		List applications = applicationList.getChildren("application");
+		Iterator appIterator  = applications.iterator();
+		while(appIterator.hasNext()){
 		 	Element application = (Element)appIterator.next();
-		 	Element context = application.getChild("context");
-		 	String context_name = context.getAttributeValue("context-name");
-		 	
-		 	 if(context_name.equalsIgnoreCase(applicationContextName)){
-				 	Element authorization = application.getChild("authorization");
-				 	Element hibernate_config_file = authorization.getChild("hibernate-config-file");
-				 	String file_name = hibernate_config_file.getAttributeValue("name");
-				 	sf = initSessionFactory(file_name);
-				 	appSessionFactories.put(context_name,sf);
-				 	break;
-		 	 }
-		 	
+		 	Element contextName = application.getChild("context-name");
+		 	String contextNameValue = contextName.getText().trim();
+			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
+			 	Element authorization = application.getChild("authorization");
+			 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");
+			 	String hibernateFileName = hibernateConfigFile.getText().trim();
+			 	sf = initSessionFactory(hibernateFileName);
+			 	appSessionFactories.put(contextNameValue,sf);
+			 	break;
+			}
 		 }
 		return sf;
 	}

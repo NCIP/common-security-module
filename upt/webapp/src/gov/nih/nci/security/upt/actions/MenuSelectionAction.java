@@ -56,6 +56,8 @@ public class MenuSelectionAction extends Action
 		
 		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.HOME_ID))
 			return (mapping.findForward(ForwardConstants.HOME_PAGE));
+		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ADMIN_HOME_ID))
+			return (mapping.findForward(ForwardConstants.ADMIN_HOME_PAGE));
 		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ROLE_ID))
 			return (mapping.findForward(ForwardConstants.ROLE_HOME_PAGE));
 		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.GROUP_ID))
@@ -68,6 +70,8 @@ public class MenuSelectionAction extends Action
 			return (mapping.findForward(ForwardConstants.PROTECTION_GROUP_HOME_PAGE));
 		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID))
 			return (mapping.findForward(ForwardConstants.PROTECTION_ELEMENT_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.APPLICATION_ID))
+			return (mapping.findForward(ForwardConstants.APPLICATION_HOME_PAGE));
 		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.LOGOUT_ID))
 			return (mapping.findForward(ForwardConstants.LOGOUT_ACTION));
 		else

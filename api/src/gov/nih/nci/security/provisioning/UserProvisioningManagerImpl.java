@@ -1,19 +1,24 @@
 package gov.nih.nci.security.provisioning;
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.authorization.domainobjects.*;
-
+import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
+import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.Privilege;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.Role;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
-import gov.nih.nci.security.dao.AuthorizationDAOSessionFactory;
 import gov.nih.nci.security.dao.SearchCriteria;
-import gov.nih.nci.security.exceptions.*;
+import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
+import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.system.ApplicationSessionFactory;
 
 import java.security.Principal;
-
 import java.util.Date;
 import java.util.Set;
-
 
 import javax.security.auth.Subject;
 
@@ -56,7 +61,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		 *  to get appropriate sessionFcatory for a application.
 		 */
 		try{
-		SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
+		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
+		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
 		}catch(Exception ex){

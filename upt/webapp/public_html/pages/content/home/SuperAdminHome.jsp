@@ -28,7 +28,7 @@
 
 				<h2>User Provisioning Tool</h2>
 
-				<h3>Welcome!</h3>
+				<h3>Welcome Super Admin!</h3>
 
 				<p>Welcome to the User Provisioning Tool. With this tool you may
 				configure your application's authorization data in the common
@@ -42,23 +42,8 @@
 				<td>&nbsp;</td>
 				<td width="60%">
 
-				<p><a href="javascript: setTable('<%=DisplayConstants.GROUP_ID%>')">Groups</a><br />
-				Collection of users that may be assigned protection grops and roles.</p>
-				<p><a href="javascript: setTable('<%=DisplayConstants.PRIVILEGE_ID%>')">Privileges</a><br />
-				Operations that can be performed on any data.</p>
-				<p><a href="javascript: setTable('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')">Protection Elements</a><br />
-				data set that has a controlled access as per the roles and
-				privileges. A protected element can be any object also. Basically it
-				is a conceptual entity that an application will associate with any
-				piece of data that it wants to protect.</p>
-				<p><a href="javascript: setTable('<%=DisplayConstants.PROTECTION_GROUP_ID%>')">Protection Groups</a><br />
-				Collection of protected elements that are assigned to a Role or User
-				at once. Also allows the Role/User to access future protected
-				elements that do not yet exist.</p>
-				<p><a href="javascript: setTable('<%=DisplayConstants.ROLE_ID%>')">Roles</a><br />
-				Can be seen in the context of an application and /or protection
-				group. A role is assigned to user to grant them privileges on
-				particular protection group.</p>
+				<p><a href="javascript: setTable('<%=DisplayConstants.APPLICATION_ID%>')">Application</a><br />
+				Applications which uses the CSM for security.</p>
 				<p><a href="javascript: setTable('<%=DisplayConstants.USER_ID%>')">Users</a><br />
 				Users for an application or for a system or both.</p>
 				<p>&nbsp;</p>

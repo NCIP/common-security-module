@@ -4,6 +4,8 @@
  */
 package gov.nih.nci.security;
 
+import gov.nih.nci.security.exceptions.CSException;
+
 import javax.security.auth.Subject;
 
 /**
@@ -53,8 +55,9 @@ public interface AuthenticationManager {
 	 * It should be provided in a non-encrypted format as simple {@link String} object.
 	 * @return <code>TRUE</code> if the authentication was sucessful using the provided user 
 	 * 		   	credentials and <code>FALSE</code> if the authentication fails.
+	 * @throws CSException
 	 */
-	public boolean login(String userName, String password);
+	public boolean login(String userName, String password) throws CSException;
 
 	/**
 	 * Initializes the class and sets the passed Application Context/Name within the instance of the implemented class. This method

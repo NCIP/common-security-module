@@ -12,6 +12,7 @@ import javax.security.auth.login.LoginException;
 
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.authentication.callback.CSMCallbackHandler;
+import gov.nih.nci.security.exceptions.CSException;
 
 /**
  * This is the default implmentation of the {@link AuthenticationManager} interface.
@@ -37,10 +38,11 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 * Application Context/Name as parameter. It then calls the <code>login</code> method on the {@link LoginContext} class.
 	 * The login Method then uses the registered {@link LoginModule} for the given Application Context/Name in the JAAS policy file
 	 * and authenticate the user credentails. There can be more than one {@link LoginModule} class registered for the application.
+	 * @throws CSException
 	 * 
 	 * @see gov.nih.nci.security.AuthenticationManager#login(java.lang.String, java.lang.String)
 	 */
-	public boolean login(String userName, String password)
+	public boolean login(String userName, String password) throws CSException
 	{
 		boolean loginSuccessful = false;
 		try
@@ -55,6 +57,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			System.out.println("ERROR: Login Credentials Failed");
 			le.printStackTrace();
 			loginSuccessful = false;
+			throw new CSException ("ERROR: Login Credentials Failed", le);
 		}
 		return loginSuccessful;
 	}

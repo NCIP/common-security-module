@@ -17,7 +17,7 @@
 // -->
 </script>
 
-<html:form styleId="detailsForm" action="/UserDBOperation">
+<html:form styleId="detailsForm" action="/ApplicationDBOperation">
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<html:hidden property="operation" value="error"/>
 			<tr>
@@ -52,13 +52,13 @@
 						<tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE NEW USER DETAILS</td>								</logic:equal>
+									<td class="formTitle" height="20" colspan="3">ENTER THE NEW APPLICATION DETAILS</td>								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE USER SEARCH CRITERIA</td>
+									<td class="formTitle" height="20" colspan="3">ENTER THE APPLICATION SEARCH CRITERIA</td>
 								</logic:equal>
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-									<td class="formTitle" height="20" colspan="3">USER DETAILS</td>
+									<td class="formTitle" height="20" colspan="3">APPLICATION DETAILS</td>
 							</logic:notEqual>
 						</tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
@@ -119,17 +119,13 @@
 										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('delete');">Delete</html:submit></td>
-										<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">View PG Role Associations</html:submit></td>
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Add Associations</html:submit></td>
-										</logic:notPresent>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
 									</logic:notEqual>
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
-						</logic:present>
 						</tr>
+						</logic:present>
 					</table>
 					</td>
 				</tr>

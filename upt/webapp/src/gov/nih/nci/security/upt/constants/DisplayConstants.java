@@ -14,6 +14,7 @@ package gov.nih.nci.security.upt.constants;
  */
 public class DisplayConstants
 {
+	public static String CONFIG_FILE_PATH_PROPERTY_NAME = "gov.nih.nci.security.configFile";
 	public static String USER_PROVISIONING_MANAGER = "USER_PROVISIONING_MANAGER";
 	
 	public static final String INPUT_TEXTAREA = "INPUT_TEXTAREA";
@@ -44,12 +45,14 @@ public class DisplayConstants
 	public static final String NOT_REQUIRED = "NOT_REQUIRED";
 	
 	public static final String HOME_ID = "Home";
+	public static final String ADMIN_HOME_ID = "AdminHome";
 	public static final String PRIVILEGE_ID = "Privilege";
 	public static final String ROLE_ID = "Role";
 	public static final String GROUP_ID = "Group";
 	public static final String USER_ID = "User";
 	public static final String PROTECTION_GROUP_ID = "ProtectionGroup";
 	public static final String PROTECTION_ELEMENT_ID = "ProtectionElement";
+	public static final String APPLICATION_ID = "Application";
 	public static final String LOGOUT_ID = "Logout";
 	
 	public static final String HOME_NAME = "Home";
@@ -65,6 +68,8 @@ public class DisplayConstants
 
 	public static final String ERROR_DETAILS = "ERROR_DETAILS";
 	
+	public static final String ADMIN_USER = "ADMIN_USER";
+	
 	public static final String ASSIGNED_SET = "ASSIGNED_SET";
 	public static final String AVAILABLE_SET = "AVAILABLE_SET";
 	public static final String AVAILABLE_PROTECTIONGROUP_SET = "AVAILABLE_PROTECTIONGROUP_SET";
@@ -76,6 +81,7 @@ public class DisplayConstants
 	
 	public static byte ONE = 1;
 	public static byte ZERO = 0;
+
 
 
 	

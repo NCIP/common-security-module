@@ -6,8 +6,6 @@
  */
 package gov.nih.nci.security.upt.actions;
 
-import gov.nih.nci.security.SecurityServiceProvider;
-import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
@@ -41,8 +39,6 @@ public class LogoutAction extends Action
 			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"||Logout|Success|Logout Called and Forwarding to the Login Page||");		
 
-		
-		UserProvisioningManager userProvisioningManager = SecurityServiceProvider.getUserProvisioningManger("security");
 		session.removeAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		session.removeAttribute(DisplayConstants.LOGIN_OBJECT);
 		session.removeAttribute(DisplayConstants.CURRENT_TABLE_ID);

@@ -81,6 +81,31 @@
   		</field>  		
     </form>
 
+    <form name="ApplicationForm">
+		<field property="applicationName" depends="required,maxlength">
+  			<arg0 key="ApplicationForm.applicationName.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+		<field property="applicationDescription" depends="maxlength">
+  			<arg0 key="ApplicationForm.applicationDescription.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>200</var-value>
+  			</var>
+  		</field>
+ 		<field property="applicationDeclarativeFlag" depends="required">
+  			<arg0 key="ApplicationForm.applicationDeclarativeFlag.displayLabel"/>
+  		</field>
+		<field property="applicationActiveFlag" depends="required">
+  			<arg0 key="ApplicationForm.applicationActiveFlag.displayLabel"/>
+  		</field>
+    </form>
+
     <form name="GroupForm">
 		<field property="groupName" depends="required,maxlength">
   			<arg0 key="GroupForm.groupName.displayLabel"/>

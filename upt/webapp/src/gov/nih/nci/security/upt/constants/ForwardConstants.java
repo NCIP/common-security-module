@@ -28,6 +28,7 @@ public interface ForwardConstants
 	public static final String DELETE_SUCCESS="DeleteSuccess";
 	public static final String SEARCH_SUCCESS="SearchSuccess";	
 	public static final String LOGIN_SUCCESS="LoginSuccess";
+	public static final String ADMIN_LOGIN_SUCCESS = "AdminLoginSuccess";
 	public static final String LOGIN_FAILURE="LoginFailure";	
 	public static final String LOAD_ASSOCIATION_SUCCESS="LoadAssociationSuccess";
 	public static final String SET_ASSOCIATION_SUCCESS="SetAssociationSuccess";
@@ -36,7 +37,7 @@ public interface ForwardConstants
 	public static final String LOAD_OWNERSHIP_ASSOCIATION_SUCCESS = "LoadOwnershipAssociationSuccess";
 	public static final String SET_OWNERSHIP_ASSOCIATION_SUCCESS = "SetOwnershipAssociationSuccess";
 	public static final String LOAD_DOUBLEASSOCIATION_SUCCESS = "LoadDoubleAssociationSuccess";
-	public static final String SET_DOUBLEASSOCIATION_SUCCESS = "SetDoubleAssociationSuccess";	
+	public static final String SET_DOUBLEASSOCIATION_SUCCESS = "SetDoubleAssociationSuccess";
 	public static final String LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS = "LoadProtectionGroupAssociationSuccess";
 	public static final String LOAD_ROLEASSOCIATION_SUCCESS = "LoadRoleAssociationSuccess";
 	public static final String REMOVE_PROTECTIONGROUPASSOCIATION_SUCCESS = "RemoveProtectionGroupAssociationSuccess";
@@ -51,6 +52,7 @@ public interface ForwardConstants
 	public static final String LOGOUT_ACTION="LogoutAction";
 	
 	public static final String HOME_PAGE="HomePage";
+	public static final String ADMIN_HOME_PAGE="AdminHomePage";	
 	public static final String LOGIN_PAGE="LoginPage";
 
 	public static final String TABLE_HOME_PAGE="TableHomePage";
@@ -60,6 +62,7 @@ public interface ForwardConstants
 	public static final String USER_HOME_PAGE="UserHomePage";
 	public static final String PROTECTION_GROUP_HOME_PAGE="ProtectionGroupHomePage";
 	public static final String PROTECTION_ELEMENT_HOME_PAGE="ProtectionElementHomePage";
+	public static final String APPLICATION_HOME_PAGE="ApplicationHomePage";
 	
 	public static final String DETAILS_PAGE="DetailsPage";
 

@@ -7,6 +7,7 @@
 package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.exceptions.CSException;
 
 import java.io.File;
 import java.io.InputStream;
@@ -134,7 +135,7 @@ public class AuthenticationManagerFactory
 		return authenticationManager;
 	}
 	
-	public static AuthenticationManager getAuthenticationManager(String applicationContextName)
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName) throws CSException
 	{
 		
 		Document configDoc = getConfigDocument();
@@ -156,6 +157,7 @@ public class AuthenticationManagerFactory
 			catch (Exception exception)
 			{
 				exception.printStackTrace();
+				throw new CSException("Cannot initialize AuthenticationManager for the given application context", exception);
 			}
 			
 		}
@@ -167,8 +169,9 @@ public class AuthenticationManagerFactory
 	private static Document getConfigDocument(){
 		Document configDoc = null;
 		try {
+			String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
             SAXBuilder builder = new SAXBuilder();
-            configDoc = builder.build(new File("ApplicationSecurityConfig.xml"));
+            configDoc = builder.build(new File(configFilePath));
             return configDoc;
         } catch(JDOMException e) {
             e.printStackTrace();
@@ -179,22 +182,24 @@ public class AuthenticationManagerFactory
         }
         return configDoc;
 	}
+
 	private static String getAuthenticationManagerClass(String applicationContextName){
-		String className = null;
+		String authenticationProviderClassName = null;
 		Document configDocument = getConfigDocument();
-		Element applicationsElement = configDocument.getRootElement();
-		List applications = applicationsElement.getChildren("application");
+		Element securityConfig = configDocument.getRootElement();
+		Element applicationList = securityConfig.getChild("application-list");
+		List applications = securityConfig.getChildren("application");
 		 Iterator appIterator  = applications.iterator();
 		 while(appIterator.hasNext()){
 		 	Element application = (Element)appIterator.next();
-		 	Element context = application.getChild("context");
-		 	String context_name = context.getAttributeValue("context-name");
-		 	  if(context_name.equalsIgnoreCase(applicationContextName)){
-		 	  	Element authentication = application.getChild("authentication");
-		 	  	Element impl = authentication.getChild("custom-implementation");
-		 	  	className = impl.getText();
-		 	  			 	  }
+		 	Element contextName = application.getChild("context-name");
+		 	String contextNameValue = contextName.getText().trim();
+			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
+				Element authentication = application.getChild("authentication");
+				Element authenticationProviderClass = authentication.getChild("authentication-provider-class");
+				authenticationProviderClassName = authenticationProviderClass.getText().trim();
+			}
 		 }
-		return className;
+		return authenticationProviderClassName;
 	}
 }
