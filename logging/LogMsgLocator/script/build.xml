@@ -1,0 +1,159 @@
+<!-- Build Script for Identicate -->
+
+<project name="LogMsgLocator" default="package" basedir=".." >
+  
+	<!-- Load variable definitions from local.properties -->
+	<property name="localProperties" value="./local.properties"/>	
+  	<property file="${basedir}/script/local.properties" />
+  	
+  	<!-- Set up the classpath required to compile -->
+  	<path id="classpath">
+		<fileset dir="webapp/WEB-INF/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+  	
+  	<!-- Initialize local.properties -->
+	<target name="init">
+		
+		<!-- Has the file been created before -->
+		<available file="${localProperties}" property="haveLocalProperties"/>
+		<antcall target="local.properties"/>
+		
+		<property file="${localProperties}"/>
+	</target>
+	
+	<!-- Generate local.properties if needed -->
+	<target name="local.properties" unless="haveLocalProperties">
+		<echo>Generating new local.properties...</echo>
+		<echo file="${localProperties}">
+# NOTE: Be sure to change all '\' to '/'
+
+##########################
+#Per computer settings
+
+PROPERTY_FILE=${localProperties}
+
+#WebLogic specific options
+J2EE_JAR=c:/workspace/tomcat/5_0/common/lib/servlet-api.jar
+LIB=lib
+SRC=src
+JAVA=${SRC}
+BUILD_DIR=build
+CLASSES=${BUILD_DIR}/classes
+BUILD_SRC=${CLASSES}/src
+WAR_DIR=${BUILD_DIR}/wardir
+WEBAPP_DIR=webapp
+WEBINF=${WEBAPP_DIR}/WEB-INF
+WEBXML=${WEBINF}/web.xml
+WAR_WEBINF=${WAR_DIR}/WEB-INF
+JAR_DIR=${WAR_WEBINF}/lib
+JAR_FILE=locator.jar
+WAR_CLASSES=${WAR_WEBINF}/classes
+WAR_RESOURCE=${WAR_CLASSES}/resources
+WEBAPP_WAR=${BUILD_DIR}/log-locator.war
+# End of per computer settings
+##########################
+     	</echo>
+	</target>
+  	
+  	<!-- Create directories -->
+	<target name="make_dirs" depends="init">
+	
+		<!-- Staging directory for compiling and packaging -->
+		<mkdir dir="${BUILD_DIR}"/>
+		
+		<!-- Classes directory -->
+		<mkdir dir="${CLASSES}"/>
+		
+		<!-- Source directory -->
+		<mkdir dir="${BUILD_SRC}"/>
+		
+		<!-- War file will be created using this directory -->
+		<mkdir dir="${WAR_DIR}" />
+		
+		<!-- WEB-INF directory within the war file -->
+   		<mkdir dir="${WAR_WEBINF}" />
+   		
+   		<!-- Directory for the jar files required by the app -->
+   		<mkdir dir="${JAR_DIR}" />
+		
+	</target>
+	
+	<!-- Compile the source code -->
+	<target name="compile" depends="make_dirs">
+		<echo>Compiling...</echo>
+		
+   		<javac
+     		srcdir="${JAVA}"
+     		destdir="${CLASSES}"
+     		classpath="${J2EE_JAR}"
+     		classpathref="classpath"
+     		debug="on"
+    	/>
+    	
+    	<!-- Copy config files -->
+    	<copy todir="${CLASSES}">
+       		<fileset dir="${JAVA}" includes="**/*.xml"/>
+       		<fileset dir="${JAVA}" includes="**/*.properties"/>
+     	</copy>
+	</target>
+	
+	<!-- Copy source -->
+	<target name="copysource">
+		<echo>Copying source files...</echo>
+    	  <copy todir="${BUILD_SRC}">
+       		<fileset dir="${JAVA}" includes="**/*.java"/>
+       		<fileset dir="${JAVA}" includes="**/*.xml"/>
+       		<fileset dir="${JAVA}" includes="**/*.properties"/>
+
+     	  </copy>
+ 	  <copy todir="${WAR_DIR}">
+      	   	<fileset dir="${WEBAPP_DIR}" includes="**/*.html"/>
+    	   	<fileset dir="${WEBAPP_DIR}" includes="**/*.htm"/>
+       	   	<fileset dir="${WEBAPP_DIR}" includes="**/*.jsp"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.java"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.xml"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.jpg"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.gif"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.css"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.tld"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.dtd"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.properties"/>
+       		<fileset dir="${WEBAPP_DIR}" includes="**/*.jar" />
+			<fileset dir="${WEBAPP_DIR}" includes="**/*.zip" />
+
+     	  </copy>
+ 	</target>
+	
+	<!-- Package compiled classes into a jar -->
+	<target name="jar" depends="compile,copysource" >
+    	<echo>Packaging classes...</echo>
+    	<jar jarfile="${JAR_DIR}/${JAR_FILE}" basedir="${CLASSES}" />
+  	</target>
+  	
+  	<!-- Copy jars -->
+	<target name="copyjars">
+		<echo>Copying jar files...</echo>
+    	<!--<copy todir="${JAR_DIR}">
+       		<fileset dir="${LIB}" includes="**/*.jar"/>
+       		<fileset dir="${LIB}" includes="**/*.zip"/>
+     	</copy>-->
+ 	</target>
+  	
+  	<!-- Package the web application -->
+  	<target name="package" depends="jar,copyjars" >
+  		<echo>Packageing application...</echo>
+  		<copy todir="${WAR_WEBINF}" file="${WEBXML}"/>
+    	<war destfile="${WEBAPP_WAR}"
+    		webxml="${WAR_WEBINF}/web.xml"
+    		basedir="${WAR_DIR}"
+    	/>
+  	</target>
+  	
+  	<!-- Remove everything created by the previous build -->
+	<target name="clean" depends="init">
+   		<delete dir="${BUILD_DIR}" />
+ 	</target>
+
+</project>
