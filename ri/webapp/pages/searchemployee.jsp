@@ -2,7 +2,7 @@
 
 <% request.getSession().setAttribute( Constants.EMPLOYEE_FORM, new gov.nih.nci.security.ri.valueObject.Employee()); %>
 
-<html:form method="post" action="searchEmployee" >
+<html:form method="post" action="searchEmployee">
 
 <BR>
 <table summary="" cellpadding="0" cellspacing="0" border="0"

@@ -17,10 +17,23 @@
 			<tiles:get name="header"/></TD>
 		</TR>
 		
+		<!-- new layout to allow for menu to be split-->
 		
-		<TR>			
-    <TD valign="top" width="175" align="left" height="100%"><tiles:get name="menu"/></TD>
-    
+		<!-- big row-->
+		<tr>
+		<!-- left nav-->
+		<td>
+		<table cellpadding="0" cellspacing="0" border="0" width="175"
+	height="100%">
+		<tr>
+		<td valign="top" class="leftMenu" width="175" height="150"><tiles:get name="notepad"/></td></tr>
+		<tr>
+		<td valign="top" class="leftMenu" width="100%" height="100%"><tiles:get name="menu"/></td></tr>
+    	
+    	</table>
+    	</td>
+    	<!-- end left nav -->
+    	
 		   
 		
 			<TD valign="top" align="left">

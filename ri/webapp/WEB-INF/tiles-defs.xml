@@ -13,8 +13,9 @@
 
 	<!-- Main layout -->
 	<definition name="main.layout" path="/pages/layout.jsp">
-		<put name="title" value="CSM RI" />
+		<put name="title" value="CSM RI" />		
 		<put name="header" value="/pages/header/header2.jsp" />
+		<put name="notepad" value="/pages/menu/notepad.jsp" />
 		<put name="menu" value="/pages/menu/leftnav.jsp" />
 		<put name="body" value="/pages/welcome.jsp" />
 	</definition>
