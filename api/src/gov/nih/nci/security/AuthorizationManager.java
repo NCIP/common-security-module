@@ -16,7 +16,7 @@ import gov.nih.nci.security.exceptions.*;
 
 /**
  * 
- * This <code>Authorization Manager</code> interface provides all the
+ * The <code>AuthorizationManager</code> interface provides all the
  * authorization methods and services offered by the Common Security Module.
  * This interface defines the contract that any class which wants to acts as an
  * authorization manager should follow to be able to fit in the Common Security
@@ -32,7 +32,7 @@ import gov.nih.nci.security.exceptions.*;
  * <blockquote>
  * 
  * <pre>
- *		<application>
+ *  	<application>
  *	   		<context-name>
  *	   			FooApplication
  *	      	</context-name>
@@ -215,14 +215,24 @@ public interface AuthorizationManager {
 	
 
 	/**
-	 * Accepts the Application Context Name initialize this AuthorizationManager
+	 * Accepts the applicationContextName to initialize the AuthorizationManager
 	 * @param applicationContextName The name of the application Context which is used to instantiate this Authorization Manager
 	 * 
 	 */
 	public void initialize(String applicationContextName);
 
+	/**
+	 * This methods return a List of all the protection groups
+	 * @return List 
+	 */
 	public java.util.List getProtectionGroups();
 	
+	/**
+	 * This method returns the ProtectionElement for a given objectId and attributeName
+	 * @param objectId
+	 * @param attributeName
+	 * @return ProtectionElement
+	 */
 	public ProtectionElement getProtectionElement(String objectId,String attributeName);
 	
 	public Object secureObject(String userName, Object obj) throws CSException;

@@ -741,11 +741,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Enumeration en = fieldValues.keys();
 			while (en.hasMoreElements()) {
 				String str = (String) en.nextElement();
-				int i = ((String) fieldValues.get(str)).indexOf("%");
+				String fieldValue = (String)fieldValues.get(str);
+				String fieldValue_ = StringUtilities.replaceInString(fieldValue,"*","%");
+				//int i = ((String) fieldValues.get(str)).indexOf("%");
+				int i = fieldValue_.indexOf("%");
 				if (i != -1) {
-					criteria.add(Expression.like(str, fieldValues.get(str)));
+					//criteria.add(Expression.like(str, fieldValues.get(str)));
+					criteria.add(Expression.like(str, fieldValue_));
 				} else {
-					criteria.add(Expression.eq(str, fieldValues.get(str)));
+					//criteria.add(Expression.eq(str, fieldValues.get(str)));
+					criteria.add(Expression.eq(str, fieldValue_));
 				}
 			}
 			if (fieldValues.size() == 0) {
