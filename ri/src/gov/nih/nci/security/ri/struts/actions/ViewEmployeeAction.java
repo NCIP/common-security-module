@@ -46,6 +46,9 @@ public class ViewEmployeeAction extends BaseAction  {
 	 *      javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.ri.struts.actions.BaseAction#executeWorkflow(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	public ActionForward executeWorkflow(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -119,6 +122,15 @@ public class ViewEmployeeAction extends BaseAction  {
 		return mapping.findForward(forward);
 	}
 
+	/**
+	 * Returns true if the current User has READ access or is 
+	 * the owner of the employee record.
+	 * 
+	 * @param request
+	 * @param theEmployee
+	 * @return
+	 * @throws Exception
+	 */
 	private boolean isAuthorized(HttpServletRequest request,
 			Employee theEmployee) throws Exception {
 
