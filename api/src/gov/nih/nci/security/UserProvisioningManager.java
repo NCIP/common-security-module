@@ -7,6 +7,7 @@ import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.*;
 
@@ -204,6 +205,8 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * 
 	 */
 	public java.util.Set getObjects(SearchCriteria serachCriteria);
+	
+	public void createUser(User user) throws  CSTransactionException;
 
 }
 

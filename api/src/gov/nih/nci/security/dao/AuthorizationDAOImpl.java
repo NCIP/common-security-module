@@ -736,8 +736,34 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getUser(java.lang.String)
 	 */
 	public User getUser(String loginName) {
-		// TODO Auto-generated method stub
-		return null;
+		Session s = null;
+		User user = null;
+		try {
+			User search = new User();
+			search.setLoginName(loginName);
+			
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = sf.openSession();
+			List list = s.createCriteria(User.class).add(
+					Example.create(search)).list();
+			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
+			
+			if (list.size()!= 0) {
+				user = (User) list.get(0);
+			}
+			
+
+		} catch (Exception ex) {
+			log.fatal("Unable to find Group", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return user;
 	}
 
 	/*
@@ -1061,6 +1087,32 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 		return result;
+	}
+	
+	public void createUser(User user) throws CSTransactionException{
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+			user.setUpdateDate(new Date());
+			s.save(user);
+			t.commit();
+			log.debug("User ID is: " + user.getUserId());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Could not create the user", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
 	}
 
 	private Object getObjectByPrimaryKey(Class objectType, Long primaryKey)

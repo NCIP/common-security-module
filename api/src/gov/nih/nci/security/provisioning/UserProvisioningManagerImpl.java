@@ -68,7 +68,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public User getUser(String loginName){
-		return null;
+		return authorizationDAO.getUser(loginName);
 	}
 	
 	/**
@@ -465,5 +465,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public java.util.Set getObjects(SearchCriteria searchCriteria){
 		return null;
 	}
-
+	public void createUser(User user) throws CSTransactionException{
+		authorizationDAO.createUser(user);
+	}
 }

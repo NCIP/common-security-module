@@ -155,6 +155,40 @@ public class TestClient {
     		ex.printStackTrace();
     	}
     }
+    public void testUserCreate(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  for(int i=4;i<5001;i++){
+    	  	User user = new User();
+    	  	user.setLoginName("login_name_"+i);
+    	  	user.setFirstName("User_first_name_"+i);
+    	  	user.setLastName("User_last_name_"+i);
+    	  	user.setDepartment("NCI_"+i);
+    	  	user.setEmailId(user.getLastName()+"@mail.nih.nci.gov");
+    	  	user.setOrganization("NIH");
+    	  	
+    	    upm.createUser(user);
+    	    System.out.println("The returned id is"+user.getUserId());
+    	  }
+    	
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void getUser(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+    	 
+    	 String loginName = "login_name_4";
+    	 try{
+    	 	User user = upm.getUser(loginName);
+    	 	System.out.println(user.getFirstName()+":"+user.getEmailId());
+    	 }catch(Exception ex){
+    	 	ex.printStackTrace();
+    	 }
+    }
     
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
@@ -167,6 +201,8 @@ public class TestClient {
 		//ts.testModifyRole();
 		//ts.assignPrivilegeToRoles();
 		//ts.getPrivileges();
-		ts.testGroupCreate();
+		//ts.testGroupCreate();
+		//ts.testUserCreate();
+		//ts.getUser();
 	}
 }
