@@ -208,16 +208,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					new Long(roleId));
 
 			Set currPriv = role.getPrivileges();
+			Set newPrivs = new HashSet();
 
 			for (int k = 0; k < privilegeIds.length; k++) {
 				log.debug("The new list:" + privilegeIds[k]);
 				Privilege pr = (Privilege) this.getObjectByPrimaryKey(s,
 						Privilege.class, new Long(privilegeIds[k]));
 				if (pr != null && !currPriv.contains(pr)) {
-					currPriv.add(pr);
+					newPrivs.add(pr);
 				}
 			}
-
+            role.setPrivileges(newPrivs);
 			s.update(role);
 			t.commit();
 
