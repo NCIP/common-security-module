@@ -1,0 +1,12 @@
+<applications>
+   <application>
+      <context context-name="security">
+      </context>
+      <authentication>
+      </authentication>
+      <authorization>
+        <hibernate-config-file name="">
+        </hibernate-config-file>
+      </authorization>
+   </application>
+</applications>
