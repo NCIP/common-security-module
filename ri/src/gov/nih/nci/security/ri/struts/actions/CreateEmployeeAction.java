@@ -27,7 +27,7 @@ import org.apache.struts.action.ActionMapping;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public class CreateEmployeeAction extends Action implements Constants {
+public class CreateEmployeeAction extends BaseAction implements Constants {
 
 	/*
 	 * (non-Javadoc)
@@ -37,7 +37,7 @@ public class CreateEmployeeAction extends Action implements Constants {
 	 *      javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	public ActionForward executeWorkflow(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub

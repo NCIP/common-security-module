@@ -3,6 +3,7 @@ package gov.nih.nci.security.ri.struts.actions;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.CommonSecurityManager;
 import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.ri.dao.EmployeeDAO;
 import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.struts.forms.LoginForm;
 
@@ -49,6 +50,10 @@ public class LoginAction extends Action implements Constants {
 
 		if (new CommonSecurityManager().login(CSM_RI_CONTEXT_NAME, loginForm
 				.getLoginID(), loginForm.getPassword())) {
+			request.getSession().setAttribute(
+					USER,
+					EmployeeDAO
+							.searchEmployeeByUserName(loginForm.getLoginID()));
 			return mapping.findForward(Constants.ACTION_SUCCESS);
 		} else {
 			return mapping.findForward(Constants.ACTION_FAILURE);

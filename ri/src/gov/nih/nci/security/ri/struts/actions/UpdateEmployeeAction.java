@@ -22,7 +22,7 @@ import org.apache.struts.action.ActionMapping;
  * @author Brian Husted
  *
  */
-public class UpdateEmployeeAction extends Action implements Constants {
+public class UpdateEmployeeAction extends BaseAction implements Constants {
 	
 	
 	
@@ -31,7 +31,7 @@ public class UpdateEmployeeAction extends Action implements Constants {
 	/* (non-Javadoc)
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	public ActionForward executeWorkflow(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		

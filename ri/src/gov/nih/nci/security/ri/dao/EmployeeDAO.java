@@ -150,4 +150,38 @@ public class EmployeeDAO extends SecurityRIDAO {
 		}
 
 	}
+	
+	/**
+	 * @param empl
+	 * @return
+	 * @throws HibernateException
+	 */
+	public static List searchEmployeeByUserName(String userName) throws HibernateException {
+
+		Session s = null;
+
+		try {
+
+			s = getSessionFactory().openSession();
+			Criteria criteria = s.createCriteria(Employee.class);
+				
+
+			if (userName != null
+					&& userName.trim().length() > 0) {
+				criteria.add(Expression.eq("userName", userName));
+			}
+
+			List l = criteria.list();
+			log.debug("The Employee search returned " + l.size()
+					+ " employees.");
+			return l;
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex) {
+			}
+		}
+
+	}
 }

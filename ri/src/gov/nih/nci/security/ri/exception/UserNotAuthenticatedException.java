@@ -1,10 +1,10 @@
 /*
- * Created on Jan 7, 2005
+ * Created on Feb 14, 2005
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.security.ri.struts.actions;
+package gov.nih.nci.security.ri.exception;
 
 /**
  * @author Brian
@@ -12,6 +12,6 @@ package gov.nih.nci.security.ri.struts.actions;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class AssignProjectAction {
-
+public class UserNotAuthenticatedException extends Exception {
+	
 }

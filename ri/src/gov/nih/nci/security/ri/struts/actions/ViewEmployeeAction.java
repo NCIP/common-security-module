@@ -27,7 +27,7 @@ import org.apache.struts.action.ActionMapping;
  * @author Brian Husted
  *  
  */
-public class ViewEmployeeAction extends Action implements Constants {
+public class ViewEmployeeAction extends BaseAction implements Constants {
 
 	static final Logger log = Logger.getLogger(ViewEmployeeAction.class
 			.getName());
@@ -40,7 +40,7 @@ public class ViewEmployeeAction extends Action implements Constants {
 	 *      javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	public ActionForward executeWorkflow(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// TODO Auto-generated method stub
