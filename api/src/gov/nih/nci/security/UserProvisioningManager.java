@@ -207,6 +207,8 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public java.util.Set getObjects(SearchCriteria serachCriteria);
 	
 	public void createUser(User user) throws  CSTransactionException;
+	
+	public ProtectionGroup getProtectionGroup(Long protectionGroupId) throws CSObjectNotFoundException;
 
 }
 

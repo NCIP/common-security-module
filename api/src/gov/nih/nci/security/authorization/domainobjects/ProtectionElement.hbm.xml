@@ -15,24 +15,15 @@
     name="gov.nih.nci.security.authorization.domainobjects.ProtectionElement" 
     table="protection_element"
 >
-    <meta attribute="class-description" inherit="false">
-       @hibernate.class
-        table="protection_element"
-    </meta>
+    
 
     <id
         name="protectionElementId"
         type="java.lang.Long"
         column="PROTECTION_ELEMENT_ID"
-    >
-        <meta attribute="field-description">
-           @hibernate.id
-            generator-class="assigned"
-            type="java.lang.Long"
-            column="PROTECTION_ELEMENT_ID"
-
-        </meta>
-        <generator class="assigned" />
+        unsaved-value="null"
+        >
+      <generator class="identity"/>
     </id>
 
     <property
@@ -42,12 +33,7 @@
         not-null="true"
         length="100"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="PROTECTION_ELEMENT_NAME"
-            length="100"
-            not-null="true"
-        </meta>    
+        
     </property>
     <property
         name="protectionElementDescription"
@@ -55,11 +41,7 @@
         column="PROTECTION_ELEMENT_DESCRIPTION"
         length="200"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="PROTECTION_ELEMENT_DESCRIPTION"
-            length="200"
-        </meta>    
+        
     </property>
     <property
         name="objectId"
@@ -68,12 +50,7 @@
         not-null="true"
         length="100"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="OBJECT_ID"
-            length="100"
-            not-null="true"
-        </meta>    
+       
     </property>
     <property
         name="attribute"
@@ -81,11 +58,7 @@
         column="ATTRIBUTE"
         length="100"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="ATTRIBUTE"
-            length="100"
-        </meta>    
+        
     </property>
     <property
         name="protectionElementTypeId"
@@ -94,12 +67,7 @@
         not-null="true"
         length="10"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="PROTECTION_ELEMENT_TYPE_ID"
-            length="10"
-            not-null="true"
-        </meta>    
+        
     </property>
     <property
         name="updateDate"
@@ -108,79 +76,20 @@
         not-null="true"
         length="10"
     >
-        <meta attribute="field-description">
-           @hibernate.property
-            column="UPDATE_DATE"
-            length="10"
-            not-null="true"
-        </meta>    
+        
     </property>
 
     <!-- Associations -->
   
     <!-- bi-directional one-to-many association to UserProtectionElement -->
-    <set
-        name="userProtectionElements"
-        lazy="true"
-        inverse="true"
-		cascade="none"
-    >
-        <meta attribute="field-description">
-           @hibernate.set
-            lazy="true"
-            inverse="true"
-            cascade="none"
-
-           @hibernate.collection-key
-            column="PROTECTION_ELEMENT_ID"
-
-           @hibernate.collection-one-to-many
-            class="gov.nih.nci.security.authorization.domainobjects.UserProtectionElement"
-        </meta>
-        <key>
-            <column name="PROTECTION_ELEMENT_ID" />
-        </key>
-        <one-to-many 
-            class="gov.nih.nci.security.authorization.domainobjects.UserProtectionElement"
-        />
-    </set>
-    <!-- bi-directional one-to-many association to ProtectionGroupProtectionElement -->
-    <set
-        name="protectionGroupProtectionElements"
-        lazy="true"
-        inverse="true"
-		cascade="none"
-    >
-        <meta attribute="field-description">
-           @hibernate.set
-            lazy="true"
-            inverse="true"
-            cascade="none"
-
-           @hibernate.collection-key
-            column="PROTECTION_ELEMENT_ID"
-
-           @hibernate.collection-one-to-many
-            class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroupProtectionElement"
-        </meta>
-        <key>
-            <column name="PROTECTION_ELEMENT_ID" />
-        </key>
-        <one-to-many 
-            class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroupProtectionElement"
-        />
-    </set>
+    
     <!-- bi-directional many-to-one association to Application -->
     <many-to-one
         name="application"
         class="gov.nih.nci.security.authorization.domainobjects.Application"
         not-null="true"
     >
-        <meta attribute="field-description">
-           @hibernate.many-to-one
-            not-null="true"
-           @hibernate.column name="APPLICATION_ID"         
-        </meta>
+        
         <column name="APPLICATION_ID" />
     </many-to-one>
 
