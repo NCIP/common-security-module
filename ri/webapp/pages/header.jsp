@@ -1,12 +1,5 @@
 <%@ include file= "/pages/imports.jsp" %>
 
-<html>
-<head>
-<link rel="stylesheet" type="text/css" href="styleSheet.css" />
-<script src="script.js" type="text/javascript"></script>
-</head>
-<body>
-
 <table summary="" cellpadding="0" cellspacing="0" border="0" height="100" width="100%">
 	<tr>
 		<td>
@@ -19,7 +12,3 @@
 	</tr>
 </table>
 
-
-
-</body>
-</html>
