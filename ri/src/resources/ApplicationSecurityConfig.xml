@@ -7,17 +7,17 @@
 	<!-- For every application using the security api an entry should be made here -->
 		<application>
 			<context-name>
-				csm-ri
+				csm_ri
 			</context-name>
 			<authentication>
 				<authentication-provider-class>
-				
 				</authentication-provider-class>
 			</authentication>
 			<authorization>
 				<authorization-provider-class>
 				</authorization-provider-class>
 				<hibernate-config-file>
+                          c:/temp/csm_hibernate.cfg.xml
 				</hibernate-config-file>
 			</authorization>
 		</application>
