@@ -54,10 +54,10 @@
 																		</table>
 																	</td>
 																</tr>
-																<td class="actionSection">																	
+																<td>																	
 																		<table cellpadding="4" cellspacing="0" border="0">
 																			<tr>
-																				<td align="left" class="dataCellText">Group's Current Protection Group and Role Association:</td>
+																				<td align="left"><p>Group's Current Protection Group and Role Association:</p></td>
 																			</tr>
 																		</table>
 																		</td>
