@@ -7,16 +7,20 @@
 package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.upt.constants.Constants;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
+import gov.nih.nci.security.util.ObjectSetUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +37,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ProtectionGroupForm extends ActionForm implements BaseDBForm
+public class ProtectionGroupForm extends ActionForm implements BaseAssociationForm
 {
 	private String protectionGroupId;
 	private String protectionGroupName;
@@ -43,6 +47,8 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 	private String protectionGroupUpdateDate;
 
 	private ProtectionGroup protectionGroupParentProtectionGroup;
+	
+	private String[] associatedIds;
 
 	
 	/**
@@ -120,24 +126,53 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 		this.protectionGroupUpdateDate = protectionGroupUpdateDate;
 	}
 	
+	
+	
+	/**
+	 * @return Returns the associatedIds.
+	 */
+	public String[] getAssociatedIds() {
+		return associatedIds;
+	}
+	/**
+	 * @param associatedIds The associatedIds to set.
+	 */
+	public void setAssociatedIds(String[] associatedIds) {
+		this.associatedIds = associatedIds;
+	}
+	/**
+	 * @return Returns the protectionGroupParentProtectionGroup.
+	 */
+	public ProtectionGroup getProtectionGroupParentProtectionGroup() {
+		return protectionGroupParentProtectionGroup;
+	}
+	/**
+	 * @param protectionGroupParentProtectionGroup The protectionGroupParentProtectionGroup to set.
+	 */
+	public void setProtectionGroupParentProtectionGroup(
+			ProtectionGroup protectionGroupParentProtectionGroup) {
+		this.protectionGroupParentProtectionGroup = protectionGroupParentProtectionGroup;
+	}
 	public void resetForm()
 	{
 		this.protectionGroupId = "";
 		this.protectionGroupName = "";
 		this.protectionGroupDescription = "";
-		this.protectionGroupLargeCountFlag = "";
+		this.protectionGroupLargeCountFlag = DisplayConstants.NO;
 		this.protectionGroupUpdateDate = "";
 		this.protectionGroupParentProtectionGroupName = "";
 		this.protectionGroupParentProtectionGroup = null;
+		this.associatedIds = null;
 	}
 	
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
 		this.protectionGroupName = "";
 		this.protectionGroupDescription = "";
-		this.protectionGroupLargeCountFlag = "";
+		this.protectionGroupLargeCountFlag = DisplayConstants.NO;
 		this.protectionGroupUpdateDate = "";
 		this.protectionGroupParentProtectionGroupName = "";
+		this.associatedIds = null;		
 	}
 	
 	public ArrayList getAddFormElements()
@@ -146,7 +181,7 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 
 		formElementList.add(new FormElement("Protection Group Name", "protectionGroupName", getProtectionGroupName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Group Description", "protectionGroupDescription", getProtectionGroupDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Protection Group Large Count Flag", "protectionGroupLargeCountFlag", getProtectionGroupLargeCountFlag(), DisplayConstants.INPUT_CHECKBOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Group Large Count Flag", "protectionGroupLargeCountFlag", getProtectionGroupLargeCountFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
 		return formElementList;
 	}
@@ -155,11 +190,11 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 	{
 		ArrayList formElementList = new ArrayList();
 
-		formElementList.add(new FormElement("Protection Group Name", "protectionGroupName", getProtectionGroupName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Group Name", "protectionGroupName", getProtectionGroupName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Group Description", "protectionGroupDescription", getProtectionGroupDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Group Name", "protectionGroupParentProtectionGroupName", getProtectionGroupParentProtectionGroupName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.DISABLED));		
-		formElementList.add(new FormElement("Protection Group Large Count Flag", "protectionGroupLargeCountFlag", getProtectionGroupLargeCountFlag(), DisplayConstants.INPUT_CHECKBOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Protection Group Update Date", "protectionGroupUpdateDate", getProtectionGroupUpdateDate(), DisplayConstants.INPUT_CHECKBOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Group Large Count Flag", "protectionGroupLargeCountFlag", getProtectionGroupLargeCountFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Group Update Date", "protectionGroupUpdateDate", getProtectionGroupUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 
 		return formElementList;
 	}
@@ -176,7 +211,7 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 	public void buildDisplayForm(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		ProtectionGroup protectionGroup = userProvisioningManager.getProtectionGroup(this.protectionGroupId);
+		ProtectionGroup protectionGroup = userProvisioningManager.getProtectionGroupById(this.protectionGroupId);
 
 		this.protectionGroupName = protectionGroup.getProtectionGroupName();
 		this.protectionGroupDescription = protectionGroup.getProtectionGroupDescription();
@@ -197,10 +232,20 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 	public void buildDBObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		gov.nih.nci.security.authorization.domainobjects.ProtectionGroup protectionGroup = new gov.nih.nci.security.authorization.domainobjects.ProtectionGroup();
-		protectionGroup.setProtectionGroupName(this.protectionGroupName);
+		ProtectionGroup protectionGroup;
 		
+		if ((this.protectionGroupId == null) || ((this.protectionGroupId).equalsIgnoreCase("")))
+		{
+			protectionGroup = new ProtectionGroup();
+		}
+		else
+		{
+			protectionGroup = userProvisioningManager.getProtectionGroupById(this.protectionGroupId);
+		}
+		
+		protectionGroup.setProtectionGroupName(this.protectionGroupName);
 		protectionGroup.setProtectionGroupDescription(this.protectionGroupDescription);
+		
 		if (this.protectionGroupLargeCountFlag == DisplayConstants.YES) protectionGroup.setLargeElementCountFlag(Constants.YES);
 			else protectionGroup.setLargeElementCountFlag(Constants.NO);
 		
@@ -210,11 +255,14 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 		{
 			userProvisioningManager.createProtectionGroup(protectionGroup);
 			this.protectionGroupId = protectionGroup.getProtectionGroupId().toString();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.protectionGroupUpdateDate = simpleDateFormat.format(protectionGroup.getUpdateDate());
 		}
 		else
 		{
-			protectionGroup.setProtectionGroupId(new Long(this.protectionGroupId));
-			userProvisioningManager.createProtectionGroup(protectionGroup);
+			userProvisioningManager.modifyProtectionGroup(protectionGroup);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.protectionGroupUpdateDate = simpleDateFormat.format(protectionGroup.getUpdateDate());			
 		}
 	}
 	/* (non-Javadoc)
@@ -259,4 +307,33 @@ public class ProtectionGroupForm extends ActionForm implements BaseDBForm
 			return protectionGroupId;
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void buildAssociationObject(HttpServletRequest request) throws Exception 
+	{
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+		Collection associatedProtectionElements = (Collection)(userProvisioningManager.getProtectionGroupById(this.protectionGroupId)).getProtectionElements();
+		
+		ProtectionElement protectionElement = new ProtectionElement();
+		SearchCriteria searchCriteria = new ProtectionElementSearchCriteria(protectionElement);
+		Collection totalProtectionElements = (Collection)userProvisioningManager.getObjects(searchCriteria);
+
+		Collection availableProtectionElements = ObjectSetUtil.minus(totalProtectionElements,associatedProtectionElements);
+		
+		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedProtectionElements);
+		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableProtectionElements);
+		
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void setAssociationObject(HttpServletRequest request) throws Exception {
+
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		userProvisioningManager.assignProtectionElements(this.protectionGroupId, this.associatedIds);
+	}
+
 }

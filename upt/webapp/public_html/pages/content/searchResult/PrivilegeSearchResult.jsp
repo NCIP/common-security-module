@@ -39,7 +39,7 @@
 				<tr>
 					<td>
 					<table summary="" cellpadding="0" cellspacing="0" border="0"
-						width="700">
+						width="600">
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>
@@ -79,8 +79,7 @@
 									</tr>
 									<logic:iterate name="searchResultObjects"
 										id="searchResultObject" type="Privilege">
-										<logic:equal name="oddRow" value="true">
-											<%oddRow = "false";%>
+										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="9%"><html:radio
 													style="formFieldSized" property="privilegeId"
@@ -90,9 +89,7 @@
 												<td class="dataCellText" colspan="3" width="58%"><bean:write
 													name="searchResultObject" property="desc" /></td>
 											</tr>
-										</logic:equal>
-										<logic:equal name="oddRow" value="false">
-											<%oddRow = "true";%>
+										<%}else{ oddRow = "true";%>
 											<tr class="dataRowDark">
 												<td class="dataCellNumerical" width="9%"><html:radio
 													style="formFieldSized" property="privilegeId"
@@ -102,7 +99,7 @@
 												<td class="dataCellText" colspan="3" width="58%"><bean:write
 													name="searchResultObject" property="desc" /></td>
 											</tr>
-										</logic:equal>
+										<%}%>
 									</logic:iterate>
 								</table>
 								</td>
@@ -126,13 +123,3 @@
 		</tr>
 	</table>
 </html:form>
-
-
-
-
-
-
-
-
-
-

@@ -45,7 +45,21 @@ public class MenuSelectionAction extends Action
 		
 		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.HOME_ID))
 			return (mapping.findForward(ForwardConstants.HOME_PAGE));
-		return (mapping.findForward(ForwardConstants.TABLE_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ROLE_ID))
+			return (mapping.findForward(ForwardConstants.ROLE_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.GROUP_ID))
+			return (mapping.findForward(ForwardConstants.GROUP_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.USER_ID))
+			return (mapping.findForward(ForwardConstants.USER_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID))
+			return (mapping.findForward(ForwardConstants.PRIVILEGE_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID))
+			return (mapping.findForward(ForwardConstants.PROTECTION_GROUP_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID))
+			return (mapping.findForward(ForwardConstants.PROTECTION_ELEMENT_HOME_PAGE));
+		else
+			return (mapping.findForward(ForwardConstants.HOME_PAGE));
+		
 	}
 
 }

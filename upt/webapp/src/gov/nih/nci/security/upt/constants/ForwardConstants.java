@@ -26,11 +26,22 @@ public interface ForwardConstants
 	public static final String DELETE_SUCCESS="DeleteSuccess";
 	public static final String SEARCH_SUCCESS="SearchSuccess";	
 	public static final String LOGIN_SUCCESS="LoginSuccess";
+	public static final String LOAD_ASSOCIATION_SUCCESS="LoadAssociationSuccess";
+	public static final String SET_ASSOCIATION_SUCCESS="SetAssociationSuccess";
+
 	
 	public static final String HOME_PAGE="HomePage";
 	public static final String LOGIN_PAGE="LoginPage";
 
 	public static final String TABLE_HOME_PAGE="TableHomePage";
+	public static final String ROLE_HOME_PAGE="RoleHomePage";
+	public static final String GROUP_HOME_PAGE="GroupHomePage";
+	public static final String PRIVILEGE_HOME_PAGE="PrivilegeHomePage";
+	public static final String USER_HOME_PAGE="UserHomePage";
+	public static final String PROTECTION_GROUP_HOME_PAGE="ProtectionGroupHomePage";
+	public static final String PROTECTION_ELEMENT_HOME_PAGE="ProtectionElementHomePage";
+	
+	
 	public static final String DETAILS_PAGE="DetailsPage";
 
 }

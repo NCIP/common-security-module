@@ -77,7 +77,7 @@
 										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-										<td class="formField"><html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" /><label>Yes</label>&nbsp;&nbsp;<html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" /><label>No</label></td>
+										<td class="formField"><html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
 									</logic:equal>
 								</tr>
 							</logic:iterate>
@@ -99,6 +99,7 @@
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('delete');">Delete</html:submit></td>
 									</logic:notEqual>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
 								</tr>
 							</table>
 							</td><!-- action buttons end -->

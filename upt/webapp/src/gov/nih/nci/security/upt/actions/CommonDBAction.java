@@ -152,4 +152,5 @@ public class CommonDBAction extends DispatchAction
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		return (mapping.findForward(ForwardConstants.SEARCH_SUCCESS));		
 	}
+	
 }

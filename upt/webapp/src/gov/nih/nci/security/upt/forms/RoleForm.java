@@ -7,17 +7,22 @@
 package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.Role;
+import gov.nih.nci.security.dao.PrivilegeSearchCriteria;
 import gov.nih.nci.security.dao.RoleSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.upt.constants.Constants;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
+import gov.nih.nci.security.util.ObjectSetUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,7 +38,7 @@ import org.apache.struts.action.ActionMessages;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class RoleForm extends ActionForm implements BaseDBForm
+public class RoleForm extends ActionForm implements BaseAssociationForm
 {
 	
 	private String roleId;
@@ -41,6 +46,8 @@ public class RoleForm extends ActionForm implements BaseDBForm
 	private String roleDescription;
 	private String roleActiveFlag;
 	private String roleUpdateDate;
+	
+	private String[] associatedIds;
 	
 	
 
@@ -106,13 +113,26 @@ public class RoleForm extends ActionForm implements BaseDBForm
 		this.roleUpdateDate = roleUpdateDate;
 	}
 	
+	/**
+	 * @return Returns the associatedIds.
+	 */
+	public String[] getAssociatedIds() {
+		return associatedIds;
+	}
+	/**
+	 * @param associatedIds The associatedIds to set.
+	 */
+	public void setAssociatedIds(String[] associatedIds) {
+		this.associatedIds = associatedIds;
+	}
+	
 	public ArrayList getAddFormElements()
 	{
 		ArrayList formElementList = new ArrayList();
 
 		formElementList.add(new FormElement("Role Name", "roleName", getRoleName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Role Description", "roleDescription", getRoleDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Role Active Flag", "roleActiveFlag", getRoleActiveFlag(), DisplayConstants.INPUT_CHECKBOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Role Active Flag", "roleActiveFlag", getRoleActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
 		return formElementList;
 	}
@@ -123,7 +143,7 @@ public class RoleForm extends ActionForm implements BaseDBForm
 
 		formElementList.add(new FormElement("Role Name", "roleName", getRoleName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Role Description", "roleDescription", getRoleDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Role Active Flag", "roleActiveFlag", getRoleActiveFlag(), DisplayConstants.INPUT_CHECKBOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Role Active Flag", "roleActiveFlag", getRoleActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Role Update Date", "roleUpdateDate", getRoleUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 
 		return formElementList;
@@ -140,19 +160,23 @@ public class RoleForm extends ActionForm implements BaseDBForm
 
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
-		this.roleActiveFlag = "";
+		this.roleActiveFlag = DisplayConstants.YES;
 		this.roleDescription = "";
 		this.roleName = "";
 		this.roleUpdateDate = "";
+		this.associatedIds = null;
+		
+		Map map=request.getParameterMap();
 	}
 	
 	public void resetForm()
 	{
 		this.roleUpdateDate = "";
-		this.roleActiveFlag = "";
+		this.roleActiveFlag = DisplayConstants.YES;
 		this.roleDescription = "";
 		this.roleId = "";
 		this.roleName = "";
+		this.associatedIds = null;
 	}
 
 
@@ -162,7 +186,7 @@ public class RoleForm extends ActionForm implements BaseDBForm
 	public void buildDisplayForm(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		Role role = userProvisioningManager.getRole(this.roleId);
+		Role role = userProvisioningManager.getRoleById(this.roleId);
 
 		this.roleName = role.getName();
 		this.roleDescription = role.getDesc();
@@ -178,10 +202,21 @@ public class RoleForm extends ActionForm implements BaseDBForm
 	public void buildDBObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		gov.nih.nci.security.authorization.domainobjects.Role role = new gov.nih.nci.security.authorization.domainobjects.Role();
-		role.setName(this.roleName);
 		
+		Role role = null;
+		
+		if ((this.roleId == null) || ((this.roleId).equalsIgnoreCase("")))
+		{
+			role = new Role();
+		}
+		else
+		{
+			role = userProvisioningManager.getRoleById(this.roleId);
+		}
+		
+		role.setName(this.roleName);
 		role.setDesc(this.roleDescription);
+
 		if (this.roleActiveFlag == DisplayConstants.YES) role.setActive_flag(Constants.YES);
 			else role.setActive_flag(Constants.NO);
 		
@@ -189,11 +224,14 @@ public class RoleForm extends ActionForm implements BaseDBForm
 		{
 			userProvisioningManager.createRole(role);
 			this.roleId = role.getId().toString();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.roleUpdateDate = simpleDateFormat.format(role.getUpdateDate());
 		}
 		else
 		{
-			role.setId(new Long(this.roleId));
-			userProvisioningManager.createRole(role);
+			userProvisioningManager.modifyRole(role);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.roleUpdateDate = simpleDateFormat.format(role.getUpdateDate());
 		}
 	}
 	/* (non-Javadoc)
@@ -237,6 +275,35 @@ public class RoleForm extends ActionForm implements BaseDBForm
 		{
 			return roleId;
 		}
+	}
+
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void buildAssociationObject(HttpServletRequest request) throws Exception 
+	{
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+		Collection associatedPrivileges = (Collection)userProvisioningManager.getPrivileges(this.roleId);
+		
+		Privilege privilege = new Privilege();
+		SearchCriteria searchCriteria = new PrivilegeSearchCriteria(privilege);
+		Collection totalPrivileges = (Collection)userProvisioningManager.getObjects(searchCriteria);
+
+		Collection availablePrivileges = ObjectSetUtil.minus(totalPrivileges,associatedPrivileges);
+		
+		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedPrivileges);
+		request.setAttribute(DisplayConstants.AVAILABLE_SET, availablePrivileges);
+		
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void setAssociationObject(HttpServletRequest request) throws Exception {
+
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		userProvisioningManager.assignPrivilegesToRole(this.roleId, this.associatedIds);
 	}
 
 }

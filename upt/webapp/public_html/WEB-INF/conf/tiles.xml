@@ -12,30 +12,76 @@
 		<put name="MainMenu" value="/pages/menu/MainMenu.jsp"/>
 		<put name="OrgFooter" value="/pages/footer/OrgFooter.jsp" />
 		<put name="AppFooter" value="/pages/footer/AppFooter.jsp" />
-		<put name="title" type="string"
-			value="NCI Security Admin Application" />
+		<put name="title" type="string"	value="NCI Security Admin Application" />
 	</definition>
 
 	<!-- Pages Begin -->
+	
+	<!-- Login Pages -->
 	<definition name="Tiles.Login.Page" extends="Base">
-		<put name="Content" value="/pages/content/Login.jsp" />
+		<put name="Content" value="/pages/content/main/Login.jsp" />
 	</definition>
+	
+	<!-- Home Pages -->
 	<definition name="Tiles.Home.Page" extends="Base">
-		<put name="Content" value="/pages/content/Home.jsp" />
+		<put name="Content" value="/pages/content/home/Home.jsp" />
 	</definition>
-	<definition name="Tiles.Table.Home" extends="Base">
-		<put name="Content" value="/pages/content/TableHome.jsp" />
+	<definition name="Tiles.Role.Home" extends="Base">
+		<put name="Content" value="/pages/content/home/RoleHome.jsp" />
+	</definition>
+	<definition name="Tiles.User.Home" extends="Base">
+		<put name="Content" value="/pages/content/home/UserHome.jsp" />
+	</definition>
+	<definition name="Tiles.Group.Home" extends="Base">
+		<put name="Content" value="/pages/content/home/GroupHome.jsp" />
+	</definition>
+	<definition name="Tiles.Privilege.Home" extends="Base">
+		<put name="Content" value="/pages/content/home/PrivilegeHome.jsp" />
+	</definition>
+	<definition name="Tiles.ProtectionGroup.Home" extends="Base">
+		<put name="Content" value="/pages/content/home/ProtectionGroupHome.jsp" />
+	</definition>
+	<definition name="Tiles.ProtectionElement.Home" extends="Base">
+		<put name="Content" value="/pages/content/home/ProtectionElementHome.jsp" />
 	</definition>
 
+	<!-- Detail Screens -->
 	<definition name="Tiles.Detail.Screen" extends="Base">
-		<put name="Content" value="/pages/content/DetailScreen.jsp" />
+		<put name="Content" value="/pages/content/detailScreen/DetailScreen.jsp" />
 	</definition>
-	<definition name="Tiles.Search.Result" extends="Base">
-		<put name="Content" value="/pages/content/SearchResult.jsp" />
-	</definition>
-	<definition name="Tiles.Privilege.Search.Result" extends="Base">
-		<put name="Content" value="/pages/content/PrivilegeSearchResult.jsp" />
-	</definition>	
 	
+	<!-- Search Result Pages -->
+	<definition name="Tiles.Privilege.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/searchResult/PrivilegeSearchResult.jsp" />
+	</definition>	
+	<definition name="Tiles.Role.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/searchResult/RoleSearchResult.jsp" />
+	</definition>
+	<definition name="Tiles.ProtectionGroup.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/searchResult/ProtectionGroupSearchResult.jsp" />
+	</definition>
+	<definition name="Tiles.Group.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/searchResult/GroupSearchResult.jsp" />
+	</definition>
+	<definition name="Tiles.ProtectionElement.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/searchResult/ProtectionElementSearchResult.jsp" />
+	</definition>
+	<definition name="Tiles.User.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/searchResult/UserSearchResult.jsp" />
+	</definition>
+	
+	<!-- Association Pages -->
+	<definition name="Tiles.Role.Association.Screen" extends="Base">
+		<put name="Content" value="/pages/content/Association/RoleAssociation.jsp" />
+	</definition>
+	<definition name="Tiles.User.Association.Screen" extends="Base">
+		<put name="Content" value="/pages/content/Association/UserAssociation.jsp" />
+	</definition>
+	<definition name="Tiles.ProtectionGroup.Association.Screen" extends="Base">
+		<put name="Content" value="/pages/content/Association/ProtectionGroupAssociation.jsp" />
+	</definition>
+	<definition name="Tiles.ProtectionElement.Association.Screen" extends="Base">
+		<put name="Content" value="/pages/content/Association/ProtectionElementAssociation.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -152,9 +152,9 @@ public class GroupForm extends ActionForm implements BaseDBForm
 	public void buildDisplayForm(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		Group group = userProvisioningManager.getGroup(this.groupId);
+		Group group = userProvisioningManager.getGroupById(this.groupId);
 
-		this.groupName = group.getName();
+		this.groupName = group.getGroupName();
 		this.groupDescription = group.getGroupDesc();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		this.groupUpdateDate = simpleDateFormat.format(group.getUpdateDate());
@@ -165,8 +165,16 @@ public class GroupForm extends ActionForm implements BaseDBForm
 	public void buildDBObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		Group group = new Group();
+		Group group;
 		
+		if ((this.groupId == null) || ((this.groupId).equalsIgnoreCase("")))
+		{
+			group = new Group();
+		}
+		else
+		{
+			group = userProvisioningManager.getGroupById(this.groupId);
+		}
 		group.setGroupName(this.groupName);
 		group.setGroupDesc(this.groupDescription);
 		
@@ -174,11 +182,14 @@ public class GroupForm extends ActionForm implements BaseDBForm
 		{
 			userProvisioningManager.createGroup(group);
 			this.groupId = group.getGroupId().toString();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.groupUpdateDate = simpleDateFormat.format(group.getUpdateDate());
 		}
 		else
 		{
-			group.setGroupId(new Long(this.groupId));
 			userProvisioningManager.modifyGroup(group);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.groupUpdateDate = simpleDateFormat.format(group.getUpdateDate());
 		}
 	}
 	/* (non-Javadoc)

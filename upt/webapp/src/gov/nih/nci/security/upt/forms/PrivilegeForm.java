@@ -152,7 +152,7 @@ public class PrivilegeForm extends ActionForm implements BaseDBForm
 	public void buildDisplayForm(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		Privilege privilege = userProvisioningManager.getPrivilege(this.privilegeId);
+		Privilege privilege = userProvisioningManager.getPrivilegeById(this.privilegeId);
 
 		this.privilegeName = privilege.getName();
 		this.privilegeDescription = privilege.getDesc();
@@ -165,20 +165,33 @@ public class PrivilegeForm extends ActionForm implements BaseDBForm
 	public void buildDBObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		Privilege privilege = new Privilege();
+		Privilege privilege;
+		
+		if ((this.privilegeId == null) || ((this.privilegeId).equalsIgnoreCase("")))
+		{
+			privilege = new Privilege();
+		}
+		else
+		{
+			privilege = userProvisioningManager.getPrivilegeById(this.privilegeId);
+		}
 		
 		privilege.setName(this.privilegeName);
 		privilege.setDesc(this.privilegeDescription);
+		
 		
 		if ((this.privilegeId == null) || ((this.privilegeId).equalsIgnoreCase("")))
 		{
 			userProvisioningManager.createPrivilege(privilege);
 			this.privilegeId = privilege.getId().toString();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.privilegeUpdateDate = simpleDateFormat.format(privilege.getUpdateDate());
 		}
 		else
 		{
-			privilege.setId(new Long(this.privilegeId));
 			userProvisioningManager.modifyPrivilege(privilege);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			this.privilegeUpdateDate = simpleDateFormat.format(privilege.getUpdateDate());
 		}
 	}
 	/* (non-Javadoc)
