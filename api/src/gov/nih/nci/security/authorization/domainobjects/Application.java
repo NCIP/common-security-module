@@ -144,5 +144,14 @@ public class Application extends ApplicationContext {
 	public void setUpdateDate(Date newVal){
 		updateDate = newVal;
 	}
+	
+	public boolean equals(Object obj){
+	    Application other = (Application)obj;
+		if(this.getApplicationId().toString().equals(other.getApplicationId().toString())){
+			return true;
+		}else{
+		return false;
+		}
+	}
 
 }

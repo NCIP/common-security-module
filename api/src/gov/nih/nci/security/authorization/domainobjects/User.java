@@ -361,7 +361,12 @@ public class User implements Principal {
 	 * 
 	 */
 	public boolean equals(Object obj){
+		User other = (User)obj;
+		if(this.userId.toString().equals(other.getUserId().toString())){
+			return true;
+		}else{
 		return false;
+		}
 	}
 
 	public String toString(){
@@ -369,7 +374,7 @@ public class User implements Principal {
 	}
 
 	public String getName(){
-		return "";
+		return this.loginName;
 	}
 
 }

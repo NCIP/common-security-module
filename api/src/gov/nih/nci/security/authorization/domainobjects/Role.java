@@ -173,5 +173,14 @@ public class Role {
 	public void setUpdateDate(Date newVal){
 		updateDate = newVal;
 	}
+	
+	public boolean equals(Object obj){
+		Role other = (Role)obj;
+		if(this.id.toString().equals(other.getId().toString())){
+			return true;
+		}else{
+		return false;
+		}
+	}
 
 }
