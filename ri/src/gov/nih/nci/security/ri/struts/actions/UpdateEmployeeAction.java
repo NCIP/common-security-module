@@ -14,6 +14,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 
 /**
  *  Performs authorization and securely updates the employee record.
@@ -39,6 +41,7 @@ public class UpdateEmployeeAction extends BaseAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
+		ActionMessages messages = new ActionMessages();
 
 		Employee originalObject = (Employee) request.getSession().getAttribute(
 				ORIGINAL_EMPLOYEE_OBJECT);
@@ -60,6 +63,8 @@ public class UpdateEmployeeAction extends BaseAction {
 		request.getSession().setAttribute(EMPLOYEE_LIST, l);
 		request.getSession().setAttribute(EMPLOYEE_ID,
 				savedObject.getEmployeeId().toString());
+		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(Constants.MESSAGE_ID, "Updated Employee Successfully"));
+		saveMessages( request, messages );
 
 		return mapping.findForward(ACTION_SUCCESS);
 

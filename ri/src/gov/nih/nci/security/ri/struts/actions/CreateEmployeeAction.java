@@ -18,6 +18,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 
 /**
  * Method Creates a new Employee Object then
@@ -42,6 +44,7 @@ public class CreateEmployeeAction extends SecureAction {
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		Employee employeeForm = (Employee) form;
+		ActionMessages messages = new ActionMessages();
 
 		EmployeeDAO.saveEmployee(employeeForm);
 
@@ -52,7 +55,8 @@ public class CreateEmployeeAction extends SecureAction {
 		request.getSession().setAttribute(EMPLOYEE_ID,
 				employeeForm.getEmployeeId().toString());
 		request.getSession().setAttribute(EMPLOYEE_LIST, l);
-
+		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(Constants.MESSAGE_ID, "Created a new Employee Successfully"));
+		saveMessages( request, messages );
 		return mapping.findForward(Constants.ACTION_SUCCESS);
 	}
 

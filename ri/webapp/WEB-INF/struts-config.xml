@@ -91,10 +91,15 @@
 			<forward name="success" path="/viewEmployee.do"/>			
 		</action>
 		
+
 		
 		<action input="login" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" scope="session" >
 			<forward name="success" path="show.create.project"/>
 			<forward name="access_denied" path="/viewHome.do" />
+		</action>
+
+		<action path="/Logout" type="gov.nih.nci.security.ri.struts.actions.LogoutAction">
+			<forward name="success" path="/Welcome.do" />
 		</action>
 		
       <action path="/base" type="gov.nih.nci.security.ri.action.BaseAction" />

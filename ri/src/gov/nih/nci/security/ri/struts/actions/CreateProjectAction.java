@@ -8,10 +8,11 @@ import gov.nih.nci.security.ri.valueObject.Project;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 
 /**
  * 
@@ -30,10 +31,14 @@ public class CreateProjectAction extends SecureAction {
 	public ActionForward executeSecureWorkflow(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
+		ActionMessages messages = new ActionMessages();
+
 		Project projectForm = (Project) form;
 		
 		ProjectDAO.saveProject( projectForm );
-		
+		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(Constants.MESSAGE_ID, "Created a new Project Successfully"));
+		saveMessages( request, messages );
+
 		return mapping.findForward( Constants.ACTION_SUCCESS );
 	}
 
