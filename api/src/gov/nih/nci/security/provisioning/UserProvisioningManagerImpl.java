@@ -899,4 +899,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.getPrivilegeMap(userName,protectionElements);
 	}
 	
+	public Object secureUpdate(String userName, Object originalObject,Object mutatedObject) throws CSException{
+		return authorizationDAO.secureUpdate(userName,originalObject,mutatedObject);
+	}
+	
 }

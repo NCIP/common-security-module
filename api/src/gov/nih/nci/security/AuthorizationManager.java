@@ -280,5 +280,8 @@ public interface AuthorizationManager {
 	 * @throws CSException
 	 */
 	public Collection getPrivilegeMap(String userName,Collection protectionElements) throws CSException;
+	
+	public Object secureUpdate(String userName, Object originalObject,Object mutatedObject) throws CSException;
+	
 }
 

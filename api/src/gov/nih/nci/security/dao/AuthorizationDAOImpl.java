@@ -2372,7 +2372,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	}
 
 	private ObjectAccessMap getObjectAccessMap(String objectTypeName,
-			String loginName) {
+			String loginName,String privilegeName) {
 		Hashtable accessMap = new Hashtable();
 		Session s = null;
 
@@ -2401,7 +2401,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and u.login_name='" + loginName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='Read'");
+			stbr.append(" and p.privilege_name='"+privilegeName+"'");
 			String sql = stbr.toString();
 			System.out.println("SQL is : "+sql);
 			Statement stmt = cn.createStatement();
@@ -2445,7 +2445,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Class cl = obj.getClass();
 			System.out.println(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
-					userName);
+					userName,"READ");
 			
 			System.out.println(accessMap.toString());
 
@@ -2500,7 +2500,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Class cl = obj_.getClass();
 			System.out.println(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
-					userName);
+					userName,"READ");
             while(it.hasNext()){
 				Object obj = (Object)it.next();		
             	Object o = cl.newInstance();
@@ -2537,6 +2537,56 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		
 		return result;
+
+	}
+	
+	public Object secureUpdate(String userName, Object originalObject,Object mutatedObject) throws CSException{
+		//Object o = null;
+		if(StringUtilities.isBlank(userName)){
+			throw new CSException("No user name have been supplied!");
+		}
+		if(originalObject==null||mutatedObject==null){
+			return originalObject;
+		}
+		try {
+
+			Class cl = originalObject.getClass();
+			System.out.println(cl.getName());
+			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
+					userName,"UPDATE");
+			
+			System.out.println(accessMap.toString());
+
+			//o = cl.newInstance();
+			Method methods[] = cl.getDeclaredMethods();
+			
+			for (int i = 0; i < methods.length; i++) {
+				Method m = methods[i];
+				
+				String name = m.getName();
+				//System.out.println("Name from outer block"+name);
+				//System.out.println("Para type"+m.getParameterTypes());
+				if (name.startsWith("set")&&(m.getModifiers()==Modifier.PUBLIC)) {
+					String att = name.substring(3, name.length());
+					String methodName = "get"+att;
+					//System.out.println(methodName);
+					Method m2 = cl.getMethod(methodName,null);
+					//System.out.println("Method Name m2"+m2.getName());
+					//System.out.println(m2.invoke(obj,null));
+					if (!accessMap.hasAccess(att)) {
+						m.invoke(mutatedObject, new Object[]{m2.invoke(originalObject, null)});
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure upadate the Object Access Map|"+ex.getMessage());
+			
+			throw new CSException("Failed to secure the object:" +ex.getMessage(),ex);
+		}
+		
+		return mutatedObject;
 
 	}
 	
