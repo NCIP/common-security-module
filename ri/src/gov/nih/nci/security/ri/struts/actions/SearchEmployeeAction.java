@@ -50,6 +50,7 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 
+		
 		List searchResult = EmployeeDAO.searchEmployee((Employee) form);
 		//check permission for viewing from the search result
 		List secureResult = doAuthorization(request, searchResult);

@@ -39,12 +39,13 @@ public class EmployeeDAO extends SecurityRIDAO {
 	 * @param empl
 	 * @throws HibernateException
 	 */
-	public static Employee updateEmployee(Employee empl) throws HibernateException {
+	public static Employee updateEmployee(Employee empl)
+			throws HibernateException {
 
 		log.debug("Updating employee now..");
 		updateObject(empl);
 		log.debug("Employee updated!");
-		
+
 		return searchEmployeeByPrimaryKey(empl.getEmployeeId());
 
 	}
@@ -106,7 +107,7 @@ public class EmployeeDAO extends SecurityRIDAO {
 			}
 
 		}
-		
+
 		return searchEmployeeByPrimaryKey(empl.getEmployeeId());
 
 	}
@@ -140,8 +141,18 @@ public class EmployeeDAO extends SecurityRIDAO {
 			Query q = null;
 			if (null != empl.getLastName()
 					&& empl.getLastName().trim().length() > 0) {
-				q = s.createQuery("from Employee e where e.lastName = :lname");
-				q.setString("lname", empl.getLastName());
+				boolean useLikeCondition = empl.getLastName().endsWith("*");
+				if (useLikeCondition) {
+					empl.setLastName(empl.getLastName().substring(0,
+							empl.getLastName().length() - 1));
+					q = s.createQuery("from Employee e where e.lastName like '"
+							+ empl.getLastName() + "%'");
+					log.debug("The last name is: " + empl.getLastName());
+				} else {
+					q = s
+							.createQuery("from Employee e where e.lastName = :lname");
+					q.setString("lname", empl.getLastName());
+				}
 
 			} else {
 				q = s.createQuery("from Employee");
