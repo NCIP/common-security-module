@@ -152,7 +152,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param privilegeId
 	 * 
 	 */
-	public Privilege getPrivilege(String privilegeId) throws CSObjectNotFoundException;
+	public Privilege getPrivilegeById(String privilegeId) throws CSObjectNotFoundException;
 
 	/**
 	 * This method removes the user from a protection group irrespective of all the
@@ -208,7 +208,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	
 	public void createUser(User user) throws  CSTransactionException;
 	
-	public ProtectionGroup getProtectionGroup(Long protectionGroupId) throws CSObjectNotFoundException;
+	public ProtectionGroup getProtectionGroupById(String protectionGroupId) throws CSObjectNotFoundException;
 	
 	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
 	
@@ -221,7 +221,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param groupId
 	 * 
 	 */
-	public Group getGroup(String groupId) throws CSObjectNotFoundException;
+	public Group getGroupById(String groupId) throws CSObjectNotFoundException;
 	
 	public void modifyProtectionElement(ProtectionElement protectionElement) throws CSTransactionException;
 

@@ -112,7 +112,7 @@ public interface AuthorizationManager {
 	 * @param protectionElementId
 	 * 
 	 */
-	public ProtectionElement getProtectionElement(Long protectionElementId) throws CSObjectNotFoundException;
+	public ProtectionElement getProtectionElementById(String protectionElementId) throws CSObjectNotFoundException;
 
 	/**
 	 * @param protectionGroupName

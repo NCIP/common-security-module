@@ -24,7 +24,7 @@ import javax.security.auth.Subject;
  * @version 1.0
  * @created 03-Dec-2004 1:17:47 AM
  */
-public interface AuthorizationDAO extends UserProvisioningManager {
+public interface AuthorizationDAO {
 
 	/**
 	 * @param protectionGroup
@@ -41,13 +41,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 
 	public ApplicationContext getApplicationContext();
 
-	/**
-	 * @param protectionGroup
-	 *  
-	 */
-	public void modifyProtectionGroup(ProtectionGroup protectionGroup)
-			throws CSTransactionException;
-
+	
 	/**
 	 * @param protectionGroupName
 	 * @param protectionElementObjectId
@@ -59,19 +53,8 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 			String protectionElementAttributeName)
 			throws CSTransactionException;
 
-	/**
-	 * @param protectionGroupId
-	 *  
-	 */
-	public void removeProtectionGroup(String protectionGroupId)
-			throws CSTransactionException;
-
-	/**
-	 * @param element
-	 *  
-	 */
-	public void removeProtectionElement(String protectionElementId)
-			throws CSTransactionException;
+	
+	
 
 	/**
 	 * @param protectionElementObjectName
@@ -135,12 +118,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	 */
 	public boolean checkPermission(AccessPermission permission, Subject subject);
 
-	/**
-	 * @param role
-	 *  
-	 */
-	public void modifyRole(Role role) throws CSTransactionException;
-
+	
 	/**
 	 * @param permission
 	 * @param userName
@@ -148,11 +126,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	 */
 	public boolean checkPermission(AccessPermission permission, String userName);
 
-	/**
-	 * @param roleId
-	 *  
-	 */
-	public void removeRole(String roleId) throws CSTransactionException;
+	
 
 	/**
 	 * @param userName
@@ -180,12 +154,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName);
 
-	/**
-	 * @param privilege
-	 *  
-	 */
-	public void modifyPrivilege(Privilege privilege)
-			throws CSTransactionException;
+	
 
 	/**
 	 * @param userName
@@ -193,13 +162,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	 */
 	public Principal[] getPrincipals(String userName);
 
-	/**
-	 * @param privilegeId
-	 *  
-	 */
-	public void removePrivilege(String privilegeId)
-			throws CSTransactionException;
-
+	
 	/**
 	 * @param roleId
 	 * @param privilegeIds
@@ -217,14 +180,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	public ProtectionElement getProtectionElement(String objectId)
 			throws CSObjectNotFoundException;
 
-	/**
-	 * Returns the protection element for the passed object id
-	 * 
-	 * @param protectionElementId
-	 *  
-	 */
-	public ProtectionElement getProtectionElement(Long protectionElementId)
-			throws CSObjectNotFoundException;
+	
 
 	/**
 	 * @param protectionGroupName
@@ -262,18 +218,8 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 			String[] protectionElementAttributeNames)
 			throws CSTransactionException;;
 
-	/**
-	 * @param groupId
-	 *  
-	 */
-	public void removeGroup(String groupId) throws CSTransactionException;;
-
-	/**
-	 * @param group
-	 *  
-	 */
-	public void modifyGroup(Group group) throws CSTransactionException;;
-
+	
+	
 	/**
 	 * @param groupId
 	 * @param userId
@@ -299,15 +245,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			String groupId, String[] rolesId) throws CSTransactionException;;
 
-	/**
-	 * Returns the privilege for the passed name privilege id
-	 * 
-	 * @param privilegeId
-	 *  
-	 */
-	public Privilege getPrivilege(String privilegeId)
-			throws CSObjectNotFoundException;;
-
+	
 	/**
 	 * This method removes the user from a protection group irrespective of all
 	 * the roles
@@ -343,12 +281,7 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	public ProtectionGroup getProtectionGroup(String protectionGroupName)
 			throws CSObjectNotFoundException;
 
-	/**
-	 * @param protectionGroupId
-	 *  
-	 */
-	public ProtectionGroup getProtectionGroup(Long protectionGroupId)
-			throws CSObjectNotFoundException;
+	
 
 	/**
 	 * @param roleName
@@ -356,17 +289,9 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	 */
 	public Role getRole(String roleName) throws CSObjectNotFoundException;
 
-	/**
-	 * @param roleId
-	 *  
-	 */
-	public Role getRole(Long roleId) throws CSObjectNotFoundException;
+	
 
-	/**
-	 * @param groupId
-	 *  
-	 */
-	public Group getGroup(String groupId) throws CSObjectNotFoundException;
+	
 
 	
 
@@ -389,12 +314,14 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	
 	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException;
 	
-	public void modifyProtectionElement(ProtectionElement protectionElement) throws CSTransactionException;
-
-	public User getUserById(String userId) throws CSObjectNotFoundException;
 	
-	public void modifyUser(User user)throws CSTransactionException;
 	
-	public void removeUser(String userId)throws CSTransactionException;
+	
+	
+	public void removeObject(Object obj) throws CSTransactionException;
+	
+	public void modifyObject(Object obj) throws CSTransactionException;
+	
+	public Object getObjectByPrimaryKey(Class objectType, String primaryKey)throws CSObjectNotFoundException;
 }
 

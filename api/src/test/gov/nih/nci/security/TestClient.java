@@ -72,6 +72,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+	/**
 	public void testPrivilegeFind(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
@@ -83,12 +84,14 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+	*/
 	
 	public void testModifyCreate(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
-			Privilege p = upm.getPrivilege("2");
+			//Privilege p = upm.getPrivilege("2");
+			Privilege p = new Privilege();
 			p.setName("Create");
 			p.setDesc("Create Access");
 			upm.modifyPrivilege(p);
@@ -240,7 +243,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+	/**
 	public void testProtectionGroupModify(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
@@ -255,7 +258,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+	*/
 	public void testProtectionElementCreate(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
@@ -283,7 +286,7 @@ public class TestClient {
 			
 			ProtectionElement pe = upm.getProtectionElement("X_Y_Z_9");
 			System.out.println("The name is"+pe.getProtectionElementName());
-			pe = upm.getProtectionElement(new Long("15"));
+			//pe = upm.getProtectionElement(new Long("15"));
 			System.out.println("The name is"+pe.getProtectionElementName());
 			
 		}catch(Exception ex){

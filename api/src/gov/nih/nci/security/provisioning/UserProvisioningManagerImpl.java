@@ -11,6 +11,7 @@ import gov.nih.nci.security.exceptions.*;
 
 import java.security.Principal;
 
+import java.util.Date;
 import java.util.Set;
 
 
@@ -93,7 +94,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	public void modifyProtectionGroup(ProtectionGroup protectionGroup)throws CSTransactionException{
 		
-		authorizationDAO.modifyProtectionGroup(protectionGroup);
+		protectionGroup.setUpdateDate(new java.util.Date());
+		authorizationDAO.modifyObject(protectionGroup);
 		
 
 	}
@@ -113,16 +115,28 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeProtectionGroup(String protectionGroupId) throws CSTransactionException{
-		authorizationDAO.removeProtectionGroup(protectionGroupId);
-	}
+		ProtectionGroup protectionGroup = new ProtectionGroup();
+		protectionGroup.setProtectionGroupId(new Long(protectionGroupId));
+		protectionGroup.setProtectionGroupName("XX");
+		protectionGroup.setProtectionGroupDescription("XX");
+		protectionGroup.setUpdateDate(new Date());
+		authorizationDAO.removeObject(protectionGroup);
+		
+    }
 
 	/**
 	 * @param element
 	 * 
 	 */
 	public void removeProtectionElement(String  protectionElementId) throws CSTransactionException{
-
-		authorizationDAO.removeProtectionElement(protectionElementId);
+            
+		ProtectionElement protectionElement = new ProtectionElement();
+		protectionElement.setProtectionElementId(new Long(protectionElementId));
+		protectionElement.setProtectionElementName("XX");
+		protectionElement.setObjectId("XX");
+		protectionElement.setAttribute("XX");
+		protectionElement.setUpdateDate(new Date());
+		authorizationDAO.removeObject(protectionElement);
 	}
 
 	/**
@@ -208,7 +222,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void modifyRole(Role role) throws CSTransactionException{
-		authorizationDAO.modifyRole(role);
+		role.setUpdateDate(new java.util.Date());
+		authorizationDAO.modifyObject(role);
 	}
 
 	/**
@@ -233,7 +248,13 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeRole(String roleId) throws CSTransactionException{
-		authorizationDAO.removeRole(roleId);
+		Role r = new Role();
+		r.setId(new Long(roleId));
+		r.setName("XX");
+		r.setDesc("XX");
+		r.setUpdateDate(new Date());
+		authorizationDAO.removeObject(r);
+		
 	}
 
 	/**
@@ -270,7 +291,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void modifyPrivilege(Privilege privilege) throws CSTransactionException{
-		authorizationDAO.modifyPrivilege(privilege);
+		privilege.setUpdateDate(new java.util.Date());
+		authorizationDAO.modifyObject(privilege);
 	}
 
 	/**
@@ -287,7 +309,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	public void removePrivilege(String privilegeId) throws CSTransactionException{
       
-		authorizationDAO.removePrivilege(privilegeId);
+		Privilege p = new Privilege();
+		p.setId(new Long(privilegeId));
+		p.setDesc("XX");
+		p.setName("XX");
+		p.setUpdateDate(new Date());
+		authorizationDAO.removeObject(p);
 		
 	}
 
@@ -315,8 +342,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param objectId
 	 * 
 	 */
-	public ProtectionElement getProtectionElement(Long protectionElementId) throws CSObjectNotFoundException{
-		return authorizationDAO.getProtectionElement(protectionElementId);
+	public ProtectionElement getProtectionElementById(String protectionElementId) throws CSObjectNotFoundException{
+		return null;
+		//authorizationDAO.getProtectionElement(protectionElementId);
 	}
 
 	/**
@@ -361,7 +389,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeGroup(String groupId)throws CSTransactionException{
-            authorizationDAO.removeGroup(groupId);
+		Group group = new Group();
+		group.setGroupId(new Long(groupId));
+		group.setGroupName("XX");
+		group.setGroupDesc("XX");
+		group.setUpdateDate(new Date());    
+		authorizationDAO.removeObject(group);
 	}
 
 	/**
@@ -369,7 +402,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void modifyGroup(Group group)throws CSTransactionException{
-
+		group.setUpdateDate(new java.util.Date());
+		authorizationDAO.modifyObject(group);
 	}
 
 	/**
@@ -405,8 +439,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param privilegeId
 	 * 
 	 */
-	public Privilege getPrivilege(String privilegeId)throws CSObjectNotFoundException{
-		return authorizationDAO.getPrivilege(privilegeId);
+	public Privilege getPrivilegeById(String privilegeId)throws CSObjectNotFoundException{
+		return (Privilege)authorizationDAO.getObjectByPrimaryKey(Privilege.class,privilegeId);
 	}
 
 	/**
@@ -444,13 +478,14 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public ProtectionGroup getProtectionGroup(String protectionGroupName) throws CSObjectNotFoundException{
-		return authorizationDAO.getProtectionGroup(protectionGroupName);
+		return null;
+		//authorizationDAO.getProtectionGroup(protectionGroupName);
 	}
 	/**
 	 * @param protectionGroupId
 	 * 
 	 */
-	public ProtectionGroup getProtectionGroup(Long protectionGroupId) throws CSObjectNotFoundException{
+	public ProtectionGroup getProtectionGroupById(String protectionGroupId) throws CSObjectNotFoundException{
 		return authorizationDAO.getProtectionGroup(protectionGroupId);
 	}
 
@@ -466,7 +501,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public Role getRoleById(String roleId) throws CSObjectNotFoundException{
-		return authorizationDAO.getRole(new Long(roleId));
+		return (Role)authorizationDAO.getObjectByPrimaryKey(Role.class,roleId);
 	}
 	
 	/**
@@ -498,24 +533,35 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return null;
 	}
 	
-	public Group getGroup(String groupId) throws CSObjectNotFoundException{
-		return authorizationDAO.getGroup(groupId);
+	public Group getGroupById(String groupId) throws CSObjectNotFoundException{
+		return (Group)authorizationDAO.getObjectByPrimaryKey(Group.class,groupId);
 	}
 
 	public void modifyProtectionElement(ProtectionElement protectionElement) throws CSTransactionException{
-		authorizationDAO.modifyProtectionElement(protectionElement);
+		protectionElement.setUpdateDate(new java.util.Date());
+		authorizationDAO.modifyObject(protectionElement);
 	}
 	
 	public User getUserById(String userId) throws CSObjectNotFoundException{
-		return authorizationDAO.getUserById(userId);
+		return (User)authorizationDAO.getObjectByPrimaryKey(User.class,userId);
 	}
 	
 	public void modifyUser(User user)throws CSTransactionException{
-		authorizationDAO.modifyUser(user);
+		user.setUpdateDate(new java.util.Date());
+		authorizationDAO.modifyObject(user);
 	}
 	
 	public void removeUser(String userId)throws CSTransactionException{
-		authorizationDAO.removeUser(userId);
+		User user = new User();
+		 user.setUserId(new Long(userId));
+		 user.setDepartment("VV");
+		 user.setEmailId("tt");
+		 user.setFirstName("ll");
+		 user.setLastName("vv");
+		 user.setLastName("jj");
+		 user.setOrganization("kk");
+		 authorizationDAO.removeObject(user);
+		
 	}
 	
 }
