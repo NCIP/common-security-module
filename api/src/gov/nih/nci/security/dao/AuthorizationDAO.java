@@ -332,6 +332,6 @@ public interface AuthorizationDAO {
 	
 	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
 
-		
+	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException;	
 }
 

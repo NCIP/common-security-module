@@ -1726,4 +1726,41 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	
+	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException{
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			ProtectionGroup parent = (ProtectionGroup) this.getObjectByPrimaryKey(s,
+					ProtectionGroup.class, new Long(parentProtectionGroupId));
+            
+			ProtectionGroup child = (ProtectionGroup) this.getObjectByPrimaryKey(s,
+					ProtectionGroup.class, new Long(childProtectionGroupId));
+			
+			child.setParentProtectionGroup(parent);
+			
+			s.update(child);
+			t.commit();
+
+			
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to assign parent protection group: "
+							, ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+	}
 }
