@@ -62,5 +62,24 @@
 		        </hibernate-config-file>
 	      	</authorization>
 	   	</application>
+		<application>
+	   		<context-name>
+	   			csm_ri
+	      	</context-name>
+	      	<authentication>
+		      	<authentication-provider-class>
+	     			<!-- Fully qualified class name-->
+	     		</authentication-provider-class>
+			</authentication>
+			<authorization>
+			    <authorization-provider-class>
+	      			<!-- Fully qualified class name-->
+				</authorization-provider-class>
+		        <hibernate-config-file>
+					<!-- Fully qualified file path -->
+					C:/jboss-4.0.1/server/default/deploy/upt.war/WEB-INF/classes/gov/nih/nci/security/upt/resources/csmupt.hibernate.cfg.xml
+		        </hibernate-config-file>
+	      	</authorization>
+	   	</application>
 	</application-list>
 </security-config>
