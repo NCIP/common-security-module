@@ -57,6 +57,21 @@ HDR AND FTR BEGINS
 /*###############
 MENU BEGINS 
 ###############*/
+
+/* new tr/td for home page*/
+td.home{  
+  font-family:arial,helvetica,verdana,sans-serif;
+  border:0px;
+  padding-left:1em;
+  vertical-align: top; 
+}
+tr.home{
+	padding:0px;
+	border:0px;
+}
+
+
+
 td.mainMenu{
   background-color:#5C5C5C; /* constant: dark gray */
   font-family:arial,helvetica,verdana,sans-serif;
