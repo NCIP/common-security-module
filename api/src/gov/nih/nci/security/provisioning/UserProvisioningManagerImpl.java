@@ -384,7 +384,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeUserFromGroup(String groupId, String userId)throws CSTransactionException{
-
+           authorizationDAO.removeUserFromGroup(groupId,userId);
 	}
 
 	/**

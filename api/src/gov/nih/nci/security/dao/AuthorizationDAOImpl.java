@@ -81,6 +81,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			t = s.beginTransaction();
 			User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
+			System.out.println("The user id ="+user.getUserId());
 			/**
 			 * First check if there are some privileges for this role If there
 			 * are any then delete them.
@@ -88,18 +89,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			UserGroup search = new UserGroup();
 			search.setUser(user);
 
-			List list = s.createCriteria(UserGroup.class).add(
-					Example.create(search)).list();
+			List list = s.createCriteria(UserGroup.class).add(Example.create(search)).list();
 			ArrayList oldList = new ArrayList();
 			Iterator it = list.iterator();
 			while (it.hasNext()) {
 				UserGroup ug = (UserGroup) it.next();
-				Group group = (Group)ug.getGroup();
+				Group group = ug.getGroup();
 				oldList.add(group.getGroupId().toString());
+				System.out.println("The old group id ="+group.getGroupId());
 				log.debug("The old List" + group.getGroupId().toString());
 			}
 
 			 if(!oldList.contains(groupId)){
+			 	System.out.println("Inside");
 			 	Group g = this.getGroup(new Long(groupId));
 			 	UserGroup ugToBeSaved = new UserGroup();
 			 	ugToBeSaved.setGroup(g);
@@ -1056,7 +1058,47 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void removeUserFromGroup(String groupId, String userId)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
+		 
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+			 Group group = new Group();
+			 group.setGroupId(new Long(groupId));
+			 User user = new User();
+			 user.setUserId(new Long(userId));
+	 
+			UserGroup search = new UserGroup();
+				search.setUser(user);
+				search.setGroup(group);
+
+				List list = s.createCriteria(UserGroup.class).add(
+						Example.create(search)).list();
+				if(list.size()!=0){
+					UserGroup ug = (UserGroup)list.get(0);
+					this.removeObject(ug);
+				}
+
+			t.commit();
+
+			//log.debug( "Privilege ID is: " +
+			// privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
 
 	}
 

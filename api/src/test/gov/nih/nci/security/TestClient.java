@@ -178,6 +178,10 @@ public class TestClient {
     	}
     }
     
+    
+    
+    
+    
     public void getUser(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	 
@@ -189,6 +193,103 @@ public class TestClient {
     	 	ex.printStackTrace();
     	 }
     }
+    
+    public void testProtectionGroupCreate(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  for(int i=1;i<101;i++){
+    	  	ProtectionGroup pg = new ProtectionGroup();
+    	  	pg.setProtectionGroupName("protection_group_name_="+i);
+    	  	pg.setProtectionGroupDescription("PG_Desc_"+i);
+    	  	upm.createProtectionGroup(pg);
+    	    System.out.println("The returned id is"+pg.getProtectionGroupId());
+    	  }
+    	
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void testProtectionGroupModify(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  ProtectionGroup pg = upm.getProtectionGroup(new Long("2"));
+    	  ProtectionGroup pg1 = upm.getProtectionGroup(new Long("50"));
+    	  pg1.setParentProtectionGroup(pg);
+    	  upm.modifyProtectionGroup(pg1);
+    		
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void testProtectionElementCreate(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  for(int i=1;i<1001;i++){
+    	  	ProtectionElement pe = new ProtectionElement();
+    	  	pe.setProtectionElementName("PE_Name_"+i);
+    	  	pe.setObjectId("X_Y_Z_"+i);
+    	  	pe.setProtectionElementDescription("PE_Desc"+i);
+    	  	
+    	  	upm.createProtectionElement(pe);
+    	    System.out.println("The returned id is"+pe.getProtectionElementId());
+    	  }
+    	
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void getProtectionElement(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  
+    	  ProtectionElement pe = upm.getProtectionElement("X_Y_Z_9");
+    	  System.out.println("The name is"+pe.getProtectionElementName());
+    	  pe = upm.getProtectionElement(new Long("15"));
+    	  System.out.println("The name is"+pe.getProtectionElementName());
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void addUserToGroup(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  
+    	  //upm.addUserToGroup("2","15");
+    	  //upm.addUserToGroup("2","16");
+    	  //upm.addUserToGroup("2","445");
+    	  upm.addUserToGroup("3","1000");
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void removeUserFromGroup(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  
+    	  //upm.addUserToGroup("2","15");
+    	  upm.removeUserFromGroup("2","15");
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    	
     
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
@@ -204,5 +305,11 @@ public class TestClient {
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
 		//ts.getUser();
+		//ts.testProtectionGroupCreate();
+		//ts.testProtectionGroupModify();
+		//ts.testProtectionElementCreate();
+		//ts.getProtectionElement();
+		ts.addUserToGroup();
+		//ts.removeUserFromGroup();
 	}
 }
