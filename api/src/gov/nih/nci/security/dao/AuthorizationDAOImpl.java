@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -276,7 +277,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String,
 	 *      java.lang.String[], java.lang.String[])
 	 */
-	public void assignProtectionElements(String protectionGroupName,
+	public void assignProtectionElement(String protectionGroupName,
 			String protectionElementObjectId,
 			String protectionElementAttributeName)
 			throws CSTransactionException {
@@ -343,10 +344,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String,
 	 *      java.lang.String[])
 	 */
-	public void assignProtectionElements(String protectionGroupName,
+	public void assignProtectionElement(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException {
 
-		this.assignProtectionElements(protectionGroupName,
+		this.assignProtectionElement(protectionGroupName,
 				protectionElementObjectId, null);
 
 	}
@@ -1314,7 +1315,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String, java.lang.String)
 	 */
 	public void setOwnerForProtectionElement(String loginName,
-			String protectionElementObjectName,
+			String protectionElementObjectId,
 			String protectionElementAttributeName)
 			throws CSTransactionException {
 
@@ -1328,7 +1329,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			User user = getLightWeightUser(loginName);
 			ProtectionElement pe = getProtectionElement(
-					protectionElementObjectName, protectionElementAttributeName);
+					protectionElementObjectId, protectionElementAttributeName);
 
 			Criteria criteria = s.createCriteria(UserProtectionElement.class);
 			criteria.add(Expression.eq("user", user));
@@ -1355,7 +1356,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			if (log.isDebugEnabled())
 				log.debug("Authorization|||setOwnerForProtectionElement|Failure|Error Setting owner for Protection Element object Name"
-					+protectionElementObjectName+" and Attribute Id "+ protectionElementAttributeName +" for user "+loginName+"|"+ex.getMessage() );			
+					+protectionElementObjectId+" and Attribute Id "+ protectionElementAttributeName +" for user "+loginName+"|"+ex.getMessage() );			
 			throw new CSTransactionException("An error occured in setting owner for the Protection Element\n"+ex.getMessage(), ex);
 		} finally {
 			try {
@@ -1367,7 +1368,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		if (log.isDebugEnabled())
 			log.debug("Authorization|||setOwnerForProtectionElement|Success|Success in Setting owner for Protection Element object Name"
-				+protectionElementObjectName+" and Attribute Id "+ protectionElementAttributeName +" for user "+loginName+"|");
+				+protectionElementObjectId+" and Attribute Id "+ protectionElementAttributeName +" for user "+loginName+"|");
 	}
 
 	/*
@@ -2186,13 +2187,23 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
+			
 			for (int i = 0; i < methods.length; i++) {
 				Method m = methods[i];
 				String name = m.getName();
+				//System.out.println("Name from outer block"+name);
+				//System.out.println("Para type"+m.getParameterTypes());
 				if (name.startsWith("set")) {
 					String att = name.substring(3, name.length());
+					String methodName = "get"+att;
+					//System.out.println(methodName);
+					Method m2 = cl.getMethod(methodName,null);
+					//System.out.println("Method Name m2"+m2.getName());
+					//System.out.println(m2.invoke(obj,null));
 					if (!accessMap.hasAccess(att)) {
 						m.invoke(o, new Object[]{null});
+					}else{
+						m.invoke(o, new Object[]{m2.invoke(obj, null)});
 					}
 				}
 			}
@@ -2206,6 +2217,46 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return o;
 
 	}
+	
+	public Collection  secureCollection(String userName, Collection collection) {
+		Object o = null;
+		if (collection.size()==0){
+	    	return collection;
+	    }
+		try {
+			Iterator it = collection.iterator();
+            List l = (List)collection;
+		    Object obj = (Object)l.get(0);
+		   
+			Class cl = obj.getClass();
+			System.out.println(cl.getName());
+			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
+					userName);
+            while(it.hasNext()){
+						o = cl.newInstance();
+						Method methods[] = cl.getDeclaredMethods();
+						for (int i = 0; i < methods.length; i++) {
+							Method m = methods[i];
+							String name = m.getName();
+							if (name.startsWith("set")) {
+								String att = name.substring(3, name.length());
+								if (!accessMap.hasAccess(att)) {
+									m.invoke(o, new Object[]{null});
+								}
+							}
+						}
+            }
+
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure Object the Object Access Map|"+ex.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||"+userName+"|getObjectAccessMap|Success| in Secure Object the Object Access Map|");
+		return null;
+
+	}
+	
 	public Set getOwners(String protectionElementId)
 			throws CSObjectNotFoundException {
 

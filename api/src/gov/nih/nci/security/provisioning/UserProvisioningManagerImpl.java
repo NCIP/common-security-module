@@ -11,6 +11,8 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
+import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
+import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
@@ -144,9 +146,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @throws CSTransactionException
 	 * @see gov.nih.nci.security.AuthorizationManager#assignProtectionElements(String, String, String)
 	 */
-	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName) throws CSTransactionException{
+	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName) throws CSTransactionException{
             
-		authorizationDAO.assignProtectionElements(protectionGroupName,protectionElementObjectId);
+		authorizationDAO.assignProtectionElement(protectionGroupName,protectionElementObjectId);
 	}
 	/**
 	 * @param protectionGroupId String
@@ -426,8 +428,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @throws CSTransactionException
 	 * @see gov.nih.nci.security.AuthorizationManager#assignProtectionElements(String, String)
 	 */
-	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException{
-
+	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException{
+            authorizationDAO.assignProtectionElement(protectionGroupName,protectionElementObjectId);
 	}
 
 	/**
@@ -451,8 +453,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @throws CSTransactionException
 	 * @see gov.nih.nci.security.AuthorizationManager#setOwnerForProtectionElement(String, String, String)
 	 */
-	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)throws CSTransactionException{
-		authorizationDAO.setOwnerForProtectionElement( userName, protectionElementName, protectionElementAttributeName );
+	public void setOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException{
+		authorizationDAO.setOwnerForProtectionElement( userName, protectionElementObjectId, protectionElementAttributeName );
 	}
 
 	
@@ -859,5 +861,29 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public Principal[] getPrincipals(String userName) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public java.util.List getProtectionGroups(){
+		ProtectionGroup pg = new ProtectionGroup();
+		pg.setProtectionGroupName("%");
+		SearchCriteria sc = new ProtectionGroupSearchCriteria(pg);
+		return this.getObjects(sc);
+	}
+	
+	public ProtectionElement getProtectionElement(String objectId,String attributeName){
+		ProtectionElement result = null;
+		ProtectionElement pe = new ProtectionElement();
+		pe.setObjectId(objectId);
+		pe.setAttribute(attributeName);
+		SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+		java.util.List list = this.getObjects(sc);
+		if(list.size()!=0){
+			result = (ProtectionElement)list.get(0);
+		}
+		return result;
+	}
+	
+	public Object secureObject(String userName, Object obj){
+		return authorizationDAO.secureObject(userName,obj);
 	}
 }

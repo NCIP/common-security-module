@@ -456,5 +456,6 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @throws CSObjectNotFoundException if the Protection Element object is not found for the given id
 	 */
 	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException;
+	
 }
 

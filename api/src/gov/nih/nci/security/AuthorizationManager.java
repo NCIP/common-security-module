@@ -86,7 +86,7 @@ public interface AuthorizationManager {
 	 * @throws CSTransactionException If it isnt able to retrieve either the  Protection Element or Protection Group 
 	 * for the given data or there are any errors in the actual assignment.
 	 */
-	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
+	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
 	 * Assigns Owners for a Protection Elements. It retrieves the Protection Element from the database for the passed Object Id
@@ -198,7 +198,7 @@ public interface AuthorizationManager {
 	 * @throws CSTransactionException If it isnt able to retrieve either the  Protection Element or Protection Group 
 	 * for the given data or there are any errors in the actual assignment.
 	 */
-	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException;
+	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException;
 
 	/**
 	 * @param userName
@@ -207,7 +207,7 @@ public interface AuthorizationManager {
 	 * 
 	 * @throws CSTransactionException
 	 */
-	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)throws CSTransactionException;
+	public void setOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	
 
@@ -218,5 +218,10 @@ public interface AuthorizationManager {
 	 */
 	public void initialize(String applicationContextName);
 
+	public java.util.List getProtectionGroups();
+	
+	public ProtectionElement getProtectionElement(String objectId,String attributeName);
+	
+	public Object secureObject(String userName, Object obj);
 }
 

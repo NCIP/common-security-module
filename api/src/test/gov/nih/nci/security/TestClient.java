@@ -549,23 +549,27 @@ public class TestClient {
 			//Role role = new Role();
 			//role.setName("role_name_1");
 			//Group grp = new Group();
-			User user = new User();
+			//User user = new User();
 			//user.setLoginName("login_name_1");
 			//user.setFirstName("%");
-			user.setDepartment("security");
-			//ProtectionElement pe = new ProtectionElement();
+			//user.setDepartment("security");
+			ProtectionElement pe = new ProtectionElement();
+			pe.setObjectId("%");
 			//pe.setProtectionElementName("PE_name_1");
 			//grp.setGroupName("g%");
 			//SearchCriteria sc = new RoleSearchCriteria(role);
-			//SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
-			SearchCriteria sc = new UserSearchCriteria(user);
+			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			//SearchCriteria sc = new UserSearchCriteria(user);
+			System.out.print(new java.util.Date());
 			List result = upm.getObjects(sc);
+			System.out.println(result.size());
+			System.out.print(new java.util.Date());
 			   Iterator it = result.iterator();
-			   while(it.hasNext()){
+			   //while(it.hasNext()){
 			   //	Role p = (Role)it.next();
-			   	User usr = (User)it.next();
-			   	System.out.println(usr.getFirstName()+":"+usr.getLastName());
-			   }
+			   	//User usr = (User)it.next();
+			   	//System.out.println(usr.getFirstName()+":"+usr.getLastName());
+			   //}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -576,6 +580,17 @@ public class TestClient {
 			String[] uids = {"1","2"};
 			String peIds = "3";
 			upm.assignOwners(peIds,uids);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void testSecureObject(){
+		try{
+			Role r = upm.getRoleById("55");
+			Role r1 = (Role)upm.secureObject("kumarvi",r);
+			System.out.println(r1.getDesc());
+			System.out.println(r1.getId());
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -592,7 +607,7 @@ public class TestClient {
 		//ts.assignPrivilegeToRoles();
 		//ts.getPrivileges();
 		//ts.testGroupCreate();
-		ts.testUserCreate();
+		//ts.testUserCreate();
 		//ts.getProtectionGroupRoleContextForUser("345");		
 		//ts.getProtectionGroupRoleContextForGroup("131");
 		//ts.getProtectionGroupById("131");
@@ -619,6 +634,7 @@ public class TestClient {
 		//ts.getGroups("5020");
 		//ts.getProtectionGroupById("34");
 		//ts.assignOwners();
+		ts.testSecureObject();
 
 	}
 }
