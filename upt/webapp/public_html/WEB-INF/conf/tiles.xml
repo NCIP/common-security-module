@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD tiles Configuration 1.1//EN"
-       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+       "-//Apache Software Foundation//DTD tiles Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
 
-       
+
 <tiles-definitions>
 
-  <!-- Base layouts -->  
-  <definition name="Base" page="/pages/layouts/BaseLayout.jsp">
-    <put name="OrgHeader" value="/pages/header/OrgHeader.jsp" />
-    <put name="AppHeader" value="/pages/header/AppHeader.jsp" />
-    <put name="OrgFooter" value="/pages/footer/OrgFooter.jsp" />
-    <put name="AppFooter" value="/pages/footer/AppFooter.jsp" />
-    <put name="title" type="string" value="NCI Security Admin Application"/>
-  </definition>
-  
-  
- <!-- Pages Begin --> 
-  <definition name="Login" extends="Base">
-  	<put name="Content"   value="pages/content/UPTLogin.jsp" />
-  </definition>
-  
-    
-  
-  </tiles-definitions>
+	<!-- Base layouts -->
+	<definition name="Base" page="/pages/layout/BaseLayout.jsp">
+		<put name="OrgHeader" value="/pages/header/OrgHeader.jsp" />
+		<put name="AppHeader" value="/pages/header/AppHeader.jsp" />
+		<put name="MainMenu" value="/pages/menu/MainMenu.jsp"/>
+		<put name="OrgFooter" value="/pages/footer/OrgFooter.jsp" />
+		<put name="AppFooter" value="/pages/footer/AppFooter.jsp" />
+		<put name="title" type="string"
+			value="NCI Security Admin Application" />
+	</definition>
+
+	<!-- Pages Begin -->
+	<definition name="Tiles.Login.Page" extends="Base">
+		<put name="Content" value="/pages/content/Login.jsp" />
+	</definition>
+	<definition name="Tiles.Home.Page" extends="Base">
+		<put name="Content" value="/pages/content/Home.jsp" />
+	</definition>
+	<definition name="Tiles.Table.Home" extends="Base">
+		<put name="Content" value="/pages/content/TableHome.jsp" />
+	</definition>
+
+	<definition name="Tiles.Detail.Screen" extends="Base">
+		<put name="Content" value="/pages/content/DetailScreen.jsp" />
+	</definition>
+	<definition name="Tiles.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/SearchResult.jsp" />
+	</definition>
+	<definition name="Tiles.Privilege.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/PrivilegeSearchResult.jsp" />
+	</definition>	
+	
+
+</tiles-definitions>

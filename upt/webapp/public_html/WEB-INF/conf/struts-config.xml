@@ -2,39 +2,85 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
 	<data-sources />
-	<form-beans />
+	<form-beans>
+		<form-bean name="LoginForm"
+			type="gov.nih.nci.security.upt.forms.LoginForm" />
+		<form-bean name="PrivilegeForm"
+			type="gov.nih.nci.security.upt.forms.PrivilegeForm" />
+		<form-bean name="RoleForm"
+			type="gov.nih.nci.security.upt.forms.RoleForm" />
+		<form-bean name="MenuForm"
+			type="gov.nih.nci.security.upt.forms.MenuForm" />
+	</form-beans>
 	<global-exceptions />
 	<global-forwards>
-		
-		<!-- Tiles : Home -->
-		<forward name="Login" path="/Login.do" redirect="false"/>
-		<forward name="Home" path="/Home.do" redirect="false"/>
-
+		<forward name="Login" path="/Login.do" />
+		<forward name="Home" path="/Home.do" />
+		<forward name="MenuSelection" path="/MenuSelection.do" />
+		<forward name="PrivilegeDBOperation" path="/PrivilegeDBOperation.do" />
+		<forward name="RoleDBOperation" path="/RoleDBOperation.do" />
 	</global-forwards>
 	<action-mappings>
-	
-	
-	<!-- Tiles : Home -->	
-	<action
-		parameter="Home"
-		path="/Home"
-		scope="request"
-		type="gov.nih.nci.camatch.actions.TransactionCheckForwardAction"/>	
+		<action path="/Home"
+			type="gov.nih.nci.security.upt.actions.HomeAction"
+			input="Tiles.Login.Page">
+			<forward name="LoginPage" path="Tiles.Login.Page" />
+			<forward name="HomePage" path="Tiles.Home.Page" />
+		</action>
+		<action path="/Login"
+			type="gov.nih.nci.security.upt.actions.LoginAction" 
+			name="LoginForm"
+			scope="session" 
+			validate="false" 
+			input="Tiles.Login.Page">
+			<forward name="LoginSuccess" path="Tiles.Home.Page" />
+		</action>
+		<action path="/MenuSelection"
+			type="gov.nih.nci.security.upt.actions.MenuSelectionAction"
+			name="MenuForm" 
+			scope="session" 
+			validate="false"
+			input="Tiles.Login.Page">
+			<forward name="TableHomePage" path="Tiles.Table.Home" />
+			<forward name="HomePage" path="Tiles.Home.Page" />
+		</action>
+		<action path="/PrivilegeDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDBAction"
+			name="PrivilegeForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.Table.Home">
+			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.Table.Home" />
+			<forward name="SearchSuccess" path="Tiles.Privilege.Search.Result" />
+		</action>
+		<action path="/RoleDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDBAction"
+			name="RoleForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.Table.Home">
+			<forward name="LoadAddSuccess" path="Tiles.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Detail.Screen" />
+			<forward name="CreateSuccess" path="Tiles.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.Table.Home" />
+			<forward name="SearchSuccess" path="Tiles.Search.Result" />
+		</action>
 
-	<action
-		path="/Login"
-		type="org.apache.struts.actions.ForwardAction"
-		parameter="/pages/content/Login.jsp"/>
-
-	
 	</action-mappings>
 
 	<controller bufferSize="4096" debug="0" />
 
 	<message-resources
 		parameter="gov.nih.nci.security.upt.resources.ApplicationResources" />
-
-
 
 	<!--Additional plug-ins -->
 
