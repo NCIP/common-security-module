@@ -36,8 +36,8 @@ public class SessionCalls {
 	
 	public void startSession(){
 	try{
-		Properties p = System.getProperties();
-		p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationsecurityConfig.xml");
+		//Properties p = System.getProperties();
+		//p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationsecurityConfig.xml");
 		logger.log(LogWriter.INFO,name+" :Sesion is starting");
 		upm = SecurityServiceProvider.getUserProvisioningManager("security");
 		if(upm==null) throw new Exception();

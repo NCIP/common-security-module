@@ -33,21 +33,22 @@ public class TestRunner {
 		 * Creating a pool of 50 threads
 		 */
 		ExecutorService executor = 
-            Executors.newFixedThreadPool(50);
+            Executors.newFixedThreadPool(150);
 		int waitTime = 500;
 		/**
 		 * Sending 150 user requests to serve
 		 */
-		for (int i=0; i<150; i++) {
+		for (int i=0; i<1001; i++) {
 	         String name = "UserSession " + i;
-	         int time = random.nextInt(1000);
+	         int time = random.nextInt(10);
 	         waitTime += time;
 	         Runnable runner = new UserSession(name, time);
 	         System.out.println("Adding: " + name + " / " + time);
 	         executor.execute(runner);
 	       }
 		try {
-	         Thread.sleep(waitTime);
+	         //Thread.sleep(waitTime);
+			Thread.sleep(500000);
 	         executor.shutdown();
 	         executor.awaitTermination
 	                 (waitTime, TimeUnit.MILLISECONDS);

@@ -486,10 +486,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 
 		Connection cn = null;
+		if(userName==null||objectId==null){
+			return false;
+		}
 		test = this.checkOwnerShip(userName,objectId);
 		if(test) return true;
 		
-		if(attributeName==null){
+		if(attributeName==null||privilegeName==null){
 			return false;
 		}
 
@@ -522,7 +525,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and u.login_name=?");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and rp.privilege_name = ?");
+			stbr.append(" and p.privilege_name = ?");
 
 			String sql = stbr.toString();
 			   pstmt = cn.prepareStatement(sql);
@@ -562,17 +565,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) throws CSException {
 		boolean test = false;
+		if(userName==null||objectId==null){
+			return false;
+		}
 		test = this.checkOwnerShip(userName,objectId);
 		if(test) return true;
 		
 		 if(typeOfAccess.equalsIgnoreCase("MIXED")){
-		 	if(!test){
-				test = this.checkPermissionForUser(userName,objectId,privilegeName);
-			}
-			if(test) return true;
-			if(!test){
-				test = this.checkPermissionForGroup(userName,objectId,privilegeName);
-			}
+		 	test = this.checkPermissionForUserAndGroup(userName,objectId,privilegeName);
 			
 			return test;
 		 }
@@ -602,11 +602,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		Connection cn = null;
+		if(userName==null||objectId==null||privilegeName==null){
+			return false;
+		}
 		try {
-
-			if (this.checkOwnerShip(userName, objectId)) {
-				return true;
-			}
+             
 			s = sf.openSession();
 			t = s.beginTransaction();
 			cn = s.connection();
@@ -672,6 +672,86 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					+ userName + " object id: " + objectId + " and privilege name " + privilegeName+" and the result is "+test+"|");			
 		return test;
 	}
+	private boolean checkPermissionForUserAndGroup(String userName, String objectId,
+			String privilegeName) throws CSException {
+		boolean test = false;
+		Session s = null;
+		Transaction t = null;
+		Connection cn = null;
+		
+		if(userName==null||objectId==null||privilegeName==null){
+			return false;
+		}
+		
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+			cn = s.connection();
+
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("select 'X'");
+			stbr.append(" from protection_group pg,");
+			stbr.append(" protection_element pe,");
+			stbr.append(" protection_group_protection_element pgpe,");
+			stbr.append(" user_group_role_protection_group ugrpg,");
+			stbr.append(" user u,");
+			stbr.append(" groups g,");
+			stbr.append(" user_group ug,");
+			stbr.append(" role_privilege rp,");
+			stbr.append(" privilege p ");
+			stbr.append(" where pgpe.protection_group_id = pg.protection_group_id"); 
+			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" and pe.object_id= ?");
+			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr.append(" and (( ugrpg.group_id = g.group_id");
+			stbr.append("       and ug.user_id = u.user_id)");
+			stbr.append("       or ");
+			stbr.append("     (ugrpg.user_id = u.user_id))");
+			stbr.append(" and u.login_name=?");
+			stbr.append(" and ugrpg.role_id = rp.role_id ");
+			stbr.append(" and rp.privilege_id = p.privilege_id");
+			stbr.append(" and p.privilege_name = ?");
+			String sql = stbr.toString();
+			PreparedStatement pstmt = cn.prepareStatement(sql);
+
+			pstmt.setString(1, objectId);
+			pstmt.setString(2, userName);
+			pstmt.setString(3, privilegeName);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				test = true;
+			}
+			rs.close();
+			pstmt.close();
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"+userName+"|checkPermission|Failure|Error Occured in checking permissions with user id "
+						+ userName + " object id: " + objectId + " and privilege name " + privilegeName+"|"+ ex.getMessage());			
+			throw new CSException("An error occurred while checking permissions\n"+ex.getMessage(), ex);
+		} finally {
+			try {
+
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |"+ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||"+userName+"|checkPermission|Success|Successful in checking permissions with user id "
+					+ userName + " object id: " + objectId + " and privilege name " + privilegeName+" and the result is "+test+"|");			
+		return test;
+	}
 	
 	private boolean checkPermissionForGroup(String userName, String objectId,
 			String privilegeName) throws CSException {
@@ -680,9 +760,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		Connection cn = null;
 		try {
-
-			if (this.checkOwnerShip(userName, objectId)) {
-				return true;
+			
+			if(privilegeName==null){
+				return false;
 			}
 			s = sf.openSession();
 			t = s.beginTransaction();

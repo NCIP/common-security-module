@@ -484,7 +484,9 @@ public class TestClient {
 		try{
 			AuthorizationManager am = (AuthorizationManager)upm;
 			System.out.println(System.currentTimeMillis());
-			System.out.println(am.checkPermission("login_name_4322","x_y_z_11919","Delete"));
+			//System.out.println(am.checkPermission("login_name_4322","x_y_z_11919","Delete"));
+			//System.out.println(am.checkPermission("kumarvi","csmupt",null));
+			System.out.println(am.checkPermission("login_name_2121","x_y_z_17385","Delete"));
 			System.out.println(System.currentTimeMillis());
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -622,7 +624,7 @@ public class TestClient {
 		//ts.assignUserRoleToProtectionGroup();
 		//ts.populatePgPe();
 		//ts.populateUgrpg();
-		//ts.checkPermission();
+		ts.checkPermission();
 		//ts.getObjects();
 		//ts.testGetProtectionElements();
 		//ts.testGetProtectionGroups();
@@ -634,7 +636,7 @@ public class TestClient {
 		//ts.getGroups("5020");
 		//ts.getProtectionGroupById("34");
 		//ts.assignOwners();
-		ts.testSecureObject();
+		//ts.testSecureObject();
 
 	}
 }
