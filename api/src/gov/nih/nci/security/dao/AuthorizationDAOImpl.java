@@ -2553,7 +2553,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Class cl = originalObject.getClass();
 			System.out.println(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
-					userName,"UPDATE");
+					userName,"UPDATE_DENIED");
 			
 			System.out.println(accessMap.toString());
 
