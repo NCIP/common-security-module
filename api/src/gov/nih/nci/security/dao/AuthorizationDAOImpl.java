@@ -1071,14 +1071,26 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (fieldValues.size() == 0) {
 				criteria.add(Expression.eqProperty("1", "1"));
 			}
-			if (searchCriteria.getObjectType() != User.class
-					|| searchCriteria.getObjectType() != Privilege.class) {
+			System.out.println("Message from debug: ObjectType="+searchCriteria.getObjectType().getName());
+			
+			//boolean t = searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User")||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege");
+			
+			//System.out.println("Test:"+t);
+			
+			//if(!t){
+			//	criteria.add(Expression.eq("application", this.application));
+			//}
+			
+			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User")
+					||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege"))) {
 				criteria.add(Expression.eq("application", this.application));
 			}
+			
 
 			result = criteria.list();
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			if (log.isDebugEnabled())
 				log
 						.debug("Authorization|||getObjects|Failure|Error in Obtaining Search Objects from Database |"
