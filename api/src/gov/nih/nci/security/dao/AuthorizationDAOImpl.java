@@ -2475,7 +2475,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
-				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure Object the Object Access Map|"+ex.getMessage());
+				log.debug("Authorization||"+userName+"|secureObject|Failure|Error in Secure Object|"+ex.getMessage());
 			
 			throw new CSException("Failed to secure the object:" +ex.getMessage(),ex);
 		}
@@ -2531,7 +2531,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
-				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure Object the Object Access Map|"+ex.getMessage());
+				log.debug("Authorization||"+userName+"|secureCollection|Failure|Error in Secure Collection|"+ex.getMessage());
 			
 			throw new CSException("Failed to secure Collection:"+ex.getMessage(),ex);
 		}
@@ -2581,9 +2581,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
-				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure upadate the Object Access Map|"+ex.getMessage());
+				log.debug("Authorization||"+userName+"|secureUpdate|Failure|Error in Secure Update|"+ex.getMessage());
 			
-			throw new CSException("Failed to secure the object:" +ex.getMessage(),ex);
+			throw new CSException("Failed to secure update the object:" +ex.getMessage(),ex);
 		}
 		
 		return mutatedObject;
