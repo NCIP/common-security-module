@@ -1,8 +1,12 @@
 package gov.nih.nci.security.ri.dao;
 
 import gov.nih.nci.security.ri.valueObject.Employee;
+import gov.nih.nci.security.ri.valueObject.EmployeeProject;
+import gov.nih.nci.security.ri.valueObject.Project;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
@@ -35,6 +39,25 @@ public class EmployeeDAO extends SecurityRIDAO {
 	 * @throws HibernateException
 	 */
 	public static void updateEmployee(Employee empl) throws HibernateException {
+		String[] associatedIds = empl.getAssociatedIds();
+
+		if (associatedIds != null && associatedIds.length > 0) {
+			log.debug("Resetting employee projects...");
+			
+			Set s = new HashSet();
+
+			for (int i = 0; i < associatedIds.length; i++) {
+				log.debug( "Setting project: " + associatedIds[i]);
+				EmployeeProject ep = new EmployeeProject();
+				ep.setEmployee(empl);
+				ep.setProject(ProjectDAO.searchProjectByPrimaryKey(new Long(
+						associatedIds[i])));
+				s.add(ep);
+				
+			}
+			empl.setEmployeeProjects(s);
+		}
+
 		updateObject(empl);
 	}
 
@@ -64,7 +87,8 @@ public class EmployeeDAO extends SecurityRIDAO {
 
 			if (empl.getLastName() != null
 					&& empl.getLastName().trim().length() > 0) {
-				criteria.add( Expression.ilike( "lastName", empl.getLastName() + "%") );
+				criteria.add(Expression.ilike("lastName", empl.getLastName()
+						+ "%"));
 			}
 
 			List l = criteria.list();

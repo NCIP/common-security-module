@@ -79,21 +79,16 @@ public class SecurityRIDAO {
 		}
 	}
 
-	public static List searchObjectByPrimaryKey(Class c, List primaryKeys)
+	public static Object searchObjectByPrimaryKey(Class c, Long primaryKey)
 			throws HibernateException {
 
 		Session s = null;
-		List l = new LinkedList();
-
+		
 		try {
 
 			s = getSessionFactory().openSession();
-			Iterator i = primaryKeys.iterator();
-			while (i.hasNext()) {
-				l.add(s.load(c, (Long) i.next()));
-			}
-			return l;
-
+			return s.load(c, primaryKey );
+			
 		} finally {
 			try {
 				s.close();
