@@ -779,8 +779,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String application_id = this.application.getApplicationId().toString();
 			String sql = Queries.getQueryForCheckPermissionForUserAndGroup(userName,objectId,privilegeName,application_id);
 			
+			log.debug( "The User/Group query is: " + sql );
+			
 			stmt = cn.createStatement();
-
+			
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				test = true;
