@@ -502,5 +502,20 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.getGroup(groupId);
 	}
 
-
+	public void modifyProtectionElement(ProtectionElement protectionElement) throws CSTransactionException{
+		authorizationDAO.modifyProtectionElement(protectionElement);
+	}
+	
+	public User getUserById(String userId) throws CSObjectNotFoundException{
+		return authorizationDAO.getUserById(userId);
+	}
+	
+	public void modifyUser(User user)throws CSTransactionException{
+		authorizationDAO.modifyUser(user);
+	}
+	
+	public void removeUser(String userId)throws CSTransactionException{
+		authorizationDAO.removeUser(userId);
+	}
+	
 }

@@ -1927,4 +1927,74 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public void modifyProtectionElement(ProtectionElement protectionElement) throws CSTransactionException{
+		Session s = null;
+		Transaction t = null;
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+			protectionElement.setUpdateDate(new Date());
+			s.update(protectionElement);
+			log.debug("Modified");
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException(
+					"Protection group could not be modified", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+	}
+	
+	public User getUserById(String userId) throws CSObjectNotFoundException{
+		return (User) this.getObjectByPrimaryKey(User.class, new Long(userId));
+	}
+	
+	public void modifyUser(User user)throws CSTransactionException{
+		Session s = null;
+		Transaction t = null;
+		try {
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+			s.update(user);
+			log.debug("Modified");
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+	}
+	
+	public void removeUser(String userId)throws CSTransactionException{
+		 User user = new User();
+		 user.setUserId(new Long(userId));
+		 user.setDepartment("VV");
+		 user.setEmailId("tt");
+		 user.setFirstName("ll");
+		 user.setLastName("vv");
+		 user.setLastName("jj");
+		 user.setOrganization("kk");
+		 this.removeObject(user);
+	}
 }

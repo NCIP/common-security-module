@@ -222,6 +222,14 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * 
 	 */
 	public Group getGroup(String groupId) throws CSObjectNotFoundException;
+	
+	public void modifyProtectionElement(ProtectionElement protectionElement) throws CSTransactionException;
 
+	public User getUserById(String userId) throws CSObjectNotFoundException;
+	
+	public void modifyUser(User user)throws CSTransactionException;
+	
+	public void removeUser(String userId)throws CSTransactionException;
+	
 }
 
