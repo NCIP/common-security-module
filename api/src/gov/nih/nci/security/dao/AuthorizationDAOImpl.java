@@ -64,14 +64,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) {
 		this.sf = sf;
 		try {
-			System.out.println("The context Name passed:"
+			log.debug("The context Name passed:"
 					+ applicationContextName);
 			this.application = this
 					.getApplicationByName(applicationContextName);
 			//this.application=
 			// (Application)this.getObjectByPrimaryKey(Application.class,new
 			// Long("1"));
-			System.out.println("The Application:"
+			log.debug("The Application:"
 					+ application.getApplicationId() + ":"
 					+ application.getApplicationDescription());
 		} catch (Exception ex) {
@@ -435,7 +435,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String privilegeName) {
 		// TODO Auto-generated method stub
 
-		//System.out.println("NOW____)))");
+		//log.debug("NOW____)))");
 		boolean test = false;
 		Session s = null;
 		Transaction t = null;
@@ -478,13 +478,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			pstmt.setString(1, objectId);
 			pstmt.setString(2, userName);
 			pstmt.setString(3, privilegeName);
-			//System.out.println("NOW____");
-			//System.out.println(System.currentTimeMillis());
+			//log.debug("NOW____");
+			//log.debug(System.currentTimeMillis());
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				test = true;
 			}
-			//System.out.println(System.currentTimeMillis());
+			//log.debug(System.currentTimeMillis());
 			rs.close();
 			pstmt.close();
 			t.commit();
@@ -811,7 +811,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		 * Query query = s.createQuery("select p from Privilege as p where
 		 * p.name =:name"); query.setString("name",privilegeId); for (Iterator
 		 * it = query.iterate(); it.hasNext();) { Privilege pr1 = (Privilege)
-		 * it.next(); System.out.println("Privilege: " + pr1.getName() );
+		 * it.next(); log.debug("Privilege: " + pr1.getName() );
 		 * pr=pr1; } } catch (Exception ex) { log.fatal("Unable to find Group",
 		 * ex); } finally { try { s.close(); } catch (Exception ex2) { } }
 		 * return pr;
@@ -1009,7 +1009,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Iterator it = groups.iterator();
 			while (it.hasNext()) {
 				Group grp = (Group) it.next();
-				System.out.println("The group Id:" + grp.getGroupId());
+				log.debug("The group Id:" + grp.getGroupId());
 			}
 
 		} catch (Exception ex) {
@@ -1615,16 +1615,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	public Set getPrivileges(String roleId) throws CSObjectNotFoundException {
 		Session s = null;
-		System.out.println("The role: getting there");
+		log.debug("The role: getting there");
 		//ArrayList result = new ArrayList();
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
 			Role role = (Role) this.getObjectByPrimaryKey(Role.class, new Long(
 					roleId));
-			System.out.println("The role:" + role.getName());
+			log.debug("The role:" + role.getName());
 			result = role.getPrivileges();
-			System.out.println("The result size:" + result.size());
+			log.debug("The result size:" + result.size());
 
 		} catch (Exception ex) {
 			log.error(ex);
@@ -1672,7 +1672,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
-			//System.out.println("The original user Id:"+userId);
+			//log.debug("The original user Id:"+userId);
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
@@ -1726,7 +1726,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
-			//System.out.println("The original user Id:"+userId);
+			//log.debug("The original user Id:"+userId);
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
@@ -1850,11 +1850,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
 			log.debug("Somwthing");
 			if (list.size() == 0) {
-				System.out.println("Could not find the Application");
+				log.debug("Could not find the Application");
 				throw new CSObjectNotFoundException("Not found");
 			}
 			app = (Application) list.get(0);
-			System.out.println("Found the Application");
+			log.debug("Found the Application");
 
 		} catch (Exception ex) {
 			log.fatal("Unable to find application context", ex);
