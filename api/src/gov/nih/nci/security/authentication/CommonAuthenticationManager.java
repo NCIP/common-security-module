@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.security.authentication;
 
+import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
@@ -58,8 +59,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		return loginSuccessful;
 	}
 
-	/**
-	 * 
+	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthenticationManager#initialize(java.lang.String)
 	 */
 	public void initialize(String applicationContextName) 
@@ -67,7 +67,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		this.applicationContextName = applicationContextName;		
 	}
 
-	/**
+	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthenticationManager#setApplicationContextName(java.lang.String)
 	 */
 	public void setApplicationContextName(String applicationContextName) 
@@ -75,7 +75,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		this.applicationContextName = applicationContextName;		
 	}
 
-	/**
+	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthenticationManager#getApplicationContextName()
 	 */
 	public String getApplicationContextName() 
@@ -83,10 +83,18 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		return this.applicationContextName;
 	}
 
-	/**
+	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthenticationManager#getAuthenticatedObject()
 	 */
 	public Object getAuthenticatedObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthenticationManager#getSubject()
+	 */
+	public Subject getSubject() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -4,6 +4,8 @@
  */
 package gov.nih.nci.security;
 
+import javax.security.auth.Subject;
+
 /**
  * 
  * This <code>Authentication Manager</code> interface provides all the
@@ -84,4 +86,10 @@ public interface AuthenticationManager {
 	 * @return A null object
 	 */
 	public Object getAuthenticatedObject();
+	
+	/**
+	 * NOTE: This method is not implemented in the current phase
+	 * @return A null object
+	 */
+	public Subject getSubject();
 }
