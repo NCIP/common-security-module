@@ -123,8 +123,10 @@ public abstract class CSMLoginModule implements LoginModule
 			}
 		} catch (FailedLoginException fle) {
 			if (log.isDebugEnabled())
-				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |"+ fle.getMessage() );
-			throw new LoginException("Error in Creating the CallBack Handler");
+				if (log.isDebugEnabled())
+					log.debug("Authentication|||login|Failure| Invalid Login Credentails |"+ fle.getMessage() );
+				throw new LoginException("Invalid Login Credentails");
+
 		} catch (CSException cse) {
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||login|Failure| Error in Logging action |" + cse.getMessage() );
