@@ -5,6 +5,9 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import javax.security.auth.Subject;
 import java.security.Principal;
+import java.util.Collection;
+import java.util.Set;
+
 import gov.nih.nci.security.exceptions.*;
 
 
@@ -222,6 +225,17 @@ public interface AuthorizationManager {
 	
 	public ProtectionElement getProtectionElement(String objectId,String attributeName);
 	
-	public Object secureObject(String userName, Object obj);
+	public Object secureObject(String userName, Object obj) throws CSException;
+	
+	public Collection secureCollection(String userName,Collection objects) throws CSException;
+	
+	/**
+	 * Returns the Assigned Protection Groups for a particular Protection Element. The Protection Element is obtained from the Protection Element Id passed
+	 * @param protectionElementId The id of the Protection Element object whose associated Protection Groups are to be obtained
+	 * 
+	 * @return Set The list of the associated Protection Groups for the User
+	 * @throws CSObjectNotFoundException if the Protection Element object is not found for the given id
+	 */
+	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException;
 }
 

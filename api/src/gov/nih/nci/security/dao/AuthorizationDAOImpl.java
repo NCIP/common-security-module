@@ -20,6 +20,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -2129,38 +2130,37 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("select pe.attribute");
-			stbr.append("from protection_group pg,");
+			stbr.append(" from protection_group pg,");
 			stbr.append("protection_element pe,");
 			stbr.append("protection_group_protection_element pgpe,");
 			stbr.append("user_group_role_protection_group ugrpg,");
 			stbr.append("user u,");
 			stbr.append("role_privilege rp,");
-			stbr.append("privilege p ");
-			stbr
-					.append("where pgpe.protection_group_id = pg.protection_group_id ");
-			stbr
-					.append(" and pgpe.protection_element_id = pe.protection_element_id");
-			stbr.append(" and pe.protection_element_name=" + objectTypeName);
-			stbr
-					.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr.append("privilege p");
+			stbr.append(" where pgpe.protection_group_id = pg.protection_group_id");
+			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" and pe.object_id='" + objectTypeName+"'");
+			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id");
 			stbr.append(" and ugrpg.user_id = u.user_id");
-			stbr.append(" and u.login_name=" + loginName);
+			stbr.append(" and u.login_name='" + loginName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name='NO_ACCESS");
+			stbr.append(" and p.privilege_name='NO_ACCESS'");
 			String sql = stbr.toString();
+			System.out.println("SQL is : "+sql);
 			Statement stmt = cn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				String att = rs.getString(1);
 				Boolean b = new Boolean(false);
-				accessMap.put(att, b);
+				accessMap.put(att.toLowerCase(), b);
 			}
 			rs.close();
 			stmt.close();
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			if (log.isDebugEnabled())
 				log.debug("Authorization|||getObjectAccessMap|Failure|Error in Obtaining the Object Access Map|"+ex.getMessage());
 		} finally {
@@ -2176,7 +2176,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return new ObjectAccessMap(objectTypeName, accessMap);
 	}
 
-	public Object secureObject(String userName, Object obj) {
+	public Object secureObject(String userName, Object obj) throws CSException{
 		Object o = null;
 		try {
 
@@ -2184,16 +2184,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			System.out.println(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName);
+			
+			System.out.println(accessMap.toString());
 
 			o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
 			
 			for (int i = 0; i < methods.length; i++) {
 				Method m = methods[i];
+				
 				String name = m.getName();
 				//System.out.println("Name from outer block"+name);
 				//System.out.println("Para type"+m.getParameterTypes());
-				if (name.startsWith("set")) {
+				if (name.startsWith("set")&&(m.getModifiers()==Modifier.PUBLIC)) {
 					String att = name.substring(3, name.length());
 					String methodName = "get"+att;
 					//System.out.println(methodName);
@@ -2211,49 +2214,64 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure Object the Object Access Map|"+ex.getMessage());
+			
+			throw new CSException("Failed to secure the object:" +ex.getMessage(),ex);
 		}
-		if (log.isDebugEnabled())
-			log.debug("Authorization||"+userName+"|getObjectAccessMap|Success| in Secure Object the Object Access Map|");
+		
 		return o;
 
 	}
 	
-	public Collection  secureCollection(String userName, Collection collection) {
-		Object o = null;
+	public Collection  secureCollection(String userName, Collection collection) throws CSException{
+		ArrayList result = new ArrayList();
 		if (collection.size()==0){
 	    	return collection;
 	    }
 		try {
 			Iterator it = collection.iterator();
             List l = (List)collection;
-		    Object obj = (Object)l.get(0);
+		    Object obj_ = (Object)l.get(0);
 		   
-			Class cl = obj.getClass();
+			Class cl = obj_.getClass();
 			System.out.println(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName);
             while(it.hasNext()){
-						o = cl.newInstance();
-						Method methods[] = cl.getDeclaredMethods();
-						for (int i = 0; i < methods.length; i++) {
-							Method m = methods[i];
-							String name = m.getName();
-							if (name.startsWith("set")) {
-								String att = name.substring(3, name.length());
-								if (!accessMap.hasAccess(att)) {
-									m.invoke(o, new Object[]{null});
-								}
-							}
-						}
+				Object obj = (Object)it.next();		
+            	Object o = cl.newInstance();
+    			Method methods[] = cl.getDeclaredMethods();
+    			
+    			for (int i = 0; i < methods.length; i++) {
+    				Method m = methods[i];
+    				
+    				String name = m.getName();
+    				//System.out.println("Name from outer block"+name);
+    				//System.out.println("Para type"+m.getParameterTypes());
+    				if (name.startsWith("set")&&(m.getModifiers()==Modifier.PUBLIC)) {
+    					String att = name.substring(3, name.length());
+    					String methodName = "get"+att;
+    					//System.out.println(methodName);
+    					Method m2 = cl.getMethod(methodName,null);
+    					//System.out.println("Method Name m2"+m2.getName());
+    					//System.out.println(m2.invoke(obj,null));
+    					if (!accessMap.hasAccess(att)) {
+    						m.invoke(o, new Object[]{null});
+    					}else{
+    						m.invoke(o, new Object[]{m2.invoke(obj, null)});
+    					}
+    				}
+    			}
+    			result.add(o);
             }
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log.debug("Authorization||"+userName+"|getObjectAccessMap|Failure|Error in Secure Object the Object Access Map|"+ex.getMessage());
+			
+			throw new CSException("Failed to secure Collection:"+ex.getMessage(),ex);
 		}
-		if (log.isDebugEnabled())
-			log.debug("Authorization||"+userName+"|getObjectAccessMap|Success| in Secure Object the Object Access Map|");
-		return null;
+		
+		return result;
 
 	}
 	
@@ -2384,5 +2402,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (log.isDebugEnabled())
 			log.debug("Authorization||"+userName+"|checkOwnerShip|Success|Successful in checking ownership for user "+userName+" and Protection Element "+protectionElementObjectId+"|");
 		return test;
+	}
+	
+	public Collection getPrivilegeMap(String userName,Collection pEs) throws CSException{
+		
+		return null;
 	}
 }

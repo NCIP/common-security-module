@@ -377,14 +377,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 */
 	public Set getProtectionElements(String protectionGroupId) throws CSObjectNotFoundException;
 	
-	/**
-	 * Returns the Assigned Protection Groups for a particular Protection Element. The Protection Element is obtained from the Protection Element Id passed
-	 * @param protectionElementId The id of the Protection Element object whose associated Protection Groups are to be obtained
-	 * 
-	 * @return Set The list of the associated Protection Groups for the User
-	 * @throws CSObjectNotFoundException if the Protection Element object is not found for the given id
-	 */
-	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException;
+	
 	
 	/**
 	 * Assigns multiple Protection Groups to a single Protection Element.

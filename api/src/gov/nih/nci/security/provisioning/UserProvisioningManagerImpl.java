@@ -20,6 +20,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -883,7 +884,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return result;
 	}
 	
-	public Object secureObject(String userName, Object obj){
+	public Object secureObject(String userName, Object obj) throws CSException{
 		return authorizationDAO.secureObject(userName,obj);
 	}
+	
+	public Collection secureCollection(String userName,Collection objects) throws CSException{
+		return authorizationDAO.secureCollection(userName,objects);
+	}
+	
 }

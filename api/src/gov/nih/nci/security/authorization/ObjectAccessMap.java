@@ -6,6 +6,7 @@
  */
 package gov.nih.nci.security.authorization;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
@@ -24,11 +25,28 @@ public class ObjectAccessMap {
 	}
 	public boolean hasAccess(String attributeName){
 		boolean hasAccess = true;
-		Boolean value = (Boolean)accessMap.get(attributeName);
+		Boolean value = (Boolean)accessMap.get(attributeName.toLowerCase());
 		if(value!=null){
 			hasAccess = false;
 		}
 		return hasAccess;
+	}
+	
+	public String toString(){
+		StringBuffer stbr = new StringBuffer();
+		stbr.append("Object Name:"+objectName);
+		stbr.append("\n");
+		stbr.append("****************************************");
+		stbr.append("\n");
+		Enumeration en = accessMap.keys();
+		while(en.hasMoreElements()){
+			String key = (String)en.nextElement();
+			Boolean val = (Boolean)accessMap.get(key);
+			stbr.append("Field:"+key+" has access:"+val);
+			stbr.append("\n");
+		}
+		
+		return stbr.toString();
 	}
 
 }

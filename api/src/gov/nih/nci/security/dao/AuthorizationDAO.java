@@ -7,6 +7,7 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -325,6 +326,8 @@ public interface AuthorizationDAO {
 	
 	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException;
 
-	public Object secureObject(String userName, Object obj);
+	public Object secureObject(String userName, Object obj) throws CSException;
+	
+	public Collection secureCollection(String userName,Collection objects) throws CSException;
 }
 
