@@ -24,9 +24,15 @@ public class AuthorizationDAOSessionFactory {
 		 */
 		SessionFactory sf = null;
 		try{
-		 File f = new File("C:/example/myfile.cfg.xml");
+			/**
+			 * We will use this commented out the style for creating sessionfactory
+			 */
+		 //File f = new File("C:/example/myfile.cfg.xml");
+	     //File f = new File("config/myfile.cfg.xml");
 		 
-		 sf = new Configuration().configure(f).buildSessionFactory();
+		 //sf = new Configuration().configure(f).buildSessionFactory();
+			sf = new Configuration().configure().buildSessionFactory();
+			 
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
