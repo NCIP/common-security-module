@@ -2,8 +2,7 @@
 
 
 
-		<table>
-			<tr>
+<table width="100%">			<tr>
 				<td valign="top"><br><br></td>
 			</tr>
 			<tr>

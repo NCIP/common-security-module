@@ -1,8 +1,7 @@
 <%@ include file="/pages/imports.jsp"%>
 
 
-		<table>
-			<tr>
+<table width="100%">			<tr>
 				<td><br><br></td>
 			</tr>
 			<tr>
