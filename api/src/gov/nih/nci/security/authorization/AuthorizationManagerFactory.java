@@ -19,7 +19,7 @@ import org.jdom.input.SAXBuilder;
 
 /**
  * @version 1.0
- * @created 03-Dec-2004 1:17:48 AM
+ * created 03-Dec-2004 1:17:48 AM
  */
 public class AuthorizationManagerFactory {
 

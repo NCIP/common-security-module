@@ -10,7 +10,7 @@ import java.util.Date;
  * A ProtectionElement is a any resource that is a candidate for to be protected.
  * This way the access to different part of the data can be restricted.
  * @version 1.0
- * @created 03-Dec-2004 1:17:50 AM
+ * created 03-Dec-2004 1:17:50 AM
  */
 public class ProtectionElement {
 

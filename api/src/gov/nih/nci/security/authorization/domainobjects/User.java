@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * The user class is a representation of an application user.
  * @version 1.0
- * @created 03-Dec-2004 1:17:51 AM
+ * created 03-Dec-2004 1:17:51 AM
  */
 public class User implements Principal {
 

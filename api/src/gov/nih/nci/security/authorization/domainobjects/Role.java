@@ -10,7 +10,7 @@ import java.util.Date;
  * This class defines the security role object in context of an application. The
  * roles are collection of privileges.
  * @version 1.0
- * @created 03-Dec-2004 1:17:51 AM
+ * created 03-Dec-2004 1:17:51 AM
  */
 public class Role {
 

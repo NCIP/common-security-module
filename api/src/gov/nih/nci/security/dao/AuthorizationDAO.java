@@ -17,7 +17,7 @@ import javax.security.auth.Subject;
  * interface will persist to and retrive the data from the database.
  * 
  * @version 1.0
- * @created 03-Dec-2004 1:17:47 AM
+ * created 03-Dec-2004 1:17:47 AM
  */
 public interface AuthorizationDAO {
 
@@ -55,8 +55,8 @@ public interface AuthorizationDAO {
 	
 
 	/**
-	 * @param protectionElementObjectName
-	 * @param userName
+	 * @param protectionElementObjectId
+	 * @param userNames
 	 *  
 	 */
 	public void setOwnerForProtectionElement(
@@ -81,29 +81,16 @@ public interface AuthorizationDAO {
 	public void deAssignProtectionElements(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException;
 
+	
 	/**
-	 * @param protectionElement
-	 *  
-	 */
-	/**
-	public void createProtectionElement(ProtectionElement protectionElement)
-			throws CSTransactionException;
-      */
-	/**
-	 * @param protectionGroupName
-	 * @param userName
-	 * @param roles
-	 *  
+	 * @param protectionGroupId
+	 * @param userId
+	 * @param rolesId 
 	 */
 	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId) throws CSTransactionException;
 
 	
-	/**
-	 * @param role
-	 *  
-	 */
-	//public void createRole(Role role) throws CSTransactionException;
-
+	
 	/**
 	 * @param permission
 	 * @param subject
@@ -185,11 +172,7 @@ public interface AuthorizationDAO {
 	public void assignProtectionElement(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException;
 
-	/**
-	 * @param group
-	 *  
-	 */
-	//public void createGroup(Group group) throws CSTransactionException;;
+	
 
 	
 	/**
@@ -200,15 +183,10 @@ public interface AuthorizationDAO {
 	 */
 	public void setOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName)
 			throws CSTransactionException;;
-
-	
-
-	
 	
 	/**
-	 * @param groupId
 	 * @param userId
-	 *  
+	 * @param groupIds
 	 */
 	public void assignGroupsToUser(String userId,String[] groupIds)
 			throws CSTransactionException;;

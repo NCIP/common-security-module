@@ -12,7 +12,7 @@ import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
  * that it gives are AuthorizationManager,UserProvisioningManager and
  * AuthenticationManager
  * @version 1.0
- * @created 03-Dec-2004 1:17:51 AM
+ * created 03-Dec-2004 1:17:51 AM
  */
 public class SecurityServiceProvider {
 
@@ -29,9 +29,9 @@ public class SecurityServiceProvider {
 	 * is used only by the User Provisioning Tool and is not available for the applications to use at runtime. The 
 	 * methods exposed 
 	 * @param contextName
-	 * @return The implementation of the {@link userProvisioningManager} interface is returned based on the
+	 * @return The implementation of the {@link UserProvisioningManager} interface is returned based on the
 	 * configuration for the application
-	 * @throws CSException if an instance of {@link userProvisioningManager} could not be obtained
+	 * @throws CSException if an instance of {@link UserProvisioningManager} could not be obtained
 	 */
 	public static UserProvisioningManager getUserProvisioningManager(String contextName) throws CSException{
 		
@@ -71,7 +71,7 @@ public class SecurityServiceProvider {
 	 * {@link AuthenticationManagerFactory} class, for the Application Context/Name provide.
 	 * If an custom Authentication Manager Class is registered for the application then the
 	 * {@link AuthenticationManagerFactory} class will instantiate the same and return it.
-	 * If no configuration is found then the default {@link CommonAuthenticationManager} class
+	 * If no configuration is found then the default {@link gov.nih.nci.security.authentication.CommonAuthenticationManager} class
 	 * is instantiated and returned.This manager should be used by the Client Applications which
 	 * needs to use the Authentication service provided by Common Security Module
 	 * 

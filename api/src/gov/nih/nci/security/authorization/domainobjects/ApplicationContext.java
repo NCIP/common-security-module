@@ -9,7 +9,7 @@ package gov.nih.nci.security.authorization.domainobjects;
  * retrieve all the object like protection groups, protection elements, roles etc
  * that belong to that application.
  * @version 1.0
- * @created 03-Dec-2004 1:17:47 AM
+ * created 03-Dec-2004 1:17:47 AM
  */
 public abstract class ApplicationContext {
 

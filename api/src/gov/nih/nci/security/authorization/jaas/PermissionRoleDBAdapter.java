@@ -15,13 +15,16 @@ import java.sql.*;
 
 /**
  * AuthznDBHanlder.java
- * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.2 2005-01-19 23:36:32 kumarv Exp $ $Log: not supported by cvs2svn $
- * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.2 2005-01-19 23:36:32 kumarv Exp $ Revision 1.1  2004/12/06 17:46:02  hustedb
- * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.2 2005-01-19 23:36:32 kumarv Exp $ moving code to api dir
- * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.2 2005-01-19 23:36:32 kumarv Exp $
- * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.2 2005-01-19 23:36:32 kumarv Exp $ Revision 1.1  2004/12/03 19:05:52  hustedb
- * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.2 2005-01-19 23:36:32 kumarv Exp $ initial release
- * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.2 2005-01-19 23:36:32 kumarv Exp $
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $ $Log: not supported by cvs2svn $
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $ Revision 1.2  2005/01/19 23:36:32  kumarv
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $ *** empty log message ***
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $ Revision 1.1  2004/12/06 17:46:02  hustedb
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $ moving code to api dir
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $ Revision 1.1  2004/12/03 19:05:52  hustedb
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $ initial release
+ * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.3 2005-02-04 17:46:30 kumarv Exp $
  * @version 1.0
  * @created 03-Dec-2004 1:17:50 AM
  */
@@ -82,7 +85,7 @@ public class PermissionRoleDBAdapter implements PermissionAdapter {
 
 	/**
 	 * (non-Javadoc)
-	 * @see sample.auth.AuthznHandler#terminate()
+	 * 
 	 */
 	public void terminate(){
 

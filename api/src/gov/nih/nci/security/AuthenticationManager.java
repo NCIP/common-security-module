@@ -16,8 +16,7 @@ import javax.security.auth.Subject;
  * authentication manager should follow to be able to fit in the Common Security
  * Framework. It defines the methods which are required for the purpose of
  * authenticating a user against the configured credential providers. This
- * interface by default is implemented by the
- * {@link CommonAuthenticationManager}. If the client application wants to use its own
+ * interface by default is implemented by the {@link gov.nih.nci.security.authentication.CommonAuthenticationManager}. If the client application wants to use its own
  * Authentication Class, then it should implement the
  * <code>AuthenticationManager</code> interface. Also an entry should be configured
  * in the <code>ApplicationServiceConfig</code> file against the Application
@@ -26,18 +25,18 @@ import javax.security.auth.Subject;
  * <blockquote>
  * 
  * <pre>
- *		<application>
- *	   		<context-name>
+ *		&lt;application&gt;
+ *	   		&lt;context-name&gt;
  *	   			FooApplication
- *	      	</context-name>
- *	      	<authentication>
- *		      	<authentication-provider-class>
+ *	      	&lt;/context-name&gt;
+ *	      	&lt;authentication&gt;
+ *		      	&lt;authentication-provider-class&gt;
  *	     			com.Foo.AuthenticationManagerClass
- *	     		</authentication-provider-class>
- *			</authentication>
+ *	     		&lt;/authentication-provider-class&gt;
+ *			&lt;/authentication&gt;
  *			:
  *			:
- *		</application>
+ *		&lt;/application&gt;
  * </pre>
  * 
  * </blockquote>

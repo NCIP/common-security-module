@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 /**
- * @created 17-Nov-2004 3:19:57 PM
+ * created 17-Nov-2004 3:19:57 PM
  * @version 1.0
  */
 public class Application extends ApplicationContext {

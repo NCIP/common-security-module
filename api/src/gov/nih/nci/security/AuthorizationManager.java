@@ -72,7 +72,7 @@ public interface AuthorizationManager {
 	 * Returns the {@link ApplicationContext} for which the AuthorizationManager is instantiated. This 
 	 * ApplicationContext object contains the information about the application as well all the associated
 	 * data for the application
-	 * @return ApplicationContext The {@link ApplicaitonContext} object for which the AuthorizationManager is instantiated
+	 * @return ApplicationContext The {@link ApplicationContext} object for which the AuthorizationManager is instantiated
 	 */
 	public ApplicationContext getApplicationContext();
 
@@ -211,7 +211,7 @@ public interface AuthorizationManager {
 
 	/**
 	 * @param userName
-	 * @param protectionElementName
+	 * @param protectionElementObjectId
 	 * @param protectionElementAttributeName
 	 * 
 	 * @throws CSTransactionException

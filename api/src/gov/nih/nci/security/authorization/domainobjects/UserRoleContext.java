@@ -8,7 +8,7 @@ package gov.nih.nci.security.authorization.domainobjects;
  * It is class which hold the roles which are assumed by a particular group in
  * context of a protection group.
  * @version 1.0
- * @created 03-Dec-2004 1:17:52 AM
+ * created 03-Dec-2004 1:17:52 AM
  */
 public class UserRoleContext {
 

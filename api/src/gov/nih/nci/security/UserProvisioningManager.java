@@ -22,7 +22,7 @@ import gov.nih.nci.security.exceptions.*;
  * interface and is used for user provisioning. The UserProvisioningManager exist
  * in context of an application.
  * @version 1.0
- * @created 03-Dec-2004 1:17:51 AM
+ * created 03-Dec-2004 1:17:51 AM
  */
 public interface UserProvisioningManager extends AuthorizationManager {
 
@@ -251,8 +251,8 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * This method accepts an instance of the {@link SearchCriteria} object and uses the same to Query the database.
 	 * The calling application should instantiate appropriate instance of the SearchCriteria. For e.g. In order to
 	 * search for a {@link Role} The client application first has to create an instance of the {@link Role}, then set
-	 * the attributes on which the search is to be based. Then instanstiate a new {@link RoleSearchCriteria} passing the 
-	 * {@link Role}. Now pass this {@link RoleSearchCriteria} typecasted as {@link SearchCriteria} to this method.
+	 * the attributes on which the search is to be based. Then instanstiate a new {@link gov.nih.nci.security.dao.RoleSearchCriteria} passing the 
+	 * {@link Role}. Now pass this {@link gov.nih.nci.security.dao.RoleSearchCriteria} typecasted as {@link SearchCriteria} to this method.
 	 * This method returns List of the corresponding objects which are returned from the database for the Search Criteria. These objects
 	 * should be then type casted. In the e.g. This method returns a List of {@link Role} Objects. This method also returns
 	 * message from the back end as part of the {@link SearchCriteria} object which is passed as parameter. This message 
@@ -391,8 +391,8 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	/**
 	 * Assigns a Protection Group to another Protection Group as a parent.
 	 * The same method should be called for de-assigning or modifying the association
-	 * @param protectionElementId the Protection Element to which the protection Groups are to be assigned
-	 * @param protectionGroupIds The Protection Group which are to be assigned to the Protection Element
+	 * @param parentProtectionGroupId The id for the parent protection group
+	 * @param childProtectionGroupId The id for the child protection group
 	 * @throws CSTransactionException If there are any errors in the Assignment
 	 */
 	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException;
@@ -423,7 +423,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 
 	/**
 	 * Returns the Application object for the passed Application id
-	 * @param appicationId The id of the Application object which is to be obtained
+	 * @param applicationId The id of the Application object which is to be obtained
 	 * 
 	 * @return Application The Application object from the database for the passed Application id
 	 * @throws CSObjectNotFoundException if the Application object is not found for the given id

@@ -8,7 +8,7 @@ import java.security.Principal;
 /**
  * A Group is a logical collection of users. A group belongs to an application.
  * @version 1.0
- * @created 03-Dec-2004 1:17:49 AM
+ * created 03-Dec-2004 1:17:49 AM
  */
 public class Group implements Principal {
 

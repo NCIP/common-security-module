@@ -11,7 +11,7 @@ import java.util.Date;
  * protection elements. A user or a user-group can assume various roles on a
  * protection group
  * @version 1.0
- * @created 03-Dec-2004 1:17:50 AM
+ * created 03-Dec-2004 1:17:50 AM
  */
 public class ProtectionGroup {
 

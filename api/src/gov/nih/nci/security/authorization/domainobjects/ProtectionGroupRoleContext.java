@@ -8,7 +8,7 @@ package gov.nih.nci.security.authorization.domainobjects;
  * This class established the relationship between protection group and roles and
  * becomes a member for a user and a group.
  * @version 1.0
- * @created 03-Dec-2004 1:17:50 AM
+ * created 03-Dec-2004 1:17:50 AM
  */
 public class ProtectionGroupRoleContext {
 
