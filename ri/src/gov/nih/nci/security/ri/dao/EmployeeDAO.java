@@ -10,10 +10,10 @@ import java.util.Set;
 
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Query;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.expression.Expression;
-import net.sf.hibernate.expression.Order;
 
 import org.apache.log4j.Logger;
 
@@ -127,17 +127,17 @@ public class EmployeeDAO extends SecurityRIDAO {
 		try {
 
 			s = getSessionFactory().openSession();
-			Criteria criteria = s.createCriteria(Employee.class);
-			criteria.addOrder(Order.asc("lastName"));
-			criteria.addOrder(Order.asc("firstName"));
 
-			if (empl.getLastName() != null
+			Query q = null;
+			if (null != empl.getLastName()
 					&& empl.getLastName().trim().length() > 0) {
-				criteria.add(Expression.ilike("lastName", empl.getLastName()
-						+ "%"));
-			}
+				q = s.createQuery("from Employee e where e.lastName = :lname");
+				q.setString("lname", empl.getLastName());
 
-			List l = criteria.list();
+			} else {
+				q = s.createQuery("from Employee");
+			}
+			List l = q.list();
 			log.debug("The Employee search returned " + l.size()
 					+ " employees.");
 			return l;
@@ -150,13 +150,14 @@ public class EmployeeDAO extends SecurityRIDAO {
 		}
 
 	}
-	
+
 	/**
 	 * @param empl
 	 * @return
 	 * @throws HibernateException
 	 */
-	public static List searchEmployeeByUserName(String userName) throws HibernateException {
+	public static List searchEmployeeByUserName(String userName)
+			throws HibernateException {
 
 		Session s = null;
 
@@ -164,10 +165,8 @@ public class EmployeeDAO extends SecurityRIDAO {
 
 			s = getSessionFactory().openSession();
 			Criteria criteria = s.createCriteria(Employee.class);
-				
 
-			if (userName != null
-					&& userName.trim().length() > 0) {
+			if (userName != null && userName.trim().length() > 0) {
 				criteria.add(Expression.eq("userName", userName));
 			}
 
