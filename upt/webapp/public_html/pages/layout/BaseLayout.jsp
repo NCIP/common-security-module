@@ -24,7 +24,7 @@
 
 	<!-- nci hdr begins -->
   <tr>
-    <td><tiles:get name="orgheader.jsp"/>
+    <td><tiles:get name="OrgHeader"/>
     </td>
   </tr>
   <!-- nci hdr ends -->
@@ -34,7 +34,7 @@
       <table summary="" cellpadding="0" cellspacing="0" border="0" height="100%" width="771">
 				<!-- application hdr begins -->
 				<tr>
-					<td height="50"><tiles:get name="appheader.jsp"/>
+					<td height="50"><tiles:get name="AppHeader"/>
 					</td>
 				</tr>
 				<!-- application hdr ends -->
@@ -45,7 +45,7 @@
                 <td height="20" class="mainMenu">
 
                   <!-- main menu begins -->
-                <tiles:get name="mainmenu.jsp"/>
+                <tiles:get name="MainMenu"/>
                   <!-- main menu ends -->
 
                 </td>
@@ -55,7 +55,7 @@
               <tr>
                 <td valign="top">
                   <!-- target of anchor to skip menus --><a name="content" /></a>
-                  <tiles:get name="UPTHome.jsp"/>
+                  <tiles:get name="Content"/>
                 </td>
               </tr>
 <!--_____ main content ends _____-->
@@ -64,7 +64,7 @@
                 <td height="20" width="100%" class="footerMenu">
 
                   <!-- application ftr begins -->
-                  <tiles:get name="appfooter.jsp"/>
+                  <tiles:get name="AppFooter"/>
                   <!-- application ftr ends -->
 
                 </td>
@@ -79,11 +79,11 @@
     <td>
 
       <!-- footer begins -->
-      <tiles:get name="orgfooter.jsp"/>
+      <tiles:get name="OrgFooter"/>
       <!-- footer ends -->
 
     </td>
   </tr>
 </table>
 </body>
-</html>
+</html:html>

@@ -15,4 +15,12 @@
     <put name="title" type="string" value="NCI Security Admin Application"/>
   </definition>
   
+  
+ <!-- Pages Begin --> 
+  <definition name="UPTLogin" extends="Base">
+  	<put name="Content"   value="pages/content/UPTLogin.jsp" />
+  </definition>
+  
+  
+  
   </tiles-definitions>
