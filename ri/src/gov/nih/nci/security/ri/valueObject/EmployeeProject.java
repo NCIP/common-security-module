@@ -1,8 +1,6 @@
 package gov.nih.nci.security.ri.valueObject;
 
 import java.io.Serializable;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 
@@ -10,17 +8,17 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class EmployeeProject implements Serializable {
 
     /** identifier field */
-    private gov.nih.nci.security.ri.valueObject.EmployeeProjectPK comp_id;
+    private Long employeeProjectId;
 
-    /** nullable persistent field */
+    /** persistent field */
     private gov.nih.nci.security.ri.valueObject.Employee employee;
 
-    /** nullable persistent field */
+    /** persistent field */
     private gov.nih.nci.security.ri.valueObject.Project project;
 
     /** full constructor */
-    public EmployeeProject(gov.nih.nci.security.ri.valueObject.EmployeeProjectPK comp_id, gov.nih.nci.security.ri.valueObject.Employee employee, gov.nih.nci.security.ri.valueObject.Project project) {
-        this.comp_id = comp_id;
+    public EmployeeProject(Long employeeProjectId, gov.nih.nci.security.ri.valueObject.Employee employee, gov.nih.nci.security.ri.valueObject.Project project) {
+        this.employeeProjectId = employeeProjectId;
         this.employee = employee;
         this.project = project;
     }
@@ -29,17 +27,12 @@ public class EmployeeProject implements Serializable {
     public EmployeeProject() {
     }
 
-    /** minimal constructor */
-    public EmployeeProject(gov.nih.nci.security.ri.valueObject.EmployeeProjectPK comp_id) {
-        this.comp_id = comp_id;
+    public Long getEmployeeProjectId() {
+        return this.employeeProjectId;
     }
 
-    public gov.nih.nci.security.ri.valueObject.EmployeeProjectPK getComp_id() {
-        return this.comp_id;
-    }
-
-    public void setComp_id(gov.nih.nci.security.ri.valueObject.EmployeeProjectPK comp_id) {
-        this.comp_id = comp_id;
+    public void setEmployeeProjectId(Long employeeProjectId) {
+        this.employeeProjectId = employeeProjectId;
     }
 
     public gov.nih.nci.security.ri.valueObject.Employee getEmployee() {
@@ -60,23 +53,8 @@ public class EmployeeProject implements Serializable {
 
     public String toString() {
         return new ToStringBuilder(this)
-            .append("comp_id", getComp_id())
+            .append("employeeProjectId", getEmployeeProjectId())
             .toString();
-    }
-
-    public boolean equals(Object other) {
-        if ( (this == other ) ) return true;
-        if ( !(other instanceof EmployeeProject) ) return false;
-        EmployeeProject castOther = (EmployeeProject) other;
-        return new EqualsBuilder()
-            .append(this.getComp_id(), castOther.getComp_id())
-            .isEquals();
-    }
-
-    public int hashCode() {
-        return new HashCodeBuilder()
-            .append(getComp_id())
-            .toHashCode();
     }
 
 }

@@ -5,6 +5,9 @@ import gov.nih.nci.security.ri.dao.EmployeeDAO;
 import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.valueObject.Employee;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,7 +35,12 @@ public class UpdateEmployeeAction extends Action implements Constants {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		
-		EmployeeDAO.updateEmployee( (Employee) form );
+		Employee e = EmployeeDAO.updateEmployee( (Employee) form );
+		List l = new LinkedList();
+		l.add( e );
+		
+		request.getSession().setAttribute( EMPLOYEE_LIST, l );
+		request.getSession().setAttribute( EMPLOYEE_ID, e.getEmployeeId().toString() );
 		
 		
 		return mapping.findForward( ACTION_SUCCESS );

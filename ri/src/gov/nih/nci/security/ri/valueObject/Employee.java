@@ -2,7 +2,6 @@ package gov.nih.nci.security.ri.valueObject;
 
 import java.io.Serializable;
 import java.util.Set;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.validator.ValidatorForm;
 
@@ -26,6 +25,9 @@ public class Employee extends ValidatorForm implements Serializable {
     private String phoneNumber;
 
     /** nullable persistent field */
+    private String emailAddr;
+
+    /** nullable persistent field */
     private String streetAddr;
 
     /** nullable persistent field */
@@ -35,16 +37,13 @@ public class Employee extends ValidatorForm implements Serializable {
     private String state;
 
     /** nullable persistent field */
+    private String zip;
+
+    /** nullable persistent field */
     private String salary;
 
     /** nullable persistent field */
     private String ssn;
-    
-    /** nullable persistent field */
-    private String emailAddr;
-    
-    /** nullable persistent field */
-    private String zip;
 
     /** persistent field */
     private gov.nih.nci.security.ri.valueObject.Employee employee;
@@ -55,20 +54,22 @@ public class Employee extends ValidatorForm implements Serializable {
     /** persistent field */
     private Set employees;
     
-    private String[] associatedIds;
-    private String[] availableIds;
+    String[] associatedIds;
     
+    String[] availableIds;
 
     /** full constructor */
-    public Employee(Long employeeId, String firstName, String middleName, String lastName, String phoneNumber, String streetAddr, String city, String state, String salary, String ssn, gov.nih.nci.security.ri.valueObject.Employee employee, Set employeeProjects, Set employees) {
+    public Employee(Long employeeId, String firstName, String middleName, String lastName, String phoneNumber, String emailAddr, String streetAddr, String city, String state, String zip, String salary, String ssn, gov.nih.nci.security.ri.valueObject.Employee employee, Set employeeProjects, Set employees) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.emailAddr = emailAddr;
         this.streetAddr = streetAddr;
         this.city = city;
         this.state = state;
+        this.zip = zip;
         this.salary = salary;
         this.ssn = ssn;
         this.employee = employee;
@@ -130,6 +131,14 @@ public class Employee extends ValidatorForm implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getEmailAddr() {
+        return this.emailAddr;
+    }
+
+    public void setEmailAddr(String emailAddr) {
+        this.emailAddr = emailAddr;
+    }
+
     public String getStreetAddr() {
         return this.streetAddr;
     }
@@ -152,6 +161,14 @@ public class Employee extends ValidatorForm implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getZip() {
+        return this.zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getSalary() {
@@ -200,31 +217,6 @@ public class Employee extends ValidatorForm implements Serializable {
             .toString();
     }
 
-	/**
-	 * @return Returns the emailAddr.
-	 */
-	public String getEmailAddr() {
-		return emailAddr;
-	}
-	/**
-	 * @param emailAddr The emailAddr to set.
-	 */
-	public void setEmailAddr(String emailAddr) {
-		this.emailAddr = emailAddr;
-	}
-	/**
-	 * @return Returns the zip.
-	 */
-	public String getZip() {
-		return zip;
-	}
-	/**
-	 * @param zip The zip to set.
-	 */
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
-	
 	/**
 	 * @return Returns the associatedIds.
 	 */

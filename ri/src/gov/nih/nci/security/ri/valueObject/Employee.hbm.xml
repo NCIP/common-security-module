@@ -51,15 +51,15 @@
         length="20"
     />
     <property
-        name="streetAddr"
-        type="java.lang.String"
-        column="STREET_ADDR"
-        length="50"
-    />
-    <property
         name="emailAddr"
         type="java.lang.String"
         column="EMAIL_ADDR"
+        length="50"
+    />
+    <property
+        name="streetAddr"
+        type="java.lang.String"
+        column="STREET_ADDR"
         length="50"
     />
     <property

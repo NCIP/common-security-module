@@ -1,18 +1,17 @@
 
 <%@ include file="/pages/imports.jsp"%>
 
-<html:form method="post" action="updateEmployee">
+<html:form styleId="employeeForm" action="updateEmployee">
 
 	<script> 
-    	function setAndSubmit(target)
+    	function setAndSubmit()
     	{
-    		document.employeeForm.operation.value=target;
     		var len = document.employeeForm.associatedIds.length;
     		for (i=0 ; i < len ; i++)
     		{
     			document.employeeForm.associatedIds[i].selected = true;
     		}
-    		document.employeeForm.submit();
+    		//document.employeeForm.submit();
     	}
     	
     	// selSwitch functions
@@ -142,7 +141,7 @@
 					<td align="right" colspan="3"><!-- action buttons begins -->
 					<table cellpadding="4" cellspacing="0" border="0">
 						<tr>
-							<td><html:submit style="actionButton" onclick="setAndSubmit('execute');">Update</html:submit></td>
+							<td><html:submit style="actionButton" onclick="setAndSubmit();">Update</html:submit></td>
 						</tr>
 					</table>
 					<!-- action buttons end --></td>

@@ -49,15 +49,18 @@ public class ViewEmployeeAction extends Action implements Constants {
 
 		Iterator i = searchResults.iterator();
 		String temp = (String) request.getParameter(EMPLOYEE_ID);
+		if ( temp == null || temp.length() <= 0){
+			temp = (String) request.getSession().getAttribute( EMPLOYEE_ID );
+		}
 		Long employeeId = new Long(temp);
-
+		List allProjects = ProjectDAO.searchProject( new Project() );
 		while (i.hasNext()) {
 			Employee e = (Employee) i.next();
 			if (employeeId.compareTo(e.getEmployeeId()) == 0) {
 				request.getSession().setAttribute(EMPLOYEE_FORM, e);
 
 				Set s = e.getEmployeeProjects();
-				List allProjects = ProjectDAO.searchProject( new Project() );
+				
 				if (s != null) {
 					List assignedProjects = new LinkedList();
 					Iterator iter = s.iterator();
@@ -77,9 +80,9 @@ public class ViewEmployeeAction extends Action implements Constants {
 					request.getSession().setAttribute(ASSIGNED_PROJECTS, assignedProjects);
 					
 					
-					request.getSession().setAttribute( UNASSIGNED_PROJECTS, allProjects );
+					
 				}
-				
+				request.getSession().setAttribute( UNASSIGNED_PROJECTS, allProjects );
 				
 
 				log.debug("Found Employee with ID: "

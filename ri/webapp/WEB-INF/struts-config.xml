@@ -72,7 +72,7 @@
 		
 			
 		<action input="viewEmployee" name="employeeForm" path="/updateEmployee" type="gov.nih.nci.security.ri.struts.actions.UpdateEmployeeAction" scope="session" >
-			<forward name="success" path="show.employee"/>
+			<forward name="success" path="/viewEmployee.do"/>
 		</action>
 		
 		
