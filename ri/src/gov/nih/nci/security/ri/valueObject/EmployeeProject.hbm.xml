@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.ri.valueObject.EmployeeProject" 
+    table="employee_project"
+>
+
+    <composite-id name="comp_id" class="gov.nih.nci.security.ri.valueObject.EmployeeProjectPK">
+        <key-property 
+            name="employeeId" 
+            column="EMPLOYEE_ID" 
+            type="java.lang.Long"
+            length="200"
+        />
+        <key-property 
+            name="projectId" 
+            column="PROJECT_ID" 
+            type="java.lang.Long"
+            length="200"
+        />
+    </composite-id>    
+
+
+    <!-- Associations -->
+    <!-- derived association(s) for compound key -->
+    <!-- bi-directional many-to-one association to Employee -->
+    <many-to-one
+        name="employee"
+	    class="gov.nih.nci.security.ri.valueObject.Employee"
+	    update="false"
+	    insert="false"
+	>
+    	<column name="EMPLOYEE_ID" />
+	</many-to-one>
+	
+    <!-- bi-directional many-to-one association to Project -->
+    <many-to-one
+        name="project"
+	    class="gov.nih.nci.security.ri.valueObject.Project"
+	    update="false"
+	    insert="false"
+	>
+    	<column name="PROJECT_ID" />
+	</many-to-one>
+	
+    <!-- end of derived association(s) -->
+  
+
+</class>
+</hibernate-mapping>
