@@ -151,6 +151,17 @@ public class TestClient {
 		}
 	}
 	
+	public void testUserDelete(){
+		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+		
+		try{
+			upm.removeUser("1000");
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
 	public void testModifyRole(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
@@ -450,17 +461,21 @@ public class TestClient {
 			//Role role = new Role();
 			//role.setName("role_name_1");
 			//Group grp = new Group();
-			ProtectionElement pe = new ProtectionElement();
-			pe.setProtectionElementName("PE_name_1");
+			User user = new User();
+			user.setLoginName("login_name_1");
+			user.setFirstName("%");
+			//ProtectionElement pe = new ProtectionElement();
+			//pe.setProtectionElementName("PE_name_1");
 			//grp.setGroupName("g%");
 			//SearchCriteria sc = new RoleSearchCriteria(role);
-			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			//SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			SearchCriteria sc = new UserSearchCriteria(user);
 			List result = upm.getObjects(sc);
 			   Iterator it = result.iterator();
 			   while(it.hasNext()){
 			   //	Role p = (Role)it.next();
-			   	ProtectionElement pe1 = (ProtectionElement)it.next();
-			   	System.out.println(pe1.getProtectionElementName()+":"+pe1.getProtectionElementDescription());
+			   	User usr = (User)it.next();
+			   	System.out.println(usr.getFirstName()+":"+usr.getLastName());
 			   }
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -496,5 +511,6 @@ public class TestClient {
 		//ts.testGetProtectionGroups();
 		//ts.assignToProtectionGroups();
 		//ts.testGetProtectionGroups();
+		//ts.testUserDelete();
 	}
 }
