@@ -32,18 +32,18 @@ import gov.nih.nci.security.exceptions.*;
  * <blockquote>
  * 
  * <pre>
- *  	<application>
- *	   		<context-name>
+ *  	&lt;application&gt;
+ *	   		&lt;context-name&gt;
  *	   			FooApplication
- *	      	</context-name>
+ *	      	&lt;/context-name&gt;
  *			:
  *			:
- *	      	<authorization>
- *		      	<authorization-provider-class>
+ *	      	&lt;authorization&gt;
+ *		      	&lt;authorization-provider-class&gt;
  *	     			com.Foo.AuthorizationManagerClass
- *	     		</authorization-provider-class>
- *			</authorization>
- *		</application>
+ *	     		&lt;/authorization-provider-class&gt;
+ *			&lt;/authorization&gt;
+ *		&lt;/application&gt;
  * </pre>
  * 
  * </blockquote>
@@ -126,6 +126,7 @@ public interface AuthorizationManager {
 
 	
 	/**
+	 * The method checks the permission for a {@link Subject} for a given {@link AccessPermission}
 	 * @param permission
 	 * @param subject
 	 * 
@@ -135,6 +136,8 @@ public interface AuthorizationManager {
 	public boolean checkPermission(AccessPermission permission, Subject subject) throws CSException;
 
 	/**
+	 * The method checks the permission for a user for a given {@link AccessPermission}
+	 * 
 	 * @param permission
 	 * @param userName
 	 * 
@@ -144,6 +147,7 @@ public interface AuthorizationManager {
 	public boolean checkPermission(AccessPermission permission, String userName) throws CSException;
 
 	/**
+	 * The method checks if the user has passed privilege on the atribute for the passed object.
 	 * @param userName
 	 * @param objectId
 	 * @param attributeId
@@ -155,7 +159,6 @@ public interface AuthorizationManager {
 
 	/**
 	 * This method verifies whether the User has the provided Privilege on the Protection Element.
-	 * This method retrieves the User object from the 
 	 * @param userName
 	 * @param objectId
 	 * @param privilegeName
@@ -166,6 +169,8 @@ public interface AuthorizationManager {
 	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSException;
 
 	/**
+	 * The method returns all the principals for the user
+	 *  The method return 
 	 * @param userName
 	 * 
 	 * @return Principal[]
@@ -235,8 +240,25 @@ public interface AuthorizationManager {
 	 */
 	public ProtectionElement getProtectionElement(String objectId,String attributeName);
 	
+	/**
+	 *  The secure object method can be used only with objects which follow the java beans specifications.
+	 *  This method assumes that Object passed has all the public getter and setter methods. The method checks
+	 *  permission for every attribute of the object for the passed userName. If the user does not have read
+	 *  permission on the few attributes, then they will appear as null.
+	 * @param userName
+	 * @param obj
+	 * @return Object
+	 * @throws CSException
+	 */
 	public Object secureObject(String userName, Object obj) throws CSException;
 	
+	/**
+	 * The secureCollection method secures a collection of objects which follow java beans specifications.
+	 * @param userName
+	 * @param objects
+	 * @return Collection
+	 * @throws CSException
+	 */
 	public Collection secureCollection(String userName,Collection objects) throws CSException;
 	
 	/**
@@ -248,6 +270,14 @@ public interface AuthorizationManager {
 	 */
 	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException;
 	
+	/**
+	 * The method return a Collection of <code>ObjectPrivilegeMap</code>. For every passed <code>ProtectionElement</code>,the 
+	 * method looks for the privileges that this user have on the <code>ProtectionElement</code>
+	 * @param userName
+	 * @param protectionElements
+	 * @return Collection
+	 * @throws CSException
+	 */
 	public Collection getPrivilegeMap(String userName,Collection protectionElements) throws CSException;
 }
 
