@@ -47,13 +47,13 @@ public class ViewEmployeeAction extends Action implements Constants {
 		List searchResults = (List) request.getSession().getAttribute(
 				EMPLOYEE_LIST);
 		Iterator i = searchResults.iterator();
-		
+
 		String temp = (String) request.getParameter(EMPLOYEE_ID);
 		if (temp == null || temp.length() <= 0) {
 			temp = (String) request.getSession().getAttribute(EMPLOYEE_ID);
 		}
 		Long employeeId = new Long(temp);
-		
+
 		Employee theEmployee = null;
 		while (i.hasNext()) {
 			Employee tempEmployee = (Employee) i.next();
@@ -66,14 +66,16 @@ public class ViewEmployeeAction extends Action implements Constants {
 			}
 		}
 
-		Set s = theEmployee.getEmployeeProjects();
+		Set employeeProjects = theEmployee.getEmployeeProjects();
 		List assignedProjects = new LinkedList();
 		List allProjects = ProjectDAO.searchProject(new Project());
 
-		if (s != null) {
-			Iterator iter = s.iterator();
-			while (iter.hasNext()) {
-				EmployeeProject ep = (EmployeeProject) iter.next();
+		if (employeeProjects != null) {
+			Iterator employeeProjectsIter = employeeProjects.iterator();
+			while (employeeProjectsIter.hasNext()) {
+				EmployeeProject ep = (EmployeeProject) employeeProjectsIter
+						.next();
+				assignedProjects.add(ep.getProject());
 
 				Iterator allProjectIter = allProjects.iterator();
 				while (allProjectIter.hasNext()) {
@@ -84,11 +86,11 @@ public class ViewEmployeeAction extends Action implements Constants {
 						break;
 					}
 				}
-				assignedProjects.add(ep.getProject());
+
 			}
 		}
 
-		request.getSession().setAttribute( EMPLOYEE_FORM, theEmployee );
+		request.getSession().setAttribute(EMPLOYEE_FORM, theEmployee);
 		request.getSession().setAttribute(ASSIGNED_PROJECTS, assignedProjects);
 		request.getSession().setAttribute(UNASSIGNED_PROJECTS, allProjects);
 
