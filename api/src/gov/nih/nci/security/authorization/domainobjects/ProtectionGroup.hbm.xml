@@ -67,6 +67,15 @@
     <!-- bi-directional one-to-many association to ProtectionGroup -->
     
     <!-- bi-directional many-to-one association to ProtectionGroup -->
+    <set name="protectionElements" lazy="true" table="protection_group_protection_element">
+       <key column="protection_group_id"/>
+       <many-to-many 
+           column="protection_element_id" 
+           class="gov.nih.nci.security.authorization.domainobjects.ProtectionElement"
+           
+        />
+     </set>
+     
     <many-to-one
         name="parentProtectionGroup"
         class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
