@@ -7,7 +7,8 @@ import java.util.List;
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
-import net.sf.hibernate.expression.Example;
+import net.sf.hibernate.expression.Expression;
+import net.sf.hibernate.expression.Order;
 
 import org.apache.log4j.Logger;
 
@@ -28,7 +29,7 @@ public class EmployeeDAO extends SecurityRIDAO {
 	public static void saveEmployee(Employee empl) throws HibernateException {
 		saveObject(empl);
 	}
-	
+
 	/**
 	 * @param empl
 	 * @throws HibernateException
@@ -58,10 +59,17 @@ public class EmployeeDAO extends SecurityRIDAO {
 
 			s = getSessionFactory().openSession();
 			Criteria criteria = s.createCriteria(Employee.class);
-			criteria.add(Example.create(empl));
-			
+			criteria.addOrder(Order.asc("lastName"));
+			criteria.addOrder(Order.asc("firstName"));
+
+			if (empl.getLastName() != null
+					&& empl.getLastName().trim().length() > 0) {
+				criteria.add( Expression.ilike( "lastName", empl.getLastName() + "%") );
+			}
+
 			List l = criteria.list();
-			log.debug( "The Employee search returned " + l.size() + " employees.");
+			log.debug("The Employee search returned " + l.size()
+					+ " employees.");
 			return l;
 
 		} finally {
