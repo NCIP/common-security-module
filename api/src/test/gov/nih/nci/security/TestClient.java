@@ -35,8 +35,32 @@ public class TestClient {
     		ex.printStackTrace();
     	}
     }
+    public void testPrivilegeDelete(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
+    	
+    	try{
+    	upm.removePrivilege("10");
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void testModifyCreate(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
+    	Privilege p = new Privilege();
+    	p.setId(new Long("13"));
+    	p.setName("ReadTest123_updated");
+    	try{
+    	upm.modifyPrivilege(p);
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
-		ts.testPrivilegeCreate();
+		//ts.testPrivilegeCreate();
+		//ts.testPrivilegeDelete();
+		ts.testModifyCreate();
 	}
 }

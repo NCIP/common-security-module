@@ -160,6 +160,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//p.setName("TestName");
 			s.save(privilege);
 			t.commit();
+			s.close();
 			System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
 		} catch (Exception ex) {
 			try {
@@ -186,6 +187,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				t = s.beginTransaction();
 				s.save(privilege);
 				t.commit();
+				s.close();
 				System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
 			} catch (Exception ex) {
 				try {
@@ -352,7 +354,28 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public void modifyPrivilege(Privilege privilege)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
-
+		Session s = null;
+		Transaction t = null;
+		try {
+			System.out.println( "About to be Modified");
+			s = sf.openSession();	
+			t = s.beginTransaction();
+			s.saveOrUpdate(privilege);
+			System.out.println( "Modified");
+			t.commit();
+			s.close();
+			//System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#modifyProtectionGroup(gov.nih.nci.security.authorization.domainobjects.ProtectionGroup)
@@ -398,7 +421,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public void removePrivilege(String privilegeId)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
-
+		Session s = null;
+		Transaction t = null;
+		try {
+			System.out.println( "About to be Deleted");
+			s = sf.openSession();	
+			t = s.beginTransaction();
+			Privilege p = new Privilege();
+			p.setId(new Long(privilegeId));
+			s.delete(p);
+			System.out.println( "Deleted");
+			t.commit();
+			s.close();
+			//System.out.println( "Privilege ID is: " + privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad",ex);
+		}
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removePrivilegesFromRole(java.lang.String, java.lang.String[])
