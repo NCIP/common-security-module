@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans />
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings />
+	<controller bufferSize="4096" debug="0" />
+
+	<message-resources
+		parameter="gov.nih.nci.security.upt.resources.ApplicationResources" />
+
+	<!--Additional plug-ins -->
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/conf/tiles.xml" />
+		<set-property property="debug" value="DEBUG"></set-property>
+	</plug-in>
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/conf/validator-rules.xml,/WEB-INF/conf/validation.xml" />
+	</plug-in>
+</struts-config>
+
