@@ -19,6 +19,7 @@ import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.junk.RandomIntGenerator;
 import gov.nih.nci.security.dao.*;
+import java.lang.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -99,12 +100,14 @@ public class TestClient {
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
-			for(int i=1;i<11;i++){
+			//for(int i=1;i<11;i++){
 				Role r = new Role();
-				r.setName("Role_name_"+i);
-				r.setDesc("Role_Desc_"+i);
+				r.setName("Admin1234");
+				r.setDesc("Admin role 1234 desc");
+				Byte b = new Byte("1");
+				r.setActive_flag(b.byteValue());
 				upm.createRole(r);
-			}
+			//}
 			
 			
 		}catch(Exception ex){
@@ -426,7 +429,7 @@ public class TestClient {
 		//ts.testPrivilegeDelete();
 		//ts.testModifyCreate();
 		//ts.testPrivilegeFind();
-		//ts.testRoleCreate();
+		ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
 		//ts.assignPrivilegeToRoles();
@@ -445,6 +448,6 @@ public class TestClient {
 		//ts.populatePgPe();
 		//ts.populateUgrpg();
 		//ts.checkPermission();
-		ts.getObjects();
+		//ts.getObjects();
 	}
 }

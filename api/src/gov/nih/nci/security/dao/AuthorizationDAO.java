@@ -366,13 +366,9 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 	 * @param groupId
 	 *  
 	 */
-	public Group getGroup(Long groupId) throws CSObjectNotFoundException;
+	public Group getGroup(String groupId) throws CSObjectNotFoundException;
 
-	/**
-	 * @param groupName
-	 *  
-	 */
-	public Group getGroup(String groupName) throws CSObjectNotFoundException;
+	
 
 	public Set getPrivileges(String roleId) throws CSObjectNotFoundException;
 
@@ -392,6 +388,8 @@ public interface AuthorizationDAO extends UserProvisioningManager {
 			throws CSTransactionException;
 	
 	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException;
+
+	
 
 }
 

@@ -103,7 +103,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
 			Set user_groups = user.getGroups();
-			Group group = getGroup(new Long(groupId));
+			Group group = getGroup(groupId);
 
 			if (!user_groups.contains(group)) {
 				user_groups.add(group);
@@ -741,9 +741,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getGroup(java.lang.Long)
 	 */
-	public Group getGroup(Long groupId) throws CSObjectNotFoundException {
+	public Group getGroup(String groupId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
-		return (Group) this.getObjectByPrimaryKey(Group.class, groupId);
+		return (Group) this.getObjectByPrimaryKey(Group.class, new Long(groupId));
 	}
 
 	/*
@@ -751,7 +751,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getGroup(java.lang.String)
 	 */
-	public Group getGroup(String groupName) throws CSObjectNotFoundException {
+	public Group getGroupXX(String groupName) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		Session s = null;
 		Group grp = null;

@@ -215,6 +215,13 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException;
 	
 	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException;
+	
+	/**
+	 * Returns the Group for the passed name group id
+	 * @param groupId
+	 * 
+	 */
+	public Group getGroup(String groupId) throws CSObjectNotFoundException;
 
 }
 

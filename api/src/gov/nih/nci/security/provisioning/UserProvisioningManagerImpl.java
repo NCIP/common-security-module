@@ -494,5 +494,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public Set getProtectionGroupRoleContext(String userId) throws CSObjectNotFoundException{
 		return null;
 	}
+	
+	public Group getGroup(String groupId) throws CSObjectNotFoundException{
+		return null;
+	}
+
 
 }
