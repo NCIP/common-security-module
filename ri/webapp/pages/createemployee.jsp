@@ -1,6 +1,7 @@
 
 <%@ include file= "/pages/imports.jsp" %>
 
+<html:form method="post" action="createEmployee" >
 
 <table>
 <tr>
@@ -37,29 +38,26 @@
 						</tr>
 						<tr>
 							<td class="formRequiredNotice" width="5">&nbsp;</td>
-							<td class="formRequiredLabel">MI</td>
-							<td class="dataCellText"><html:text property="middleInitial" maxlength="1" size="1" tabindex="14" /></td>
+							<td class="formRequiredLabel">Middle Name</td>
+							<td class="dataCellText"><html:text property="middleName" maxlength="1" size="1" tabindex="14" /></td>
 						</tr>
 						<tr><td class="formRequiredNotice" width="5">*</td>
 							<td class="formRequiredLabel">Street address:  </td>
-							<td class="dataCellText"><html:text property="addressLine1" maxlength="45" size="10" tabindex="15" /></td>
+							<td class="dataCellText"><html:text property="streetAddr" maxlength="45" size="10" tabindex="15" /></td>
 						</tr>
 						<tr><td class="formRequiredNotice" width="5">*</td>
 							<td class="formRequiredLabel">City:  </td>
 							<td class="dataCellText"><html:text property="city" size="10" maxlength="50" tabindex="16" /></td>
 						</tr>
 
-						<!-- State - have to hook up with form
+						
 						<tr><td class="formRequiredNotice" width="5">*</td>
-							<td class="formRequiredLabel">State:  </td>
+							<td class="formRequiredLabel">State Code:  </td>
 							<td class="dataCellText">
-								<html:select property="state" size="1" tabindex="17">
-									<bean:define id="stateOptions" name="createemployeeForm" property="stateOptions" type="java.util.Collection"/>
-									<html:options collection="stateOptions" property="value" labelProperty="label"/>
-								</html:select>
+								<html:text property="state" size="3" maxlength="3" tabindex="17" />
 							</td>
 						</tr>
-						-->
+				
 						<tr><td class="formRequiredNotice" width="5">*</td>
 							<td class="formRequiredLabel">Zip:  </td>
 							<td class="dataCellText"><html:text property="zip" size="10" maxlength="10" tabindex="18" /></td>
@@ -74,7 +72,7 @@
 						</tr>
 						<tr><td class="formRequiredNotice" width="5">&nbsp;</td>
 													<td class="formRequiredLabel">Social Security Number: </td>
-													<td class="dataCellText"><html:text property="socSecurity" size="10" maxlength="60" tabindex="20" /></td>
+													<td class="dataCellText"><html:text property="ssn" size="10" maxlength="60" tabindex="20" /></td>
 						</tr>
 
 
@@ -83,12 +81,12 @@
 						</tr>
 
 						<tr><td class="formRequiredNotice" width="5">*</td>
-								<td class="formRequiredLabel">Project:  </td>
-								<td class="dataCellText"><html:text property="zip" size="10" maxlength="10" tabindex="18" /></td>
+								<td class="formRequiredLabel">Projects:  </td>
+								<td class="dataCellText">Not Yet Defined</td>
 							</tr>
 							<tr><td class="formRequiredNotice" width="5">*</td>
 								<td class="formRequiredLabel">Salary: </td>
-								<td class="dataCellText"><html:text property="phoneNumber" size="10" maxlength="14" tabindex="19" /></td>
+								<td class="dataCellText"><html:text property="salary" size="10" maxlength="14" tabindex="19" /></td>
 						</tr>
 
 
@@ -105,7 +103,7 @@
 							<!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<td><input class="actionButton" type="submit" value="Submit" /></td>
+									<td><html:submit/></td>
 									<td><input class="actionButton" type="reset" value="Reset" /></td>
 								</tr>
 							</table>
@@ -122,3 +120,5 @@
 </td>
 </tr>
 </table>
+
+</html:form >
