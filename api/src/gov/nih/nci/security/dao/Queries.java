@@ -190,7 +190,7 @@ public class Queries {
 		sqlBfr.append(getQueryForObjectMap_group());
 		sqlBfr.append(stbr.toString());
 		
-		return null;
+		return sqlBfr.toString();
 	}
 	
 	private static String getQueryForObjectMap_user(){
@@ -242,9 +242,8 @@ public class Queries {
 	}
 	
 	public static void main(String[] args){
-		System.out.println(Queries.getQueryForUserAndGroupForAttribute("hr_manager",
-				"gov.nih.nci.security.ri.Employee","salary",
-				"Update","1"));
+		System.out.println(Queries.getQueryForObjectMap("technical_manager",
+				"gov.nih.nci.security.ri.valueObject.Employee","UPDATE_DENIED","1"));
 		
 	}
 }
