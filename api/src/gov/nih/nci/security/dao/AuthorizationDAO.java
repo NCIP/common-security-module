@@ -150,7 +150,7 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public boolean checkPermission(String userName, String objectId,
-			String privilegeName);
+			String privilegeName) throws CSTransactionException;
 
 	
 

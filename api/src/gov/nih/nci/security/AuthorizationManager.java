@@ -93,7 +93,7 @@ public interface AuthorizationManager {
 	 * @param privilegeName
 	 * 
 	 */
-	public boolean checkPermission(String userName, String objectId, String privilegeName);
+	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSTransactionException;
 
 	/**
 	 * @param userName
