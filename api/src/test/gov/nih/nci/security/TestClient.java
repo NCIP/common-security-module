@@ -10,6 +10,7 @@ package test.gov.nih.nci.security;
 
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
@@ -136,9 +137,9 @@ public class TestClient {
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		//String[] privilegeIds = {"1", "2","3"};
 		//String[] privilegeIds = {"1","2"};
-		String[] privilegeIds = {"1", "3","4"};
+		String[] privilegeIds = {"27","29"};
 		//String[] privilegeIds = {};
-		String roleId = "2";
+		String roleId = "54";
 		try{
 			upm.assignPrivilegesToRole(roleId,privilegeIds);
 		}catch(Exception ex){
@@ -363,9 +364,43 @@ public class TestClient {
 		}
 	}
 	
+	private void priv_populateUgrpg(){
+		RandomIntGenerator rit = new RandomIntGenerator(55,63);
+		String[] roleIds = new String[2];
+		for(int i=0;i<2;i++){	    	 	
+			int k = rit.draw();
+			roleIds[i]= String.valueOf(k);
+		}
+		rit = new RandomIntGenerator(1,5000);
+		String user_id = String.valueOf(rit.draw());
+		rit = new RandomIntGenerator(34,133);
+		String pg_id = String.valueOf(rit.draw());
+		
+		try{
+			upm.assignUserRoleToProtectionGroup(user_id,roleIds,pg_id);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void populateUgrpg(){
+		for(int i=1;i<5000;i++){	    	 	
+			priv_populateUgrpg();
+		}
+	}
+	
 	public void populatePgPe(){
 		for(int i=1;i<100;i++){	    	 	
 			priv_populatePgPe();
+		}
+	}
+	public void checkPermission(){
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			System.out.println(System.currentTimeMillis());
+			System.out.println(am.checkPermission("login_name_4322","x_y_z_11919","Delete"));
+			System.out.println(System.currentTimeMillis());
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 	public static void main(String[] args) {
@@ -390,6 +425,8 @@ public class TestClient {
 		//ts.removeUserFromGroup();
 		//ts.assignProtectioElement();
 		//ts.assignUserRoleToProtectionGroup();
-		ts.populatePgPe();
+		//ts.populatePgPe();
+		//ts.populateUgrpg();
+		ts.checkPermission();
 	}
 }

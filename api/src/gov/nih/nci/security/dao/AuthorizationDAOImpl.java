@@ -425,7 +425,69 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) {
 		// TODO Auto-generated method stub
-		return false;
+		boolean  test = false;
+		Session s = null;
+		Transaction t = null;
+		Connection cn = null;
+		//log.debug("Running create test...");
+		try {
+			
+
+			s = sf.openSession();
+			t = s.beginTransaction();
+			cn = s.connection();
+			
+			User user = this.getUser(userName);
+			ProtectionElement pe = this.getProtectionElement(objectId);
+			
+			
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("select 'X'");
+			stbr.append("from protection_group pg,");
+			stbr.append("protection_element pe,");
+			stbr.append("protection_group_protection_element pgpe,");
+			stbr.append("user_group_role_protection_group ugrpg,");
+			stbr.append("user u,");
+			stbr.append("role_privilege rp,");
+			stbr.append("privilege p ");
+			stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
+			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" and pe.object_id=?");
+			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr.append(" and ugrpg.user_id = u.user_id");
+			stbr.append(" and u.login_name=?");
+			stbr.append(" and ugrpg.role_id = rp.role_id ");
+			stbr.append(" and rp.privilege_id = p.privilege_id");
+			stbr.append(" and p.privilege_name=?");
+			String sql = stbr.toString();
+			PreparedStatement pstmt = cn.prepareStatement(sql);
+			
+			Long priv_id = new Long(privilegeName);
+			pstmt.setString(1,objectId);
+			pstmt.setString(2,userName);
+			pstmt.setString(3,privilegeName);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				test = true;
+			}
+			rs.close();
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			//throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				cn.close();
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return test;
 	}
 
 	/*
