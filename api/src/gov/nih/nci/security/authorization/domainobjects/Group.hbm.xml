@@ -20,8 +20,9 @@
         name="groupId"
         type="java.lang.Long"
         column="GROUP_ID"
+        unsaved-value="null"
     >
-        <generator class="assigned" />
+        <generator class="identity"/>
     </id>
 
     <property
