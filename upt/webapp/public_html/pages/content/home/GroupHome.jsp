@@ -29,7 +29,7 @@
 
 				<h3>Group Home</h3>
 
-				<p>This is the Group section of the User Provisioning Tool.  A Group is simply a collection of application users.  My combining users into a Group, it becomes easier to manage their collective roles and access rights in your application.  Simply select an existing group, and associate a new Protection Group and Roles.  Upon doing so, everyone in that particular Group has the same rights. <br>  Under the User portion of UPT you may assign users to Groups.  In this section you may create new Groups, modify existing Group details, and associate or deassociate Groups' Protection Groups and Roles.  Please begin by selecting either Create a New Group or Select a Existing an Existing Group.</p>
+				<p>This is the Group section of the User Provisioning Tool.  A Group is simply a collection of application users.  My combining users into a Group, it becomes easier to manage their collective roles and access rights in your application.  Simply select an existing group, and associate a new Protection Group and Roles.  Upon doing so, everyone in that particular Group has the same rights. <br>  Under the User portion of UPT you may assign users to Groups.  In this section you may create new Groups, modify existing Group details, and associate or deassociate Groups' Protection Groups and Roles.  Please begin by selecting either Create a New Group or Select an Existing Group.</p>
 				</td>
 			</tr>
 			<tr>
