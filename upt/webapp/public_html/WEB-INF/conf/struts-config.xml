@@ -4,12 +4,37 @@
 	<data-sources />
 	<form-beans />
 	<global-exceptions />
-	<global-forwards />
-	<action-mappings />
+	<global-forwards>
+		
+		<!-- Tiles : Home -->
+		<forward name="Login" path="/Login.do" redirect="false"/>
+		<forward name="Home" path="/Home.do" redirect="false"/>
+
+	</global-forwards>
+	<action-mappings>
+	
+	
+	<!-- Tiles : Home -->	
+	<action
+		parameter="Home"
+		path="/Home"
+		scope="request"
+		type="gov.nih.nci.camatch.actions.TransactionCheckForwardAction"/>	
+
+	<action
+		path="/Login"
+		type="org.apache.struts.actions.ForwardAction"
+		parameter="/pages/content/Login.jsp"/>
+
+	
+	</action-mappings>
+
 	<controller bufferSize="4096" debug="0" />
 
 	<message-resources
 		parameter="gov.nih.nci.security.upt.resources.ApplicationResources" />
+
+
 
 	<!--Additional plug-ins -->
 
@@ -23,28 +48,6 @@
 		<set-property property="pathnames"
 			value="/WEB-INF/conf/validator-rules.xml,/WEB-INF/conf/validation.xml" />
 	</plug-in>
-
-
-<form-beans>
-	<!-- ... -->
-</form-beans>
-
-<global-forwards>
-	
-	<forward 
-		name="Login" 
-		path="Login.do"/>
-
-</global-forwards>
-
-<action-mappings>
-
-	<action
-		path="/Login"
-		type="org.apache.struts.actions.ForwardAction"
-		parameter="/pages/content/UPTLogin.jsp"/>
-	
-</action-mappings>
 
 </struts-config>
 
