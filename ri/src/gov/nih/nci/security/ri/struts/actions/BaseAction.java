@@ -1,5 +1,6 @@
 package gov.nih.nci.security.ri.struts.actions;
 
+import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -35,6 +36,8 @@ public abstract class BaseAction extends Action implements Constants,
 
 	static AuthorizationManager am = null;
 
+	
+
 	/*
 	 * Method ensures that the user is authenticated before calling the
 	 * executeWorkflow of the subclass. If the User is not authenticated then an
@@ -56,16 +59,20 @@ public abstract class BaseAction extends Action implements Constants,
 		return executeWorkflow(mapping, form, request, response);
 	}
 
-	
 	protected AuthorizationManager getAuthorizationManager() throws CSException {
-		if (am == null) {
-			am = SecurityServiceProvider
-					.getAuthorizationManager(CSM_RI_CONTEXT_NAME);
+
+		synchronized (BaseAction.class) {
+			if (am == null) {
+				am = SecurityServiceProvider
+						.getAuthorizationManager(CSM_RI_CONTEXT_NAME);
+			}
 		}
 
 		return am;
 
 	}
+
+	
 
 	protected UserProvisioningManager getUserProvisioningManager()
 			throws CSException {
