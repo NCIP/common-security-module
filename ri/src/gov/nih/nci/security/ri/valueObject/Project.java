@@ -77,5 +77,18 @@ public class Project extends ValidatorForm implements Serializable {
             .append("projectId", getProjectId())
             .toString();
     }
+    
+    /**
+	 * @param obj
+	 *  
+	 */
+	public boolean equals(Object obj) {
+		Project other = (Project) obj;
+		if (this.getProjectId().longValue() == other.getProjectId().longValue()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

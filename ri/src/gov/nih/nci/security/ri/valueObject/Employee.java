@@ -1,5 +1,7 @@
 package gov.nih.nci.security.ri.valueObject;
 
+import gov.nih.nci.security.authorization.domainobjects.Group;
+
 import java.io.Serializable;
 import java.util.Set;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -49,7 +51,7 @@ public class Employee extends ValidatorForm implements Serializable, Cloneable {
 
 	/** persistent field */
 	private Set employeeProjects;
-	
+
 	private String managerStatus;
 
 	/**
@@ -58,19 +60,22 @@ public class Employee extends ValidatorForm implements Serializable, Cloneable {
 	public String getManagerStatus() {
 		return managerStatus;
 	}
+
 	/**
-	 * @param managerStatus The managerStatus to set.
+	 * @param managerStatus
+	 *            The managerStatus to set.
 	 */
 	public void setManagerStatus(String managerStatus) {
 		this.managerStatus = managerStatus;
 	}
+
 	/** persistent field */
 	private Set employees;
 
 	private String userName;
 
 	private String password;
-	
+
 	private String businessUnit;
 
 	/**
@@ -79,12 +84,15 @@ public class Employee extends ValidatorForm implements Serializable, Cloneable {
 	public String getBusinessUnit() {
 		return businessUnit;
 	}
+
 	/**
-	 * @param businessUnit The businessUnit to set.
+	 * @param businessUnit
+	 *            The businessUnit to set.
 	 */
 	public void setBusinessUnit(String businessUnit) {
 		this.businessUnit = businessUnit;
 	}
+
 	/**
 	 * @return Returns the password.
 	 */
@@ -322,5 +330,18 @@ public class Employee extends ValidatorForm implements Serializable, Cloneable {
 	 */
 	public void setAvailableIds(String[] availableIds) {
 		this.availableIds = availableIds;
+	}
+
+	/**
+	 * @param obj
+	 *  
+	 */
+	public boolean equals(Object obj) {
+		Employee other = (Employee) obj;
+		if (this.getEmployeeId().longValue() == other.getEmployeeId().longValue()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
