@@ -85,26 +85,27 @@ public class CreateEmployeeAction extends SecureAction {
 			pe.setObjectId(SecurityUtils.getEmployeeObjectId(empl));
 			pe.setProtectionElementName("EMPLOYEE_RECORD_"
 					+ empl.getEmployeeId());
-			pe.setProtectionElementDescription("The gov.nih.nci.security.ri.valueObject.Employee Object");
+			pe
+					.setProtectionElementDescription("The gov.nih.nci.security.ri.valueObject.Employee Object");
 
 			//create the employee protection element to protected the
 			//employee's data
 			getAuthorizationManager().createProtectionElement(pe);
 
-			User user = createUser(empl);
 			//Create the User for Authorization
-			getUserProvisioningManager().createUser(user);
+			User user = createUser(empl);
+
 			//Assign the User to the appropriate UserGroup
 			getUserProvisioningManager().assignUserToGroup(user.getLoginName(),
 					SecurityUtils.getEmployeeGroup(empl));
 
+			//assign the employee as owner of record
+			getAuthorizationManager().setOwnerForProtectionElement(
+					user.getLoginName(), pe.getObjectId(), null);
+
 			//assign the employee to his business unit
 			getAuthorizationManager().assignProtectionElement(
 					empl.getBusinessUnit(), pe.getObjectId());
-
-			//assign the employee as owner of record
-			getAuthorizationManager().setOwnerForProtectionElement(
-					empl.getUserName(), pe.getObjectId(), null);
 
 			//If they are not part of HR division then add
 			//employee record so that HR managers can view
@@ -116,8 +117,9 @@ public class CreateEmployeeAction extends SecureAction {
 			}
 
 		} catch (CSException ex) {
-			log.fatal(
-				"The Security Service encountered a fatal exception.",
+			log
+					.fatal(
+							"The Security Service encountered a fatal exception.",
 							ex);
 			throw new Exception(
 					"The Security Service encountered a fatal exception.", ex);
@@ -125,7 +127,7 @@ public class CreateEmployeeAction extends SecureAction {
 
 	}
 
-	private User createUser(Employee empl) {
+	private User createUser(Employee empl) throws CSException {
 		User user = new User();
 		user.setLoginName(empl.getUserName());
 		user.setLastName(empl.getLastName());
@@ -135,6 +137,9 @@ public class CreateEmployeeAction extends SecureAction {
 		user.setPassword(empl.getPassword());
 		user.setPhoneNumber(empl.getPhoneNumber());
 		user.setDepartment(empl.getBusinessUnit());
+
+		getUserProvisioningManager().createUser(user);
+
 		return user;
 	}
 }
