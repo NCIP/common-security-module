@@ -71,7 +71,7 @@
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%"><html:radio
-													style="formFieldSized" property="protectionGroupAssociatedId" value="<bean:write name='protectionGroup' property='protectionGroupId' />"/></td>
+													style="formFieldSized" property="protectionGroupAssociatedId" value="<%=protectionGroup.getProtectionGroupId().toString()%>"/></td>
 												<td class="dataCellText" width="45%"><bean:write
 													name="protectionGroup" property="protectionGroupName" /></td>
 												<td class="dataCellText" width="45%">
@@ -84,7 +84,7 @@
 											<tr class="dataRowDark">
 												<td class="dataCellNumerical" width="10%"><html:radio
 													style="formFieldSized" property="protectionGroupAssociatedId"
-													value="<bean:write name='protectionGroup' property='protectionGroupId' />" /></td>
+													value="<%=protectionGroup.getProtectionGroupId().toString()%>" /></td>
 												<td class="dataCellText" width="45%"><bean:write
 													name="protectionGroup" property="protectionGroupName" /></td>
 												<td class="dataCellText" width="45%">
