@@ -61,10 +61,19 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public User getUser(String loginName){
 		return null;
 	}
+	
+	/**
+	 * @param authorizationDAO
+	 * 
+	 */
+	public void setAuthorizationDAO(AuthorizationDAO authorizationDAO){
+		this.authorizationDAO = authorizationDAO;
+	}
 
 	public ApplicationContext getApplicationContext(){
 		return null;
 	}
+	
 
 	/**
 	 * @param protectionGroup
@@ -194,7 +203,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void initialize(String applicationContextName){
-
+        
 	}
 
 	/**
