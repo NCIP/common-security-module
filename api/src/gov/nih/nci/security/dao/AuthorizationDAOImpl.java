@@ -210,67 +210,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		//log.debug("Running create test...");
 		try {
-
+			s = sf.openSession();
+			t = s.beginTransaction();
+            Set newPrivs = new HashSet();
 			ArrayList newList = new ArrayList();
 			for (int k = 0; k < privilegeIds.length; k++) {
 				log.debug("The new list:" + privilegeIds[k]);
-				newList.add(privilegeIds[k]);
+				Privilege pr = (Privilege)this.getObjectByPrimaryKey(Privilege.class,new Long(privilegeIds[k]));
+				newPrivs.add(pr);
 			}
 
-			s = sf.openSession();
-
-			t = s.beginTransaction();
-			Role r = this.getRole(new Long(roleId));
-			/**
-			 * First check if there are some privileges for this role If there
-			 * are any then delete them.
-			 */
-			RolePrivilege search = new RolePrivilege();
-			search.setRole(r);
-
-			List list = s.createCriteria(RolePrivilege.class).add(
-					Example.create(search)).list();
-			ArrayList oldList = new ArrayList();
-			Iterator it = list.iterator();
-			while (it.hasNext()) {
-				RolePrivilege rp1 = (RolePrivilege) it.next();
-				Privilege priv = rp1.getPrivilege();
-				oldList.add(priv.getId().toString());
-				System.out.println("The old Priv Id:"+priv.getId().toString());
-				log.debug("The old List" + priv.getId().toString());
-			}
-
-			Collection toBeInserted = ObjectSetUtil.minus(newList, oldList);
-			Collection toBeRemoved = ObjectSetUtil.minus(oldList, newList);
-
-			Iterator toBeInsertedIt = toBeInserted.iterator();
-			Iterator toBeRemovedIt = toBeRemoved.iterator();
-
-			while (toBeInsertedIt.hasNext()) {
-				String rp_id = (String) toBeInsertedIt.next();
-				System.out.println("To Be Inserted: " + rp_id);
-				log.debug("To Be Inserted: " + rp_id);
-				Privilege p = this.getPrivilege(rp_id);
-				RolePrivilege rp = new RolePrivilege();
-				rp.setPrivilege(p);
-				rp.setRole(r);
-				rp.setUpdateDate(new java.util.Date());
-				s.save(rp);
-			}
-			while (toBeRemovedIt.hasNext()) {
-
-				String p_id = (String) toBeRemovedIt.next();
-				System.out.println("To Be Removed: " + p_id);
-				log.debug("To Be Removed: " + p_id);
-				Privilege p = new Privilege();
-				p.setId(new Long(p_id));
-				search.setPrivilege(p);
-				List list_del = s.createCriteria(RolePrivilege.class).add(
-						Example.create(search)).list();
-				RolePrivilege rp_del = (RolePrivilege) list_del.get(0);
-				s.delete(rp_del);
-			}
-
+			Role role = (Role)this.getObjectByPrimaryKey(Role.class,new Long(roleId));
+			role.setPrivileges(newPrivs);
+			s.update(role);
 			t.commit();
 
 			//log.debug( "Privilege ID is: " +
@@ -290,6 +242,94 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	
+	public void assignPrivilegesToRoleXX(String roleId, String[] privilegeIds)
+	throws CSTransactionException {
+
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+		
+			ArrayList newList = new ArrayList();
+			for (int k = 0; k < privilegeIds.length; k++) {
+				log.debug("The new list:" + privilegeIds[k]);
+				newList.add(privilegeIds[k]);
+			}
+		
+			s = sf.openSession();
+		
+			t = s.beginTransaction();
+			Role r = this.getRole(new Long(roleId));
+			/**
+			 * First check if there are some privileges for this role If there
+			 * are any then delete them.
+			 */
+			RolePrivilege search = new RolePrivilege();
+			search.setRole(r);
+		
+			List list = s.createCriteria(RolePrivilege.class).add(
+					Example.create(search)).list();
+			ArrayList oldList = new ArrayList();
+			Iterator it = list.iterator();
+			while (it.hasNext()) {
+				RolePrivilege rp1 = (RolePrivilege) it.next();
+				Privilege priv = rp1.getPrivilege();
+				oldList.add(priv.getId().toString());
+				System.out.println("The old Priv Id:"+priv.getId().toString());
+				log.debug("The old List" + priv.getId().toString());
+			}
+		
+			Collection toBeInserted = ObjectSetUtil.minus(newList, oldList);
+			Collection toBeRemoved = ObjectSetUtil.minus(oldList, newList);
+		
+			Iterator toBeInsertedIt = toBeInserted.iterator();
+			Iterator toBeRemovedIt = toBeRemoved.iterator();
+		
+			while (toBeInsertedIt.hasNext()) {
+				String rp_id = (String) toBeInsertedIt.next();
+				System.out.println("To Be Inserted: " + rp_id);
+				log.debug("To Be Inserted: " + rp_id);
+				Privilege p = this.getPrivilege(rp_id);
+				RolePrivilege rp = new RolePrivilege();
+				rp.setPrivilege(p);
+				rp.setRole(r);
+				rp.setUpdateDate(new java.util.Date());
+				s.save(rp);
+			}
+			while (toBeRemovedIt.hasNext()) {
+		
+				String p_id = (String) toBeRemovedIt.next();
+				System.out.println("To Be Removed: " + p_id);
+				log.debug("To Be Removed: " + p_id);
+				Privilege p = new Privilege();
+				p.setId(new Long(p_id));
+				search.setPrivilege(p);
+				List list_del = s.createCriteria(RolePrivilege.class).add(
+						Example.create(search)).list();
+				RolePrivilege rp_del = (RolePrivilege) list_del.get(0);
+				s.delete(rp_del);
+			}
+		
+			t.commit();
+		
+			//log.debug( "Privilege ID is: " +
+			// privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		
+		}
 
 	/*
 	 * (non-Javadoc)
@@ -837,7 +877,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public Role getRole(Long roleId) throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		Role r = (Role) this.getObjectByPrimaryKey(Role.class, roleId);
-		r.setPrivileges(this.getPrivileges(roleId.toString()));
+		//r.setPrivileges(this.getPrivileges(roleId.toString()));
 		return r;
 	}
 
@@ -1258,7 +1298,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
-			Role role = this.getRole(new Long(roleId));
+			Role role = (Role)this.getObjectByPrimaryKey(Role.class,new Long(roleId));
 			System.out.println("The role:"+role.getName());
 			result = role.getPrivileges();
 			System.out.println("The result size:"+result.size());
