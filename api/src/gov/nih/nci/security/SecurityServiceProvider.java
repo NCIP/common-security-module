@@ -1,6 +1,10 @@
 package gov.nih.nci.security;
 import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.authentication.AuthenticationManagerFactory;
+import gov.nih.nci.security.dao.AuthorizationDAOImpl;
+import gov.nih.nci.security.dao.AuthorizationDAO;
+import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
 
 
 
@@ -34,6 +38,11 @@ public class SecurityServiceProvider {
 	 * 
 	 */
 	public static UserProvisioningManager getUserProvisioningManger(String contextName){
+		
+		AuthorizationDAO authorizationDAO = (AuthorizationDAO)(new AuthorizationDAOImpl());
+		
+		
+		
 		return null;
 	}
 
@@ -52,5 +61,6 @@ public class SecurityServiceProvider {
 	public static AuthenticationManager getAutheticationManager(String applicationContextName){
 		return null;
 	}
+	
 
 }
