@@ -63,6 +63,8 @@ public class DisplayConstants
 	public static final boolean NOT_DISABLED = false;
 	public static final boolean DISABLED = true;
 
+	public static final String ERROR_DETAILS = "ERROR_DETAILS";
+	
 	public static final String ASSIGNED_SET = "ASSIGNED_SET";
 	public static final String AVAILABLE_SET = "AVAILABLE_SET";
 	public static final String AVAILABLE_PROTECTIONGROUP_SET = "AVAILABLE_PROTECTIONGROUP_SET";

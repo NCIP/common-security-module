@@ -20,7 +20,9 @@
 		<form-bean name="UserForm"
 			type="gov.nih.nci.security.upt.forms.UserForm" />
 	</form-beans>
-	<global-exceptions />
+	<global-exceptions>
+		<exception key="" scope="request" type="java.lang.Exception" path="Tiles.500.Error.Page" handler="gov.nih.nci.security.upt.resources.DefaultExceptionHandler"/>
+	</global-exceptions>
 	<global-forwards>
 		<forward name="Login" path="/Login.do" />
 		<forward name="Home" path="/Home.do" />
@@ -28,6 +30,7 @@
 		<forward name="LoginPage" path="Tiles.Login.Page" />
 	</global-forwards>
 	<action-mappings>
+		<action path="/ViewErrorDetails" forward="Tiles.500.Error.DetailsPage"/>
 		<action path="/Home"
 			type="gov.nih.nci.security.upt.actions.HomeAction"
 			input="Tiles.Login.Page">

@@ -13,6 +13,7 @@ import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
+import gov.nih.nci.security.upt.forms.LoginForm;
 import gov.nih.nci.security.upt.forms.ProtectionGroupForm;
 import gov.nih.nci.security.util.ObjectSetUtil;
 
@@ -21,7 +22,9 @@ import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Category;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
@@ -42,11 +45,20 @@ public class ProtectionGroupAction extends CommonAssociationAction
 	private ActionErrors errors = new ActionErrors();
 	private ActionMessages messages = new ActionMessages();
 	
+	private static final Category logProtectionGroup = Category.getInstance(ProtectionGroupAction.class);
+	
 	public ActionForward loadParentAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;
+		HttpSession session = request.getSession();
+		
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
+			if (logProtectionGroup.isDebugEnabled())
+				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|loadParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
+			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		}
 		
 		Collection associatedProtectionGroup = (Collection)new HashSet();
 		
@@ -62,6 +74,10 @@ public class ProtectionGroupAction extends CommonAssociationAction
 		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedProtectionGroup);
 		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableProtectionGroups);
 		
+		if (logProtectionGroup.isDebugEnabled())
+			logProtectionGroup.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+				"|"+protectionGroupForm.getFormName()+"|loadParentAssociation|Success|Success in Loading Parent Association for "+protectionGroupForm.getFormName()+" object|"
+				+form.toString()+"|");
 		return (mapping.findForward(ForwardConstants.LOAD_PARENT_ASSOCIATION_SUCCESS));		
 		
 	}
@@ -70,6 +86,14 @@ public class ProtectionGroupAction extends CommonAssociationAction
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;
+		HttpSession session = request.getSession();
+		
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
+			if (logProtectionGroup.isDebugEnabled())
+				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|setParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
+			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		}
+		
 		errors.clear();
 
 		try
@@ -90,7 +114,15 @@ public class ProtectionGroupAction extends CommonAssociationAction
 		{
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
+			if (logProtectionGroup.isDebugEnabled())
+				logProtectionGroup.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+					"|"+protectionGroupForm.getFormName()+"|setParentAssociation|Failure|Error Loading Protection Group Association for the "+protectionGroupForm.getFormName()+" object|"
+					+form.toString()+"|"+ cse.getMessage());			
 		}
+		if (logProtectionGroup.isDebugEnabled())
+			logProtectionGroup.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+				"|"+protectionGroupForm.getFormName()+"|setParentAssociation|Success|Success in Setting Parent Association for "+protectionGroupForm.getFormName()+" object|"
+				+form.toString()+"|");
 		return (mapping.findForward(ForwardConstants.SET_PARENT_ASSOCIATION_SUCCESS));
 		
 	}

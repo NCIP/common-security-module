@@ -22,6 +22,14 @@
 		<put name="Content" value="/pages/content/main/Login.jsp" />
 	</definition>
 	
+	<!-- Error Pages -->
+	<definition name="Tiles.500.Error.Page" extends="Base">
+		<put name="Content" value="/pages/content/main/Error500.jsp" />
+	</definition>
+	<definition name="Tiles.500.Error.DetailsPage" extends="Base">
+		<put name="Content" value="/pages/content/main/ErrorDetails.jsp" />
+	</definition>
+	
 	<!-- Home Pages -->
 	<definition name="Tiles.Home.Page" extends="Base">
 		<put name="Content" value="/pages/content/home/MainHome.jsp" />
