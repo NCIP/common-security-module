@@ -142,7 +142,7 @@
 					<td align="right" colspan="3"><!-- action buttons begins -->
 					<table cellpadding="4" cellspacing="0" border="0">
 						<tr>
-							<td><html:submit>Update</html:submit></td>
+							<td><html:submit style="actionButton" onclick="setAndSubmit('execute');">Update</html:submit></td>
 						</tr>
 					</table>
 					<!-- action buttons end --></td>
