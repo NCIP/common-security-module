@@ -1122,14 +1122,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void removePrivilege(String privilegeId)
 			throws CSTransactionException {
-		//Privilege p = new Privilege();
-		//p.setId(new Long(privilegeId));
-		try{
-		Privilege p = (Privilege)this.getObjectByPrimaryKey(Privilege.class,new Long(privilegeId));
-		this.removeObject(p);
-		}catch(Exception ex){
-			throw new CSTransactionException("sss",ex);
-		}
+		
+		Privilege p = new Privilege();
+		p.setId( new Long( privilegeId));
+		p.setDesc( "t");
+		p.setName("t");
+		p.setUpdateDate( new Date());
+		removeObject( p );
 		
 	}
 

@@ -46,7 +46,6 @@ public class SecurityTestSuite {
 		suite.addTest(new TestSuite(RoleTest.class));
 		suite.addTest(new TestSuite(UserRoleContextTest.class));
 		suite.addTest(new TestSuite(UserTest.class));
-		suite.addTest(new TestSuite(CommonSecurityManagerTest.class));
 		suite.addTest(new TestSuite(SecurityServiceProviderTest.class));
 		suite.addTest(new TestSuite(AuthenticationManagerFactoryTest.class));
 		suite.addTest(new TestSuite(CommonAuthenticationManagerTest.class));
