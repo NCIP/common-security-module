@@ -45,6 +45,17 @@ public class TestClient {
     		ex.printStackTrace();
     	}
     }
+    public void testPrivilegeFind(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
+    	
+    	try{
+    	Privilege p = upm.getPrivilege("8");
+    	System.out.println(p.getName());
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
     
     public void testModifyCreate(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
@@ -61,6 +72,7 @@ public class TestClient {
 		TestClient ts = new TestClient();
 		//ts.testPrivilegeCreate();
 		//ts.testPrivilegeDelete();
-		ts.testModifyCreate();
+		//ts.testModifyCreate();
+		ts.testPrivilegeFind();
 	}
 }
