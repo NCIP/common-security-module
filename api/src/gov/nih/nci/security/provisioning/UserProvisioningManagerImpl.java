@@ -375,7 +375,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void addUserToGroup(String groupId, String userId)throws CSTransactionException{
-
+        authorizationDAO.addUserToGroup(groupId,userId);
 	}
 
 	/**

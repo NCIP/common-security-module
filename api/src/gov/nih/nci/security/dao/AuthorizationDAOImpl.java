@@ -70,10 +70,62 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void addUserToGroup(String groupId, String userId)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
-		/**
-		 * insert into usergroup table (groupid,userid);
-		 */
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+
+			
+
+			s = sf.openSession();
+
+			t = s.beginTransaction();
+			User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
+			/**
+			 * First check if there are some privileges for this role If there
+			 * are any then delete them.
+			 */
+			UserGroup search = new UserGroup();
+			search.setUser(user);
+
+			List list = s.createCriteria(UserGroup.class).add(
+					Example.create(search)).list();
+			ArrayList oldList = new ArrayList();
+			Iterator it = list.iterator();
+			while (it.hasNext()) {
+				UserGroup ug = (UserGroup) it.next();
+				Group group = (Group)ug.getGroup();
+				oldList.add(group.getGroupId().toString());
+				log.debug("The old List" + group.getGroupId().toString());
+			}
+
+			 if(!oldList.contains(groupId)){
+			 	Group g = this.getGroup(new Long(groupId));
+			 	UserGroup ugToBeSaved = new UserGroup();
+			 	ugToBeSaved.setGroup(g);
+			 	ugToBeSaved.setUser(user);
+			 	s.save(ugToBeSaved);
+			 }
+			t.commit();
+
+			//log.debug( "Privilege ID is: " +
+			// privilege.getId().doubleValue() );
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
+		
+		
 
 	}
 
