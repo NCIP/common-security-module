@@ -997,7 +997,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//}
 			
 			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User")
-					||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege"))) {
+					||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege")
+						||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Application"))) {
 				criteria.add(Expression.eq("application", this.application));
 			}
 			
