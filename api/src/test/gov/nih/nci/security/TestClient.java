@@ -15,6 +15,9 @@ import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.*;
 
+import gov.nih.nci.security.junk.*;
+import java.util.*;
+
 
 
 /**
@@ -171,7 +174,7 @@ public class TestClient {
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
     	
     	try{
-    	  for(int i=4;i<5001;i++){
+    	  for(int i=1;i<5001;i++){
     	  	User user = new User();
     	  	user.setLoginName("login_name_"+i);
     	  	user.setFirstName("User_first_name_"+i);
@@ -243,7 +246,7 @@ public class TestClient {
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
     	
     	try{
-    	  for(int i=1;i<1001;i++){
+    	  for(int i=1;i<100000;i++){
     	  	ProtectionElement pe = new ProtectionElement();
     	  	pe.setProtectionElementName("PE_Name_"+i);
     	  	pe.setObjectId("X_Y_Z_"+i);
@@ -318,10 +321,49 @@ public class TestClient {
     		ex.printStackTrace();
     	}
     }
+    
+    public void assignUserRoleToProtectionGroup(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  //String[] peIds = {"10","12","13","15"};
+    	  //String pgId = "10";
+    	  //upm.assignProtectionElements(pgId,peIds);
+    	  //Role r = upm.getRoleById("2");
+    	  upm.assignUserRoleToProtectionGroup("121",new String[]{"2"},"10");
+    		
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+	    private void priv_populatePgPe(){
+	    	 RandomIntGenerator rit = new RandomIntGenerator(19,20015);
+	    	 String[] peIds = new String[100];
+	    	 for(int i=0;i<100;i++){	    	 	
+	    	     int k = rit.draw();
+	    	 	peIds[i]= String.valueOf(k);
+	    	 }
+	    	 rit = new RandomIntGenerator(35,132);
+	    	 String pg_id = String.valueOf(rit.draw());
+	    	 UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+	    	 try{
+	    	 	upm.assignProtectionElements(pg_id,peIds);
+	    	 }catch(Exception ex){
+	    	 	ex.printStackTrace();
+	    	 }
+	    }
+	    
+	    public void populatePgPe(){
+	    	for(int i=1;i<100;i++){	    	 	
+	    		priv_populatePgPe();
+	    	 }
+	    }
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
 		 //ts.testPrivilegeCreate();
-		ts.testPrivilegeDelete();
+		//ts.testPrivilegeDelete();
 		//ts.testModifyCreate();
 		//ts.testPrivilegeFind();
 		//ts.testRoleCreate();
@@ -339,5 +381,7 @@ public class TestClient {
 		//ts.addUserToGroup();
 		//ts.removeUserFromGroup();
 		//ts.assignProtectioElement();
+		//ts.assignUserRoleToProtectionGroup();
+		ts.populatePgPe();
 	}
 }
