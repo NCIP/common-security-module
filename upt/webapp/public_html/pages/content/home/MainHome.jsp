@@ -11,7 +11,31 @@
     		document.homeForm.tableId.value=tableId;
     		document.homeForm.submit();
     	}
-   // -->
+  
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_findObj(n, d) { //v4.0
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && document.getElementById) x=document.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+
 </script>
 
 
@@ -35,6 +59,65 @@
 					<td width="30%">&nbsp;</td>
 				</tr>
 				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
+				
+				<!--
+				<!-- diagram -->
+	
+	<tr>
+	<td colspan="4">
+	
+	<table width="52%" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="98">&nbsp;</td>
+    <td width="98"><a href="test.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Association','','images/association.gif',1)"><img name="Association" border="0" src="images/association2.gif" width="98" height="50"></a></td>
+    <td width="99"><img src="images/horizontal_line.gif" width="98" height="20"></td>
+    <td width="99"><a href="test.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('PGs','','images/protectiongroups.gif',1)"><img name="PGs" border="0" src="images/protectiongroups2.gif" width="98" height="50"></a></td>
+    <td width="99"><img src="images/horizontal_line.gif" width="98" height="20"></td>
+    <td width="98"><a href="test.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('PEs','','images/protectionelements.gif',1)"><img name="PEs" border="0" src="images/protectionelements2.gif" width="98" height="50"></a></td>
+  </tr>
+  <tr>
+    <td width="98">&nbsp;</td>
+    <td width="98"><img src="images/vertical_line.gif" width="98" height="20"></td>
+    <td width="99">&nbsp;</td>
+    <td width="99">&nbsp;</td>
+    <td width="99">&nbsp;</td>
+    <td width="98">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="98"><img src="images/corner2.gif" width="98" height="20"></td>
+    <td width="98"><img src="images/corner4.gif" width="98" height="20"></td>
+    <td width="99"><img src="images/corner3.gif" width="98" height="20"></td>
+    <td width="99">&nbsp;</td>
+    <td width="99">&nbsp;</td>
+    <td width="98">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="98" height="21"><img src="images/vertical_line.gif" width="98" height="20"></td>
+    <td width="98" height="21">&nbsp;</td>
+    <td width="99" height="21"><img src="images/vertical_line.gif" width="98" height="20"></td>
+    <td width="99" height="21">&nbsp;</td>
+    <td width="99" height="21">&nbsp;</td>
+    <td width="98" height="21">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="98"><a href="test.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Users','','images/Users.gif',1)"><img name="Users" border="0" src="images/Users2.gif" width="98" height="50"></a></td>
+    <td width="98">&nbsp;</td>
+    <td width="99"><img src="images/corner6.gif" width="98" height="50"></td>
+    <td width="99"><a href="test.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Roles','','images/roles.gif',1)"><img name="Roles" border="0" src="images/roles2.gif" width="98" height="50"></a></td>
+    <td width="99"><img src="images/horizontal_line.gif" width="98" height="20"></td>
+    <td width="98"><a href="test.html" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Privileges','','images/privileges.gif',1)"><img name="Privileges" border="0" src="images/privileges2.gif" width="98" height="50"></a></td>
+  </tr>
+</table>
+	
+	</td>
+	</tr>
+	
+				
+			
+				
+				
+				
+				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
 				<!--recommended flow-->
 				<tr class="home">
 					<td class="home" colspan="3">
@@ -45,6 +128,12 @@
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>	
 				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
+	
+	
+	
+	
+	
+	
 	
 	<!-- workflow begins-->
 	<tr>
@@ -64,12 +153,12 @@
 				<!-- Section A -->
 				<tr class="home">
 					<td class="home" width="5%" align="center">A</td>
-					<td class="home" colspan="2">Create <a
-						href="javascript: setTable('<%=DisplayConstants.PRIVILEGE_ID%>')">Privileges</a>.
+					<td class="home" colspan="2">Create <a href="javascript: setTable('<%=DisplayConstants.PRIVILEGE_ID%>')">Privileges</a>.
 					</td>
 					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
@@ -82,6 +171,7 @@
 					<td class="home" width="60%">An example of a Privilege is the right to create an account - or "create account"</td>
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				-->
 				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
 				<tr class="home">
 					<td class="home" width="5%" align="center">&nbsp;</td>
@@ -89,6 +179,7 @@
 					</td>					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
@@ -121,6 +212,7 @@
 					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
@@ -135,6 +227,7 @@
 </td>
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				-->
 				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
 				<tr class="home">
 					<td class="home" width="5%" align="center">&nbsp;</td>
@@ -144,6 +237,7 @@
 					</td>					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
@@ -176,13 +270,14 @@
 					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
 					<td class="home" width="60%">Users for an application or for a system or both.</td>
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
-				
+				-->
 				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
 				<tr class="home">
 					<td class="home" width="5%" align="center">&nbsp;</td>
@@ -190,6 +285,7 @@
 					</td>					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
@@ -226,6 +322,7 @@
 					</td>					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
@@ -255,6 +352,7 @@
 					</td>					
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
+				<!--
 				<tr class="home">
 					<td class="home" width="5%">&nbsp;</td>
 					<td class="home" width="7%">What:</td>
@@ -275,7 +373,7 @@
 </td>
 					<td class="home" width="27%">&nbsp;</td>
 				</tr>
-				
+				-->
 				<tr class="home"><td class="home" colspan="4">&nbsp;</td></tr>
 				
 	
@@ -285,7 +383,7 @@
 <!-- workflow ends, association begins -->
 
 
-<!--association diagram-->
+<!--association diagram
 				<tr class="home">
 					<td class="home" colspan="3">
 					<h3>Association Diagram</h3>
