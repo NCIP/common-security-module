@@ -1,0 +1,95 @@
+<project name="UPT Project" basedir="./.." default="all">
+	<description>UPT Project Build File</description>
+
+	<target name="init" >
+		<property name="app.name"				value="upt" />
+		<property name="app.path"				value="/${app.name}" />
+
+		<property name="src.home"				value="${basedir}\upt\webapp\src" />
+		<property name="web.home"				value="${basedir}\upt\webapp\public_html" />
+		<property name="webinf.home"			value="${web.home}\WEB-INF" />
+		<property name="lib.home"				value="${webinf.home}\lib" />
+		<property name="build.home"				value="${basedir}\build" />
+		<property name="dist.home"				value="${basedir}\dist" />
+		<property name="classes.home"			value="${webinf.home}\classes" />
+		<property name="server.home"			value="c:\jboss-3.2.6" />
+		<property name="deploy.home"			value="${server.home}\server\default\deploy" />
+
+		<property name="war.file"				value="${dist.home}\${app.name}.war" />
+	</target>
+
+
+	<target name="clean" depends="init" description="Delete the Build and Dist directories">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+	</target>
+
+
+	<target name="prepareDir" depends="init">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}\WEB-INF" />
+		<mkdir dir="${build.home}\WEB-INF\tld" />
+		<mkdir dir="${build.home}\WEB-INF\conf" />
+		<mkdir dir="${build.home}\WEB-INF\lib" />
+		<mkdir dir="${build.home}\META-INF" />
+		<mkdir dir="${classes.home}" />
+
+		<mkdir dir="${dist.home}" />
+	</target>
+
+
+	<target name="prepareBuild" depends="prepareDir">
+
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}"/>
+		</copy>
+
+		<copy todir="${build.home}\WEB-INF\">
+			<fileset dir="${webinf.home}"/>
+		</copy>
+
+		<copy todir="${build.home}\WEB-INF\lib">
+			<fileset dir="${lib.home}" includes="**/*.jar"/>
+		</copy>
+
+	</target>
+
+
+	<target name="prepare" depends="prepareDir,prepareBuild"/>
+
+	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
+		<javac srcdir="${src.home}" destdir="${build.home}\WEB-INF\classes" debug="true" deprecation="true" >
+			<classpath>
+				<fileset dir="${lib.home}" includes="*.jar" />
+			</classpath>
+		</javac>
+		<copy todir="${build.home}\WEB-INF\classes" >
+			<fileset dir="${src.home}" excludes="**/*.java" />
+		</copy>
+		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\ApplicationSecurityConfig.xml"/>		
+		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\csmupt.hibernate.cfg.xml"/>		
+		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\security.hibernate.cfg.xml"/>
+		<delete quiet="true" file="${build.home}\WEB-INF\classes\gov\nih\nci\security\upt\resources\hibernate.properties"/>		
+		<copy file="${src.home}\gov\nih\nci\security\upt\resources\hibernate.properties" todir="${build.home}\WEB-INF\classes" overwrite="true"/>
+		<copy todir="${dist.home}">
+			<fileset dir="${src.home}\gov\nih\nci\security\upt\resources" includes="*.xml" />
+		</copy>
+		<delete quiet="true" file="${dist.home}\hibernate.properties"/>
+	</target>
+
+	<target name="dist" depends="init,compile" description="Creates war file">
+		<jar jarfile="${war.file}" basedir="${build.home}" />
+	</target>
+
+	<target name="cleanup" depends="dist" description="Delete the Build directory">
+		<delete dir="${build.home}" />
+	</target>	
+	
+	<target name="all" depends="init,clean,prepare,compile,dist,cleanup" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+
+	<target name="deploy" depends="dist" description="Deploys the war file in the application server">
+		<copy todir="${deploy.home}">
+			<fileset dir="${dist.home}" includes="**/*.war" />
+		</copy>
+	</target>
+</project>
