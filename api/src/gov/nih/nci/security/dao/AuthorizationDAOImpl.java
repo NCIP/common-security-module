@@ -17,6 +17,7 @@ import net.sf.hibernate.Transaction;
 import net.sf.hibernate.SessionFactory;
 import java.util.List;
 import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.expression.*;
 
 
 
@@ -27,9 +28,15 @@ import net.sf.hibernate.Hibernate;
 public class AuthorizationDAOImpl implements AuthorizationDAO {
 	
 	private SessionFactory sf = null;
+	private Application application = null;
 
-	public AuthorizationDAOImpl() {
-
+	public AuthorizationDAOImpl(SessionFactory sf,String applicationContextName) {
+       this.sf=sf;
+       try{
+       this.application = this.getApplicationByName(applicationContextName);
+       }catch(Exception ex){
+       	ex.printStackTrace();
+       }
 	}
 
 	public void finalize() throws Throwable {
@@ -308,8 +315,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		return p;
 		*/
-		  Application ap = (Application)this.getObjectByPrimaryKey(Application.class,new Long(1));
-		  System.out.println(ap.getApplicationName());
+		Application app = this.getApplicationByName("Security");
+		System.out.println(app.getApplicationDescription());
 		
 		return (Privilege)this.getObjectByPrimaryKey(Privilege.class,new Long(privilegeId));
 	}
@@ -573,5 +580,32 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		
 		return oj;
+	}
+	private Application getApplicationByName(String contextName) throws CSObjectNotFoundException{
+		Session s = null;
+		Application app = null;
+		try {
+			Application search = new Application();
+			search.setApplicationName(contextName);
+			//String query = "FROM gov.nih.nci.security.authorization.domianobjects.Application";
+			s = sf.openSession();	
+			List list = s.createCriteria(Application.class).add(Example.create(search)).list();
+			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
+			System.out.println("Somwthing");
+			if(list.size()==0){
+				throw new CSObjectNotFoundException("Not found");
+			}
+			app = (Application)list.get(0);
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			
+			
+		}
+		return app;
 	}
 }
