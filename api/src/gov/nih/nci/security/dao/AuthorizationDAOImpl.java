@@ -1602,4 +1602,33 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public void setApplication(Application application) {
 		this.application = application;
 	}
+	
+	public Set getGroups(String userId) throws CSObjectNotFoundException{
+		Session s = null;
+		Set groups =null;
+		try {
+			s = sf.openSession();
+			
+			User user = (User) this.getObjectByPrimaryKey(s, User.class,
+					new Long(userId));
+			groups = user.getGroups();
+			//Group group = getGroup(groupId);
+			
+
+		} catch (Exception ex) {
+			log.error(ex);
+			
+			throw new CSObjectNotFoundException(
+					"A fatal error occurred while getting groups for a user id: "
+							+ userId , ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		
+		return groups;
+
+	}
 }

@@ -323,5 +323,7 @@ public interface AuthorizationDAO {
 	public Object getObjectByPrimaryKey(Class objectType, String primaryKey)throws CSObjectNotFoundException;
 	
 	public void createObject(Object obj) throws CSTransactionException;
+	
+	public Set getGroups(String userId) throws CSObjectNotFoundException;
 }
 
