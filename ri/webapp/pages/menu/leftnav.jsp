@@ -1,8 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ taglib uri="/tags/struts-html" prefix="html" %>
+<%@ include file= "/pages/imports.jsp" %>
 
 <html>
 <head>
-<title>Content</title>
+
 <link rel="stylesheet" type="text/css" href="styleSheet.css" />
 <script src="script.js" type="text/javascript"></script>
 </head>
@@ -23,12 +24,13 @@
 <!-- notepad begins -->
 
 
-<!-- <table background="<html:rewrite href="images/notepad.gif"/>" class="contentPage" width="175" border="0" cellspacing=0 cellpadding=0>
+<table background="<html:rewrite href="images/notepad.gif"/>" class="contentPage" width="175" border="0" cellspacing=0 cellpadding=0>
 <tr><td class="contentBegins" align="center">Your Name:<br>Brian Husted</td></tr>
-<tr><td class="contentBegins" align="center">Your Role:<br>Employee</td></tr></table>-->
+<tr><td class="contentBegins" align="center">Your Role:<br>Employee</td></tr></table>
 
+<!-- 
 <table>
-<tr><td><img src="images/notepad.gif"></td></tr></table>
+<tr><td><img src="pages/images/notepad.gif"></td></tr></table>-->
 
 
 <!-- notepad ends   -->
@@ -36,7 +38,7 @@
 
 <table>
 
-<tr><td><img src="images/dilbert.gif"></td></tr>
+<tr><td><img src="pages/images/dilbert.gif"></td></tr>
 
 <tr>
 <td align="center" height="20" class="mainMenuItemOver" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()" onclick="document.location.href='home.html'">
@@ -49,7 +51,7 @@
 <!--<tr><td>&nbsp;</td></tr>
 
 
-<!--<tr><td><img src="images/wally.gif"></td></tr>-->
+<!--<tr><td><img src="pages/images/wally.gif"></td></tr>-->
 <tr><td height="3"></td></tr>
 
 	 <tr>
