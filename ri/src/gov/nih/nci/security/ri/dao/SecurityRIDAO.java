@@ -100,6 +100,8 @@ public class SecurityRIDAO {
 	}
 
 	/**
+	 * Returns the SessionFactory.  This object returned is a
+	 * singleton.
 	 * @return Returns the sessionFactory.
 	 */
 	protected static SessionFactory getSessionFactory() {
