@@ -1,9 +1,4 @@
-/*
- * Created on Jan 7, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.exceptions.CSException;
@@ -39,7 +34,8 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 
 	/*
 	 * Action searches the database for the criteria that matches the attributes
-	 * in the Employee object. A List of employees are retured.
+	 * in the Employee object. A List of employees are retured.  Authorization
+	 * is then performed to filter the results.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,
@@ -68,7 +64,7 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 			Employee empl = (Employee) i.next();
 			if (! getAuthorizationManager().checkPermission(user,
 					SecurityUtils.getEmployeeObjectId(empl), READ)) {
-				//remove any employees from the list that 
+				//remove any employees from the list where 
 				//access is not granted for READ permission
 				//or they must be the owner
 				i.remove();

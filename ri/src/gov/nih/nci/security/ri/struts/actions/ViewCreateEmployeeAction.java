@@ -1,9 +1,4 @@
-/*
- * Created on Mar 14, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.ri.struts.Constants;
@@ -16,10 +11,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * @author Brian
+ * Action to prevent unathorized access to creating Employees.
+ * 
+ * @author Brian Husted
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ViewCreateEmployeeAction extends SecureAction  {
 

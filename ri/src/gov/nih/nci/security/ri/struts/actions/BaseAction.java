@@ -1,9 +1,3 @@
-/*
- * Created on Feb 14, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.AuthorizationManager;
@@ -27,10 +21,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * @author Brian
+ * This is the base class for all other Actions. The class provides generic
+ * methods that are resuable by all subclasses. In addition, this method ensures
+ * that the user is authenticated before calling the executeWorkflow of the
+ * subclass. If the User is not authenticated then an
+ * UserNotAuthenticatedException is thrown.
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ * @author Brian Husted
+ *  
  */
 public abstract class BaseAction extends Action implements Constants,
 		Permissions {
@@ -40,7 +38,9 @@ public abstract class BaseAction extends Action implements Constants,
 	static AuthorizationManager am = null;
 
 	/*
-	 * (non-Javadoc)
+	 * Method ensures that the user is authenticated before calling the
+	 * executeWorkflow of the subclass. If the User is not authenticated then an
+	 * UserNotAuthenticatedException is thrown.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,
@@ -58,6 +58,7 @@ public abstract class BaseAction extends Action implements Constants,
 		return executeWorkflow(mapping, form, request, response);
 	}
 
+	
 	protected AuthorizationManager getAuthorizationManager() throws CSException {
 		if (am == null) {
 			am = SecurityServiceProvider

@@ -20,6 +20,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
+ * Method Creates a new Employee Object then
+ * performs fine grained authorization.
+ * 
  * @author Brian Husted
  *  
  */
@@ -28,13 +31,11 @@ public class CreateEmployeeAction extends SecureAction {
 	static final Logger log = Logger.getLogger(CreateEmployeeAction.class
 			.getName());
 
-	/*
-	 * (non-Javadoc)
+	
+	/* 
+	 * Creates an Employee and invokes fine grained authorization.
 	 * 
-	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
-	 *      org.apache.struts.action.ActionForm,
-	 *      javax.servlet.http.HttpServletRequest,
-	 *      javax.servlet.http.HttpServletResponse)
+	 * @see gov.nih.nci.security.ri.struts.actions.SecureAction#executeSecureWorkflow(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	public ActionForward executeSecureWorkflow(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,

@@ -37,7 +37,9 @@ public class ViewEmployeeAction extends BaseAction  {
 			.getName());
 
 	/*
-	 * Action for retreiving an employee for a detailed view.
+	 * Action for retreiving an employee for a detailed view.  Authorization
+	 * is performed to ensure that the User has access to view the 
+	 * employee's record.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,

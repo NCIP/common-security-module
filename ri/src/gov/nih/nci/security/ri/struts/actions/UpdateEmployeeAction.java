@@ -16,7 +16,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 /**
- * Updates an employee record.
+ *  Performs authorization and securely updates the employee record.
  * 
  * @author Brian Husted
  *  
@@ -27,7 +27,8 @@ public class UpdateEmployeeAction extends BaseAction {
 			.getName());
 
 	/*
-	 * (non-Javadoc)
+	 * Updates the employee.  The employee object is secured based
+	 * on the authorization policy defined in the authorization database.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,

@@ -14,6 +14,7 @@ import net.sf.hibernate.cfg.Configuration;
 import org.apache.log4j.Logger;
 
 /**
+ * Base class for DAO Persistence and Retreival
  * @author Brian Husted
  *  
  */
@@ -83,6 +84,14 @@ public class SecurityRIDAO {
 		}
 	}
 
+	
+	/**
+	 * Returns a value object based on the class type and primary key.
+	 * @param c
+	 * @param primaryKey
+	 * @return
+	 * @throws HibernateException
+	 */
 	public static Object searchObjectByPrimaryKey(Class c, Long primaryKey)
 			throws HibernateException {
 

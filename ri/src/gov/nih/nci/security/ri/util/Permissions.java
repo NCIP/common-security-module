@@ -2,10 +2,11 @@
 package gov.nih.nci.security.ri.util;
 
 /**
- * @author Brian
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Interface for storing the names of Permissions that are defined
+ * in the authorization database.
+ * 
+ * 
+ * @author Brian Husted
  */
 public interface Permissions {
 

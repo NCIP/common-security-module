@@ -26,7 +26,7 @@ public class LoginAction extends Action implements Constants {
 
 
 	/*
-	 * (non-Javadoc)
+	 * Authenticates the user and stores in the session.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,

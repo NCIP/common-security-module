@@ -12,7 +12,7 @@ import net.sf.hibernate.expression.Expression;
 import org.apache.log4j.Logger;
 
 /**
- * DAO Class for the Employee entity.
+ * DAO Class for the Project entity.
  * 
  * @author Brian Husted
  *  
