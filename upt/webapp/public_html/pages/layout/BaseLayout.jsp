@@ -7,8 +7,7 @@
 
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <title><tiles:getAsString name="title"/></title>
-   <base href="<%=("http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/")%>" />
+   
    <link rel="stylesheet" href="styles/styleSheet.css" type="text/css" />
 	<script language="JavaScript" src="scripts/script.js"></script>
 
