@@ -188,14 +188,16 @@ public class LicenseTagInsertor {
 	            = new BufferedReader(new FileReader(f));
 	         String s;
 	         while ((s = in.readLine()) != null){
-	         	stbr.append(s).append("\n");
+	         	
 	         	if(s.indexOf("Software License, Version 1.0")>-1){
-	         		StringUtils.replaceInString(s,"Software License, Version 1.0","Software License, Version 3.0");
-
+	         		System.out.println("Line found:"+s);
+	         		s=StringUtils.replaceInString(s,"Software License, Version 1.0","Software License, Version 3.0");
+	         		System.out.println("Line changed:"+s);
 	         	}
+	         	stbr.append(s).append("\n");
 	         }
 	         	
-	         System.out.println(stbr.toString());
+	         //System.out.println(stbr.toString());
 	         in.close();
 	         String path = f.getAbsolutePath();
 	         f.delete();
