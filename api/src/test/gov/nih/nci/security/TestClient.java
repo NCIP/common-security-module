@@ -49,7 +49,7 @@ public class TestClient {
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("CCC");
     	
     	try{
-    	Privilege p = upm.getPrivilege("8");
+    	Privilege p = upm.getPrivilege("10");
     	System.out.println(p.getName());
     	
     	}catch(Exception ex){

@@ -1,12 +1,7 @@
 package gov.nih.nci.security.dao;
 
-import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
-import gov.nih.nci.security.authorization.domainobjects.Group;
-import gov.nih.nci.security.authorization.domainobjects.Privilege;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
-import gov.nih.nci.security.authorization.domainobjects.Role;
-import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.authorization.domainobjects.*;
+
 import gov.nih.nci.security.authorization.jaas.*;
 import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
@@ -288,19 +283,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public Privilege getPrivilege(String privilegeId)
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
+		/**
 		Session s = null;
 		Privilege p = null;
 		try {
-			String query = "SELECT privilege FROM privilege IN CLASS gov.nih.nci.security.authorization.domianobjects.Privilege where privilege.id=:id";
+			//String query = "SELECT privilege FROM privilege IN CLASS gov.nih.nci.security.authorization.domianobjects.Privilege where privilege.privilege_id=:id";
 			s = sf.openSession();	
-			List list = s.find(query,privilegeId,Hibernate.STRING);
-			if(list.size()==0){
-				throw new CSObjectNotFoundException("Object is not found");
+			//List list = s.find(query,new Long(privilegeId),Hibernate.LONG);
+			p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
+			System.out.println("Somwthing");
+			if(p==null){
+				throw new CSObjectNotFoundException("Not found");
 			}
-			p = (Privilege)list.get(0);
 			
 			
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			try {
 				s.close();
 			} catch (Exception ex2) {
@@ -309,6 +307,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			
 		}
 		return p;
+		*/
+		  Application ap = (Application)this.getObjectByPrimaryKey(Application.class,new Long(1));
+		  System.out.println(ap.getApplicationName());
+		
+		return (Privilege)this.getObjectByPrimaryKey(Privilege.class,new Long(privilegeId));
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.Long)
@@ -541,5 +544,34 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
 
+	}
+	private Object getObjectByPrimaryKey(Class objectType,Long primaryKey)throws CSObjectNotFoundException{
+		Object oj = null;
+		
+		Session s = null;
+		
+		try {
+			
+			s = sf.openSession();	
+			
+			oj = s.load(objectType,primaryKey);
+			
+			if(oj==null){
+				throw new CSObjectNotFoundException(objectType.getName()+" not found");
+			}
+			
+			
+		} catch (Exception ex) {
+			
+			//ex.printStackTrace();
+			try {
+				s.close();
+						} catch (Exception ex2) {
+						}
+			
+						throw new CSObjectNotFoundException(objectType.getName()+" not found",ex);
+		}
+		
+		return oj;
 	}
 }
