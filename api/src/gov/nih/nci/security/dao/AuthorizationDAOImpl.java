@@ -2357,6 +2357,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 
 		Connection cn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
 
 		try {
 
@@ -2383,23 +2385,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and rp.privilege_id = p.privilege_id");
 			stbr.append(" and p.privilege_name='"+privilegeName+"'");
 			String sql = stbr.toString();
-			System.out.println("SQL is : "+sql);
-			Statement stmt = cn.createStatement();
+			log.debug("SQL is : "+sql);
+			stmt = cn.createStatement();
 
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
+			
 			while (rs.next()) {
-				String att = rs.getString(1);
+				String att = rs.getString( "attribute");
+				log.debug( "The attribute is: " + att );
 				Boolean b = new Boolean(true);
 				accessMap.put(att.toLowerCase(), b);
 			}
-			rs.close();
-			stmt.close();
+			
+			
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			if (log.isDebugEnabled())
 				log.debug("Authorization|||getObjectAccessMap|Failure|Error in Obtaining the Object Access Map|"+ex.getMessage());
 		} finally {
+			try{
+				stmt.close();
+				rs.close();				
+			} catch( Exception ex2 ){}	
+			
 			try {
 				s.close();
 			} catch (Exception ex2) {
@@ -2423,11 +2432,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			Class cl = obj.getClass();
-			System.out.println(cl.getName());
+			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName,"READ");
 			
-			System.out.println(accessMap.toString());
+			log.debug(accessMap.toString());
 
 			o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
@@ -2436,15 +2445,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				Method m = methods[i];
 				
 				String name = m.getName();
-				//System.out.println("Name from outer block"+name);
-				//System.out.println("Para type"+m.getParameterTypes());
+				//log.debug("Name from outer block"+name);
+				//log.debug("Para type"+m.getParameterTypes());
 				if (name.startsWith("set")&&(m.getModifiers()==Modifier.PUBLIC)) {
 					String att = name.substring(3, name.length());
 					String methodName = "get"+att;
-					//System.out.println(methodName);
+					//log.debug(methodName);
 					Method m2 = cl.getMethod(methodName,null);
-					//System.out.println("Method Name m2"+m2.getName());
-					//System.out.println(m2.invoke(obj,null));
+					//log.debug("Method Name m2"+m2.getName());
+					//log.debug(m2.invoke(obj,null));
 					if (!accessMap.hasAccess(att)) {
 						m.invoke(o, new Object[]{null});
 					}else{
@@ -2478,7 +2487,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		    Object obj_ = (Object)l.get(0);
 		   
 			Class cl = obj_.getClass();
-			System.out.println(cl.getName());
+			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName,"READ");
             while(it.hasNext()){
@@ -2490,15 +2499,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
     				Method m = methods[i];
     				
     				String name = m.getName();
-    				//System.out.println("Name from outer block"+name);
-    				//System.out.println("Para type"+m.getParameterTypes());
+    				//log.debug("Name from outer block"+name);
+    				//log.debug("Para type"+m.getParameterTypes());
     				if (name.startsWith("set")&&(m.getModifiers()==Modifier.PUBLIC)) {
     					String att = name.substring(3, name.length());
     					String methodName = "get"+att;
-    					//System.out.println(methodName);
+    					//log.debug(methodName);
     					Method m2 = cl.getMethod(methodName,null);
-    					//System.out.println("Method Name m2"+m2.getName());
-    					//System.out.println(m2.invoke(obj,null));
+    					//log.debug("Method Name m2"+m2.getName());
+    					//log.debug(m2.invoke(obj,null));
     					if (!accessMap.hasAccess(att)) {
     						m.invoke(o, new Object[]{null});
     					}else{
@@ -2531,11 +2540,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			Class cl = originalObject.getClass();
-			System.out.println(cl.getName());
+			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName,"UPDATE_DENIED");
-			
-			System.out.println(accessMap.toString());
 
 			//o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
@@ -2544,22 +2551,32 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				Method m = methods[i];
 				
 				String name = m.getName();
-				//System.out.println("Name from outer block"+name);
-				//System.out.println("Para type"+m.getParameterTypes());
+				log.debug( "Method is: " + name );
+				//log.debug("Name from outer block"+name);
+				//log.debug("Para type"+m.getParameterTypes());
 				if (name.startsWith("set")&&(m.getModifiers()==Modifier.PUBLIC)) {
 					String att = name.substring(3, name.length());
+					log.debug( "Attribute is: " + att );
 					String methodName = "get"+att;
-					//System.out.println(methodName);
+					//log.debug(methodName);
 					Method m2 = cl.getMethod(methodName,null);
-					//System.out.println("Method Name m2"+m2.getName());
-					//System.out.println(m2.invoke(obj,null));
-					if (!accessMap.hasAccess(att)) {
-						m.invoke(mutatedObject, new Object[]{m2.invoke(originalObject, null)});
+					//log.debug("Method Name m2"+m2.getName());
+					//log.debug(m2.invoke(obj,null));
+					if (accessMap.hasAccess(att)) {
+						log.debug( "No Access to update attribute: " + att );
+						Object origValue = m2.invoke(originalObject, null);
+						if ( origValue != null ){
+							log.debug( "Original value is: " + origValue.toString() );
+						}
+						m.invoke(mutatedObject, new Object[]{origValue});
+					} else {
+						log.debug( "Access permitted to update attribute: " + att );
 					}
 				}
 			}
 
 		} catch (Exception ex) {
+			log.error( "Error Securing object", ex );
 			if (log.isDebugEnabled())
 				log.debug("Authorization||"+userName+"|secureUpdate|Failure|Error in Secure Update|"+ex.getMessage());
 			

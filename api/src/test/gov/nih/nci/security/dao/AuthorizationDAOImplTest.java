@@ -37,7 +37,7 @@ import junit.framework.TestSuite;
  * 
  * @author Brian Husted
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
  * 
@@ -158,10 +158,10 @@ public class AuthorizationDAOImplTest extends TestCase {
 	 * Test method: gov.nih.nci.security.authorization.domainobjects.User
 	 * getUser(String)
 	 */
-	public void testGetUser() {
+	public void testGetUser() throws Exception {
 		//Must test for the following parameters!
-		String str[] = { null, "\u0000", " " };
-
+		
+		
 	}
 
 	/**

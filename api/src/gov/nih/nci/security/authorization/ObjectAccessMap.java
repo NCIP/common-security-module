@@ -38,6 +38,7 @@ public class ObjectAccessMap {
 		return hasAccess;
 	}
 	
+	
 	public String toString(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("Object Name:"+objectName);
