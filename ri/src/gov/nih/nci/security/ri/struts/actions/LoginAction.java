@@ -1,6 +1,7 @@
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.CommonSecurityManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.struts.forms.LoginForm;
@@ -23,11 +24,12 @@ import org.apache.struts.action.ActionMapping;
 public class LoginAction extends Action implements Constants {
 
 	static final Logger log = Logger.getLogger(LoginAction.class.getName());
-	
-	static{
-		System.setProperty( "gov.nih.nci.security.configFile", "c:/temp/ApplicationSecurityConfig.xml");
+
+	static {
+		System.setProperty("gov.nih.nci.security.configFile",
+				"c:/temp/ApplicationSecurityConfig.xml");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -45,11 +47,8 @@ public class LoginAction extends Action implements Constants {
 		log.debug("Login ID: " + loginForm.getLoginID());
 		log.debug("Login Pwd: " + loginForm.getPassword());
 
-		AuthenticationManager authenticationManager = SecurityServiceProvider
-				.getAuthenticationManager(CSM_RI_CONTEXT_NAME);
-
-		if (authenticationManager.login(loginForm.getLoginID(), loginForm
-				.getPassword())) {
+		if (new CommonSecurityManager().login(CSM_RI_CONTEXT_NAME, loginForm
+				.getLoginID(), loginForm.getPassword())) {
 			return mapping.findForward(Constants.ACTION_SUCCESS);
 		} else {
 			return mapping.findForward(Constants.ACTION_FAILURE);

@@ -92,6 +92,20 @@
         column="SSN"
         length="9"
     />
+    
+      <property
+        name="userName"
+        type="java.lang.String"
+        column="LOGIN_NAME"
+        length="50"
+    />
+    
+      <property
+        name="password"
+        type="java.lang.String"
+        column="PASSWORD"
+        length="50"
+    />
 
     <!-- Associations -->
   

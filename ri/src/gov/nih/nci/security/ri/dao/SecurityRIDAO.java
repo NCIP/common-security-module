@@ -1,5 +1,6 @@
 package gov.nih.nci.security.ri.dao;
 
+import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +25,10 @@ public class SecurityRIDAO {
 
 	static {
 		try {
-			setSessionFactory(new Configuration().configure( SecurityRIDAO.class.getClassLoader().getResource("/hibernate.cfg.xml") )
+			URL url = SecurityRIDAO.class.getClassLoader().getResource(
+					"/hibernate.cfg.xml");
+			log.debug( "The url to the config file is: " + url.toString() );
+			setSessionFactory(new Configuration().configure(url)
 					.buildSessionFactory());
 		} catch (Exception ex) {
 			log.fatal("Unable to create SessionFactory", ex);
@@ -83,12 +87,12 @@ public class SecurityRIDAO {
 			throws HibernateException {
 
 		Session s = null;
-		
+
 		try {
 
 			s = getSessionFactory().openSession();
-			return s.load(c, primaryKey );
-			
+			return s.load(c, primaryKey);
+
 		} finally {
 			try {
 				s.close();
