@@ -20,9 +20,9 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 
 /**
- * Performs authorization and securely updates the employee record.
- * Users may only authorized attributes of the Employee.  In addition,
- * only Managers may update Employee_Project associations.
+ * Performs authorization and securely updates the employee record. Users may
+ * only authorized attributes of the Employee. In addition, only Managers may
+ * update Employee_Project associations.
  * 
  * @author Brian Husted
  *  
@@ -46,26 +46,28 @@ public class UpdateEmployeeAction extends BaseAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
+
+		//The modified employee object
+		Employee mutatedObject = (Employee) form;
+
+		//The original employee object
+		Employee originalObject = EmployeeDAO
+				.searchEmployeeByPrimaryKey(mutatedObject.getEmployeeId());
 		
-
-		Employee originalObject = (Employee) request.getSession().getAttribute(
-				ORIGINAL_EMPLOYEE_OBJECT);
-
 		log.debug("The original salary is: " + originalObject.getSalary());
 		log.debug("The original ssn is: " + originalObject.getSsn());
-		Employee mutatedObject = (Employee) form;
 
 		String[] associatedIds = mutatedObject.getAssociatedIds();
 		String[] availableIds = mutatedObject.getAvailableIds();
-				
+
 		//secure the object by setting attributes to null where
 		//the UPDATE_DENIED access is specified
 		Employee securedObject = (Employee) getAuthorizationManager()
 				.secureUpdate(getUser(request).getUserName(), originalObject,
 						mutatedObject);
-		
+
 		securedObject = EmployeeDAO.updateEmployee(securedObject);
-		
+
 		log.debug("The salary after secure update is: "
 				+ securedObject.getSalary());
 		log.debug("The ssn after secure update is: " + securedObject.getSsn());
@@ -77,16 +79,22 @@ public class UpdateEmployeeAction extends BaseAction {
 			securedObject.setAssociatedIds(associatedIds);
 			securedObject.setAvailableIds(availableIds);
 			securedObject = EmployeeDAO.updateEmployeeProjects(securedObject);
-			
+
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
 					Constants.MESSAGE_ID, "Updated Employee Successfully"));
 		} else {
-			//warn the user they don't have privilege to update employee projects
+			//warn the user they don't have privilege to update employee
+			// projects
 			messages
-			 .add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
-				"access.modify.employee_project.denied",
-				  new String[] {getUser(request).getUserName(),	", "
-					 + SecurityUtils.getObjectIdForEmployeeProjecAccess() }));
+					.add(
+							ActionMessages.GLOBAL_MESSAGE,
+							new ActionMessage(
+									"access.modify.employee_project.denied",
+									new String[] {
+											getUser(request).getUserName(),
+											", "
+													+ SecurityUtils
+															.getObjectIdForEmployeeProjecAccess() }));
 
 		}
 

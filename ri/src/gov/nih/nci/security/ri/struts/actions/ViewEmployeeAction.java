@@ -58,13 +58,7 @@ public class ViewEmployeeAction extends BaseAction {
 		//Ensure the user has access to view the employee record
 		if (isAuthorized(request, theEmployee)) {
 			forward = ACTION_SUCCESS;
-			
-			//copy the employee object and store in
-			//session to support a secureUpdate
-			//See UpdateEmployeeAction for more detail
-			request.getSession().setAttribute(ORIGINAL_EMPLOYEE_OBJECT,
-					new Employee(theEmployee));
-			
+					
 			setEmployeeProjectsForView( request, theEmployee );
 			
 			log.debug("The User was granted Access to view the Record");

@@ -2,8 +2,6 @@ package gov.nih.nci.security.ri.dao;
 
 import java.net.URL;
 
-import javax.naming.ConfigurationException;
-
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
