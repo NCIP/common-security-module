@@ -7,12 +7,11 @@
 
 package test.gov.nih.nci.security;
 
-import net.sf.hibernate.Session;
-import net.sf.hibernate.Transaction;
+
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.authorization.domainobjects.Privilege;
-import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
+import gov.nih.nci.security.authorization.domainobjects.*;
+
 
 
 /**
@@ -68,11 +67,64 @@ public class TestClient {
     		ex.printStackTrace();
     	}
     }
+    public void testRoleCreate(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	Role r = new Role();
+    	r.setName("TestRole2");
+    	r.setDesc("Test Role Desc 2");
+    	
+    	try{
+    	upm.createRole(r);
+    	System.out.println("The returned id is:"+r.getId());
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void testRoleDelete(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+    	
+    	try{
+    	upm.removeRole("2");
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void testModifyRole(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+    	
+    	try{
+    	Role r = upm.getRoleById("3");
+    	r.setDesc("Updated Test Role Desc 2");
+    	upm.modifyRole(r);
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public void assignPrivilegeToRoles(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
+    	 String[] privilegeIds = {"2", "3","5"};
+    	 String roleId = "1";
+    	 try{
+    	 	upm.assignPrivilegesToRole(roleId,privilegeIds);
+    	 }catch(Exception ex){
+    	 	ex.printStackTrace();
+    	 }
+    }
+    
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
 		//ts.testPrivilegeCreate();
 		//ts.testPrivilegeDelete();
 		//ts.testModifyCreate();
-		ts.testPrivilegeFind();
+		//ts.testPrivilegeFind();
+		//ts.testRoleCreate();
+		//ts.testRoleDelete();
+		//ts.testModifyRole();
+		ts.assignPrivilegeToRoles();
 	}
 }

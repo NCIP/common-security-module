@@ -296,7 +296,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void assignPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException{
-		
+		authorizationDAO.assignPrivilegesToRole(roleId,privilegeIds);
 	}
 
 
