@@ -46,7 +46,7 @@
 			</tr>
 
 			<tr>
-				<td height="20" align="center" class="mainMenuItem"><html:link
+				<td height="20" align="center" class="mainMenuItemOver"><html:link
 					action="viewSearchEmployee" styleClass="mainMenuLink">SEARCH EMPLOYEE</html:link>
 				</td>
 			</tr>

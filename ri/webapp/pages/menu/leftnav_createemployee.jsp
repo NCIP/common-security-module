@@ -37,7 +37,7 @@
 				<td height="3"></td>
 			</tr>
 			<tr>
-				<td align="center" height="20" class="mainMenuItem"><html:link
+				<td align="center" height="20" class="mainMenuItemOver"><html:link
 					action="viewCreateEmployee" styleClass="mainMenuLink">CREATE EMPLOYEE
 				</html:link></td>
 			</tr>

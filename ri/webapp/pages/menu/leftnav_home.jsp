@@ -30,7 +30,7 @@
 				<td><img src="pages/images/dilbert.gif"></td>
 			</tr>
 			<tr>
-				<td align="center" height="20" class="mainMenuItem"><html:link
+				<td align="center" height="20" class="mainMenuItemOver"><html:link
 					action="viewHome" styleClass="mainMenuLink">HOME</html:link></td>
 			</tr>
 			<tr>
