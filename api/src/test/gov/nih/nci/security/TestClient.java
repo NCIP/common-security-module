@@ -287,7 +287,6 @@ public class TestClient {
 	
 	
 	public void getUser(){
-		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		String loginName = "login_name_15";
 		try{
@@ -419,7 +418,7 @@ public class TestClient {
 			//String pgId = "10";
 			//upm.assignProtectionElements(pgId,peIds);
 			//Role r = upm.getRoleById("2");
-			upm.assignUserRoleToProtectionGroup("121",new String[]{"2"},"10");
+			upm.assignUserRoleToProtectionGroup("700",new String[]{"54"},"35");
 			
 			
 		}catch(Exception ex){
@@ -575,6 +574,9 @@ public class TestClient {
 		//ts.getPrivileges();
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
+		//ts.getProtectionGroupRoleContextForUser("345");		
+		ts.getProtectionGroupRoleContextForGroup("131");
+		ts.getProtectionGroupById("131");
 		//ts.getUser();
 		//ts.testProtectionGroupCreate();
 		//ts.testProtectionGroupModify();
@@ -597,7 +599,6 @@ public class TestClient {
 		//ts.testKunalCode();
 		//ts.getGroups("5020");
 		//ts.getProtectionGroupById("34");
-		//ts.getProtectionGroupRoleContextForUser("345");
-		ts.getProtectionGroupRoleContextForGroup("131");
+
 	}
 }
