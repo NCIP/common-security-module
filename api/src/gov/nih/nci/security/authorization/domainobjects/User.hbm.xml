@@ -21,9 +21,9 @@
         name="userId"
         type="java.lang.Long"
         column="USER_ID"
-    >
-        
-        <generator class="assigned" />
+         unsaved-value="null"
+        >
+     <generator class="identity"/>
     </id>
 
     <property
