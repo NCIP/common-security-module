@@ -4,6 +4,71 @@
 
 <html:form method="post" action="updateEmployee">
 
+<script> 
+    <!--
+    	function setAndSubmit(target)
+    	{
+    		document.form[0].operation.value=target;
+    		var len = document.form[0].assignedprojects.length;
+    		for (i=0 ; i < len ; i++)
+    		{
+    			document.form[0].assignedprojects[i].selected = true;
+    		}
+    		document.form[0].submit();
+    	}
+    	
+    	// selSwitch functions
+
+		function selSwitch(btn)
+		{
+		   var i= btnType = 0;
+		   var isavailableIds = doIt = false;
+		
+		   if (btn.value == "Add" || btn.value == "Remove") 
+		      btnType = 1;
+		   else if (btn.value == "Add All" || btn.value == "Remove All") 
+		      btnType = 2;
+		   else
+		      btnType = 3;
+		
+	      isavailableIds = (btn.value.indexOf('Add') != -1) ? true : false;     
+	
+	      with ( ((isavailableIds)? document.dummyForm.availableprojects: document.form[0].assignedprojects) )
+	      {
+	         for (i = 0; i < length; i++)
+	         {
+	            doIt = false;
+	            if (btnType == 1)
+	            { 
+	               if(options[i].selected) doIt = true;
+	            }
+	            else if (btnType == 2)
+	            {
+	               doIt = true;
+	            } 
+	            else 
+	               if (!options[i].selected) doIt = true;
+	             
+	            if (doIt)
+	            {
+	               with (options[i])
+	               {
+	                  if (isavailableIds)
+	                     document.form[0].assignedprojects.options[document.form[0].assignedprojects.length] = new Option( text, value );
+	                  else
+	                     document.dummyForm.availableprojects.options[document.dummyForm.availableprojects.length] = new Option( text, value );
+	               } 
+	               options[i] = null;
+	               i--;
+	            } 
+	         } // end for loop
+	         if (options[0] != null)
+	            options[0].selected = true;
+	      } // end with isavailableIds
+		}    // -->
+    </script>
+
+
 	<table>
 		<tr>
 			<td align="center" colspan="2">
@@ -40,7 +105,8 @@
 				</tr>
 
 				<tr>
-					<td class="dataCellText"><html:select name="assignedprojects" multiple="true"
+					<td class="dataCellText">
+					<select name="assignedprojects" multiple="true"
 						style="width:115px;" size="10" />
 					<td class="formRequiredLabel2" align="center"><input type="button"
 						value="Add" style="width:70px;font:8pt"> <br>
