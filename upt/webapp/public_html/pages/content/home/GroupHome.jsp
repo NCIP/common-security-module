@@ -38,7 +38,7 @@
 					<h3>Group Home</h3>
 
 					<p>This is the Group section of the User Provisioning Tool. A Group
-					is simply a collection of application users. My combining users
+					is simply a collection of application users. By combining users
 					into a Group, it becomes easier to manage their collective roles
 					and access rights in your application. Simply select an existing
 					group, and associate a new Protection Group and Roles. Upon doing
