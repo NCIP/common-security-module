@@ -8,10 +8,18 @@ package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.security.AuthenticationManager;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 /**
  * This factory class instantiate and returns the appropriate implementation of the {@link AuthenticationManager}
@@ -97,7 +105,7 @@ public class AuthenticationManagerFactory
 	 * @return An instance of the class implementating the AuthenticationManager interface. This could the client custom
 	 * implementation or the default provided Authentication Manager
 	 */
-	public static AuthenticationManager getAuthenticationManager(String applicationContextName)
+	public static AuthenticationManager getAuthenticationManagerXX(String applicationContextName)
 	{
 		if (null == securityProperties)
 		{
@@ -124,5 +132,69 @@ public class AuthenticationManagerFactory
 			
 		}
 		return authenticationManager;
+	}
+	
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName)
+	{
+		
+		Document configDoc = getConfigDocument();
+		
+		AuthenticationManager authenticationManager = null;
+		String applicationManagerClassName = getAuthenticationManagerClass(applicationContextName);
+		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))
+		{
+			authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
+			authenticationManager.initialize(applicationContextName);
+		}
+		else
+		{
+			try
+			{
+				authenticationManager = (AuthenticationManager)(Class.forName(applicationManagerClassName)).newInstance();
+				authenticationManager.initialize(applicationContextName);
+			}
+			catch (Exception exception)
+			{
+				exception.printStackTrace();
+			}
+			
+		}
+		return authenticationManager;
+	}
+	
+	
+	
+	private static Document getConfigDocument(){
+		Document configDoc = null;
+		try {
+            SAXBuilder builder = new SAXBuilder();
+            configDoc = builder.build(new File("ApplicationSecurityConfig.xml"));
+            return configDoc;
+        } catch(JDOMException e) {
+            e.printStackTrace();
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return configDoc;
+	}
+	private static String getAuthenticationManagerClass(String applicationContextName){
+		String className = null;
+		Document configDocument = getConfigDocument();
+		Element applicationsElement = configDocument.getRootElement();
+		List applications = applicationsElement.getChildren("application");
+		 Iterator appIterator  = applications.iterator();
+		 while(appIterator.hasNext()){
+		 	Element application = (Element)appIterator.next();
+		 	Element context = application.getChild("context");
+		 	String context_name = context.getAttributeValue("context-name");
+		 	  if(context_name.equalsIgnoreCase(applicationContextName)){
+		 	  	Element authentication = application.getChild("authentication");
+		 	  	Element impl = authentication.getChild("custom-implementation");
+		 	  	className = impl.getText();
+		 	  			 	  }
+		 }
+		return className;
 	}
 }
