@@ -54,7 +54,10 @@
 
     <!-- Associations -->
   
-    
+    <set name="privileges" table="role_privilege">
+           <key column="role_id"/>
+           <many-to-many column="privilege_id" class="gov.nih.nci.security.authorization.domainobjects.Privilege"/>
+     </set>
     <many-to-one
         name="application"
         class="gov.nih.nci.security.authorization.domainobjects.Application"

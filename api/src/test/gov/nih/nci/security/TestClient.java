@@ -49,8 +49,8 @@ public class TestClient {
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	
     	try{
-    	Privilege p = upm.getPrivilege("2");
-    	System.out.println(p.getName());
+    	Privilege p = upm.getPrivilege("Read");
+    	System.out.println("The returned Name:"+p.getName());
     	
     	}catch(Exception ex){
     		ex.printStackTrace();
@@ -267,10 +267,13 @@ public class TestClient {
     	
     	try{
     	  
-    	  //upm.addUserToGroup("2","15");
-    	  //upm.addUserToGroup("2","16");
-    	  //upm.addUserToGroup("2","445");
-    	  upm.addUserToGroup("3","15");
+    	  upm.addUserToGroup("2","15");
+    	  upm.addUserToGroup("34","15");
+    	  upm.addUserToGroup("33","15");
+    	  upm.addUserToGroup("26","15");
+    	  upm.addUserToGroup("2","16");
+    	  upm.addUserToGroup("2","445");
+    	  upm.addUserToGroup("5","45");
     	
     	}catch(Exception ex){
     		ex.printStackTrace();
@@ -301,10 +304,10 @@ public class TestClient {
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
 		//ts.assignPrivilegeToRoles();
-		//ts.getPrivileges();
+		ts.getPrivileges();
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
-		ts.getUser();
+		//ts.getUser();
 		//ts.testProtectionGroupCreate();
 		//ts.testProtectionGroupModify();
 		//ts.testProtectionElementCreate();

@@ -19,6 +19,7 @@ import javax.security.auth.Subject;
 import org.apache.log4j.Logger;
 
 import net.sf.hibernate.Session;
+import net.sf.hibernate.*;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.SessionFactory;
 import java.util.List;
@@ -27,6 +28,7 @@ import net.sf.hibernate.expression.*;
 
 import gov.nih.nci.security.dao.hibernate.*;
 import java.util.*;
+
 
 /**
  * @version 1.0
@@ -68,7 +70,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#addUserToGroup(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public void addUserToGroup(String groupId, String userId)
+	public void addUserToGroupxx(String groupId, String userId)
 			throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
@@ -80,20 +82,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = sf.openSession();
 
 			System.out.println("The original user Id:"+userId);
-			Group grp = new Group();
-			grp.setGroupId(new Long(groupId));
-			//User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
-			//System.out.println("The user id ="+user.getUserId());
-			System.out.println("The user id ="+grp.getGroupId());
+			//Group grp = new Group();
+			//grp.setGroupId(new Long(groupId));
+			User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
+			System.out.println("The user id ="+user.getUserId());
+			//System.out.println("The user id ="+grp.getGroupId());
 			/**
 			 * First check if there are some privileges for this role If there
 			 * are any then delete them.
 			 */
-			UserGroup search = new UserGroup();
-			search.setGroup(grp);
+			//UserGroup search = new UserGroup();
+			//search.setGroup(grp);
 			//search.setUser(user);
-
-			List list = s.createCriteria(UserGroup.class).add(Example.create(search)).list();
+            Criteria criteria = s.createCriteria(UserGroup.class);
+            criteria.add(Expression.eq("user",user));
+			List list = criteria.list();
+			
 			ArrayList oldList = new ArrayList();
 			Iterator it = list.iterator();
 			while (it.hasNext()) {
@@ -103,6 +107,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				System.out.println("The old group id ="+group.getGroupId());
 				log.debug("The old List" + group.getGroupId().toString());
 			}
+			/**
 			t = s.beginTransaction();
 			 if(!oldList.contains(groupId)){
 			 	System.out.println("Inside");
@@ -113,6 +118,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			 	s.save(ugToBeSaved);
 			 }
 			t.commit();
+			*/
 
 			//log.debug( "Privilege ID is: " +
 			// privilege.getId().doubleValue() );
@@ -134,6 +140,49 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		
 
 	}
+	
+	public void addUserToGroup(String groupId, String userId)
+	throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+		
+			
+		
+			s = sf.openSession();
+		   t = s.beginTransaction();
+			
+			User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
+			Set groups = user.getGroups();
+			Group group = (Group)this.getObjectByPrimaryKey(Group.class,new Long(groupId));
+			
+			if(!groups.contains(group)){
+				groups.add(group);
+				user.setGroups(groups);
+				s.update(user);
+			}
+			
+			t.commit();
+			
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
+
+
+
+}
 
 	/*
 	 * (non-Javadoc)
@@ -655,19 +704,29 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSObjectNotFoundException {
 		// TODO Auto-generated method stub
 		/**
-		 * Session s = null; Privilege p = null; try { //String query = "SELECT
-		 * privilege FROM privilege IN CLASS
-		 * gov.nih.nci.security.authorization.domianobjects.Privilege where
-		 * privilege.privilege_id=:id"; s = sf.openSession(); //List list =
-		 * s.find(query,new Long(privilegeId),Hibernate.LONG); p =
-		 * (Privilege)s.load(Privilege.class,new Long(privilegeId));
-		 * log.debug("Somwthing"); if(p==null){ throw new
-		 * CSObjectNotFoundException("Not found"); }
-		 *  } catch (Exception ex) { ex.printStackTrace(); try { s.close(); }
-		 * catch (Exception ex2) { }
-		 *  } return p;
-		 */
-		
+		Session s = null;
+		Privilege pr = null;
+		try {
+			s = sf.openSession();
+			Query query = s.createQuery("select p from Privilege as p where p.name =:name");
+			query.setString("name",privilegeId);
+			for (Iterator it = query.iterate(); it.hasNext();) {
+				Privilege pr1 = (Privilege) it.next();
+			    System.out.println("Privilege: " + pr1.getName() );
+			    pr=pr1;
+			}
+
+		} catch (Exception ex) {
+			log.fatal("Unable to find Group", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return pr;
+		*/
 
 		return (Privilege) this.getObjectByPrimaryKey(Privilege.class,
 				new Long(privilegeId));
@@ -1079,21 +1138,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			s = sf.openSession();
 			t = s.beginTransaction();
-			 Group group = new Group();
-			 group.setGroupId(new Long(groupId));
-			 User user = new User();
-			 user.setUserId(new Long(userId));
-	 
-			UserGroup search = new UserGroup();
-				search.setUser(user);
-				search.setGroup(group);
-
-				List list = s.createCriteria(UserGroup.class).add(
-						Example.create(search)).list();
-				if(list.size()!=0){
-					UserGroup ug = (UserGroup)list.get(0);
-					this.removeObject(ug);
-				}
+			 User user = (User)this.getObjectByPrimaryKey(User.class,new Long(userId));
+			 Group group = (Group)this.getObjectByPrimaryKey(Group.class,new Long(groupId));
+			 Set groups = user.getGroups();
+			 if(groups.contains(group)){
+			 	groups.remove(group);
+			 	user.setGroups(groups);
+			 	s.update(user);
+			 }
 
 			t.commit();
 
@@ -1167,7 +1219,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 
-	public Set getPrivileges(String roleId) throws CSObjectNotFoundException {
+	public Set getPrivilegesXX(String roleId) throws CSObjectNotFoundException {
 		Session s = null;
 
 		//ArrayList result = new ArrayList();
@@ -1186,6 +1238,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				Privilege p = rp.getPrivilege();
 				result.add(p);
 			}
+
+		} catch (Exception ex) {
+			log.error(ex);
+			throw new CSObjectNotFoundException("No Set found", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return result;
+	}
+	
+	public Set getPrivileges(String roleId) throws CSObjectNotFoundException {
+		Session s = null;
+		System.out.println("The role: getting there");
+		//ArrayList result = new ArrayList();
+		Set result = new HashSet();
+		try {
+			s = sf.openSession();
+			Role role = this.getRole(new Long(roleId));
+			System.out.println("The role:"+role.getName());
+			result = role.getPrivileges();
+			System.out.println("The result size:"+result.size());
 
 		} catch (Exception ex) {
 			log.error(ex);
