@@ -128,14 +128,14 @@ function MM_swapImage() { //v3.0
 								</tr>
 								<tr>
 									<td width="98" height="50"><img
-										src="images/horizontal_line_12.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50"></td>
 								</tr>
 								<tr>
 									<td width="98" height="50">&nbsp;</td>
 								</tr>
 								<tr>
 									<td width="98" height="50"><img
-										src="images/horizontal_line_12.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50"></td>
 								</tr>
 
 								<tr>
