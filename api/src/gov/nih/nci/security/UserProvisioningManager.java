@@ -97,16 +97,17 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void removePrivilege(String privilegeId)throws CSTransactionException;
 
 	/**
-	 * @param privilegesName
-	 * @param roleName
+	 * @param roleId
+	 * @param privilegeIds
 	 * 
 	 */
-	public void assignPrivilegesToRole(String[] privilegesName, String roleName)throws CSTransactionException;
+	public void assignPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException;
 
 	/**
 	 * @param role
 	 * @param privilegeName
-	 * 
+	 *  We will drop this method now. There is no need for this method.
+	 * assignPrivilegesToRole will delete existing relations and then put all new relations in place.
 	 */
 	public void removePrivilegesFromRole(String role, String[] privilegeName)throws CSTransactionException;
 
@@ -192,6 +193,11 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * 
 	 */
 	public Role getRole(String roleName)throws CSObjectNotFoundException;
+	/**
+	 * @param roleId
+	 * 
+	 */
+	public Role getRoleById(String roleId) throws CSObjectNotFoundException;
 
 	/**
 	 * @param serachCriteria
