@@ -9,12 +9,16 @@ import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.AuthorizationDAO;
+import gov.nih.nci.security.dao.AuthorizationDAOImpl;
+import gov.nih.nci.security.dao.AuthorizationDAOSessionFactory;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.*;
 
 import java.security.Principal;
 
 import javax.security.auth.Subject;
+
+import net.sf.hibernate.SessionFactory;
 
 
 
@@ -39,7 +43,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	private AuthorizationDAO authorizationDAO;
 
-	public UserProvisioningManagerImpl(){
+	public UserProvisioningManagerImpl(String applicationContextName){
+		
+		SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
+		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
+		authorizationDAO = (AuthorizationDAO)(adi);
 
 	}
 
