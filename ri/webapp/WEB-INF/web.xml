@@ -22,12 +22,6 @@
 <load-on-startup>2</load-on-startup>
   </servlet>
   
-  <servlet>
-    <servlet-name>log4j-init</servlet-name>
-    <servlet-class>gov.grants.apply.util.Log4jInit</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  
 
   <!-- Standard Action Servlet Mapping -->
   <servlet-mapping>
