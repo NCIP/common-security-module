@@ -425,6 +425,8 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) {
 		// TODO Auto-generated method stub
+		
+		//System.out.println("NOW____)))");
 		boolean  test = false;
 		Session s = null;
 		Transaction t = null;
@@ -437,8 +439,8 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			t = s.beginTransaction();
 			cn = s.connection();
 			
-			User user = this.getUser(userName);
-			ProtectionElement pe = this.getProtectionElement(objectId);
+			//User user = this.getUser(userName);
+			//ProtectionElement pe = this.getProtectionElement(objectId);
 			
 			
 			StringBuffer stbr = new StringBuffer();
@@ -462,15 +464,19 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			String sql = stbr.toString();
 			PreparedStatement pstmt = cn.prepareStatement(sql);
 			
-			Long priv_id = new Long(privilegeName);
+			//Long priv_id = new Long(privilegeName);
 			pstmt.setString(1,objectId);
 			pstmt.setString(2,userName);
 			pstmt.setString(3,privilegeName);
+			//System.out.println("NOW____");
+			//System.out.println(System.currentTimeMillis());
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()){
 				test = true;
 			}
+			//System.out.println(System.currentTimeMillis());
 			rs.close();
+			pstmt.close();
 			t.commit();
 
 		} catch (Exception ex) {
