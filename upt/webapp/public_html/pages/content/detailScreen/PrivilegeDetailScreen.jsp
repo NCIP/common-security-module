@@ -92,7 +92,7 @@
 								<tr>
 									<td class="formMessage" colspan="3">Update the details of the displayed Privilege. 
 									The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
-									The <b>Privilege Description</b> is a brief summary about the Privilege. The <b>Update Date</b>indicate the date when this Privilege's Details were last updated</td>
+									The <b>Privilege Description</b> is a brief summary about the Privilege. The <b>Update Date</b> indicates the date when this Privilege's Details were last updated</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>

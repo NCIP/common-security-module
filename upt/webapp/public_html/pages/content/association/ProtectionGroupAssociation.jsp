@@ -112,6 +112,10 @@
 		  				</td>
 					</tr>
 					<tr>
+						<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Protection Elements</b> 
+						for the selected <b>Protection Group</b>. To remove the complete association Deassign all the <b>Protection Elements</b>.</td>
+					</tr>
+					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
 					<td width="35%" valign="top">
@@ -119,7 +123,7 @@
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">AVAILABLE PROTECTION ELEMENTS</td>
+							<td class="sidebarTitle" height="20">AVAILABLE PEs</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
@@ -145,7 +149,7 @@
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">ASSIGNED PROTECTION ELEMENTS</td>
+							<td class="sidebarTitle" height="20">ASSIGNED PEs</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">

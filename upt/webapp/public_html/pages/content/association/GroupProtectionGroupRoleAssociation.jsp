@@ -62,6 +62,10 @@
 							</td>
 						</tr>
 						<tr>
+							<td class="formMessage" colspan="3">Select the <b>Protection Group</b> association which to be removed for
+							 the selected <b>Group</b> or whose <b>Roles</b> Association needs to be updated</td>
+						</tr>
+						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>
 						<!-- paging begins -->

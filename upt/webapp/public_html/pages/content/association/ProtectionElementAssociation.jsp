@@ -91,7 +91,7 @@
 				<td>
 					<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
 						<tr>
-							<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
+							<td class="formTitle" height="20" colspan="2">SELECTED PROTECTION ELEMENT</td>
 						</tr>
 						<tr class="dataRowDark">
 							<td class="formRequiredLabel" width="40%" scope="row"><label>Protection Element Name</label></td>
@@ -100,7 +100,7 @@
 					</table>
 				</td>
 			</tr>
-			</logic:equal>
+			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
 				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%">
@@ -112,6 +112,10 @@
 		  				</td>
 					</tr>
 					<tr>
+						<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Protection Groups</b> 
+						for the selected <b>Protection Element</b>. To remove the complete association Deassign all the <b>Protection Groups</b>.</td>
+					</tr>
+					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
 					<td width="35%" valign="top">
@@ -119,7 +123,7 @@
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">AVAILABLE PROTECTION GROUPS</td>
+							<td class="sidebarTitle" height="20">AVAILABLE PGs</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
@@ -145,7 +149,7 @@
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">ASSIGNED PROTECTION GROUPS</td>
+							<td class="sidebarTitle" height="20">ASSIGNED PGs</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
@@ -166,7 +170,7 @@
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
-						<td><button class="="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
+						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
 					</tr>
 				</table>
 				</td>				

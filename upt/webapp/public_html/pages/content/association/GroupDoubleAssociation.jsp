@@ -215,6 +215,18 @@
 		  				</html:messages>				
 		  				</td>
 					</tr>
+					<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
+						<tr>
+							<td class="formMessage" colspan="3">Select a single <b>Protection Group</b> and 
+							Multiple <b>Roles</b> which are to  be associated with the selected <b>Group</b></td>
+						</tr>					
+					</logic:notPresent>
+					<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
+						<tr>
+							<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Roles</b> 
+							for the selected <b>Group</b> and <b>Protection Group</b>. To remove the complete association Deassign all the <b>Roles</b>.</td>
+						</tr>
+					</logic:present>
 					<html:form styleId="associationForm"
 						action="<%="/GroupDBOperation"%>">
 						<html:hidden property="operation" value="read" />

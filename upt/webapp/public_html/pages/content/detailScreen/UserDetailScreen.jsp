@@ -97,7 +97,8 @@
 									The <b>User First Name</b> and <b>User Last Name</b> identifies the User. The <b>User Organization, User Department</b>
 									 and <b>User Title</b> provides his work details. The <b>User Phone Number</b> and <b>User Email Id</b> provides the contact details for the User.
 									The <b>User Password</b> can be entered if the same schema is also going to be used for Authentication.
-									The <b>User Start Date</b> and <b>User End Date</b> determine the period for which the User is a valid User</td>
+									The <b>User Start Date</b> and <b>User End Date</b> determine the period for which the User is a valid User.
+									The <b>Update Date</b> indicates the date when this User's Details were last updated</td>
 								</tr>							
 							</logic:notEqual>
 						<tr>

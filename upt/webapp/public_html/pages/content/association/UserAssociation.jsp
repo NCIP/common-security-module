@@ -112,6 +112,10 @@
 		  				</td>
 					</tr>
 					<tr>
+						<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Groups</b> 
+						for the selected <b>User</b>. To remove the complete association Deassign all the <b>Groups</b>.</td>
+					</tr>
+					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
 					<td width="35%" valign="top">
