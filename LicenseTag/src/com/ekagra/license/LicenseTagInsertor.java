@@ -27,6 +27,8 @@ public class LicenseTagInsertor {
 			File f = (File)al.get(i);
 			this.modifyFile(f);
 		}
+		
+		System.out.println("Total Files chnaged:"+al.size());
 	}
 	
 	private ArrayList getAllFiles(File folder){
@@ -58,7 +60,7 @@ public class LicenseTagInsertor {
 		return allFiles;
 	}
 	
-	private void modifyFile(File f){
+	private void modifyFileXX(File f){
 		
 		//System.out.println(f.getPath());
 		StringBuffer stbr = new StringBuffer();
@@ -159,6 +161,36 @@ public class LicenseTagInsertor {
      				stbr.append(" *\n");
 					stbr.append(" */\n");
 					stbr.append("\n");
+
+	         	}
+	         }
+	         	
+	         System.out.println(stbr.toString());
+	         in.close();
+	         String path = f.getAbsolutePath();
+	         f.delete();
+	         FileWriter fWriter = new FileWriter(path);
+	         fWriter.write(stbr.toString());
+	         fWriter.close();
+	      }
+	      catch (IOException e)
+	      {  
+	      }
+	}
+	
+	private void modifyFile(File f){
+		
+		//System.out.println(f.getPath());
+		StringBuffer stbr = new StringBuffer();
+		try
+	      {  
+	         BufferedReader in
+	            = new BufferedReader(new FileReader(f));
+	         String s;
+	         while ((s = in.readLine()) != null){
+	         	stbr.append(s).append("\n");
+	         	if(s.indexOf("Software License, Version 1.0")>-1){
+	         		StringUtils.replaceInString(s,"Software License, Version 1.0","Software License, Version 3.0");
 
 	         	}
 	         }
