@@ -245,9 +245,23 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			s = sf.openSession();
 			t = s.beginTransaction();
 
-			ProtectionGroup group = getProtectionGroup( protectionGroupName );
-			ProtectionElement element = getProtectionElement( protectionElementObjectId );
-
+			ProtectionGroup protectionGroup = getProtectionGroup( protectionGroupName );
+			ProtectionElement protectionElement = getProtectionElement( protectionElementObjectId );
+			
+			Criteria criteria = s.createCriteria(ProtectionGroupProtectionElement.class);
+			criteria.add(Expression.eq("protectionGroup",protectionGroup));
+			criteria.add(Expression.eq("protectionElement",protectionElement));
+			
+			List list = criteria.list();
+          
+			 if(list.size()==0){
+			 	ProtectionGroupProtectionElement pgpe = new ProtectionGroupProtectionElement();
+			 	pgpe.setProtectionElement(protectionElement);
+			 	pgpe.setProtectionGroup(protectionGroup);
+			 	pgpe.setUpdateDate(new Date());
+			 	
+			 	s.save(pgpe);
+			 }
 
 			t.commit();
 
@@ -276,6 +290,8 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	public void assignProtectionElements(String protectionGroupName,
 			String protectionElementObjectId) throws CSTransactionException {
 		// TODO Auto-generated method stub
+		
+		 this.assignProtectionElements(protectionGroupName,protectionElementObjectId,null);
 
 	}
 
@@ -1213,16 +1229,26 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
+			
+			
+			
 			for (int i = 0; i < protectionElementIds.length; i++) {
 				ProtectionGroupProtectionElement intersection = new
 				ProtectionGroupProtectionElement();
 				ProtectionElement protectionElement = (ProtectionElement) this
 						.getObjectByPrimaryKey(s, ProtectionElement.class,
 								new Long(protectionElementIds[i]));
-				intersection.setProtectionGroup( protectionGroup );
-				intersection.setProtectionElement( protectionElement );
-				intersection.setUpdateDate( new Date() );
-				s.save( intersection );
+				
+				Criteria criteria = s.createCriteria(ProtectionGroupProtectionElement.class);
+				criteria.add(Expression.eq("protectionGroup",protectionGroup));
+				criteria.add(Expression.eq("protectionElement",protectionElement));	
+				List list = criteria.list();
+				if(list.size()==0){
+					intersection.setProtectionGroup( protectionGroup );
+					intersection.setProtectionElement( protectionElement );
+					intersection.setUpdateDate( new Date() );
+					s.save( intersection );
+				}
 
 			}
 
@@ -1245,9 +1271,53 @@ public void assignGroupRoleToProtectionGroup(String protectionGroupId,
 	}
 
 	public void removeProtectionElementsFromProtectionGroup(
-			String protectionGroupId, String[] protectionLementIds)
+			String protectionGroupId, String[] protectionElementIds)
 			throws CSTransactionException {
-		;
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+			//System.out.println("The original user Id:"+userId);
+
+			ProtectionGroup protectionGroup = (ProtectionGroup) this
+					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
+							protectionGroupId));
+			
+			
+			
+			for (int i = 0; i < protectionElementIds.length; i++) {
+				ProtectionGroupProtectionElement intersection = new
+				ProtectionGroupProtectionElement();
+				ProtectionElement protectionElement = (ProtectionElement) this
+						.getObjectByPrimaryKey(s, ProtectionElement.class,
+								new Long(protectionElementIds[i]));
+				
+				
+					intersection.setProtectionGroup( protectionGroup );
+					intersection.setProtectionElement( protectionElement );
+					intersection.setUpdateDate( new Date() );
+				    this.removeObject(intersection);
+				
+
+			}
+
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 	}
 
 	private void assignProtectionElement(ProtectionGroup pg, String peId) {
