@@ -502,7 +502,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String attributeName, String privilegeName) throws CSException{
 		
 		ResultSet rs = null;
-		PreparedStatement pstmt = null;
+		Statement stmt = null;
 		boolean test = false;
 		Session s = null;
 
@@ -539,33 +539,28 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" privilege p ");
 			stbr.append(" where pgpe.protection_group_id = pg.protection_group_id"); 
 			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
-			stbr.append(" and pe.object_id= ?");
-			stbr.append(" and pe.attribute=?");
+			stbr.append(" and pe.object_id='"+objectId+"'");
+			stbr.append(" and pe.attribute='"+attributeName+"'");
 			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
 			stbr.append(" and (( ugrpg.group_id = g.group_id");
 			stbr.append("       and ug.user_id = u.user_id)");
 			stbr.append("       or ");
 			stbr.append("     (ugrpg.user_id = u.user_id))");
-			stbr.append(" and u.login_name=?");
+			stbr.append(" and u.login_name='"+userName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name = ?");
+			stbr.append(" and p.privilege_name='"+privilegeName);
 
 			String sql = stbr.toString();
-			   pstmt = cn.prepareStatement(sql);
-			
-			         		pstmt.setString(1,objectId);
-					 		pstmt.setString(2,attributeName);
-					 		pstmt.setString(3,userName);
-					 	    pstmt.setString(4,privilegeName);
-					 	    rs = pstmt.executeQuery();
+		    stmt = cn.createStatement();
+			   rs = stmt.executeQuery(sql);
 					 	
 					 	if(rs.next()){
 					 		test = true;
 					 	}
 					 	rs.close();
 					 	
-			pstmt.close();
+			 stmt.close();
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
@@ -576,7 +571,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 				s.close();
 				rs.close();
-				pstmt.close();
+				stmt.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||getPrivilegeMap|Failure|Error in Closing Session |"+ex2.getMessage());
@@ -628,7 +623,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String privilegeName) throws CSException {
 		boolean test = false;
 		Session s = null;
-		Transaction t = null;
+		Statement stmt = null;
+		ResultSet rs = null;
 		Connection cn = null;
 		if(userName==null||objectId==null||privilegeName==null){
 			return false;
@@ -636,7 +632,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
              
 			s = sf.openSession();
-			t = s.beginTransaction();
+			
 			cn = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
@@ -652,36 +648,27 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.append("where pgpe.protection_group_id = pg.protection_group_id ");
 			stbr
 					.append(" and pgpe.protection_element_id = pe.protection_element_id");
-			stbr.append(" and pe.object_id=?");
+			stbr.append(" and pe.object_id='"+objectId+"'");
 			stbr
 					.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
 			stbr.append(" and ugrpg.user_id = u.user_id");
-			stbr.append(" and u.login_name=?");
+			stbr.append(" and u.login_name='"+userName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name=?");
+			stbr.append(" and p.privilege_name='"+privilegeName);
 			String sql = stbr.toString();
-			PreparedStatement pstmt = cn.prepareStatement(sql);
-
-			pstmt.setString(1, objectId);
-			pstmt.setString(2, userName);
-			pstmt.setString(3, privilegeName);
-			ResultSet rs = pstmt.executeQuery();
+			stmt = cn.createStatement();
+			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
-			pstmt.close();
-			t.commit();
+			stmt.close();
+			
 
 		} catch (Exception ex) {
 			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-				if (log.isDebugEnabled())
-					log.debug("Authorization|||checkPermission|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
-			}
+			
 			if (log.isDebugEnabled())
 				log.debug("Authorization||"+userName+"|checkPermission|Failure|Error Occured in checking permissions with user id "
 						+ userName + " object id: " + objectId + " and privilege name " + privilegeName+"|"+ ex.getMessage());			
@@ -690,6 +677,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 
 				s.close();
+				rs.close();
+				stmt.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |"+ex2.getMessage());
@@ -704,7 +693,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String privilegeName) throws CSException {
 		boolean test = false;
 		Session s = null;
-		Transaction t = null;
+		Statement stmt = null;
+		ResultSet rs = null;
 		Connection cn = null;
 		
 		if(userName==null||objectId==null||privilegeName==null){
@@ -714,7 +704,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = sf.openSession();
-			t = s.beginTransaction();
+			
 			cn = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
@@ -730,38 +720,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" privilege p ");
 			stbr.append(" where pgpe.protection_group_id = pg.protection_group_id"); 
 			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
-			stbr.append(" and pe.object_id= ?");
+			stbr.append(" and pe.object_id='"+objectId+"'");
 			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
 			stbr.append(" and (( ugrpg.group_id = g.group_id");
 			stbr.append("       and ug.user_id = u.user_id)");
 			stbr.append("       or ");
 			stbr.append("     (ugrpg.user_id = u.user_id))");
-			stbr.append(" and u.login_name=?");
+			stbr.append(" and u.login_name='"+userName+"'");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
-			stbr.append(" and p.privilege_name = ?");
+			stbr.append(" and p.privilege_name='"+privilegeName);
 			String sql = stbr.toString();
-			PreparedStatement pstmt = cn.prepareStatement(sql);
-
-			pstmt.setString(1, objectId);
-			pstmt.setString(2, userName);
-			pstmt.setString(3, privilegeName);
-			ResultSet rs = pstmt.executeQuery();
+			stmt = cn.createStatement();
+	      
+			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
-			pstmt.close();
-			t.commit();
+			stmt.close();
+			
 
 		} catch (Exception ex) {
 			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-				if (log.isDebugEnabled())
-					log.debug("Authorization|||checkPermission|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
-			}
+			
 			if (log.isDebugEnabled())
 				log.debug("Authorization||"+userName+"|checkPermission|Failure|Error Occured in checking permissions with user id "
 						+ userName + " object id: " + objectId + " and privilege name " + privilegeName+"|"+ ex.getMessage());			
@@ -770,6 +752,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 
 				s.close();
+				rs.close();
+				stmt.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |"+ex2.getMessage());
@@ -785,7 +769,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String privilegeName) throws CSException {
 		boolean test = false;
 		Session s = null;
-		Transaction t = null;
+		Statement stmt = null;
+		ResultSet rs = null;
 		Connection cn = null;
 		try {
 			
@@ -793,7 +778,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				return false;
 			}
 			s = sf.openSession();
-			t = s.beginTransaction();
+			
 			cn = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
@@ -818,27 +803,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and rp.privilege_id = p.privilege_id");
 			stbr.append(" and p.privilege_name='"+privilegeName);
 			String sql = stbr.toString();
-			PreparedStatement pstmt = cn.prepareStatement(sql);
-
-			pstmt.setString(1, objectId);
-			pstmt.setString(2, userName);
-			pstmt.setString(3, privilegeName);
-			ResultSet rs = pstmt.executeQuery();
+			stmt = cn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
-			pstmt.close();
-			t.commit();
+			stmt.close();
+			//t.commit();
 
 		} catch (Exception ex) {
 			log.error(ex);
-			try {
-				t.rollback();
-			} catch (Exception ex3) {
-				if (log.isDebugEnabled())
-					log.debug("Authorization|||checkPermission|Failure|Error in Rolling Back Transaction|"+ex3.getMessage());
-			}
+			
 			if (log.isDebugEnabled())
 				log.debug("Authorization||"+userName+"|checkPermission|Failure|Error Occured in checking permissions with user id "
 						+ userName + " object id: " + objectId + " and privilege name " + privilegeName+"|"+ ex.getMessage());			
@@ -847,6 +824,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 
 				s.close();
+				rs.close();
+				stmt.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |"+ex2.getMessage());
@@ -2674,8 +2653,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String protectionElementObjectId) {
 		boolean test = false;
 		Session s = null;
-
+		Statement stmt = null;
 		Connection cn = null;
+		ResultSet rs = null;
 
 		try {
 
@@ -2694,8 +2674,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append("and  pe.object_id ='" + protectionElementObjectId
 					+ "'");
 			String sql = stbr.toString();
-			Statement stmt = cn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			stmt = cn.createStatement();
+			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				test = true;
 			}
@@ -2709,6 +2689,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 
 				s.close();
+				rs.close();
+				stmt.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkOwnerShip|Failure|Error in Closing Session |"+ex2.getMessage());
