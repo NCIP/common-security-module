@@ -3,7 +3,7 @@
 
 
 <table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<tr>
+	<tr><td><h2>Groups</h2></td></tr><tr>
 		<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 				<tr>
