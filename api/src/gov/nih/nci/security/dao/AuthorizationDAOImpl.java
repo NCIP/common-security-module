@@ -1,6 +1,9 @@
 package gov.nih.nci.security.dao;
 
 import gov.nih.nci.security.authorization.domainobjects.*;
+import gov.nih.nci.security.util.*;
+
+import java.util.Collection;
 import java.util.Iterator;
 
 import gov.nih.nci.security.authorization.jaas.*;
@@ -80,13 +83,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		//System.out.println("Running create test...");
 		try {
 			
-			ArrayList toBeInserted = new ArrayList();
 			
-			ArrayList toBeScanned = new ArrayList();
+			ArrayList newList = new ArrayList();
 			for(int k=0;k<privilegeIds.length;k++){
-				toBeScanned.add(privilegeIds[k]);
+				System.out.println("The new list:"+privilegeIds[k]);
+				newList.add(privilegeIds[k]);
 			}
-			toBeInserted = (ArrayList)toBeScanned.clone();
+			
 			s = sf.openSession();
 
 			t = s.beginTransaction();
@@ -99,28 +102,44 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			search.setRole(r);
 			
 			List list = s.createCriteria(RolePrivilege.class).add(Example.create(search)).list();
-			
+			ArrayList oldList = new ArrayList();
 			Iterator it = list.iterator();
 			while(it.hasNext()){
 				RolePrivilege rp1 = (RolePrivilege)it.next();
 				Privilege priv = rp1.getPrivilege();
-				if(toBeScanned.contains(priv.getId().toString())){
-					toBeInserted.remove(priv.getId().toString());
-				}else{
-					s.delete(rp1);
-				}
-				
+				oldList.add(priv.getId().toString());
+				System.out.println("The old List"+priv.getId().toString());
 			}
 			
-			for( int i=0;i<toBeInserted.size();i++){
-				String rp_id = (String)toBeInserted.get(i);
-				Privilege p = this.getPrivilege(rp_id);
+			Collection toBeInserted = ObjectSetUtil.minus(newList,oldList);
+			Collection toBeRemoved = ObjectSetUtil.minus(oldList,newList);
+
+             Iterator toBeInsertedIt = toBeInserted.iterator();
+             Iterator  toBeRemovedIt = toBeRemoved.iterator();
+             
+             while(toBeInsertedIt.hasNext()){
+             	String rp_id = (String)toBeInsertedIt.next();
+             	System.out.println("To Be Inserted: "+rp_id);
+             	Privilege p = this.getPrivilege(rp_id);
 				RolePrivilege rp = new RolePrivilege();
 				rp.setPrivilege(p);
 				rp.setRole(r);
 				rp.setUpdateDate(new java.util.Date());
 				s.save(rp);
-			}
+             }
+             while(toBeRemovedIt.hasNext()){
+         
+             	String p_id = (String)toBeRemovedIt.next();
+             	System.out.println("To Be Removed: "+p_id);
+             	Privilege p = new Privilege();
+             	p.setId(new Long(p_id));
+				search.setPrivilege(p);
+				List list_del = s.createCriteria(RolePrivilege.class).add(Example.create(search)).list();
+				RolePrivilege rp_del = (RolePrivilege)list_del.get(0);
+				s.delete(rp_del);
+             }
+			
+			
 			
 			t.commit();
 			s.close();
@@ -138,7 +157,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String, java.lang.String[], java.lang.String[])
 	 */
