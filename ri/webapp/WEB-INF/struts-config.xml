@@ -45,55 +45,55 @@
 	<action-mappings>
 		<!-- Default "Welcome" action -->
 		<!-- Forwards -->
-		<action path="/Welcome" forward="show.login"/>
-		<action path="/viewHome" forward="main.layout" />
-		<action path="/viewErrorDetails" forward="show.error.details"/>
+		<action path="/Welcome"  forward="show.login"  validate="false"/>
+		<action path="/viewHome" forward="main.layout"  validate="false"/>
+		<action path="/viewErrorDetails" forward="show.error.details" validate="false"/>
 		
-		<action path="/viewCreateEmployee" name="employeeForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateEmployeeAction" input="/Welcome.do">
+		<action path="/viewCreateEmployee" name="employeeForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateEmployeeAction" input="/Welcome.do" validate="false">
 		    <forward name="success" path="show.create.employee"/>
 			<forward name="access_denied" path="/viewHome.do" />
 		</action>
 		
 		
-		<action path="/viewCreateProject" name="projectForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction">
+		<action path="/viewCreateProject" name="projectForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction" validate="false">
 		       <forward name="success" path="show.create.project"/>
 			   <forward name="access_denied" path="/viewHome.do" />
 		
 		</action>
 		
-		<action path="/viewSearchEmployee" name="employeeForm" forward="show.search.employee"/>
+		<action path="/viewSearchEmployee" name="employeeForm" forward="show.search.employee"  validate="false"/>
 
 		<!-- actions -->
 		
-		<action input="login" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
+		<action input="main.layout" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
 			<forward name="success" path="main.layout"/>
 		</action>	
 		
 		
-		<action input="login" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" validate="true" scope="session" >
+		<action input="show.create.employee" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" validate="true" scope="session" >
 			<forward name="success" path="/viewEmployee.do" />
 			
 
 		</action>
 		
-		<action input="login" name="employeeForm" path="/searchEmployee" type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction" scope="session" >
+		<action input="show.search.employee" name="employeeForm" path="/searchEmployee" type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction"  validate="false" scope="session" >
 			<forward name="success" path="show.employee.search.results"/>
 			<forward name="access_denied" path="/viewSearchEmployee.do" />
 		</action>
 		
-		<action input="searchEmployee" name="employeeForm" path="/viewEmployee" type="gov.nih.nci.security.ri.struts.actions.ViewEmployeeAction" scope="session" >
+		<action input="show.employee" name="employeeForm" path="/viewEmployee" type="gov.nih.nci.security.ri.struts.actions.ViewEmployeeAction"  validate="false" scope="session" >
 			<forward name="success" path="show.employee"/>
 			<forward name="access_denied" path="/viewSearchEmployee.do" />
 		</action>
 		
 			
-		<action input="viewEmployee" name="employeeForm" path="/updateEmployee" type="gov.nih.nci.security.ri.struts.actions.UpdateEmployeeAction" validate="true" scope="session" >
+		<action input="show.employee" name="employeeForm" path="/updateEmployee" type="gov.nih.nci.security.ri.struts.actions.UpdateEmployeeAction" validate="false" scope="session" >
 			<forward name="success" path="/viewEmployee.do"/>			
 		</action>
 		
 
 		
-		<action input="login" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" validate="true" scope="session" >
+		<action input="show.create.project" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" validate="true" scope="session" >
 			<forward name="success" path="show.create.project"/>
 			<forward name="access_denied" path="/viewHome.do" />
 		</action>
