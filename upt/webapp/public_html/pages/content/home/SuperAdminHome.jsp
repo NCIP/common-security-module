@@ -34,7 +34,7 @@
 					tool is designed so that developers can easily configure an
 					application's authorization data in the Common Security Module
 					(CSM) database. As a Super Admin., you may add, remove, or modify
-					Application details. You can also assign Users to these
+					Application details. You can also assign administrators (users) to these
 					Applications. Please begin using this application by clicking on
 					one of the menu subsections above or the links below. Enjoy.</p>
 					</td>
@@ -46,9 +46,9 @@
 
 					<p><a
 						href="javascript: setTable('<%=DisplayConstants.APPLICATION_ID%>')">Application</a><br />
-					Applications which uses the CSM for security.</p>
+					Applications which use the CSM for security.</p>
 					<p><a href="javascript: setTable('<%=DisplayConstants.USER_ID%>')">Users</a><br />
-					Users for an application or for a system or both.</p>
+					Those who can serve as UPT administrators for the application.</p>
 					<p>&nbsp;</p>
 					</td>
 					<td width="30%">&nbsp;</td>
