@@ -496,7 +496,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	}
 	
 	public Group getGroup(String groupId) throws CSObjectNotFoundException{
-		return null;
+		return authorizationDAO.getGroup(groupId);
 	}
 
 
