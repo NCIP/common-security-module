@@ -10,6 +10,7 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.exceptions.*;
 
 import java.security.Principal;
 
@@ -50,7 +51,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionGroup
 	 * 
 	 */
-	public void createProtectionGroup(ProtectionGroup protectionGroup){
+	public void createProtectionGroup(ProtectionGroup protectionGroup) throws CSTransactionException{
+		
 		authorizationDAO.createProtectionGroup(protectionGroup);
 
 	}
@@ -80,9 +82,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionGroup
 	 * 
 	 */
-	public void modifyProtectionGroup(ProtectionGroup protectionGroup){
+	public void modifyProtectionGroup(ProtectionGroup protectionGroup)throws CSTransactionException{
 		
 		authorizationDAO.modifyProtectionGroup(protectionGroup);
+		
 
 	}
 
@@ -92,7 +95,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName){
+	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName) throws CSTransactionException{
             
 		authorizationDAO.assignProtectionElements(protectionGroupName,protectionElementObjectName);
 	}
@@ -100,7 +103,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionGroupName
 	 * 
 	 */
-	public void removeProtectionGroup(String protectionGroupName){
+	public void removeProtectionGroup(String protectionGroupName) throws CSTransactionException{
 		authorizationDAO.removeProtectionGroup(protectionGroupName);
 	}
 
@@ -108,7 +111,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param element
 	 * 
 	 */
-	public void removeProtectionElement(ProtectionElement element){
+	public void removeProtectionElement(ProtectionElement element) throws CSTransactionException{
 
 		authorizationDAO.removeProtectionElement(element);
 	}
@@ -118,7 +121,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param userName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName){
+	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName)throws CSTransactionException{
 
 		authorizationDAO.setOwnerForProtectionElement(protectionElementObjectName,userName);
 	}
@@ -129,7 +132,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionGroupId
 	 * 
 	 */
-	public void assignUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId){
+	public void assignUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId)throws CSTransactionException{
            
 		authorizationDAO.assignUserRoleToProtectionGroup(userId,rolesId,protectionGroupId);
 	}
@@ -139,7 +142,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionGroupName
 	 * 
 	 */
-	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName){
+	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName)throws CSTransactionException{
 
 		authorizationDAO.deAssignProtectionElements(protectionElementObjectNames,protectionGroupName);
 	}
@@ -148,7 +151,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElement
 	 * 
 	 */
-	public void createProtectionElement(ProtectionElement protectionElement){
+	public void createProtectionElement(ProtectionElement protectionElement)throws CSTransactionException{
 		authorizationDAO.createProtectionElement(protectionElement);
 	}
 
@@ -158,7 +161,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param roles
 	 * 
 	 */
-	public void removeUserRoleFromProtectionGroup(String protectionGroupName, String userName, String[] roles){
+	public void removeUserRoleFromProtectionGroup(String protectionGroupName, String userName, String[] roles)throws CSTransactionException{
 		authorizationDAO.removeUserRoleFromProtectionGroup(protectionGroupName,userName,roles);
 	}
 
@@ -176,7 +179,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param role
 	 * 
 	 */
-	public void createRole(Role role){
+	public void createRole(Role role)throws CSTransactionException{
 		
 		authorizationDAO.createRole(role);
 
@@ -195,7 +198,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param role
 	 * 
 	 */
-	public void modifyRole(Role role){
+	public void modifyRole(Role role) throws CSTransactionException{
 		authorizationDAO.modifyRole(role);
 	}
 
@@ -220,7 +223,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param roleId
 	 * 
 	 */
-	public void removeRole(String roleId){
+	public void removeRole(String roleId) throws CSTransactionException{
 		authorizationDAO.removeRole(roleId);
 	}
 
@@ -239,7 +242,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param privilege
 	 * 
 	 */
-	public void createPrivilege(Privilege privilege){
+	public void createPrivilege(Privilege privilege) throws CSTransactionException{
 		authorizationDAO.createPrivilege(privilege);
 	}
 
@@ -257,7 +260,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param privilege
 	 * 
 	 */
-	public void modifyPrivilege(Privilege privilege){
+	public void modifyPrivilege(Privilege privilege) throws CSTransactionException{
           
 	}
 
@@ -273,7 +276,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param privilegeId
 	 * 
 	 */
-	public void removePrivilege(String privilegeId){
+	public void removePrivilege(String privilegeId) throws CSTransactionException{
 
 	}
 
@@ -282,7 +285,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param roleName
 	 * 
 	 */
-	public void assignPrivilegesToRole(String[] privilegesName, String roleName){
+	public void assignPrivilegesToRole(String[] privilegesName, String roleName) throws CSTransactionException{
 
 	}
 
@@ -291,7 +294,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param objectId
 	 * 
 	 */
-	public ProtectionElement getProtectionElement(String objectId){
+	public ProtectionElement getProtectionElement(String objectId) throws CSObjectNotFoundException{
 		return null;
 	}
 
@@ -300,7 +303,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementObjectNames
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames){
+	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames)throws CSTransactionException{
 
 	}
 
@@ -309,7 +312,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param privilegeName
 	 * 
 	 */
-	public void removePrivilegesFromRole(String role, String[] privilegeName){
+	public void removePrivilegesFromRole(String role, String[] privilegeName)throws CSTransactionException{
 
 	}
 
@@ -317,7 +320,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param group
 	 * 
 	 */
-	public void createGroup(Group group){
+	public void createGroup(Group group)throws CSTransactionException{
 
 	}
 
@@ -327,7 +330,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String userName, String protectionElementObjectName, String protectionElementAttributeName){
+	public void setOwnerForProtectionElement(String userName, String protectionElementObjectName, String protectionElementAttributeName)throws CSTransactionException{
 
 	}
 
@@ -337,7 +340,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementAttributeNames
 	 * 
 	 */
-	public void deAssignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames, String[] protectionElementAttributeNames){
+	public void deAssignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames, String[] protectionElementAttributeNames)throws CSTransactionException{
 
 	}
 
@@ -345,7 +348,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param groupId
 	 * 
 	 */
-	public void removeGroup(String groupId){
+	public void removeGroup(String groupId)throws CSTransactionException{
 
 	}
 
@@ -353,7 +356,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param group
 	 * 
 	 */
-	public void modifyGroup(Group group){
+	public void modifyGroup(Group group)throws CSTransactionException{
 
 	}
 
@@ -362,7 +365,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param user
 	 * 
 	 */
-	public void addUserToGroup(String groupId, String user){
+	public void addUserToGroup(String groupId, String user)throws CSTransactionException{
 
 	}
 
@@ -371,7 +374,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param userId
 	 * 
 	 */
-	public void removeUserFromGroup(String groupId, String userId){
+	public void removeUserFromGroup(String groupId, String userId)throws CSTransactionException{
 
 	}
 
@@ -381,7 +384,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param rolesId
 	 * 
 	 */
-	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId){
+	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId)throws CSTransactionException{
 
 	}
 
@@ -390,7 +393,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param privilegeId
 	 * 
 	 */
-	public Privilege getPrivilege(String privilegeId){
+	public Privilege getPrivilege(String privilegeId)throws CSObjectNotFoundException{
 		return null;
 	}
 
@@ -401,7 +404,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param userId
 	 * 
 	 */
-	public void removeUserFromProtectionGroup(String protectionGroupId, String userId){
+	public void removeUserFromProtectionGroup(String protectionGroupId, String userId) throws CSTransactionException{
 
 	}
 
@@ -411,7 +414,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param roleId
 	 * 
 	 */
-	public void removeGroupRoleFromProtectionGroup(String protectionGroupId, String groupId, String[] roleId){
+	public void removeGroupRoleFromProtectionGroup(String protectionGroupId, String groupId, String[] roleId) throws CSTransactionException{
 
 	}
 
@@ -420,7 +423,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param groupId
 	 * 
 	 */
-	public void removeGroupFromProtectionGroup(String protectionGroupId, String groupId){
+	public void removeGroupFromProtectionGroup(String protectionGroupId, String groupId) throws CSTransactionException{
 
 	}
 
@@ -428,7 +431,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionGroupName
 	 * 
 	 */
-	public ProtectionGroup getProtectionGroup(String protectionGroupName){
+	public ProtectionGroup getProtectionGroup(String protectionGroupName) throws CSObjectNotFoundException{
 		return null;
 	}
 
@@ -436,7 +439,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param roleName
 	 * 
 	 */
-	public Role getRole(String roleName){
+	public Role getRole(String roleName) throws CSObjectNotFoundException{
 		return null;
 	}
 
