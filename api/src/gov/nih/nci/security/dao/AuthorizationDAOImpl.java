@@ -1385,7 +1385,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			pstmt.setLong(2, u_id.longValue());
 
 			int i = pstmt.executeUpdate();
-
+            pstmt.close();
 			t.commit();
 
 		} catch (Exception ex) {
@@ -1404,6 +1404,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 
 				s.close();
+			
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||removeUserFromProtectionGroup|Failure|Error in Closing Session |"+ex2.getMessage());
