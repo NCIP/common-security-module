@@ -5,6 +5,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.exceptions.*;
 
 
 
@@ -23,25 +24,25 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param protectionGroup
 	 * 
 	 */
-	public void createProtectionGroup(ProtectionGroup protectionGroup);
+	public void createProtectionGroup(ProtectionGroup protectionGroup)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroup
 	 * 
 	 */
-	public void modifyProtectionGroup(ProtectionGroup protectionGroup);
+	public void modifyProtectionGroup(ProtectionGroup protectionGroup)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName
 	 * 
 	 */
-	public void removeProtectionGroup(String protectionGroupName);
+	public void removeProtectionGroup(String protectionGroupName)throws CSTransactionException;
 
 	/**
 	 * @param element
 	 * 
 	 */
-	public void removeProtectionElement(ProtectionElement element);
+	public void removeProtectionElement(ProtectionElement element)throws CSTransactionException;
 
 	/**
 	 * @param userId
@@ -49,7 +50,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param protectionGroupId
 	 * 
 	 */
-	public void assignUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId);
+	public void assignUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName
@@ -57,89 +58,89 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param roles
 	 * 
 	 */
-	public void removeUserRoleFromProtectionGroup(String protectionGroupName, String userName, String[] roles);
+	public void removeUserRoleFromProtectionGroup(String protectionGroupName, String userName, String[] roles)throws CSTransactionException;
 
 	/**
 	 * @param role
 	 * 
 	 */
-	public void createRole(Role role);
+	public void createRole(Role role)throws CSTransactionException;
 
 	/**
 	 * @param role
 	 * 
 	 */
-	public void modifyRole(Role role);
+	public void modifyRole(Role role)throws CSTransactionException;
 
 	/**
 	 * @param roleId
 	 * 
 	 */
-	public void removeRole(String roleId);
+	public void removeRole(String roleId)throws CSTransactionException;
 
 	/**
 	 * @param privilege
 	 * 
 	 */
-	public void createPrivilege(Privilege privilege);
+	public void createPrivilege(Privilege privilege)throws CSTransactionException;
 
 	/**
 	 * @param privilege
 	 * 
 	 */
-	public void modifyPrivilege(Privilege privilege);
+	public void modifyPrivilege(Privilege privilege)throws CSTransactionException;
 
 	/**
 	 * @param privilegeId
 	 * 
 	 */
-	public void removePrivilege(String privilegeId);
+	public void removePrivilege(String privilegeId)throws CSTransactionException;
 
 	/**
 	 * @param privilegesName
 	 * @param roleName
 	 * 
 	 */
-	public void assignPrivilegesToRole(String[] privilegesName, String roleName);
+	public void assignPrivilegesToRole(String[] privilegesName, String roleName)throws CSTransactionException;
 
 	/**
 	 * @param role
 	 * @param privilegeName
 	 * 
 	 */
-	public void removePrivilegesFromRole(String role, String[] privilegeName);
+	public void removePrivilegesFromRole(String role, String[] privilegeName)throws CSTransactionException;
 
 	/**
 	 * @param group
 	 * 
 	 */
-	public void createGroup(Group group);
+	public void createGroup(Group group)throws CSTransactionException;
 
 	/**
 	 * @param groupId
 	 * 
 	 */
-	public void removeGroup(String groupId);
+	public void removeGroup(String groupId)throws CSTransactionException;
 
 	/**
 	 * @param group
 	 * 
 	 */
-	public void modifyGroup(Group group);
+	public void modifyGroup(Group group)throws CSTransactionException;
 
 	/**
 	 * @param groupId
 	 * @param user
 	 * 
 	 */
-	public void addUserToGroup(String groupId, String user);
+	public void addUserToGroup(String groupId, String user)throws CSTransactionException;
 
 	/**
 	 * @param groupId
 	 * @param userId
 	 * 
 	 */
-	public void removeUserFromGroup(String groupId, String userId);
+	public void removeUserFromGroup(String groupId, String userId)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupId
@@ -147,14 +148,14 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param rolesId
 	 * 
 	 */
-	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId);
+	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId)throws CSTransactionException;
 
 	/**
 	 * Returns the privilege for the passed name privilege id
 	 * @param privilegeId
 	 * 
 	 */
-	public Privilege getPrivilege(String privilegeId);
+	public Privilege getPrivilege(String privilegeId) throws CSObjectNotFoundException;
 
 	/**
 	 * This method removes the user from a protection group irrespective of all the
@@ -163,7 +164,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param userId
 	 * 
 	 */
-	public void removeUserFromProtectionGroup(String protectionGroupId, String userId);
+	public void removeUserFromProtectionGroup(String protectionGroupId, String userId)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupId
@@ -171,26 +172,26 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param roleId
 	 * 
 	 */
-	public void removeGroupRoleFromProtectionGroup(String protectionGroupId, String groupId, String[] roleId);
+	public void removeGroupRoleFromProtectionGroup(String protectionGroupId, String groupId, String[] roleId)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupId
 	 * @param groupId
 	 * 
 	 */
-	public void removeGroupFromProtectionGroup(String protectionGroupId, String groupId);
+	public void removeGroupFromProtectionGroup(String protectionGroupId, String groupId)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName
 	 * 
 	 */
-	public ProtectionGroup getProtectionGroup(String protectionGroupName);
+	public ProtectionGroup getProtectionGroup(String protectionGroupName)throws CSObjectNotFoundException;
 
 	/**
 	 * @param roleName
 	 * 
 	 */
-	public Role getRole(String roleName);
+	public Role getRole(String roleName)throws CSObjectNotFoundException;
 
 	/**
 	 * @param serachCriteria
