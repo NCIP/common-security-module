@@ -1,5 +1,6 @@
 package gov.nih.nci.security.dao;
 
+import gov.nih.nci.security.authorization.ObjectAccessMap;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.Group;
@@ -17,6 +18,7 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.util.StringUtilities;
 
+import java.lang.reflect.Method;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -1910,5 +1912,89 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			} catch (Exception ex2) {
 			}
 		}
+	}
+	
+	private ObjectAccessMap getObjectAccessMap(String objectTypeName,String loginName){
+		Hashtable accessMap = new Hashtable();
+		Session s = null;
+		
+		Connection cn = null;
+		
+		try {
+
+			s = sf.openSession();
+			
+			cn = s.connection();
+
+
+			StringBuffer stbr = new StringBuffer();
+			stbr.append("select pe.attribute");
+			stbr.append("from protection_group pg,");
+			stbr.append("protection_element pe,");
+			stbr.append("protection_group_protection_element pgpe,");
+			stbr.append("user_group_role_protection_group ugrpg,");
+			stbr.append("user u,");
+			stbr.append("role_privilege rp,");
+			stbr.append("privilege p ");
+			stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
+			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" and pe.protection_element_name="+objectTypeName);
+			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr.append(" and ugrpg.user_id = u.user_id");
+			stbr.append(" and u.login_name="+loginName);
+			stbr.append(" and ugrpg.role_id = rp.role_id ");
+			stbr.append(" and rp.privilege_id = p.privilege_id");
+			stbr.append(" and p.privilege_name='NO_ACCESS");
+			String sql = stbr.toString();
+			Statement stmt = cn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				String att = rs.getString(1);
+				Boolean b = new Boolean(false);
+				accessMap.put(att,b);
+			}
+			rs.close();
+			stmt.close();
+			
+
+		} catch (Exception ex) {
+			log.error(ex);
+		} finally {
+			try {
+				//cn.close();
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return new ObjectAccessMap(objectTypeName,accessMap);
+	}
+	
+	public Object secureObject(String userName,Object obj){
+		Object o = null;
+		try{
+			
+			Class cl = obj.getClass();
+			System.out.println(cl.getName());
+			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),userName);
+				
+			o = cl.newInstance();
+			Method methods[] = cl.getDeclaredMethods();
+			for(int i=0;i<methods.length;i++){
+				Method m = methods[i];
+				String name = m.getName();
+				if(name.startsWith("set")){
+					String att = name.substring(3,name.length());
+					if(!accessMap.hasAccess(att)){
+						m.invoke(o, new Object[] {null});
+					}
+				}
+			}
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return o;
+		
 	}
 }
