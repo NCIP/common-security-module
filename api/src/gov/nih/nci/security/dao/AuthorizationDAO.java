@@ -83,11 +83,11 @@ public interface AuthorizationDAO {
 	public void assignUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId)throws CSTransactionException;
 
 	/**
-	 * @param protectionElementObjectNames
 	 * @param protectionGroupName
+	 * @param protectionElementObjectId
 	 * 
 	 */
-	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName)throws CSTransactionException;
+	public void deAssignProtectionElements(String protectionGroupName,String protectionElementObjectId)throws CSTransactionException;
 
 	/**
 	 * @param protectionElement
@@ -344,6 +344,7 @@ public interface AuthorizationDAO {
 	
 	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
 
+	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException;
 
 }
 

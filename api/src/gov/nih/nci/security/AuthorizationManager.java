@@ -45,11 +45,11 @@ public interface AuthorizationManager {
 	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName)throws CSTransactionException;
 
 	/**
-	 * @param protectionElementObjectNames
 	 * @param protectionGroupName
+	 * @param protectionElementObjectId
 	 * 
 	 */
-	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName)throws CSTransactionException;
+	public void deAssignProtectionElements(String protectionGroupName,String protectionElementObjectId)throws CSTransactionException;
 
 	/**
 	 * @param protectionElement

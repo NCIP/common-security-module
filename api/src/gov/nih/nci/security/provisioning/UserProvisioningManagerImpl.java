@@ -144,14 +144,14 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	}
 
 	/**
-	 * @param protectionElementObjectNames
 	 * @param protectionGroupName
+	 * @param protectionElementObjectId
 	 * 
 	 */
-	public void deAssignProtectionElements(String[] protectionElementObjectNames, String protectionGroupName)throws CSTransactionException{
-
-		authorizationDAO.deAssignProtectionElements(protectionElementObjectNames,protectionGroupName);
+	public void deAssignProtectionElements(String protectionGroupName,String protectionElementObjectId)throws CSTransactionException{
+		;
 	}
+
 
 	/**
 	 * @param protectionElement
@@ -484,8 +484,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void createUser(User user) throws CSTransactionException{
 		authorizationDAO.createUser(user);
 	}
-	public void assignProtectionElement(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
-		authorizationDAO.assignProtectionElement(protectionGroupId,protectionElementIds);
+	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
+		authorizationDAO.assignProtectionElements(protectionGroupId,protectionElementIds);
+	}
+	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException{
+		;
 	}
 
 }

@@ -651,12 +651,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#deAssignProtectionElements(java.lang.String[],
 	 *      java.lang.String)
 	 */
-	public void deAssignProtectionElements(
-			String[] protectionElementObjectNames, String protectionGroupName)
-			throws CSTransactionException {
-		// TODO Auto-generated method stub
-
+	/**
+	 * @param protectionGroupName
+	 * @param protectionElementObjectId
+	 * 
+	 */
+	public void deAssignProtectionElements(String protectionGroupName,String protectionElementObjectId)throws CSTransactionException{
+		;
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -1119,9 +1122,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void removePrivilege(String privilegeId)
 			throws CSTransactionException {
-		Privilege p = new Privilege();
-		p.setId(new Long(privilegeId));
+		//Privilege p = new Privilege();
+		//p.setId(new Long(privilegeId));
+		try{
+		Privilege p = (Privilege)this.getObjectByPrimaryKey(Privilege.class,new Long(privilegeId));
 		this.removeObject(p);
+		}catch(Exception ex){
+			throw new CSTransactionException("sss",ex);
+		}
+		
 	}
 
 	/*
@@ -1384,6 +1393,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	
+	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException{
+		;
+	}
+
 	
 	private void assignProtectionElement(ProtectionGroup pg,String peId){
 		

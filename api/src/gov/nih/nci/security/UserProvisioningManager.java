@@ -211,6 +211,8 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public ProtectionGroup getProtectionGroup(Long protectionGroupId) throws CSObjectNotFoundException;
 	
 	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
+	
+	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException;
 
 }
 

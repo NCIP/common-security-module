@@ -25,12 +25,24 @@ import gov.nih.nci.security.authorization.domainobjects.*;
 public class TestClient {
     public void testPrivilegeCreate(){
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-    	Privilege p = new Privilege();
-    	p.setName("Update");
-    	p.setDesc("Update Access");
+    	Privilege p1 = new Privilege();
+    	p1.setName("Update");
+    	p1.setDesc("Update Access");
+    	Privilege p2 = new Privilege();
+    	p2.setName("Read");
+    	p2.setDesc("Read Access");
+    	Privilege p3 = new Privilege();
+    	p3.setName("Create");
+    	p3.setDesc("Create Access");
+    	Privilege p4 = new Privilege();
+    	p4.setName("Delete");
+    	p4.setDesc("Update Access");
     	try{
-    	upm.createPrivilege(p);
-    	System.out.println("The returned id is:"+p.getId());
+    	upm.createPrivilege(p1);
+    	upm.createPrivilege(p2);
+    	upm.createPrivilege(p3);
+    	upm.createPrivilege(p4);
+    	//System.out.println("The returned id is:"+p.getId());
     	}catch(Exception ex){
     		ex.printStackTrace();
     	}
@@ -39,7 +51,7 @@ public class TestClient {
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
     	
     	try{
-    	upm.removePrivilege("10");
+    	upm.removePrivilege("1");
     	
     	}catch(Exception ex){
     		ex.printStackTrace();
@@ -73,7 +85,7 @@ public class TestClient {
     	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
     	
     	try{
-    	  for(int i=3;i<11;i++){
+    	  for(int i=1;i<11;i++){
     		Role r = new Role();
         	r.setName("Role_name_"+i);
         	r.setDesc("Role_Desc_"+i);
@@ -115,7 +127,7 @@ public class TestClient {
     	 //String[] privilegeIds = {"1","2"};
     	 String[] privilegeIds = {"1", "3","4"};
     	 //String[] privilegeIds = {};
-    	 String roleId = "1";
+    	 String roleId = "2";
     	 try{
     	 	upm.assignPrivilegesToRole(roleId,privilegeIds);
     	 }catch(Exception ex){
@@ -299,7 +311,7 @@ public class TestClient {
     	try{
     	  String[] peIds = {"22","33","44","55"};
     	  String pgId = "3";
-    	  upm.assignProtectionElement(pgId,peIds);
+    	  upm.assignProtectionElements(pgId,peIds);
     		
     	
     	}catch(Exception ex){
@@ -308,14 +320,14 @@ public class TestClient {
     }
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
-		//ts.testPrivilegeCreate();
-		//ts.testPrivilegeDelete();
+		 //ts.testPrivilegeCreate();
+		ts.testPrivilegeDelete();
 		//ts.testModifyCreate();
 		//ts.testPrivilegeFind();
 		//ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
-		//ts.assignPrivilegeToRoles();
+		 //ts.assignPrivilegeToRoles();
 		//ts.getPrivileges();
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
@@ -326,6 +338,6 @@ public class TestClient {
 		//ts.getProtectionElement();
 		//ts.addUserToGroup();
 		//ts.removeUserFromGroup();
-		ts.assignProtectioElement();
+		//ts.assignProtectioElement();
 	}
 }
