@@ -38,19 +38,7 @@
 		
 			<TD valign="top" align="left">
 			
-			 <logic:messagesPresent> 
-				<UL>
-				 <html:messages id="error"> 
-				 <font color='red' face="Arial">
-				 The following errors occurred:
-				 <LI><bean:write name="error" filter="false"/></LI>
-				 </font>
-				 </html:messages> 
-				</UL> 
-				<BR>
-				<BR>
-				</logic:messagesPresent>
-				<logic:messagesPresent message="true"> 
+			<logic:messagesPresent message="true"> 
 				<UL> 
 				 <html:messages id="msg" message="true"> 
 				  <font color='green' face="Arial">
@@ -61,6 +49,10 @@
 				<BR>
 				<BR>
 			</logic:messagesPresent> 
+			
+			
+			<html:errors />
+				
 			
 				<tiles:get name="body"/>
 			</TD>
