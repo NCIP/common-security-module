@@ -37,16 +37,16 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void modifyProtectionGroup(ProtectionGroup protectionGroup)throws CSTransactionException;
 
 	/**
-	 * @param protectionGroupName
+	 * @param protectionGroupId
 	 * 
 	 */
-	public void removeProtectionGroup(String protectionGroupName)throws CSTransactionException;
+	public void removeProtectionGroup(String protectionGroupId)throws CSTransactionException;
 
 	/**
 	 * @param element
 	 * 
 	 */
-	public void removeProtectionElement(ProtectionElement element)throws CSTransactionException;
+	public void removeProtectionElement(String protectionElementId)throws CSTransactionException;
 
 	/**
 	 * @param userId

@@ -56,16 +56,16 @@ public interface AuthorizationDAO {
 	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
-	 * @param protectionGroupName
+	 * @param protectionGroupId
 	 * 
 	 */
-	public void removeProtectionGroup(String protectionGroupName)throws CSTransactionException;
+	public void removeProtectionGroup(String protectionGroupId)throws CSTransactionException;
 
 	/**
 	 * @param element
 	 * 
 	 */
-	public void removeProtectionElement(ProtectionElement element)throws CSTransactionException;
+	public void removeProtectionElement(String protectionElementId)throws CSTransactionException;
 
 	/**
 	 * @param protectionElementObjectName

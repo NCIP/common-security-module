@@ -1081,14 +1081,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 */
 	public void removeGroup(String groupId) throws CSTransactionException {
 		// TODO Auto-generated method stub
-		/**
-		 * This method should remove all the children
-		 * Namely all the reocrds form user_group table where this 
-		 * group is refernced
-		 * Also
-		 * All the records from the user_group_role_protection_group
-		 */
-
+		
+		Group group = new Group();
+		group.setGroupId(new Long(groupId));
+		group.setGroupName("XX");
+		group.setGroupDesc("XX");
+		group.setUpdateDate(new Date());
+		removeObject( group );
 	}
 
 	/*
@@ -1137,10 +1136,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeProtectionElement(gov.nih.nci.security.authorization.domainobjects.ProtectionElement)
 	 */
-	public void removeProtectionElement(ProtectionElement element)
+	public void removeProtectionElement(String protectionElementId)
 			throws CSTransactionException {
 		// TODO Auto-generated method stub
-
+                 ProtectionElement protectionElement = new ProtectionElement();
+                 protectionElement.setProtectionElementId(new Long(protectionElementId));
+                 protectionElement.setProtectionElementName("XX");
+                 protectionElement.setObjectId("XX");
+                 protectionElement.setAttribute("XX");
+                 protectionElement.setUpdateDate(new Date());
+                 removeObject(protectionElement);
 	}
 
 	/*
@@ -1148,14 +1153,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * 
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeProtectionGroup(java.lang.String)
 	 */
-	public void removeProtectionGroup(String protectionGroupName)
+	public void removeProtectionGroup(String protectionGroupId)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
-		/**
-		 * All the children should be removed 
-		 * Namely - all the records from protection_elements
-		 * all the records from user_group_role_protectiongroup
-		 */
+		ProtectionGroup protectionGroup = new ProtectionGroup();
+		protectionGroup.setProtectionGroupId(new Long(protectionGroupId));
+		protectionGroup.setProtectionGroupName("XX");
+		protectionGroup.setProtectionGroupDescription("XX");
+		protectionGroup.setUpdateDate(new Date());
+		removeObject(protectionGroup);
 
 	}
 
@@ -1168,6 +1173,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		// TODO Auto-generated method stub
 		Role r = new Role();
 		r.setId(new Long(roleId));
+		r.setName("XX");
+		r.setDesc("XX");
+		r.setUpdateDate(new Date());
 		this.removeObject(r);
 	}
 

@@ -109,17 +109,17 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionGroupName
 	 * 
 	 */
-	public void removeProtectionGroup(String protectionGroupName) throws CSTransactionException{
-		authorizationDAO.removeProtectionGroup(protectionGroupName);
+	public void removeProtectionGroup(String protectionGroupId) throws CSTransactionException{
+		authorizationDAO.removeProtectionGroup(protectionGroupId);
 	}
 
 	/**
 	 * @param element
 	 * 
 	 */
-	public void removeProtectionElement(ProtectionElement element) throws CSTransactionException{
+	public void removeProtectionElement(String  protectionElementId) throws CSTransactionException{
 
-		authorizationDAO.removeProtectionElement(element);
+		authorizationDAO.removeProtectionElement(protectionElementId);
 	}
 
 	/**
@@ -358,7 +358,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removeGroup(String groupId)throws CSTransactionException{
-
+            authorizationDAO.removeGroup(groupId);
 	}
 
 	/**
