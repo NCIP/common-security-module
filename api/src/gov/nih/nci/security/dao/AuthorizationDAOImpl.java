@@ -833,6 +833,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (fieldValues.size() == 0) {
 				criteria.add(Expression.eqProperty("1", "1"));
 			}
+			if(searchCriteria.getObjectType()!=User.class||searchCriteria.getObjectType()!=Privilege.class){
+				criteria.add(Expression.eq("application", this.application));
+			}
+			
 			result = criteria.list();
 
 		} catch (Exception ex) {
