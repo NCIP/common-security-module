@@ -1340,6 +1340,55 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 	}
+	
+	public void assignProtectionElement(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+			s = sf.openSession();
+            t = s.beginTransaction();
+			//System.out.println("The original user Id:"+userId);
+			
+			 ProtectionGroup protectionGroup = (ProtectionGroup)this.getObjectByPrimaryKey(ProtectionGroup.class,new Long(protectionGroupId));
+			for (int i=0;i<protectionElementIds.length;i++){
+				Criteria criteria = s.createCriteria(ProtectionGroupProtectionElement.class);
+	            criteria.add(Expression.eq("protectionGroup",protectionGroup));
+	            ProtectionElement protectionElement = (ProtectionElement)this.getObjectByPrimaryKey(ProtectionElement.class,new Long(protectionElementIds[i]));
+	            criteria.add(Expression.eq("protectionElement",protectionElement));
+				List list = criteria.list();
+				if(list.size()==0){
+					ProtectionGroupProtectionElement pgpe = new ProtectionGroupProtectionElement();
+					pgpe.setProtectionGroup(protectionGroup);
+					pgpe.setProtectionElement(protectionElement);
+					pgpe.setUpdateDate(new Date());
+					s.save(pgpe);
+				}
+				
+			}
+            
+			t.commit();
+			
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException("Bad", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+
+	}
+	
+	private void assignProtectionElement(ProtectionGroup pg,String peId){
+		
+	}
+
 
 	private Object getObjectByPrimaryKey(Class objectType, Long primaryKey)
 			throws CSObjectNotFoundException {

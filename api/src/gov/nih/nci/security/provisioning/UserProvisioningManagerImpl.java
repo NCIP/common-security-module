@@ -484,4 +484,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void createUser(User user) throws CSTransactionException{
 		authorizationDAO.createUser(user);
 	}
+	public void assignProtectionElement(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
+		authorizationDAO.assignProtectionElement(protectionGroupId,protectionElementIds);
+	}
+
 }

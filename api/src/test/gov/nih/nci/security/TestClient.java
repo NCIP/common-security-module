@@ -293,7 +293,19 @@ public class TestClient {
     	}
     }
     	
-    
+    public void assignProtectioElement(){
+    	UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
+    	
+    	try{
+    	  String[] peIds = {"22","33","44","55"};
+    	  String pgId = "3";
+    	  upm.assignProtectionElement(pgId,peIds);
+    		
+    	
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    }
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
 		//ts.testPrivilegeCreate();
@@ -303,7 +315,7 @@ public class TestClient {
 		//ts.testRoleCreate();
 		//ts.testRoleDelete();
 		//ts.testModifyRole();
-		ts.assignPrivilegeToRoles();
+		//ts.assignPrivilegeToRoles();
 		//ts.getPrivileges();
 		//ts.testGroupCreate();
 		//ts.testUserCreate();
@@ -314,5 +326,6 @@ public class TestClient {
 		//ts.getProtectionElement();
 		//ts.addUserToGroup();
 		//ts.removeUserFromGroup();
+		ts.assignProtectioElement();
 	}
 }
