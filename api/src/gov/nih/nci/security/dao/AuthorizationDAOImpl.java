@@ -598,7 +598,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(objectId)) {
 			throw new CSException("objectId can't be null!");
 		}
-		test = this.checkIsOwnerForProtectionElement(userName, objectId);
+		test = this.checkOwnership(userName, objectId);
 		if (test)
 			return true;
 
@@ -685,7 +685,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(objectId)) {
 			throw new CSException("objectId can't be null!");
 		}
-		test = this.checkIsOwnerForProtectionElement(userName, objectId);
+		test = this.checkOwnership(userName, objectId);
 		if (test)
 			return true;
 
@@ -3199,7 +3199,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ protectionElementId + "|");
 	}
 
-	public boolean checkIsOwnerForProtectionElement(String userName,
+	public boolean checkOwnership(String userName,
 			String protectionElementObjectId) {
 		boolean test = false;
 		Session s = null;

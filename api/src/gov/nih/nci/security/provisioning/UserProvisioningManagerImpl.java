@@ -903,9 +903,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.secureUpdate(userName,originalObject,mutatedObject);
 	}
 	
-	public boolean checkIsOwnerForProtectionElement(String userName,
+	public boolean checkOwnership(String userName,
 			String protectionElementObjectId){
-		return authorizationDAO.checkIsOwnerForProtectionElement(userName,protectionElementObjectId);
+		return authorizationDAO.checkOwnership(userName,protectionElementObjectId);
 	}
 	
 }

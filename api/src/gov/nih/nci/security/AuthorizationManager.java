@@ -283,7 +283,7 @@ public interface AuthorizationManager {
 	
 	public Object secureUpdate(String userName, Object originalObject,Object mutatedObject) throws CSException;
 	
-	public boolean checkIsOwnerForProtectionElement(String userName,
+	public boolean checkOwnership(String userName,
 			String protectionElementObjectId);
 	
 }
