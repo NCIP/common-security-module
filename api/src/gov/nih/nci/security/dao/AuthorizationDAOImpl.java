@@ -641,6 +641,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and p.privilege_name='" + privilegeName + "'");
 
 			String sql = stbr.toString();
+			log.debug( "checkPermission with attr sql: " + sql );
 			stmt = cn.createStatement();
 			rs = stmt.executeQuery(sql);
 
