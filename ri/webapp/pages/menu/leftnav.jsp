@@ -47,7 +47,7 @@
 
 	 <tr>
 	    <td align="center" height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()" onclick="document.location.href='createemployee.html'">
-	     <a class="mainMenuLink" href="createemployee.html">CREATE EMPLOYEE</a>
+	     <html:link action="viewCreateEmployee"><p class="mainMenuLink" >CREATE EMPLOYEE</p> </html:link>
 	     </td>
 	  </tr>
 

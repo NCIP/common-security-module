@@ -1,6 +1,5 @@
 <%@ include file= "/pages/imports.jsp" %>
 
-
 <br>
   <table width="700" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr valign="middle">
@@ -11,25 +10,24 @@
     </tr>
 
     <tr>
-      <td>&nbsp;</td>
-     </tr>
-      <tr>
+      <td>
+        <table width="701" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+           <td>&nbsp;</td>
+       </tr>
+        <tr>
            <td>&nbsp;</td>
        </tr>
        <tr>
           <td align="center">
-            <b>500 Error - The server has encountered a severe error.&nbsp;&nbsp;Please try again.</b>
-            <BR>
+ 
+            <P>
+               <bean:write name='<%= Constants.ERROR_DETAIL %>' />
+            </P>
           </td>
-        </tr>
-        <tr>
-          <td align="center">
-      	    
-           	 <html:link action="viewErrorDetails" >
-					View Error Details
-		  	 </html:link>
-		   </td>
-        </tr>
-
+       </tr>
+  		<tr>
+           <td>&nbsp;</td>
+       </tr>
 
   </table>

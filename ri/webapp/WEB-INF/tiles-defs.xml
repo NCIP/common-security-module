@@ -18,7 +18,12 @@
 		<put name="menu" value="/pages/menu/leftnav.jsp"/>
 		<put name="body" value="/pages/welcome.jsp"/>
 	</definition>
+	
+    <definition name="show.error.page" path="/pages/custom500.jsp" />
 
+	
+	<definition name="show.error.details" path="/pages/ShowErrorDetail.jsp"/>
+	
   <!-- section bases -->  
       
   <definition name="Home" extends="main.layout">  
@@ -36,19 +41,19 @@
 	<!-- Home page -->	
 		
 	<definition name="Home.Main" extends="Home">
-    <put name="content"   value="pages/home.jsp" />
+   	 <put name="body"   value="/pages/home.jsp" />
     </definition>	
 	
 	<!-- Employee pages -->
 		
-	<definition name="Employee.Create" extends="Employee">
-    <put name="content"   value="pages/createemployee.jsp" />
+	<definition name="show.create.employee" extends="Employee">
+    <put name="body"   value="/pages/createEmployee.jsp" />
     </definition>		
 	
 	<!-- Project pages -->
 	
 	<definition name="Project.Create" extends="Project">
-    <put name="content"   value="pages/createproject.jsp" />
+    <put name="body"   value="/pages/createProject.jsp" />
     </definition>			
 		
 		

@@ -28,6 +28,8 @@
 	<!-- ======================================== Form Bean Definitions -->
 	<form-beans>
 		<form-bean name="loginForm" type="gov.nih.nci.security.ri.struts.forms.LoginForm"/>
+		<form-bean name="employeeForm" type="gov.nih.nci.security.ri.valueObject.Employee"/>
+		<form-bean name="projectForm" type="gov.nih.nci.security.ri.valueObject.Project"/>
 		
 	</form-beans>
 	<!-- ================================= Global Exception Definitions -->
@@ -44,11 +46,16 @@
 		<!-- Forwards to Welcome.jsp -->
 		<action path="/Welcome" forward="show.login"/>
 		<action path="/viewErrorDetails" forward="show.error.details"/>
+		<action path="/viewCreateEmployee" name="employeeForm" forward="show.create.employee"/>
 		
 		<action input="login" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
 			<forward name="success" path="main.layout"/>
 		</action>
-
+		
+		<action input="login" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" scope="session" >
+			<forward name="success" path="main.layout"/>
+		</action>
+		
 	</action-mappings>
 	<!-- ===================================== Controller Configuration -->
 	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
