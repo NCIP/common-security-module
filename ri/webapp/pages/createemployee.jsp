@@ -7,6 +7,11 @@
 
 	<table>
 		<tr>
+			<td align="center" colspan="2">
+			<h2>Create an Employee Record</h2>
+			</td>
+		</tr>
+		<tr>
 			<td valign="top"><jsp:include page="/pages/employeeRecord.jsp" /></td>
 		</tr>
 		<tr>
@@ -20,5 +25,5 @@
 			<!-- action buttons end --></td>
 		</tr>
 	</table>
-	
+
 </html:form>

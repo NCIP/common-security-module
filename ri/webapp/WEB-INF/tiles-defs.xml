@@ -49,7 +49,7 @@
 	<!-- Employee pages -->
 
 	<definition name="show.create.employee" extends="Employee">
-		<put name="body" value="/pages/employeeRecord.jsp" />
+		<put name="body" value="/pages/createemployee.jsp" />
 		<put name="menu" value="/pages/menu/leftnav_createemployee.jsp"/>
 	</definition>
 	
