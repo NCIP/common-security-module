@@ -6,7 +6,7 @@
     <tr valign="middle">
 
       <TD>
-      <h1 align="center"><img src="pages/images/error_robot.gif"></h1>
+      <h1 align="center"><img src="pages/images/robot_error.gif"></h1>
       </td>
     </tr>
 
