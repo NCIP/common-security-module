@@ -36,7 +36,7 @@ public class Group implements Principal {
 	/**
 	 * The date when the group information was updated
 	 */
-	private Long updateDate;
+	private java.util.Date updateDate;
 	/**
 	 * The application to which the following group belongs 
 	 */
@@ -90,7 +90,7 @@ public class Group implements Principal {
 	/**
 	 * The date when the group information was updated
 	 */
-	public Long getUpdateDate(){
+	public java.util.Date getUpdateDate(){
 		return updateDate;
 	}
 
@@ -152,7 +152,7 @@ public class Group implements Principal {
 	 * @param newVal
 	 * 
 	 */
-	public void setUpdateDate(Long newVal){
+	public void setUpdateDate(java.util.Date newVal){
 		updateDate = newVal;
 	}
 
