@@ -14,19 +14,10 @@
       <param-name>config</param-name>
       <param-value>/WEB-INF/struts-config.xml</param-value>
     </init-param>
-  
-    <init-param>
-      <param-name>validate</param-name>
-      <param-value>true</param-value>
-    </init-param>
-<load-on-startup>2</load-on-startup>
+
+	<load-on-startup>1</load-on-startup>
   </servlet>
-  
- <servlet>
-    <servlet-name>log4j-init</servlet-name>
-    <servlet-class>gov.nih.nci.security.ri.util.Log4jInit</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
+
 
 
   <!-- Standard Action Servlet Mapping -->
