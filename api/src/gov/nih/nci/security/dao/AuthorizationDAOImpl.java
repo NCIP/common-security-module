@@ -1362,7 +1362,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set result = new HashSet();
 		try {
 			s = sf.openSession();
-			Role role = (Role) this.getObjectByPrimaryKey(Role.class, roleId);
+			Role role = (Role) this.getObjectByPrimaryKey(s,Role.class,new Long(roleId));
 			log.debug("The role:" + role.getName());
 			result = role.getPrivileges();
 			log.debug("The result size:" + result.size());
