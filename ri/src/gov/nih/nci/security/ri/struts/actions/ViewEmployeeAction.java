@@ -1,7 +1,6 @@
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.ri.dao.ProjectDAO;
-import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.util.Permissions;
 import gov.nih.nci.security.ri.util.SecurityUtils;
 import gov.nih.nci.security.ri.valueObject.Employee;

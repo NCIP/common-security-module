@@ -1,9 +1,8 @@
 package gov.nih.nci.security.ri.valueObject;
 
-import gov.nih.nci.security.authorization.domainobjects.Group;
-
 import java.io.Serializable;
 import java.util.Set;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts.validator.ValidatorForm;
 

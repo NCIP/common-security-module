@@ -1,7 +1,6 @@
 package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.AuthenticationManager;
-import gov.nih.nci.security.CommonSecurityManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.ri.dao.EmployeeDAO;
 import gov.nih.nci.security.ri.struts.Constants;

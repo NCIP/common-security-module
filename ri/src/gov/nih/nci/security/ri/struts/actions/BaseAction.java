@@ -3,12 +3,10 @@ package gov.nih.nci.security.ri.struts.actions;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.ri.exception.UserNotAuthenticatedException;
 import gov.nih.nci.security.ri.struts.Constants;
 import gov.nih.nci.security.ri.util.Permissions;
-import gov.nih.nci.security.ri.util.SecurityUtils;
 import gov.nih.nci.security.ri.valueObject.Employee;
 
 import javax.servlet.http.HttpServletRequest;
