@@ -117,63 +117,6 @@
 							<td valign="top" width="30%"><!-- sidebar begins -->
 							<table summary="" cellpadding="0" cellspacing="0" border="0"
 								height="100%">
-
-								<!-- login begins -->
-								<tr>
-									<td valign="top">
-									<table summary="" cellpadding="2" cellspacing="0" border="0"
-										width="100%" class="sidebarSection">
-										<tr>
-											<td class="sidebarTitle" height="20">LOGIN TO SITE</td>
-										</tr>
-
-										<logic:messagesPresent>
-											<tr>
-												<logic:present name='<%=Action.ERROR_KEY%>'>
-													<font color='red' face="Arial"> The following error(s)
-													occurred: </font>
-												</logic:present>
-
-
-												<UL>
-													<html:messages id="error">
-														<font color='red' face="Arial">
-														<LI><bean:write name="error" filter="false" /></LI>
-														</font>
-													</html:messages>
-												</UL>
-
-												</TD>
-											</tr>
-										</logic:messagesPresent>
-										<tr>
-											<td class="sidebarContent">
-											<table cellpadding="2" cellspacing="0" border="0">
-												<tr>
-													<td class="sidebarLogin" align="right"><label for="loginID">LOGIN
-													ID</label></td>
-													<td class="formFieldLogin"><html:text property="loginID"
-														size="14" /></td>
-												</tr>
-												<tr>
-													<td class="sidebarLogin" align="right"><label
-														for="password">PASSWORD</label></td>
-													<td class="formFieldLogin"><html:text property="password"
-														size="14" /></td>
-												</tr>
-												<tr>
-													<td>&nbsp;</td>
-													<td><html:submit>
-														<bean:message key="button.login" />
-													</html:submit></td>
-												</tr>
-											</table>
-											</td>
-										</tr>
-									</table>
-									</td>
-								</tr>
-								<!-- login ends -->
 								<!-- csm mention begins-->
 								<tr>
 									<td valign="top">
@@ -198,8 +141,51 @@
 								</tr>
 								<!-- csm mention ends-->
 
-
-
+								<!-- login begins -->
+								<tr>
+									<td valign="top">
+									<table summary="" cellpadding="2" cellspacing="0" border="0"
+										width="100%" class="sidebarSection">
+										<tr>
+											<td class="sidebarTitle" height="20">LOGIN TO SITE</td>
+										</tr>
+										<tr>
+											<td class="sidebarContent">
+											<table cellpadding="2" cellspacing="0" border="0">
+												<tr>
+													<td class="sidebarLogin" align="right"><label for="loginID">LOGIN
+													ID</label></td>
+													<td class="formFieldLogin"><html:text property="loginID"
+														size="14" /></td>
+												</tr>
+												<tr>
+													<td class="sidebarLogin" align="right"><label
+														for="password">PASSWORD</label></td>
+													<td class="formFieldLogin"><html:text property="password"
+														size="14" /></td>
+												</tr>
+												<tr>
+													<td>&nbsp;</td>
+													<td><html:submit>
+														<bean:message key="button.login" />
+													</html:submit></td>
+												</tr>
+											<logic:messagesPresent>
+												<tr>
+													<html:messages id="error">
+														<font color='red' face="Arial">
+														<bean:write name="error" filter="false" />
+														</font>
+													</html:messages>
+												</tr>
+											</logic:messagesPresent>
+											</table>
+											</td>
+										</tr>
+									</table>
+									</td>
+								</tr>
+								<!-- login ends -->
 
 								<!-- spacer cell begins (keep for dynamic expanding) -->
 								<tr>

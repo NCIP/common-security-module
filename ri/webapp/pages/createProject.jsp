@@ -19,13 +19,6 @@
 					<table summary="" cellpadding="3" cellspacing="0" border="0"
 						align="center">
 						<tr>
-							<td class="infoMessage" colspan="3">
-			  				<html:messages id="message" message="true">
-			  				<bean:write name="message"/>
-			  				</html:messages>	
-			  				</td>
-						</tr>
-						<tr>
 							<td class="formMessage" colspan="3">* indicates a required field</td>
 						</tr>
 						<tr>
