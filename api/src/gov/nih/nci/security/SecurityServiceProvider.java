@@ -39,10 +39,12 @@ public class SecurityServiceProvider {
 	 */
 	public static UserProvisioningManager getUserProvisioningManger(String contextName){
 		
+		UserProvisioningManager userProvisioingManager = null;
+		
 		AuthorizationDAO authorizationDAO = (AuthorizationDAO)(new AuthorizationDAOImpl());
 		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl();
 		userProvisioningManagerImpl.setAuthorizationDAO(authorizationDAO);
-		UserProvisioningManager userProvisioingManager = (UserProvisioningManager)userProvisioningManagerImpl;			
+		userProvisioingManager = (UserProvisioningManager)userProvisioningManagerImpl;			
 		return userProvisioingManager;
 	}
 
