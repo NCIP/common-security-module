@@ -46,7 +46,7 @@
 		<action path="/viewErrorDetails" forward="show.error.details"/>
 		
 		<action input="login" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
-			<forward name="success" path="show.login"/>
+			<forward name="success" path="main.layout"/>
 		</action>
 
 	</action-mappings>

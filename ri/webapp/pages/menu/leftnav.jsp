@@ -1,4 +1,3 @@
-<%@ taglib uri="/tags/struts-html" prefix="html" %>
 <%@ include file= "/pages/imports.jsp" %>
 
 <html>
