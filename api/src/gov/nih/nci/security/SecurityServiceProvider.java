@@ -40,10 +40,10 @@ public class SecurityServiceProvider {
 	public static UserProvisioningManager getUserProvisioningManger(String contextName){
 		
 		AuthorizationDAO authorizationDAO = (AuthorizationDAO)(new AuthorizationDAOImpl());
-		
-		
-		
-		return null;
+		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl();
+		userProvisioningManagerImpl.setAuthorizationDAO(authorizationDAO);
+		UserProvisioningManager userProvisioingManager = (UserProvisioningManager)userProvisioningManagerImpl;			
+		return userProvisioingManager;
 	}
 
 	/**
@@ -51,7 +51,8 @@ public class SecurityServiceProvider {
 	 * 
 	 */
 	public static AuthorizationManager getAuthorizationManager(String applicationContextName){
-		return null;
+		
+		return (AuthorizationManager)(getUserProvisioningManger(applicationContextName));
 	}
 
 	/**
