@@ -1,6 +1,6 @@
 <%@ include file="/pages/imports.jsp"%>
 
-
+<html:form method="post" action="createEmployee">
 
 <table summary="" cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
@@ -116,3 +116,4 @@
 		</td>
 	</tr>
 </table>
+</html:form>
