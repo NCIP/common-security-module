@@ -18,9 +18,11 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.junk.RandomIntGenerator;
+import gov.nih.nci.security.util.ObjectSetUtil;
 import gov.nih.nci.security.dao.*;
 import java.lang.*;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -468,6 +470,32 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+	public void testKunalCode(){
+		try{
+			Collection associatedGroups = (Collection)upm.getGroups("5020");
+            Group group = new Group();
+            group.setGroupName("Group_Name%");
+            SearchCriteria searchCriteria = new GroupSearchCriteria(group);
+            Collection totalGroups = (Collection)upm.getObjects(searchCriteria);
+            Collection availableGroups = ObjectSetUtil.minus(totalGroups,associatedGroups);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void getGroups(String id){
+		try{
+			Collection cal = upm.getGroups("5020");
+			Iterator it = cal.iterator();
+			while(it.hasNext()){
+				Group gp = (Group)it.next();
+				System.out.println(gp.getGroupName());
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
 	public void getObjects(){
 		try{
 			//Role role = new Role();
@@ -523,7 +551,9 @@ public class TestClient {
 		//ts.testGetProtectionGroups();
 		//ts.assignToProtectionGroups();
 		//ts.testGetProtectionGroups();
-		ts.testGetProtectionGroupById();
+		//ts.testGetProtectionGroupById();
 		//ts.testUserDelete();
+		ts.testKunalCode();
+		//ts.getGroups("5020");
 	}
 }

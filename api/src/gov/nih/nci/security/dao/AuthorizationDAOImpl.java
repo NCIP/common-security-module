@@ -1605,14 +1605,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	
 	public Set getGroups(String userId) throws CSObjectNotFoundException{
 		Session s = null;
-		Set groups =null;
+		Set groups = new HashSet();
 		try {
 			s = sf.openSession();
 			
-			User user = (User) this.getObjectByPrimaryKey(s, User.class,
-					new Long(userId));
+			User user = (User) this.getObjectByPrimaryKey(s, User.class,new Long(userId));
 			groups = user.getGroups();
-			//Group group = getGroup(groupId);
+			log.debug("The result size:" + groups.size());
 			
 
 		} catch (Exception ex) {
