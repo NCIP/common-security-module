@@ -432,7 +432,14 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public ProtectionGroup getProtectionGroup(String protectionGroupName) throws CSObjectNotFoundException{
-		return null;
+		return authorizationDAO.getProtectionGroup(protectionGroupName);
+	}
+	/**
+	 * @param protectionGroupId
+	 * 
+	 */
+	public ProtectionGroup getProtectionGroup(Long protectionGroupId) throws CSObjectNotFoundException{
+		return authorizationDAO.getProtectionGroup(protectionGroupId);
 	}
 
 	/**
