@@ -48,7 +48,8 @@ public class ObjectAccessMap {
 		while(en.hasMoreElements()){
 			String key = (String)en.nextElement();
 			Boolean val = (Boolean)accessMap.get(key);
-			stbr.append("Field:"+key+" has access:"+val);
+			//stbr.append("Field:"+key+" has access:"+val);
+			stbr.append("Field:").append(key).append(" has access:").append(val);
 			stbr.append("\n");
 		}
 		
