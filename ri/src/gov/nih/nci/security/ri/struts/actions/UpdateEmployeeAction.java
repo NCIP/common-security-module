@@ -2,6 +2,7 @@ package gov.nih.nci.security.ri.struts.actions;
 
 import gov.nih.nci.security.ri.dao.EmployeeDAO;
 import gov.nih.nci.security.ri.struts.Constants;
+import gov.nih.nci.security.ri.util.SecurityUtils;
 import gov.nih.nci.security.ri.valueObject.Employee;
 
 import java.util.LinkedList;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -18,7 +20,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 
 /**
- *  Performs authorization and securely updates the employee record.
+ * Performs authorization and securely updates the employee record.
  * 
  * @author Brian Husted
  *  
@@ -29,8 +31,8 @@ public class UpdateEmployeeAction extends BaseAction {
 			.getName());
 
 	/*
-	 * Updates the employee.  The employee object is secured based
-	 * on the authorization policy defined in the authorization database.
+	 * Updates the employee. The employee object is secured based on the
+	 * authorization policy defined in the authorization database.
 	 * 
 	 * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping,
 	 *      org.apache.struts.action.ActionForm,
@@ -46,7 +48,7 @@ public class UpdateEmployeeAction extends BaseAction {
 		Employee originalObject = (Employee) request.getSession().getAttribute(
 				ORIGINAL_EMPLOYEE_OBJECT);
 
-		log.debug( "The original salary is: " + originalObject.getSalary() );
+		log.debug("The original salary is: " + originalObject.getSalary());
 		Employee mutatedObject = (Employee) form;
 
 		//secure the object by setting attributes to null where
@@ -55,18 +57,41 @@ public class UpdateEmployeeAction extends BaseAction {
 				.secureUpdate(getUser(request).getUserName(), originalObject,
 						mutatedObject);
 
-		Employee savedObject = EmployeeDAO.updateEmployee(securedObject);
+		EmployeeDAO.updateEmployee(securedObject);
+
+		if (isAuthorized(request)) {
+			EmployeeDAO.updateEmployeeProjects(securedObject);
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					Constants.MESSAGE_ID, "Updated Employee Successfully"));
+		} else {
+			
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(
+					"access.modify.employee_project.denied", new String[] {
+							getUser(request).getUserName(),
+							", " + SecurityUtils.getObjectIdForEmployeeProjecAccess() }));
+
+			
+		}
+		
+		saveMessages(request, messages);
 
 		List l = new LinkedList();
-		l.add(savedObject);
+		l.add(securedObject);
 
 		request.getSession().setAttribute(EMPLOYEE_LIST, l);
 		request.getSession().setAttribute(EMPLOYEE_ID,
-				savedObject.getEmployeeId().toString());
-		messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(Constants.MESSAGE_ID, "Updated Employee Successfully"));
-		saveMessages( request, messages );
+				securedObject.getEmployeeId().toString());
 
 		return mapping.findForward(ACTION_SUCCESS);
 
 	}
+
+	private boolean isAuthorized(HttpServletRequest request) throws Exception {
+
+		String user = getUser(request).getUserName();
+
+		return getAuthorizationManager().checkPermission(user,
+				SecurityUtils.getObjectIdForEmployeeProjecAccess(), EXECUTE);
+	}
+
 }
