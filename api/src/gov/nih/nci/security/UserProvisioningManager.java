@@ -1,5 +1,5 @@
 package gov.nih.nci.security;
-import java.util.Collection;
+
 import java.util.Set;
 
 import gov.nih.nci.security.authorization.domainobjects.Group;
