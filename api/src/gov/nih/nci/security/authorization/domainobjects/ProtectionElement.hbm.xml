@@ -85,6 +85,15 @@
         />
      </set>
      
+     <set name="owners" lazy="true" table="user_protection_element">
+       <key column="protection_element_id"/>
+       <many-to-many 
+           column="user_id" 
+           class="gov.nih.nci.security.authorization.domainobjects.User"
+           
+        />
+     </set>
+     
     <many-to-one
         name="application"
         class="gov.nih.nci.security.authorization.domainobjects.Application"

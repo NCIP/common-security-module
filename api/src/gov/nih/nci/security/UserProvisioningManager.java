@@ -1,7 +1,9 @@
 package gov.nih.nci.security;
 
+import java.util.Date;
 import java.util.Set;
 
+import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
@@ -242,5 +244,14 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
 	
 	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException;
+	
+	public void createApplication(Application application)throws CSTransactionException;
+	public void modifyApplication(Application application)throws CSTransactionException;
+	public void removeApplication(String applicationId) throws CSTransactionException;
+	public Application getApplicationById(String applicationId) throws CSObjectNotFoundException;
+	
+	public void assignOwners(String protectionElementId,String[] userIds) throws CSTransactionException;
+
+	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException;
 }
 

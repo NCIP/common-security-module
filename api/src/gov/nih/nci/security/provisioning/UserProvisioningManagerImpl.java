@@ -155,9 +155,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param userName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName)throws CSTransactionException{
+	public void setOwnerForProtectionElement(String protectionElementObjectId, String[] userNames)throws CSTransactionException{
 
-		authorizationDAO.setOwnerForProtectionElement(protectionElementObjectName,userName);
+		authorizationDAO.setOwnerForProtectionElement(protectionElementObjectId,userNames);
 	}
 
 	/**
@@ -393,8 +393,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String userName, String protectionElementObjectName, String protectionElementAttributeName)throws CSTransactionException{
-		authorizationDAO.setOwnerForProtectionElement( userName, protectionElementObjectName, protectionElementAttributeName );
+	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)throws CSTransactionException{
+		authorizationDAO.setOwnerForProtectionElement( userName, protectionElementName, protectionElementAttributeName );
 	}
 
 	/**
@@ -609,5 +609,34 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException{
 		authorizationDAO.assignParentProtectionGroup(parentProtectionGroupId,childProtectionGroupId);
 	}
+	public void createApplication(Application application)throws CSTransactionException{
+		application.setUpdateDate(new Date());
+		authorizationDAO.createObject(application);
+		
+	}
+	public void modifyApplication(Application application)throws CSTransactionException{
+		application.setUpdateDate(new java.util.Date());
+		authorizationDAO.modifyObject(application);
+	}
+	public void removeApplication(String applicationId) throws CSTransactionException{
+	        try{
+			Application app = this.getApplicationById(applicationId);
+			authorizationDAO.removeObject(app);
+	        }catch(Exception ex){
+	        	throw new CSTransactionException("Could not remove application",ex);
+	        }
+			
+	}
+	public Application getApplicationById(String applicationId) throws CSObjectNotFoundException{
+		return (Application)authorizationDAO.getObjectByPrimaryKey(Application.class,applicationId);
+		//authorizationDAO.getProtectionElement(protectionElementId);
+	}
 	
+	public void assignOwners(String protectionElementId,String[] userIds) throws CSTransactionException{
+		authorizationDAO.assignOwners(protectionElementId,userIds);
+	}
+
+	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException{
+		return authorizationDAO.getOwners(protectionElementId);
+	}
 }

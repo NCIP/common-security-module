@@ -58,7 +58,7 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public void setOwnerForProtectionElement(
-			String protectionElementObjectName, String userName)
+			String protectionElementObjectId, String[] userNames)
 			throws CSTransactionException;
 
 	/**
@@ -194,15 +194,14 @@ public interface AuthorizationDAO {
 	 */
 	//public void createGroup(Group group) throws CSTransactionException;;
 
+	
 	/**
 	 * @param userName
-	 * @param protectionElementObjectName
+	 * @param protectionElementName
 	 * @param protectionElementAttributeName
-	 *  
+	 * @throws CSTransactionException
 	 */
-	public void setOwnerForProtectionElement(String userName,
-			String protectionElementObjectName,
-			String protectionElementAttributeName)
+	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)
 			throws CSTransactionException;;
 
 	/**
@@ -333,6 +332,11 @@ public interface AuthorizationDAO {
 	
 	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
 
-	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException;	
+	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException;
+	
+	public void assignOwners(String protectionElementId,String[] userIds) throws CSTransactionException;
+	
+	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException;
+
 }
 

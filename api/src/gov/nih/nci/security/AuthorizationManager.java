@@ -38,11 +38,11 @@ public interface AuthorizationManager {
 	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
-	 * @param protectionElementObjectName
+	 * @param protectionElementObjectId
 	 * @param userName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String protectionElementObjectName, String userName)throws CSTransactionException;
+	public void setOwnerForProtectionElement(String protectionElementObjectId, String[] userNames)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName
@@ -123,11 +123,11 @@ public interface AuthorizationManager {
 
 	/**
 	 * @param userName
-	 * @param protectionElementObjectName
+	 * @param protectionElementName
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void setOwnerForProtectionElement(String userName, String protectionElementObjectName, String protectionElementAttributeName)throws CSTransactionException;
+	public void setOwnerForProtectionElement(String userName, String protectionElementName, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName

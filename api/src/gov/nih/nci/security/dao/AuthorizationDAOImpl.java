@@ -1280,11 +1280,53 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 *      java.lang.String)
 	 */
 	public void setOwnerForProtectionElement(
-			String protectionElementObjectName, String userName)
+			String protectionElementObjectId, String[] userNames)
 			throws CSTransactionException {
-		// TODO Auto-generated method stub
-		setOwnerForProtectionElement(userName, protectionElementObjectName,
-				null);
+		
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			Set users = new HashSet();
+			
+			for(int i=0;i<userNames.length;i++){
+				User user = this.getUser(userNames[i]);
+				users.add(user);
+			}
+			ProtectionElement pe = new ProtectionElement();
+			pe.setObjectId(protectionElementObjectId);
+			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			List l = this.getObjects(sc);
+			
+			ProtectionElement protectionElement = (ProtectionElement)l.get(0);
+
+			protectionElement.setOwners(users);
+			
+			s.update(protectionElement);
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to assign users: "
+							+ StringUtilities.stringArrayToString(userNames)
+							+ " to protection element with object id: " + protectionElementObjectId, ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		
+		
+		
 	}
 
 	public Set getPrivileges(String roleId) throws CSObjectNotFoundException {
@@ -1995,6 +2037,71 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ex.printStackTrace();
 		}
 		return o;
+		
+	}
+	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException{
+		
+		Session s = null;
+		
+		Set result = new HashSet();
+		try {
+			s = sf.openSession();
+			ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class,
+					new Long(protectionElementId));
+			
+			result = protectionElement.getOwners();
+			log.debug("The result size:" + result.size());
+
+		} catch (Exception ex) {
+			log.error(ex);
+			throw new CSObjectNotFoundException("No Set found", ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
+		return result;
+	}
+	
+	public void assignOwners(String protectionElementId,String[] userIds) throws CSTransactionException{
+		
+		Session s = null;
+		Transaction t = null;
+		//log.debug("Running create test...");
+		try {
+			s = sf.openSession();
+			t = s.beginTransaction();
+
+			Set users = new HashSet();
+			
+			for(int i=0;i<userIds.length;i++){
+				User user = (User)this.getObjectByPrimaryKey(User.class,userIds[i]);
+				users.add(user);
+			}
+			ProtectionElement pe = (ProtectionElement)this.getObjectByPrimaryKey(ProtectionElement.class,protectionElementId);
+
+			pe.setOwners(users);
+			
+			s.update(pe);
+			t.commit();
+
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+			}
+			throw new CSTransactionException(
+					"A fatal error occurred while attempting to assign users: "
+							+ StringUtilities.stringArrayToString(userIds)
+							+ " to protection element with id: " + protectionElementId, ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+		}
 		
 	}
 }

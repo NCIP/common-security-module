@@ -52,7 +52,7 @@ public class ProtectionElement {
 	 * The user which owns the protection element. It will be populated only if the
 	 * protection element was created at run time by the user
 	 */
-	private User owner;
+	private java.util.Set owners;
 
 	public ProtectionElement(){
 
@@ -94,8 +94,8 @@ public class ProtectionElement {
 	 * The user which owns the protection element. It will be populated only if the
 	 * protection element was created at run time by the user
 	 */
-	public User getOwner(){
-		return owner;
+	public java.util.Set getOwners(){
+		return owners;
 	}
 
 	/**
@@ -168,8 +168,8 @@ public class ProtectionElement {
 	 * @param newVal
 	 * 
 	 */
-	public void setOwner(User newVal){
-		owner = newVal;
+	public void setOwners(java.util.Set newVal){
+		owners = newVal;
 	}
 
 	/**
