@@ -6,11 +6,7 @@
 <html:form method="post" action="createEmployee">
 
 	<table>
-		<tr>
-			<td align="center" colspan="2">
-			<h2>Create an Employee Record</h2>
-			</td>
-		</tr>
+		
 		<tr>
 			<td valign="top"><BR>
 
@@ -20,6 +16,12 @@
 					<td valign="top">
 					<table cellpadding="0" cellspacing="0" border="0"
 						class="contentBegins">
+						
+						<tr>
+									<td align="center" colspan="2">
+									<h2>Create an Employee Record</h2>
+									</td>
+		</tr>
 
 						<tr>
 							<td class="contentBegins" width="50%">

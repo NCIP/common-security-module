@@ -66,12 +66,23 @@
     </script>
 
 
-	<table>
-		<tr>
-			<td align="center" colspan="2">
-			<h2>Employee Information</h2>
+<br>
+
+<table summary="" cellpadding="0" cellspacing="0" border="0"
+class="contentPage" width="100%" height="100%">
+<tr>
+<td valign="top">
+<table cellpadding="0" cellspacing="0" border="0"
+class="contentBegins">
+
+<tr>
+			<td align="center" colspan="2"><h2>Employee Information</h2>
 			</td>
 		</tr>
+
+
+	
+		
 		<tr>
 			<td valign="top"><jsp:include page="/pages/employeeRecord.jsp" /></td>
 
@@ -80,9 +91,9 @@
 			<table summary="" cellpadding="3" cellspacing="0" border="0"
 				align="left">
 
-				<tr>
+				<!--<tr>
 					<td class="formMessage" colspan="3">&nbsp;</td>
-				</tr>
+				</tr>-->
 
 				<tr>
 					<td class="formTitle" height="20" colspan="3">EMPLOYEE PROJECTS</td>
