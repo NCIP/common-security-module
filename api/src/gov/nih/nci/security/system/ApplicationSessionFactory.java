@@ -68,9 +68,10 @@ public class ApplicationSessionFactory {
 	}
 	
 	private static Document getConfigDocument(){
+		Document configDoc = null;
 		try {
             SAXBuilder builder = new SAXBuilder();
-            Document configDoc = builder.build(new File("ApplicationSecurityConfig.xml"));
+            configDoc = builder.build(new File("ApplicationSecurityConfig.xml"));
             return configDoc;
         } catch(JDOMException e) {
             e.printStackTrace();
@@ -79,7 +80,7 @@ public class ApplicationSessionFactory {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return configDoc;
 	}
 	
 	private static SessionFactory initSessionFactory(String fileName){
