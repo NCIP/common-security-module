@@ -52,7 +52,7 @@
 	
 	<!-- Project pages -->
 	
-	<definition name="Project.Create" extends="Project">
+	<definition name="show.create.project" extends="Project">
     <put name="body"   value="/pages/createProject.jsp" />
     </definition>			
 		

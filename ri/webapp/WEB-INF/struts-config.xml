@@ -43,17 +43,24 @@
 	<!-- =================================== Action Mapping Definitions -->
 	<action-mappings>
 		<!-- Default "Welcome" action -->
-		<!-- Forwards to Welcome.jsp -->
+		<!-- Forwards -->
 		<action path="/Welcome" forward="show.login"/>
 		<action path="/viewErrorDetails" forward="show.error.details"/>
 		<action path="/viewCreateEmployee" name="employeeForm" forward="show.create.employee"/>
+		<action path="/viewCreateProject" name="projectForm" forward="show.create.project"/>
+		<!-- actions -->
 		
 		<action input="login" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
 			<forward name="success" path="main.layout"/>
-		</action>
+		</action>	
+		
 		
 		<action input="login" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" scope="session" >
 			<forward name="success" path="main.layout"/>
+		</action>
+		
+		<action input="createProject" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" scope="session" >
+			<forward name="success" path="show.create.project"/>
 		</action>
 		
 	</action-mappings>
