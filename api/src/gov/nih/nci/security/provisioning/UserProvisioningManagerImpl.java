@@ -261,7 +261,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void modifyPrivilege(Privilege privilege) throws CSTransactionException{
-          
+		authorizationDAO.modifyPrivilege(privilege);
 	}
 
 	/**
@@ -277,7 +277,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public void removePrivilege(String privilegeId) throws CSTransactionException{
-
+      
+		authorizationDAO.removePrivilege(privilegeId);
+		
 	}
 
 	/**
@@ -394,7 +396,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * 
 	 */
 	public Privilege getPrivilege(String privilegeId)throws CSObjectNotFoundException{
-		return null;
+		return authorizationDAO.getPrivilege(privilegeId);
 	}
 
 	/**
