@@ -293,7 +293,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+	/**
 	public void addUserToGroup(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
@@ -311,7 +311,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+	*/
 	public void removeUserFromGroup(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		

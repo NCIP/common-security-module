@@ -426,8 +426,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param userId
 	 * 
 	 */
-	public void addUserToGroup(String groupId, String userId)throws CSTransactionException{
-        authorizationDAO.addUserToGroup(groupId,userId);
+	public void assignGroupsToUser(String userId,String[] groupIds)throws CSTransactionException{
+        authorizationDAO.assignGroupsToUser(userId,groupIds);
 	}
 
 	/**

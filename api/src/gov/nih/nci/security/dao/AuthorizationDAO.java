@@ -223,7 +223,7 @@ public interface AuthorizationDAO {
 	 * @param userId
 	 *  
 	 */
-	public void addUserToGroup(String groupId, String userId)
+	public void assignGroupsToUser(String userId,String[] groupIds)
 			throws CSTransactionException;;
 
 	/**

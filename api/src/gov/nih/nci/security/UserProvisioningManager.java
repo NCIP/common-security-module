@@ -126,11 +126,11 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void modifyGroup(Group group)throws CSTransactionException;
 
 	/**
-	 * @param groupId
+	 * @param groupIds
 	 * @param userId
 	 * 
 	 */
-	public void addUserToGroup(String groupId, String userId)throws CSTransactionException;
+	public void assignGroupsToUser(String userId,String[] groupIds)throws CSTransactionException;
 
 	/**
 	 * @param groupId

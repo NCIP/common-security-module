@@ -83,7 +83,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 	}
 
-	public void addUserToGroup(String groupId, String userId)
+	public void assignGroupsToUser(String userId,String[] groupIds)
 			throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
@@ -94,15 +94,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
-			Set user_groups = user.getGroups();
+			//Set user_groups = user.getGroups();
 			//Group group = getGroup(groupId);
-			Group group = (Group)this.getObjectByPrimaryKey(Group.class,groupId);
-
-			if (!user_groups.contains(group)) {
-				user_groups.add(group);
-				user.setGroups(user_groups);
-				s.update(user);
+			HashSet newGroups = new HashSet();
+			for (int k = 0; k <groupIds.length; k++) {
+				log.debug("The new list:" + groupIds[k]);
+				Group group = (Group)this.getObjectByPrimaryKey(Group.class,groupIds[k]);
+				if (group != null) {
+					newGroups.add(group);
+				}
 			}
+			
+				user.setGroups(newGroups);
+				s.update(user);
+			
 
 			t.commit();
 
@@ -207,14 +212,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 					new Long(roleId));
 
-			Set currPriv = role.getPrivileges();
+			//Set currPriv = role.getPrivileges();
 			Set newPrivs = new HashSet();
 
 			for (int k = 0; k < privilegeIds.length; k++) {
 				log.debug("The new list:" + privilegeIds[k]);
-				Privilege pr = (Privilege) this.getObjectByPrimaryKey(s,
-						Privilege.class, new Long(privilegeIds[k]));
-				if (pr != null && !currPriv.contains(pr)) {
+				Privilege pr = (Privilege) this.getObjectByPrimaryKey(
+						Privilege.class, privilegeIds[k]);
+				if (pr != null) {
 					newPrivs.add(pr);
 				}
 			}
