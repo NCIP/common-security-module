@@ -8,14 +8,23 @@ package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
+import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.dao.GroupSearchCriteria;
+import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
+import gov.nih.nci.security.dao.RoleSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
+import gov.nih.nci.security.util.ObjectSetUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +40,16 @@ import org.apache.struts.validator.ValidatorForm;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class GroupForm extends ValidatorForm implements BaseDBForm
+public class GroupForm extends ValidatorForm implements BaseDoubleAssociationForm
 {
 	private String groupId;
 	private String groupName;
 	private String groupDescription;
 	private String groupUpdateDate;
+
+	private String[] roleAssociatedIds;
+	private String[] protectionGroupAssociatedIds;
+	private String protectionGroupAssociatedId;
 	
 
 	/**
@@ -88,6 +101,51 @@ public class GroupForm extends ValidatorForm implements BaseDBForm
 	public void setGroupUpdateDate(String groupUpdateDate) {
 		this.groupUpdateDate = groupUpdateDate;
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#getAssociatedIds()
+	 */
+	public String[] getAssociatedIds() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	/**
+	 * @return Returns the protectionGroupAssociatedId.
+	 */
+	public String getProtectionGroupAssociatedId() {
+		return protectionGroupAssociatedId;
+	}
+	/**
+	 * @param protectionGroupAssociatedId The protectionGroupAssociatedId to set.
+	 */
+	public void setProtectionGroupAssociatedId(
+			String protectionGroupAssociatedId) {
+		this.protectionGroupAssociatedId = protectionGroupAssociatedId;
+	}
+	/**
+	 * @return Returns the protectionGroupAssociatedIds.
+	 */
+	public String[] getProtectionGroupAssociatedIds() {
+		return protectionGroupAssociatedIds;
+	}
+	/**
+	 * @param protectionGroupAssociatedIds The protectionGroupAssociatedIds to set.
+	 */
+	public void setProtectionGroupAssociatedIds(
+			String[] protectionGroupAssociatedIds) {
+		this.protectionGroupAssociatedIds = protectionGroupAssociatedIds;
+	}
+	/**
+	 * @return Returns the roleAssociatedIds.
+	 */
+	public String[] getRoleAssociatedIds() {
+		return roleAssociatedIds;
+	}
+	/**
+	 * @param roleAssociatedIds The roleAssociatedIds to set.
+	 */
+	public void setRoleAssociatedIds(String[] roleAssociatedIds) {
+		this.roleAssociatedIds = roleAssociatedIds;
+	}
 	
 	public void resetForm()
 	{
@@ -95,12 +153,16 @@ public class GroupForm extends ValidatorForm implements BaseDBForm
 		this.groupName = "";
 		this.groupDescription = "";
 		this.groupUpdateDate = "";
+		this.roleAssociatedIds = null;
+		this.protectionGroupAssociatedId = "";
+		this.protectionGroupAssociatedIds = null;
 	}
 
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
 		this.groupName = "";
 		this.groupDescription = "";
+		this.roleAssociatedIds = null;
 	}
 
 	
@@ -209,14 +271,135 @@ public class GroupForm extends ValidatorForm implements BaseDBForm
 		
 		if (this.groupName != null && !(this.groupName.trim().equalsIgnoreCase("")))
 			group.setGroupName(this.groupName);
-		else
-			group.setGroupName("%");
 		
 		SearchCriteria searchCriteria = new GroupSearchCriteria(group);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();
+		searchResult.setSearchResultMessage(searchCriteria.getMessage());
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
+	}
+
+	public void buildAssociationObject(HttpServletRequest request) throws Exception 
+	{
+		// do nothing
+		
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void setAssociationObject(HttpServletRequest request) throws Exception {
+		// do nothing
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildDoubleAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void buildDoubleAssociationObject(HttpServletRequest request) throws Exception {
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForGroup(this.groupId);
+		Collection associatedProtectionGroups = (Collection)new HashSet();
+		
+		if (protectionGroupRoleContextList != null && !(protectionGroupRoleContextList.size() == 0))
+		{
+			Iterator iterator = protectionGroupRoleContextList.iterator();
+			while (iterator.hasNext())
+			{
+				ProtectionGroupRoleContext protectionGroupRoleContext = (ProtectionGroupRoleContext)iterator.next();
+				associatedProtectionGroups.add(protectionGroupRoleContext.getProtectionGroup());
+			}
+		}
+		ProtectionGroup protectionGroup = new ProtectionGroup();
+		SearchCriteria protectionGroupSearchCriteria = new ProtectionGroupSearchCriteria(protectionGroup);
+		Collection totalProtectionGroups = (Collection)userProvisioningManager.getObjects(protectionGroupSearchCriteria);
+
+		Collection availableProtectionGroups = ObjectSetUtil.minus(totalProtectionGroups,associatedProtectionGroups);
+
+		Role role = new Role();
+		SearchCriteria roleSearchCriteria = new RoleSearchCriteria(role);
+		Collection totalRoles = (Collection)userProvisioningManager.getObjects(roleSearchCriteria);		
+		
+		
+		request.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET, availableProtectionGroups);		
+		request.setAttribute(DisplayConstants.AVAILABLE_ROLE_SET, totalRoles);
+
+		Collection associatedRoles = (Collection)new HashSet();
+		request.setAttribute(DisplayConstants.ASSIGNED_ROLE_SET, associatedRoles);
+		
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#setDoubleAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void setDoubleAssociationObject(HttpServletRequest request) throws Exception {
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);		
+		userProvisioningManager.assignGroupRoleToProtectionGroup(this.protectionGroupAssociatedIds[0],this.groupId,this.roleAssociatedIds);
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#removeGroupAssociation(javax.servlet.http.HttpServletRequest)
+	 */
+	public void removeProtectionGroupAssociation(HttpServletRequest request) throws Exception {
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);		
+		userProvisioningManager.removeGroupFromProtectionGroup(this.protectionGroupAssociatedId, this.groupId);		
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#updateRoleAssociation(javax.servlet.http.HttpServletRequest)
+	 */
+	public void updateRoleAssociation(HttpServletRequest request) throws Exception {
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);		
+		userProvisioningManager.assignGroupRoleToProtectionGroup(this.protectionGroupAssociatedId,this.groupId,this.roleAssociatedIds);
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildGroupAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public Collection buildProtectionGroupAssociationObject(HttpServletRequest request) throws Exception {
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForGroup(this.groupId);
+		Collection associatedProtectionGroupRoleContexts = (Collection)new HashSet();
+		
+		if (protectionGroupRoleContextList != null && !(protectionGroupRoleContextList.size() == 0))
+		{
+			associatedProtectionGroupRoleContexts = protectionGroupRoleContextList;
+		}
+		
+		return associatedProtectionGroupRoleContexts;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildRoleAssociationObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void buildRoleAssociationObject(HttpServletRequest request) throws Exception {
+
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		
+		Collection protectionGroupRoleContextList = (Collection)(request.getSession()).getAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET);
+		Collection associatedRoles = (Collection)new HashSet();
+		if (protectionGroupRoleContextList != null && !(protectionGroupRoleContextList.size() == 0))
+		{
+			Iterator iterator = protectionGroupRoleContextList.iterator();
+			ProtectionGroup protectionGroup = null;
+			String protectionGroupId = null;
+			while (iterator.hasNext())
+			{
+				ProtectionGroupRoleContext protectionGroupRoleContext = (ProtectionGroupRoleContext)iterator.next();
+				protectionGroup = protectionGroupRoleContext.getProtectionGroup();
+				protectionGroupId = protectionGroup.getProtectionGroupId().toString();
+				if (this.protectionGroupAssociatedId.equalsIgnoreCase(protectionGroupId))
+				{
+					associatedRoles = (Collection)protectionGroupRoleContext.getRoles();
+				}
+			}
+		}
+		
+		Role role = new Role();
+		SearchCriteria roleSearchCriteria = new RoleSearchCriteria(role);
+		Collection totalRoles = (Collection)userProvisioningManager.getObjects(roleSearchCriteria);		
+
+		Collection availableRoles = ObjectSetUtil.minus(totalRoles,associatedRoles);
+		
+		request.setAttribute(DisplayConstants.ASSIGNED_ROLE_SET, associatedRoles);	
+		request.setAttribute(DisplayConstants.AVAILABLE_ROLE_SET, availableRoles);
+		
+		request.setAttribute(DisplayConstants.ONLY_ROLES, DisplayConstants.ONLY_ROLES);	
 	}
 
 }

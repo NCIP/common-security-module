@@ -119,6 +119,7 @@
 										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('delete');">Delete</html:submit></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadParentAssociation');">View Parent Associations</html:submit></td>										
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">View Associations</html:submit></td>
 									</logic:notEqual>
 								</tr>

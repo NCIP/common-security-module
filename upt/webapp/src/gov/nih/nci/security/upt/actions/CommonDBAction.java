@@ -98,7 +98,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 		}
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
@@ -122,7 +122,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
 			saveErrors( request,errors );
 		}
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
@@ -149,7 +149,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
 			saveErrors( request,errors );
 		}
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
@@ -168,7 +168,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
 			saveErrors( request,errors );
 		}
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
@@ -189,13 +189,16 @@ public class CommonDBAction extends DispatchAction
 				saveErrors( request,errors );
 				return (mapping.findForward(ForwardConstants.SEARCH_FAILURE));					
 			}
+			if (searchResult.getSearchResultMessage() != null && !(searchResult.getSearchResultMessage().trim().equalsIgnoreCase("")))
+			{
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, searchResult.getSearchResultMessage()));
+				saveMessages( request, messages );
+			}
 			(request.getSession()).setAttribute(DisplayConstants.SEARCH_RESULT, searchResult);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Search Successful"));
-			saveMessages( request, messages );
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
 			saveErrors( request,errors );
 		}
 		(request.getSession()).setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);

@@ -95,15 +95,15 @@
 												<td class="dataCellText" width="15%"><bean:write
 													name="searchResultObject" property="loginName" /></td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="firstName" /></td>
+													name="searchResultObject" property="firstName" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="lastName" /></td>
+													name="searchResultObject" property="lastName" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="organization" /></td>
+													name="searchResultObject" property="organization" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="department" /></td>
+													name="searchResultObject" property="department" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="emailId" /></td>
+													name="searchResultObject" property="emailId" />&nbsp;</td>
 											</tr>
 										<%}else{ oddRow = "true";%>
 											<tr class="dataRowDark">
@@ -113,15 +113,15 @@
 												<td class="dataCellText" width="15%"><bean:write
 													name="searchResultObject" property="loginName" /></td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="firstName" /></td>
+													name="searchResultObject" property="firstName" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="lastName" /></td>
+													name="searchResultObject" property="lastName" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="organization" /></td>
+													name="searchResultObject" property="organization" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="department" /></td>
+													name="searchResultObject" property="department" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="emailId" /></td>
+													name="searchResultObject" property="emailId" />&nbsp;</td>
 											</tr>
 										<%}%>
 									</logic:iterate>

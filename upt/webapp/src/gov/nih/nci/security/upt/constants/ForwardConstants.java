@@ -30,9 +30,22 @@ public interface ForwardConstants
 	public static final String LOGIN_SUCCESS="LoginSuccess";
 	public static final String LOAD_ASSOCIATION_SUCCESS="LoadAssociationSuccess";
 	public static final String SET_ASSOCIATION_SUCCESS="SetAssociationSuccess";
+	public static final String LOAD_PARENT_ASSOCIATION_SUCCESS = "LoadParentAssociationSuccess";
+	public static final String SET_PARENT_ASSOCIATION_SUCCESS = "SetParentAssociationSuccess";
+	public static final String LOAD_OWNERSHIP_ASSOCIATION_SUCCESS = "LoadOwnershipAssociationSuccess";
+	public static final String SET_OWNERSHIP_ASSOCIATION_SUCCESS = "SetOwnershipAssociationSuccess";
+	public static final String LOAD_DOUBLEASSOCIATION_SUCCESS = "LoadDoubleAssociationSuccess";
+	public static final String SET_DOUBLEASSOCIATION_SUCCESS = "SetDoubleAssociationSuccess";	
+	public static final String LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS = "LoadProtectionGroupAssociationSuccess";
+	public static final String LOAD_ROLEASSOCIATION_SUCCESS = "LoadRoleAssociationSuccess";
+	public static final String REMOVE_PROTECTIONGROUPASSOCIATION_SUCCESS = "RemoveProtectionGroupAssociationSuccess";
+	public static final String SET_ROLEASSOCIATION_SUCCESS = "SetRoleAssociationSuccess";
 
+	
 	public static final String READ_FAILURE = "ReadFailure";
 	public static final String SEARCH_FAILURE = "SearchFailure";
+	public static final String LOAD_PROTECTIONGROUPASSOCIATION_FAILURE = "LoadProtectionGroupAssociationFailure";
+
 	
 	public static final String HOME_PAGE="HomePage";
 	public static final String LOGIN_PAGE="LoginPage";
@@ -44,7 +57,6 @@ public interface ForwardConstants
 	public static final String USER_HOME_PAGE="UserHomePage";
 	public static final String PROTECTION_GROUP_HOME_PAGE="ProtectionGroupHomePage";
 	public static final String PROTECTION_ELEMENT_HOME_PAGE="ProtectionElementHomePage";
-	
 	
 	public static final String DETAILS_PAGE="DetailsPage";
 

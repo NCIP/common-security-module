@@ -46,6 +46,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	private String protectionElementUpdateDate;
 	
 	private String[] associatedIds;
+	private String[] ownershipAssociatedIds;
+	
 	
 	/**
 	 * @return Returns the protectionElementAttribute.
@@ -120,6 +122,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	public void setProtectionElementTypeId(String protectionElementTypeId) {
 		this.protectionElementTypeId = protectionElementTypeId;
 	}
+	
 	/**
 	 * @return Returns the protectionElementUpdateDate.
 	 */
@@ -133,7 +136,31 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 			String protectionElementUpdateDate) {
 		this.protectionElementUpdateDate = protectionElementUpdateDate;
 	}
-
+	/**
+	 * @return Returns the associatedIds.
+	 */
+	public String[] getAssociatedIds() {
+		return associatedIds;
+	}
+	/**
+	 * @param associatedIds The associatedIds to set.
+	 */
+	public void setAssociatedIds(String[] associatedIds) {
+		this.associatedIds = associatedIds;
+	}
+	/**
+	 * @return Returns the ownershipAssociatedIds.
+	 */
+	public String[] getOwnershipAssociatedIds() {
+		return ownershipAssociatedIds;
+	}
+	/**
+	 * @param ownershipAssociatedIds The ownershipAssociatedIds to set.
+	 */
+	public void setOwnershipAssociatedIds(String[] ownershipAssociatedIds) {
+		this.ownershipAssociatedIds = ownershipAssociatedIds;
+	}
+	
 	
 	public void resetForm()
 	{
@@ -144,9 +171,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.protectionElementAttribute = "";
 		this.protectionElementUpdateDate = "";
 		this.associatedIds = null;
+		this.ownershipAssociatedIds = null;
 	}
-	
-	
 	
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
@@ -155,6 +181,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.protectionElementObjectId = "";
 		this.protectionElementAttribute = "";
 		this.associatedIds = null;
+		this.ownershipAssociatedIds = null;
 	}
 	
 	public ArrayList getAddFormElements()
@@ -280,20 +307,15 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		
 		if (this.protectionElementName != null && !(this.protectionElementName.trim().equalsIgnoreCase("")))
 			protectionElement.setProtectionElementName(this.protectionElementName);
-		else
-			protectionElement.setProtectionElementName("%");
 		if (this.protectionElementObjectId != null && !(this.protectionElementObjectId.trim().equalsIgnoreCase("")))
 			protectionElement.setObjectId(this.protectionElementObjectId);
-		else
-			protectionElement.setObjectId("%");
 		if (this.protectionElementAttribute != null && !(this.protectionElementAttribute.trim().equalsIgnoreCase("")))
 			protectionElement.setAttribute(this.protectionElementAttribute);
-		else
-			protectionElement.setAttribute("%");
 		
 		SearchCriteria searchCriteria = new ProtectionElementSearchCriteria(protectionElement);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();
+		searchResult.setSearchResultMessage(searchCriteria.getMessage());
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
 	}
@@ -326,16 +348,4 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		userProvisioningManager.assignToProtectionGroups(this.protectionElementId, this.associatedIds);
 	}	
 	
-	/**
-	 * @return Returns the associatedIds.
-	 */
-	public String[] getAssociatedIds() {
-		return associatedIds;
-	}
-	/**
-	 * @param associatedIds The associatedIds to set.
-	 */
-	public void setAssociatedIds(String[] associatedIds) {
-		this.associatedIds = associatedIds;
-	}
 }

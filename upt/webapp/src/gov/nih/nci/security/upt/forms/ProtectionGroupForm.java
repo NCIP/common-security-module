@@ -40,13 +40,13 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 	private String protectionGroupId;
 	private String protectionGroupName;
 	private String protectionGroupDescription;
-	private String protectionGroupParentProtectionGroupName;
 	private String protectionGroupLargeCountFlag;
 	private String protectionGroupUpdateDate;
 
 	private ProtectionGroup protectionGroupParentProtectionGroup;
 	
 	private String[] associatedIds;
+	private String[] parentAssociatedIds;
 
 	
 	/**
@@ -91,19 +91,6 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 	 */
 	public String getProtectionGroupName() {
 		return protectionGroupName;
-	}
-	/**
-	 * @return Returns the protectionGroupParentProtectionGroupId.
-	 */
-	public String getProtectionGroupParentProtectionGroupName() {
-		return protectionGroupParentProtectionGroupName;
-	}
-	/**
-	 * @param protectionGroupParentProtectionGroupName The protectionGroupParentProtectionGroupName to set.
-	 */
-	public void setProtectionGroupParentProtectionGroupName(
-			String protectionGroupParentProtectionGroupName) {
-		this.protectionGroupParentProtectionGroupName = protectionGroupParentProtectionGroupName;
 	}
 	/**
 	 * @param protectionGroupName The protectionGroupName to set.
@@ -151,6 +138,21 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 			ProtectionGroup protectionGroupParentProtectionGroup) {
 		this.protectionGroupParentProtectionGroup = protectionGroupParentProtectionGroup;
 	}
+	
+	/**
+	 * @return Returns the parentAssociatedIds.
+	 */
+	public String[] getParentAssociatedIds() {
+		return parentAssociatedIds;
+	}
+	/**
+	 * @param parentAssociatedIds The parentAssociatedIds to set.
+	 */
+	public void setParentAssociatedIds(String[] parentAssociatedIds) {
+		this.parentAssociatedIds = parentAssociatedIds;
+	}
+	
+	
 	public void resetForm()
 	{
 		this.protectionGroupId = "";
@@ -158,9 +160,9 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 		this.protectionGroupDescription = "";
 		this.protectionGroupLargeCountFlag = DisplayConstants.NO;
 		this.protectionGroupUpdateDate = "";
-		this.protectionGroupParentProtectionGroupName = "";
 		this.protectionGroupParentProtectionGroup = null;
 		this.associatedIds = null;
+		this.parentAssociatedIds = null;
 	}
 	
 	public void reset(ActionMapping mapping, HttpServletRequest request)
@@ -168,7 +170,8 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 		this.protectionGroupName = "";
 		this.protectionGroupDescription = "";
 		this.protectionGroupLargeCountFlag = DisplayConstants.NO;
-		this.associatedIds = null;		
+		this.associatedIds = null;
+		this.parentAssociatedIds = null;
 	}
 	
 	public ArrayList getAddFormElements()
@@ -188,7 +191,6 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 
 		formElementList.add(new FormElement("Protection Group Name", "protectionGroupName", getProtectionGroupName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Group Description", "protectionGroupDescription", getProtectionGroupDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Protection Group Name", "protectionGroupParentProtectionGroupName", getProtectionGroupParentProtectionGroupName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.DISABLED));		
 		formElementList.add(new FormElement("Protection Group Large Count Flag", "protectionGroupLargeCountFlag", getProtectionGroupLargeCountFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Group Update Date", "protectionGroupUpdateDate", getProtectionGroupUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 
@@ -217,10 +219,6 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 		this.protectionGroupUpdateDate = simpleDateFormat.format(protectionGroup.getUpdateDate());
 		
 		this.protectionGroupParentProtectionGroup = protectionGroup.getParentProtectionGroup();
-		if (this.protectionGroupParentProtectionGroup != null)
-			this.protectionGroupParentProtectionGroupName = this.protectionGroupParentProtectionGroup.getProtectionGroupName();
-		else
-			this.protectionGroupParentProtectionGroupName = "";
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
@@ -281,12 +279,11 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 		
 		if (this.protectionGroupName != null && !(this.protectionGroupName.trim().equalsIgnoreCase("")))
 			protectionGroup.setProtectionGroupName(this.protectionGroupName);
-		else
-			protectionGroup.setProtectionGroupName("%");
 		
 		SearchCriteria searchCriteria = new ProtectionGroupSearchCriteria(protectionGroup);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();
+		searchResult.setSearchResultMessage(searchCriteria.getMessage());
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
 	}

@@ -98,7 +98,7 @@
 			<forward name="SearchFailure" path="Tiles.Role.Detail.Screen" />
 		</action>
 		<action path="/ProtectionGroupDBOperation"
-			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			type="gov.nih.nci.security.upt.actions.ProtectionGroupAction"
 			name="ProtectionGroupForm" 
 			scope="session" 
 			validate="false"
@@ -116,10 +116,13 @@
 			<forward name="SearchSuccess" path="Tiles.ProtectionGroup.Search.Result" />
 			<forward name="SearchFailure" path="Tiles.ProtectionGroup.Detail.Screen" />
 			<forward name="LoadAssociationSuccess" path="Tiles.ProtectionGroup.Association.Screen" />
-			<forward name="SetAssociationSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />			
+			<forward name="SetAssociationSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />	
+			<forward name="LoadParentAssociationSuccess" path="Tiles.ProtectionGroup.ParentAssociation.Screen" />
+			<forward name="SetParentAssociationSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />	
+					
 		</action>
 		<action path="/GroupDBOperation"
-			type="gov.nih.nci.security.upt.actions.CommonDBAction"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
 			name="GroupForm" 
 			scope="session" 
 			validate="false"
@@ -136,6 +139,13 @@
 			<forward name="DeleteSuccess" path="Tiles.Group.Home" />
 			<forward name="SearchSuccess" path="Tiles.Group.Search.Result" />
 			<forward name="SearchFailure" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadDoubleAssociationSuccess" path="Tiles.Group.DoubleAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationSuccess" path="Tiles.Group.ProtectionGroupAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationFailure" path="Tiles.Group.Detail.Screen" />
+			<forward name="RemoveProtectionGroupAssociationSuccess" path="Tiles.Group.Detail.Screen" />			
+			<forward name="LoadRoleAssociationSuccess" path="Tiles.Group.DoubleAssociation.Screen" />
+			<forward name="SetDoubleAssociationSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="SetRoleAssociationSuccess" path="Tiles.Group.Detail.Screen" />			
 		</action>
 		<action path="/ProtectionElementDBOperation"
 			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
@@ -159,7 +169,7 @@
 			<forward name="SetAssociationSuccess" path="Tiles.ProtectionElement.Detail.Screen" />						
 		</action>
 		<action path="/UserDBOperation"
-			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
 			name="UserForm" 
 			scope="session" 
 			validate="false"
@@ -178,6 +188,13 @@
 			<forward name="SearchFailure" path="Tiles.User.Detail.Screen" />
 			<forward name="LoadAssociationSuccess" path="Tiles.User.Association.Screen" />
 			<forward name="SetAssociationSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadDoubleAssociationSuccess" path="Tiles.User.DoubleAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationSuccess" path="Tiles.User.ProtectionGroupAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationFailure" path="Tiles.User.Detail.Screen" />
+			<forward name="RemoveProtectionGroupAssociationSuccess" path="Tiles.User.Detail.Screen" />			
+			<forward name="LoadRoleAssociationSuccess" path="Tiles.User.DoubleAssociation.Screen" />
+			<forward name="SetDoubleAssociationSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="SetRoleAssociationSuccess" path="Tiles.User.Detail.Screen" />			
 		</action>
 	</action-mappings>
 

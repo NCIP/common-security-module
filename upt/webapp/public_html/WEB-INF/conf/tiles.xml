@@ -93,8 +93,23 @@
 	<definition name="Tiles.User.Association.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/UserAssociation.jsp" />
 	</definition>
+	<definition name="Tiles.User.DoubleAssociation.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/UserDoubleAssociation.jsp" />
+	</definition>
+	<definition name="Tiles.User.ProtectionGroupAssociation.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/UserProtectionGroupRoleAssociation.jsp" />
+	</definition>
+	<definition name="Tiles.Group.DoubleAssociation.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/GroupDoubleAssociation.jsp" />
+	</definition>
+	<definition name="Tiles.Group.ProtectionGroupAssociation.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/GroupProtectionGroupRoleAssociation.jsp" />
+	</definition>
 	<definition name="Tiles.ProtectionGroup.Association.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/ProtectionGroupAssociation.jsp" />
+	</definition>
+	<definition name="Tiles.ProtectionGroup.ParentAssociation.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/ProtectionGroupParentAssociation.jsp" />
 	</definition>
 	<definition name="Tiles.ProtectionElement.Association.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/ProtectionElementAssociation.jsp" />

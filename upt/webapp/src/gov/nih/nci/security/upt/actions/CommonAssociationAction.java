@@ -40,12 +40,10 @@ public class CommonAssociationAction extends CommonDBAction
 		try
 		{
 			baseAssociationForm.buildAssociationObject(request);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Load Successful"));
-			saveMessages( request, messages );
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
 			saveErrors( request,errors );
 		}
 		return (mapping.findForward(ForwardConstants.LOAD_ASSOCIATION_SUCCESS));
@@ -64,7 +62,7 @@ public class CommonAssociationAction extends CommonDBAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 		}
 		return (mapping.findForward(ForwardConstants.SET_ASSOCIATION_SUCCESS));

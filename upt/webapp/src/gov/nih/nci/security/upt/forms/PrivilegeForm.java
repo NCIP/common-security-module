@@ -211,11 +211,11 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 		
 		if (this.privilegeName != null && !(this.privilegeName.trim().equalsIgnoreCase("")))
 			privilege.setName(this.privilegeName);
-		else
-			privilege.setName("%");
+
 		SearchCriteria searchCriteria = new PrivilegeSearchCriteria(privilege);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();
+		searchResult.setSearchResultMessage(searchCriteria.getMessage());
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
 	}

@@ -16,8 +16,22 @@ import java.util.List;
  */
 public class SearchResult 
 {
+	private String searchResultMessage;
 	private List searchResultObjects;
 	
+	
+	/**
+	 * @return Returns the searchResultMessage.
+	 */
+	public String getSearchResultMessage() {
+		return searchResultMessage;
+	}
+	/**
+	 * @param searchResultMessage The searchResultMessage to set.
+	 */
+	public void setSearchResultMessage(String searchResultMessage) {
+		this.searchResultMessage = searchResultMessage;
+	}
 	/**
 	 * @return Returns the searchResultObjects.
 	 */

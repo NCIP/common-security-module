@@ -246,12 +246,11 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 		Role role = new Role();
 		if (this.roleName != null && !(this.roleName.trim().equalsIgnoreCase("")))
 			role.setName(this.roleName);
-		else
-			role.setName("%");
 		
 		SearchCriteria searchCriteria = new RoleSearchCriteria(role);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();
+		searchResult.setSearchResultMessage(searchCriteria.getMessage());
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
 	}

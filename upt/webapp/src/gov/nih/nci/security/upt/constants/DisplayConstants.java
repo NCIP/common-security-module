@@ -64,8 +64,16 @@ public class DisplayConstants
 
 	public static final String ASSIGNED_SET = "ASSIGNED_SET";
 	public static final String AVAILABLE_SET = "AVAILABLE_SET";
+	public static final String AVAILABLE_PROTECTIONGROUP_SET = "AVAILABLE_PROTECTIONGROUP_SET";
+	public static final String AVAILABLE_ROLE_SET = "AVAILABLE_ROLE_SET";
+	public static final String AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET = "AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET";
+	public static final String ASSIGNED_ROLE_SET = "ASSIGNED_ROLE_SET";
 
+	public static final String ONLY_ROLES = "ONLY_ROLES";	
+	
 	public static byte ONE = 1;
 	public static byte ZERO = 0;
+
+
 	
 }

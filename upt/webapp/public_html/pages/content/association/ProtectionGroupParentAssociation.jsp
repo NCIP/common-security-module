@@ -12,10 +12,10 @@
     	function setAndSubmit(target)
     	{
     		document.associationForm.operation.value=target;
-    		var len = document.associationForm.parentAssociatedIds.length;
+    		var len = document.associationForm.associatedIds.length;
     		for (i=0 ; i < len ; i++)
     		{
-    			document.associationForm.parentAssociatedIds[i].selected = true;
+    			document.associationForm.associatedIds[i].selected = true;
     		}
     		document.associationForm.submit();
     	}
@@ -36,7 +36,7 @@
 		
 	      isavailableIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
 	
-	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.associationForm.parentAssociatedIds) )
+	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.associationForm.associatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -57,7 +57,7 @@
 	               with (options[i])
 	               {
 	                  if (isavailableIds)
-	                     document.associationForm.parentAssociatedIds.options[document.associationForm.parentAssociatedIds.length] = new Option( text, value );
+	                     document.associationForm.associatedIds.options[document.associationForm.associatedIds.length] = new Option( text, value );
 	                  else
 	                     document.dummyForm.availableIds.options[document.dummyForm.availableIds.length] = new Option( text, value );
 	               } 
@@ -77,7 +77,7 @@
 		<table cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 			<tr>
 				<td colspan="3">
-					<h2>Protection Group and Protection Elements Association</h2>
+					<h2>Protection Group and Parent Protection Group Association</h2>
 				</td>
 			</tr>
 			<tr>
@@ -92,19 +92,19 @@
 					</tr>					
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
-					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="parentAssociatedIds" type="java.util.Collection"/>				
+					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
 					<td width="35%" valign="top">
 					<form name="dummyForm">
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">AVAILABLE PROTECTION ELEMENTS</td>
+							<td class="sidebarTitle" height="20">AVAILABLE PROTECTION GROUPS</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
 							<select name="availableIds" multiple style="width:200px;" size="6">
-							<logic:iterate name="availableIds" id="protectionElement" type="ProtectionElement">
-								<option value="<bean:write name="protectionElement" property="protectionElementId" />"><bean:write name="protectionElement" property="protectionElementName" /></option>
+							<logic:iterate name="availableIds" id="protectionGroup" type="ProtectionGroup">
+								<option value="<bean:write name="protectionGroup" property="protectionGroupId" />"><bean:write name="protectionGroup" property="protectionGroupName" /></option>
 							</logic:iterate>
 	                    	</select>
 	                    </td>
@@ -124,13 +124,13 @@
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">ASSIGNED PROTECTION ELEMENTS</td>
+							<td class="sidebarTitle" height="20">ASSIGNED PARENT PROTECTION GROUPS</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
 							<select name="parentAssociatedIds" multiple style="width:200px;" size="6">
-							<logic:iterate name="parentAssociatedIds" id="protectionElement" type="ProtectionElement">
-								<option value="<bean:write name="protectionElement" property="protectionElementId" />"><bean:write name="protectionElement" property="protectionElementName" /></option>
+							<logic:iterate name="associatedIds" id="protectionGroup" type="ProtectionGroup">
+								<option value="<bean:write name="protectionGroup" property="protectionGroupId" />"><bean:write name="protectionGroup" property="protectionGroupName" /></option>
 							</logic:iterate>
 	                    	</select>
 	                    </td>
@@ -145,7 +145,7 @@
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</html:submit></td>
+						<td><html:submit style="actionButton" onclick="setAndSubmit('setParentAssociation');">Update Association</html:submit></td>
 					</tr>
 				</table>
 				</td>				
