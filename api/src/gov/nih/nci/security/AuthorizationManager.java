@@ -31,11 +31,11 @@ public interface AuthorizationManager {
 
 	/**
 	 * @param protectionGroupName
-	 * @param protectionElementObjectName
+	 * @param protectionElementObjectId
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName)throws CSTransactionException;
+	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
 	 * @param protectionElementObjectName
@@ -116,10 +116,10 @@ public interface AuthorizationManager {
 
 	/**
 	 * @param protectionGroupName
-	 * @param protectionElementObjectNames
-	 * 
+	 * @param protectionElementObjectId
+	 * At run time only one protectionElement can be assigned to a protection group
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames)throws CSTransactionException;
+	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException;
 
 	/**
 	 * @param userName

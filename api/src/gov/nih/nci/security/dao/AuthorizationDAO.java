@@ -49,11 +49,11 @@ public interface AuthorizationDAO {
 
 	/**
 	 * @param protectionGroupName
-	 * @param protectionElementObjectName
+	 * @param protectionElementObjectId
 	 * @param protectionElementAttributeName
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectName, String[] protectionElementAttributeName)throws CSTransactionException;
+	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName
@@ -204,10 +204,10 @@ public interface AuthorizationDAO {
 	public ProtectionElement getProtectionElement(Long protectionElementId) throws CSObjectNotFoundException;
 	/**
 	 * @param protectionGroupName
-	 * @param protectionElementObjectNames
+	 * @param protectionElementObjectId
 	 * 
 	 */
-	public void assignProtectionElements(String protectionGroupName, String[] protectionElementObjectNames)throws CSTransactionException;
+	public void assignProtectionElements(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException;
 
 	/**
 	 * @param group

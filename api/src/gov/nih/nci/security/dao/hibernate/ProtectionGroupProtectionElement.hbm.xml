@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.authorization.domainobjects.ProtectionGroupProtectionElement" 
+    table="protection_group_protection_element"
+>
+    <meta attribute="class-description" inherit="false">
+       @hibernate.class
+        table="protection_group_protection_element"
+    </meta>
+
+    <id
+        name="protectionGroupProtectionElementId"
+        type="java.lang.Long"
+        column="PROTECTION_GROUP_PROTECTION_ELEMENT_ID"
+    >
+        <meta attribute="field-description">
+           @hibernate.id
+            generator-class="assigned"
+            type="java.lang.Long"
+            column="PROTECTION_GROUP_PROTECTION_ELEMENT_ID"
+
+        </meta>
+        <generator class="assigned" />
+    </id>
+
+    <property
+        name="updateDate"
+        type="java.sql.Date"
+        column="UPDATE_DATE"
+        not-null="true"
+        length="10"
+    >
+        <meta attribute="field-description">
+           @hibernate.property
+            column="UPDATE_DATE"
+            length="10"
+            not-null="true"
+        </meta>    
+    </property>
+
+    <!-- Associations -->
+  
+    <!-- bi-directional many-to-one association to ProtectionElement -->
+    <many-to-one
+        name="protectionElement"
+        class="gov.nih.nci.security.authorization.domainobjects.ProtectionElement"
+        not-null="true"
+    >
+        <meta attribute="field-description">
+           @hibernate.many-to-one
+            not-null="true"
+           @hibernate.column name="PROTECTION_ELEMENT_ID"         
+        </meta>
+        <column name="PROTECTION_ELEMENT_ID" />
+    </many-to-one>
+    <!-- bi-directional many-to-one association to ProtectionGroup -->
+    <many-to-one
+        name="protectionGroup"
+        class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
+        not-null="true"
+    >
+        <meta attribute="field-description">
+           @hibernate.many-to-one
+            not-null="true"
+           @hibernate.column name="PROTECTION_GROUP_ID"         
+        </meta>
+        <column name="PROTECTION_GROUP_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

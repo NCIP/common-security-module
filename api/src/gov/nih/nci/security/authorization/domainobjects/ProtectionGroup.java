@@ -214,5 +214,18 @@ public class ProtectionGroup {
 	public void addProtectionElements(ProtectionElement[] elements){
 
 	}
+	
+	/**
+	 * @param obj
+	 * 
+	 */
+	public boolean equals(Object obj){
+		ProtectionGroup other = (ProtectionGroup)obj;
+		if(this.protectionGroupId.toString().equals(other.getProtectionGroupId().toString())){
+			return true;
+		}else{
+		return false;
+		}
+	}
 
 }
