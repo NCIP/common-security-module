@@ -204,7 +204,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param serachCriteria
 	 * 
 	 */
-	public java.util.Set getObjects(SearchCriteria serachCriteria);
+	public java.util.Set getObjects(SearchCriteria searchCriteria);
 	
 	public void createUser(User user) throws  CSTransactionException;
 	
