@@ -32,8 +32,9 @@ import org.apache.struts.action.ActionMapping;
  */
 public class CreateEmployeeAction extends SecureAction {
 
-	static final Logger log = Logger.getLogger(CreateEmployeeAction.class.getName());
-	
+	static final Logger log = Logger.getLogger(CreateEmployeeAction.class
+			.getName());
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -47,10 +48,10 @@ public class CreateEmployeeAction extends SecureAction {
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		Employee employeeForm = (Employee) form;
-		
+
 		EmployeeDAO.saveEmployee(employeeForm);
-		
-		doAuthorization( employeeForm );
+
+		doAuthorization(request, employeeForm);
 
 		List l = new LinkedList();
 		l.add(employeeForm);
@@ -60,23 +61,37 @@ public class CreateEmployeeAction extends SecureAction {
 
 		return mapping.findForward(Constants.ACTION_SUCCESS);
 	}
-	
-	private void doAuthorization( Employee employeeForm ) throws CSException {
+
+	private void doAuthorization(HttpServletRequest request,
+			Employee employeeForm) throws CSException {
+
 		ProtectionElement pe = new ProtectionElement();
-		pe.setObjectId( SecurityUtils.getEmployeeObjectId( employeeForm ) );
-		pe.setProtectionElementName("EMPLOYEE_RECORD_"+employeeForm.getEmployeeId());
+		pe.setObjectId(SecurityUtils.getEmployeeObjectId(employeeForm));
+		pe.setProtectionElementName("EMPLOYEE_RECORD_"
+				+ employeeForm.getEmployeeId());
 		pe
 				.setProtectionElementDescription("The gov.nih.nci.security.ri.valueObject.Employee Object");
 
+		//create the employee protection element to protected the
+		//employee's data
 		getAuthorizationManager().createProtectionElement(pe);
-		
+
 		//need the ability to create user in CSM database!!!
 
+		//assign the employee as owner of record
 		getAuthorizationManager().setOwnerForProtectionElement(
 				employeeForm.getUserName(), pe.getObjectId(), null);
 
+		//assign the employee to his business unit
+		getAuthorizationManager().assignProtectionElement(
+				employeeForm.getBusinessUnit(), pe.getObjectId());
+		
+		//assign access to the employee for HR Division
+		getAuthorizationManager().assignProtectionElement(
+				HR_DIVISION, pe.getObjectId());
 		
 		
+
 	}
 
 }
