@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 2.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-2.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+        <!-- properties  -->
+        <property name="connection.username">root</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/csd_ri</property>
+        <property name="dialect">net.sf.hibernate.dialect.MySQLDialect.java</property>
+        <property name="connection.password"></property>
+        <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
+
+        <property name="dialect">net.sf.hibernate.dialect.MySQLDialect</property>	
+        <property name="hibernate.show_sql">true</property>
+
+        <mapping resource="gov/nih/nci/security/ri/valueObject/Employee.hbm.xml"/>
+        <mapping resource="gov/nih/nci/security/ri/valueObject/EmployeeProject.hbm.xml"/>
+        <mapping resource="gov/nih/nci/security/ri/valueObject/Project.hbm.xml"/>
+        
+            
+    </session-factory>
+
+</hibernate-configuration>

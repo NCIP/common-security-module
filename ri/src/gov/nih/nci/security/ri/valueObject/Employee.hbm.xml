@@ -21,7 +21,7 @@
         type="java.lang.Long"
         column="EMPLOYEE_ID"
     >
-        <generator class="assigned" />
+        <generator class="identity" />
     </id>
 
     <property

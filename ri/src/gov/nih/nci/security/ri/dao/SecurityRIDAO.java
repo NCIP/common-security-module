@@ -1,11 +1,12 @@
 package gov.nih.nci.security.ri.dao;
 
-import org.apache.log4j.Logger;
-
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
+import net.sf.hibernate.Transaction;
 import net.sf.hibernate.cfg.Configuration;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Brian Husted
@@ -26,18 +27,22 @@ public class SecurityRIDAO {
 		}
 	}
 	
-	public static void saveOrUpdateObject( Object o ) throws HibernateException {
+	protected static void saveOrUpdateObject( Object o ) throws HibernateException {
 		Session s = null;
-		try{			
-			s = getSessionFactory().openSession();			
-			s.saveOrUpdate( o );						
+		try{
+			s = getSessionFactory().openSession();
+			Transaction t = s.beginTransaction();
+					
+			s.save( o );
+			t.commit();
+			
 			
 		} finally {
 			try{ s.close(); }catch( Exception ex ){}
 		}
 	}
 	
-	public static void deleteObject( Object o ) throws HibernateException {
+	protected static void deleteObject( Object o ) throws HibernateException {
 		Session s = null;
 		try{			
 			s = getSessionFactory().openSession();			
@@ -51,7 +56,7 @@ public class SecurityRIDAO {
 	/**
 	 * @return Returns the sessionFactory.
 	 */
-	public static SessionFactory getSessionFactory() {
+	protected static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 

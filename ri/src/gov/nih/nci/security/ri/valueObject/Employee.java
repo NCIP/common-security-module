@@ -3,10 +3,11 @@ package gov.nih.nci.security.ri.valueObject;
 import java.io.Serializable;
 import java.util.Set;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.struts.validator.ValidatorForm;
 
 
 /** @author Hibernate CodeGenerator */
-public class Employee implements Serializable {
+public class Employee extends ValidatorForm implements Serializable {
 
     /** identifier field */
     private Long employeeId;
