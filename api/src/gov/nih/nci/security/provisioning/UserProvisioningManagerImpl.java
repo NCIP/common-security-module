@@ -602,4 +602,8 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		authorizationDAO.assignToProtectionGroups(protectionElementId,protectionGroupIds);
 	}
 	
+	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException{
+		authorizationDAO.assignParentProtectionGroup(parentProtectionGroupId,childProtectionGroupId);
+	}
+	
 }
