@@ -37,7 +37,7 @@ import junit.framework.TestSuite;
  * 
  * @author Brian Husted
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  * 
  * @see gov.nih.nci.security.dao.AuthorizationDAOImpl
  * 
@@ -45,9 +45,12 @@ import junit.framework.TestSuite;
 
 public class AuthorizationDAOImplTest extends TestCase {
 
+	
+	
 	private static UserProvisioningManager upm;
 
 	static {
+		System.setProperty( "gov.nih.nci.security.configFile", "c:/temp/ApplicationSecurityConfig.xml" );
 		try{
 		upm = (UserProvisioningManager) SecurityServiceProvider
 				.getUserProvisioningManager("Security");
@@ -253,6 +256,14 @@ public class AuthorizationDAOImplTest extends TestCase {
 		System.out.println("Created PE with ID: " + pe.getProtectionElementId() );
 		return pe;
 
+	}
+	
+	public void testAssignUserToGroup() throws CSTransactionException {
+		User user = createUser();
+		Group group = createGroup();
+		System.out.println( "The Group name: " + group.getGroupName() );
+		
+		upm.assignUserToGroup( user.getLoginName(), group.getGroupName() );
 	}
 
 	private void removeProtectionElement(ProtectionElement pe) throws CSTransactionException {
