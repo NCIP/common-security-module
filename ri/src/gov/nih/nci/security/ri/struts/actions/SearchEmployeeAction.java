@@ -53,8 +53,8 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 
 		List searchResult = EmployeeDAO.searchEmployee((Employee) form);
 		//check permission for viewing from the search result
-		doAuthorization( request, searchResult );
-		request.getSession().setAttribute(EMPLOYEE_LIST, searchResult);
+		List secureResult = doAuthorization( request, searchResult );
+		request.getSession().setAttribute(EMPLOYEE_LIST, secureResult);
 
 		return mapping.findForward(ACTION_SUCCESS);
 
@@ -68,10 +68,10 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 	 * @param employees
 	 * @throws CSException
 	 */
-	private void doAuthorization(HttpServletRequest request, List employees) throws CSException {
+	private List doAuthorization(HttpServletRequest request, List employees) throws CSException {
 		Iterator i = employees.iterator();
 		String user = getUser(request).getUserName();
-		List employeeList = new LinkedList(); 
+		List filterList = new LinkedList(); 
 
 		while (i.hasNext()) {
 			Employee empl = (Employee) i.next();
@@ -80,20 +80,18 @@ public class SearchEmployeeAction extends BaseAction implements Permissions {
 				//add only employees from the list where 
 				//access is granted for READ permission
 				//or they must be the owner
-				employeeList.add( empl );
+				//Peformance will also be better 
+				//since creating a new list is faster
+				//than deleteing from an existing list.
+				filterList.add( empl );
 			}
 
 		}
 		
-		////////////////////////////////
-		//DO NOT REMOVE////////////////
-		//modify the reference to point 
-		//to the filtered employee list
-		//Peformance will also be better 
-		//since creating a new list is faster
-		//than deleteing from an existing list.
-		employees = employeeList;
-		//////////////////////////////////////
+		
+		
+		return filterList;
+		
 
 	}
 }
