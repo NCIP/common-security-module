@@ -65,15 +65,17 @@
 		
 		<action input="login" name="employeeForm" path="/searchEmployee" type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction" scope="session" >
 			<forward name="success" path="show.employee.search.results"/>
+			<forward name="access_denied" path="/viewSearchEmployee.do" />
 		</action>
 		
 		<action input="searchEmployee" name="employeeForm" path="/viewEmployee" type="gov.nih.nci.security.ri.struts.actions.ViewEmployeeAction" scope="session" >
 			<forward name="success" path="show.employee"/>
+			<forward name="access_denied" path="/viewSearchEmployee.do" />
 		</action>
 		
 			
 		<action input="viewEmployee" name="employeeForm" path="/updateEmployee" type="gov.nih.nci.security.ri.struts.actions.UpdateEmployeeAction" scope="session" >
-			<forward name="success" path="/viewEmployee.do"/>
+			<forward name="success" path="/viewEmployee.do"/>			
 		</action>
 		
 		
