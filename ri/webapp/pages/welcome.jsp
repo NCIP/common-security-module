@@ -56,5 +56,5 @@ Welcome to the NCICB Common Security Module
 </td>
 </tr>
 <tr>
-<td align="right" height="100%">&nbsp;<td>
+<td align="right" height="300">&nbsp;<td>
 </tr>
