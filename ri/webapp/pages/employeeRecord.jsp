@@ -32,7 +32,7 @@ Information</td>
 <td class="formRequiredNotice" width="5">*</td>
 <td class="formRequiredLabel">User Name:</td>
 <td class="dataCellText"><html:text property="userName" size="20"
-maxlength="100" tabindex="12" disable="true"/></td>
+maxlength="100" tabindex="12" disabled="true"/></td>
 </tr>
 <tr>
 <td class="formRequiredNotice" width="5">*</td>
