@@ -36,18 +36,21 @@
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
 									<td><html:submit/></td>
-									<td><input class="actionButton" type="reset" value="Reset" /></td>
+									<td><html:reset/></td>
 								</tr>
 							</table>
 							<!-- action buttons end -->
 						</td>
-					</tr>
-				</table>
+					</tr>					
+				</table>				
 			</td>
 		</tr>
 	</table>
+	
 </td>
 </tr>
+<tr> <td align="top" width="75%"><table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%" align="top"> <tr> <td valign="top"> <table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%"> <tr> <td valign="top">&nbsp;</td> </tr> </table> </td> </tr> </table> </td> </tr>
 </table>
-<table width="1" height="380"><tr><td></td></tr></table>
+
+
 </html:form>

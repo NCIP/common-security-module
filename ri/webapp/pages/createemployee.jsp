@@ -184,7 +184,7 @@
 			<table cellpadding="4" cellspacing="0" border="0">
 				<tr>
 					<td><html:submit /></td>
-					<td><input class="actionButton" type="reset" value="Reset" /></td>
+					<td><html:reset/></td>
 				</tr>
 			</table>
 			<!-- action buttons end --></td>
