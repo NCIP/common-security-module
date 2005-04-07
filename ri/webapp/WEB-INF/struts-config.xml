@@ -1,152 +1,133 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
           "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
-<!--
-
-     This is a blank Struts configuration file with an example
-
-     welcome action/page and other commented sample elements.
-
-
-
-     Tiles and the Struts Validator are configured using the factory defaults
-
-     and are ready-to-use.
-
-
-
-     NOTE: If you have a generator tool to create the corresponding Java classes
-
-     for you, you could include the details in the "form-bean" declarations.
-
-     Otherwise, you would only define the "form-bean" element itself, with the
-
-     corresponding "name" and "type" attributes, as shown here.
-
--->
 <struts-config>
-	<!-- ======================================== Form Bean Definitions -->
+	<!-- Form Bean Definitions -->
 	<form-beans>
-		<form-bean name="loginForm" type="gov.nih.nci.security.ri.struts.forms.LoginForm"/>
-		<form-bean name="employeeForm" type="gov.nih.nci.security.ri.valueObject.Employee"/>
-		<form-bean name="projectForm" type="gov.nih.nci.security.ri.valueObject.Project"/>
-		
+		<form-bean name="loginForm"
+			type="gov.nih.nci.security.ri.struts.forms.LoginForm" />
+		<form-bean name="employeeForm"
+			type="gov.nih.nci.security.ri.valueObject.Employee" />
+		<form-bean name="projectForm"
+			type="gov.nih.nci.security.ri.valueObject.Project" />
+
 	</form-beans>
-	<!-- ================================= Global Exception Definitions -->
+	<!-- Global Exception Definitions -->
 	<global-exceptions>
-		<exception key="" scope="request" type="gov.nih.nci.security.ri.exception.UserNotAuthenticatedException" path="show.login" />
-		<exception key="" scope="request" type="java.lang.Exception" path="show.error.page" handler="gov.nih.nci.security.ri.struts.DefaultExceptionHandler"/>
+		<exception
+			type="gov.nih.nci.security.ri.exception.UserNotAuthenticatedException"
+			key="" scope="request" path="show.login" />
+		<exception
+			handler="gov.nih.nci.security.ri.struts.DefaultExceptionHandler"
+			key="" scope="request" type="java.lang.Exception"
+			path="show.error.page" />
 	</global-exceptions>
-	<!-- =================================== Global Forward Definitions -->
+	<!-- Global Forward Definitions -->
 	<global-forwards>
 		<!-- Default forward to "Welcome" action -->
 	</global-forwards>
-	<!-- =================================== Action Mapping Definitions -->
+	<!-- Action Mapping Definitions -->
 	<action-mappings>
-		<!-- Default "Welcome" action -->
 		<!-- Forwards -->
-		<action path="/Welcome"  forward="show.login"  validate="false"/>
-		<action path="/viewHome" forward="main.layout"  validate="false"/>
-		<action path="/viewErrorDetails" forward="show.error.details" validate="false"/>
-		
-		<action input="main.layout" path="/viewCreateEmployee" name="employeeForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateEmployeeAction" validate="false" scope="session">
-		    <forward name="success" path="show.create.employee"/>
+		<action path="/Welcome" forward="show.login" validate="false" />
+		<action path="/viewHome" forward="main.layout" validate="false" />
+		<action path="/viewErrorDetails" forward="show.error.details"
+			validate="false" />
+
+		<action path="/viewCreateEmployee"
+			type="gov.nih.nci.security.ri.struts.actions.ViewCreateEmployeeAction"
+			name="employeeForm" input="main.layout" validate="false"
+			scope="session">
+			<forward name="success" path="show.create.employee" />
 			<forward name="access_denied" path="/viewHome.do" />
 		</action>
-		
-		
-		<action input="main.layout" path="/viewCreateProject" name="projectForm" type="gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction" validate="false" scope="session">
-		       <forward name="success" path="show.create.project"/>
-			   <forward name="access_denied" path="/viewHome.do" />
-		
-		</action>
-		
-		<action path="/viewSearchEmployee" name="employeeForm" forward="show.search.employee"  validate="false"/>
 
-		<!-- actions -->
-		
-		<action input="main.layout" name="loginForm" path="/login" type="gov.nih.nci.security.ri.struts.actions.LoginAction" scope="session" >
-			<forward name="success" path="main.layout"/>
+
+		<action path="/viewCreateProject"
+			type="gov.nih.nci.security.ri.struts.actions.ViewCreateProjectAction"
+			name="projectForm" input="main.layout" validate="false"
+			scope="session">
+			<forward name="success" path="show.create.project" />
+			<forward name="access_denied" path="/viewHome.do" />
+		</action>
+
+		<action path="/viewSearchEmployee" name="employeeForm"
+			forward="show.search.employee" validate="false" />
+
+		<action path="/login"
+			type="gov.nih.nci.security.ri.struts.actions.LoginAction"
+			name="loginForm" input="main.layout" scope="session">
+			<forward name="success" path="main.layout" />
 			<forward name="access_denied" path="/Welcome.do" />
-		</action>	
-		
-		
-		<action input="show.create.employee" name="employeeForm" path="/createEmployee" type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction" validate="true" scope="session" >
+		</action>
+
+
+		<action path="/createEmployee"
+			type="gov.nih.nci.security.ri.struts.actions.CreateEmployeeAction"
+			name="employeeForm" input="show.create.employee" validate="true"
+			scope="session">
 			<forward name="success" path="/viewEmployee.do" />
-			
-
 		</action>
-		
-		<action input="show.search.employee" name="employeeForm" path="/searchEmployee" type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction"  validate="false" scope="session" >
-			<forward name="success" path="show.employee.search.results"/>
+
+		<action path="/searchEmployee"
+			type="gov.nih.nci.security.ri.struts.actions.SearchEmployeeAction"
+			name="employeeForm" input="show.search.employee" validate="false"
+			scope="session">
+			<forward name="success" path="show.employee.search.results" />
 			<forward name="access_denied" path="/viewSearchEmployee.do" />
 		</action>
-		
-		<action input="show.employee" name="employeeForm" path="/viewEmployee" type="gov.nih.nci.security.ri.struts.actions.ViewEmployeeAction"  validate="false" scope="session" >
-			<forward name="success" path="show.employee"/>
+
+		<action path="/viewEmployee"
+			type="gov.nih.nci.security.ri.struts.actions.ViewEmployeeAction"
+			name="employeeForm" input="show.employee" validate="false"
+			scope="session">
+			<forward name="success" path="show.employee" />
 			<forward name="access_denied" path="/viewSearchEmployee.do" />
 		</action>
-		
-			
-		<action input="show.employee" name="employeeForm" path="/updateEmployee" type="gov.nih.nci.security.ri.struts.actions.UpdateEmployeeAction" validate="false" scope="session" >
-			<forward name="success" path="/viewEmployee.do"/>			
-		</action>
-		
 
-		
-		<action input="show.create.project" name="projectForm" path="/createProject" type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction" validate="true" scope="session" >
-			<forward name="success" path="show.create.project"/>
+
+		<action path="/updateEmployee"
+			type="gov.nih.nci.security.ri.struts.actions.UpdateEmployeeAction"
+			name="employeeForm" input="show.employee" validate="false"
+			scope="session">
+			<forward name="success" path="/viewEmployee.do" />
+		</action>
+
+
+
+		<action path="/createProject"
+			type="gov.nih.nci.security.ri.struts.actions.CreateProjectAction"
+			name="projectForm" input="show.create.project" validate="true"
+			scope="session">
+			<forward name="success" path="show.create.project" />
 			<forward name="access_denied" path="/viewHome.do" />
 		</action>
 
-		<action path="/Logout" type="gov.nih.nci.security.ri.struts.actions.LogoutAction">
+		<action path="/Logout"
+			type="gov.nih.nci.security.ri.struts.actions.LogoutAction">
 			<forward name="success" path="/Welcome.do" />
 		</action>
-		
-      <action path="/base" type="gov.nih.nci.security.ri.action.BaseAction" />
-		
-		
-		
-	</action-mappings>
-	<!-- ===================================== Controller Configuration -->
-	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
-	<!-- ================================ Message Resources Definitions -->
-	<message-resources parameter="resources.application"/>
-	<!-- ======================================= Plug Ins Configuration -->
-	<!-- ========== Tiles plugin ===================  -->
-	<!--												-->
-	<!--
-     This plugin initialize Tiles definition factory. This later can takes some
-	 parameters explained here after. The plugin first read parameters from web.xml, then
-	 overload them with parameters defined here. All parameters are optional.
-	 The plugin should be declared in each struts-config file.
-       - definitions-config: (optional)
-            Specify configuration file names. There can be several comma
-		    separated file names (default: ?? )
-       - moduleAware: (optional - struts1.1)
-            Specify if the Tiles definition factory is module aware. If true (default),
-			there will be one factory for each Struts module.
-			If false, there will be one common factory for all module. In this later case,
-			it is still needed to declare one plugin per module. The factory will be
-			initialized with parameters found in the first initialized plugin (generally the
-			one associated with the default module).
-			  true : One factory per module. (default)
-			  false : one single shared factory for all modules
-	   - definitions-parser-validate: (optional)
-	        Specify if xml parser should validate the Tiles configuration file.
-			  true : validate. DTD should be specified in file header. (default)
-			  false : no validation
 
-	  Paths found in Tiles definitions are relative to the main context.
-  -->
-	<!-- comment following if struts1.0.x -->
+		<action path="/base"
+			type="gov.nih.nci.security.ri.action.BaseAction" />
+
+	</action-mappings>
+	<!-- Controller Configuration -->
+	<controller
+		processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+	<!-- Message Resources Definitions -->
+	<message-resources parameter="resources.application" />
+	<!-- Plug Ins Configuration -->
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">
-		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
-		<set-property property="moduleAware" value="true"/>
-		<set-property property="definitions-parser-validate" value="true"/>
+		<set-property property="definitions-config"
+			value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+		<set-property property="definitions-parser-validate"
+			value="true" />
 	</plug-in>
 	<!-- end comment if struts1.0.x -->
 	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
-		<set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
 	</plug-in>
 </struts-config>
