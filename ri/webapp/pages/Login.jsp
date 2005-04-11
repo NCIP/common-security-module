@@ -40,16 +40,15 @@
 														height="100%">
 														<tr>
 															<td class="welcomeTitle" colspan="3" height="20">WELCOME TO THE
-															EMPLOYEE RECORDS MANAGEMENT SYSTEM</td>
+															EMPLOYEE RECORDS SYSTEM</td>
 														</tr>
 														<tr>
 															<td colspan="3" class="welcomeContent" valign="top"
-																height="100%">Welcome to the Employee Records Management System
-															(ERMS) for ABC Company - your ONE STOP solution for all your
+																height="100%">Welcome to the ABC Toys Employee Records System - your ONE STOP solution for all your
 															employee record needs. Employee records hold all the vital
 															information a company needs to manage each employee. It's
 															important that this information is up to date and complete.
-															ERMS provides personalized access to records so that you get
+															This system provides personalized access to records so that you get
 															the right amount of access based on your needs. The system is
 															designed for <b>Human Resources, Management, and Employees: 
 														</tr>
@@ -122,7 +121,7 @@
 						
 																<tr>
 																	<td class="sidebarContent" valign="top">Manage all employee
-																	records from ERMS. Modify salaries at will. Remove the
+																	records. Modify salaries at will. Remove the
 																	obsolete records of terminated employees and create new
 																	profiles for their cheaper replacements.</td>
 																</tr>
