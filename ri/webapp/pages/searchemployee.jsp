@@ -25,7 +25,7 @@
 					<tr>
 						<td class="formRequiredNotice" width="5">&nbsp;</td>
 
-						<td class="formRequiredLabel"><label for="field1">Search Records (enter last name) : <BR> (append a '*' for wildcard search) &nbsp;&nbsp;&nbsp;  </label></td>
+						<td class="formRequiredLabel"><label for="field1">Search Records (enter last name) : <BR> (use '*' for wildcard search) &nbsp;&nbsp;&nbsp;  </label></td>
 
 						<td class="formField"><html:text property="lastName"/></td>		
 					</tr>

@@ -3,6 +3,7 @@ package gov.nih.nci.security.ri.dao;
 import gov.nih.nci.security.ri.valueObject.Employee;
 import gov.nih.nci.security.ri.valueObject.EmployeeProject;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -141,27 +142,16 @@ public class EmployeeDAO extends SecurityRIDAO {
 			Query q = null;
 			if (null != empl.getLastName()
 					&& empl.getLastName().trim().length() > 0) {
-				boolean useLikeCondition = empl.getLastName().endsWith("*");
-				if (useLikeCondition) {
-					empl.setLastName(empl.getLastName().substring(0,
-							empl.getLastName().length() - 1));
-					q = s.createQuery("from Employee e where e.lastName like '"
-							+ empl.getLastName() + "%'");
-					log.debug("The last name is: " + empl.getLastName());
-				} else {
-					q = s
-							.createQuery("from Employee e where e.lastName = :lname");
-					q.setString("lname", empl.getLastName());
-				}
 
-			} else {
-				q = s.createQuery("from Employee");
-			}
-			List l = q.list();
-			log.debug("The Employee search returned " + l.size()
-					+ " employees.");
-			return l;
-
+				empl.setLastName(empl.getLastName().replace('*','%'));  
+                q = s.createQuery("from Employee e where e.lastName like :lname");
+                q.setString("lname", empl.getLastName());
+                List l = q.list();
+                log.debug("The Employee search returned " + l.size() + " employees.");
+                return l; 
+		    } else {
+                return new ArrayList();
+		    }
 		} finally {
 			try {
 				s.close();
