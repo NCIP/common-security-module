@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup" 
+    table="protection_group"
+>
+    
+
+    <id
+        name="protectionGroupId"
+        type="java.lang.Long"
+        column="PROTECTION_GROUP_ID"
+        unsaved-value="null"
+        >
+     <generator class="identity"/>
+    </id>
+
+    <property
+        name="protectionGroupName"
+        type="java.lang.String"
+        column="PROTECTION_GROUP_NAME"
+        not-null="true"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="protectionGroupDescription"
+        type="java.lang.String"
+        column="PROTECTION_GROUP_DESCRIPTION"
+        length="200"
+    >
+        
+    </property>
+    <property
+        name="largeElementCountFlag"
+        type="byte"
+        column="LARGE_ELEMENT_COUNT_FLAG"
+        not-null="true"
+        length="1"
+    >
+        
+    </property>
+    <property
+        name="updateDate"
+        type="java.sql.Date"
+        column="UPDATE_DATE"
+        not-null="true"
+        length="10"
+    >
+        
+    </property>
+
+    <!-- Associations -->
+  
+    <!-- bi-directional one-to-many association to ProtectionGroup -->
+    
+    <!-- bi-directional many-to-one association to ProtectionGroup -->
+    <set name="protectionElements" lazy="true" table="protection_group_protection_element">
+       <key column="protection_group_id"/>
+       <many-to-many 
+           column="protection_element_id" 
+           class="gov.nih.nci.security.authorization.domainobjects.ProtectionElement"
+           
+        />
+     </set>
+     
+    <many-to-one
+        name="parentProtectionGroup"
+        class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
+        not-null="true"
+    >
+        
+        <column name="PARENT_PROTECTION_GROUP_ID" />
+    </many-to-one>
+    
+    
+    <!-- bi-directional many-to-one association to Application -->
+    <many-to-one
+        name="application"
+        class="gov.nih.nci.security.authorization.domainobjects.Application"
+        not-null="true"
+    >
+       
+        <column name="APPLICATION_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>
