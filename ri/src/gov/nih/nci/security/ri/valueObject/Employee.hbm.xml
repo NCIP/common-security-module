@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.ri.valueObject.Employee" 
+    table="employee"
+>
+
+    <id
+        name="employeeId"
+        type="java.lang.Long"
+        column="EMPLOYEE_ID"
+    >
+        <generator class="identity" />
+    </id>
+
+    <property
+        name="firstName"
+        type="java.lang.String"
+        column="FIRST_NAME"
+        not-null="true"
+        length="50"
+    />
+    <property
+        name="middleName"
+        type="java.lang.String"
+        column="MIDDLE_NAME"
+        length="50"
+    />
+    <property
+        name="lastName"
+        type="java.lang.String"
+        column="LAST_NAME"
+        not-null="true"
+        length="50"
+    />
+    <property
+        name="phoneNumber"
+        type="java.lang.String"
+        column="PHONE_NUMBER"
+        length="20"
+    />
+    <property
+        name="emailAddr"
+        type="java.lang.String"
+        column="EMAIL_ADDR"
+        length="50"
+    />
+    <property
+        name="streetAddr"
+        type="java.lang.String"
+        column="STREET_ADDR"
+        length="50"
+    />
+    <property
+        name="city"
+        type="java.lang.String"
+        column="CITY"
+        length="50"
+    />
+    <property
+        name="state"
+        type="java.lang.String"
+        column="STATE"
+        length="3"
+    />
+    <property
+        name="zip"
+        type="java.lang.String"
+        column="ZIP"
+        length="10"
+    />
+    <property
+        name="salary"
+        type="java.lang.String"
+        column="SALARY"
+        length="50"
+    />
+    <property
+        name="ssn"
+        type="java.lang.String"
+        column="SSN"
+        length="9"
+    />
+    
+      <property
+        name="userName"
+        type="java.lang.String"
+        column="LOGIN_NAME"
+        length="50"
+    />
+    
+      <property
+        name="password"
+        type="java.lang.String"
+        column="PASSWORD"
+        length="50"
+    />
+
+    <!-- Associations -->
+  
+    <!-- bi-directional one-to-many association to EmployeeProject -->
+    <set
+        name="employeeProjects"
+        lazy="false"
+        inverse="true"
+		cascade="none"
+    >
+        <key>
+            <column name="EMPLOYEE_ID" />
+        </key>
+        <one-to-many 
+            class="gov.nih.nci.security.ri.valueObject.EmployeeProject"
+        />
+    </set>
+    <!-- bi-directional one-to-many association to Employee -->
+    <set
+        name="employees"
+        lazy="true"
+        inverse="true"
+		cascade="none"
+    >
+        <key>
+            <column name="EMPLOYEE_MGR_ID" />
+        </key>
+        <one-to-many 
+            class="gov.nih.nci.security.ri.valueObject.Employee"
+        />
+    </set>
+    <!-- bi-directional many-to-one association to Employee -->
+    <many-to-one
+        name="employee"
+        class="gov.nih.nci.security.ri.valueObject.Employee"
+        not-null="true"
+    >
+        <column name="EMPLOYEE_MGR_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

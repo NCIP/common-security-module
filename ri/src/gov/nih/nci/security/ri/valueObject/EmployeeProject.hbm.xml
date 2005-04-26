@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.ri.valueObject.EmployeeProject" 
+    table="employee_project"
+>
+
+    <id
+        name="employeeProjectId"
+        type="java.lang.Long"
+        column="EMPLOYEE_PROJECT_ID"
+    >
+        <generator class="identity" />
+    </id>
+
+
+    <!-- Associations -->
+  
+    <!-- bi-directional many-to-one association to Employee -->
+    <many-to-one
+        name="employee"
+        class="gov.nih.nci.security.ri.valueObject.Employee"
+        not-null="true"
+    >
+        <column name="EMPLOYEE_ID" />
+    </many-to-one>
+    <!-- bi-directional many-to-one association to Project -->
+    <many-to-one
+        name="project"
+        class="gov.nih.nci.security.ri.valueObject.Project"
+        not-null="true"
+    >
+        <column name="PROJECT_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

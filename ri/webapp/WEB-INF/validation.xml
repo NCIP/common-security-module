@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+    <global>
+      <constant>
+        <constant-name>phone</constant-name>
+        <constant-value>^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$</constant-value>
+      </constant>
+      <constant>
+        <constant-name>email</constant-name>
+        <constant-value>\w@\w.$\w</constant-value>
+      </constant>
+     <constant>
+        <constant-name>zip</constant-name>
+        <constant-value>^\d{5}(-\d{4})?$</constant-value>
+      </constant>
+     <constant>
+        <constant-name>customDate</constant-name>
+        <constant-value>(((0?[1-9])|(1[012]))[- /.]((0?[1-9])|([12][0-9])|(3[01]))[- /.]((19|20)[0-9][0-9]))|(((0?[1-9])|(1[012]))[- /.]((19|20)[0-9][0-9]))</constant-value>
+     </constant>
+     <constant>
+        <constant-name>customDate2</constant-name>
+        <constant-value>(((0?[1-9])|(1[012]))[- /.]((0?[1-9])|([12][0-9])|(3[01]))[- /.]((19|20)[0-9][0-9]))</constant-value>
+     </constant>
+    </global>
+   <formset>
+    <form name="employeeForm">
+		<field property="userName" depends="required,maxlength">
+  			<arg0 key="employeeForm.userName.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  		</field>
+		<field property="firstName" depends="required,maxlength">
+  			<arg0 key="employeeForm.firstName.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  		</field>
+		<field property="lastName" depends="required,maxlength">
+  			<arg0 key="employeeForm.lastName.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  		</field>
+		<field property="streetAddr" depends="required,maxlength">
+  			<arg0 key="employeeForm.streetAddr.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  		</field>
+		<field property="city" depends="required,maxlength">
+  			<arg0 key="employeeForm.city.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  		</field> 
+		<field property="state" depends="required,maxlength">
+  			<arg0 key="employeeForm.state.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>3</var-value>
+  			</var>
+  		</field>
+		<field property="zip" depends="required,maxlength">
+  			<arg0 key="employeeForm.zip.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>10</var-value>
+  			</var>
+  		
+  		</field>  		 		
+		<field property="phoneNumber" depends="required,maxlength,mask">
+  			<arg0 key="employeeForm.phoneNumber.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>20</var-value>
+  			</var>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>${phone}</var-value>
+  			</var>
+  		</field>  
+  		<field property="emailAddr" depends="maxlength">
+  			<arg0 key="employeeForm.emailAddr.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  			
+  		</field>  		 		 		
+		<field property="salary" depends="required,maxlength">
+  			<arg0 key="employeeForm.salary.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  		</field>
+		<field property="businessUnit" depends="required">
+  			<arg0 key="employeeForm.employeeProjects.displayLabel"/>
+  		</field>  				 		
+		<field property="managerStatus" depends="required">
+  			<arg0 key="employeeForm.managerStatus.displayLabel"/>
+  		</field>  				 		
+	</form>
+    <form name="projectForm">
+		<field property="name" depends="required,maxlength">
+  			<arg0 key="projectForm.name.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>50</var-value>
+  			</var>
+  		</field>
+		<field property="description" depends="required,maxlength">
+  			<arg0 key="projectForm.description.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>200</var-value>
+  			</var>
+  		</field>
+	</form>	
+   </formset>
+</form-validation>
