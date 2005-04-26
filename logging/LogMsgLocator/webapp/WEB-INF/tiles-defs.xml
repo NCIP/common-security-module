@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+
+
+<tiles-definitions>
+
+
+    <definition name=".mainLayout" path="/layout.jsp">
+        <put name="title"  value="Log Message Locator" />
+        <put name="header" value="header.htm" />
+        <put name="menu"   value="queryMenu.jsp" />
+        <put name="footer" value="footer.htm" />
+        <put name="body"   value="welcomeBody.htm" />
+    </definition>
+    <!-- <<<<<<<<<< login page >>>>>>>>>>>>>>> -->
+    <definition name=".signOn" path="/sign-on.jsp">
+   	<put name="title" value="Log Message Locator SignOn"/>
+    </definition>
+    <!-- <<<<<<<<<< results page >>>>>>>>>>>> -->
+    <definition name=".summaryResults" extends=".mainLayout" >
+        <put name="body" value="summaryResults.jsp" />
+    </definition>
+
+    <definition name=".detailResults" extends=".mainLayout" >
+        <put name="body" value="detailResults.jsp" />
+    </definition>
+
+
+
+
+
+</tiles-definitions>

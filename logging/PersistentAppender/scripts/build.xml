@@ -1,0 +1,109 @@
+<project name="PersistenAppender" default="jar" basedir=".." >
+  
+	<!-- Load variable definitions from local.properties -->
+	<property name="localProperties" value="./local.properties"/>	
+  	<property file="${basedir}/script/local.properties" />
+  	
+  	<!-- Set up the classpath required to compile -->
+  	<path id="classpath">
+		<fileset dir="lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+  	
+  	<!-- Initialize local.properties -->
+	<target name="init">
+		
+		<!-- Has the file been created before -->
+		<available file="${localProperties}" property="haveLocalProperties"/>
+		<antcall target="local.properties"/>
+		
+		<property file="${localProperties}"/>
+	</target>
+	
+	<!-- Generate local.properties if needed -->
+	<target name="local.properties" unless="haveLocalProperties">
+		<echo>Generating new local.properties...</echo>
+		<echo file="${localProperties}">
+# NOTE: Be sure to change all '\' to '/'
+
+##########################
+#Per computer settings
+
+PROPERTY_FILE=${localProperties}
+
+#WebLogic specific options
+SRC=src
+JAVA=${SRC}
+BUILD_DIR=build
+CLASSES_DIR=${BUILD_DIR}/classes
+LIB=lib
+LIB_PATH=C:/workspace/GelProjects/PersistentAppender/lib
+JAR_DIR=${BUILD_DIR}/jar
+JAR_FILE=jdbcAppender.jar
+
+
+
+# End of per computer settings
+##########################
+     	</echo>
+	</target>
+  	
+  	<!-- Create directories -->
+	<target name="make_dirs" depends="init">
+   		
+   		<!-- Staging for creating the build -->
+   		<mkdir dir="${BUILD_DIR}"/>
+   		
+   		<!-- Staging for creating the classes -->
+   		<mkdir dir="${CLASSES_DIR}"/>
+   		
+   		<!-- Staging for creating the jar -->
+   		<mkdir dir="${JAR_DIR}"/>		
+	</target>
+	
+	<!-- Compile the source code -->
+	<target name="compile" depends="make_dirs">
+		<echo>Compiling...</echo>
+		
+   		<javac
+     		srcdir="${JAVA}"
+     		destdir="${CLASSES_DIR}"
+     		classpath="${J2EE_JAR}"
+     		classpathref="classpath"
+     		debug="on"/>
+     		
+     	<!-- Copy config files -->
+    	<copy todir="${CLASSES_DIR}">
+       		<fileset dir="${JAVA}" includes="**/*"/>
+       		
+     	</copy>    
+	</target>
+	
+	
+	<!-- Copy source -->
+	<target name="copysource" depends="compile">
+		<echo>Copying source files...</echo>
+    	<copy todir="${CLASSES_DIR}">
+       		<fileset dir="${JAVA}" includes="**/*"/>
+     	</copy>
+ 	</target>	
+ 	
+	
+	<!-- Package compiled classes into a jar -->
+	<target name="jar" depends="copysource" >
+    	<echo>Packaging classes...</echo>
+    	<jar jarfile="${JAR_DIR}/${JAR_FILE}" basedir="${CLASSES_DIR}">
+    	</jar>
+  	</target>	
+  	
+  	 	
+	
+	<!-- Remove everything created by the previous build -->
+	<target name="clean" depends="init">
+		<echo>Cleaning the build Directory...</echo>
+   		<delete dir="${BUILD_DIR}"/>
+ 	</target>
+	
+
+</project>
