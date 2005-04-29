@@ -36,6 +36,7 @@
 	}
 	%>
 	<html:hidden property="tableId" value="error" />
+	<td class="mainMenu" height="20">
 	<table summary="" cellpadding="0" cellspacing="0" border="0" height="20">
 		<logic:present name="<%=DisplayConstants.LOGIN_OBJECT%>">
 			<tr>
@@ -70,4 +71,5 @@
 			</tr>
 		</logic:present>
 	</table>
+	</td>
 </html:form>

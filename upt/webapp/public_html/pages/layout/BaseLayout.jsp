@@ -38,20 +38,21 @@
 				</tr>
 				<!-- application hdr ends -->
         <tr>
-          <td valign="top">
-            <table summary="" cellpadding="0" cellspacing="0" border="0" height="100%" width="100%">
-              <tr>
-                <td height="20" class="mainMenu">
-	    	        <!-- main menu begins -->
-	                <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+          
+              <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+                	    	                     
 		                <tiles:get name="AppAdminMenu"/>
+		               
 		            </logic:present>
-	                <logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
+		            
+	           <logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
 		                <tiles:get name="AppMenu"/>
-		            </logic:notPresent>           
-    	            <!-- main menu ends -->
-                </td>
+		            </logic:notPresent>     
+    	            
+                
               </tr>
+	                      
+    	            
 			  <!-- main content begins -->
               <tr>
                 <td valign="top">
