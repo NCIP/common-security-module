@@ -10,9 +10,23 @@
 							<tr>
 							
 							
-								<td height="50" width="400" align="left"><html:link forward="Home"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
+								
 								<logic:present name="<%=DisplayConstants.LOGIN_OBJECT%>">
 								<bean:define name="<%=DisplayConstants.LOGIN_OBJECT%>" id="loginObject" type="LoginForm" />
+								
+								<!-- new separate links depending on admin or super admin -->
+							
+							 <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+							 <td height="50" width="400" align="left"><html:link forward="Admin"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
+							 </logic:present>
+								
+							<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
+							<td height="50" width="400" align="left"><html:link forward="Home"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
+							</logic:notPresent>		
+								
+							<!-- end home links -->	
+								
+								
 								<td width="200" align="right">
 									<table>
 									<!--
