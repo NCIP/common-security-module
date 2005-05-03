@@ -49,7 +49,7 @@
 			<forward name="LoginPage" path="Tiles.Login.Page" />
 			<forward name="HomePage" path="Tiles.Home.Page" />
 		</action>
-		<action path="/Admin"
+		<action path="/AdminHome"
 			type="gov.nih.nci.security.upt.actions.HomeAction"
 			input="Tiles.Login.Page">
 			<forward name="LoginPage" path="Tiles.Login.Page" />

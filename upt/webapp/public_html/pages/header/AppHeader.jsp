@@ -12,7 +12,7 @@
 							<!-- new separate links depending on admin or super admin -->
 							
 							 <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-							 <td height="50" width="400" align="left"><html:link forward="Admin"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
+							 <td height="50" width="400" align="left"><html:link forward="AdminHome"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
 							 </logic:present>
 								
 							<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
