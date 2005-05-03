@@ -181,11 +181,11 @@
 <table summary="" cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<tr>
-		<td valign="top">
+		<td valign="top" width="100%">
 		<table cellpadding="0" cellspacing="0" border="0"
-			class="contentBegins">
+			class="contentBegins" width="100%">
 			<tr>
-				<td colspan="3">
+				<td>
 				<h2>Group, Protection Group and Roles Association</h2>
 				</td>
 			</tr>
@@ -206,8 +206,9 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
+				
 				<table summary="" cellpadding="3" cellspacing="10" border="0"
-					height="100%">
+					height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
 		  				<html:messages id="message" message="true">
@@ -217,25 +218,36 @@
 					</tr>
 					<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 						<tr>
-							<td class="formMessage" colspan="3">Select a single <b>Protection Group</b> and 
-							Multiple <b>Roles</b> which are to  be associated with the selected <b>Group</b></td>
+							<td class="formMessage">Select a single <b>Protection Group</b> to associate with the selected <b>Group</b>.</td>
 						</tr>					
 					</logic:notPresent>
 					<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
 						<tr>
-							<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Roles</b> 
-							for the selected <b>Group</b> and <b>Protection Group</b>.</td>
+							<td class="formMessage">Assign or Deassign a <b>Protection Group</b>.</td>
 						</tr>
+						
 					</logic:present>
+					
+					
 					<html:form styleId="associationForm"
 						action="<%="/GroupDBOperation"%>">
 						<html:hidden property="operation" value="read" />
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
-							<tr>
+							
+							<!-- protection group section -->
+							
+							<tr width="100%">
+							<td width="100%">
+							<table width="100%">
+							
+							
+							<tr>  <!-- first row (available protection groups) -->
+							
+							
 								<bean:define
 									name="<%=DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET%>"
 									id="availableProtectionGroupIds" type="java.util.Collection" />
-								<td width="35%" valign="top">
+								<td width="100%" valign="top">
 								<table summary="" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSection">
 									<tr>
@@ -244,7 +256,7 @@
 									</tr>
 									<tr>
 										<td class="formField" align="center"><select
-											name="availableProtectionGroupIds" style="width:200px;"
+											name="availableProtectionGroupIds" style="width:100%;"
 											size="6">
 											<logic:iterate name="availableProtectionGroupIds"
 												id="protectionGroup" type="ProtectionGroup">
@@ -256,13 +268,38 @@
 									</tr>
 								</table>
 								</td>
+								
+								</tr>
+								<!-- second row - buttons -->
+								<tr>
+								
+								<!-- extra code -->
+							<td align="center" width="100%">
+							<table width="220">
+							<tr>
+							<!-- -->
+								
 								<td align="center"><input type="button" value="Assign"
-									style="width:75px;" onclick="selSwitchPG(this);"> <br>
-								<br>
-								<input type="button" value="Deassign" style="width:75px;"
-									onclick="selSwitchPG(this);"> <br>
+									style="width:75px;" onclick="selSwitchPG(this);"> 
 								</td>
-								<td width="35%" valign="top">
+								<td align="center"><input type="button" value="Deassign" style="width:75px;"
+									onclick="selSwitchPG(this);"> 
+								</td>
+								
+								
+								<!-- extra code -->
+							</tr>
+							</table>
+							</td>
+							<!-- -->								
+								
+								
+								
+								</tr>
+								<!-- third row - assigned protection groups -->
+								<tr>
+								
+								<td width="100%" valign="top">
 								<table summary="" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSection">
 									<tr>
@@ -272,23 +309,72 @@
 									</tr>
 									<tr>
 										<td class="formField" align="center"><select
-											name="protectionGroupAssociatedIds" style="width:200px;"
+											name="protectionGroupAssociatedIds" style="width:100%;"
 											size="6">
 										</select></td>
 									</tr>
 								</table>
 								</td>
-							</tr>
+								
+								</tr>
+								<!-- end third row-->
+								
+								
+								
+							</table>
+							</td>
+							</tr>			
+							<!-- end protection group section -->
+							
+							
+							
+							<!-- spacer -->							
 							<tr>
-								<br><br><br>
+								<br><br>
 							</tr>
+							
+							
+							
+							
 						</logic:notPresent>
+						<!-- end Protection group section-->
+						
+						
+						
+						
+						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 						<tr>
+							<td class="formMessage">Select <b>Roles</b> which are to be associated with the selected <b>Group</b>.</td>
+						</tr>					
+					</logic:notPresent>
+					<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
+						<tr>
+							<td class="formMessage">Assign or Deassign multiple <b>Roles</b> 
+							for the selected <b>Group</b> and <b>Protection Group</b>.</td>
+						</tr>
+					</logic:present>
+						
+						
+						
+						
+						
+						<!-- role section -->
+						    <tr width="100%">
+							<td width="100%">
+							<table width="100%">
+						
+						
+						<!-- row 1 starts - available roles -->
+						<tr>
+						    
+						    
 							<bean:define name="<%=DisplayConstants.AVAILABLE_ROLE_SET%>"
 								id="availableRoleIds" type="java.util.Collection" />
 							<bean:define name="<%=DisplayConstants.ASSIGNED_ROLE_SET%>"
 								id="roleAssociatedIds" type="java.util.Collection" />
-							<td width="35%" valign="top">
+							
+							
+							<td width="100%" valign="top">
 							<table summary="" cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
@@ -296,7 +382,7 @@
 								</tr>
 								<tr>
 									<td class="formField" align="center"><select multiple
-										name="availableRoleIds" style="width:200px;" size="6">
+										name="availableRoleIds" style="width:100%;" size="6">
 										<logic:iterate name="availableRoleIds" id="role" type="Role">
 											<option value="<bean:write name="role" property="id" />"><bean:write
 												name="role" property="name" /></option>
@@ -305,13 +391,37 @@
 								</tr>
 							</table>
 							</td>
+							
+							
+							</tr>
+							<!-- transition to row 2 - buttons -->
+							<tr>
+							
+							<!-- extra code -->
+						<td align="center" width="100%">
+							<table width="220">
+							<tr>
+							<!-- -->
+							
 							<td align="center"><input type="button" value="Assign"
-								style="width:75px;" onclick="selSwitchRole(this);"> <br>
-							<br>
-							<input type="button" value="Deassign" style="width:75px;"
-								onclick="selSwitchRole(this);"> <br>
+								style="width:75px;" onclick="selSwitchRole(this);"> </td>
+						 
+							<td align="center"><input type="button" value="Deassign" style="width:75px;"
+								onclick="selSwitchRole(this);"> 
 							</td>
-							<td width="35%" valign="top">
+							
+							<!-- extra code -->
+							</tr>
+							</table>
+							</td>
+							<!-- -->
+							
+							</tr>
+							<!-- transition to row 3 - assigned -->
+							<tr>
+							
+							
+							<td width="100%" valign="top">
 							<table summary="" cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
@@ -320,7 +430,7 @@
 								</tr>
 								<tr>
 									<td class="formField" align="center"><select multiple
-										name="roleAssociatedIds" style="width:200px;" size="6">
+										name="roleAssociatedIds" style="width:100%;" size="6">
 										<logic:iterate name="roleAssociatedIds" id="role" type="Role">
 											<option value="<bean:write name="role" property="id" />"><bean:write
 												name="role" property="name" /></option>
@@ -329,7 +439,21 @@
 								</tr>
 							</table>
 							</td>
-						</tr>
+							
+							
+							</tr>
+							<!-- end 3rd row-->
+							
+							</table>
+							</td>
+							</tr>							
+						<!-- end role section -->
+						
+						
+						
+						
+						
+						
 				</table>
 			</tr>
 			<tr>

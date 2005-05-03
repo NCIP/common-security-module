@@ -116,19 +116,27 @@
 						<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Admins</b> 
 						for the selected <b>Application</b>. To remove the complete association Deassign all the <b>Admins</b>.</td>
 					</tr>
+					
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
-					<td width="35%" valign="top">
+					
+					<!-- big table starts -->
+					<td width="100%">
+					<table width="100%">
+					<!-- ROW 1 begins -->
+					<tr>
+					
+							
+					<td width="100%" valign="top">
 					<form name="dummyForm">
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
-
 							<td class="sidebarTitle" height="20">AVAILABLE USERS</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
-							<select name="availableIds" multiple style="width:200px;" size="6">
+							<select name="availableIds" multiple style="width:100%;" size="6">
 							<logic:iterate name="availableIds" id="user" type="User">
 								<option value="<bean:write name="user" property="userId" />"><bean:write name="user" property="loginName" /></option>
 							</logic:iterate>
@@ -138,23 +146,39 @@
 					</table>
 					</form>
 					</td>
+					
+					<!-- transition to ROW 2 -->
+					</tr>
+					<tr>							
+					
+					<td align="center" width="100%">
+					<table width="220">
+					<tr>
 					<td align="center">
-						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
-						<br><br>
-						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
-						<br>
+						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);"></td>
+						<td align="center">
+						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);"></td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					</table>	
 					</td>
-					<td width="35%" valign="top">
+					
+					<!-- transition to ROW 3 -->
+					</tr>
+					<tr>		
+					
+					
+					<td width="100%" valign="top">
 					<html:form styleId="associationForm" action = "<%="/ApplicationDBOperation"%>">
 					<html:hidden property="operation" value="read"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">ASSIGNED ADMIN</td>
+							<td class="sidebarTitle" height="20">ASSIGNED ADMINISTRATORS</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
-							<select name="associatedIds" multiple style="width:200px;" size="6">
+							<select name="associatedIds" multiple style="width:100%;" size="6">
 							<logic:iterate name="associatedIds" id="user" type="User">
 								<option value="<bean:write name="user" property="userId" />"><bean:write name="user" property="loginName" /></option>
 							</logic:iterate>
@@ -163,10 +187,13 @@
 						</tr>
 					</table>
 					</td>
+					
+					
 					</tr>
-				</table>
-			</tr>
-			<tr>
+					<!-- finish up changes -->
+					<!-- add bottom row -->
+					
+					<tr>
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
@@ -176,6 +203,17 @@
 				</table>
 				</td>				
 			</tr>
+					
+					<!--close up big table-->
+					</table>
+					</td>
+					
+					
+					
+					</tr>
+				</table>
+			</tr>
+			
 			</html:form>
 		</table>
 		</td>
