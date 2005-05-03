@@ -174,7 +174,7 @@ public class CommonAssociationAction extends CommonDBAction
 		{
 			baseAssociationForm.buildDisplayForm(request);
 			baseAssociationForm.setAssociationObject(request);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Updation Successful"));
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Update Successful"));
 			saveMessages( request, messages );
 		}
 		catch (CSException cse)

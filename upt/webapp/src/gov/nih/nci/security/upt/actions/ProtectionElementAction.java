@@ -173,7 +173,7 @@ public class ProtectionElementAction extends CommonAssociationAction
 			// TO-DO replace assignProtectionElements with setOwners or such method
 			userProvisioningManager.assignProtectionElements(protectionElementForm.getProtectionElementId(), protectionElementForm.getOwnershipAssociatedIds());
 			protectionElementForm.buildDisplayForm(request);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Updation Successful"));
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Update Successful"));
 			saveMessages( request, messages );
 		}
 		catch (CSException cse)
