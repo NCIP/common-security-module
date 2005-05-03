@@ -1,4 +1,4 @@
-<!--Build Script for App S2S Server Project-->
+<!--Build Script for NCICB_COMMON_SECURITY_API-->
 
 <project name="security-api" default="all" basedir="..">
 
@@ -11,7 +11,7 @@
 	<property name="DOCS" location="${BUILD}/docs"/>
 	<property name="JAR_FILE" location="${BUILD}/csmapi.jar"/>
 	
-
+	<!-- Create the Java Doc -->
 	<target name="javadoc" depends="init"
 		description="Create Javadoc">
 		<javadoc destdir="${DOCS}" author="true" version="true"
@@ -29,6 +29,7 @@
 		<echo message="Javadoc complete" />
 	</target>
 
+	<!-- Execute all the tasks -->
 	<target name="all" depends="init,compile,unitTest,javadoc,buildJar" />
 	<path id="security-api.path">
 		<fileset dir="${LIB}">
@@ -37,6 +38,7 @@
 	</path>
 
 
+	<!-- Compile the source -->
 	<target name="compile">
 
 		<echo>Attempting to Compile...</echo>
@@ -49,6 +51,7 @@
 
 	</target>
 
+	<!-- Run the Junit Suite -->
 	<target name="unitTest" depends="init, compile"
 		description="Unit test component">
 		<junit>
@@ -57,6 +60,7 @@
 		</junit>
 	</target>
 
+	<!-- Copy the source to the build directory -->
 	<target name="copySource" depends="compile">
 		<echo>Attempting to copy Source...</echo>
 		<copy todir="${BUILD}">
@@ -68,6 +72,7 @@
 	</target>
 	
 
+	<!-- JAR the build directory -->
 	<target name="buildJar" depends="copySource">
 		<echo>Building Codebase Jar..</echo>
 		<jar jarfile="${JAR_FILE}" basedir="${BUILD}" />
@@ -76,6 +81,7 @@
 
 
 
+	<!-- Clean first then build -->
 	<target name="rebuild" depends="clean,buildJar" />
 	<target name="clean">
 		<delete dir="${BUILD}" />
