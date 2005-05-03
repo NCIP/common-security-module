@@ -1,111 +1,115 @@
 <!--Build Script for App S2S Server Project-->
 
-<project name="security-api" default="all" basedir=".." >
+<project name="security-api" default="all" basedir="..">
 
- <!-- Load variable definitions from local.properties -->
-	<property name="localProperties" value="./local.properties"/>	
-  	<property file="${basedir}/local.properties" />
+	<!-- Load variable definitions from local.properties -->
+	<property name="localProperties" value="./local.properties" />
+	<property file="${basedir}/local.properties" />
+	<property name="LIB" location="lib"/>
+    <property name="SRC" location="src"/>
+    <property name="BUILD" location="build"/>
+	<property name="DOCS" location="${BUILD}/docs"/>
+	<property name="JAR_FILE" location="${BUILD}/csmapi.jar"/>
+	
 
- <target name="javadoc" depends="init" description="Create Javadoc">
-    <javadoc destdir="${doc}" author="true" version="true" use="true" package="true">
-        
-        <fileset dir="${SRC}">
-           <include name="**/*.java" />
-        </fileset>
-        <classpath>
-          <fileset dir="${LIB}">
-            <include name="**/*.jar"/>
-          </fileset>
-          <pathelement location="${J2EE_JAR}"/>
-        </classpath>
-     </javadoc>
-     <echo message="Javadoc complete" />
- </target>
+	<target name="javadoc" depends="init"
+		description="Create Javadoc">
+		<javadoc destdir="${DOCS}" author="true" version="true"
+			use="true" package="true">
 
- <target name="all" depends="init,buildJar" />
-    <path id="security-api.path" >
-      <fileset dir="${LIB}">
-        <include name="**/*.jar"/>
-      </fileset>
-      <pathelement path="${EXTERNAL_JARS}"/>
-  </path>
+			<fileset dir="${SRC}">
+				<include name="**/*.java" />
+			</fileset>
+			<classpath>
+				<fileset dir="${LIB}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javadoc>
+		<echo message="Javadoc complete" />
+	</target>
 
-
- <target name="compile">
-
-   <echo>Attempting to Compile...</echo>
-   <mkdir dir="${BUILD}" />
-   <mkdir dir="${JAR_DIR}"/>
-   <javac
-     srcdir="${SRC}"
-     destdir="${JAR_DIR}"
-     classpathref="security-api.path"
-     debug="on"
-    />
-
-    <echo>Compile complete.</echo>
-
- </target>
-
-  <target name="copySource" depends="compile" >
-    <echo>Attempting to copy Source...</echo>
-     <copy todir="${JAR_DIR}">
-       <fileset dir="${SRC}" includes="**/*.java"/>
-       <fileset dir="${SRC}" includes="**/*.xml"/>
-       <fileset dir="${SRC}" includes="**/*.properties"/>
-     </copy>
-     <echo>Finished copying files</echo>
- </target>
-
-  <target name="buildJar" depends="copySource" >
-   <echo>Building Codebase Jar..</echo>
-    <jar jarfile="${JAR_FILE}" basedir="${JAR_DIR}" />
-    <echo>Codebase Jar Complete..</echo>
-  </target>
+	<target name="all" depends="init,compile,unitTest,javadoc,buildJar" />
+	<path id="security-api.path">
+		<fileset dir="${LIB}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
 
 
+	<target name="compile">
 
- <target name="rebuild" depends="clean,buildJar" />
- <target name="clean">
-   <delete dir="${BUILD}" />
- </target>
+		<echo>Attempting to Compile...</echo>
+		<mkdir dir="${BUILD}" />
+		<mkdir dir="${DOCS}" />
+		<javac srcdir="${SRC}" destdir="${BUILD}"
+			classpathref="security-api.path" debug="on" />
 
- <!-- Initialize local.properties -->
-	<target name="init">
-		
-		<!-- Has the file been created before -->
-		<available file="${localProperties}" property="haveLocalProperties"/>
-		<antcall target="local.properties"/>
-		
-		<property file="${localProperties}"/>
+		<echo>Compile complete.</echo>
+
+	</target>
+
+	<target name="unitTest" depends="init, compile"
+		description="Unit test component">
+		<junit>
+			<test name="test.gov.nih.nci.security.SecurityTestSuite" todir="${BUILD}"/>
+			
+		</junit>
+	</target>
+
+	<target name="copySource" depends="compile">
+		<echo>Attempting to copy Source...</echo>
+		<copy todir="${BUILD}">
+			<fileset dir="${SRC}" includes="**/*.java" />
+			<fileset dir="${SRC}" includes="**/*.xml" />
+			<fileset dir="${SRC}" includes="**/*.properties" />
+		</copy>
+		<echo>Finished copying files</echo>
+	</target>
+	
+
+	<target name="buildJar" depends="copySource">
+		<echo>Building Codebase Jar..</echo>
+		<jar jarfile="${JAR_FILE}" basedir="${BUILD}" />
+		<echo>Codebase Jar Complete..</echo>
 	</target>
 
 
-<target name="local.properties" unless="haveLocalProperties" >
-  <echo>Creating default local properties file</echo>
-  <echo file="${localProperties}">
-        # NOTE: Be sure to escape all '\' with '\\'
 
-        ##########################
-        #Per computer settings
+	<target name="rebuild" depends="clean,buildJar" />
+	<target name="clean">
+		<delete dir="${BUILD}" />
+	</target>
 
-        #General options
+	<!-- Initialize local.properties -->
+	<target name="init">
 
-        # Directory where the sso code exists (Basically where this file is)
-        
-        PROPERTY_FILE=${localProperties}
+		<!-- Has the file been created before -->
+		<available file="${localProperties}"
+			property="haveLocalProperties" />
+		<antcall target="local.properties" />
 
-        #options
-        LIB=lib
-        SRC=src
-        BUILD=build
-        JAR_DIR=${BUILD}/jar
-        JAR_FILE=${BUILD}/security-api.jar
+		<property file="${localProperties}" />
+	</target>
 
-        # End of per computer settings
-        ##########################
 
-     </echo>
-   </target>
+	<target name="local.properties" unless="haveLocalProperties">
+		<echo>Creating default local properties file</echo>
+		<echo file="${localProperties}">
+			# NOTE: Be sure to escape all '\' with '\\'
+
+			########################## #Per computer settings
+
+			#General options
+
+			# Directory where the sso code exists (Basically where this
+			file is)
+
+			PROPERTY_FILE=${localProperties}
+
+			# End of per computer settings ##########################
+
+		</echo>
+	</target>
 
 </project>
