@@ -30,7 +30,7 @@
 		<forward name="Home" path="/Home.do" />
 		<forward name="MenuSelection" path="/MenuSelection.do" />
 		<forward name="LoginPage" path="Tiles.Login.Page" />
-		<forward name="Admin" path="/Admin.do"/>
+		<forward name="AdminHome" path="/AdminHome.do"/>
 		
 	</global-forwards>
 	<action-mappings>
