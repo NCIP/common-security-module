@@ -115,10 +115,24 @@
 						<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Privileges</b> 
 						for the selected <b>Role</b>. To remove the complete association Deassign all the <b>Privileges</b>.</td>
 					</tr>
+					
+					<!-- large table starts -->
+					
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
-					<td width="35%" valign="top">
+					
+					
+					<!-- cell begins-->
+					<td width="100%">
+					<table width="100%">
+					<!-- ROW 1 begins -->
+					<tr>	
+					
+					<!-- first section -->
+					
+					
+					<td width="100%" valign="top">
 					<form name="dummyForm">
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
@@ -127,7 +141,7 @@
 						</tr>
 						<tr>
 						<td class="formField" align="center">
-							<select name="availableIds" multiple style="width:200px;" size="6">
+							<select name="availableIds" multiple style="width:100%;" size="6">
 							<logic:iterate name="availableIds" id="privilege" type="Privilege">
 								<option value="<bean:write name="privilege" property="id" />"><bean:write name="privilege" property="name" /></option>
 							</logic:iterate>
@@ -137,13 +151,41 @@
 					</table>
 					</form>
 					</td>
+					
+					
+					</tr>
+					<!-- end first, start second -->
+					<tr>
+					
+					<!-- extra code -->
+							<td align="center" width="100%">
+							<table width="220">
+							<tr>
+							<!-- -->
+					
+					
+					
 					<td align="center">
 						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
-						<br><br>
+						</td>
+					<td align="center">
 						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
-						<br>
 					</td>
-					<td width="35%" valign="top">
+					
+					
+					<!-- extra code -->
+							</tr>
+							</table>
+							</td>
+							<!-- -->	
+					
+					
+					</tr>
+					<!-- end second, start third -->
+					<tr>
+					
+					
+					<td width="100%" valign="top">
 					<html:form styleId="associationForm" action = "<%="/RoleDBOperation"%>">
 					<html:hidden property="operation" value="read"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
@@ -153,7 +195,7 @@
 						</tr>
 						<tr>
 						<td class="formField" align="center">
-							<select name="associatedIds" multiple style="width:200px;" size="6">
+							<select name="associatedIds" multiple style="width:100%;" size="6">
 							<logic:iterate name="associatedIds" id="privilege" type="Privilege">
 								<option value="<bean:write name="privilege" property="id" />"><bean:write name="privilege" property="name" /></option>
 							</logic:iterate>
@@ -162,10 +204,13 @@
 						</tr>
 					</table>
 					</td>
+					
+					
 					</tr>
-				</table>
-			</tr>
-			<tr>
+					<!-- end third section -->			
+					
+					
+					<tr>
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
@@ -175,6 +220,17 @@
 				</table>
 				</td>				
 			</tr>
+			
+			
+			<!--close up big table-->
+					</table>
+					</td>
+					
+					
+					</tr>
+				</table>
+			</tr>
+			
 			</html:form>
 		</table>
 		</td>

@@ -221,12 +221,12 @@
 							<td class="formMessage">Select a single <b>Protection Group</b> to associate with the selected <b>Group</b>.</td>
 						</tr>					
 					</logic:notPresent>
-					<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
+					<!-- comment out<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
 						<tr>
 							<td class="formMessage">Assign or Deassign a <b>Protection Group</b>.</td>
 						</tr>
 						
-					</logic:present>
+					</logic:present>-->
 					
 					
 					<html:form styleId="associationForm"
