@@ -2,6 +2,7 @@
 	<description>UPT Project Build File</description>
 
 	<target name="init" >
+	<property name="localProperties" value="./upt/local.properties" />
 		<property name="app.name"				value="upt" />
 		<property name="app.path"				value="/${app.name}" />
 
@@ -9,20 +10,56 @@
 		<property name="web.home"				value="${basedir}\upt\webapp\public_html" />
 		<property name="webinf.home"			value="${web.home}\WEB-INF" />
 		<property name="lib.home"				value="${webinf.home}\lib" />
-		<property name="build.home"				value="${basedir}\build" />
-		<property name="dist.home"				value="${basedir}\dist" />
+		<property name="build.home"				value="upt/build" />
+		<property name="dist.home"				value="upt/dist" />
 		<property name="classes.home"			value="${webinf.home}\classes" />
 		<property name="server.home"			value="c:\jboss-3.2.6" />
 		<property name="deploy.home"			value="${server.home}\server\default\deploy" />
+		<property name="DOCS" location="${build.home}/docs" />
 
 		<property name="war.file"				value="${dist.home}\${app.name}.war" />
+
+		<!-- Has the file been created before -->
+		<available file="${localProperties}"
+			property="haveLocalProperties" />
+		<antcall target="local.properties" />
+
+		<property file="${localProperties}" />
+
 	</target>
+
+<!-- Set up the classpath required to compile -->
+	<path id="classpath">
+		<fileset dir="upt/webapp/public_html/WEB-INF/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
 
 
 	<target name="clean" depends="init" description="Delete the Build and Dist directories">
 		<delete dir="${build.home}" />
 		<delete dir="${dist.home}" />
 	</target>
+
+	<!-- Generate Java API Documentation -->
+	<target name="javadoc" depends="init"
+		description="Create Javadoc">
+		<javadoc destdir="${DOCS}" author="true" version="true"
+			use="true" package="true">
+
+			<fileset dir="${src.home}">
+				<include name="**/*.java" />
+			</fileset>
+			<classpath>
+				<fileset dir="upt/webapp/public_html/WEB-INF/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<pathelement location="${J2EE_JAR}" />
+			</classpath>
+		</javadoc>
+		<echo message="Javadoc complete" />
+	</target>
+
 
 
 	<target name="prepareDir" depends="init">
@@ -33,6 +70,7 @@
 		<mkdir dir="${build.home}\WEB-INF\lib" />
 		<mkdir dir="${build.home}\META-INF" />
 		<mkdir dir="${classes.home}" />
+		<mkdir dir="${DOCS}" />
 
 		<mkdir dir="${dist.home}" />
 	</target>
@@ -58,11 +96,9 @@
 	<target name="prepare" depends="prepareDir,prepareBuild"/>
 
 	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
-		<javac srcdir="${src.home}" destdir="${build.home}\WEB-INF\classes" debug="true" deprecation="true" >
-			<classpath>
-				<fileset dir="${lib.home}" includes="*.jar" />
-			</classpath>
-		</javac>
+<javac srcdir="${src.home}" destdir="${build.home}\WEB-INF\classes"
+			classpath="${J2EE_JAR}" classpathref="classpath" debug="on" />
+		
 		<copy todir="${build.home}\WEB-INF\classes" >
 			<fileset dir="${src.home}" excludes="**/*.java" />
 		</copy>
@@ -75,6 +111,26 @@
 		</copy>
 	</target>
 
+	
+
+<!-- Generate local.properties if needed -->
+	<target name="local.properties" unless="haveLocalProperties">
+		<echo>Generating new local.properties...</echo>
+		<echo file="${localProperties}">
+			# NOTE: Be sure to change all '\' to '/'
+
+			########################## #Per computer settings
+
+			PROPERTY_FILE=${localProperties}
+
+			#J2EE specific options 
+			J2EE_JAR=
+
+			# End of per computer settings ##########################
+		</echo>
+	</target>
+
+
 	<target name="dist" depends="init,compile" description="Creates war file">
 		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
@@ -83,7 +139,7 @@
 		<delete dir="${build.home}" />
 	</target>	
 	
-	<target name="all" depends="init,clean,prepare,compile,dist,cleanup" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+	<target name="all" depends="init,clean,prepare,compile,javadoc,dist,cleanup" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
 	<target name="deploy" depends="dist" description="Deploys the war file in the application server">
 		<copy todir="${deploy.home}">
