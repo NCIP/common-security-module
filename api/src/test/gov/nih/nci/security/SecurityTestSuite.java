@@ -90,6 +90,8 @@ package test.gov.nih.nci.security;
  */
 
 
+import java.util.Properties;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import test.gov.nih.nci.security.authentication.AuthenticationManagerFactoryTest;
@@ -108,6 +110,7 @@ import test.gov.nih.nci.security.authorization.jaas.AccessPermissionTest;
 import test.gov.nih.nci.security.authorization.jaas.AuthPermissionCollectionTest;
 import test.gov.nih.nci.security.authorization.jaas.PermissionAdapterFactoryTest;
 import test.gov.nih.nci.security.authorization.jaas.PermissionRoleDBAdapterTest;
+import test.gov.nih.nci.security.dao.AuthorizationDAOImplTest;
 import test.gov.nih.nci.security.dao.SearchCriteriaTest;
 import test.gov.nih.nci.security.provisioning.UserProvisioningManagerImplTest;
 
@@ -117,7 +120,12 @@ import test.gov.nih.nci.security.provisioning.UserProvisioningManagerImplTest;
  
  */
 public class SecurityTestSuite {
-	
+	static{
+			
+			Properties p = System.getProperties();
+			p.setProperty("gov.nih.nci.security.configFile","c:/temp/ApplicationSecurityConfig.xml");
+			
+	}
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(SecurityTestSuite.class);
 	}
@@ -134,7 +142,6 @@ public class SecurityTestSuite {
 		suite.addTest(new TestSuite(RoleTest.class));
 		suite.addTest(new TestSuite(UserRoleContextTest.class));
 		suite.addTest(new TestSuite(UserTest.class));
-		suite.addTest(new TestSuite(SecurityServiceProviderTest.class));
 		suite.addTest(new TestSuite(AuthenticationManagerFactoryTest.class));
 		suite.addTest(new TestSuite(CommonAuthenticationManagerTest.class));
 		suite.addTest(new TestSuite(AccessPermissionTest.class));
@@ -144,6 +151,7 @@ public class SecurityTestSuite {
 		suite.addTest(new TestSuite(AuthorizationManagerFactoryTest.class));
 		suite.addTest(new TestSuite(SearchCriteriaTest.class));
 		suite.addTest(new TestSuite(UserProvisioningManagerImplTest.class));
+		suite.addTest(new TestSuite(AuthorizationDAOImplTest.class));
 		
 		//$JUnit-END$
 		return suite;
