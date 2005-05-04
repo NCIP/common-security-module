@@ -1,6 +1,7 @@
 <project name="UPT Project" basedir="./.." default="all">
 	<description>UPT Project Build File</description>
 
+	<!-- Initializes the build script variables and local property file -->
 	<target name="init" >
 	<property name="localProperties" value="./upt/local.properties" />
 		<property name="app.name"				value="upt" />
@@ -35,6 +36,7 @@
 		</fileset>
 	</path>
 
+<!-- delete build directories-->
 
 	<target name="clean" depends="init" description="Delete the Build and Dist directories">
 		<delete dir="${build.home}" />
@@ -60,6 +62,7 @@
 		<echo message="Javadoc complete" />
 	</target>
 
+<!-- creates the build directories -->
 
 
 	<target name="prepareDir" depends="init">
@@ -75,6 +78,7 @@
 		<mkdir dir="${dist.home}" />
 	</target>
 
+<!-- Copys files to the build directory -->
 
 	<target name="prepareBuild" depends="prepareDir">
 
@@ -130,17 +134,21 @@
 		</echo>
 	</target>
 
+<!-- Wars the file -->
 
 	<target name="dist" depends="init,compile" description="Creates war file">
 		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
+<!-- Deletes build directory -->
 
 	<target name="cleanup" depends="dist" description="Delete the Build directory">
 		<delete dir="${build.home}" />
 	</target>	
-	
+
+	<!-- Executes all tasks -->
 	<target name="all" depends="init,clean,prepare,compile,javadoc,dist,cleanup" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
+<!-- Deploys the war to J2EE server -->
 	<target name="deploy" depends="dist" description="Deploys the war file in the application server">
 		<copy todir="${deploy.home}">
 			<fileset dir="${dist.home}" includes="**/*.war" />
