@@ -15,8 +15,7 @@
 </script>
 
 
-<html:form styleId="homeForm" action="<%="/MenuSelection"%>">
-	<html:hidden property="tableId" value="error" />
+
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<tr>
@@ -45,9 +44,9 @@
 					<td width="60%">
 
 					<p><a
-						href="javascript: setTable('<%=DisplayConstants.APPLICATION_ID%>')">Application</a><br />
+						href="javascript: set('<%=DisplayConstants.APPLICATION_ID%>')">Application</a><br />
 					Applications which use the CSM for security.</p>
-					<p><a href="javascript: setTable('<%=DisplayConstants.USER_ID%>')">Users</a><br />
+					<p><a href="javascript: set('<%=DisplayConstants.USER_ID%>')">Users</a><br />
 					Those who can serve as UPT administrators for the application.</p>
 					<p>&nbsp;</p>
 					</td>
@@ -57,4 +56,4 @@
 			</td>
 		</tr>
 	</table>
-</html:form>
+
