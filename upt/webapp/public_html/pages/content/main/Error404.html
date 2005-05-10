@@ -33,11 +33,26 @@
            <td>&nbsp;</td>
         </tr>
   		<tr>
-          <td align="center">
-           	 <a href="Home.do">Click here to go back to Home Page</a>
-					
+          <!-- <td align="center">
+           	 <a href="Home.do">Click here to go back to Home Page</a> -->
+			
+			<!-- new separate links depending on admin or super admin -->
+							
+							 <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+							 <td><a href="AdminHome.do">Click here to go back to Home Page</a>
+							 </logic:present>
+								
+							<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
+							 <td><a href="Home.do">Click here to go back to Home Page</a>
+							</logic:notPresent>		
+								
+							<!-- end home links -->			
 		  	 </html:link>
 		   </td>
+
+
+
+
 
        </tr>
        </table>

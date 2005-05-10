@@ -13,11 +13,11 @@
     	{
     		if (target == "read")
     		{
-	    		document.associationForm.operation.value=target;
+	    		document.ProtectionGroupForm.operation.value=target;
     		}
     		else
     		{		
-	    		var len = document.associationForm.parentAssociatedIds.length;
+	    		var len = document.ProtectionGroupForm.parentAssociatedIds.length;
     			if (len > 1)
 	    		{
 	    			alert ("Only single Parent Protection Group can be associated")
@@ -26,10 +26,10 @@
 	    		{
 		    		for (i=0 ; i < len ; i++)
 		    		{
-		    			document.associationForm.parentAssociatedIds[i].selected = true;
+		    			document.ProtectionGroupForm.parentAssociatedIds[i].selected = true;
 		    		}
-		    		document.associationForm.operation.value=target;
-		    		document.associationForm.submit();
+		    		document.ProtectionGroupForm.operation.value=target;
+		    		document.ProtectionGroupForm.submit();
 				}
 			}
 	    }
@@ -50,7 +50,7 @@
 		
 	      isavailableIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
 	
-	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.associationForm.parentAssociatedIds) )
+	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.ProtectionGroupForm.parentAssociatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -71,7 +71,7 @@
 	               with (options[i])
 	               {
 	                  if (isavailableIds)
-	                     document.associationForm.parentAssociatedIds.options[document.associationForm.parentAssociatedIds.length] = new Option( text, value );
+	                     document.ProtectionGroupForm.parentAssociatedIds.options[document.ProtectionGroupForm.parentAssociatedIds.length] = new Option( text, value );
 	                  else
 	                     document.dummyForm.availableIds.options[document.dummyForm.availableIds.length] = new Option( text, value );
 	               } 
@@ -87,8 +87,8 @@
 
 <table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
-		<td valign="top">
-		<table cellpadding="0" cellspacing="0" border="0" class="contentBegins">
+		<td valign="top" width="100%">
+		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 			<tr>
 				<td colspan="3">
 					<h2>Protection Group and Parent Protection Group Association</h2>
@@ -176,7 +176,8 @@
 					
 					<td align="center">
 						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
-						</tr>
+						</td>
+						
 					<td align="center">	
 						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
 					</td>

@@ -16,13 +16,14 @@
     <!--
     	function setAndSubmit(target)
     	{
-    		document.tableHomeForm.operation.value=target;
-    		document.tableHomeForm.submit();
+    		document.ApplicationForm.operation.value=target;
+    		document.ApplicationForm.submit();
     	}
     // -->
     </script>
 
-<html:form styleId="tableHomeForm" action="/ApplicationDBOperation">
+<html:form styleId="applicationForm" action="/ApplicationDBOperation">
+	
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:hidden property="operation" value="error" />

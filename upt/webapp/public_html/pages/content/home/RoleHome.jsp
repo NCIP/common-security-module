@@ -16,13 +16,13 @@
     <!--
     	function setAndSubmit(target)
     	{
-    		document.tableHomeForm.operation.value=target;
-    		document.tableHomeForm.submit();
+    		document.RoleForm.operation.value=target;
+    		document.RoleForm.submit();
     	}
     // -->
     </script>
 
-<html:form styleId="tableHomeForm" action="/RoleDBOperation">
+<html:form styleId="roleForm" action="/RoleDBOperation">
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:hidden property="operation" value="error" />

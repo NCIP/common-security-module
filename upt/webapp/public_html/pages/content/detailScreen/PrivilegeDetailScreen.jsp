@@ -16,13 +16,13 @@
    		{
    			if (confirm("Are you sure you want to delete the record?"))
    			{
-   				document.detailsForm.operation.value=target;
-				document.detailsForm.submit();
+   				document.PrivilegeForm.operation.value=target;
+				document.PrivilegeForm.submit();
 			}
 		}
 		else
 		{
-	  		document.detailsForm.operation.value=target;
+	  		document.PrivilegeForm.operation.value=target;
 	  	}
  	}
 // -->

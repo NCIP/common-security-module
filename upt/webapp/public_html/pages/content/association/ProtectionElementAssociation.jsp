@@ -13,17 +13,17 @@
     	{
     		if (target == "read")
     		{
-	    		document.associationForm.operation.value=target;
+	    		document.ProtectionElementForm.operation.value=target;
     		}
     		else
     		{		
-	    		var len = document.associationForm.associatedIds.length;
+	    		var len = document.ProtectionElementForm.associatedIds.length;
 	    		for (i=0 ; i < len ; i++)
 	    		{
-	    			document.associationForm.associatedIds[i].selected = true;
+	    			document.ProtectionElementForm.associatedIds[i].selected = true;
 	    		}
-	    		document.associationForm.operation.value=target;
-	    		document.associationForm.submit();
+	    		document.ProtectionElementForm.operation.value=target;
+	    		document.ProtectionElementForm.submit();
 			}
 	    }    	
     	// selSwitch functions
@@ -42,7 +42,7 @@
 		
 	      isavailableIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
 	
-	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.associationForm.associatedIds) )
+	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.ProtectionElementForm.associatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -63,7 +63,7 @@
 	               with (options[i])
 	               {
 	                  if (isavailableIds)
-	                     document.associationForm.associatedIds.options[document.associationForm.associatedIds.length] = new Option( text, value );
+	                     document.ProtectionElementForm.associatedIds.options[document.ProtectionElementForm.associatedIds.length] = new Option( text, value );
 	                  else
 	                     document.dummyForm.availableIds.options[document.dummyForm.availableIds.length] = new Option( text, value );
 	               } 
@@ -80,7 +80,7 @@
 <table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
-		<table cellpadding="0" cellspacing="0" border="0" class="contentBegins" width="100%">
+		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins" width="100%">
 					
 			<tr>
 				<td colspan="3">

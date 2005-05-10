@@ -18,7 +18,7 @@
 <!--
    	function setAndSubmit(target)
    	{
-  		document.searchResultForm.operation.value=target;
+  		document.UserForm.operation.value=target;
  	}
 // -->
 </script>
@@ -34,7 +34,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td valign="top">
+			<td valign="top" width="100%">
 			<table cellpadding="0" cellspacing="0" border="0"
 				width="100%" class="contentBegins">
 				<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">

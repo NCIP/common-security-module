@@ -16,13 +16,13 @@
     <!--
     	function setAndSubmit(target)
     	{
-    		document.tableHomeForm.operation.value=target;
-    		document.tableHomeForm.submit();
+    		document.ProtectionElementForm.operation.value=target;
+    		document.ProtectionElementForm.submit();
     	}
     // -->
     </script>
 
-<html:form styleId="tableHomeForm"
+<html:form styleId="protectionelementForm"
 	action="/ProtectionElementDBOperation">
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">

@@ -17,7 +17,7 @@
 <!--
    	function setAndSubmit(target)
    	{
-  		document.searchResultForm.operation.value=target;
+  		document.PrivilegeForm.operation.value=target;
  	}
 // -->
 </script>

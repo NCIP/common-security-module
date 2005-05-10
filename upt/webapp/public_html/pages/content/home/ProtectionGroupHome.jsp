@@ -16,13 +16,13 @@
     <!--
     	function setAndSubmit(target)
     	{
-    		document.tableHomeForm.operation.value=target;
-    		document.tableHomeForm.submit();
+    		document.ProtectionGroupForm.operation.value=target;
+    		document.ProtectionGroupForm.submit();
     	}
     // -->
     </script>
 
-<html:form styleId="tableHomeForm" action="/ProtectionGroupDBOperation">
+<html:form styleId="protectiongroupForm" action="/ProtectionGroupDBOperation">
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:hidden property="operation" value="error" />

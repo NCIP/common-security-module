@@ -18,7 +18,7 @@
 <!--
    	function setAndSubmit(target)
    	{
-  		document.searchResultForm.operation.value=target;
+  		document.GroupForm.operation.value=target;
  	}
 // -->
 </script>
@@ -34,8 +34,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td valign="top">
-			<table cellpadding="0" cellspacing="0" border="0"
+			<td valign="top" width="100%">
+			<table width="100%" cellpadding="0" cellspacing="0" border="0"
 				width="100%" class="contentBegins">
 				<logic:notEqual name="GroupForm" property="groupName" value="<%=DisplayConstants.BLANK%>">
 				<tr>

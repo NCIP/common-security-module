@@ -16,13 +16,13 @@
     <!--
     	function setAndSubmit(target)
     	{
-    		document.tableHomeForm.operation.value=target;
-    		document.tableHomeForm.submit();
+    		document.GroupForm.operation.value=target;
+    		document.GroupForm.submit();
     	}
     // -->
     </script>
 
-<html:form styleId="tableHomeForm" action="/GroupDBOperation">
+<html:form styleId="groupForm" action="/GroupDBOperation">
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:hidden property="operation" value="error" />

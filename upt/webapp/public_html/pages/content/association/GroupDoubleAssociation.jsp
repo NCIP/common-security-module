@@ -18,14 +18,14 @@
 
 	function setAndSubmit(target)
 	{
-		document.associationForm.operation.value=target;
+		document.GroupForm.operation.value=target;
 	}
     	
 	<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 
 	   	function setAndSubmitPG(target)
 		{
-			var len = document.associationForm.protectionGroupAssociatedIds.length;
+			var len = document.GroupForm.protectionGroupAssociatedIds.length;
 			
 			if (len == 0)
 			{
@@ -39,9 +39,9 @@
 			}
 			else
 			{
-	   			document.associationForm.protectionGroupAssociatedIds[0].selected = true;
+	   			document.GroupForm.protectionGroupAssociatedIds[0].selected = true;
 	
-	    		var roleLen = document.associationForm.roleAssociatedIds.length;
+	    		var roleLen = document.GroupForm.roleAssociatedIds.length;
 				if (roleLen == 0)
 				{
 					alert ("At least one Role should be selected");
@@ -51,11 +51,11 @@
 		       	{
 			       	for (i=0 ; i < roleLen ; i++)
 		    		{
-		    			document.associationForm.roleAssociatedIds[i].selected = true;
+		    			document.GroupForm.roleAssociatedIds[i].selected = true;
 		    		}
 	
-		    		document.associationForm.operation.value=target;
-		    		document.associationForm.submit();
+		    		document.GroupForm.operation.value=target;
+		    		document.GroupForm.submit();
 		    	}
 		    }
 		}
@@ -74,7 +74,7 @@
 		
 	      isavailableProtectionGroupIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
 	
-	      with ( ((isavailableProtectionGroupIds)? document.associationForm.availableProtectionGroupIds: document.associationForm.protectionGroupAssociatedIds) )
+	      with ( ((isavailableProtectionGroupIds)? document.GroupForm.availableProtectionGroupIds: document.GroupForm.protectionGroupAssociatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -95,9 +95,9 @@
 	               with (options[i])
 	               {
 	                  if (isavailableProtectionGroupIds)
-	                     document.associationForm.protectionGroupAssociatedIds.options[document.associationForm.protectionGroupAssociatedIds.length] = new Option( text, value );
+	                     document.GroupForm.protectionGroupAssociatedIds.options[document.GroupForm.protectionGroupAssociatedIds.length] = new Option( text, value );
 	                  else
-	                     document.associationForm.availableProtectionGroupIds.options[document.associationForm.availableProtectionGroupIds.length] = new Option( text, value );
+	                     document.GroupForm.availableProtectionGroupIds.options[document.GroupForm.availableProtectionGroupIds.length] = new Option( text, value );
 	               } 
 	               options[i] = null;
 	               i--;
@@ -111,7 +111,7 @@
 
 	function setAndSubmitRole(target)
 	{
-		var roleLen = document.associationForm.roleAssociatedIds.length;
+		var roleLen = document.GroupForm.roleAssociatedIds.length;
 		if (roleLen == 0)
 		{
 			alert ("At least one Role should be selected");
@@ -121,11 +121,11 @@
 	   	{
 	       	for (i=0 ; i < roleLen ; i++)
 			{
-				document.associationForm.roleAssociatedIds[i].selected = true;
+				document.GroupForm.roleAssociatedIds[i].selected = true;
 			}
 	
-			document.associationForm.operation.value=target;
-			document.associationForm.submit();
+			document.GroupForm.operation.value=target;
+			document.GroupForm.submit();
 		}
 	}
 
@@ -143,7 +143,7 @@
 	
       isavailableRoleIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
 
-      with ( ((isavailableRoleIds)? document.associationForm.availableRoleIds: document.associationForm.roleAssociatedIds) )
+      with ( ((isavailableRoleIds)? document.GroupForm.availableRoleIds: document.GroupForm.roleAssociatedIds) )
       {
          for (i = 0; i < length; i++)
          {
@@ -164,9 +164,9 @@
                with (options[i])
                {
                   if (isavailableRoleIds)
-                     document.associationForm.roleAssociatedIds.options[document.associationForm.roleAssociatedIds.length] = new Option( text, value );
+                     document.GroupForm.roleAssociatedIds.options[document.GroupForm.roleAssociatedIds.length] = new Option( text, value );
                   else
-                     document.associationForm.availableRoleIds.options[document.associationForm.availableRoleIds.length] = new Option( text, value );
+                     document.GroupForm.availableRoleIds.options[document.GroupForm.availableRoleIds.length] = new Option( text, value );
                } 
                options[i] = null;
                i--;
@@ -182,7 +182,7 @@
 	class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
-		<table cellpadding="0" cellspacing="0" border="0"
+		<table width="100%" cellpadding="0" cellspacing="0" border="0"
 			class="contentBegins" width="100%">
 			<tr>
 				<td>

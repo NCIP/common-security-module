@@ -9,10 +9,10 @@
 
 <script>
   <!--
-    	function set(tableId)
+    	function set(id)
     	{
-    		document.menuForm.tableId.value=tableId;
-    		document.menuForm.submit();
+    		document.MenuForm.tableId.value=id;
+    		document.MenuForm.submit();
     	}
    // -->
 </script>
