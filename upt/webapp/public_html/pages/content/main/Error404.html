@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Applicant System-To-System Reference Implementation</title>
+<title>Error 404</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
  <link rel="stylesheet" href="style/translocator.css">
 </head>
@@ -38,13 +38,12 @@
 			
 			<!-- new separate links depending on admin or super admin -->
 							
-							 <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-							 <td><a href="AdminHome.do">Click here to go back to Home Page</a>
-							 </logic:present>
+							 
+							 <td align="center"><a href="Login.do">Click here to return</a></td>
+							 
 								
-							<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
-							 <td><a href="Home.do">Click here to go back to Home Page</a>
-							</logic:notPresent>		
+							
+							 
 								
 							<!-- end home links -->			
 		  	 </html:link>
