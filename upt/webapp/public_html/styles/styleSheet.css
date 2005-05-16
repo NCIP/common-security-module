@@ -345,6 +345,13 @@ SIDEBAR BEGINS
   background-color:#F4F4F5; /* constant: light gray */
   font-family:verdana, arial, helvetica, sans-serif;
   font-size:0.7em;
+  border:1px solid #CCCCCC; /* constant: medium gray */
+}
+.sidebarSectionLogin{ /* for the individual sidebar sections on the login page*/
+  background-color:#F4F4F5; /* constant: light gray */
+  font-family:verdana, arial, helvetica, sans-serif;
+  font-size:0.7em;
+  border-left:1px solid #CCCCCC; /* constant: medium gray */
 }
 .sidebarTitle{ /* for the titles of the individual sidebar sections */
   font-size:1em;
@@ -356,7 +363,7 @@ SIDEBAR BEGINS
 .sidebarContent{ /* for the areas under the sidebar titles and requires text */
   font-size:1em;
   padding:0.8em;
-  border-left:1px solid #CCCCCC; /* constant: medium gray */
+  
 }
 .sidebarLogin{ /* for the sidebar login cells */
   font-size:0.7em;
