@@ -56,7 +56,8 @@
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('user','','images/Users.gif',1)"><img
 										name="user" border="0" src="images/Users2.gif" width="98"
-										height="50" alt="A User is someone that requires access to your application. Users can become part of a Group, and can have an associated Protection Group and Roles."></a></td>
+										height="50" alt="A User is someone that requires access to your application. Users can become part of a Group, and can have an associated Protection Group and Roles."
+										Title="A User is someone that requires access to your application. Users can become part of a Group, and can have an associated Protection Group and Roles."></a></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
@@ -67,7 +68,8 @@
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('PEs','','images/protectionelements.gif',1)"><img
 										name="PEs" border="0" src="images/protectionelements2.gif"
-										width="98" height="50" alt="A Protection Element is any entity (typically data) that has controlled access. Examples include Social Security Number, City, and Salary."></a></td>
+										width="98" height="50" alt="A Protection Element is any entity (typically data) that has controlled access. Examples include Social Security Number, City, and Salary."
+										Title="A Protection Element is any entity (typically data) that has controlled access. Examples include Social Security Number, City, and Salary."></a></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
@@ -78,7 +80,8 @@
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)"><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
-										height="50" alt="A Privilege refers to any operation performed upon data. Examples include Delete Record or Modify Record."></a></td>
+										height="50" alt="A Privilege refers to any operation performed upon data. Examples include Delete Record or Modify Record."
+										Title="A Privilege refers to any operation performed upon data. Examples include Delete Record or Modify Record."></a></td>
 								</tr>
 
 								<tr>
@@ -123,7 +126,8 @@
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('group','','images/groups.gif',1)"><img
 										name="group" border="0" src="images/groups2.gif" width="98"
-										height="50" alt="A Group is a collection of application users. By combining users into a Group, it becomes easier to manage their collective roles and access rights in your application."></a></td>
+										height="50" alt="A Group is a collection of application users. By combining users into a Group, it becomes easier to manage their collective roles and access rights in your application."
+										title="A Group is a collection of application users. By combining users into a Group, it becomes easier to manage their collective roles and access rights in your application."></a></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
@@ -138,7 +142,8 @@
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('pgs','','images/protectiongroups.gif',1)"><img
 										name="pgs" border="0" src="images/protectiongroups2.gif"
-										width="98" height="50" alt="A Protection Group is a collection of application Protection Elements. By combining Protection Elements into a Protection Group, it becomes easier to associate Users and Groups with rights to a particular data set. Examples include Address and Personal Information."></a></td>
+										width="98" height="50" alt="A Protection Group is a collection of application Protection Elements. By combining Protection Elements into a Protection Group, it becomes easier to associate Users and Groups with rights to a particular data set. Examples include Address and Personal Information."
+										title="A Protection Group is a collection of application Protection Elements. By combining Protection Elements into a Protection Group, it becomes easier to associate Users and Groups with rights to a particular data set. Examples include Address and Personal Information."></a></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
@@ -149,7 +154,8 @@
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('roles','','images/roles.gif',1)"><img
 										name="roles" border="0" src="images/roles2.gif" width="98"
-										height="50" alt="A Role is a collection of application Privileges. Examples include Record Admin. and EmployeeModify."></a></td>
+										height="50" alt="A Role is a collection of application Privileges. Examples include Record Admin. and EmployeeModify."
+										title="A Role is a collection of application Privileges. Examples include Record Admin. and EmployeeModify."></a></td>
 								</tr>
 
 								<tr>
