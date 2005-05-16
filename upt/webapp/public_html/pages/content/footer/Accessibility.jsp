@@ -6,7 +6,7 @@
 				<td valign="top">
 					<table cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 						<tr>
-							<td colspan="2"> <BR></BR>
+							<td colspan="2"> 
 								<h2>Accessibility</h2>
 								<p>The Web sites at the National Cancer Institute have been designed to be accessible to all users, compliant with the 508 standards, and compatible with screen readers and other assistive technologies. However, this is an ongoing process and it is possible that some users with disabilities may encounter problems accessing some pages.</p>
 				                <p>To learn more about the regulations governing the accessibility of Federal electronic information products, visit the <a href="http://www.section508.gov/">Section 508 page</a>.</p>

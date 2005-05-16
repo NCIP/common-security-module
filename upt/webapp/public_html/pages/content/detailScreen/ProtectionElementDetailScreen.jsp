@@ -44,8 +44,9 @@
 		<bean:define id="submitValue" value="loadSearchResult" />
 	</logic:equal>
 </logic:notEqual>
-<html:form styleId="detailsForm" action="/ProtectionElementDBOperation">
+
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+	<html:form styleId="detailsForm" action="/ProtectionElementDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">
@@ -81,7 +82,7 @@
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing Protection Element by entering the <b>Protection Element Name, Protection Element Object Id</b> or <b>Protection Element Attribute Name</b></td>
+									<td class="formMessage" colspan="3">Search for an existing Protection Element by entering the <b>Protection Element Name, Protection Element Object Id</b> or <b>Protection Element Attribute Name</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -181,5 +182,6 @@
 			</table>
 			</td>
 		</tr>
+		</html:form>
 	</table>
-</html:form>
+

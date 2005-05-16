@@ -6,8 +6,8 @@
 				<td valign="top">
 					<table cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 						<tr>
-							<td colspan="2"> <BR></BR>
-								<h2>Disclaimers</h2>
+							<td colspan="2"> 
+								<h2>Disclaimer</h2>
 								<p>NIH does not endorse or recommend any commercial
 											  products, processes, or services. The views and opinions of authors expressed
 											  on NIH websites do not necessarily state or reflect those of the U.S.

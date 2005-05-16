@@ -22,9 +22,10 @@
     // -->
     </script>
 
-<html:form styleId="roleForm" action="/RoleDBOperation">
+
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
+		<html:form styleId="roleForm" action="/RoleDBOperation">
 		<html:hidden property="operation" value="error" />
 		<tr>
 			<td valign="top">
@@ -86,7 +87,8 @@
 			</table>
 			</td>
 		</tr>
+		</html:form>
 	</table>
-</html:form>
+
 
 

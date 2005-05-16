@@ -6,7 +6,7 @@
 				<td valign="top">
 					<table cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 						<tr>
-							<td colspan="2">  <BR></BR>
+							<td colspan="2">  
 								<h2>Application Support</h2>
 								<BR>
 								<p>For Further Questions Please Contact</p>													
