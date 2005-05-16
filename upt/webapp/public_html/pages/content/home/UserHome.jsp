@@ -42,16 +42,13 @@
 					can have an associated Protection Group and Roles. <br>
 					In this section you may create new Users, modify existing User
 					details, and associate or deassociate Users with Protection Groups
-					and Roles. Please begin by selecting either Create a New User or
-					Select an Existing User.</p>
+					and Roles. Please begin by selecting either <b>Create a New User</b> or
+					<b>Select an Existing User</b>.</p>
 					</logic:notPresent>
 					<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-					<p>This is the User section of the Super Admin Mode of the User Provisioning Tool. 
-					Here users can be assigned as UPT administrators for their particular application(s). 
-					They will have the right to create and modify Roles, Groups, etc. 
-					In this section you may create new Users or modify exiting User details. 
+					<p>This is the User section of the Super Admin Mode of the User Provisioning Tool. In this section you may create new Users or modify exiting User details. 
 					Then in the Application section you may assign that User to any Application. 
-					Please begin by selecting either Create a New User or Select an Existing User.</p>
+					Please begin by selecting either <b>Create a New User</b> or <b>Select an Existing User</b>.</p>
 					</logic:present>
 					</td>
 				</tr>
@@ -68,7 +65,7 @@
 						<tr>
 							<td valign="top">
 							<table summary="" cellpadding="0" cellspacing="0" border="0"
-								width="100%" class="sidebarSection">
+								width="100%" height="100%" class="sidebarSection">
 								<tr>
 
 									<td class="sidebarTitle" height="20">USER LINKS</td>
@@ -89,11 +86,12 @@
 						</tr>
 					</table>
 					<td width="60%"></td>
-				</tr>
+				</tr>										
 			</table>
 			</td>
 		</tr>
 	</table>
+	
 </html:form>
 
 

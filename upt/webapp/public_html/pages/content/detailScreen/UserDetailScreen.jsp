@@ -74,7 +74,7 @@
 									The <b>User First Name</b> and <b>User Last Name</b> identifies the User. The <b>User Organization, User Department</b>
 									 and <b>User Title</b> provides his work details. The <b>User Phone Number</b> and <b>User Email Id</b> provides the contact details for the User.
 									The <b>User Password</b> can be entered if the same schema is also going to be used for Authentication.
-									The <b>User Start Date</b> and <b>User End Date</b> determine the period for which the User is a valid User</td>
+									The <b>User Start Date</b> and <b>User End Date</b> determine the period for which the User is a valid User.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
@@ -83,7 +83,7 @@
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
 									<td class="formMessage" colspan="3">Search for an existing User by entering the 
-									<b>User Login Name, User First Name, User Last Name, User Organization, User Department</b> or <b>User Email Id</b></td>
+									<b>User Login Name, User First Name, User Last Name, User Organization, User Department</b> or <b>User Email Id</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -98,7 +98,7 @@
 									 and <b>User Title</b> provides his work details. The <b>User Phone Number</b> and <b>User Email Id</b> provides the contact details for the User.
 									The <b>User Password</b> can be entered if the same schema is also going to be used for Authentication.
 									The <b>User Start Date</b> and <b>User End Date</b> determine the period for which the User is a valid User.
-									The <b>Update Date</b> indicates the date when this User's Details were last updated</td>
+									The <b>Update Date</b> indicates the date when this User's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
 						<tr>

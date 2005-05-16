@@ -44,8 +44,8 @@
 					In the User or Group portion of the UPT, you may assign users to
 					Roles. In this section you may create new Roles, modify existing
 					Role details, and assign or deassign Privileges to the Role. Please
-					begin by selecting either Create a New Role or Select an Existing
-					Role.</p>
+					begin by selecting either <b>Create a New Role</b> or <b>Select an Existing
+					Role</b>.</p>
 					</td>
 				</tr>
 				<tr>

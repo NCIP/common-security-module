@@ -58,7 +58,7 @@
 								<tr>
 									<td valign="top">
 									<table summary="" cellpadding="2" cellspacing="0" border="0"
-										width="100%" class="sidebarSection">
+										width="100%" class="sidebarSectionLogin">
 										<tr>
 											<td class="sidebarTitle" height="20">LOGIN TO U.P.T.</td>
 										</tr>
@@ -102,7 +102,7 @@
 							<tr>
 								<td valign="top">
 								<table summary="" cellpadding="0" cellspacing="0" border="0"
-									width="100%" class="sidebarSection">
+									width="100%" class="sidebarSectionLogin">
 									<tr>
 										<td class="sidebarTitle" height="20">WHAT'S NEW</td>
 									</tr>
@@ -118,7 +118,7 @@
 							<tr>
 								<td valign="top">
 								<table summary="" cellpadding="0" cellspacing="0" border="0"
-									width="100%" height="100%" class="sidebarSection">
+									width="100%" height="100%" class="sidebarSectionLogin">
 									<tr>
 										<td class="sidebarTitle" height="20">DID YOU KNOW?</td>
 									</tr>
@@ -134,7 +134,7 @@
 							<tr>
 								<td valign="top" height="100%">
 								<table summary="" cellpadding="0" cellspacing="0" border="0"
-									width="100%" height="100%" class="sidebarSection">
+									width="100%" height="100%" class="sidebarSectionLogin">
 									<tr>
 										<td class="sidebarContent" valign="top">&nbsp;</td>
 									</tr>

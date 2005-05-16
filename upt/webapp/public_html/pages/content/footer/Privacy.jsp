@@ -8,11 +8,11 @@
 						<tr>
 							<td colspan="2">
 						 		<h2>Privacy</h2>
-								<p>The User Provisioning Tool (UPT) is a web application used to provision an application?s authorization data.  The UPT is part of the overall Common Security Module (CSM) developed by NCICB. The UPT provides functionality to create authorization data elements like Roles, Privileges, Protection Elements, Users, etc., and also provides functionality to associate them with each other. The runtime API can then use this authorization data to authorize user actions.
+								<p>The User Provisioning Tool (UPT) is a web application used to provision an application's authorization data.  The UPT is part of the overall Common Security Module (CSM) developed by NCICB. The UPT provides functionality to create authorization data elements like Roles, Privileges, Protection Elements, Users, etc., and also provides functionality to associate them with each other. The runtime API can then use this authorization data to authorize user actions.
 								</p>
 								<br>
 								<ul>
-								<li>The UPT follow the privacy guidelines specified by Department of Human & Health Services (HHS). For further details kindly visit HHS's privacy page: <a href="http://www.hhs.gov/Privacy.html">http://www.hhs.gov/Privacy.html</a>
+								<li>The UPT follows the privacy guidelines specified by Department of Human & Health Services (HHS). For further details please visit HHS's privacy page: <a href="http://www.hhs.gov/Privacy.html">http://www.hhs.gov/Privacy.html</a>
 								<BR>
 							</td>
 						</tr>

@@ -38,7 +38,8 @@
 
 					<h3>Application Home</h3>
 
-					<p>This is the Application section of the UPT.  Here a Super Admin. can add an application to the UPT.  You may add or modify Application details by clicking on the links below.</p>
+					<p>This is the Application section of the UPT.  Here a Super Admin can add an application to the UPT.  Users can be assigned as UPT Administrators for their particular application(s). 
+					They will have the right to create and modify Roles, Groups, etc. You may add or modify Application details by clicking on the links below.</p>
 					</td>
 				</tr>
 				<tr>

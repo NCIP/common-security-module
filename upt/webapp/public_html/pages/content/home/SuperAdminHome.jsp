@@ -32,10 +32,10 @@
 					<p>Welcome to the User Provisioning Tool (UPT). This user interface
 					tool is designed so that developers can easily configure an
 					application's authorization data in the Common Security Module
-					(CSM) database. As a Super Admin., you may add, remove, or modify
-					Application details. You can also assign administrators (users) to these
+					(CSM) database. As a Super Admin, you may add, remove, or modify
+					Application details. You can also assign Administrators (Users) to these
 					Applications. Please begin using this application by clicking on
-					one of the menu subsections above or the links below. Enjoy.</p>
+					one of the menu subsections above or the links below.</p>
 					</td>
 				</tr>
 				<tr>

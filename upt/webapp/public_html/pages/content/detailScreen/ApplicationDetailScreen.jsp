@@ -73,8 +73,8 @@
 									<td class="formMessage" colspan="3">Enter the details to add a new Application. 
 									The <b>Application Name</b> uniquely identifies	the Application and is a required field. 
 									The <b>Application Description</b> is a brief summary about the application. The <b>Application Declarative Flag</b> 
-									indicates whether application uses Declarative security or not. The <b>Application Active Flag</b> indicates if the
-									 Application is currently active or not.</td>
+									indicates whether or not the application uses Declarative security. The <b>Application Active Flag</b> indicates if the
+									 Application is currently active.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>

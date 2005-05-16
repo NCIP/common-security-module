@@ -45,8 +45,8 @@
 					to important application data.<br>
 					In this section you may create new Protection Elements or modify
 					existing Protection Element details. Please begin by selecting
-					either Create a New Protection Element or Select an Existing
-					Protection Element.</p>
+					either <b>Create a New Protection Element</b> or <b>Select an Existing
+					Protection Element</b>.</p>
 					</td>
 				</tr>
 				<tr>

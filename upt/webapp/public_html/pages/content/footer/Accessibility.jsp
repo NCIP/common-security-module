@@ -10,7 +10,7 @@
 								<h2>Accessibility</h2>
 								<p>The Web sites at the National Cancer Institute have been designed to be accessible to all users, compliant with the 508 standards, and compatible with screen readers and other assistive technologies. However, this is an ongoing process and it is possible that some users with disabilities may encounter problems accessing some pages.</p>
 				                <p>To learn more about the regulations governing the accessibility of Federal electronic information products, visit the <a href="http://www.section508.gov/">Section 508 page</a>.</p>
-					              <p><span>Thanks for using the NCICB website. For further accessibility information kindly visit NCICB's accessibility page</span><br> <a href="http://www3.cancer.gov/accessibility/nci508.htm">http://www3.cancer.gov/accessibility/nci508.htm</a></p>
+					              <p><span>Thanks for using the NCICB website. For further accessibility information please visit NCICB's accessibility page</span><br> <a href="http://www3.cancer.gov/accessibility/nci508.htm">http://www3.cancer.gov/accessibility/nci508.htm</a></p>
 							</td>
 						</tr>
 						<tr>

@@ -46,8 +46,8 @@
 					Protection Groups. In this section you may create new Protection
 					Groups, modify existing Protection Group details, and assign or
 					deassign a parent for a Protection Group. Please begin by selecting
-					either Create a New Protection Group or Select an Existing
-					Protection Group.</p>
+					either <b>Create a New Protection Group</b> or <b>Select an Existing
+					Protection Group</b>.</p>
 					</td>
 				</tr>
 				<tr>

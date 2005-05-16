@@ -46,8 +46,8 @@
 					Under the User portion of UPT you may assign users to Groups. In
 					this section you may create new Groups, modify existing Group
 					details, and associate or deassociate Groups' Protection Groups and
-					Roles. Please begin by selecting either Create a New Group or
-					Select an Existing Group.</p>
+					Roles. Please begin by selecting either <b>Create a New Group</b> or
+					<b>Select an Existing Group</b>.</p>
 					</td>
 				</tr>
 				<tr>

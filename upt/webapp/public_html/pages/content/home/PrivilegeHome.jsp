@@ -42,8 +42,8 @@
 					identifying individual Privileges, it becomes easier to control
 					access to important application data.<br>
 					In this section you may create new Privileges or modify existing
-					Privilege details. Please begin by selecting either Create a New
-					Privilege or Select an Existing Privilege.</p>
+					Privilege details. Please begin by selecting either <b>Create a New
+					Privilege</b> or <b>Select an Existing Privilege</b>.</p>
 					</td>
 				</tr>
 				<tr>
