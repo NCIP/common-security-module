@@ -96,7 +96,7 @@
 									The <b>Application Name</b> uniquely identifies	the Application and is a required field. 
 									The <b>Application Description</b> is a brief summary about the application. The <b>Application Declarative Flag</b> 
 									indicates whether application uses Declarative Security or not. The <b>Application Active Flag</b> indicates if the
-									 Application is currently active or not. The <b>Update Date</b> indicates the date when this Application's Details were last updated</td>
+									 Application is currently active or not. The <b>Update Date</b> indicates the date when this Application's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>

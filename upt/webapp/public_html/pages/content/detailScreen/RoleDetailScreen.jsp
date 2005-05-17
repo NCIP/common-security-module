@@ -92,7 +92,7 @@
 								<tr>
 									<td class="formMessage" colspan="3">Update the details of the displayed Role. 
 									The <b>Role Name</b> uniquely identifies the Role and is a required field. 
-									The <b>Role Description</b> is a brief summary about the Role. The <b>Update Date</b> indicates the date when this Role's Details were last updated</td>
+									The <b>Role Description</b> is a brief summary about the Role. The <b>Update Date</b> indicates the date when this Role's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>

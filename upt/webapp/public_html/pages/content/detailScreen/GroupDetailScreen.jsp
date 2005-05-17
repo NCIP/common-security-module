@@ -92,7 +92,7 @@
 								<tr>
 									<td class="formMessage" colspan="3">Update the details of the displayed Group. 
 									The <b>Group Name</b> uniquely identifies the Group and is a required field. 
-									The <b>Group Description</b> is a brief summary about the Group. The <b>Update Date</b> indicates the date when this Group's Details were last updated</td>
+									The <b>Group Description</b> is a brief summary about the Group. The <b>Update Date</b> indicates the date when this Group's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>

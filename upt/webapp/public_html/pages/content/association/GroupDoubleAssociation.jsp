@@ -305,7 +305,7 @@
 									<tr>
 
 										<td class="sidebarTitle" height="20">ASSIGNED PROTECTION
-										GROUPS</td>
+										GROUP</td>
 									</tr>
 									<tr>
 										<td class="formField" align="center"><select

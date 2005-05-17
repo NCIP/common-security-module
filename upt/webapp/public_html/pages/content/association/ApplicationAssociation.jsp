@@ -104,7 +104,7 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%">
+				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
 		  				<html:messages id="message" message="true">
@@ -159,7 +159,7 @@
 						<td align="center">
 						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);"></td>
 					</tr>
-					<tr><td>&nbsp;</td></tr>
+					
 					</table>	
 					</td>
 					
