@@ -23,11 +23,14 @@
 // -->
 </script>
 
-<html:form styleId="searchResultForm"
-	action="<%="/UserDBOperation"%>">
-	<html:hidden property="operation" value="read" />
+
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
+		
+		<html:form styleId="searchResultForm"
+	action="<%="/UserDBOperation"%>">
+	<html:hidden property="operation" value="read" />
+		
 		<tr>
 			<td>
 			<h2>User, Protection Group and Roles</h2>
@@ -61,6 +64,7 @@
 							<html:errors />
 							</td>
 						</tr>
+						<tr><td><br></td></tr>
 						<tr>
 							<td class="formMessage" colspan="3">Select the <b>Protection Group</b> association which to be removed for
 							 the selected <b>User</b> or whose <b>Roles</b> Association needs to be updated.</td>
@@ -138,5 +142,5 @@
 			</table>
 			</td>
 		</tr>
+		</html:form>
 	</table>
-</html:form>
