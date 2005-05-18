@@ -46,7 +46,7 @@
 </logic:notEqual>
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="detailsForm" action="/ProtectionElementDBOperation">
+	<html:form styleId="ProtectionElementForm" action="/ProtectionElementDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">

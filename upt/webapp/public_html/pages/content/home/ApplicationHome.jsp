@@ -26,7 +26,7 @@
 	
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
-		<html:form styleId="applicationForm" action="/ApplicationDBOperation">
+		<html:form styleId="ApplicationForm" action="/ApplicationDBOperation">
 		<html:hidden property="operation" value="error" />
 		<tr>
 			<td valign="top">

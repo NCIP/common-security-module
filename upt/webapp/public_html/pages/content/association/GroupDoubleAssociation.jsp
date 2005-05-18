@@ -229,7 +229,7 @@
 					</logic:present>-->
 					
 					
-					<html:form styleId="associationForm"
+					<html:form styleId="GroupForm"
 						action="<%="/GroupDBOperation"%>">
 						<html:hidden property="operation" value="read" />
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">

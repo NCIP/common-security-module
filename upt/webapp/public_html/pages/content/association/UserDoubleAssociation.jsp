@@ -228,7 +228,7 @@
 						</tr>
 					</logic:present> -->
 					
-					<html:form styleId="associationForm"
+					<html:form styleId="UserForm"
 						action="<%="/UserDBOperation"%>">
 						<html:hidden property="operation" value="read" />
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
