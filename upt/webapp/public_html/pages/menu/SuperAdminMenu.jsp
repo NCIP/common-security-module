@@ -17,7 +17,7 @@
    // -->
 </script>
 
-<html:form styleId="menuForm" action="<%="/MenuSelection"%>">
+<html:form styleId="MenuForm" action="<%="/MenuSelection"%>">
 	<%
 	String tableId;
 	try
