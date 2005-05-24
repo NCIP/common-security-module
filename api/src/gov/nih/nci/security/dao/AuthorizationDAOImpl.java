@@ -110,6 +110,7 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.util.StringUtilities;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.Principal;
@@ -1555,7 +1556,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = sf.openSession();
 			t = s.beginTransaction();
 			cn = s.connection();
-			String sql = "delete from user_group_role_protection_group where protection_group_id=? and group_id=?";
+			String sql = "delete from csm_user_group_role_pg where protection_group_id=? and group_id=?";
 			PreparedStatement pstmt = cn.prepareStatement(sql);
 			Long pg_id = new Long(protectionGroupId);
 			Long g_id = new Long(groupId);
@@ -1782,7 +1783,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = sf.openSession();
 			t = s.beginTransaction();
 			cn = s.connection();
-			String sql = "delete from user_group_role_protection_group where protection_group_id=? and user_id=?";
+			String sql = "delete from csm_user_group_role_pg where protection_group_id=? and user_id=?";
 			PreparedStatement pstmt = cn.prepareStatement(sql);
 			Long pg_id = new Long(protectionGroupId);
 			Long u_id = new Long(userId);
@@ -2486,7 +2487,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("SELECT distinct protection_group_id ");
-			stbr.append("FROM user_group_role_protection_group ");
+			stbr.append("FROM csm_user_group_role_pg ");
 			stbr.append("where user_id = " + userId);
 
 			String sql = stbr.toString();
@@ -2569,7 +2570,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("SELECT distinct protection_group_id ");
-			stbr.append("FROM user_group_role_protection_group ");
+			stbr.append("FROM csm_user_group_role_pg ");
 			stbr.append("where group_id = " + groupId);
 
 			String sql = stbr.toString();
@@ -3054,12 +3055,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (obj == null) {
 			return obj;
 		}
+		Field[] fields = obj.getClass().getDeclaredFields();
+		for (int i=0; i < fields.length; i++)
+		{
+			if (fields[i].getType().isPrimitive()) 
+				throw new CSException("The Object to be secured does not follow Java Bean Specification");
+		}
 		try {
 
 			Class cl = obj.getClass();
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
-					userName, "READ");
+					userName, "ACCESS_DENIED");
 
 			log.debug(accessMap.toString());
 
@@ -3350,7 +3357,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			StringBuffer stbr = new StringBuffer();
 			stbr
 					.append("Select  user_protection_element_id from"
-							+ " user_protection_element upe, user u, protection_element pe"
+							+ " csm_user_pe upe, csm_user u, csm_protection_element pe"
 							+ " where pe.object_id = '"
 							+ protectionElementObjectId
 							+ "' and u.login_name ='"
@@ -3431,15 +3438,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("select distinct(p.privilege_name)");
-			stbr.append(" from protection_group pg,");
-			stbr.append(" protection_element pe,");
-			stbr.append(" protection_group_protection_element pgpe,");
-			stbr.append(" user_group_role_protection_group ugrpg,");
-			stbr.append(" user u,");
-			stbr.append(" groups g,");
-			stbr.append(" user_group ug,");
-			stbr.append(" role_privilege rp,");
-			stbr.append(" privilege p ");
+			stbr.append(" from csm_protection_group pg,");
+			stbr.append(" csm_protection_element pe,");
+			stbr.append(" csm_pg_pe pgpe,");
+			stbr.append(" csm_user_group_role_pg ugrpg,");
+			stbr.append(" csm_user u,");
+			stbr.append(" csm_group g,");
+			stbr.append(" csm_user_group ug,");
+			stbr.append(" csm_role_privilege rp,");
+			stbr.append(" csm_privilege p ");
 			stbr
 					.append(" where pgpe.protection_group_id = pg.protection_group_id");
 			stbr
@@ -3510,4 +3517,5 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		return result;
 	}
+
 }
