@@ -13,7 +13,7 @@
 
 <class 
     name="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup" 
-    table="protection_group"
+    table="CSM_PROTECTION_GROUP"
 >
     
 
@@ -23,7 +23,9 @@
         column="PROTECTION_GROUP_ID"
         unsaved-value="null"
         >
-     <generator class="identity"/>
+     <generator class="native">
+		 <param name="sequence">CSM_PROTECTIO_PROTECTION_G_SEQ</param>
+	 </generator>
     </id>
 
     <property
@@ -67,7 +69,7 @@
     <!-- bi-directional one-to-many association to ProtectionGroup -->
     
     <!-- bi-directional many-to-one association to ProtectionGroup -->
-    <set name="protectionElements" lazy="true" table="protection_group_protection_element">
+    <set name="protectionElements" lazy="true" table="CSM_PG_PE">
        <key column="protection_group_id"/>
        <many-to-many 
            column="protection_element_id" 

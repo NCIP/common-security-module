@@ -13,7 +13,7 @@
 
 <class 
     name="gov.nih.nci.security.authorization.domainobjects.User" 
-    table="user"
+    table="CSM_USER"
 >
     
 
@@ -23,7 +23,9 @@
         column="USER_ID"
          unsaved-value="null"
         >
-     <generator class="identity"/>
+     <generator class="native">
+		 <param name="sequence">CSM_USER_USER_ID_SEQ</param>
+	 </generator>
     </id>
 
     <property
@@ -127,7 +129,7 @@
         
     </property>
     
-    <set name="groups" lazy="true" table="user_group">
+    <set name="groups" lazy="true" table="CSM_USER_GROUP">
            <key column="user_id"/>
            <many-to-many column="group_id" class="gov.nih.nci.security.authorization.domainobjects.Group"/>
      </set>

@@ -13,7 +13,7 @@
 
 <class 
     name="gov.nih.nci.security.dao.hibernate.UserGroup" 
-    table="user_group"
+    table="CSM_USER_GROUP"
 >
     
 
@@ -23,7 +23,9 @@
         column="USER_GROUP_ID"
         unsaved-value="null"
          >
-        <generator class="identity"/>
+        <generator class="native">
+		 <param name="sequence">CSM_USER_GROU_USER_GROUP_I_SEQ</param>
+	 </generator>
     </id>
 
 

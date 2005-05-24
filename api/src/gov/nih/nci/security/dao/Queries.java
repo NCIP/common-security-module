@@ -157,15 +157,15 @@ public class Queries {
 											 String application_id){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select 'X'");
-		stbr.append("from protection_group pg,");
-		stbr.append("protection_element pe,");
-		stbr.append("protection_group_protection_element pgpe,");
-		stbr.append("user_group_role_protection_group ugrpg,");
-		stbr.append("user u,");
-		stbr.append("groups g,");
-		stbr.append("user_group ug,");
-		stbr.append("role_privilege rp,");
-		stbr.append("privilege p ");
+		stbr.append("from csm_protection_group pg,");
+		stbr.append("csm_protection_element pe,");
+		stbr.append("csm_pg_pe pgpe,");
+		stbr.append("csm_user_group_role_pg ugrpg,");
+		stbr.append("csm_user u,");
+		stbr.append("csm_group g,");
+		stbr.append("csm_user_group ug,");
+		stbr.append("csm_role_privilege rp,");
+		stbr.append("csm_privilege p ");
 		stbr
 				.append("where pgpe.protection_group_id = pg.protection_group_id ");
 		stbr
@@ -191,13 +191,13 @@ public class Queries {
 															  String application_id){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select 'X'");
-		stbr.append("from protection_group pg,");
-		stbr.append("protection_element pe,");
-		stbr.append("protection_group_protection_element pgpe,");
-		stbr.append("user_group_role_protection_group ugrpg,");
-		stbr.append("user u,");
-		stbr.append("role_privilege rp,");
-		stbr.append("privilege p ");
+		stbr.append("from csm_protection_group pg,");
+		stbr.append("csm_protection_element pe,");
+		stbr.append("csm_pg_pe pgpe,");
+		stbr.append("csm_user_group_role_pg ugrpg,");
+		stbr.append("csm_user u,");
+		stbr.append("csm_role_privilege rp,");
+		stbr.append("csm_privilege p ");
 		stbr
 				.append("where pgpe.protection_group_id = pg.protection_group_id ");
 		stbr
@@ -220,14 +220,14 @@ public class Queries {
 	private static String getStaticStringForUserAndGroupForAttribute(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select 'X'");
-		stbr.append(" from protection_group pg,"); 
-		stbr.append(" protection_element pe,"); 
-		stbr.append(" protection_group_protection_element pgpe,"); 
-		stbr.append(" user_group_role_protection_group ugrpg,"); 
-		stbr.append(" user u,"); 
-		stbr.append(" role_privilege rp,"); 
-		stbr.append(" role r,");
-		stbr.append(" privilege p");  
+		stbr.append(" from csm_protection_group pg,"); 
+		stbr.append(" csm_protection_element pe,"); 
+		stbr.append(" csm_pg_pe pgpe,"); 
+		stbr.append(" csm_user_group_role_pg ugrpg,"); 
+		stbr.append(" csm_user u,"); 
+		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" csm_role r,");
+		stbr.append(" csm_privilege p");  
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.user_id = u.user_id and");
 		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and");
@@ -241,16 +241,16 @@ public class Queries {
 	private static String getStaticStringForUserAndGroupForAttribute2(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select 'X'");
-		stbr.append(" from protection_group pg,"); 
-		stbr.append(" protection_element pe,"); 
-		stbr.append(" protection_group_protection_element pgpe,"); 
-		stbr.append(" user_group_role_protection_group ugrpg,"); 
-		stbr.append(" user u,");
-		stbr.append(" user_group ug,");
-		stbr.append(" groups g,");
-		stbr.append(" role_privilege rp,"); 
-		stbr.append(" role r,");
-		stbr.append(" privilege p");  
+		stbr.append(" from csm_protection_group pg,"); 
+		stbr.append(" csm_protection_element pe,"); 
+		stbr.append(" csm_pg_pe pgpe,"); 
+		stbr.append(" csm_user_group_role_pg ugrpg,"); 
+		stbr.append(" csm_user u,");
+		stbr.append(" csm_user_group ug,");
+		stbr.append(" csm_groups g,");
+		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" csm_role r,");
+		stbr.append(" csm_privilege p");  
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.group_id = g.group_id and");
 		stbr.append(" g.group_id = ug.group_id and");
@@ -285,14 +285,14 @@ public class Queries {
 	private static String getQueryForObjectMap_user(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select pe.attribute ");
-		stbr.append(" from protection_group pg,"); 
-		stbr.append(" protection_element pe,"); 
-		stbr.append(" protection_group_protection_element pgpe,"); 
-		stbr.append(" user_group_role_protection_group ugrpg,"); 
-		stbr.append(" user u,"); 
-		stbr.append(" role_privilege rp,"); 
-		stbr.append(" role r,");
-		stbr.append(" privilege p");  
+		stbr.append(" from csm_protection_group pg,"); 
+		stbr.append(" csm_protection_element pe,"); 
+		stbr.append(" csm_pg_pe pgpe,"); 
+		stbr.append(" csm_user_group_role_pg ugrpg,"); 
+		stbr.append(" csm_user u,"); 
+		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" csm_role r,");
+		stbr.append(" csm_privilege p");  
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.user_id = u.user_id and");
 		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and"); 
@@ -307,16 +307,16 @@ public class Queries {
 	private static String getQueryForObjectMap_group(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select pe.attribute");
-		stbr.append(" from protection_group pg,"); 
-		stbr.append(" protection_element pe,"); 
-		stbr.append(" protection_group_protection_element pgpe,"); 
-		stbr.append(" user_group_role_protection_group ugrpg,"); 
-		stbr.append(" user u,");
-		stbr.append(" user_group ug,");
-		stbr.append(" groups g,");
-		stbr.append(" role_privilege rp,"); 
-		stbr.append(" role r,");
-		stbr.append(" privilege p");  
+		stbr.append(" from csm_protection_group pg,"); 
+		stbr.append(" csm_protection_element pe,"); 
+		stbr.append(" csm_pg_pe pgpe,"); 
+		stbr.append(" csm_user_group_role_pg ugrpg,"); 
+		stbr.append(" csm_user u,");
+		stbr.append(" csm_user_group ug,");
+		stbr.append(" csm_group g,");
+		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" csm_role r,");
+		stbr.append(" csm_privilege p");  
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.group_id = g.group_id and");
 		stbr.append(" g.group_id = ug.group_id and");

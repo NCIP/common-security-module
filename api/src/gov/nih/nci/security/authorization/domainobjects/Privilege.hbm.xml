@@ -13,7 +13,7 @@
 
 <class 
     name="gov.nih.nci.security.authorization.domainobjects.Privilege" 
-    table="privilege"
+    table="CSM_PRIVILEGE"
 >
 
     <id
@@ -22,7 +22,9 @@
         column="PRIVILEGE_ID"
         unsaved-value="null"
         >
-     <generator class="identity"/>
+     <generator class="native">
+		 <param name="sequence">CSM_PRIVILEGE_PRIVILEGE_ID_SEQ</param>
+	 </generator>
     </id>
     
            
