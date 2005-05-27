@@ -42,9 +42,10 @@
 					Privilege refers to any operation performed upon data. By
 					identifying individual Privileges, it becomes easier to control
 					access to important application data.<br>
-					In this section you may create new Privileges or modify existing
+					<!--In this section you may create new Privileges or modify existing
 					Privilege details. Please begin by selecting either <b>Create a New
-					Privilege</b> or <b>Select an Existing Privilege</b>.</p>
+					Privilege</b> or <b>Select an Existing Privilege</b>.-->
+					In this section you may search for and view Standard CSM Privileges.  Please begin by selecting <b>Select an Existing Privilege</b>. </p>
 					</td>
 				</tr>
 				
@@ -67,18 +68,18 @@
 
 									<td class="sidebarTitle" height="20">PRIVILEGE LINKS</td>
 								</tr>
-								<tr>
+								<!--<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadAdd')">Create a New
 									Privilege</a><br>
 									Click to add a new privilege.</td>
-								</tr>
+								</tr>-->
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an
 									Existing Privilege</a><br>
-									Enter search criteria to find the privilege you wish to operate
-									on.</td>
+									Enter search criteria to find the privilege you wish to <!--operate
+									on.-->view.</td>
 								</tr>
 							</table>
 							</td>

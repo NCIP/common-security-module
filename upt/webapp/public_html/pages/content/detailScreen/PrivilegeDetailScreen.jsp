@@ -29,17 +29,17 @@
 </script>
 <bean:define id="submitValue" value="error" />
 <logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+	<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 		<bean:define id="submitValue" value="create" />
-	</logic:equal>
+	</logic:equal>-->
 	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 		<bean:define id="submitValue" value="search" />
 	</logic:equal>
 </logic:equal>
 <logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+	<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 		<bean:define id="submitValue" value="loadAdd" />
-	</logic:equal>
+	</logic:equal>-->
 	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 		<bean:define id="submitValue" value="loadSearchResult" />
 	</logic:equal>
@@ -70,7 +70,7 @@
 						<tr>
 						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+								<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
 									<td class="formMessage" colspan="3">Enter the details to add a new Privilege. 
 									The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
@@ -79,7 +79,7 @@
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
 								</tr>
-								</logic:equal>
+								</logic:equal>-->
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
 									<td class="formMessage" colspan="3">Search for an existing Privilege by entering the <b>Privilege Name</b>.</td>
@@ -91,8 +91,8 @@
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3">Update the details of the displayed Privilege. 
-									The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
+									<td class="formMessage" colspan="3"> 
+									The <b>Privilege Name</b> uniquely identifies the Privilege. 
 									The <b>Privilege Description</b> is a brief summary about the Privilege. The <b>Update Date</b> indicates the date when this Privilege's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
@@ -100,7 +100,7 @@
 						<tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE NEW PRIVILEGE DETAILS</td>								</logic:equal>
+									<!--<td class="formTitle" height="20" colspan="3">ENTER THE NEW PRIVILEGE DETAILS</td>-->								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 									<td class="formTitle" height="20" colspan="3">ENTER THE PRIVILEGE SEARCH CRITERIA</td>
 								</logic:equal>
@@ -113,9 +113,9 @@
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="searchFormElements" id="formElements" />
 								</logic:equal>
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+								<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="addFormElements" id="formElements" />
-								</logic:equal>
+								</logic:equal>-->
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="displayFormElements" id="formElements" />
@@ -150,23 +150,23 @@
 								<tr>
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+										<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('create');">Add</html:submit></td>
-										</logic:equal>
+										</logic:equal>-->
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('search');">Search</html:submit></td>
 										</logic:equal>
-										<td><html:reset style="actionButton">Reset</html:reset></td>
+										<!--<td><html:reset style="actionButton">Reset</html:reset></td>-->
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+										<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
-										</logic:equal>
+										</logic:equal>-->
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										<!--<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>-->
 									</logic:notEqual>
 								</tr>
 							</table>
