@@ -80,8 +80,8 @@
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)"><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
-										height="50" alt="A Privilege refers to any operation performed upon data. Examples include Delete Record or Modify Record."
-										Title="A Privilege refers to any operation performed upon data. Examples include Delete Record or Modify Record."></a></td>
+										height="50" alt="A Privilege refers to any operation performed upon data. Examples include DELETE or UPDATE."
+										Title="A Privilege refers to any operation performed upon data. Examples include DELETE or UPDATE."></a></td>
 								</tr>
 
 								<tr>
@@ -250,8 +250,8 @@
 						</tr>
 
 						<tr class="home">
-							<td class="home" colspan="3">1. Create base objects - <b>Users</b>,
-							<b>Protection</b> <b>Elements</b>, and <b>Privileges</b>.</td>
+							<td class="home" colspan="3">1. Create base objects - <b>Users</b> and
+							<b>Protection</b> <b>Elements</b>. <b>CSM Standard Privileges</b> are provided.</td>
 							<td class="home" width="25%">&nbsp;</td>
 						</tr>
 						<tr class="home">

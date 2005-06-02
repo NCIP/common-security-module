@@ -39,13 +39,13 @@
 					<h3>Privilege Home</h3>
 
 					<p>This is the Privilege section of the User Provisioning Tool. A
-					Privilege refers to any operation performed upon data. By
-					identifying individual Privileges, it becomes easier to control
-					access to important application data.<br>
+					Privilege refers to any operation performed upon data. A Privilege refers to any operation performed upon data.  
+					Assigning privileges helps control access to important components of an application (Protection Elements).  
+					<br>
 					<!--In this section you may create new Privileges or modify existing
 					Privilege details. Please begin by selecting either <b>Create a New
 					Privilege</b> or <b>Select an Existing Privilege</b>.-->
-					In this section you may search for and view Standard CSM Privileges.  Please begin by selecting <b>Select an Existing Privilege</b>. </p>
+					CSM provides a standard set of privileges that you may search for and view in this section.  Please begin by selecting <b>Select an Existing Privilege</b>. </p>
 					</td>
 				</tr>
 				
