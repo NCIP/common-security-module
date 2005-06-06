@@ -27,6 +27,9 @@ public class ClientLayerGenerator {
 	public void createGetApplicationServiceMethod(){
 		
 	}
+	/**
+	 * This method will create the spring xml file for dependency injection
+	 */
 	public void createXMLGlue_forApplicationService_injection(){
 		
 	}
@@ -34,6 +37,8 @@ public class ClientLayerGenerator {
 	 * Make ClientManagement.jar containing AuthenticationManager and ClientSessionHolder
 	 * 
 	 * Make a remotelayer.jar containing only RemoteService class
+	 * 
+	 * Make a applicationServer.jar contaiaing RemoteSe
 	 * @param args
 	 */
 
