@@ -13,6 +13,29 @@ package gov.nih.nci.sdk.codegen.clientlayer;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ClientLayerGenerator {
+	
+	public String basePackage;
+	public Class applicationServiceInterface;
+	
+	public ClientLayerGenerator(Class applicationServiceInterface){
+		this.applicationServiceInterface= applicationServiceInterface;
+	}
+	
+	public void createApplicationServiceProvider(){
+		
+	}
+	public void createGetApplicationServiceMethod(){
+		
+	}
+	public void createXMLGlue_forApplicationService_injection(){
+		
+	}
+	/**
+	 * Make ClientManagement.jar containing AuthenticationManager and ClientSessionHolder
+	 * 
+	 * Make a remotelayer.jar containing only RemoteService class
+	 * @param args
+	 */
 
 	public static void main(String[] args) {
 	}
