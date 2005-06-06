@@ -96,6 +96,7 @@ import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElementPrivilegeContext;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.authorization.domainobjects.Role;
@@ -2639,6 +2640,166 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElementPrivilegeContextForUser(java.lang.String)
+	 */
+	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException {
+		Set protectionElementPrivilegeContextSet = new HashSet();
+
+		Session s = null;
+		Connection cn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		String currPEId = null;
+		String prevPEId = null;
+
+		String currPrivilegeId = null;
+		Set privileges = null;
+		Privilege privilege = null;
+		
+		boolean firstTime = true;
+		ProtectionElementPrivilegeContext protectionElementPrivilegeContext = null;
+		
+		try {
+
+			s = sf.openSession();
+			cn = s.connection();
+			stmt = cn.createStatement();
+
+			String sql = Queries.getQueryforUserPEPrivilegeMap(userId);
+			log.debug("SQL is : " + sql);
+
+			rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				currPEId = rs.getString(1);
+				currPrivilegeId = rs.getString(2);
+				
+				if (!currPEId.equals(prevPEId))
+				{
+					protectionElementPrivilegeContext = new ProtectionElementPrivilegeContext();
+					protectionElementPrivilegeContextSet.add(protectionElementPrivilegeContext);
+					ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class, new Long(currPEId));
+					protectionElementPrivilegeContext.setProtectionElement(protectionElement);
+					privileges = new HashSet();
+					protectionElementPrivilegeContext.setPrivileges(privileges);
+					prevPEId = currPEId;
+				}
+				if (currPrivilegeId.equals("0"))
+				{
+					privilege = new Privilege();
+					privilege.setName("OWNER");
+				}
+				else
+				{
+					privilege = (Privilege)this.getObjectByPrimaryKey(s, Privilege.class, new Long(currPrivilegeId));
+				}
+				privileges.add(privilege);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionElementPrivilegeContextForUser|Failure|Error in Obtaining the PE Privileges Map|" + ex.getMessage());
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception ex2) {
+			}
+
+			try {
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionElementPrivilegeContextForUser|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionElementPrivilegeContextForUser|Success|Successful in Obtaining the PE Privileges Map|");
+		return protectionElementPrivilegeContextSet;
+	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElementPrivilegeContextForGroup(java.lang.String)
+	 */
+	public Set getProtectionElementPrivilegeContextForGroup(String groupId) throws CSObjectNotFoundException {
+		Set protectionElementPrivilegeContextSet = new HashSet();
+
+		Session s = null;
+		Connection cn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		String currPEId = null;
+		String prevPEId = null;
+
+		String currPrivilegeId = null;
+		Set privileges = null;
+		Privilege privilege = null;
+
+		boolean firstTime = true;
+		ProtectionElementPrivilegeContext protectionElementPrivilegeContext = null;
+		
+		try {
+
+			s = sf.openSession();
+			cn = s.connection();
+			stmt = cn.createStatement();
+
+			String sql = Queries.getQueryforGroupPEPrivilegeMap(groupId);
+			log.debug("SQL is : " + sql);
+
+			rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				currPEId = rs.getString(1);
+				currPrivilegeId = rs.getString(2);
+				
+				if (!currPEId.equals(prevPEId))
+				{
+					protectionElementPrivilegeContext = new ProtectionElementPrivilegeContext();
+					protectionElementPrivilegeContextSet.add(protectionElementPrivilegeContext);
+					ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class, new Long(prevPEId));
+					protectionElementPrivilegeContext.setProtectionElement(protectionElement);
+					privileges = new HashSet();
+					protectionElementPrivilegeContext.setPrivileges(privileges);
+					prevPEId = currPEId;
+				}
+				if (currPrivilegeId.equals("0"))
+				{
+					privilege = new Privilege();
+					privilege.setName("OWNER");
+				}
+				else
+				{
+					privilege = (Privilege)this.getObjectByPrimaryKey(s, Privilege.class, new Long(currPrivilegeId));
+				}
+				privileges.add(privilege);
+				privileges.add(privilege);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getProtectionElementPrivilegeContextForGroup|Failure|Error in Obtaining the PE Privileges Map|" + ex.getMessage());
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception ex2) {
+			}
+
+			try {
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getProtectionElementPrivilegeContextForGroup|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getProtectionElementPrivilegeContextForGroup|Success|Successful in Obtaining the PE Privileges Map|");
+		return protectionElementPrivilegeContextSet;
+	}
+	
 	public void modifyObject(Object obj) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
@@ -3066,7 +3227,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Class cl = obj.getClass();
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
-					userName, "ACCESS_DENIED");
+					userName, "READ_DENIED");
 
 			log.debug(accessMap.toString());
 

@@ -416,6 +416,24 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public Set getProtectionGroupRoleContextForGroup(String groupId) throws CSObjectNotFoundException;
 	
 	/**
+	 * Returns the ProtectionElementPrivilegeContext object containing the list of associated protection elements with their privileges
+	 * for the passed User. It also includes the Protection Element which are owned by the User
+	 * @param userId the User whose Protection Element - Privilege context is to be obtained
+	 * @return Set A list of the ProtectionElementPrivilegeContext objects for that passed user id
+	 * @throws CSObjectNotFoundException If the user is not found
+	 */
+	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException;
+	
+	/**
+	 * Returns the ProtectionElementPrivilegeContext object containing the list of associated protection elements with their privileges
+	 * for the passed Group
+	 * @param groupId the Group whose Protection Element - Privilege context is to be obtained
+	 * @return A list of the ProtectionElementPrivilegeContext objects for that passed group id
+	 * @throws CSObjectNotFoundException If the group is not found
+	 */
+	public Set getProtectionElementPrivilegeContextForGroup(String groupId) throws CSObjectNotFoundException;
+		
+	/**
 	 * Returns the Group object for the passed Group id
 	 * @param groupId The id of the Group object which is to be obtained
 	 * 

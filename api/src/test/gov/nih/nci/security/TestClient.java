@@ -130,7 +130,7 @@ public class TestClient {
 	static{
 		try{
 		Properties p = System.getProperties();
-		p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationsecurityConfig.xml");
+		p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationSecurityConfig.xml");
 		upm = SecurityServiceProvider.getUserProvisioningManager("security");
 		//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 		//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
@@ -343,9 +343,9 @@ public class TestClient {
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		//String[] privilegeIds = {"1", "2","3"};
 		//String[] privilegeIds = {"1","2"};
-		String[] privilegeIds = {"27","29"};
+		String[] privilegeIds = {"1","2"};
 		//String[] privilegeIds = {};
-		String roleId = "54";
+		String roleId = "1";
 		try{
 			upm.assignPrivilegesToRole(roleId,privilegeIds);
 		}catch(Exception ex){
@@ -740,8 +740,8 @@ public class TestClient {
 	
 	public void testSecureObject(){
 		try{
-			Role r = upm.getRoleById("55");
-			Role r1 = (Role)upm.secureObject("kumarvi",r);
+			//Role r = upm.getRoleById("55");
+			Role r1 = (Role)upm.secureObject("kumarvi",new Privilege());
 			System.out.println(r1.getDesc());
 			System.out.println(r1.getId());
 		}catch(Exception ex){
@@ -750,8 +750,11 @@ public class TestClient {
 	}
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
+		//ts.testPrivilegeCreate();
+		//ts.testRoleCreate();
+		ts.assignPrivilegeToRoles();
 		//ts.checkPermission();
-		ts.assignUserRoleToProtectionGroup();
-
+		//ts.assignUserRoleToProtectionGroup();
+		//ts.testSecureObject();
 	}
 }

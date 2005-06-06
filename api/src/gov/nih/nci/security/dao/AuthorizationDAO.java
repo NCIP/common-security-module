@@ -373,8 +373,9 @@ public interface AuthorizationDAO {
 	
 	public Set getProtectionGroupRoleContextForGroup(String groupId) throws CSObjectNotFoundException;
 
+	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException;;
 	
-	
+	public Set getProtectionElementPrivilegeContextForGroup(String groupId) throws CSObjectNotFoundException;;	
 	
 	public void removeObject(Object obj) throws CSTransactionException;
 	
@@ -405,5 +406,6 @@ public interface AuthorizationDAO {
 	public Collection getPrivilegeMap(String userName,Collection pEs) throws CSException;
 	
 	public Object secureUpdate(String userName, Object originalObject,Object mutatedObject) throws CSException;
+
 }
 

@@ -756,6 +756,20 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.getProtectionGroupRoleContextForGroup(groupId);
 	}
 	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionElementPrivilegeContextForUser(java.lang.String)
+	 */
+	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException {
+		return authorizationDAO.getProtectionElementPrivilegeContextForUser(userId);
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionElementPrivilegeContextForGroup(java.lang.String)
+	 */
+	public Set getProtectionElementPrivilegeContextForGroup(String groupId) throws CSObjectNotFoundException {
+		return authorizationDAO.getProtectionElementPrivilegeContextForGroup(groupId);
+	}
+
 	/**
 	 * Method getGroupById.
 	 * @param groupId String
@@ -1005,4 +1019,5 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		// TODO Auto-generated method stub
 		authorizationDAO.assignUserToGroup( userName, groupName );
 	}
+
 }
