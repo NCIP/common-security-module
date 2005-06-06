@@ -13,7 +13,8 @@ package gov.nih.nci.sdk.codegen.serverLayer;
  * Window - Preferences - Java - Code Style - Code Templates
  * 
  * Though this class is not required at this point of time. Because 
- * the ApplicationServiceServerImpl may have different flavours.
+ * the ApplicationServiceServerImpl may have different flavours. One 
+ * can implement different implementations.
  */
 public class ApplicationServiceServerImpl_Generator {
 
