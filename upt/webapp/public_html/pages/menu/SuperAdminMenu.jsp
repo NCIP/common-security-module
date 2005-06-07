@@ -64,6 +64,30 @@
 			<%}%>
 			<!-- link 3 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="" /></td>
+			
+			<!-- link priv 3.0.1 begins -->
+				<%if (tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID)){%>
+				<td height="16" class="mainMenuItemOver"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
+					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"><a
+					class="mainMenuLink"
+					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">PRIVILEGE</a>
+				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID)){%>
+				<td height="16" class="mainMenuItem"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
+					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"><a
+					class="mainMenuLink"
+					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">PRIVILEGE</a>
+				<%}%>
+				<!-- link priv 3.0.1 ends -->
+			
+			<!-- link 3 ends -->
+			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="" /></td>
+			
+			
+			
 			<!-- link 4 begins -->			
 			<td height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()" onclick="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')"><a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')">LOG OUT</a></td>
 			<!-- link 4 ends -->			

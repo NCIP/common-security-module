@@ -37,15 +37,25 @@
 					<h2>Privilege</h2>
 
 					<h3>Privilege Home</h3>
-
+					<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
 					<p>This is the Privilege section of the User Provisioning Tool. A
-					Privilege refers to any operation performed upon data. A Privilege refers to any operation performed upon data.  
+					Privilege refers to any operation performed upon data.   
 					Assigning privileges helps control access to important components of an application (Protection Elements).  
 					<br>
 					<!--In this section you may create new Privileges or modify existing
 					Privilege details. Please begin by selecting either <b>Create a New
 					Privilege</b> or <b>Select an Existing Privilege</b>.-->
-					CSM provides a standard set of privileges that you may search for and view in this section.  Please begin by selecting <b>Select an Existing Privilege</b>. </p>
+					This application has a standard set of privileges that you may search for and view in this section.  Please begin by selecting <b>Select an Existing Privilege</b>. </p>
+					</logic:notPresent>
+					<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+					<p>This is the Privilege section for UPT Super Admins. The UPT installs with CSM Standard Privileges that were agreed upon by the Security Working Group.  If necessary in this section you may create new application-specific Privileges or modify existing
+					Privilege details. 
+					<br>
+					A Privilege refers to any operation performed upon data. Assigning privileges helps control access to important components of an application (Protection Elements).  
+					<br>
+					Please begin by selecting either <b>Create a New
+					Privilege</b> or <b>Select an Existing Privilege</b>. </p>
+					</logic:present>
 					</td>
 				</tr>
 				
@@ -68,19 +78,30 @@
 
 									<td class="sidebarTitle" height="20">PRIVILEGE LINKS</td>
 								</tr>
-								<!--<tr>
+								<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadAdd')">Create a New
 									Privilege</a><br>
 									Click to add a new privilege.</td>
-								</tr>-->
+								</tr>
+								
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an
 									Existing Privilege</a><br>
-									Enter search criteria to find the privilege you wish to <!--operate
-									on.-->view.</td>
+									Enter search criteria to find the privilege you wish to operate
+									on.</td>
 								</tr>
+								</logic:present>
+								<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
+								<tr>
+									<td class="sidebarContent"><a
+										href="javascript: setAndSubmit('loadSearch')">Select an
+									Existing Privilege</a><br>
+									Enter search criteria to find the privilege you wish to view.</td>
+								</tr>
+								</logic:notPresent>
 							</table>
 							</td>
 						</tr>
