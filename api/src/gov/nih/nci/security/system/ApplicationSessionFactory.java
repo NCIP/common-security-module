@@ -147,8 +147,11 @@ public class ApplicationSessionFactory {
 		 	Element authorization = application.getChild("authorization");
 		 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");
 		 	String hibernateFileName = hibernateConfigFile.getText().trim();
-		 	SessionFactory sf = initSessionFactory(hibernateFileName);
-		 	appSessionFactories.put(contextNameValue,sf);
+		 	if (hibernateFileName != null && hibernateFileName.length() != 0)
+		 	{
+			 	SessionFactory sf = initSessionFactory(hibernateFileName);
+			 	appSessionFactories.put(contextNameValue,sf);
+		 	}
 		 }
 	}
 	public static SessionFactory getSessionFactory(String applicationContextName) throws CSException{
@@ -185,14 +188,9 @@ public class ApplicationSessionFactory {
 	private static SessionFactory initSessionFactory(String fileName){
 		SessionFactory sf = null;
 		try{
-			/**
-			 * We will use this commented out the style for creating sessionfactory
-			 */
-		 File f = new File(fileName);
-	     //File f = new File("config/myfile.cfg.xml");
-		 
-		 sf = new Configuration().configure(f).buildSessionFactory();
-			//sf = new Configuration().configure().buildSessionFactory();
+
+			File f = new File(fileName);
+			sf = new Configuration().configure(f).buildSessionFactory();
 			 
 		}catch(Exception ex){
 			ex.printStackTrace();
