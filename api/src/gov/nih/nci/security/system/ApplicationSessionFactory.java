@@ -96,6 +96,7 @@ package gov.nih.nci.security.system;
 
 
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.util.*;
 import net.sf.hibernate.SessionFactory;
@@ -147,13 +148,14 @@ public class ApplicationSessionFactory {
 		 	Element authorization = application.getChild("authorization");
 		 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");
 		 	String hibernateFileName = hibernateConfigFile.getText().trim();
-		 	if (hibernateFileName != null && hibernateFileName.length() != 0)
+		 	if(!StringUtilities.isBlank(hibernateFileName))
 		 	{
 			 	SessionFactory sf = initSessionFactory(hibernateFileName);
 			 	appSessionFactories.put(contextNameValue,sf);
 		 	}
 		 }
 	}
+	
 	public static SessionFactory getSessionFactory(String applicationContextName) throws CSException{
 		SessionFactory sf = null;
 		
