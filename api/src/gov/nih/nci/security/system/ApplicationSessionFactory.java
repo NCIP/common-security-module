@@ -216,8 +216,11 @@ public class ApplicationSessionFactory {
 			 	Element authorization = application.getChild("authorization");
 			 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");
 			 	String hibernateFileName = hibernateConfigFile.getText().trim();
-			 	sf = initSessionFactory(hibernateFileName);
-			 	appSessionFactories.put(contextNameValue,sf);
+			 	if(!StringUtilities.isBlank(hibernateFileName))
+			 	{
+				 	sf = initSessionFactory(hibernateFileName);
+				 	appSessionFactories.put(contextNameValue,sf);
+			 	}
 			 	break;
 			}
 		 }
