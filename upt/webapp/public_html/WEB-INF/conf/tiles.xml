@@ -140,12 +140,18 @@
 	<definition name="Tiles.User.ProtectionGroupAssociation.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/UserProtectionGroupRoleAssociation.jsp" />
 	</definition>
+	<definition name="Tiles.User.ProtectionElementPrivilegesAssociation.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/UserProtectionElementPrivilegesAssociation.jsp" />
+	</definition>	
 	<definition name="Tiles.Group.DoubleAssociation.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/GroupDoubleAssociation.jsp" />
 	</definition>
 	<definition name="Tiles.Group.ProtectionGroupAssociation.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/GroupProtectionGroupRoleAssociation.jsp" />
 	</definition>
+	<definition name="Tiles.Group.ProtectionElementPrivilegesAssociation.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/GroupProtectionElementPrivilegesAssociation.jsp" />
+	</definition>	
 	<definition name="Tiles.ProtectionGroup.Association.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/ProtectionGroupAssociation.jsp" />
 	</definition>

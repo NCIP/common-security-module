@@ -39,7 +39,7 @@
 				</authorization-provider-class>
 		        <hibernate-config-file>
 					<!-- Fully qualified file path -->
-					C:/jboss-4.0.1/server/default/deploy/upt.war/WEB-INF/classes/gov/nih/nci/security/upt/resources/security.hibernate.cfg.xml
+					C:/jboss-4.0.1/server/default/deploy/upt.war/WEB-INF/classes/gov/nih/nci/security/upt/resources/csmupt.hibernate.cfg.xml
 		        </hibernate-config-file>
 	      	</authorization>
 	   	</application>

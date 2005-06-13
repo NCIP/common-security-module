@@ -496,5 +496,18 @@ public class GroupForm extends ValidatorForm implements BaseDoubleAssociationFor
 	public String getFormName() {
 		return DisplayConstants.GROUP_ID;
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildProtectionElementPrivilegesObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public Collection buildProtectionElementPrivilegesObject(HttpServletRequest request) throws Exception 
+	{
+		
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+		Collection protectionElementPrivilegesContextList = (Collection)userProvisioningManager.getProtectionElementPrivilegeContextForGroup(this.groupId);
+		
+		return protectionElementPrivilegesContextList;
+		
+	}
 
 }

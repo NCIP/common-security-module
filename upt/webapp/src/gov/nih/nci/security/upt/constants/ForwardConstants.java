@@ -128,6 +128,7 @@ public interface ForwardConstants
 	public static final String LOAD_DOUBLEASSOCIATION_SUCCESS = "LoadDoubleAssociationSuccess";
 	public static final String SET_DOUBLEASSOCIATION_SUCCESS = "SetDoubleAssociationSuccess";
 	public static final String LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS = "LoadProtectionGroupAssociationSuccess";
+	public static final String LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_SUCCESS = "LoadProtectionElementPrivilgesAssociationSuccess";
 	public static final String LOAD_ROLEASSOCIATION_SUCCESS = "LoadRoleAssociationSuccess";
 	public static final String REMOVE_PROTECTIONGROUPASSOCIATION_SUCCESS = "RemoveProtectionGroupAssociationSuccess";
 	public static final String SET_ROLEASSOCIATION_SUCCESS = "SetRoleAssociationSuccess";
@@ -136,6 +137,7 @@ public interface ForwardConstants
 	public static final String READ_FAILURE = "ReadFailure";
 	public static final String SEARCH_FAILURE = "SearchFailure";
 	public static final String LOAD_PROTECTIONGROUPASSOCIATION_FAILURE = "LoadProtectionGroupAssociationFailure";
+	public static final String LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_FAILURE = "LoadProtectionElementPrivilgesAssociationFailure";
 
 	public static final String LOGOUT_SUCCESS="LogoutSuccess";
 	public static final String LOGOUT_ACTION="LogoutAction";

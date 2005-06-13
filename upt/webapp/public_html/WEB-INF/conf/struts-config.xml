@@ -173,6 +173,8 @@
 			<forward name="LoadDoubleAssociationSuccess" path="Tiles.Group.DoubleAssociation.Screen" />
 			<forward name="LoadProtectionGroupAssociationSuccess" path="Tiles.Group.ProtectionGroupAssociation.Screen" />
 			<forward name="LoadProtectionGroupAssociationFailure" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationSuccess" path="Tiles.Group.ProtectionElementPrivilegesAssociation.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationFailure" path="Tiles.Group.Detail.Screen" />
 			<forward name="RemoveProtectionGroupAssociationSuccess" path="Tiles.Group.Detail.Screen" />			
 			<forward name="LoadRoleAssociationSuccess" path="Tiles.Group.DoubleAssociation.Screen" />
 			<forward name="SetDoubleAssociationSuccess" path="Tiles.Group.Detail.Screen" />
@@ -222,6 +224,8 @@
 			<forward name="LoadDoubleAssociationSuccess" path="Tiles.User.DoubleAssociation.Screen" />
 			<forward name="LoadProtectionGroupAssociationSuccess" path="Tiles.User.ProtectionGroupAssociation.Screen" />
 			<forward name="LoadProtectionGroupAssociationFailure" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationSuccess" path="Tiles.User.ProtectionElementPrivilegesAssociation.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationFailure" path="Tiles.User.Detail.Screen" />
 			<forward name="RemoveProtectionGroupAssociationSuccess" path="Tiles.User.Detail.Screen" />			
 			<forward name="LoadRoleAssociationSuccess" path="Tiles.User.DoubleAssociation.Screen" />
 			<forward name="SetDoubleAssociationSuccess" path="Tiles.User.Detail.Screen" />

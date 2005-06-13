@@ -27,8 +27,7 @@
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		
-		<html:form styleId="UserForm"
-	action="<%="/UserDBOperation"%>">
+		<html:form styleId="UserForm" action="<%="/UserDBOperation"%>">
 	<html:hidden property="operation" value="read" />
 		
 		<tr>
@@ -93,9 +92,9 @@
 										<th class="dataTableHeader" scope="col" align="center"
 											width="20%">Associated Privileges</th>
 									</tr>
-									<logic:iterate name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGECONTEXT_SET%>" id="protectionElementPrivlegeContext" type="ProtectionElementPrivilegeContext">
-										<bean:define name="protectionElementPrivilegeContext" property="protectionElement" id="protectionElement" type="ProtectionElement"/>
-										<bean:define name="protectionElementPrivilegeContext" property="Privileges" id="Privileges" type="Set" />
+									<logic:iterate name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET%>" id="protectionElementPrivlegesContext" type="ProtectionElementPrivilegeContext">
+										<bean:define name="protectionElementPrivilegesContext" property="protectionElement" id="protectionElement" type="ProtectionElement"/>
+										<bean:define name="protectionElementPrivilegesContext" property="privileges" id="privileges" type="Set" />
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												
@@ -113,8 +112,8 @@
 												
 												
 												<td class="dataCellText" width="20%">
-												<logic:iterate name="Privileges" id="Privilege" type="Privilege">
-													<bean:write	name="Privilege" property="name" />&nbsp;
+												<logic:iterate name="privileges" id="privilege" type="Privilege">
+													<bean:write	name="privilege" property="name" />&nbsp;
 												</logic:iterate>
 												</td>
 											</tr>
@@ -135,8 +134,8 @@
 												
 												
 												<td class="dataCellText" width="20%">
-												<logic:iterate name="Privileges" id="Privilege" type="Privilege">
-													<bean:write	name="Privilege" property="name" />&nbsp;
+												<logic:iterate name="privileges" id="privilege" type="Privilege">
+													<bean:write	name="privilege" property="name" />&nbsp;
 												</logic:iterate>
 												</td>
 											</tr>
@@ -151,7 +150,6 @@
 									<tr>
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('read');">Back</html:submit></td>
-										
 									</tr>
 								</table>
 								<!-- action buttons end --></td>

@@ -240,6 +240,51 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));		
 	}
 	
+	public ActionForward loadProtectionElementPrivilegesAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
+		HttpSession session = request.getSession();
+		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
+		
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
+			if (logDoubleAssociation.isDebugEnabled())
+				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
+			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		}
+		try
+		{
+			Collection associatedProtectionElementPrivilegesContexts = baseDoubleAssociationForm.buildProtectionElementPrivilegesObject(request);
+			if (associatedProtectionElementPrivilegesContexts != null && associatedProtectionElementPrivilegesContexts.size() != 0)
+				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET, associatedProtectionElementPrivilegesContexts);
+			else
+			{
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Element and Privileges Found"));			
+				saveErrors( request,errors );
+				if (logDoubleAssociation.isDebugEnabled())
+					logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+						"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Failure|No Protection Element Privileges Association for the "+baseDoubleAssociationForm.getFormName()+" object|"
+						+form.toString()+"|");	
+				return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_FAILURE));
+			}
+		}
+		catch (CSException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			saveErrors( request,errors );
+			if (logDoubleAssociation.isDebugEnabled())
+				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+					"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Failure|Error Loading Protection Element Privileges Association for the "+baseDoubleAssociationForm.getFormName()+" object|"
+					+form.toString()+"|"+ cse.getMessage());
+		}
+		if (logDoubleAssociation.isDebugEnabled())
+			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+				"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Success|Success in Loading Protection Element Privileges Association for "+baseDoubleAssociationForm.getFormName()+" object|"
+				+form.toString()+"|");			
+		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_SUCCESS));		
+	}
+
 	public ActionForward removeProtectionGroupAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();

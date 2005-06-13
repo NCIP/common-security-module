@@ -166,6 +166,11 @@
 										</logic:equal>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+									</tr>
+								</table>
+								<table cellpadding="4" cellspacing="0" border="0">
+									<tr>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionElementPrivilegesAssociation');">Associated PE & Privileges</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">Associated PG & Roles</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
 									</logic:notEqual>

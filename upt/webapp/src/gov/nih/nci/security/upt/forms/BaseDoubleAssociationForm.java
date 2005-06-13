@@ -125,5 +125,7 @@ public interface BaseDoubleAssociationForm extends BaseAssociationForm
 	public void removeProtectionGroupAssociation(HttpServletRequest request)throws Exception;
 	
 	public void updateRoleAssociation(HttpServletRequest request)throws Exception;
+	
+	public Collection buildProtectionElementPrivilegesObject(HttpServletRequest request)throws Exception;
 
 }

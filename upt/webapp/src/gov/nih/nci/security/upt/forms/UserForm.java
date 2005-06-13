@@ -722,5 +722,18 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	public String getFormName() {
 		return DisplayConstants.USER_ID;
 	}
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildProtectionElementPrivilegesObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public Collection buildProtectionElementPrivilegesObject(HttpServletRequest request) throws Exception 
+	{
+		
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+		Collection protectionElementPrivilegesContextList = (Collection)userProvisioningManager.getProtectionElementPrivilegeContextForUser(this.userId);
+		
+		return protectionElementPrivilegesContextList;
+		
+	}
 
 }
