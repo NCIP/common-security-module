@@ -13,6 +13,8 @@ import gov.nih.nci.sdk.codegen.MethodSignature;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+
+
 import test.gov.nih.nci.sdk.codegen.TestApplicationService;
 
 /**
@@ -49,6 +51,16 @@ public class ApplicationServiceClientImpl_Creator {
 		ArrayList impStmts = CodeGenUtils.getImportStatements(applicationService);
 		
 		CodeGenUtils.addImportStatements(code,impStmts);
+		
+		ArrayList importStatements= new ArrayList();
+		
+		
+		importStatements.add("import "+"org.springframework.context.ApplicationContext"+";\n");
+		importStatements.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
+		importStatements.add("import "+"gov.nih.nci.application.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
+		
+		CodeGenUtils.addImportStatements(code,importStatements);
+		
 		CodeFormatter.addLines(code,2);
 		code.append("public class ");
 		code.append(sourceClassName);
@@ -59,6 +71,21 @@ public class ApplicationServiceClientImpl_Creator {
 		CodeFormatter.openClassBody(code);
 		CodeFormatter.addLines(code,2);
 		
+		CodeFormatter.addTabs(code,1);
+		
+		code.append("private Remote"+CodeGenUtils.getPartialName(applicationService)+" rs;");
+		CodeFormatter.addLines(code,2);
+		/**
+		 * Buildding constructor
+		 */
+		CodeFormatter.addSpaces(code,2);
+		code.append("public ").append(sourceClassName).append("()");
+		CodeFormatter.startMethod(code);
+		CodeFormatter.addTabs(code,2);
+		code.append("rs = getRemoteServiceFromClassPath();");
+		CodeFormatter.newLine(code);
+		CodeFormatter.endMethod(code);
+		CodeFormatter.newLine(code);
 		ArrayList mDecs = CodeGenUtils.getMethodDeclarations(applicationService);
 		for(int k=0;k<mDecs.size();k++){
 			MethodSignature mSig = (MethodSignature)mDecs.get(k);
@@ -82,7 +109,30 @@ public class ApplicationServiceClientImpl_Creator {
 				CodeFormatter.newLine(code);
 			}
 			CodeFormatter.endMethod(code);
+			CodeFormatter.newLine(code);
 		}
+		/**
+		 * Add RemoteService Accessor Method
+		 */
+		CodeFormatter.newLine(code);
+		CodeFormatter.addSpaces(code,2);
+		code.append("private "+"Remote"+CodeGenUtils.getPartialName(applicationService)+" getRemoteServiceFromClassPath()");
+		CodeFormatter.startMethod(code);
+		code.append("ApplicationContext ctx = new ClassPathXmlApplicationContext(\"");
+		code.append("remoteService.xml");
+		code.append("\")");
+		code.append(";");
+        CodeFormatter.newLine(code);
+        CodeFormatter.addTabs(code,1);
+        code.append("Remote"+CodeGenUtils.getPartialName(applicationService));
+        code.append(" rs = ");
+		code.append("("+"Remote"+CodeGenUtils.getPartialName(applicationService)+")");
+        code.append("ctx.getBean(\"remoteService\");");
+        CodeFormatter.newLine(code);
+        CodeFormatter.addTabs(code,1);
+        code.append("return rs;");
+        CodeFormatter.newLine(code);
+		CodeFormatter.endMethod(code);
 		CodeFormatter.closeClassBody(code);
 		try{
 			sourceFileWriter.write(code.toString());
