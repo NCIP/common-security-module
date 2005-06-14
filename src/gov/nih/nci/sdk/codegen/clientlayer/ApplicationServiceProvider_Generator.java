@@ -1,19 +1,18 @@
 /*
- * Created on Jun 6, 2005
+ * Created on Jun 13, 2005
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package com.ekagrasoft.server.management;
+package gov.nih.nci.sdk.codegen.clientlayer;
 
 /**
  * @author kumarvi
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
- * This class is a wrapper for CSM security.
  */
-public class CSMEnabler {
+public class ApplicationServiceProvider_Generator {
 
 	public static void main(String[] args) {
 	}

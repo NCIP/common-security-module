@@ -22,6 +22,10 @@ public class RemoteApplicationServiceImpl_Generator {
 		this.applicationService= applicationServiceInterface;
 	}
 	
+	public void generate(){
+		
+	}
+	
 	public static void main(String[] args) {
 	}
 }
