@@ -72,7 +72,7 @@
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>
 						<!-- paging begins -->
-						<logic:present name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGECONTEXT_SET%>">
+						<logic:present name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET%>">
 							<bean:define id="oddRow" value="true" />
 							<!-- paging ends -->
 							<tr>
@@ -81,36 +81,36 @@
 									cellspacing="0" border="0" class="dataTable" width="100%">
 									<tr>
 										<th class="dataTableHeader" scope="col" align="center"
-											width="30%">Protection Element Name</th>
+											width="20%">Protection Element Name</th>
 											
 										<th class="dataTableHeader" scope="col" align="center"
-											width="40%">Object ID</th>
+											width="20%">Object ID</th>
 											
 										<th class="dataTableHeader" scope="col" align="center"
-											width="10%">Attribute</th>
+											width="20%">Attribute</th>
 										
 										<th class="dataTableHeader" scope="col" align="center"
-											width="20%">Associated Privileges</th>
+											width="40%">Associated Privileges</th>
 									</tr>
-									<logic:iterate name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET%>" id="protectionElementPrivlegesContext" type="ProtectionElementPrivilegeContext">
+									<logic:iterate name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET%>" id="protectionElementPrivilegesContext" type="ProtectionElementPrivilegeContext">
 										<bean:define name="protectionElementPrivilegesContext" property="protectionElement" id="protectionElement" type="ProtectionElement"/>
 										<bean:define name="protectionElementPrivilegesContext" property="privileges" id="privileges" type="Set" />
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												
-												<td class="dataCellText" width="30%"><bean:write
+												<td class="dataCellText" width="20%"><bean:write
 													name="protectionElement" property="protectionElementName" />
 												</td>
 												
-												<td class="dataCellText" width="40%"><bean:write
+												<td class="dataCellText" width="20%"><bean:write
 													name="protectionElement" property="objectId" />
 												</td>
 												
-												<td class="dataCellText" width="10%"><bean:write
-													name="protectionElement" property="attribute" />
+												<td class="dataCellText" width="20%"><bean:write
+													name="protectionElement" property="attribute" />&nbsp;
 												</td>												
 												
-												<td class="dataCellText" width="20%">
+												<td class="dataCellText" width="40%">
 												<logic:iterate name="privileges" id="privilege" type="Privilege">
 													<bean:write	name="privilege" property="name" />&nbsp;
 												</logic:iterate>
@@ -119,19 +119,19 @@
 										<%}else{ oddRow = "true";%>
 											<tr class="dataRowDark">
 												
-												<td class="dataCellText" width="30%"><bean:write
+												<td class="dataCellText" width="20%"><bean:write
 													name="protectionElement" property="protectionElementName" />
 												</td>
 												
-												<td class="dataCellText" width="40%"><bean:write
+												<td class="dataCellText" width="20%"><bean:write
 													name="protectionElement" property="objectId" />
 												</td>
 												
-												<td class="dataCellText" width="10%"><bean:write
-													name="protectionElement" property="attribute" />
+												<td class="dataCellText" width="20%"><bean:write
+													name="protectionElement" property="attribute" />&nbsp;
 												</td>												
 												
-												<td class="dataCellText" width="20%">
+												<td class="dataCellText" width="40%">
 												<logic:iterate name="privileges" id="privilege" type="Privilege">
 													<bean:write	name="privilege" property="name" />&nbsp;
 												</logic:iterate>
