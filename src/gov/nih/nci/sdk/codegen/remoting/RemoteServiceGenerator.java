@@ -8,6 +8,7 @@ package gov.nih.nci.sdk.codegen.remoting;
 
 import gov.nih.nci.sdk.codegen.CodeFormatter;
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
+import gov.nih.nci.sdk.codegen.MethodSignature;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class RemoteServiceGenerator {
 	private String sourceDirName = null;
 	
 	
-	public String basePackage = "gov.nih.nci.application.remote";
+	public String basePackage = "gov.nih.nci.application.common";
 	
 	public RemoteServiceGenerator(String sourceDirName,Class applicationService){
 		this.applicationService= applicationService;
@@ -62,8 +63,11 @@ public class RemoteServiceGenerator {
 		
 		ArrayList mDecs = CodeGenUtils.getMethodDeclarations(applicationService);
 		for(int k=0;k<mDecs.size();k++){
-			String mdec = (String)mDecs.get(k);
-			code.append(mdec);
+			//String mdec = (String)mDecs.get(k);
+			//code.append(mdec);
+			MethodSignature msig = (MethodSignature)mDecs.get(k);
+			
+			code.append(msig.getStatementWithSession());
 			code.append(";\n");
 			CodeFormatter.newLine(code);
 		}
