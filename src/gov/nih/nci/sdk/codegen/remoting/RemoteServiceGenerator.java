@@ -71,6 +71,12 @@ public class RemoteServiceGenerator {
 			code.append(";\n");
 			CodeFormatter.newLine(code);
 		}
+		
+		code.append("public abstract String authenticate(String userId,String pwd) throws ApplicationException;");
+		CodeFormatter.newLine(code);
+		CodeFormatter.newLine(code);
+		code.append("public abstract void logOut(String sessionKey);");
+		CodeFormatter.newLine(code);
 		CodeFormatter.closeClassBody(code);
 		try{
 			sourceFileWriter.write(code.toString());
