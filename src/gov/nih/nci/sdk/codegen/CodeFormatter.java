@@ -47,6 +47,7 @@ public class CodeFormatter {
     	
     }
     public static void endMethod(StringBuffer stbr){
+    	stbr.append("\n");
     	stbr.append("\t");
     	stbr.append("}");
     	newLine(stbr);

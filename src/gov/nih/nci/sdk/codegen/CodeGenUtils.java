@@ -111,7 +111,10 @@ public class CodeGenUtils {
 			 * Collect method signature withoutSession
 			 */
 			StringBuffer sig_without_sess = new StringBuffer();
+			StringBuffer mCall_without_sess = new StringBuffer();
+			mCall_without_sess.append(m.getName());
 			sig_without_sess.append(m.getName());
+			mCall_without_sess.append("(");
 			sig_without_sess.append("(");
 			
 			  Class[] args2 = m.getParameterTypes();
@@ -120,15 +123,18 @@ public class CodeGenUtils {
 			  	Class arg = args2[j];
 			  	if(j>0){
 			  		sig_without_sess.append(",");
+			  		mCall_without_sess.append(",");
 				  	}
 			  	
 			  	sig_without_sess.append(getPartialName(arg));
 			  	sig_without_sess.append(" ");
+			  	mCall_without_sess.append("arg"+counter);
 			  	sig_without_sess.append("arg"+counter);
 			  	counter++;
 			  }
-			  
+			  mCall_without_sess.append(")");
 			  sig_without_sess.append(")");
+			  mSig.setMethodCallWithoutSession(mCall_without_sess.toString());
 			mSig.setOrigSignature(sig_without_sess.toString());
 			
 			/**

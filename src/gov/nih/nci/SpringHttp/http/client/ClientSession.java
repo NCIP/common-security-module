@@ -31,7 +31,7 @@ public class ClientSession {
 		
 		return instance;
 	  }
-	 public ClientSession(){
+	 private ClientSession(){
 	 	
 	 }
 	 public boolean validateSessionKey(){

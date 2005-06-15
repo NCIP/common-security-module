@@ -152,12 +152,12 @@ public class RemoteApplicationServiceImpl_Generator {
 			CodeFormatter.newLine(code);
 			if(mSig.getRetType().equalsIgnoreCase("void")){
 				CodeFormatter.addTabs(code,1);
-				code.append(" rs.").append(mSig.getMethodCallWithoutSession());
+				code.append(" applicationService.").append(mSig.getMethodCallWithoutSession());
 				code.append(";");
 				CodeFormatter.newLine(code);
 			}else{
 				CodeFormatter.addTabs(code,1);
-				code.append("return  rs.").append(mSig.getMethodCallWithoutSession());
+				code.append("return  applicationService.").append(mSig.getMethodCallWithoutSession());
 				code.append(";");
 				CodeFormatter.newLine(code);
 			}

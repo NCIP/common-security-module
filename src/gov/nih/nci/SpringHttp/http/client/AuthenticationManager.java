@@ -8,6 +8,7 @@ package gov.nih.nci.SpringHttp.http.client;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.ekagrasoft.remote.RemoteService;
 
@@ -46,6 +47,14 @@ public class AuthenticationManager {
   private RemoteService getRemoteService(){
   	ApplicationContext ctx = new FileSystemXmlApplicationContext(
     "src/gov/nih/nci/SpringHttp/conf/remoteService.xml");
+
+    RemoteService rs = (RemoteService)ctx.getBean("remoteService");
+    
+    return rs;
+  }
+  
+  private RemoteService getRemoteServiceFromClassPath(){
+  	ApplicationContext ctx = new ClassPathXmlApplicationContext("remoteService.xml");
 
     RemoteService rs = (RemoteService)ctx.getBean("remoteService");
     
