@@ -1,6 +1,6 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="helloWorldService" class="gov.nih.nci.SpringHttp.SimpleHelloWorld"/>
-    <bean id="persistenceManagerService" class="com.ekagrasoft.persistence.PersistenceManagerImpl"/>
-    <bean id="remoteService" class="com.ekagrasoft.remote.RemoteServiceImpl"/>
+    <bean id="helloWorldService" class="com.prototype.remoting.SpringHttp.SimpleHelloWorld"/>
+    <bean id="persistenceManagerService" class="com.prototype.application.persistence.PersistenceManagerImpl"/>
+    <bean id="remoteService" class="com.prototype.application.remote.RemoteServiceImpl"/>
 </beans>

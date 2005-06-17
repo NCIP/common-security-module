@@ -51,5 +51,6 @@
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/uuid-key-generator.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jboss-client.jar"/>
+	<classpathentry kind="lib" path="public_html/WEB-INF/lib/csmapi.jar"/>
 	<classpathentry kind="output" path="public_html/WEB-INF/classes"/>
 </classpath>

@@ -7,7 +7,7 @@
 			<ref bean="helloWorldService"/>
 		</property>
 		<property name="serviceInterface">
-			<value>gov.nih.nci.SpringHttp.HelloWorld</value>
+			<value>com.prototype.remoting.SpringHttp.HelloWorld</value>
 		</property>
 	</bean>
 	
@@ -16,7 +16,7 @@
 			<ref bean="persistenceManagerService"/>
 		</property>
 		<property name="serviceInterface">
-			<value>com.ekagrasoft.persistence.PersistenceManager</value>
+			<value>com.prototype.application.persistence.PersistenceManager</value>
 		</property>
 	</bean>
 	
@@ -25,7 +25,7 @@
 			<ref bean="remoteService"/>
 		</property>
 		<property name="serviceInterface">
-			<value>com.ekagrasoft.remote.RemoteService</value>
+			<value>com.prototype.application.remote.RemoteService</value>
 		</property>
 	</bean>
 	
