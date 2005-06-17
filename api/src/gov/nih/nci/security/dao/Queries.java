@@ -339,7 +339,7 @@ public class Queries {
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_privilege p,");
-		stbr.append("            csm_groups g,");
+		stbr.append("            csm_group g,");
 		stbr.append("            csm_user_group ug,");
 		stbr.append("            csm_user u,");
 		stbr.append("            csm_pg_pe pgpe,");
@@ -353,7 +353,7 @@ public class Queries {
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ug.group_id = ugrpg.group_id");
 		stbr.append("            AND ug.user_id = ").append(user_id);
-		stbr.append("UNION ALL");
+		stbr.append(" UNION ALL ");
 		stbr.append("SELECT DISTINCT pe.protection_element_id pe_id, p.privilege_id p_id");
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_protection_group pg,");
@@ -369,7 +369,11 @@ public class Queries {
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ugrpg.user_id = ").append(user_id);
-		stbr.append("      ORDER BY pe_id, p_id");
+		stbr.append(" UNION ALL ");
+		stbr.append("SELECT DISTINCT upe.protection_element_id pe_id, 0 p_id");
+		stbr.append("      FROM  csm_user_pe upe");
+		stbr.append("      WHERE upe.user_id = ").append(user_id);		
+		stbr.append(" ORDER BY pe_id, p_id");
 		
 		return stbr.toString();
 		
@@ -383,8 +387,8 @@ public class Queries {
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_privilege p,");
-		stbr.append("            csm_groups g,");
-		stbr.append("            csm_pg_pe,");
+		stbr.append("            csm_group g,");
+		stbr.append("            csm_pg_pe pgpe,");
 		stbr.append("            csm_role r,");
 		stbr.append("            csm_role_privilege rp,");
 		stbr.append("            csm_user_group_role_pg ugrpg");
@@ -393,7 +397,7 @@ public class Queries {
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append("            AND ugrpg.group_id=?").append(group_id);
+		stbr.append("            AND ugrpg.group_id = ").append(group_id);
 		stbr.append("      ORDER BY pe_id, p_id");
 		
 		return stbr.toString();

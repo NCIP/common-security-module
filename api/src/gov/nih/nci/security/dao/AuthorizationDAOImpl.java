@@ -2759,7 +2759,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				{
 					protectionElementPrivilegeContext = new ProtectionElementPrivilegeContext();
 					protectionElementPrivilegeContextSet.add(protectionElementPrivilegeContext);
-					ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class, new Long(prevPEId));
+					ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class, new Long(currPEId));
 					protectionElementPrivilegeContext.setProtectionElement(protectionElement);
 					privileges = new HashSet();
 					protectionElementPrivilegeContext.setPrivileges(privileges);
@@ -2774,7 +2774,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				{
 					privilege = (Privilege)this.getObjectByPrimaryKey(s, Privilege.class, new Long(currPrivilegeId));
 				}
-				privileges.add(privilege);
 				privileges.add(privilege);
 			}
 		} catch (Exception ex) {

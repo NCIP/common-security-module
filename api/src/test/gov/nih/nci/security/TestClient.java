@@ -110,6 +110,7 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.junk.RandomIntGenerator;
 import gov.nih.nci.security.util.ObjectSetUtil;
 import gov.nih.nci.security.dao.*;
+import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -748,13 +749,35 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void testUserPEPrivilegeObject() {
+		try {
+			upm.getProtectionElementPrivilegeContextForUser("1");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	public void testGroupPEPrivilegeObject() {
+		try {
+			upm.getProtectionElementPrivilegeContextForGroup("1");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
 		//ts.testPrivilegeCreate();
 		//ts.testRoleCreate();
-		ts.assignPrivilegeToRoles();
+		//ts.assignPrivilegeToRoles();
 		//ts.checkPermission();
 		//ts.assignUserRoleToProtectionGroup();
 		//ts.testSecureObject();
+		ts.testGroupPEPrivilegeObject();
 	}
 }
