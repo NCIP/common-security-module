@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package com.ekagrasoft.server.management;
+package gov.nih.nci.sdk.server.management;
 
 import java.util.Hashtable;
 
@@ -39,6 +39,9 @@ public class UserSession extends Hashtable{
 	public void removeAttribute(String key){
 		this.setLastAccessedTime(System.currentTimeMillis());
 		super.remove(key);
+	}
+	public String getUserId(){
+		return (String)this.getAttribute("userId");
 	}
 	
 }

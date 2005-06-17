@@ -6,12 +6,13 @@
  */
 package com.ekagrasoft.remote;
 
+import gov.nih.nci.sdk.server.management.SessionManager;
+import gov.nih.nci.sdk.server.management.UserSession;
+
 import com.ekagrasoft.dataobjects.Person;
 import com.ekagrasoft.persistence.PersistenceException;
 import com.ekagrasoft.persistence.PersistenceManager;
 import com.ekagrasoft.persistence.PersistenceManagerImpl;
-import com.ekagrasoft.server.management.SessionManager;
-import com.ekagrasoft.server.management.UserSession;
 
 /**
  * @author kumarvi

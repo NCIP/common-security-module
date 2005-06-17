@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package com.ekagrasoft.server.management;
+package gov.nih.nci.sdk.server.management;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -30,7 +30,7 @@ public class SessionMonitor extends Thread{
 		SessionManager sm = SessionManager.getInstance();
 		Set keys = sm.getSessionKeySet();
 		Iterator it = keys.iterator();
-		 while(true){
+		 
 		 	while(it.hasNext()){
 		 		String sessionKey = (String)it.next();
 		 		UserSession us = sm.getSessionForMonitoring(sessionKey);
@@ -38,16 +38,10 @@ public class SessionMonitor extends Thread{
 		 			sm.killSession(sessionKey);
 		 		}
 		 	}
-		 	this.pause();
-		 }
+		 	
+		 
 	}
 	
-	private void pause(){
-		try{
-			Thread.sleep(2000);
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
+	
 
 }

@@ -8,6 +8,7 @@ package gov.nih.nci.sdk.codegen.clientlayer;
 
 import gov.nih.nci.sdk.codegen.CodeFormatter;
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
+import gov.nih.nci.sdk.codegen.StringUtilities;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -23,12 +24,18 @@ import test.gov.nih.nci.sdk.codegen.TestApplicationService;
 public class ClientSessionGenerator {
 	public Class applicationService;
 	private String basePackage ="gov.nih.nci.application.client";
+	private String classPackage = "application.client";
 	private String sourceDirName = null;
 	
 	
-	public ClientSessionGenerator(String sourceDirName,Class applicationService){
+	public ClientSessionGenerator(String sourceDirName,String basePackage,Class applicationService){
 		this.applicationService= applicationService;
 		this.sourceDirName=sourceDirName;
+		if(StringUtilities.isBlank(basePackage)){
+			this.basePackage=classPackage;
+		}else{
+			this.basePackage= basePackage+"."+classPackage;
+		}
 	}
 	public void generate(){
 		String remoteApplicationServiceName = "Remote"+CodeGenUtils.getPartialName(applicationService);
@@ -136,7 +143,7 @@ public class ClientSessionGenerator {
 	}
 	public static void main(String[] args) {
 		
-		ClientSessionGenerator acc = new ClientSessionGenerator("c:/temp/vinay",TestApplicationService.class);
+		ClientSessionGenerator acc = new ClientSessionGenerator("c:/temp/vinay","gov.nih.nci",TestApplicationService.class);
 		acc.generate();
 	}
 }

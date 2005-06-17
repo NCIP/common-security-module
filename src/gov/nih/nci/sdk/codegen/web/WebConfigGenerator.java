@@ -7,19 +7,19 @@
 package gov.nih.nci.sdk.codegen.web;
 
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
+import gov.nih.nci.sdk.codegen.StringUtilities;
 
+import java.io.File;
 import java.io.FileWriter;
 
-import org.jdom.Attribute;
-import org.jdom.Comment;
+
 import org.jdom.DocType;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+
 import org.jdom.output.XMLOutputter;
 
-import test.gov.nih.nci.sdk.codegen.TestApplicationService;
+
 
 /**
  * @author kumarvi
@@ -30,15 +30,31 @@ import test.gov.nih.nci.sdk.codegen.TestApplicationService;
 public class WebConfigGenerator {
 	
 	private Class applicationService;
-	public WebConfigGenerator(String  applicationServiceName){
-		try{
-		this.applicationService=Class.forName(applicationServiceName);
-		}catch(Exception ex){
-			ex.printStackTrace();
+	private String sourceFolder;
+	private String basePackage;
+	
+	public WebConfigGenerator(String sourceFolder,String basePackage,Class  applicationService){
+		this.applicationService=applicationService;
+		File f = new File(sourceFolder,"public_html");
+		f.mkdir();
+		File f2 = new File(f,"WEB-INF");
+		f2.mkdir();
+		this.sourceFolder=f2.getAbsolutePath();
+		
+		if(StringUtilities.isBlank(basePackage)){
+			this.basePackage="";
+		}else{
+			this.basePackage=basePackage+".";
 		}
 	}
+	
+	public void generate(){
+		generate_web_xml_config();
+		generate_application_xml_config();
+		generate_http_invoker_xml_config();
+	}
 
-	public void generate_web_xml_config(){
+	private void generate_web_xml_config(){
 		Element root = new Element("web-app");
 		Document webDoc = new Document(root);
 		DocType dt = new DocType("web-app","-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN","http://java.sun.com/dtd/web-app_2_3.dtd");
@@ -94,9 +110,9 @@ public class WebConfigGenerator {
 		root.addContent(sMap);
 		
 		
-		this.outputDocumentToFile(webDoc,"C:/temp/vinay/xyz.xml");
+		this.outputDocumentToFile(webDoc,sourceFolder+"/"+"web.xml");
 	}
-	public void generate_application_xml_config(){
+	private void generate_application_xml_config(){
 		Element root = new Element("beans");
 		Document doc = new Document(root);
 		DocType dt = new DocType("beans","-//SPRING//DTD BEAN//EN","http://www.springframework.org/dtd/spring-beans.dtd");
@@ -104,11 +120,11 @@ public class WebConfigGenerator {
 		Element bns = new Element("bean");
 		bns.setAttribute("id","remoteService");
 		String className = "Remote"+CodeGenUtils.getPartialName(applicationService)+"Impl";
-		bns.setAttribute("class","gov.nih.nci.application.server."+className);
+		bns.setAttribute("class",basePackage+"application.server."+className);
 		root.addContent(bns);
-		this.outputDocumentToFile(doc,"C:/temp/vinay/applicationContext.xml");
+		this.outputDocumentToFile(doc,sourceFolder+"/"+"applicationContext.xml");
 	}
-	public void generate_http_invoker_xml_config(){
+	private void generate_http_invoker_xml_config(){
 		Element root = new Element("beans");
 		Document doc = new Document(root);
 		DocType dt = new DocType("beans","-//SPRING//DTD BEAN//EN","http://www.springframework.org/dtd/spring-beans.dtd");
@@ -134,13 +150,13 @@ public class WebConfigGenerator {
 		    prop2.setAttribute("name","serviceInterface");
 		         Element val = new Element("value");
 		         String className = "Remote"+CodeGenUtils.getPartialName(applicationService);
-		         val.setText("gov.nih.nci.application.common."+className);
+		         val.setText(basePackage+"application.common."+className);
 		     prop2.addContent(val);
 		    rBean.addContent(prop2);
 		    
 		    root.addContent(rBean);
 		    
-		    this.outputDocumentToFile(doc,"C:/temp/vinay/httpinvoker-servlet.xml");
+		    this.outputDocumentToFile(doc,sourceFolder+"/"+"httpinvoker-servlet.xml");
 		     
 	}
 	private void outputDocumentToFile(Document configDoc, String xmlFile) {
@@ -159,7 +175,7 @@ public class WebConfigGenerator {
     }
 	public static void main(String[] args) {
 		
-		WebConfigGenerator wcg = new WebConfigGenerator("test.gov.nih.nci.sdk.codegen.TestApplicationService");
-		wcg.generate_http_invoker_xml_config();
+		//WebConfigGenerator wcg = new WebConfigGenerator("test.gov.nih.nci.sdk.codegen.TestApplicationService");
+		//wcg.generate_http_invoker_xml_config();
 	}
 }

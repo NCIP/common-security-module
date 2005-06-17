@@ -9,6 +9,7 @@ package gov.nih.nci.sdk.codegen.remoting;
 import gov.nih.nci.sdk.codegen.CodeFormatter;
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
 import gov.nih.nci.sdk.codegen.MethodSignature;
+import gov.nih.nci.sdk.codegen.StringUtilities;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -32,11 +33,17 @@ public class RemoteServiceGenerator {
 	private String sourceDirName = null;
 	
 	
-	public String basePackage = "gov.nih.nci.application.common";
+	public String basePackage;
+	public String classPackage = "application.common";
 	
-	public RemoteServiceGenerator(String sourceDirName,Class applicationService){
+	public RemoteServiceGenerator(String sourceDirName,String basePackage,Class applicationService){
 		this.applicationService= applicationService;
 		this.sourceDirName= sourceDirName;
+		if(StringUtilities.isBlank(basePackage)){
+			this.basePackage=classPackage;
+		}else{
+			this.basePackage= basePackage+"."+classPackage;
+		}
 	}
 	
 	public void generate(){
@@ -110,7 +117,7 @@ public class RemoteServiceGenerator {
 
 	public static void main(String[] args) {
 		
-		RemoteServiceGenerator rsg = new RemoteServiceGenerator("c:/temp/vinay",TestApplicationService.class);
+		RemoteServiceGenerator rsg = new RemoteServiceGenerator("c:/temp/vinay","gov.nih.nci",TestApplicationService.class);
 		rsg.generate();
 	}
 }

@@ -8,6 +8,7 @@ package gov.nih.nci.sdk.codegen.clientlayer;
 
 import gov.nih.nci.sdk.codegen.CodeFormatter;
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
+import gov.nih.nci.sdk.codegen.StringUtilities;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -23,12 +24,18 @@ import test.gov.nih.nci.sdk.codegen.TestApplicationService;
 public class ApplicationServiceProvider_Generator {
     
 	public Class applicationService;
-	private String basePackage ="gov.nih.nci.application.client";
+	private String basePackage ;
+	private String classPackage = "application.client";
 	private String sourceDirName = null;
 	
-	public ApplicationServiceProvider_Generator(String sourceDirName,Class applicationService){
+	public ApplicationServiceProvider_Generator(String sourceDirName,String basePackage,Class applicationService){
 		this.sourceDirName= sourceDirName;
 		this.applicationService=applicationService;
+		if(StringUtilities.isBlank(basePackage)){
+			this.basePackage=classPackage;
+		}else{
+			this.basePackage= basePackage+"."+classPackage;
+		}
 	}
 	public void generate(){
 		String sourceClassName = "ApplicationServiceProvider";
@@ -85,7 +92,7 @@ public class ApplicationServiceProvider_Generator {
 	}
 	public static void main(String[] args) {
 		
-		ApplicationServiceProvider_Generator acc = new ApplicationServiceProvider_Generator("c:/temp/vinay",TestApplicationService.class);
+		ApplicationServiceProvider_Generator acc = new ApplicationServiceProvider_Generator("c:/temp/vinay","gov.nih.nci",TestApplicationService.class);
 		acc.generate();
 	}
 }

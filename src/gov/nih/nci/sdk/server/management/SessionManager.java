@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package com.ekagrasoft.server.management;
+package gov.nih.nci.sdk.server.management;
 
 import java.util.Hashtable;
 import java.util.Set;
@@ -45,6 +45,7 @@ public class SessionManager {
 	}
 	
 	public String initSession(String userId){
+		cleanUp();
 		UserSession us = new UserSession(userId);
         Object obj = kg.generateKey();
 		String sessionKey = obj.toString();
@@ -65,6 +66,7 @@ public class SessionManager {
 		UserSession us = (UserSession)sessions.get(sessionKey);
 		if(us!=null){
 		  us.setLastAccessedTime(System.currentTimeMillis());
+		   
 		}
 		return us;
 	}
@@ -77,6 +79,25 @@ public class SessionManager {
    	return us;
    }
    
+   public boolean isUserInSession(String sessionKey){
+   	boolean inSession = false;
+   	 if(sessions.containsKey(sessionKey)){
+   	 	UserSession us = (UserSession)sessions.get(sessionKey);
+		   	 if(System.currentTimeMillis()-us.getLastAccessedTime()>5000){
+			   	   this.killSession(sessionKey);
+			   }else{
+			   	inSession = true;
+			   }
+   	 }
+   	 
+   	 return inSession;
+   	 
+   }
    
+   private void cleanUp(){
+   	 if(sessions.size()>200){
+   	 	new SessionMonitor();
+   	 }
+   }
    
 }

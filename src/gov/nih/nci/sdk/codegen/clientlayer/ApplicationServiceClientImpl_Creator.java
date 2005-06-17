@@ -9,6 +9,7 @@ package gov.nih.nci.sdk.codegen.clientlayer;
 import gov.nih.nci.sdk.codegen.CodeFormatter;
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
 import gov.nih.nci.sdk.codegen.MethodSignature;
+import gov.nih.nci.sdk.codegen.StringUtilities;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -29,12 +30,18 @@ import test.gov.nih.nci.sdk.codegen.TestApplicationService;
 public class ApplicationServiceClientImpl_Creator {
 	
 	public Class applicationService;
-	private String basePackage ="gov.nih.nci.application.client";
+	private String basePackage;
+	private String classPackage = "application.client";
 	private String sourceDirName = null;
 	
-	public ApplicationServiceClientImpl_Creator(String sourceDirName,Class applicationService){
+	public ApplicationServiceClientImpl_Creator(String sourceDirName,String basePackage,Class applicationService){
 		this.applicationService= applicationService;
 		this.sourceDirName=sourceDirName;
+		if(StringUtilities.isBlank(basePackage)){
+			this.basePackage=classPackage;
+		}else{
+			this.basePackage= basePackage+"."+classPackage;
+		}
 	}
 	
 	public void generate(){
@@ -152,7 +159,7 @@ public class ApplicationServiceClientImpl_Creator {
 
 	public static void main(String[] args) {
 		
-		ApplicationServiceClientImpl_Creator acc = new ApplicationServiceClientImpl_Creator("c:/temp/vinay",TestApplicationService.class);
+		ApplicationServiceClientImpl_Creator acc = new ApplicationServiceClientImpl_Creator("c:/temp/vinay","gov.nih.nci",TestApplicationService.class);
 		acc.generate();
 	}
 }

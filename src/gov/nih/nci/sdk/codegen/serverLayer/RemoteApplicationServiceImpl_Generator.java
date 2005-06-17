@@ -9,6 +9,7 @@ package gov.nih.nci.sdk.codegen.serverLayer;
 import gov.nih.nci.sdk.codegen.CodeFormatter;
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
 import gov.nih.nci.sdk.codegen.MethodSignature;
+import gov.nih.nci.sdk.codegen.StringUtilities;
 import gov.nih.nci.sdk.codegen.clientlayer.ApplicationServiceClientImpl_Creator;
 
 import java.io.FileWriter;
@@ -27,13 +28,19 @@ import test.gov.nih.nci.sdk.codegen.TestApplicationService;
  */
 public class RemoteApplicationServiceImpl_Generator {
 	
-	private String basePackage ="gov.nih.nci.application.server";
+	private String basePackage;
+	private String classPackage = "application.server";
 	private String sourceDirName = null;	
 	private Class applicationService;
 	
-	public RemoteApplicationServiceImpl_Generator(String sourceDirName,Class applicationService){
+	public RemoteApplicationServiceImpl_Generator(String sourceDirName,String basePackage,Class applicationService){
 		this.applicationService= applicationService;
 		this.sourceDirName= sourceDirName;
+		if(StringUtilities.isBlank(basePackage)){
+			this.basePackage=classPackage;
+		}else{
+			this.basePackage= basePackage+"."+classPackage;
+		}
 	}
 	
 	public void generate(){
@@ -77,14 +84,14 @@ public class RemoteApplicationServiceImpl_Generator {
 		CodeFormatter.newLine(code);
 		CodeFormatter.addSpaces(code,1);
 		
-		code.append("private CSMEnabler csm;");
+		code.append("private SecurityEnabler securityEnabler;");
 		CodeFormatter.addLines(code,2);
 		CodeFormatter.addSpaces(code,1);
 		code.append("public ").append(sourceClassName).append("()");
 		CodeFormatter.startMethod(code);
 		CodeFormatter.newLine(code);
 		CodeFormatter.addTabs(code,1);
-		code.append("csm = new CSMEnabler();");
+		code.append("securityEnabler = new SecurityEnabler();");
 		CodeFormatter.newLine(code);
 		CodeFormatter.addTabs(code,1);
 		code.append("ApplicationContext ctx = new ClassPathXmlApplicationContext(\"");
@@ -106,7 +113,7 @@ public class RemoteApplicationServiceImpl_Generator {
 		
 		CodeFormatter.newLine(code);
 		CodeFormatter.addTabs(code,1);
-        code.append("return csm.authenticate(userId,pwd);");
+        code.append("return securityEnabler.authenticate(userId,pwd);");
 		CodeFormatter.newLine(code);
         CodeFormatter.endMethod(code);
         
@@ -117,7 +124,7 @@ public class RemoteApplicationServiceImpl_Generator {
 		
 		CodeFormatter.newLine(code);
 		CodeFormatter.addTabs(code,1);
-        code.append(" csm.logOut(sessionKey);");
+        code.append(" securityEnabler.logOut(sessionKey);");
 		CodeFormatter.newLine(code);
         CodeFormatter.endMethod(code);
 		/**
@@ -132,10 +139,10 @@ public class RemoteApplicationServiceImpl_Generator {
 		    CodeFormatter.startMethod(code);
 		    CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,8);
-		    code.append("if(csm.getSecurityLevel()>0){\n");
+		    code.append("if(securityEnabler.getSecurityLevel()>0){\n");
 		    CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,10);
-		    code.append("if(!csm.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append("){");
+		    code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append("){");
 		    CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,12);
 		    code.append("throw new ApplicationException(\"You don't have privilege to execute this method\");");
@@ -176,7 +183,7 @@ public class RemoteApplicationServiceImpl_Generator {
 	
 	public static void main(String[] args) {
 		
-		RemoteApplicationServiceImpl_Generator acc = new RemoteApplicationServiceImpl_Generator("c:/temp/vinay",TestApplicationService.class);
+		RemoteApplicationServiceImpl_Generator acc = new RemoteApplicationServiceImpl_Generator("c:/temp/vinay","gov.nih.nci",TestApplicationService.class);
 		acc.generate();
 	}
 }

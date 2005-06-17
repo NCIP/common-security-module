@@ -6,12 +6,13 @@
  */
 package gov.nih.nci.SpringHttp.http.client;
 
+import gov.nih.nci.sdk.server.management.SessionManager;
+import gov.nih.nci.sdk.server.management.SessionMonitor;
+
 import java.util.Hashtable;
 
 import org.jboss.ejb.plugins.keygenerator.uuid.UUIDKeyGenerator;
 
-import com.ekagrasoft.server.management.SessionManager;
-import com.ekagrasoft.server.management.SessionMonitor;
 
 /**
  * @author kumarvi
