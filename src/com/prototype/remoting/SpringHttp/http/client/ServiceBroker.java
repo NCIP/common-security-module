@@ -4,9 +4,9 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.SpringHttp.http.client;
+package com.prototype.remoting.SpringHttp.http.client;
 
-import com.ekagrasoft.remote.RemoteObject;
+import com.prototype.application.remote.RemoteObject;
 
 /**
  * @author kumarvi

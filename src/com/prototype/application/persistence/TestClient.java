@@ -4,9 +4,9 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package com.ekagrasoft.persistence;
+package com.prototype.application.persistence;
 
-import com.ekagrasoft.dataobjects.Person;
+import com.prototype.application.dataobjects.Person;
 
 /**
  * @author kumarvi

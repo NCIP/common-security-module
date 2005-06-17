@@ -5,7 +5,7 @@
             <value>http://localhost:8080/SpringHttp12/http/remoteService</value>
         </property>
         <property name="serviceInterface">
-            <value>com.ekagrasoft.remote.RemoteService</value>
+            <value>com.prototype.application.remote.RemoteService</value>
         </property>
     </bean>
 </beans>

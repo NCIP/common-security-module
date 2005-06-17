@@ -4,16 +4,16 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.SpringHttp.http.client;
+package com.prototype.remoting.SpringHttp.http.client;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ekagrasoft.dataobjects.Person;
-import com.ekagrasoft.persistence.PersistenceException;
-import com.ekagrasoft.persistence.PersistenceManager;
-import com.ekagrasoft.remote.RemoteObject;
-import com.ekagrasoft.remote.RemoteService;
+import com.prototype.application.dataobjects.Person;
+import com.prototype.application.persistence.PersistenceException;
+import com.prototype.application.persistence.PersistenceManager;
+import com.prototype.application.remote.RemoteObject;
+import com.prototype.application.remote.RemoteService;
 
 /**
  * @author kumarvi
@@ -31,7 +31,7 @@ public class RemotePersistenceManagerClient implements PersistenceManager{
         rs = (RemoteService)ctx.getBean("remoteService");
 	}
 	/* (non-Javadoc)
-	 * @see com.ekagrasoft.persistence.PersistenceManager#getPersonById(java.lang.String)
+	 * @see com.prototype.application.persistence.PersistenceManager#getPersonById(java.lang.String)
 	 */
 	public Person getPersonById(String id) throws PersistenceException {
 		// TODO Auto-generated method stub
@@ -43,7 +43,7 @@ public class RemotePersistenceManagerClient implements PersistenceManager{
 	}
 
 	/* (non-Javadoc)
-	 * @see com.ekagrasoft.persistence.PersistenceManager#createPerson(com.ekagrasoft.dataobjects.Person)
+	 * @see com.prototype.application.persistence.PersistenceManager#createPerson(com.prototype.application.dataobjects.Person)
 	 */
 	public Person createPerson(Person p) throws PersistenceException {
 		// TODO Auto-generated method stub
@@ -52,7 +52,7 @@ public class RemotePersistenceManagerClient implements PersistenceManager{
 	}
 
 	/* (non-Javadoc)
-	 * @see com.ekagrasoft.persistence.PersistenceManager#deletePersonById(java.lang.String)
+	 * @see com.prototype.application.persistence.PersistenceManager#deletePersonById(java.lang.String)
 	 */
 	public boolean deletePersonById(String id) throws PersistenceException {
 		// TODO Auto-generated method stub

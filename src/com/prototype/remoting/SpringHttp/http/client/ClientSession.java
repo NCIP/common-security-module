@@ -4,14 +4,14 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.SpringHttp.http.client;
+package com.prototype.remoting.SpringHttp.http.client;
 
 import java.net.InetAddress;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ekagrasoft.remote.RemoteService;
+import com.prototype.application.remote.RemoteService;
 
 /**
  * @author kumarvi

@@ -1,4 +1,4 @@
-package gov.nih.nci.SpringHttp;
+package com.prototype.remoting.SpringHttp;
 
 public interface HelloWorld {
 

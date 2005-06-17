@@ -1,9 +1,10 @@
-package gov.nih.nci.SpringHttp.http;
+package com.prototype.remoting.SpringHttp.http;
 
-import gov.nih.nci.SpringHttp.HelloWorld;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import com.prototype.remoting.SpringHttp.HelloWorld;
 
 
 public class HelloWorldClient {

@@ -4,10 +4,10 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.SpringHttp.http.client;
+package com.prototype.remoting.SpringHttp.http.client;
 
-import com.ekagrasoft.dataobjects.Person;
-import com.ekagrasoft.persistence.PersistenceManager;
+import com.prototype.application.dataobjects.Person;
+import com.prototype.application.persistence.PersistenceManager;
 
 /**
  * @author kumarvi

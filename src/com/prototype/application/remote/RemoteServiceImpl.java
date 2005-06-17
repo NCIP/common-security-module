@@ -4,15 +4,15 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package com.ekagrasoft.remote;
+package com.prototype.application.remote;
 
 import gov.nih.nci.sdk.server.management.SessionManager;
 import gov.nih.nci.sdk.server.management.UserSession;
 
-import com.ekagrasoft.dataobjects.Person;
-import com.ekagrasoft.persistence.PersistenceException;
-import com.ekagrasoft.persistence.PersistenceManager;
-import com.ekagrasoft.persistence.PersistenceManagerImpl;
+import com.prototype.application.dataobjects.Person;
+import com.prototype.application.persistence.PersistenceException;
+import com.prototype.application.persistence.PersistenceManager;
+import com.prototype.application.persistence.PersistenceManagerImpl;
 
 /**
  * @author kumarvi
@@ -26,7 +26,7 @@ public class RemoteServiceImpl implements RemoteService{
 		pm = new PersistenceManagerImpl();
 	}
 	/* (non-Javadoc)
-	 * @see com.ekagrasoft.remote.RemoteService#getPersonById(com.ekagrasoft.remote.RemoteObject)
+	 * @see com.prototype.application.remote.RemoteService#getPersonById(com.prototype.application.remote.RemoteObject)
 	 */
 	public Person getPersonById(RemoteObject ro) throws PersistenceException {
 		// TODO Auto-generated method stub
@@ -39,7 +39,7 @@ public class RemoteServiceImpl implements RemoteService{
 	}
 
 	/* (non-Javadoc)
-	 * @see com.ekagrasoft.remote.RemoteService#createPerson(com.ekagrasoft.remote.RemoteObject)
+	 * @see com.prototype.application.remote.RemoteService#createPerson(com.prototype.application.remote.RemoteObject)
 	 */
 	public Person createPerson(RemoteObject ro) throws PersistenceException {
 		// TODO Auto-generated method stub
@@ -52,7 +52,7 @@ public class RemoteServiceImpl implements RemoteService{
 	}
 
 	/* (non-Javadoc)
-	 * @see com.ekagrasoft.remote.RemoteService#deletePersonById(com.ekagrasoft.remote.RemoteObject)
+	 * @see com.prototype.application.remote.RemoteService#deletePersonById(com.prototype.application.remote.RemoteObject)
 	 */
 	public boolean deletePersonById(RemoteObject ro) throws PersistenceException {
 		// TODO Auto-generated method stub

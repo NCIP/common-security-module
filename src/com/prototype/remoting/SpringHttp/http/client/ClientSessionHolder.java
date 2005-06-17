@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.SpringHttp.http.client;
+package com.prototype.remoting.SpringHttp.http.client;
 
 import gov.nih.nci.sdk.server.management.SessionManager;
 import gov.nih.nci.sdk.server.management.SessionMonitor;

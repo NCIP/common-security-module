@@ -5,7 +5,7 @@
             <value>http://localhost:8080/SpringHttp12/http/persistenceManager</value>
         </property>
         <property name="serviceInterface">
-            <value>com.ekagrasoft.persistence.PersistenceManager</value>
+            <value>com.prototype.application.persistence.PersistenceManager</value>
         </property>
     </bean>
 </beans>

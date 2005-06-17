@@ -4,14 +4,14 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.SpringHttp.http;
+package com.prototype.remoting.SpringHttp.http;
 
 
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ekagrasoft.persistence.PersistenceManager;
+import com.prototype.application.persistence.PersistenceManager;
 /**
  * @author kumarvi
  *

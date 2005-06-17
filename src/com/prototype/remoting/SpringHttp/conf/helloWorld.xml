@@ -5,7 +5,7 @@
             <value>http://localhost:8080/SpringHttp12/http/helloWorld</value>
         </property>
         <property name="serviceInterface">
-            <value>gov.nih.nci.SpringHttp.HelloWorld</value>
+            <value>com.prototype.remoting.SpringHttp.HelloWorld</value>
         </property>
     </bean>
 </beans>
