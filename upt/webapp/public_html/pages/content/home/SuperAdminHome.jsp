@@ -79,6 +79,7 @@
 </table>
 </td>
 </tr>
+<tr><td>&nbsp;</td></tr>
 				
 				<!-- end new box for menu items -->
 				
