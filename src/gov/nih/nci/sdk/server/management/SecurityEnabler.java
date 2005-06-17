@@ -6,6 +6,13 @@
  */
 package gov.nih.nci.sdk.server.management;
 
+
+
+import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.AuthorizationManager;
+import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.exceptions.CSException;
+
 /**
  * @author kumarvi
  *
@@ -14,10 +21,35 @@ package gov.nih.nci.sdk.server.management;
  * This class is a wrapper for CSM security.
  */
 public class SecurityEnabler {
-	
+
+	private static String applicationContextName = null;
+	private static AuthorizationManager authorizationManager = null;
+	private static AuthenticationManager authenticationManager = null;
+
+	private SecurityEnabler(){
+	}
 	
 	public SecurityEnabler(String applicationContextName){
-		
+		SecurityEnabler.applicationContextName = applicationContextName;
+	}
+
+	private AuthorizationManager getAuthorizationManager(){
+		if (null == authorizationManager)
+		try {
+			authorizationManager = SecurityServiceProvider.getAuthorizationManager(applicationContextName);
+		} catch (CSException e) {
+			e.printStackTrace();
+		}
+		return authorizationManager;
+	}
+	private AuthenticationManager getAuthenticationManager(){
+		if (null == authenticationManager)
+			try {
+				authenticationManager = SecurityServiceProvider.getAuthenticationManager(applicationContextName);
+			} catch (CSException e) {
+				e.printStackTrace();
+			}
+			return authenticationManager;
 	}
 
 	public boolean authenticate(String userId, String password){

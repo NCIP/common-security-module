@@ -15,8 +15,6 @@ import gov.nih.nci.sdk.codegen.web.WebConfigGenerator;
 
 import java.io.File;
 
-import test.gov.nih.nci.sdk.codegen.TestApplicationService;
-
 /**
  * @author kumarvi
  *

@@ -46,7 +46,7 @@ public class AuthenticationManager {
   }
   private RemoteService getRemoteService(){
   	ApplicationContext ctx = new FileSystemXmlApplicationContext(
-    "src/gov/nih/nci/SpringHttp/conf/remoteService.xml");
+    "src/com/prototype/remoting/SpringHttp/conf/remoteService.xml");
 
     RemoteService rs = (RemoteService)ctx.getBean("remoteService");
     

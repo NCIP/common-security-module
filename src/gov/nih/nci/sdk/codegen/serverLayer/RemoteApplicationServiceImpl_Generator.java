@@ -10,7 +10,6 @@ import gov.nih.nci.sdk.codegen.CodeFormatter;
 import gov.nih.nci.sdk.codegen.CodeGenUtils;
 import gov.nih.nci.sdk.codegen.MethodSignature;
 import gov.nih.nci.sdk.codegen.StringUtilities;
-import gov.nih.nci.sdk.codegen.clientlayer.ApplicationServiceClientImpl_Creator;
 
 import java.io.FileWriter;
 import java.util.ArrayList;

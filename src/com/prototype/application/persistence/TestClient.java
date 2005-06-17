@@ -6,7 +6,6 @@
  */
 package com.prototype.application.persistence;
 
-import com.prototype.application.dataobjects.Person;
 
 /**
  * @author kumarvi

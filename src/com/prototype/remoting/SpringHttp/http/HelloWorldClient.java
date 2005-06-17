@@ -11,7 +11,7 @@ public class HelloWorldClient {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = new FileSystemXmlApplicationContext(
-        "src/gov/nih/nci/SpringHttp/conf/helloWorld.xml");
+        "src/com/prototype/remoting/SpringHttp/conf/helloWorld.xml");
 
         HelloWorld helloWorld = (HelloWorld)ctx.getBean("helloWorldService");
         System.out.println(helloWorld.getMessage());
