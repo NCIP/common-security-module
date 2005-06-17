@@ -50,7 +50,7 @@ public class ClientSessionGenerator {
 		CodeFormatter.newLine(code);
 		
 		ArrayList impStmts = new ArrayList();
-		impStmts.add("import gov.nih.nci.application.common."+remoteApplicationServiceName+";\n");
+		impStmts.add("import gov.nih.nci.sdk.common."+remoteApplicationServiceName+";\n");
 		impStmts.add("import "+"org.springframework.context.ApplicationContext"+";\n");
 		impStmts.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
 		CodeGenUtils.addImportStatements(code,impStmts);

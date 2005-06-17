@@ -63,7 +63,7 @@ public class RemoteApplicationServiceImpl_Generator {
 		importStatements.add("import "+"org.springframework.context.ApplicationContext"+";\n");
 		importStatements.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
 		importStatements.add("import gov.nih.nci.application.server.management.*;\n");
-		importStatements.add("import "+"gov.nih.nci.application.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
+		importStatements.add("import "+"gov.nih.nci.sdk.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
 		
 		CodeGenUtils.addImportStatements(code,importStatements);
 		
