@@ -63,7 +63,7 @@ public class SecurityEnabler {
 		SessionManager sm = SessionManager.getInstance();
 		return sm.isUserInSession(sessionKey);
 	}
-	public boolean hasAuthorization(String protectionElementName,String privilege,String sessionKey){
+	public boolean hasAuthorization(String sessionKey,String protectionElementName,String privilege){
 		SessionManager sm = SessionManager.getInstance();
 		UserSession us = (UserSession)sm.getSession(sessionKey);
 		String userId = us.getUserId();

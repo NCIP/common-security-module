@@ -31,6 +31,7 @@ public class ApplicationServiceClientImpl_Creator {
 	
 	public Class applicationService;
 	private String basePackage;
+	private String parentPackage="";
 	private String classPackage = "application.client";
 	private String sourceDirName = null;
 	
@@ -40,6 +41,7 @@ public class ApplicationServiceClientImpl_Creator {
 		if(StringUtilities.isBlank(basePackage)){
 			this.basePackage=classPackage;
 		}else{
+			parentPackage = basePackage+".";
 			this.basePackage= basePackage+"."+classPackage;
 		}
 	}
@@ -64,7 +66,7 @@ public class ApplicationServiceClientImpl_Creator {
 		
 		importStatements.add("import "+"org.springframework.context.ApplicationContext"+";\n");
 		importStatements.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
-		importStatements.add("import "+"gov.nih.nci.sdk.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
+		importStatements.add("import "+ parentPackage+"common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
 		
 		CodeGenUtils.addImportStatements(code,importStatements);
 		

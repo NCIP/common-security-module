@@ -29,6 +29,7 @@ public class RemoteApplicationServiceImpl_Generator {
 	
 	private String basePackage;
 	private String classPackage = "application.server";
+	private String parentPackage = "";
 	private String sourceDirName = null;	
 	private Class applicationService;
 	
@@ -38,7 +39,9 @@ public class RemoteApplicationServiceImpl_Generator {
 		if(StringUtilities.isBlank(basePackage)){
 			this.basePackage=classPackage;
 		}else{
+			parentPackage = basePackage+".";
 			this.basePackage= basePackage+"."+classPackage;
+			
 		}
 	}
 	
@@ -63,7 +66,9 @@ public class RemoteApplicationServiceImpl_Generator {
 		importStatements.add("import "+"org.springframework.context.ApplicationContext"+";\n");
 		importStatements.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
 		importStatements.add("import gov.nih.nci.application.server.management.*;\n");
-		importStatements.add("import "+"gov.nih.nci.sdk.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
+		
+		//importStatements.add("import "+"gov.nih.nci.sdk.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
+		importStatements.add("import "+parentPackage+"common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
 		
 		CodeGenUtils.addImportStatements(code,importStatements);
 		
@@ -141,7 +146,9 @@ public class RemoteApplicationServiceImpl_Generator {
 		    code.append("if(securityEnabler.getSecurityLevel()>0){\n");
 		    CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,10);
-		    code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append("){");
+		    
+		    //code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append("){");
+		    this.appendSecurityCall(code,mSig);
 		    CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,12);
 		    code.append("throw new ApplicationException(\"You don't have privilege to execute this method\");");
@@ -178,6 +185,45 @@ public class RemoteApplicationServiceImpl_Generator {
 		}catch(Exception  ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	private void appendSecurityCall(StringBuffer code,MethodSignature mSig){
+		
+		String mName = mSig.getName();
+		String operation ="";
+		boolean isBusinessMethod = this.isBusinessMethod(mName);
+		 if(!isBusinessMethod){
+		 	if(mName.equalsIgnoreCase("createObject")){
+		 		operation = "CREATE";
+		 	}
+		 	if(mName.equalsIgnoreCase("updateObject")){
+		 		operation = "UPDATE";
+		 	}
+		 	if(mName.equalsIgnoreCase("removeObject")){
+		 		operation = "DELTE";
+		 	}
+		 }
+		 
+		 if(isBusinessMethod){
+		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append(",\"EXECUTE\")){");
+		 }else{
+		 	
+		 	code.append("String domainObjectName = arg1.getClassName();\n");
+		 	CodeFormatter.addSpaces(code,10);
+		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append(",\"").append(operation).append("\")){");
+		 }
+		
+	}
+	
+	private boolean isBusinessMethod(String mName){
+		boolean isBusinessMethod = true;
+		if(mName.equalsIgnoreCase("createObject")||
+			 	mName.equalsIgnoreCase("updateObject")||
+				mName.equalsIgnoreCase("removeObject")){
+			 	isBusinessMethod=false;
+		}
+		
+		return isBusinessMethod;
 	}
 	
 	public static void main(String[] args) {

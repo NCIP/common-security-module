@@ -23,7 +23,8 @@ import test.gov.nih.nci.sdk.codegen.TestApplicationService;
  */
 public class ClientSessionGenerator {
 	public Class applicationService;
-	private String basePackage ="gov.nih.nci.application.client";
+	private String basePackage;
+	private String parentPackage;
 	private String classPackage = "application.client";
 	private String sourceDirName = null;
 	
@@ -34,6 +35,7 @@ public class ClientSessionGenerator {
 		if(StringUtilities.isBlank(basePackage)){
 			this.basePackage=classPackage;
 		}else{
+			parentPackage = basePackage+".";
 			this.basePackage= basePackage+"."+classPackage;
 		}
 	}
@@ -50,7 +52,7 @@ public class ClientSessionGenerator {
 		CodeFormatter.newLine(code);
 		
 		ArrayList impStmts = new ArrayList();
-		impStmts.add("import gov.nih.nci.sdk.common."+remoteApplicationServiceName+";\n");
+		impStmts.add("import "+parentPackage+"common."+remoteApplicationServiceName+";\n");
 		impStmts.add("import "+"org.springframework.context.ApplicationContext"+";\n");
 		impStmts.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
 		CodeGenUtils.addImportStatements(code,impStmts);
