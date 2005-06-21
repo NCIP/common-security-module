@@ -31,7 +31,7 @@ public class RemoteClientServerGenerator {
 		 		testSourceFolder.mkdirs();
 		 	}
 		 }catch(Exception ex){
-		 	System.out.println("Not a proper source folder name");
+		 	System.out.println("Not a valid source folder name");
 		 	System.exit(0);
 		 }
 		 
@@ -47,36 +47,67 @@ public class RemoteClientServerGenerator {
 		  * Generate the remote interface
 		  */
 		 RemoteServiceGenerator rsg = new RemoteServiceGenerator(sourceFolder,basePackage,applicationService);
+		 System.out.println("Generating Remote Service Interface....................");
+		 System.out.println("                                                        ");
 		 rsg.generate();
+		 System.out.println("Generated Remote Service Interface sucessfully .........");
+		 System.out.println("*********************************************************");
+		 System.out.println("                                                        ");
 		 /**
 		  * Generate the ServiceClientImpl
 		  */
 		 ApplicationServiceClientImpl_Creator ascc = new ApplicationServiceClientImpl_Creator(sourceFolder,basePackage,applicationService);
+		 System.out.println("Generating Application Service Client Implementation....................");
+		 System.out.println("                                                        ");
 		 ascc.generate();
+		 
+		 System.out.println("Generated Application Service Client Implementation sucessfully....................");
+		 System.out.println("*********************************************************");
+		 System.out.println("                                                        ");
 		 /**
 		  * Generate the ApplicationServiceProvider
 		  */
 		 
 		 ApplicationServiceProvider_Generator aspg = new ApplicationServiceProvider_Generator(sourceFolder,basePackage,applicationService);
+		 System.out.println("Generating Application Service Provider Class....................");
+		 System.out.println("                                                        ");
 		 aspg.generate();
+		 System.out.println("Generated Application Service Provider sucessfully....................");
+		 System.out.println("*********************************************************");
+		 System.out.println("                                                        ");
 		 /**
 		  * Generate ClientSession
 		  */
 		 
 		 ClientSessionGenerator csg = new ClientSessionGenerator(sourceFolder,basePackage,applicationService);
+		 System.out.println("Generating CLientSession Class....................");
+		 System.out.println("                                                        ");
 		 csg.generate();
+		 System.out.println("Generated ClientSession class sucessfully....................");
+		 System.out.println("*********************************************************");
+		 System.out.println("                                                        ");
 		 /**
 		  * Generate Server side RemoteApplicationServiceImpl
 		  */
 		 
 		 RemoteApplicationServiceImpl_Generator rasg = new RemoteApplicationServiceImpl_Generator(sourceFolder,basePackage,applicationService);
+		 System.out.println("Generating Remote Application Service Implementation Class....................");
+		 System.out.println("                                                        ");
 		 rasg.generate();
+		 System.out.println("Generated Remote Application Service Implementation class sucessfully....................");
+		 System.out.println("*********************************************************");
+		 System.out.println("                                                        ");
 		 /**
 		  * Generate the config files
 		  */
 		 
 		 WebConfigGenerator wcg = new WebConfigGenerator(sourceFolder,basePackage,applicationService);
+		 System.out.println("Generating Configuration files....................");
+		 System.out.println("                                                        ");
 		 wcg.generate();
+		 System.out.println("Generated Configuration files sucessfully....................");
+		 System.out.println("*********************************************************");
+		 System.out.println("                                                        ");
 	}
 	
 	public boolean validate(String sf, String bp, String apClassName){
