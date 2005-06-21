@@ -1,0 +1,59 @@
+<project name="csm-sdk" default="compile" basedir="../.">
+	<description>CSM SDK Project Second Build File</description>
+
+	
+	<!-- set global properties for this build -->
+	
+	<property name="output" location="output" />
+	<property name="outputBuild" location="outputBuild" />
+	<property name="dist" location="dist" />
+	<property name="inputApplicationJarPath" value="${dist}/testApplication.jar" />
+	
+	<!-- set the aruguments for the code generator class -->
+	<property name="arg1" value="${output}" />
+	<property name="arg2" value="com.codegen" />
+	<property name="arg3" value="test.gov.nih.nci.sdk.codegen.TestApplicationService" />
+
+
+	<target name="init" description="Initializing the environment">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<delete dir="${output}" />
+		<delete dir="${outputBuild}" />		
+		<mkdir dir="${output}" />
+		<mkdir dir="${outputBuild}" />
+	</target>
+
+	<target name="run" depends="init" description="Running the code generator">
+		<java classname="gov.nih.nci.sdk.codegen.RemoteClientServerGenerator">
+			<arg value="${arg1}"/>
+			<arg value="${arg2}"/>
+			<arg value="${arg3}"/>
+			<classpath>
+				<fileset dir="${dist}">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement location="${dist}/sdkCodeGenerator.jar"/>
+				<pathelement location="${inputApplicationJarPath}"/>
+				<pathelement path="${java.class.path}"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="compile" depends="run" description="Compile the generated code">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${output}" destdir="${outputBuild}" debug="true" deprecation="true">
+			<classpath>
+				<fileset dir="${dist}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="clean" description="Perform the clean up">
+		<delete dir="${build}" />
+	</target>
+	
+</project>

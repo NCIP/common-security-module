@@ -23,12 +23,12 @@ import java.io.File;
  */
 public class RemoteClientServerGenerator {
 
-	public void generateCode(String sourceFolder,String basePackage, String applicationServiceClassName){
-		 File testSourceFolder;
+	public void generateCode(String outputFolder,String outputBasePackage, String applicationServiceInterfaceName){
+		 File testoutputFolder;
 		 try{
-		 	testSourceFolder = new File (sourceFolder);
-		 	if(!testSourceFolder.exists()){
-		 		testSourceFolder.mkdirs();
+		 	testoutputFolder = new File (outputFolder);
+		 	if(!testoutputFolder.exists()){
+		 		testoutputFolder.mkdirs();
 		 	}
 		 }catch(Exception ex){
 		 	System.out.println("Not a valid source folder name");
@@ -38,7 +38,7 @@ public class RemoteClientServerGenerator {
 		 Class applicationService = null;
 		 
 		 try{
-		 	applicationService = Class.forName(applicationServiceClassName);
+		 	applicationService = Class.forName(applicationServiceInterfaceName);
 		 }catch(Exception ex){
 		 	System.out.println("The class is not found or the class is not in the classpath !");
 		 	System.exit(0);
@@ -46,7 +46,7 @@ public class RemoteClientServerGenerator {
 		 /**
 		  * Generate the remote interface
 		  */
-		 RemoteServiceGenerator rsg = new RemoteServiceGenerator(sourceFolder,basePackage,applicationService);
+		 RemoteServiceGenerator rsg = new RemoteServiceGenerator(outputFolder,outputBasePackage,applicationService);
 		 System.out.println("Generating Remote Service Interface....................");
 		 System.out.println("                                                        ");
 		 rsg.generate();
@@ -56,7 +56,7 @@ public class RemoteClientServerGenerator {
 		 /**
 		  * Generate the ServiceClientImpl
 		  */
-		 ApplicationServiceClientImpl_Creator ascc = new ApplicationServiceClientImpl_Creator(sourceFolder,basePackage,applicationService);
+		 ApplicationServiceClientImpl_Creator ascc = new ApplicationServiceClientImpl_Creator(outputFolder,outputBasePackage,applicationService);
 		 System.out.println("Generating Application Service Client Implementation....................");
 		 System.out.println("                                                        ");
 		 ascc.generate();
@@ -68,7 +68,7 @@ public class RemoteClientServerGenerator {
 		  * Generate the ApplicationServiceProvider
 		  */
 		 
-		 ApplicationServiceProvider_Generator aspg = new ApplicationServiceProvider_Generator(sourceFolder,basePackage,applicationService);
+		 ApplicationServiceProvider_Generator aspg = new ApplicationServiceProvider_Generator(outputFolder,outputBasePackage,applicationService);
 		 System.out.println("Generating Application Service Provider Class....................");
 		 System.out.println("                                                        ");
 		 aspg.generate();
@@ -79,7 +79,7 @@ public class RemoteClientServerGenerator {
 		  * Generate ClientSession
 		  */
 		 
-		 ClientSessionGenerator csg = new ClientSessionGenerator(sourceFolder,basePackage,applicationService);
+		 ClientSessionGenerator csg = new ClientSessionGenerator(outputFolder,outputBasePackage,applicationService);
 		 System.out.println("Generating CLientSession Class....................");
 		 System.out.println("                                                        ");
 		 csg.generate();
@@ -90,7 +90,7 @@ public class RemoteClientServerGenerator {
 		  * Generate Server side RemoteApplicationServiceImpl
 		  */
 		 
-		 RemoteApplicationServiceImpl_Generator rasg = new RemoteApplicationServiceImpl_Generator(sourceFolder,basePackage,applicationService);
+		 RemoteApplicationServiceImpl_Generator rasg = new RemoteApplicationServiceImpl_Generator(outputFolder,outputBasePackage,applicationService);
 		 System.out.println("Generating Remote Application Service Implementation Class....................");
 		 System.out.println("                                                        ");
 		 rasg.generate();
@@ -101,7 +101,7 @@ public class RemoteClientServerGenerator {
 		  * Generate the config files
 		  */
 		 
-		 WebConfigGenerator wcg = new WebConfigGenerator(sourceFolder,basePackage,applicationService);
+		 WebConfigGenerator wcg = new WebConfigGenerator(outputFolder,outputBasePackage,applicationService);
 		 System.out.println("Generating Configuration files....................");
 		 System.out.println("                                                        ");
 		 wcg.generate();
@@ -116,19 +116,16 @@ public class RemoteClientServerGenerator {
 		return true;
 	}
 	public static void main(String[] args) {
-		/**
-		if(args.length<3){
-			System.out.println("Usage: java RemoteClientServerGenerator <<sourceFolder>> <<basePackage>> <<applicationServiceClassName>>");
+
+		if(args.length < 3) {
+			System.out.println("Usage: java RemoteClientServerGenerator <<outputFolder>> <<outputBasePackage>> <<applicationServiceInterfaceName>>");
 		}
 		
-		String sourceFolder = args[0];
-		String basePackage = args[1];
+		String outputFolder = args[0];
+		String outputBasePackage = args[1];
 		String applicationClassName = args[2];
-		*/
+		
 		RemoteClientServerGenerator rcsg = new RemoteClientServerGenerator();
-		//rcsg.generateCode(sourceFolder,basePackage,applicationClassName);
-		
-		rcsg.generateCode("C:/temp/jojo","com.mycompany","test.gov.nih.nci.sdk.codegen.TestApplicationService");
-		
+		rcsg.generateCode(outputFolder,outputBasePackage,applicationClassName);		
 	}
 }
