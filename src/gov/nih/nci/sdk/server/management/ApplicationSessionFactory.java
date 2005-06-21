@@ -40,7 +40,7 @@ public class ApplicationSessionFactory {
 	private static void init(){
 		ApplicationConfiguration ac = ApplicationConfiguration.getInstance();
 		applicationName = ac.getProperty("applicationName");
-		String hibernate_config_file_name = ac.getProperty("hibernateConfigFile");
+		String hibernate_config_file_name = ac.getProperty("hibernateConfigFileName");
 		SessionFactory sf = initSessionFactory(hibernate_config_file_name);
 		factories.put(applicationName,sf);
 		
