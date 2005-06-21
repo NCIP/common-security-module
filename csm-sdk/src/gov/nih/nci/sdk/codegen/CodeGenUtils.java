@@ -265,6 +265,7 @@ public class CodeGenUtils {
 	}
     
     public static String getPartialName(Class cl){
+    	
 		String fullName = cl.getName();
 		String name =null;
 		int i = fullName.lastIndexOf(".");

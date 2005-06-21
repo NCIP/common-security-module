@@ -52,9 +52,10 @@ public class ClientSessionGenerator {
 		CodeFormatter.newLine(code);
 		
 		ArrayList impStmts = new ArrayList();
-		impStmts.add("import "+basePackage+"."+remoteApplicationServiceName+";\n");
+		impStmts.add("import "+parentPackage+"application.common."+remoteApplicationServiceName+";\n");
 		impStmts.add("import "+"org.springframework.context.ApplicationContext"+";\n");
 		impStmts.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
+		impStmts.add("import gov.nih.nci.sdk.common.*;\n");
 		CodeGenUtils.addImportStatements(code,impStmts);
 		
 		CodeFormatter.addLines(code,2);
@@ -112,7 +113,7 @@ public class ClientSessionGenerator {
 		code.append("	  }\n");
 		code.append("\n");
 		code.append("	 private ClientSession(){\n");
-		code.append("	 	remoteService = getRemoteService();\n");
+		code.append("	 	remoteService = getRemoteServiceFromClassPath();\n");
 		code.append("	 }\n");
 		code.append("\n");	 
 		code.append("	 public boolean startSession(String userId,String password) throws ApplicationException{\n");

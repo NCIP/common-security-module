@@ -26,11 +26,11 @@ public class SecurityEnabler {
 	private static AuthorizationManager authorizationManager = null;
 	private static AuthenticationManager authenticationManager = null;
 
-	private SecurityEnabler(){
-	}
 	
-	public SecurityEnabler(String applicationContextName){
-		SecurityEnabler.applicationContextName = applicationContextName;
+	
+	public SecurityEnabler(){
+		ApplicationConfiguration ac = ApplicationConfiguration.getInstance();
+		applicationContextName =ac.getProperty("applicationName");
 	}
 
 	private AuthorizationManager getAuthorizationManager(){
@@ -52,11 +52,11 @@ public class SecurityEnabler {
 			return authenticationManager;
 	}
 
-	public boolean authenticate(String userId, String password){
+	public String authenticate(String userId, String password){
 		/**
 		 * Call Authentication Manager here.
 		 */
-	  return true;
+	  return "123";
 	}
 	
 	public boolean isUserInSession(String sessionKey){
@@ -71,6 +71,10 @@ public class SecurityEnabler {
 		 * Call AuthorizationManager here
 		 */
 		return true;
+	}
+	
+	public int getSecurityLevel(){
+		return 1;
 	}
 	
 	public void logOut(String sessionKey){

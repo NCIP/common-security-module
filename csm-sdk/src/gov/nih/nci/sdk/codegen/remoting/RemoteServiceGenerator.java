@@ -59,8 +59,9 @@ public class RemoteServiceGenerator {
 		CodeFormatter.newLine(code);
 		
 		ArrayList impStmts = CodeGenUtils.getImportStatements(applicationService);
-		
+		impStmts.add("import gov.nih.nci.sdk.common.*;\n");
 		CodeGenUtils.addImportStatements(code,impStmts);
+		
 		CodeFormatter.addLines(code,2);
 		code.append("public interface ");
 		code.append(getRemoteApplicationServiceName(applicationService.getName()));

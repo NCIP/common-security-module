@@ -65,11 +65,11 @@ public class RemoteApplicationServiceImpl_Generator {
 		
 		importStatements.add("import "+"org.springframework.context.ApplicationContext"+";\n");
 		importStatements.add("import "+"org.springframework.context.support.ClassPathXmlApplicationContext"+";\n");
-		importStatements.add("import gov.nih.nci.application.server.management.*;\n");
+		importStatements.add("import gov.nih.nci.sdk.server.management.*;\n");
 		
 		//importStatements.add("import "+"gov.nih.nci.sdk.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
-		importStatements.add("import "+parentPackage+"common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
-		
+		importStatements.add("import "+parentPackage+"application.common.Remote"+CodeGenUtils.getPartialName(applicationService)+";\n");
+		importStatements.add("import gov.nih.nci.sdk.common.*;\n");
 		CodeGenUtils.addImportStatements(code,importStatements);
 		
 		
@@ -205,12 +205,12 @@ public class RemoteApplicationServiceImpl_Generator {
 		 }
 		 
 		 if(isBusinessMethod){
-		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append(",\"EXECUTE\")){");
+		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append("\"").append(applicationService.getName()).append(".").append(mSig.getName()).append("\"").append(",\"EXECUTE\")){");
 		 }else{
 		 	
-		 	code.append("String domainObjectName = arg1.getClassName();\n");
+		 	code.append("String domainObjectName = arg1.getClass().getName();\n");
 		 	CodeFormatter.addSpaces(code,10);
-		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append(",\"").append(operation).append("\")){");
+		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append("\"").append(applicationService.getName()).append("\"").append(",\"").append(operation).append("\")){");
 		 }
 		
 	}
