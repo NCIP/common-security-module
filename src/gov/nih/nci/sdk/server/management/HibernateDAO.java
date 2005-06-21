@@ -6,15 +6,20 @@
  */
 package gov.nih.nci.sdk.server.management;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import gov.nih.nci.sdk.common.ApplicationException;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 
 
 
+import net.sf.hibernate.Criteria;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.Transaction;
+import net.sf.hibernate.expression.Example;
 
 
 /**
@@ -129,5 +134,32 @@ public class HibernateDAO {
 		log	.debug("deleteObject|Success|Successful in deleting the "+ obj.getClass().getName());
   	
   	
+  }
+  
+  public List getObjects(Object obj) throws ApplicationException{
+  	Session s = null;
+  	List list = null;
+  	try {
+		s = sf.openSession();
+		Criteria c = s.createCriteria(obj.getClass());
+		c.add(Example.create(obj));
+		 list = c.list();
+	} catch (Exception ex){
+		log.error(ex);
+		if (log.isDebugEnabled())
+			log	.debug("getObjects|Failure|Error in getting objects"+ ex.getMessage());
+		
+		throw new ApplicationException("An error occured in getting objects" + "\n" + ex.getMessage(), ex);
+	}finally {
+		try {
+			s.close();
+		} catch (Exception ex2) {
+			if (log.isDebugEnabled())
+				log.debug("getObjects|Failure|Error in Closing Session |"	+ ex2.getMessage());
+		}
+	} 
+	if (log.isDebugEnabled())
+		log	.debug("getObjects|Success|Successful in deleting the "+ obj.getClass().getName());
+  	return list;
   }
 }
