@@ -4,53 +4,23 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/activation.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/activemq-1.0.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/aopalliance.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/axis.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/cglib-full-2.0.2.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-attributes-api.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-collections-3.0.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-dbcp.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-discovery.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-fileupload-1.0.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-httpclient.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/commons-pool.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/concurrent-1.3.4.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/cos.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/cosnaming.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/dom4j-1.4.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/ejb.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/geronimo-spec-j2ee-1.0-M1.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/hessian-2.1.12.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/hibernate2.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/ibatis-debug.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/itext-1.02b.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jaxrpc.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jdom.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jms.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jstl.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jta.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/log4j-1.2.8.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/mail.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/mysql-connector-java-3.0.8-stable-bin.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/odmg-3.0.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/pdfbox-0.6.5.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/pg74.213.jdbc3.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/poi-2.5.1.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/providerutil.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/quartz.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/saaj.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/spring-richclient.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/spring.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/standard.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/struts-1.2.4.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/velocity-1.4.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/uuid-key-generator.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jboss-client.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/csmapi.jar"/>
+	<classpathentry kind="lib" path="public_html/WEB-INF/lib/jboss-client.jar"/>
 	<classpathentry kind="output" path="public_html/WEB-INF/classes"/>
 </classpath>

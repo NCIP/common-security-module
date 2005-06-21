@@ -38,8 +38,11 @@ public class ApplicationSessionFactory {
 	 *
 	 */
 	private static void init(){
-		SessionFactory sf = initSessionFactory("XCV");
-		factories.put("applicationName",sf);
+		ApplicationConfiguration ac = ApplicationConfiguration.getInstance();
+		applicationName = ac.getProperty("applicationName");
+		String hibernate_config_file_name = ac.getProperty("hibernateConfigFile");
+		SessionFactory sf = initSessionFactory(hibernate_config_file_name);
+		factories.put(applicationName,sf);
 		
 	}
 	private static SessionFactory initSessionFactory(String fileName){
