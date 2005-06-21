@@ -66,9 +66,67 @@ public class HibernateDAO {
   }
   public Object updateObject(Object obj) throws ApplicationException{
   	
-  	return null;
+  	Session s = null;
+	Transaction t = null;
+	try {
+		s = sf.openSession();
+		t = s.beginTransaction();
+		s.update(obj);
+		t.commit();
+	} catch (Exception ex) {
+		log.error(ex);
+		try {
+			t.rollback();
+		} catch (Exception ex3){
+			if (log.isDebugEnabled())
+				log.debug("updateObject|Failure|Error in Rolling Back Transaction|"+ ex3.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log	.debug("updateObject|Failure|Error in updating the "+ obj.getClass().getName()+ ex.getMessage());
+		
+		throw new ApplicationException("An error occured in updating the "+obj.getClass().getName() + "\n" + ex.getMessage(), ex);
+	}  finally {
+		try {
+			s.close();
+		} catch (Exception ex2) {
+			if (log.isDebugEnabled())
+				log.debug("updateObject|Failure|Error in Closing Session |"	+ ex2.getMessage());
+		}
+	} 
+	if (log.isDebugEnabled())
+		log	.debug("updateObject|Success|Successful in updating the "+ obj.getClass().getName());
+  	return obj;
   }
   public void removeObject(Object obj) throws ApplicationException{
+  	Session s = null;
+	Transaction t = null;
+	try {
+		s = sf.openSession();
+		t = s.beginTransaction();
+		s.delete(obj);
+		t.commit();
+	} catch (Exception ex) {
+		log.error(ex);
+		try {
+			t.rollback();
+		} catch (Exception ex3){
+			if (log.isDebugEnabled())
+				log.debug("deleteObject|Failure|Error in Rolling Back Transaction|"+ ex3.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log	.debug("deleteObject|Failure|Error in removing the "+ obj.getClass().getName()+ ex.getMessage());
+		
+		throw new ApplicationException("An error occured in removing the "+obj.getClass().getName() + "\n" + ex.getMessage(), ex);
+	}  finally {
+		try {
+			s.close();
+		} catch (Exception ex2) {
+			if (log.isDebugEnabled())
+				log.debug("deleteObject|Failure|Error in Closing Session |"	+ ex2.getMessage());
+		}
+	} 
+	if (log.isDebugEnabled())
+		log	.debug("deleteObject|Success|Successful in deleting the "+ obj.getClass().getName());
   	
   	
   }
