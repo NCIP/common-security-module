@@ -1,0 +1,32 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	
+	<bean name="/helloWorld" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service">
+			<ref bean="helloWorldService"/>
+		</property>
+		<property name="serviceInterface">
+			<value>com.prototype.remoting.SpringHttp.HelloWorld</value>
+		</property>
+	</bean>
+	
+	<bean name="/persistenceManager" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service">
+			<ref bean="persistenceManagerService"/>
+		</property>
+		<property name="serviceInterface">
+			<value>com.prototype.application.persistence.PersistenceManager</value>
+		</property>
+	</bean>
+	
+	<bean name="/remoteService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service">
+			<ref bean="remoteService"/>
+		</property>
+		<property name="serviceInterface">
+			<value>com.prototype.application.remote.RemoteService</value>
+		</property>
+	</bean>
+	
+</beans>

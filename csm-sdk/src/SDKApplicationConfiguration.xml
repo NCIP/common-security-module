@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+   <property name="applicationName" value="XYZ"></property>
+   <property name="securityLevel" value="0"></property>
+   <property name="hibernateConfigFileName" value="C:/temp/cvd.xml"></property>
+</config>
