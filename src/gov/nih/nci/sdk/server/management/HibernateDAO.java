@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import gov.nih.nci.sdk.common.ApplicationException;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+
 
 
 
