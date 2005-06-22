@@ -1,0 +1,69 @@
+<project name="csm-sdk" default="releaseServer" basedir="../.">
+	<description>CSM SDK Project Third Build File</description>
+
+	
+	<!-- set global properties for this build -->
+	
+	<property name="ApplicationName" value="sdkremoting" />	
+	
+	<property name="release" location="release" />
+	<property name="releaseClient" location="release/client" />
+	<property name="releaseServer" location="release/server" />
+	<property name="output" location="output" />
+	<property name="outputBuild" location="outputBuild" />
+	<property name="dist" location="dist" />
+	
+	
+	<!-- set the aruguments for the code generator class -->
+	<property name="arg1" value="${output}" />
+	<property name="arg2" value="com.codegen" />
+	<property name="arg3" value="test.gov.nih.nci.sdk.codegen.WritableApplicationService" />
+	<property name="arg4" value="sdkremoting" />
+
+
+	<target name="init" description="Initializing the environment">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<delete dir="${releaseClient}" />		
+		<delete dir="${releaseServer}" />		
+		<delete dir="${release}" />
+		<mkdir dir="${release}" />
+		<mkdir dir="${releaseClient}" />
+		<mkdir dir="${releaseServer}" />
+	</target>
+
+	<target name="releaseClient" depends="init" description="Packaging the Client">
+		<jar jarfile="${releaseClient}/sdkClient.jar" basedir="${outputBuild}" includes="**/client/*.class,**/common/*.class" />
+		<copy file="${output}/clientconfig/remoteService.xml" todir="${releaseClient}" />
+		<copy file="${dist}/jdom.jar" todir="${releaseClient}" />
+		<copy file="${dist}/sdkCommonException.jar" todir="${releaseClient}" />
+		<copy file="${dist}/spring.jar" todir="${releaseClient}" />
+		<copy file="${dist}/spring-richclient.jar" todir="${releaseClient}" />
+	</target>
+
+	<target name="releaseServer" depends="releaseClient" description="Packaging the Server">
+		<copydir src="${output}/public_html" dest="${releaseServer}/public_html" />
+		<mkdir dir="${releaseServer}/public_html/WEB-INF/lib" />
+		<jar jarfile="${releaseServer}/public_html/WEB-INF/lib/sdkServer.jar" basedir="${outputBuild}" includes="**/server/*.class,**/common/*.class" />		
+		<copy file="${dist}/activation.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/commons-attributes-api.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/commons-collections-3.0.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/commons-logging.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/csmapi.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/jboss-client.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/jdom.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/mysql-connector-java-3.0.8-stable-bin.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/sdkCommonException.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/sdkServerMgmt.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/spring.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/spring-richclient.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<copy file="${dist}/uuid-key-generator.jar" todir="${releaseServer}/public_html/WEB-INF/lib/" />
+		<jar jarfile="${releaseServer}/${ApplicationName}.war" basedir="${releaseServer}" />
+	</target>
+	
+	<target name="clean" description="Perform the clean up">
+		<delete dir="${build}" />
+	</target>
+	
+</project>
