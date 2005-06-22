@@ -23,7 +23,10 @@ import java.io.File;
  */
 public class RemoteClientServerGenerator {
 
-	public void generateCode(String outputFolder,String outputBasePackage, String applicationServiceInterfaceName){
+	public void generateCode(String outputFolder,
+			                 String outputBasePackage, 
+							 String applicationServiceInterfaceName,
+							 String webContextRoot){
 		 File testoutputFolder;
 		 try{
 		 	testoutputFolder = new File (outputFolder);
@@ -41,6 +44,12 @@ public class RemoteClientServerGenerator {
 		 	applicationService = Class.forName(applicationServiceInterfaceName);
 		 }catch(Exception ex){
 		 	System.out.println("The class is not found or the class is not in the classpath !");
+		 	System.exit(0);
+		 }
+		 
+		 if(StringUtilities.isBlank(webContextRoot)){
+		 	System.out.println("Web Context root can't be null !");
+		 	System.out.println("Exiting !");
 		 	System.exit(0);
 		 }
 		 /**
@@ -101,7 +110,7 @@ public class RemoteClientServerGenerator {
 		  * Generate the config files
 		  */
 		 
-		 WebConfigGenerator wcg = new WebConfigGenerator(outputFolder,outputBasePackage,applicationService);
+		 WebConfigGenerator wcg = new WebConfigGenerator(outputFolder,outputBasePackage,applicationService,webContextRoot);
 		 System.out.println("Generating Configuration files....................");
 		 System.out.println("                                                        ");
 		 wcg.generate();
@@ -124,8 +133,9 @@ public class RemoteClientServerGenerator {
 		String outputFolder = args[0];
 		String outputBasePackage = args[1];
 		String applicationClassName = args[2];
+		String web_context_root = args[3];
 		
 		RemoteClientServerGenerator rcsg = new RemoteClientServerGenerator();
-		rcsg.generateCode(outputFolder,outputBasePackage,applicationClassName);		
+		rcsg.generateCode(outputFolder,outputBasePackage,applicationClassName,web_context_root);		
 	}
 }

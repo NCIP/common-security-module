@@ -32,9 +32,20 @@ public class WebConfigGenerator {
 	private Class applicationService;
 	private String sourceFolder;
 	private String basePackage;
+	private String webContextRoot;
+	private String clientFolder;
 	
-	public WebConfigGenerator(String sourceFolder,String basePackage,Class  applicationService){
+	public WebConfigGenerator(String sourceFolder,
+			                  String basePackage,
+							  Class  applicationService,
+							  String webContextRoot){
+		this.webContextRoot=webContextRoot;
 		this.applicationService=applicationService;
+		
+		File c = CodeGenUtils.createAndGetSourceFileFolder(sourceFolder,basePackage);
+		File cf = new File(c.getAbsolutePath(),"application");
+		File ccf = new File(cf.getAbsolutePath(),"client");
+		clientFolder = ccf.getAbsolutePath();
 		File f = new File(sourceFolder,"public_html");
 		f.mkdir();
 		File f2 = new File(f,"WEB-INF");
@@ -52,6 +63,8 @@ public class WebConfigGenerator {
 		generate_web_xml_config();
 		generate_application_xml_config();
 		generate_http_invoker_xml_config();
+		generate_applicationService_xml_config();
+		generate_client_config_file();
 	}
 
 	private void generate_web_xml_config(){
@@ -158,6 +171,54 @@ public class WebConfigGenerator {
 		    
 		    this.outputDocumentToFile(doc,sourceFolder+"/"+"httpinvoker-servlet.xml");
 		     
+	}
+	public void generate_applicationService_xml_config(){
+		Element root = new Element("beans");
+		Document doc = new Document(root);
+		DocType dt = new DocType("beans","-//SPRING//DTD BEAN//EN","http://www.springframework.org/dtd/spring-beans.dtd");
+		doc.setDocType(dt);
+		Element bns = new Element("bean");
+		bns.setAttribute("id","applicationService");
+		String className = CodeGenUtils.getPartialName(applicationService)+"Impl";
+		bns.setAttribute("class","give fully classified class name for the class whiuch implements ApplicationService interface");
+		root.addContent(bns);
+		this.outputDocumentToFile(doc,sourceFolder+"/"+"applicationService.xml");
+	}
+	
+	public void generate_client_config_file(){
+		Element root = new Element("beans");
+		Document doc = new Document(root);
+		DocType dt = new DocType("beans","-//SPRING//DTD BEAN//EN","http://www.springframework.org/dtd/spring-beans.dtd");
+		doc.setDocType(dt);
+		Element bean = new Element("bean");
+		bean.setAttribute("id","remoteService");
+		bean.setAttribute("class","org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean");
+		
+		root.addContent(bean);
+		
+		
+		  
+		    Element prop = new Element("property");
+		    prop.setAttribute("name","serviceUrl");
+			    Element val = new Element("value");
+		         //val.setText("http://localhost:8080/SpringHttp12/http/remoteService");
+		         val.setText("{Host}"+ "/"+webContextRoot+"/http/remoteService");
+		      prop.addContent(val);
+		    bean.addContent(prop);
+		    
+		    Element prop2 = new Element("property");
+		    prop2.setAttribute("name","serviceInterface");
+			    Element val2 = new Element("value");
+		         //val2.setText("com.prototype.application.remote.RemoteService");
+		         val2.setText(basePackage+"application.common.Remote"+CodeGenUtils.getPartialName(applicationService));
+		      prop2.addContent(val2);
+		    bean.addContent(prop2);
+		    
+		   
+		    
+		    
+		    
+		    this.outputDocumentToFile(doc,clientFolder+"/"+"remoteService.xml");
 	}
 	private void outputDocumentToFile(Document configDoc, String xmlFile) {
         //setup this like outputDocument

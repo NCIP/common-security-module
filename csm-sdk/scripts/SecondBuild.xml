@@ -13,6 +13,7 @@
 	<property name="arg1" value="${output}" />
 	<property name="arg2" value="com.codegen" />
 	<property name="arg3" value="test.gov.nih.nci.sdk.codegen.WritableApplicationService" />
+	<property name="arg4" value="sdkremoting" />
 
 
 	<target name="init" description="Initializing the environment">
@@ -30,6 +31,7 @@
 			<arg value="${arg1}"/>
 			<arg value="${arg2}"/>
 			<arg value="${arg3}"/>
+			<arg value="${arg4}"/>
 			<classpath>
 				<fileset dir="${dist}">
 					<include name="*.jar" />
