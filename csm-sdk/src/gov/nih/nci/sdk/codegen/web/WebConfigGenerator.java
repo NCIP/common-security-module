@@ -34,18 +34,19 @@ public class WebConfigGenerator {
 	private String basePackage;
 	private String webContextRoot;
 	private String clientFolder;
+	private String applicationServiceImplentationClassName;
 	
 	public WebConfigGenerator(String sourceFolder,
 			                  String basePackage,
 							  Class  applicationService,
-							  String webContextRoot){
+							  String webContextRoot,
+							  String applicationServiceImplentationClassName){
+		this.applicationServiceImplentationClassName=applicationServiceImplentationClassName;
 		this.webContextRoot=webContextRoot;
 		this.applicationService=applicationService;
 		
-		File c = CodeGenUtils.createAndGetSourceFileFolder(sourceFolder,basePackage);
-		File cf = new File(c.getAbsolutePath(),"application");
-		File ccf = new File(cf.getAbsolutePath(),"client");
-		clientFolder = ccf.getAbsolutePath();
+		File cf = CodeGenUtils.createAndGetSourceFileFolder(sourceFolder,"clientconfig");
+		clientFolder = cf.getAbsolutePath();
 		File f = new File(sourceFolder,"public_html");
 		f.mkdir();
 		File f2 = new File(f,"WEB-INF");
@@ -180,7 +181,7 @@ public class WebConfigGenerator {
 		Element bns = new Element("bean");
 		bns.setAttribute("id","applicationService");
 		String className = CodeGenUtils.getPartialName(applicationService)+"Impl";
-		bns.setAttribute("class","give fully classified class name for the class whiuch implements ApplicationService interface");
+		bns.setAttribute("class",applicationServiceImplentationClassName);
 		root.addContent(bns);
 		this.outputDocumentToFile(doc,sourceFolder+"/"+"applicationService.xml");
 	}

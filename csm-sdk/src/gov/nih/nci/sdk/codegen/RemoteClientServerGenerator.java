@@ -26,7 +26,8 @@ public class RemoteClientServerGenerator {
 	public void generateCode(String outputFolder,
 			                 String outputBasePackage, 
 							 String applicationServiceInterfaceName,
-							 String webContextRoot){
+							 String webContextRoot,
+							 String applicationServiceImplentationClassName){
 		 File testoutputFolder;
 		 try{
 		 	testoutputFolder = new File (outputFolder);
@@ -52,6 +53,15 @@ public class RemoteClientServerGenerator {
 		 	System.out.println("Exiting !");
 		 	System.exit(0);
 		 }
+		 /**
+		 Class implClass = null;
+		 try{
+		 	implClass = Class.forName(applicationServiceImplentationClassName);
+		 }catch(Exception ex){
+		 	System.out.println("The Service Implementation class is not found or the class is not in the classpath !");
+		 	System.exit(0);
+		 }
+		 */
 		 /**
 		  * Generate the remote interface
 		  */
@@ -110,7 +120,7 @@ public class RemoteClientServerGenerator {
 		  * Generate the config files
 		  */
 		 
-		 WebConfigGenerator wcg = new WebConfigGenerator(outputFolder,outputBasePackage,applicationService,webContextRoot);
+		 WebConfigGenerator wcg = new WebConfigGenerator(outputFolder,outputBasePackage,applicationService,webContextRoot,applicationServiceImplentationClassName);
 		 System.out.println("Generating Configuration files....................");
 		 System.out.println("                                                        ");
 		 wcg.generate();
@@ -134,8 +144,9 @@ public class RemoteClientServerGenerator {
 		String outputBasePackage = args[1];
 		String applicationClassName = args[2];
 		String web_context_root = args[3];
+		String applicationServiceImplentationClassName = args[4];
 		
 		RemoteClientServerGenerator rcsg = new RemoteClientServerGenerator();
-		rcsg.generateCode(outputFolder,outputBasePackage,applicationClassName,web_context_root);		
+		rcsg.generateCode(outputFolder,outputBasePackage,applicationClassName,web_context_root,applicationServiceImplentationClassName);		
 	}
 }
