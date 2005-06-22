@@ -37,8 +37,16 @@ public class ApplicationConfiguration {
    }
    private ApplicationConfiguration(){
    	loadConfigFile();
+   	/**
+   	 * Use loadConfigFileFuture
+   	 */
    }
    private void loadConfigFile(){
+   	configs.put("applicationName","sdk");
+   	configs.put("securityLevel","1");
+   	configs.put("hibernateConfigFileName","hibernate.cfg.xml");
+   }
+   private void loadConfigFileFuture(){
    	Document configDoc = getConfigDocument();
    	Element root = configDoc.getRootElement();
    	List props = root.getChildren("property");
