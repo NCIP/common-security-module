@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/api/lib/ant-optional-1.5.3.jar"/>
+	<classpathentry kind="lib" path="/api/lib/c3p0-0.8.4.5.jar"/>
+	<classpathentry kind="lib" path="/api/lib/cglib-full-2.0.2.jar"/>
+	<classpathentry kind="lib" path="/api/lib/commons-collections-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/api/lib/commons-lang-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/api/lib/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="/api/lib/dom4j-1.4.jar"/>
+	<classpathentry kind="lib" path="/api/lib/ehcache-0.9.jar"/>
+	<classpathentry kind="lib" path="/api/lib/hibernate2.1.7c.jar"/>
+	<classpathentry kind="lib" path="/api/lib/jaas.jar"/>
+	<classpathentry kind="lib" path="/api/lib/jcs-1.0-dev.jar"/>
+	<classpathentry kind="lib" path="/api/lib/jdom.jar"/>
+	<classpathentry kind="lib" path="/api/lib/jta.jar"/>
+	<classpathentry kind="lib" path="/api/lib/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="/api/lib/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="/api/lib/mysql-connector-java-3.0.16-ga-bin.jar"/>
+	<classpathentry kind="lib" path="/api/lib/odmg-3.0.jar"/>
+	<classpathentry kind="lib" path="/api/lib/xalan-2.4.0.jar"/>
+	<classpathentry kind="lib" path="/api/lib/xerces-2.4.0.jar"/>
+	<classpathentry kind="lib" path="/api/lib/xml-apis.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

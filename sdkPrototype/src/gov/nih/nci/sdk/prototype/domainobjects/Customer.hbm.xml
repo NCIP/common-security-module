@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+    
+<hibernate-mapping>
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.sdk.prototype.domainobjects.Customer" 
+    table="Customer"
+>
+    
+
+    <id
+        name="id"
+        type="java.lang.Long"
+        column="ID"
+        unsaved-value="null"
+        >
+     <generator class="identity"/>
+    </id>
+
+    <property
+        name="name"
+        type="java.lang.String"
+        column="NAME"
+        not-null="true"
+        length="100"
+    >
+        
+    </property>
+    
+
+    <!-- Associations -->
+  
+    <set name="orders">
+      <key column="customer_id"/>
+      <one-to-many class="gov.nih.nci.sdk.prototype.domainobjects.Order"/>
+    </set>
+    
+    
+    
+
+</class>
+</hibernate-mapping>
+
