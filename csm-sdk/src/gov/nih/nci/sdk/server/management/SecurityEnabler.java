@@ -8,6 +8,7 @@ package gov.nih.nci.sdk.server.management;
 
 
 
+import gov.nih.nci.sdk.common.ApplicationException;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
@@ -52,11 +53,23 @@ public class SecurityEnabler {
 			return authenticationManager;
 	}
 
-	public String authenticate(String userId, String password){
+	public String authenticate(String userId, String password) throws ApplicationException{
 		/**
 		 * Call Authentication Manager here.
 		 */
-	  return "123";
+		String sessionKey =null;
+		boolean authenticated = false;
+		try{
+			authenticated = authenticationManager.login(userId,password);
+		}catch(Exception ex){
+			authenticated=false;
+			throw new ApplicationException("Could not authenticate the user");
+		}
+		if(authenticated){
+			SessionManager sm = SessionManager.getInstance();
+			sessionKey = sm.initSession(userId);
+		}
+	  return sessionKey;
 	}
 	
 	public boolean isUserInSession(String sessionKey){
@@ -64,13 +77,19 @@ public class SecurityEnabler {
 		return sm.isUserInSession(sessionKey);
 	}
 	public boolean hasAuthorization(String sessionKey,String protectionElementName,String privilege){
+		boolean authorized = false;
 		SessionManager sm = SessionManager.getInstance();
 		UserSession us = (UserSession)sm.getSession(sessionKey);
 		String userId = us.getUserId();
 		/**
 		 * Call AuthorizationManager here
 		 */
-		return true;
+		try{
+			authorized = authorizationManager.checkPermission(userId,protectionElementName,privilege);
+		}catch(Exception ex){
+			authorized = false;
+		}
+		return authorized;
 	}
 	
 	public int getSecurityLevel(){
