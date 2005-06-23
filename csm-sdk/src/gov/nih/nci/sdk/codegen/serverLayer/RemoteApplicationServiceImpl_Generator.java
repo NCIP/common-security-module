@@ -200,7 +200,7 @@ public class RemoteApplicationServiceImpl_Generator {
 		 		operation = "UPDATE";
 		 	}
 		 	if(mName.equalsIgnoreCase("removeObject")){
-		 		operation = "DELTE";
+		 		operation = "DELETE";
 		 	}
 		 }
 		 
