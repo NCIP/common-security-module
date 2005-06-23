@@ -25,10 +25,17 @@ public class SDKApplicationServiceServerImpl implements SDKApplicationService{
 	 */
 	private HibernateDAO hDAO;
 	public SDKApplicationServiceServerImpl(){
-		
+		System.out.println("Message from SDKApplicationServiceServerImpl: Calling constructor !");
+		hDAO = new HibernateDAO();
+		if(hDAO!=null){
+			System.out.println("Message from SDKApplicationServiceServerImpl: hDAO is there !");
+		}else{
+			System.out.println("Message from SDKApplicationServiceServerImpl: hDAO is not there !");
+		}
 	}
 	public Object createObject(Object obj) throws ApplicationException {
 		// TODO Auto-generated method stub
+		System.out.println("Message from SDKApplicationServiceServerImpl:Calling creatObject!");
 		return hDAO.createObject(obj);
 	}
 
