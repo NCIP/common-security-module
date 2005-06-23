@@ -149,9 +149,9 @@ public class RemoteApplicationServiceImpl_Generator {
 		    
 		    //code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append(applicationService.getName()).append(".").append(mSig.getName()).append("){");
 		    this.appendSecurityCall(code,mSig);
-		    CodeFormatter.newLine(code);
-		    CodeFormatter.addSpaces(code,12);
-		    code.append("throw new ApplicationException(\"You don't have privilege to execute this method\");");
+		    //CodeFormatter.newLine(code);
+		    //CodeFormatter.addSpaces(code,12);
+		   // code.append("throw new ApplicationException(\"You don't have privilege to execute this method\");");
 		    CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,10);
 		    //CodeFormatter.addSpaces(code,3);
@@ -206,11 +206,18 @@ public class RemoteApplicationServiceImpl_Generator {
 		 
 		 if(isBusinessMethod){
 		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append("\"").append(applicationService.getName()).append(".").append(mSig.getName()).append("\"").append(",\"EXECUTE\")){");
+		 	
+		 	  CodeFormatter.newLine(code);
+		    CodeFormatter.addSpaces(code,12);
+		    code.append("throw new ApplicationException(\"You don't have privilege to execute this method\");");
 		 }else{
 		 	
 		 	code.append("String domainObjectName = arg1.getClass().getName();\n");
 		 	CodeFormatter.addSpaces(code,10);
-		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append("\"").append(applicationService.getName()).append("\"").append(",\"").append(operation).append("\")){");
+		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append("domainObjectName").append(",\"").append(operation).append("\")){");
+		 	CodeFormatter.newLine(code);
+		    CodeFormatter.addSpaces(code,12);
+		    code.append("throw new ApplicationException(\"You don't have privilege to "+operation+" this object\");");
 		 }
 		
 	}

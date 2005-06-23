@@ -93,7 +93,7 @@ public class SecurityEnabler {
 	}
 	
 	public int getSecurityLevel(){
-		return 1;
+		return 0;
 	}
 	
 	public void logOut(String sessionKey){
