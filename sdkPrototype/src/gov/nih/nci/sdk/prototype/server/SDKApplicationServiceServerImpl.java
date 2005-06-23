@@ -44,7 +44,7 @@ public class SDKApplicationServiceServerImpl implements SDKApplicationService{
 	 */
 	public Object updateObject(Object obj) throws ApplicationException {
 		// TODO Auto-generated method stub
-		return hDAO.createObject(obj);
+		return hDAO.updateObject(obj);
 	}
 
 	/* (non-Javadoc)
