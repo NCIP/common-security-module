@@ -7,6 +7,7 @@
 package gov.nih.nci.sdk.server.management;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Hashtable;
 
 import net.sf.hibernate.SessionFactory;
@@ -51,8 +52,9 @@ public class ApplicationSessionFactory {
 			/**
 			 * We will use this commented out the style for creating sessionfactory
 			 */
-			
-		 File f = new File(fileName);
+			URL url =  ClassLoader.getSystemResource(fileName);
+			String file_name = url.getFile();
+		    File f = new File(file_name);
 	     //File f = new File("config/myfile.cfg.xml");
 		 
 		 sf = new Configuration().configure(f).buildSessionFactory();
