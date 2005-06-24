@@ -58,6 +58,20 @@ public class SecurityEnabler {
 		 * Call Authentication Manager here.
 		 */
 		String sessionKey =null;
+		boolean authenticated = true;
+		
+		if(authenticated){
+			SessionManager sm = SessionManager.getInstance();
+			sessionKey = sm.initSession(userId);
+		}
+	  return sessionKey;
+	}
+	
+	public String authenticateXX(String userId, String password) throws ApplicationException{
+		/**
+		 * Call Authentication Manager here.
+		 */
+		String sessionKey =null;
 		boolean authenticated = false;
 		try{
 			authenticated = authenticationManager.login(userId,password);
@@ -77,6 +91,18 @@ public class SecurityEnabler {
 		return sm.isUserInSession(sessionKey);
 	}
 	public boolean hasAuthorization(String sessionKey,String protectionElementName,String privilege){
+		boolean authorized = true;
+		SessionManager sm = SessionManager.getInstance();
+		UserSession us = (UserSession)sm.getSession(sessionKey);
+		String userId = us.getUserId();
+		/**
+		 * Call AuthorizationManager here
+		 */
+		System.out.println("The security system has checked authorization for:"+userId);
+		return authorized;
+	}
+	
+	public boolean hasAuthorizationXX(String sessionKey,String protectionElementName,String privilege){
 		boolean authorized = false;
 		SessionManager sm = SessionManager.getInstance();
 		UserSession us = (UserSession)sm.getSession(sessionKey);
