@@ -183,7 +183,9 @@ public class WebConfigGenerator {
 		String className = CodeGenUtils.getPartialName(applicationService)+"Impl";
 		bns.setAttribute("class",applicationServiceImplentationClassName);
 		root.addContent(bns);
-		this.outputDocumentToFile(doc,sourceFolder+"/"+"applicationService.xml");
+		File f = CodeGenUtils.createAndGetSourceFileFolder(sourceFolder,"classes");
+		String classesFolder = f.getAbsolutePath();
+		this.outputDocumentToFile(doc,classesFolder+"/"+"applicationService.xml");
 	}
 	
 	public void generate_client_config_file(){

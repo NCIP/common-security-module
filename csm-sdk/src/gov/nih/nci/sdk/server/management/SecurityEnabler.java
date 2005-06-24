@@ -99,6 +99,7 @@ public class SecurityEnabler {
 	public void logOut(String sessionKey){
 		SessionManager sm = SessionManager.getInstance();
 		sm.killSession(sessionKey);
+		System.out.println("Session killed for sessionId:"+sessionKey);
 	}
 	public static void main(String[] args) {
 	}

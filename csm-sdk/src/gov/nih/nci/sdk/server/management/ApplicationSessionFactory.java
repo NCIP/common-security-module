@@ -52,14 +52,18 @@ public class ApplicationSessionFactory {
 			/**
 			 * We will use this commented out the style for creating sessionfactory
 			 */
-			URL url =  ClassLoader.getSystemResource(fileName);
-			String file_name = url.getFile();
-		    File f = new File(file_name);
+			//URL url =  ClassLoader.getSystemResource(fileName);
+			//String file_name = url.getFile();
+		    //File f = new File(file_name);
 	     //File f = new File("config/myfile.cfg.xml");
 		 
-		 sf = new Configuration().configure(f).buildSessionFactory();
-			//sf = new Configuration().configure().buildSessionFactory();
-			 
+		 //sf = new Configuration().configure(f).buildSessionFactory();
+			sf = new Configuration().configure().buildSessionFactory();
+			 if(sf!=null){
+			 	System.out.println("Message from ApplicationSessionFactory: Got Session !");
+			 }else{
+			 	System.out.println("Message from ApplicationSessionFactory: could not get Session !");
+			 }
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

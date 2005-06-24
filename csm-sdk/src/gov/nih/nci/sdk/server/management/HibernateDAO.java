@@ -34,7 +34,13 @@ public class HibernateDAO {
   
   public HibernateDAO(){
   	 
+  	System.out.println("Message from HibernateDAO: Calling constructor !");
   	this.sf=ApplicationSessionFactory.getSessionFactory();
+  	if(sf!=null){
+  		System.out.println("Message from HibernateDAO: Got session Factory !");
+  	}else{
+  		System.out.println("Message from HibernateDAO: Could not get Session Factory !");
+  	}
   }
   
   public Object createObject(Object obj) throws ApplicationException{
@@ -56,7 +62,7 @@ public class HibernateDAO {
 		if (log.isDebugEnabled())
 			log	.debug("createObject|Failure|Error in creating the "+ obj.getClass().getName()+ ex.getMessage());
 		
-		throw new ApplicationException("An error occured in creating the "+obj.getClass().getName() + "\n" + ex.getMessage(), ex);
+		throw new ApplicationException("An error occured in creating the "+obj.getClass().getName() + "\n" + ex.getMessage());
 	}  finally {
 		try {
 			s.close();
@@ -89,7 +95,7 @@ public class HibernateDAO {
 		if (log.isDebugEnabled())
 			log	.debug("updateObject|Failure|Error in updating the "+ obj.getClass().getName()+ ex.getMessage());
 		
-		throw new ApplicationException("An error occured in updating the "+obj.getClass().getName() + "\n" + ex.getMessage(), ex);
+		throw new ApplicationException("An error occured in updating the "+obj.getClass().getName() + "\n" + ex.getMessage());
 	}  finally {
 		try {
 			s.close();
@@ -121,7 +127,7 @@ public class HibernateDAO {
 		if (log.isDebugEnabled())
 			log	.debug("deleteObject|Failure|Error in removing the "+ obj.getClass().getName()+ ex.getMessage());
 		
-		throw new ApplicationException("An error occured in removing the "+obj.getClass().getName() + "\n" + ex.getMessage(), ex);
+		throw new ApplicationException("An error occured in removing the "+obj.getClass().getName() + "\n" + ex.getMessage());
 	}  finally {
 		try {
 			s.close();
@@ -149,7 +155,7 @@ public class HibernateDAO {
 		if (log.isDebugEnabled())
 			log	.debug("getObjects|Failure|Error in getting objects"+ ex.getMessage());
 		
-		throw new ApplicationException("An error occured in getting objects" + "\n" + ex.getMessage(), ex);
+		throw new ApplicationException("An error occured in getting objects" + "\n" + ex.getMessage());
 	}finally {
 		try {
 			s.close();
