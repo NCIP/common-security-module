@@ -95,9 +95,9 @@
 									<td class="formMessage" colspan="3">Update the details of the displayed Protection Group. 
 									The <b>Protection Group Name</b> uniquely identifies the Protection Group and is a required field. 
 									The <b>Protection Group Description</b> is a brief summary about the Protection Group. 
-									The <b>Update Date</b>indicate the date when this Protection Group's Details were last updated.
+									The <b>Update Date</b> indicate the date when this Protection Group's Details were last updated.
 									The <b>Protection Group Large Count Flag</b> is used to indicate if the Protection Group has a large
-									number of associated Protection Elements. The <b>Update Date</b> indicates the date when this Protection Element's Details were last updated.</td>
+									number of associated Protection Elements. The <b>Update Date</b> indicates the date when this Protection Group's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>
