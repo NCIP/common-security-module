@@ -43,10 +43,10 @@
 					Protection Elements. By combining Protection Elements into a
 					Protection Group, it becomes easier to associate Users and Groups
 					with rights to a particular data set. <br>
-					In the User or Group portion of the UPT, you may assign users to
-					Protection Groups. In this section you may create new Protection
-					Groups, modify existing Protection Group details, and assign or
-					deassign a parent for a Protection Group. Please begin by selecting
+					In the User or Group portion of the UPT, you may assign Protection Groups to
+					Users. In this section you may create new Protection
+					Groups, modify existing Protection Group details, assign or
+					deassign a parent for a Protection Group, and assign or deassign Protection Elements to a Protection Group. Please begin by selecting
 					either <b>Create a New Protection Group</b> or <b>Select an Existing
 					Protection Group</b>.</p>
 					</td>

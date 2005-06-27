@@ -42,8 +42,7 @@
 					is simply a collection of application Privileges. By combining
 					Privileges into a Role, it becomes easier to associate Users and
 					Groups with rights to a particular data set. <br>
-					In the User or Group portion of the UPT, you may assign users to
-					Roles. In this section you may create new Roles, modify existing
+					In the User or Group portion of the UPT, you may assign Roles to Users. In this section you may create new Roles, modify existing
 					Role details, and assign or deassign Privileges to the Role. Please
 					begin by selecting either <b>Create a New Role</b> or <b>Select an Existing
 					Role</b>.</p>
