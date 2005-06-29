@@ -767,9 +767,17 @@ public class TestClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
+		
+	public void testSetOwnerForProtectionElement() {
+		try {
+			upm.setOwnerForProtectionElement("620_TigerWoods","620_golf_score",null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+		
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
 		//ts.testPrivilegeCreate();
@@ -778,6 +786,7 @@ public class TestClient {
 		//ts.checkPermission();
 		//ts.assignUserRoleToProtectionGroup();
 		//ts.testSecureObject();
-		ts.testGroupPEPrivilegeObject();
+		//ts.testGroupPEPrivilegeObject();
+		ts.testSetOwnerForProtectionElement();
 	}
 }

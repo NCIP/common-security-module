@@ -1227,6 +1227,73 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 
+	private List getObjects(Session s, SearchCriteria searchCriteria) {
+		List result = new ArrayList();
+		try {
+
+			Criteria criteria = s
+					.createCriteria(searchCriteria.getObjectType());
+			Hashtable fieldValues = searchCriteria.getFieldAndValues();
+			Enumeration en = fieldValues.keys();
+			while (en.hasMoreElements()) {
+				String str = (String) en.nextElement();
+				String fieldValue = (String) fieldValues.get(str);
+				String fieldValue_ = StringUtilities.replaceInString(
+						fieldValue, "*", "%");
+				//int i = ((String) fieldValues.get(str)).indexOf("%");
+				int i = fieldValue_.indexOf("%");
+				if (i != -1) {
+					//criteria.add(Expression.like(str, fieldValues.get(str)));
+					criteria.add(Expression.like(str, fieldValue_));
+				} else {
+					//criteria.add(Expression.eq(str, fieldValues.get(str)));
+					criteria.add(Expression.eq(str, fieldValue_));
+				}
+			}
+			if (fieldValues.size() == 0) {
+				criteria.add(Expression.eqProperty("1", "1"));
+			}
+			log.debug("Message from debug: ObjectType="
+					+ searchCriteria.getObjectType().getName());
+
+			//boolean t =
+			// searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User")||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege");
+
+			//log.debug("Test:"+t);
+
+			//if(!t){
+			//	criteria.add(Expression.eq("application", this.application));
+			//}
+
+			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase(
+					"gov.nih.nci.security.authorization.domainobjects.User")
+					|| searchCriteria
+							.getObjectType()
+							.getName()
+							.equalsIgnoreCase(
+									"gov.nih.nci.security.authorization.domainobjects.Privilege") || searchCriteria
+					.getObjectType()
+					.getName()
+					.equalsIgnoreCase(
+							"gov.nih.nci.security.authorization.domainobjects.Application"))) {
+				criteria.add(Expression.eq("application", this.application));
+			}
+
+			result = criteria.list();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||getObjects|Failure|Error in Obtaining Search Objects from Database |"
+								+ ex.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||getObjects|Success|Successful in Searching objects from the database |");
+		return result;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1963,17 +2030,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#setOwnerForProtectionElement(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
-	public void setOwnerForProtectionElement(String loginName,
-			String protectionElementObjectId,
-			String protectionElementAttributeName)
-			throws CSTransactionException {
+	public void setOwnerForProtectionElement(String loginName, String protectionElementObjectId, String protectionElementAttributeName)	throws CSTransactionException {
 
 		Session s = null;
 		Transaction t = null;
 		if (StringUtilities.isBlank(loginName)) {
-			throw new CSTransactionException("login name can't be null");
+			throw new CSTransactionException("Login Name can't be null");
 		}
-
+		if (StringUtilities.isBlank(protectionElementObjectId)) {
+			throw new CSTransactionException("Object Id can't be null");
+		}
 		try {
 
 			s = sf.openSession();
@@ -1981,25 +2047,38 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			User user = getLightWeightUser(loginName);
 			if (user == null) {
-				throw new CSTransactionException(
-						"No user found for this login name");
+				throw new CSTransactionException("No user found for this login name");
 			}
-			ProtectionElement pe = getProtectionElement(
-					protectionElementObjectId, protectionElementAttributeName);
+			ProtectionElement pe = new ProtectionElement();
+			pe.setObjectId(protectionElementObjectId);
+			pe.setApplication(application);
+			if (protectionElementAttributeName != null && protectionElementAttributeName.length() > 0) {
+				pe.setAttribute(protectionElementAttributeName);
+			}			
+			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			List l = this.getObjects(s,sc);
 
-			Criteria criteria = s.createCriteria(UserProtectionElement.class);
-			criteria.add(Expression.eq("user", user));
-			criteria.add(Expression.eq("protectionElement", pe));
-
-			List list = criteria.list();
-			if (list.size() <= 0) {
-				UserProtectionElement intersection = new UserProtectionElement();
-
-				intersection.setUser(user);
-				intersection.setProtectionElement(pe);
-				intersection.setUpdateDate(new Date());
-				s.save(intersection);
+			if (l.size() == 0) {
+				throw new CSTransactionException("No Protection Element found for the given object id and attribute");
 			}
+			
+			ProtectionElement protectionElement = (ProtectionElement) l.get(0);
+
+			Set ownerList = protectionElement.getOwners();
+			if (ownerList == null || ownerList.size() == 0)
+			{
+				ownerList = new HashSet();
+				ownerList.add(user);
+			}
+			else
+			{
+				if (!ownerList.contains(user))
+				{
+					ownerList.add(user);
+				}
+			}
+			protectionElement.setOwners(ownerList);
+			s.save(protectionElement);
 			t.commit();
 
 		} catch (Exception ex) {
@@ -2071,6 +2150,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			ProtectionElement pe = new ProtectionElement();
 			pe.setObjectId(protectionElementObjectId);
+			pe.setApplication(application);
 			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
 			List l = this.getObjects(sc);
 
@@ -3226,7 +3306,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Class cl = obj.getClass();
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
-					userName, "READ_DENIED");
+					userName, "READ");
 
 			log.debug(accessMap.toString());
 
@@ -3247,7 +3327,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					Method m2 = cl.getMethod(methodName, null);
 					//log.debug("Method Name m2"+m2.getName());
 					//log.debug(m2.invoke(obj,null));
-					if (!accessMap.hasAccess(att)) {
+					if (accessMap.hasAccess(att)) {
 						m.invoke(o, new Object[] { null });
 					} else {
 						m.invoke(o, new Object[] { m2.invoke(obj, null) });
@@ -3306,7 +3386,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						Method m2 = cl.getMethod(methodName, null);
 						//log.debug("Method Name m2"+m2.getName());
 						//log.debug(m2.invoke(obj,null));
-						if (!accessMap.hasAccess(att)) {
+						if (accessMap.hasAccess(att)) {
 							m.invoke(o, new Object[] { null });
 						} else {
 							m.invoke(o, new Object[] { m2.invoke(obj, null) });
@@ -3346,7 +3426,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Class cl = originalObject.getClass();
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
-					userName, "UPDATE_DENIED");
+					userName, "UPDATE");
 
 			//o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
@@ -3367,7 +3447,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					Method m2 = cl.getMethod(methodName, null);
 					//log.debug("Method Name m2"+m2.getName());
 					//log.debug(m2.invoke(obj,null));
-					if (accessMap.hasAccess(att)) {
+					if (!accessMap.hasAccess(att)) {
 						log.debug("No Access to update attribute: " + att);
 						Object origValue = m2.invoke(originalObject, null);
 						if (origValue != null) {
