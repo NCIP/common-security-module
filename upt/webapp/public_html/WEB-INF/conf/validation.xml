@@ -94,7 +94,7 @@
   				<var-value>100</var-value>
   			</var>
   		</field>
-		<field property="applicationDescription" depends="maxlength">
+		<field property="applicationDescription" depends="required,maxlength">
   			<arg0 key="ApplicationForm.applicationDescription.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
@@ -195,7 +195,7 @@
   				<var-value>100</var-value>
   			</var>
   		</field>
-		<field property="userFirstName" depends="maxlength">
+		<field property="userFirstName" depends="required,maxlength">
   			<arg0 key="UserForm.userFirstName.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
@@ -203,7 +203,7 @@
   				<var-value>100</var-value>
   			</var>
   		</field>
-		<field property="userLastName" depends="maxlength">
+		<field property="userLastName" depends="required,maxlength">
   			<arg0 key="UserForm.userLastName.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
