@@ -6,6 +6,8 @@
 	<property name="lib" location="public_html/WEB-INF/lib" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
+	<property name="clientApp" location="clientApp" />
+	<property name="clientAppServer" location="clientAppServer" />
 	
 	<target name="init" description="Initializing the environment">
 		<!-- Create the time stamp -->
@@ -15,6 +17,8 @@
 		<delete dir="${dist}" />
 		<mkdir dir="${build}" />
 		<mkdir dir="${dist}" />
+		<mkdir dir="${clientApp}" />
+		<mkdir dir="${clientAppServer}" />
 	</target>
 
 	<target name="compile" depends="init" description="Compiling the source">

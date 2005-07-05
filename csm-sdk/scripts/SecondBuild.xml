@@ -7,14 +7,16 @@
 	<property name="output" location="output" />
 	<property name="outputBuild" location="outputBuild" />
 	<property name="dist" location="dist" />
+	<property name="clientApp" location="clientApp" />
+	<property name="clientAppServer" location="clientAppServer" />
 	<property name="inputApplicationJarPath" value="${dist}/testApplication.jar" />
 	
 	<!-- set the aruguments for the code generator class -->
 	<property name="arg1" value="${output}" />
 	<property name="arg2" value="com.codegen" />
-	<property name="arg3" value="test.gov.nih.nci.sdk.codegen.WritableApplicationService" />
+	<property name="arg3" value="gov.nih.nci.sdk.prototype.service.SDKApplicationService" />
 	<property name="arg4" value="sdkremoting" />
-	<property name="arg5" value="com.mycompany.sdk.WritableApplicationServiceImpl" />
+	<property name="arg5" value="gov.nih.nci.sdk.prototype.server.SDKApplicationServiceServerImpl" />
 
 
 	<target name="init" description="Initializing the environment">
@@ -38,6 +40,12 @@
 				<fileset dir="${dist}">
 					<include name="*.jar" />
 				</fileset>
+				<fileset dir="${clientApp}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${clientAppServer}">
+					<include name="*.jar" />
+				</fileset>
 				<pathelement location="${dist}/sdkCodeGenerator.jar"/>
 				<pathelement location="${inputApplicationJarPath}"/>
 				<pathelement path="${java.class.path}"/>
@@ -50,6 +58,12 @@
 		<javac srcdir="${output}" destdir="${outputBuild}" debug="true" deprecation="true">
 			<classpath>
 				<fileset dir="${dist}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${clientApp}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${clientAppServer}">
 					<include name="*.jar" />
 				</fileset>
 			</classpath>
