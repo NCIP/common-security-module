@@ -270,7 +270,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		ArrayList formElementList = new ArrayList();
 
 		formElementList.add(new FormElement("Application Name", "applicationName", getApplicationName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Application Description", "applicationDescription", getApplicationDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Description", "applicationDescription", getApplicationDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Declarative Flag", "applicationDeclarativeFlag", getApplicationDeclarativeFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Active Flag", "applicationActiveFlag", getApplicationActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
@@ -283,8 +283,8 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	public ArrayList getDisplayFormElements() {
 		ArrayList formElementList = new ArrayList();
 
-		formElementList.add(new FormElement("Application Name", "applicationName", getApplicationName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Application Description", "applicationDescription", getApplicationDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Name", "applicationName", getApplicationName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Description", "applicationDescription", getApplicationDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Declarative Flag", "applicationDeclarativeFlag", getApplicationDeclarativeFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Active Flag", "applicationActiveFlag", getApplicationActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Update Date", "applicationUpdateDate", getApplicationUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
