@@ -202,6 +202,9 @@ public class RemoteApplicationServiceImpl_Generator {
 		 	if(mName.equalsIgnoreCase("removeObject")){
 		 		operation = "DELETE";
 		 	}
+		 	if(mName.equalsIgnoreCase("getObjects")){
+		 		operation = "READ";
+		 	}
 		 }
 		 
 		 if(isBusinessMethod){
@@ -226,7 +229,8 @@ public class RemoteApplicationServiceImpl_Generator {
 		boolean isBusinessMethod = true;
 		if(mName.equalsIgnoreCase("createObject")||
 			 	mName.equalsIgnoreCase("updateObject")||
-				mName.equalsIgnoreCase("removeObject")){
+				mName.equalsIgnoreCase("removeObject")||
+				mName.equalsIgnoreCase("getObjects")){
 			 	isBusinessMethod=false;
 		}
 		

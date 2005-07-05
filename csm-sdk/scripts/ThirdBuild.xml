@@ -60,6 +60,7 @@
 		<copy file="${dist}/jboss-client.jar" todir="${releaseServer}/WEB-INF/lib/" />
 		<copy file="${dist}/jdom.jar" todir="${releaseServer}/WEB-INF/lib/" />
 		<copy file="${dist}/mysql-connector-java-3.0.8-stable-bin.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/ojdbc14.jar" todir="${releaseServer}/WEB-INF/lib/" />
 		<copy file="${dist}/sdkCommonException.jar" todir="${releaseServer}/WEB-INF/lib/" />
 		<copy file="${dist}/sdkServerMgmt.jar" todir="${releaseServer}/WEB-INF/lib/" />
 		<copy file="${dist}/spring.jar" todir="${releaseServer}/WEB-INF/lib/" />
