@@ -102,7 +102,6 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleConte
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionGroup;
-import gov.nih.nci.security.authorization.domainobjects.UserProtectionElement;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.hibernate.ProtectionGroupProtectionElement;
 import gov.nih.nci.security.dao.hibernate.UserGroup;
@@ -120,16 +119,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
-
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.ArrayList;
 
 import javax.security.auth.Subject;
 

@@ -346,7 +346,7 @@ public class Queries {
 		stbr.append("            csm_role r,");
 		stbr.append("            csm_role_privilege rp,");
 		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE ugrpg.protection_group_id = pg.protection_group_id");
+		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
 		stbr.append("            AND ugrpg.role_id = rp.role_id");
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
@@ -363,7 +363,7 @@ public class Queries {
 		stbr.append("            csm_role r,");
 		stbr.append("            csm_role_privilege rp,");
 		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE ugrpg.protection_group_id = pg.protection_group_id");
+		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
 		stbr.append("            AND ugrpg.role_id = rp.role_id");
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
@@ -372,7 +372,7 @@ public class Queries {
 		stbr.append(" UNION ALL ");
 		stbr.append("SELECT DISTINCT upe.protection_element_id pe_id, 0 p_id");
 		stbr.append("      FROM  csm_user_pe upe");
-		stbr.append("      WHERE upe.user_id = ").append(user_id);		
+		stbr.append("      WHERE upe.user_id = ").append(user_id);
 		stbr.append(" ORDER BY pe_id, p_id");
 		
 		return stbr.toString();
@@ -392,7 +392,7 @@ public class Queries {
 		stbr.append("            csm_role r,");
 		stbr.append("            csm_role_privilege rp,");
 		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE ugrpg.protection_group_id = pg.protection_group_id");
+		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
 		stbr.append("            AND ugrpg.role_id = rp.role_id");
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
