@@ -27,7 +27,8 @@ public class RemoteClientServerGenerator {
 			                 String outputBasePackage, 
 							 String applicationServiceInterfaceName,
 							 String webContextRoot,
-							 String applicationServiceImplentationClassName){
+							 String applicationServiceImplentationClassName,
+							 String applicationContextName){
 		 File testoutputFolder;
 		 try{
 		 	testoutputFolder = new File (outputFolder);
@@ -50,6 +51,11 @@ public class RemoteClientServerGenerator {
 		 
 		 if(StringUtilities.isBlank(webContextRoot)){
 		 	System.out.println("Web Context root can't be null !");
+		 	System.out.println("Exiting !");
+		 	System.exit(0);
+		 }
+		 if(StringUtilities.isBlank(applicationContextName)){
+		 	System.out.println("Application Context name can't be null !");
 		 	System.out.println("Exiting !");
 		 	System.exit(0);
 		 }
@@ -109,7 +115,10 @@ public class RemoteClientServerGenerator {
 		  * Generate Server side RemoteApplicationServiceImpl
 		  */
 		 
-		 RemoteApplicationServiceImpl_Generator rasg = new RemoteApplicationServiceImpl_Generator(outputFolder,outputBasePackage,applicationService);
+		 RemoteApplicationServiceImpl_Generator rasg = new RemoteApplicationServiceImpl_Generator(outputFolder,
+		 		                                                                                  outputBasePackage,
+																								  applicationService,
+																								  applicationContextName);
 		 System.out.println("Generating Remote Application Service Implementation Class....................");
 		 System.out.println("                                                        ");
 		 rasg.generate();
@@ -136,7 +145,7 @@ public class RemoteClientServerGenerator {
 	}
 	public static void main(String[] args) {
 
-		if(args.length < 3) {
+		if(args.length < 5) {
 			System.out.println("Usage: java RemoteClientServerGenerator <<outputFolder>> <<outputBasePackage>> <<applicationServiceInterfaceName>>");
 		}
 		
@@ -145,8 +154,9 @@ public class RemoteClientServerGenerator {
 		String applicationClassName = args[2];
 		String web_context_root = args[3];
 		String applicationServiceImplentationClassName = args[4];
+		String applicationContextName= args[5];
 		
 		RemoteClientServerGenerator rcsg = new RemoteClientServerGenerator();
-		rcsg.generateCode(outputFolder,outputBasePackage,applicationClassName,web_context_root,applicationServiceImplentationClassName);		
+		rcsg.generateCode(outputFolder,outputBasePackage,applicationClassName,web_context_root,applicationServiceImplentationClassName,applicationContextName);		
 	}
 }

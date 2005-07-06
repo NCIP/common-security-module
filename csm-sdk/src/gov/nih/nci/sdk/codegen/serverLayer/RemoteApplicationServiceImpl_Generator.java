@@ -32,8 +32,12 @@ public class RemoteApplicationServiceImpl_Generator {
 	private String parentPackage = "";
 	private String sourceDirName = null;	
 	private Class applicationService;
+	private String applicationContextName=null;
 	
-	public RemoteApplicationServiceImpl_Generator(String sourceDirName,String basePackage,Class applicationService){
+	public RemoteApplicationServiceImpl_Generator(String sourceDirName,
+			                                      String basePackage,
+												  Class applicationService,
+												  String applicationContextName){
 		this.applicationService= applicationService;
 		this.sourceDirName= sourceDirName;
 		if(StringUtilities.isBlank(basePackage)){
@@ -43,6 +47,7 @@ public class RemoteApplicationServiceImpl_Generator {
 			this.basePackage= basePackage+"."+classPackage;
 			
 		}
+		this.applicationContextName=applicationContextName;
 	}
 	
 	public void generate(){
@@ -95,7 +100,8 @@ public class RemoteApplicationServiceImpl_Generator {
 		CodeFormatter.startMethod(code);
 		CodeFormatter.newLine(code);
 		CodeFormatter.addTabs(code,1);
-		code.append("securityEnabler = new SecurityEnabler();");
+		//code.append("securityEnabler = new SecurityEnabler();");
+		code.append("securityEnabler = new SecurityEnabler(\"").append(applicationContextName).append("\"").append(");");
 		CodeFormatter.newLine(code);
 		CodeFormatter.addTabs(code,1);
 		code.append("ApplicationContext ctx = new ClassPathXmlApplicationContext(\"");
@@ -239,7 +245,7 @@ public class RemoteApplicationServiceImpl_Generator {
 	
 	public static void main(String[] args) {
 		
-		RemoteApplicationServiceImpl_Generator acc = new RemoteApplicationServiceImpl_Generator("c:/temp/vinay","gov.nih.nci",TestApplicationService.class);
-		acc.generate();
+		//RemoteApplicationServiceImpl_Generator acc = new RemoteApplicationServiceImpl_Generator("c:/temp/vinay","gov.nih.nci",TestApplicationService.class);
+		//acc.generate();
 	}
 }

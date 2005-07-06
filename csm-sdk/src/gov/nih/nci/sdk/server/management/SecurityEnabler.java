@@ -23,15 +23,16 @@ import gov.nih.nci.security.exceptions.CSException;
  */
 public class SecurityEnabler {
 
-	private static String applicationContextName = null;
+	private static String applicationContextName= null;
 	private static AuthorizationManager authorizationManager = null;
 	private static AuthenticationManager authenticationManager = null;
-
+    private static int securityLevel = 999;
 	
 	
-	public SecurityEnabler(){
-		ApplicationConfiguration ac = ApplicationConfiguration.getInstance();
-		applicationContextName =ac.getProperty("applicationName");
+	public SecurityEnabler(String applicationContextName_){
+		//ApplicationConfiguration ac = ApplicationConfiguration.getInstance();
+		//applicationContextName =ac.getProperty("applicationName");
+		applicationContextName = applicationContextName_;
 	}
 
 	private AuthorizationManager getAuthorizationManager(){
@@ -123,8 +124,20 @@ public class SecurityEnabler {
 			System.out.println("User is not logged in !");
 			return authorized;
 		}
+		
+		if(!this.isUserInSession(sessionKey)){
+			authorized = false;
+			System.out.println("User is not in session !");
+			return authorized;
+		}
 		SessionManager sm = SessionManager.getInstance();
 		UserSession us = (UserSession)sm.getSession(sessionKey);
+		
+		if(us==null){
+			authorized = false;
+			System.out.println("User is not in session !");
+			return authorized;
+		}
 		String userId = us.getUserId();
 		/**
 		 * Call AuthorizationManager here
@@ -144,7 +157,20 @@ public class SecurityEnabler {
 	}
 	
 	public int getSecurityLevel(){
-		return 1;
+		 if(securityLevel==999){
+		 	String str = System.getProperty("gov.nih.nci.sdk.remote."+applicationContextName+".securityLevel");
+		 	try{
+		 	  Integer it = new Integer(str);
+		 	  int level = it.intValue();
+		 	  if((level!=0)||(level!=1)||(level!=2)){
+		 	  	level=1;
+		 	  }
+		 	}catch(Exception ex){
+		 		securityLevel =1;
+		 	}
+		 	
+		 }
+		return securityLevel;
 	}
 	
 	public void logOut(String sessionKey){

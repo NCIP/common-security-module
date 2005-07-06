@@ -24,7 +24,7 @@ public class SessionManager {
 	private Hashtable sessions;
 	private static int r =1;
 	private KeyGenerator kg;
-	
+	private static long timeOut=5000;
 	public static synchronized SessionManager getInstance(){
 		if(instance==null){
 		  instance= new SessionManager();
@@ -38,9 +38,18 @@ public class SessionManager {
 		SessionMonitor sm = new SessionMonitor();
 		try{
 			kg = new UUIDKeyGenerator();
+			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+		
+		 try{
+		 	String str = System.getProperty("gov.nih.nci.sdk.applications.session.timeout");
+		 	Long l = new Long(str);
+		 	timeOut = l.longValue();
+		 }catch(Exception ex){
+		 	timeOut=5000;
+		 }
 		
 	}
 	
@@ -83,7 +92,7 @@ public class SessionManager {
    	boolean inSession = false;
    	 if(sessions.containsKey(sessionKey)){
    	 	UserSession us = (UserSession)sessions.get(sessionKey);
-		   	 if(System.currentTimeMillis()-us.getLastAccessedTime()>5000){
+		   	 if(System.currentTimeMillis()-us.getLastAccessedTime()>timeOut){
 			   	   this.killSession(sessionKey);
 			   }else{
 			   	inSession = true;
