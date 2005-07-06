@@ -212,7 +212,7 @@ public class RemoteApplicationServiceImpl_Generator {
 		 	
 		 	  CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,12);
-		    code.append("throw new ApplicationException(\"You don't have privilege to execute this method\");");
+		    code.append("throw new ApplicationException(\"Either you are not in session or you  don't have privilege to execute this method\");");
 		 }else{
 		 	
 		 	code.append("String domainObjectName = arg1.getClass().getName();\n");
@@ -220,7 +220,7 @@ public class RemoteApplicationServiceImpl_Generator {
 		 	code.append("if(!securityEnabler.hasAuthorization(sessionKey,").append("domainObjectName").append(",\"").append(operation).append("\")){");
 		 	CodeFormatter.newLine(code);
 		    CodeFormatter.addSpaces(code,12);
-		    code.append("throw new ApplicationException(\"You don't have privilege to "+operation+" this object\");");
+		    code.append("throw new ApplicationException(\"Either you are not in session or you don't have privilege to "+operation+" this object\");");
 		 }
 		
 	}
