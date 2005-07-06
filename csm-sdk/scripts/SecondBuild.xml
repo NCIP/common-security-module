@@ -17,7 +17,7 @@
 	<property name="arg3" value="gov.nih.nci.sdk.prototype.service.SDKApplicationService" />
 	<property name="arg4" value="sdkremoting" />
 	<property name="arg5" value="gov.nih.nci.sdk.prototype.server.SDKApplicationServiceServerImpl" />
-
+    <property name="arg6" value="sdk" />
 
 	<target name="init" description="Initializing the environment">
 		<!-- Create the time stamp -->
@@ -36,6 +36,7 @@
 			<arg value="${arg3}"/>
 			<arg value="${arg4}"/>
 			<arg value="${arg5}"/>
+			<arg value="${arg6}"/>
 			<classpath>
 				<fileset dir="${dist}">
 					<include name="*.jar" />
