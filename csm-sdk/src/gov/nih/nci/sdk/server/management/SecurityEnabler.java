@@ -71,10 +71,14 @@ public class SecurityEnabler {
 	}
 	
 	public String authenticate(String userId, String password) throws ApplicationException{
+		String sessionKey =null;
 		/**
 		 * Call Authentication Manager here.
 		 */
-		String sessionKey =null;
+		if(this.getSecurityLevel()==0){
+			return sessionKey;
+		}
+		
 		boolean authenticated = false;
 		if(null==authenticationManager){
 			authenticationManager = getAuthenticationManager();
