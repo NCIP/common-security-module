@@ -30,8 +30,7 @@ public class SecurityEnabler {
 	
 	
 	public SecurityEnabler(String applicationContextName_){
-		//ApplicationConfiguration ac = ApplicationConfiguration.getInstance();
-		//applicationContextName =ac.getProperty("applicationName");
+		
 		applicationContextName = applicationContextName_;
 	}
 
