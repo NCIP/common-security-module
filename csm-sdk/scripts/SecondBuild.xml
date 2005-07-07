@@ -1,7 +1,6 @@
-<project name="csm-sdk" default="compile" basedir="../.">
+<project name="csm-sdk" default="releaseServer" basedir="../.">
 	<description>CSM SDK Project Second Build File</description>
 
-	
 	<!-- set global properties for this build -->
 	
 	<property name="output" location="output" />
@@ -9,8 +8,11 @@
 	<property name="dist" location="dist" />
 	<property name="clientApp" location="clientApp" />
 	<property name="clientAppServer" location="clientAppServer" />
-	<property name="inputApplicationJarPath" value="${dist}/testApplication.jar" />
-	
+	<property name="release" location="release" />
+	<property name="releaseClient" location="release/client" />
+	<property name="releaseServer" location="release/server" />
+	<property name="inputApplicationJarPath" value="${dist}/testApplication.jar" />	
+
 	<!-- set the aruguments for the code generator class -->
 	<property name="arg1" value="${output}" />
 	<property name="arg2" value="com.codegen" />
@@ -25,8 +27,14 @@
 		<!-- Create the build directory structure used by compile -->
 		<delete dir="${output}" />
 		<delete dir="${outputBuild}" />		
+		<delete dir="${releaseClient}" />		
+		<delete dir="${releaseServer}" />		
+		<delete dir="${release}" />
 		<mkdir dir="${output}" />
 		<mkdir dir="${outputBuild}" />
+		<mkdir dir="${release}" />
+		<mkdir dir="${releaseClient}" />
+		<mkdir dir="${releaseServer}" />
 	</target>
 
 	<target name="run" depends="init" description="Running the code generator">
@@ -70,9 +78,51 @@
 			</classpath>
 		</javac>
 	</target>
-	
-	<target name="clean" description="Perform the clean up">
-		<delete dir="${build}" />
+
+	<target name="releaseClient" depends="compile" description="Packaging the Client">
+		<jar jarfile="${releaseClient}/sdkClient.jar" basedir="${outputBuild}" includes="**/client/*.class,**/common/*.class" />
+		<copy file="${output}/clientconfig/remoteService.xml" todir="${releaseClient}" />
+		<copy file="${dist}/jdom.jar" todir="${releaseClient}" />
+		<copy file="${dist}/sdkCommonException.jar" todir="${releaseClient}" />
+		<copy file="${dist}/spring.jar" todir="${releaseClient}" />
+		<copy file="${dist}/spring-richclient.jar" todir="${releaseClient}" />
+		<copy todir="${releaseClient}">
+			<fileset dir="${clientApp}/">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="releaseServer" depends="releaseClient" description="Packaging the Server">
+		<copydir src="${output}/public_html" dest="${releaseServer}" />
+		<mkdir dir="${releaseServer}/WEB-INF/lib" />
+		<jar jarfile="${releaseServer}/WEB-INF/lib/sdkServer.jar" basedir="${outputBuild}" includes="**/server/*.class,**/common/*.class" />		
+		<copy file="${dist}/activation.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/commons-attributes-api.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/commons-collections-3.0.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/commons-logging.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/csmapi.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/jboss-client.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/jdom.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/mysql-connector-java-3.0.8-stable-bin.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/ojdbc14.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/sdkCommonException.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/sdkServerMgmt.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/spring.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/spring-richclient.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy file="${dist}/uuid-key-generator.jar" todir="${releaseServer}/WEB-INF/lib/" />
+		<copy todir="${releaseServer}/WEB-INF/lib/">
+			<fileset dir="${clientAppServer}/">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${releaseServer}/WEB-INF/classes/">
+			<fileset dir="${clientAppServer}/">
+				<exclude name="*.jar" />
+			</fileset>
+		</copy>
+		<jar jarfile="${releaseServer}/${arg4}.war" basedir="${releaseServer}" />
+		<delete dir="${releaseServer}/WEB-INF" />
 	</target>
 	
 </project>
