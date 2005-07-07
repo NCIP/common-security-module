@@ -62,6 +62,9 @@ public class SessionManager {
 		return sessionKey;
 	}
 	public void killSession(String sessionKey){
+		if(this.isBlank(sessionKey)){
+			return;
+		}
 		System.out.println("Killing session");
 		if(sessions.containsKey(sessionKey)){
 		sessions.remove(sessionKey);
@@ -108,5 +111,18 @@ public class SessionManager {
    	 	new SessionMonitor();
    	 }
    }
+   private boolean isBlank(String str){
+    boolean test = false;
+    
+    if(str==null){
+       test= true;
+    }else{
+    	String str1 = str.trim();
+      if(str1.equals("")){
+        test = true;
+      }
+    }
+    return test;
+ }
    
 }
