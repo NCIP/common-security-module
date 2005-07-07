@@ -134,8 +134,10 @@ public class SecurityEnabler {
 		 	try{
 		 	  Integer it = new Integer(str);
 		 	  int level = it.intValue();
-		 	  if(level>2){
-		 	  	level=1;
+		 	  if(level>2||level<0){
+		 	  	securityLevel=1;
+		 	  }else{
+		 	  	securityLevel=level;
 		 	  }
 		 	}catch(Exception ex){
 		 		securityLevel =1;
