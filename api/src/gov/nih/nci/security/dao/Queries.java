@@ -166,13 +166,10 @@ public class Queries {
 		stbr.append("csm_user_group ug,");
 		stbr.append("csm_role_privilege rp,");
 		stbr.append("csm_privilege p ");
-		stbr
-				.append("where pgpe.protection_group_id = pg.protection_group_id ");
-		stbr
-				.append(" and pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
+		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append(" and pe.object_id='" + objectId + "'");
-		stbr
-				.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
 		stbr.append(" and ugrpg.group_id = g.group_id ");
 		stbr.append(" and ug.user_id = u.user_id");
 		stbr.append(" and u.login_name='" + userName + "'");
@@ -198,13 +195,10 @@ public class Queries {
 		stbr.append("csm_user u,");
 		stbr.append("csm_role_privilege rp,");
 		stbr.append("csm_privilege p ");
-		stbr
-				.append("where pgpe.protection_group_id = pg.protection_group_id ");
-		stbr
-				.append(" and pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
+		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append(" and pe.object_id='" + objectId + "'");
-		stbr
-				.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) ");
 		stbr.append(" and ugrpg.user_id = u.user_id");
 		stbr.append(" and u.login_name='" + userName + "'");
 		stbr.append(" and ugrpg.role_id = rp.role_id ");
@@ -230,7 +224,7 @@ public class Queries {
 		stbr.append(" csm_privilege p");  
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and");
+		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
 		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");
@@ -247,7 +241,7 @@ public class Queries {
 		stbr.append(" csm_user_group_role_pg ugrpg,"); 
 		stbr.append(" csm_user u,");
 		stbr.append(" csm_user_group ug,");
-		stbr.append(" csm_groups g,");
+		stbr.append(" csm_group g,");
 		stbr.append(" csm_role_privilege rp,"); 
 		stbr.append(" csm_role r,");
 		stbr.append(" csm_privilege p");  
@@ -255,7 +249,7 @@ public class Queries {
 		stbr.append(" ugrpg.group_id = g.group_id and");
 		stbr.append(" g.group_id = ug.group_id and");
 		stbr.append(" ug.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and");
+		stbr.append(" ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
 		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");
@@ -295,7 +289,7 @@ public class Queries {
 		stbr.append(" csm_privilege p");  
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and"); 
+		stbr.append(" ugrpg.protection_group_id  = = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and"); 
 		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");
@@ -321,7 +315,7 @@ public class Queries {
 		stbr.append(" ugrpg.group_id = g.group_id and");
 		stbr.append(" g.group_id = ug.group_id and");
 		stbr.append(" ug.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = pg.protection_group_id  and");
+		stbr.append(" ugrpg.protection_group_id  = = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
 		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");

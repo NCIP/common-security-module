@@ -762,7 +762,7 @@ public class TestClient {
 	}
 	public void testGroupPEPrivilegeObject() {
 		try {
-			upm.getProtectionElementPrivilegeContextForGroup("1");
+			upm.getProtectionElementPrivilegeContextForGroup("3");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -786,7 +786,7 @@ public class TestClient {
 		//ts.checkPermission();
 		//ts.assignUserRoleToProtectionGroup();
 		//ts.testSecureObject();
-		//ts.testGroupPEPrivilegeObject();
-		ts.testSetOwnerForProtectionElement();
+		ts.testGroupPEPrivilegeObject();
+		//ts.testSetOwnerForProtectionElement();
 	}
 }
