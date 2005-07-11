@@ -6,9 +6,10 @@
 	<property name="lib" location="public_html/WEB-INF/lib" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="clientApp" location="clientApp" />
-	<property name="clientAppServer" location="clientAppServer" />
-	
+	<property name="clientApp" location="dist/clientApp" />
+	<property name="clientAppServer" location="dist/clientAppServer" />
+	<property name="scripts" location="scripts" />
+		
 	<target name="init" description="Initializing the environment">
 		<!-- Create the time stamp -->
 		<tstamp />
@@ -45,6 +46,9 @@
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
+		<copy file="${scripts}/build.xml" todir="${dist}" />
+		<copy file="${scripts}/dummyFile.txt" todir="${clientApp}" />
+		<copy file="${scripts}/dummyFile.txt" todir="${clientAppServer}" />
 	</target>
 	
 	<target name="clean" description="Perform the clean up">
