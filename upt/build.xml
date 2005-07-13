@@ -8,6 +8,7 @@
 		<property name="web.home"				value="${basedir}/upt/webapp/public_html" />
 		<property name="webinf.home"			value="${web.home}/WEB-INF" />
 		<property name="lib.home"				value="${webinf.home}/lib" />
+		<property name="otherlib.home"			value="${basedir}/upt/otherlib" />
 		<property name="build.home"				value="${basedir}/build" />
 		<property name="dist.home"				value="${basedir}/dist" />
 		<property name="classes.home"			value="${webinf.home}/classes" />
@@ -57,6 +58,7 @@
 		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true" >
 			<classpath>
 				<fileset dir="${lib.home}" includes="*.jar" />
+				<fileset dir="${otherlib.home}" includes="*.jar" />				
 			</classpath>
 		</javac>
 		<copy todir="${build.home}/WEB-INF/classes" >
