@@ -117,6 +117,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 
 
@@ -170,7 +171,7 @@ public class TestClient {
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		
 		try{
-			java.util.Set pes = upm.getProtectionElements("54");
+			java.util.Set pes = upm.getProtectionElements("7");
 			System.out.println(pes.size());
 			
 		}catch(Exception ex){
@@ -625,7 +626,7 @@ public class TestClient {
 			//System.out.println(am.checkPermission("kumarvi","csmupt",null));
 			//System.out.println(am.checkPermission("login_name_2121","x_y_z_17385","Delete"));
 			//System.out.println(System.currentTimeMillis());
-			boolean f = am.checkPermission("c3pr_sa","c3pr.Menu.Home","View");
+			boolean f = am.checkPermission("kumar1234","PE3","READ");
 			//boolean f = am.checkPermission("login_name_3","X_Y_Z_999","abc","update");
 			
 			System.out.println("Got result"+f);
@@ -742,9 +743,16 @@ public class TestClient {
 	public void testSecureObject(){
 		try{
 			//Role r = upm.getRoleById("55");
-			Role r1 = (Role)upm.secureObject("kumarvi",new Privilege());
+			//Role r1 = (Role)upm.secureObject("kumarvi",new Privilege());
+			Privilege pr = new Privilege();
+			pr.setName("ABD");
+			pr.setId(new Long("23"));
+			pr.setDesc("SUJHBikhnkjnik");
+			
+			Privilege r1 = (Privilege)upm.secureObject("kumar1234",pr);
 			System.out.println(r1.getDesc());
 			System.out.println(r1.getId());
+			System.out.println(r1.getName());
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -777,6 +785,48 @@ public class TestClient {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Test cases for parent protection Group 
+	 *
+	 */
+	public void getProtectionElementPrivilegeContextForUser(){
+		try{
+		Set result = upm.getProtectionElementPrivilegeContextForUser("15");
+		System.out.println(result.size());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public void getProtectionElementPrivilegeContextForGroup(){
+		try{
+		Set result = upm.getProtectionElementPrivilegeContextForGroup("10");
+		System.out.println(result.size());
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void secureUpdate(){
+		try{
+			Privilege orig = new Privilege();
+			orig.setId(new Long("23"));
+			orig.setName("Testing");
+			orig.setDesc("vinay kumar");
+			
+			Privilege mut = new Privilege();
+			mut.setId(new Long("231"));
+			mut.setName("Testing1");
+			mut.setDesc("vinay kumar1");
+			
+			Privilege obj = (Privilege)upm.secureUpdate("kumar1234",orig,mut);
+			System.out.println(obj.getId());
+			System.out.println(obj.getName());
+			System.out.println(obj.getDesc());
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
 		
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
@@ -786,7 +836,12 @@ public class TestClient {
 		//ts.checkPermission();
 		//ts.assignUserRoleToProtectionGroup();
 		//ts.testSecureObject();
-		ts.testGroupPEPrivilegeObject();
+		//ts.testGroupPEPrivilegeObject();
 		//ts.testSetOwnerForProtectionElement();
+		//ts.testGetProtectionElements();
+		//ts.getProtectionElementPrivilegeContextForUser();
+		//ts.getProtectionElementPrivilegeContextForGroup();
+		//ts.testSecureObject();
+		ts.secureUpdate();
 	}
 }
