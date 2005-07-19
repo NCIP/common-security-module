@@ -3305,6 +3305,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName, "READ");
+			
+			
 
 			log.debug(accessMap.toString());
 
@@ -3325,7 +3327,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					Method m2 = cl.getMethod(methodName, null);
 					//log.debug("Method Name m2"+m2.getName());
 					//log.debug(m2.invoke(obj,null));
-					if (accessMap.hasAccess(att)) {
+					if (!accessMap.hasAccess(att)) {
 						m.invoke(o, new Object[] { null });
 					} else {
 						m.invoke(o, new Object[] { m2.invoke(obj, null) });
@@ -3384,7 +3386,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						Method m2 = cl.getMethod(methodName, null);
 						//log.debug("Method Name m2"+m2.getName());
 						//log.debug(m2.invoke(obj,null));
-						if (accessMap.hasAccess(att)) {
+						if (!accessMap.hasAccess(att)) {
 							m.invoke(o, new Object[] { null });
 						} else {
 							m.invoke(o, new Object[] { m2.invoke(obj, null) });
@@ -3425,7 +3427,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName, "UPDATE");
-
+             
+			
 			//o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
 
