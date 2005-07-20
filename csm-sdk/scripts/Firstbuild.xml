@@ -1,4 +1,4 @@
-<project name="csm-sdk" default="dist" basedir="../.">
+<project name="csm-sdk" default="clean" basedir="../.">
 	<description>CSM SDK Project Build File</description>
 
 	<!-- set global properties for this build -->
@@ -6,9 +6,10 @@
 	<property name="lib" location="public_html/WEB-INF/lib" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="clientApp" location="dist/clientApp" />
-	<property name="clientAppServer" location="dist/clientAppServer" />
+	<property name="clientApp" location="${dist}/clientApp" />
+	<property name="clientAppServer" location="${dist}/clientAppServer" />
 	<property name="scripts" location="scripts" />
+	<property name="cacorefiles" location="cacorefiles" />
 		
 	<target name="init" description="Initializing the environment">
 		<!-- Create the time stamp -->
@@ -39,19 +40,27 @@
 		<jar jarfile="${dist}/testApplication.jar" basedir="${build}" includes="test/gov/nih/nci/sdk/codegen/**" />
 		<jar jarfile="${dist}/sdkServerMgmt.jar" basedir="${build}" includes="gov/nih/nci/sdk/server/management/**" />
 		<jar jarfile="${dist}/sdkCommonException.jar" basedir="${build}" includes="gov/nih/nci/sdk/common/**" />
+		<jar jarfile="${dist}/sdkClientListProxy.jar" basedir="${build}" includes="gov/nih/nci/sdk/server/management/SDKList*.*" />
 		<jar jarfile="${dist}/sdkCodeGenerator.jar" basedir="${build}" includes="gov/nih/nci/sdk/codegen/**/*" />
+		<jar jarfile="${dist}/sdkApplicationService.jar" basedir="${build}" includes="gov/nih/nci/system/applicationservice/SDKApplicationService.class" />
+		<jar jarfile="${dist}/sdkApplicationServiceImpl.jar" basedir="${build}" includes="gov/nih/nci/system/applicationservice/SDKApplicationServiceImpl.class" />
 
+		
+		
 		<copy todir="${dist}">
 			<fileset dir="${lib}">
 				<include name="**/*.jar" />
 			</fileset>
 		</copy>
 		<copy file="${scripts}/build.xml" todir="${dist}" />
+		<copy file="${scripts}/sdkBuild.xml" todir="${dist}" />
+		<copy file="${cacorefiles}/cacore30.war" todir="${dist}" />
+		<copy file="${cacorefiles}/client.zip" todir="${dist}" />		
 		<copy file="${scripts}/dummyFile.txt" todir="${clientApp}" />
 		<copy file="${scripts}/dummyFile.txt" todir="${clientAppServer}" />
 	</target>
 	
-	<target name="clean" description="Perform the clean up">
+	<target name="clean" depends="dist" description="Perform the clean up">
 		<delete dir="${build}" />
 	</target>
 		
