@@ -48,7 +48,9 @@
 		<copy todir="${build.home}/WEB-INF/lib">
 			<fileset dir="${lib.home}" includes="**/*.jar"/>
 		</copy>
-
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging.jar"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.8.jar"/>
 	</target>
 
 
