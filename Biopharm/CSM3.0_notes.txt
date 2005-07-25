@@ -1,0 +1,225 @@
+                      Release Notes Addendum
+    
+                      caCORE Version 3.0.0
+                        CSM Version 3.0
+                         March 31, 2005
+
+       National Cancer Institute Center for Bioinformatics
+
+
+================================================================
+                            Contents
+================================================================
+    
+    
+    1.0 CSM
+          1.1 Release History
+          1.2 Features
+          1.3 Known Issues
+    2.0 Bug Reports and Support
+    3.0 Documentation
+    4.0 NCICB Web Pages
+
+
+================================================================
+                            1.0 CSM
+================================================================
+
+
+----------------------------------------------------------------
+    1.1 Release History
+----------------------------------------------------------------
+
+    CSM 3.0
+
+    --  31 March 2005    
+
+    
+----------------------------------------------------------------
+    1.2 Features
+----------------------------------------------------------------
+
+    CSM provides a flexible, comprehensive solution to common
+    security objectives.  Development teams can use CSM services
+    rather than creating their own independent security methodology. 
+
+
+    +------------------------------------+
+    | CSM APIs                           |
+    +------------------------------------+
+
+    Features
+    ----------------
+    This CSM release provides the following services:
+    
+    --  Authentication - validating and verifying a user’s 
+        credentials to allow access to an application. CSM currently
+        supports two credential providers:        
+        -- Lightweight Directory Access Protocol(LDAP)
+        -- Relational Database Management Systems (RDBMS)
+        
+        The Authentication Service provides the following features:
+        
+        -- It allows the application developers to configure single
+        or multiple credential providers for various applications.
+        
+        -- It authenticates user credentials against the configured
+        providers.
+        
+    --  Authorization - granting access to data, methods, and
+        objects. CSM incorporates an Authorization schema which
+        holds the authorization data for a particular application.
+        At run-time, CSM uses this data to make a security decision.
+        
+        The Authorization Service provides the following features:
+        
+        -- Object level security check.
+        
+        -- Attribute level security check.
+        
+        -- Creation of Protection Elements at run-time.
+        
+        -- Association of Protection Elements to Protection Groups
+           at run-time.
+           
+        -- Obtaining references to entities such as Protection Elements,
+           Protection Groups, Users, etc..
+           
+        -- Obtaining the collection of Privileges for a user for a 
+           Protection Element.
+           
+        -- Obtaining principals for a user.
+        
+        
+
+    +------------------------------------+
+    | User Provisioning Tool (UPT)       |
+    +------------------------------------+
+
+    Features
+    ----------------
+    --  CSM provides a web-based UPT that can easily be integrated
+        with a single or multiple applications and authorization
+        databases. The UPT provides functionality to create
+        authorization data elements like Roles, Privileges,
+        Protection Elements, Users, etc., and also provides
+        functionality to associate them with each other. The runtime
+        API can then use this authorization data to authorize user
+        actions. 
+        
+        The User Provisioning Tool provides the following features:
+        
+        -- Register an application and assign application 
+           administrators (Super Admin mode).
+        
+        -- Create, Read, Update, and Delete authorization data
+           elements.
+        
+        -- Search using relevant criteria.
+        
+        -- Group elements together.  Assign users to groups, privileges
+           to roles, and protection elements to protection groups.
+        
+        -- Form associations between elements. For example, Assign a 
+           Protection Group and Roles to a User.
+           
+           
+        
+        
+----------------------------------------------------------------
+    1.3 Known Issues
+----------------------------------------------------------------
+
+    +------------------------------------+
+    | CSM APIs                           |
+    +------------------------------------+
+
+    --  The getSubject method of Authentication Manager has not been
+        implemented.
+    
+    --  Certain thrown exceptions may display hibernate-specific
+        error messages.
+        
+    --  The connection pool provided by hibernate (c3po connection
+        pool) shows inconsistent behavior in different environments.
+    
+      
+    +------------------------------------+
+    | UPT Tool                      	 |
+    +------------------------------------+
+
+    --  In the Protection Element and User section, when adding
+        object details, if you press enter you'll be taken back
+        to the object's home page.
+    	
+    --  After logging in, the main menu is displayed in two rows
+        instead of one.
+
+    --  In the super admin mode, the admin mode home page displays
+        if you click on the logo in the header or enter the home page
+        url after logging in.	
+
+
+================================================================
+                  2.0 Bug Reports and Support
+================================================================
+    
+    Send email to ncicb@pop.nci.nih.gov to request support or
+    report a bug.  
+
+    In addition, mailing lists are used by the caCORE developer
+    and user community to exchange ideas and make announcements.
+    You can subscribe at this address:
+
+    --  http://list.nih.gov/archives/ncievs-l.html
+
+
+================================================================
+                        3.0 Documentation
+================================================================
+    
+    Documentation regarding CSM can be found at the following
+    location:
+
+    --  http://ncicb-dev.nci.nih.gov/core/CSM
+
+
+
+================================================================
+                        4.0 NCICB Web Pages
+================================================================
+    
+    The NCI Center for Bioinformatics
+
+    --  http://ncicb.nci.nih.gov/
+    
+    NCICB Application Support
+     
+    --  http://ncicbsupport.nci.nih.gov/sw/
+
+    NCICB Download Center
+
+    --  http://ncicb.nci.nih.gov/download/
+
+    caCORE
+
+    --  http://ncicb.nci.nih.gov/core
+    
+    caBIO
+
+    --  http://ncicb.nci.nih.gov/core/caBIO
+    
+    caDSR
+
+    --  http://ncicb.nci.nih.gov/core/caDSR 
+    --  http://ncicb.nci.nih.gov/xml 
+    
+    EVS
+
+    --  http://ncicb.nci.nih.gov/core/EVS
+    
+    CSM
+    
+    --  http://ncicb-dev.nci.nih.gov/core/CSM
+
+//end
