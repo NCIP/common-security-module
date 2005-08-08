@@ -1,5 +1,6 @@
 package gov.nih.nci.sdk.server.management;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import gov.nih.nci.common.util.ListProxy;
@@ -44,13 +45,42 @@ public class SDKListProxy extends ArrayList
 
     public SDKListProxy(List list)
     {
-    	ListProxy listProxy = (ListProxy)list;
-    	this.setHasAllRecords(listProxy.isHasAllRecords());
-    	this.setOriginalCriteria(listProxy.getOriginalCriteria());
-    	this.setServerAddress(listProxy.getServerAddress());
-    	this.setOriginalCriteria(listProxy.getOriginalCriteria());
-    	this.setMaxRecordsPerQuery(listProxy.getMaxRecordsPerQuery());
-    	this.setTargetClassName(listProxy.getTargetClassName());
+    	try {
+			if (Class.forName("gov.nih.nci.common.util.ListProxy").isInstance(list))
+			{
+				ListProxy listProxy = (ListProxy)list;
+				this.setOriginalStart(listProxy.getOriginalStart());
+				this.setServerAddress(listProxy.getServerAddress());
+				this.setOriginalCriteria(listProxy.getOriginalCriteria());
+				this.setMaxRecordsPerQuery(listProxy.getMaxRecordsPerQuery());
+				this.setTargetClassName(listProxy.getTargetClassName());
+				try {
+					Field field = listProxy.getClass().getDeclaredField("listChunk_");
+					field.setAccessible(true);
+					ArrayList arrayList = (ArrayList)field.get(listProxy);
+			    	this.listChunk_.addAll(arrayList);
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchFieldException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+		    	this.listChunk_.addAll(list);				
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 /**
@@ -159,7 +189,7 @@ public class SDKListProxy extends ArrayList
      */
     public Object[] toArray()
     {
-        if (hasAllRecords_)
+/*        if (hasAllRecords_)
         {
             return listChunk_.toArray();
         } else
@@ -175,7 +205,8 @@ public class SDKListProxy extends ArrayList
             }
             return wholeList.toArray();            
         }
-           
+*/
+        return listChunk_.toArray();    	
     }
 
     /** 
