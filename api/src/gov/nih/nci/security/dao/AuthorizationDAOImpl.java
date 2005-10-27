@@ -118,7 +118,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -3678,7 +3677,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			cn = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
-			stbr.append("select distinct(p.privilege_name)");
+			stbr.append(" select distinct(p.privilege_name)");
 			stbr.append(" from csm_protection_group pg,");
 			stbr.append(" csm_protection_element pe,");
 			stbr.append(" csm_pg_pe pgpe,");
@@ -3688,18 +3687,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" csm_user_group ug,");
 			stbr.append(" csm_role_privilege rp,");
 			stbr.append(" csm_privilege p ");
-			stbr
-					.append(" where pgpe.protection_group_id = pg.protection_group_id");
-			stbr
-					.append(" and pgpe.protection_element_id = pe.protection_element_id");
+			stbr.append(" where pgpe.protection_group_id = pg.protection_group_id");
+			stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
 			stbr.append(" and pe.object_id= ?");
-			stbr.append(" and pe.attribute=?");
-			stbr
-					.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
+			stbr.append(" and (pe.attribute is null or pe.attribute=?)");
+			stbr.append(" and pg.protection_group_id = ugrpg.protection_group_id ");
 			stbr.append(" and (( ugrpg.group_id = g.group_id");
-			stbr.append("       and ug.user_id = u.user_id)");
-			stbr.append("       or ");
-			stbr.append("     (ugrpg.user_id = u.user_id))");
+			stbr.append(" and g.group_id = ug.group_id");
+			stbr.append(" and ug.user_id = u.user_id)");
+			stbr.append(" or ");
+			stbr.append(" (ugrpg.user_id = u.user_id))");
 			stbr.append(" and u.login_name=?");
 			stbr.append(" and ugrpg.role_id = rp.role_id ");
 			stbr.append(" and rp.privilege_id = p.privilege_id");
@@ -3716,7 +3713,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					if (pe.getAttribute() != null) {
 						pstmt.setString(2, pe.getAttribute());
 					} else {
-						pstmt.setNull(2, Types.LONGVARCHAR);
+						// Using blank string to act as NULL
+						pstmt.setString(2, "" );
 					}
 					pstmt.setString(3, userName);
 				}

@@ -97,9 +97,11 @@ package test.gov.nih.nci.security;
 
 
 
+import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.AuthorizationManager;
+import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
@@ -107,10 +109,12 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.dao.GroupSearchCriteria;
+import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.dao.UserSearchCriteria;
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.junk.RandomIntGenerator;
 import gov.nih.nci.security.util.ObjectSetUtil;
-import gov.nih.nci.security.dao.*;
-import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -128,6 +132,8 @@ import java.util.Set;
  */
 public class TestClient {
 	static UserProvisioningManager upm = null;
+	static AuthorizationManager am = null;
+	static AuthenticationManager am1 = null;
 	
 	static{
 		try{
@@ -136,7 +142,6 @@ public class TestClient {
 		upm = SecurityServiceProvider.getUserProvisioningManager("security");
 		//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 		//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
-		
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -291,16 +296,115 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	public void getPrivilegeMap(){
-		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+	public void getPrivilegeMap1(){
+		// just object id
 		try{
 			AuthorizationManager am = (AuthorizationManager)upm;
 			ArrayList al = new ArrayList();
-			
-			am.getPrivilegeMap("kumarvi",al);
-			
-			
+			ProtectionElement pe1 = new ProtectionElement();
+			pe1.setObjectId("TestElement1");
+			//pe1.setAttribute("TestElement1");
+			al.add(pe1);
+			Collection map = am.getPrivilegeMap("testcaseuser1",al);
+			Iterator it = map.iterator();
+			while (it.hasNext())
+			{
+				ObjectPrivilegeMap opm = (ObjectPrivilegeMap)it.next();
+				ProtectionElement pe = opm.getProtectionElement();
+				System.out.println("The Protection Element is : " + pe.getObjectId()+" : " + pe.getAttribute());
+				Collection privList = opm.getPrivileges();
+				Iterator it2 = privList.iterator();
+				while (it2.hasNext())
+				{
+					Privilege priv = (Privilege)it2.next();
+					System.out.println("The Privilege is : " + priv.getName());
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	public void getPrivilegeMap2(){
+		// both object id and attribute
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			ArrayList al = new ArrayList();
+			ProtectionElement pe1 = new ProtectionElement();
+			pe1.setObjectId("TestElement2");
+			pe1.setAttribute("TestElement2");
+			al.add(pe1);
+			Collection map = am.getPrivilegeMap("testcaseuser2",al);
+			Iterator it = map.iterator();
+			while (it.hasNext())
+			{
+				ObjectPrivilegeMap opm = (ObjectPrivilegeMap)it.next();
+				ProtectionElement pe = opm.getProtectionElement();
+				System.out.println("The Protection Element is : " + pe.getObjectId()+" : " + pe.getAttribute());
+				Collection privList = opm.getPrivileges();
+				Iterator it2 = privList.iterator();
+				while (it2.hasNext())
+				{
+					Privilege priv = (Privilege)it2.next();
+					System.out.println("The Privilege is : " + priv.getName());
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+	public void getPrivilegeMap3(){
+		// thru group
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			ArrayList al = new ArrayList();
+			ProtectionElement pe1 = new ProtectionElement();
+			pe1.setObjectId("TestElement3");
+			al.add(pe1);
+			Collection map = am.getPrivilegeMap("testcaseuser3",al);
+			Iterator it = map.iterator();
+			while (it.hasNext())
+			{
+				ObjectPrivilegeMap opm = (ObjectPrivilegeMap)it.next();
+				ProtectionElement pe = opm.getProtectionElement();
+				System.out.println("The Protection Element is : " + pe.getObjectId()+" : " + pe.getAttribute());
+				Collection privList = opm.getPrivileges();
+				Iterator it2 = privList.iterator();
+				while (it2.hasNext())
+				{
+					Privilege priv = (Privilege)it2.next();
+					System.out.println("The Privilege is : " + priv.getName());
+				}
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+
+	public void getPrivilegeMap4(){
+		// Wrong info
+		try{
+			AuthorizationManager am = (AuthorizationManager)upm;
+			ArrayList al = new ArrayList();
+			ProtectionElement pe1 = new ProtectionElement();
+			pe1.setObjectId("NoSuchElement");
+			al.add(pe1);
+			Collection map = am.getPrivilegeMap("testcaseuser1",al);
+			Iterator it = map.iterator();
+			while (it.hasNext())
+			{
+				ObjectPrivilegeMap opm = (ObjectPrivilegeMap)it.next();
+				ProtectionElement pe = opm.getProtectionElement();
+				System.out.println("The Protection Element is : " + pe.getObjectId()+" : " + pe.getAttribute());
+				Collection privList = opm.getPrivileges();
+				Iterator it2 = privList.iterator();
+				while (it2.hasNext())
+				{
+					Privilege priv = (Privilege)it2.next();
+					System.out.println("The Privilege is : " + priv.getName());
+				}
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -425,12 +529,12 @@ public class TestClient {
 	
 	
 	
-	public void getUser(){
+	public void getUser(String userName){
 		
-		String loginName = "   ";
+		String loginName = userName;
 		try{
 			User user = upm.getUser(loginName);
-			System.out.println(user.getFirstName()+":"+user.getEmailId());
+			System.out.println(user.getFirstName()+":"+user.getLastName());
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -827,6 +931,26 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void testAuthenticationManager()
+	{
+		try {
+			am1 =  SecurityServiceProvider.getAuthenticationManager("security");
+		} catch (CSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void testAuthorizationManager()
+	{
+		try {
+			am = SecurityServiceProvider.getAuthorizationManager("security");
+		} catch (CSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 		
 	public static void main(String[] args) {
 		TestClient ts = new TestClient();
@@ -842,6 +966,12 @@ public class TestClient {
 		//ts.getProtectionElementPrivilegeContextForUser();
 		//ts.getProtectionElementPrivilegeContextForGroup();
 		//ts.testSecureObject();
-		ts.secureUpdate();
+		//ts.getUser("testcaseuser1");
+		ts.testAuthenticationManager();
+		ts.testAuthorizationManager();
+		ts.getPrivilegeMap1();
+		ts.getPrivilegeMap2();
+		ts.getPrivilegeMap3();
+		ts.getPrivilegeMap4();
 	}
 }

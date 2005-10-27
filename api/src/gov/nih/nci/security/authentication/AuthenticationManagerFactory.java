@@ -241,7 +241,7 @@ public class AuthenticationManagerFactory
 		}
 		Element securityConfig = configDocument.getRootElement();
 		Element applicationList = securityConfig.getChild("application-list");
-		List applications = securityConfig.getChildren("application");
+		List applications = applicationList.getChildren("application");
 		 Iterator appIterator  = applications.iterator();
 		 while(appIterator.hasNext()){
 		 	Element application = (Element)appIterator.next();
