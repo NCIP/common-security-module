@@ -3323,13 +3323,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					String att = name.substring(3, name.length());
 					String methodName = "get" + att;
 					//log.debug(methodName);
-					Method m2 = cl.getMethod(methodName, null);
+					Method m2 = cl.getMethod(methodName, (Class [])null);
 					//log.debug("Method Name m2"+m2.getName());
 					//log.debug(m2.invoke(obj,null));
 					if (!accessMap.hasAccess(att)) {
 						m.invoke(o, new Object[] { null });
 					} else {
-						m.invoke(o, new Object[] { m2.invoke(obj, null) });
+						m.invoke(o, new Object[] { m2.invoke(obj,(Object []) null) });
 					}
 				}
 			}
@@ -3382,13 +3382,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						String att = name.substring(3, name.length());
 						String methodName = "get" + att;
 						//log.debug(methodName);
-						Method m2 = cl.getMethod(methodName, null);
+						Method m2 = cl.getMethod(methodName, (Class [])null);
 						//log.debug("Method Name m2"+m2.getName());
 						//log.debug(m2.invoke(obj,null));
 						if (!accessMap.hasAccess(att)) {
 							m.invoke(o, new Object[] { null });
 						} else {
-							m.invoke(o, new Object[] { m2.invoke(obj, null) });
+							m.invoke(o, new Object[] { m2.invoke(obj, (Object []) null) });
 						}
 					}
 				}
@@ -3444,12 +3444,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					log.debug("Attribute is: " + att);
 					String methodName = "get" + att;
 					//log.debug(methodName);
-					Method m2 = cl.getMethod(methodName, null);
+					Method m2 = cl.getMethod(methodName, (Class[])null);
 					//log.debug("Method Name m2"+m2.getName());
 					//log.debug(m2.invoke(obj,null));
 					if (!accessMap.hasAccess(att)) {
 						log.debug("No Access to update attribute: " + att);
-						Object origValue = m2.invoke(originalObject, null);
+						Object origValue = m2.invoke(originalObject, (Object[]) null);
 						if (origValue != null) {
 							log.debug("Original value is: "
 									+ origValue.toString());
