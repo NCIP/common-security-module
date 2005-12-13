@@ -103,7 +103,7 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 
 /**
  * 
@@ -115,7 +115,7 @@ import org.apache.log4j.Category;
  */
 public class CSMCallbackHandler implements CallbackHandler {
 
-	private static final Category log = Category.getInstance(CSMCallbackHandler.class);
+	private static final Logger log = Logger.getLogger(CSMCallbackHandler.class);
 	
 	
 	private String _userID;

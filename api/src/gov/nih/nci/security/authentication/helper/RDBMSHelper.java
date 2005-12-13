@@ -104,7 +104,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -116,7 +116,7 @@ import org.apache.log4j.Category;
  */
 public class RDBMSHelper {
 
-	private static final Category log = Category.getInstance(RDBMSHelper.class);	
+	private static final Logger log = Logger.getLogger(RDBMSHelper.class);	
 	
 	/**
 	 * Default Private Class Constructor

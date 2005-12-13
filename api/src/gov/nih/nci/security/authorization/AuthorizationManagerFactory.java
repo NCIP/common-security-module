@@ -97,7 +97,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -112,7 +112,7 @@ import org.jdom.input.SAXBuilder;
  */
 public class AuthorizationManagerFactory {
 
-	private static final Category log = Category.getInstance(AuthorizationManagerFactory.class);
+	private static final Logger log = Logger.getLogger(AuthorizationManagerFactory.class);
 	
 	public AuthorizationManagerFactory(){
 

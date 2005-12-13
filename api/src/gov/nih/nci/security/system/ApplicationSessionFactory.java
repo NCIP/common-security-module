@@ -99,8 +99,8 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.util.*;
-import net.sf.hibernate.SessionFactory;
-import net.sf.hibernate.cfg.Configuration;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import java.io.*;
 import org.jdom.Document;
 import org.jdom.Element;

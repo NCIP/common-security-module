@@ -99,11 +99,12 @@ import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSException;
 
+
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -150,8 +151,7 @@ import org.jdom.input.SAXBuilder;
 public class AuthenticationManagerFactory 
 {
 	
-	private static final Category log = Category.getInstance(AuthenticationManagerFactory.class);
-	
+	private static final Logger log = Logger.getLogger(AuthenticationManagerFactory.class);
 	/**
 	 * This methods instantiate an implementation of the {@link AuthenticationManager} and returns it to the calling method.
 	 * It reads the config file using the Application Context/Name provided as parameter. If an entry is found,

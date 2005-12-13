@@ -95,7 +95,7 @@ package test.gov.nih.nci.security.dao.hibernate;
  */
 
 
-import net.sf.hibernate.Session;
+import org.hibernate.Session;
 import gov.nih.nci.security.dao.hibernate.*;
 import junit.framework.TestCase;
 

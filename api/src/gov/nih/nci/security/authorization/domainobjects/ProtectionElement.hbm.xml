@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC
-    "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd" >
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
     
-<hibernate-mapping>
+<hibernate-mapping default-lazy="false">
 <!-- 
     Created by the Middlegen Hibernate plugin 2.1
 
@@ -21,7 +21,7 @@
         name="protectionElementId"
         type="java.lang.Long"
         column="PROTECTION_ELEMENT_ID"
-        unsaved-value="null"
+        unsaved-value="0"
         >
       <generator class="native">
 		 <param name="sequence">CSM_PROTECTIO_PROTECTION_E_SEQ</param>

@@ -95,8 +95,8 @@ package gov.nih.nci.security.dao;
  */
 
 
-import net.sf.hibernate.SessionFactory;
-import net.sf.hibernate.cfg.Configuration;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /**
  * 

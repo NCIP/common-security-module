@@ -115,7 +115,7 @@ import java.util.Set;
 
 import javax.security.auth.Subject;
 
-import net.sf.hibernate.SessionFactory;
+import org.hibernate.SessionFactory;
 
 
 

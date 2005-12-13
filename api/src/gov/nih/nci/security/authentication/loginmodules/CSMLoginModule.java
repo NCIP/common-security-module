@@ -108,8 +108,8 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
-
-import org.apache.log4j.Category;
+ 
+import org.apache.log4j.Logger;
 
 /**
  * This is the abstract base class which provides the common methods to be used for
@@ -124,7 +124,7 @@ import org.apache.log4j.Category;
 public abstract class CSMLoginModule implements LoginModule
 {
 
-	private static final Category log = Category.getInstance(CSMLoginModule.class);	
+	private static final Logger log = Logger.getLogger(CSMLoginModule.class);	
 	
 	private Subject 		subject;
 	private CallbackHandler callbackHandler;

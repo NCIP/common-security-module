@@ -130,13 +130,13 @@ import java.util.Set;
 
 import javax.security.auth.Subject;
 
-import net.sf.hibernate.Criteria;
-import net.sf.hibernate.HibernateException;
-import net.sf.hibernate.Session;
-import net.sf.hibernate.SessionFactory;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.expression.Example;
-import net.sf.hibernate.expression.Expression;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 
 import org.apache.log4j.Logger;
 
@@ -358,8 +358,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						
 			Criteria criteria = s
 					.createCriteria(UserGroupRoleProtectionGroup.class);
-			criteria.add(Expression.eq("protectionGroup", pgroup));
-			criteria.add(Expression.eq("group", group));
+			criteria.add(Restrictions.eq("protectionGroup", pgroup));
+			criteria.add(Restrictions.eq("group", group));
 			
 			List list = criteria.list();
 			
@@ -535,8 +535,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			Criteria criteria = s
 					.createCriteria(ProtectionGroupProtectionElement.class);
-			criteria.add(Expression.eq("protectionGroup", protectionGroup));
-			criteria.add(Expression.eq("protectionElement", protectionElement));
+			criteria.add(Restrictions.eq("protectionGroup", protectionGroup));
+			criteria.add(Restrictions.eq("protectionElement", protectionElement));
 
 			List list = criteria.list();
 
@@ -638,8 +638,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					new Long(userId));
 			
 			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
-			criteria.add(Expression.eq("protectionGroup", pgroup));
-			criteria.add(Expression.eq("user", user));
+			criteria.add(Restrictions.eq("protectionGroup", pgroup));
+			criteria.add(Restrictions.eq("user", user));
 			
 
 			List list = criteria.list();
@@ -1164,15 +1164,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				//int i = ((String) fieldValues.get(str)).indexOf("%");
 				int i = fieldValue_.indexOf("%");
 				if (i != -1) {
-					//criteria.add(Expression.like(str, fieldValues.get(str)));
-					criteria.add(Expression.like(str, fieldValue_));
+					//criteria.add(Restrictions.like(str, fieldValues.get(str)));
+					criteria.add(Restrictions.like(str, fieldValue_));
 				} else {
-					//criteria.add(Expression.eq(str, fieldValues.get(str)));
-					criteria.add(Expression.eq(str, fieldValue_));
+					//criteria.add(Restrictions.eq(str, fieldValues.get(str)));
+					criteria.add(Restrictions.eq(str, fieldValue_));
 				}
 			}
 			if (fieldValues.size() == 0) {
-				criteria.add(Expression.eqProperty("1", "1"));
+				criteria.add(Restrictions.eqProperty("1", "1"));
 			}
 			log.debug("Message from debug: ObjectType="
 					+ searchCriteria.getObjectType().getName());
@@ -1183,7 +1183,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//log.debug("Test:"+t);
 
 			//if(!t){
-			//	criteria.add(Expression.eq("application", this.application));
+			//	criteria.add(Restrictions.eq("application", this.application));
 			//}
 
 			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase(
@@ -1197,7 +1197,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getName()
 					.equalsIgnoreCase(
 							"gov.nih.nci.security.authorization.domainobjects.Application"))) {
-				criteria.add(Expression.eq("application", this.application));
+				criteria.add(Restrictions.eq("application", this.application));
 			}
 
 			result = criteria.list();
@@ -1240,15 +1240,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				//int i = ((String) fieldValues.get(str)).indexOf("%");
 				int i = fieldValue_.indexOf("%");
 				if (i != -1) {
-					//criteria.add(Expression.like(str, fieldValues.get(str)));
-					criteria.add(Expression.like(str, fieldValue_));
+					//criteria.add(Restrictions.like(str, fieldValues.get(str)));
+					criteria.add(Restrictions.like(str, fieldValue_));
 				} else {
-					//criteria.add(Expression.eq(str, fieldValues.get(str)));
-					criteria.add(Expression.eq(str, fieldValue_));
+					//criteria.add(Restrictions.eq(str, fieldValues.get(str)));
+					criteria.add(Restrictions.eq(str, fieldValue_));
 				}
 			}
 			if (fieldValues.size() == 0) {
-				criteria.add(Expression.eqProperty("1", "1"));
+				criteria.add(Restrictions.eqProperty("1", "1"));
 			}
 			log.debug("Message from debug: ObjectType="
 					+ searchCriteria.getObjectType().getName());
@@ -1259,7 +1259,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//log.debug("Test:"+t);
 
 			//if(!t){
-			//	criteria.add(Expression.eq("application", this.application));
+			//	criteria.add(Restrictions.eq("application", this.application));
 			//}
 
 			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase(
@@ -1273,7 +1273,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getName()
 					.equalsIgnoreCase(
 							"gov.nih.nci.security.authorization.domainobjects.Application"))) {
-				criteria.add(Expression.eq("application", this.application));
+				criteria.add(Restrictions.eq("application", this.application));
 			}
 
 			result = criteria.list();
@@ -1703,9 +1703,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 				Criteria criteria = s
 						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup", pgroup));
-				criteria.add(Expression.eq("group", group));
-				criteria.add(Expression.eq("role", role));
+				criteria.add(Restrictions.eq("protectionGroup", pgroup));
+				criteria.add(Restrictions.eq("group", group));
+				criteria.add(Restrictions.eq("role", role));
 
 				List list = criteria.list();
 
@@ -1931,9 +1931,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 				Criteria criteria = s
 						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("protectionGroup", pgroup));
-				criteria.add(Expression.eq("user", user));
-				criteria.add(Expression.eq("role", role));
+				criteria.add(Restrictions.eq("protectionGroup", pgroup));
+				criteria.add(Restrictions.eq("user", user));
+				criteria.add(Restrictions.eq("role", role));
 
 				List list = criteria.list();
 
@@ -2587,8 +2587,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								.get(i).toString());
 				Criteria criteria = s
 						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("user", user));
-				criteria.add(Expression.eq("protectionGroup", pg));
+				criteria.add(Restrictions.eq("user", user));
+				criteria.add(Restrictions.eq("protectionGroup", pg));
 				List list = criteria.list();
 
 				Iterator it = list.iterator();
@@ -2671,8 +2671,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								.get(i).toString());
 				Criteria criteria = s
 						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Expression.eq("group", group));
-				criteria.add(Expression.eq("protectionGroup", pg));
+				criteria.add(Restrictions.eq("group", group));
+				criteria.add(Restrictions.eq("protectionGroup", pg));
 				List list = criteria.list();
 
 				Iterator it = list.iterator();

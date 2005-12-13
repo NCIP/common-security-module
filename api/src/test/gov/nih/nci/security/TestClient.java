@@ -509,7 +509,7 @@ public class TestClient {
 		try{
 
 				User user = new User();
-				user.setLoginName("vinaykumar");
+				user.setLoginName("vinaykumar" + Math.random());
 				user.setFirstName("User_first_name_");
 				user.setLastName("User_last_name_");
 				user.setDepartment("NCI_");
@@ -517,7 +517,8 @@ public class TestClient {
 				user.setOrganization("NIH");
 				
 				upm.createUser(user);
-				System.out.println("The returned id is"+user.getUserId());
+				System.out.println("The returned id is "+user.getUserId());
+				System.out.println("The user Name is "+user.getLoginName());
 			
 			
 		}catch(Exception ex){
@@ -969,6 +970,7 @@ public class TestClient {
 		//ts.getUser("testcaseuser1");
 		ts.testAuthenticationManager();
 		ts.testAuthorizationManager();
+		ts.testUserCreate();
 		ts.getPrivilegeMap1();
 		ts.getPrivilegeMap2();
 		ts.getPrivilegeMap3();

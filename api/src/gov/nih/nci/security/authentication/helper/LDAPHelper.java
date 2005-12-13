@@ -108,7 +108,7 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 
 /**
  * This is a helper class which is used to perform all LDAP operations like
@@ -119,7 +119,7 @@ import org.apache.log4j.Category;
  */
 public class LDAPHelper {
 
-	private static final Category log = Category.getInstance(LDAPHelper.class);
+	private static final Logger log = Logger.getLogger(LDAPHelper.class);
 	
 	/**
 	 * Default Private Class Constructor

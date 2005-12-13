@@ -95,6 +95,8 @@ package gov.nih.nci.security.authentication;
  */
 
 
+ 
+
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.authentication.callback.CSMCallbackHandler;
 import gov.nih.nci.security.exceptions.CSException;
@@ -105,7 +107,7 @@ import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 
 /**
  * This is the default implmentation of the {@link AuthenticationManager} interface.
@@ -122,7 +124,7 @@ import org.apache.log4j.Category;
  */
 public class CommonAuthenticationManager implements AuthenticationManager{
 
-	private static final Category log = Category.getInstance(CommonAuthenticationManager.class);		
+	private static final Logger log = Logger.getLogger(CommonAuthenticationManager.class);		
 	
 	private String applicationContextName = null;
 	
