@@ -105,7 +105,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
@@ -122,7 +122,7 @@ import org.apache.struts.action.ActionMessages;
  */
 public class CommonAssociationAction extends CommonDBAction
 {
-	private static final Category logAssociation = Category.getInstance(CommonAssociationAction.class);
+	private static final Logger logAssociation = Logger.getLogger(CommonAssociationAction.class);
 	
 	public ActionForward loadAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{

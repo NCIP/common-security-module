@@ -110,7 +110,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -129,7 +129,7 @@ import org.jdom.input.SAXBuilder;
  */
 public class LoginAction extends Action 
 {	
-	private static final Category log = Category.getInstance(LoginAction.class);
+	private static final Logger log = Logger.getLogger(LoginAction.class);
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
