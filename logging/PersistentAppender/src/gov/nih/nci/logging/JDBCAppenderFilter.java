@@ -3,6 +3,12 @@
  */
 package gov.nih.nci.logging;
 
+/**
+ * <!-- LICENSE_TEXT_START -->
+ * 
+ * 
+ * <!-- LICENSE_TEXT_END -->
+ */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -15,41 +21,49 @@ import org.apache.log4j.spi.LoggingEvent;
  * Filter for the JDBCAppender. Class is responsible for detecting messages that
  * should be filtered out.
  * 
- * @author Brian Husted
- *  
+ * @author Ekagra Software Technologies Limited ('Ekagra')
+ * 
  */
-public class JDBCAppenderFilter {
+public class JDBCAppenderFilter
+{
 
 	private static List filterList = new ArrayList();
-	static {
+	static
+	{
 		init();
 	}
 
 	/**
-	 * Returns true if the LoggingEvent's message or throwable
-	 * contains any of the filter strings from the FilterList
-	 * file.
+	 * Returns true if the LoggingEvent's message or throwable contains any of
+	 * the filter strings from the FilterList file.
+	 * 
 	 * @param event
 	 * @return
 	 */
-	public static boolean isMatch(LoggingEvent event) {
-		
-		if (getFilterList() != null && getFilterList().size() > 0) {
+	public static boolean isMatch(LoggingEvent event)
+	{
+
+		if (getFilterList() != null && getFilterList().size() > 0)
+		{
 			String msg = "";
-			if ( event.getMessage() != null ){
+			if (event.getMessage() != null)
+			{
 				msg = event.getMessage().toString();
 			}
 			String throwable = "";
-			if ( event.getThrowableInformation() != null ){
-				throwable = Utils.getThrowable( event );
+			if (event.getThrowableInformation() != null)
+			{
+				throwable = Utils.getThrowable(event);
 			}
-			 
+
 			String str = msg + throwable;
-			
+
 			Iterator i = getFilterList().iterator();
-			while (i.hasNext()) {
+			while (i.hasNext())
+			{
 				String filter = (String) i.next();
-				if (str.indexOf(filter) >= 0) {
+				if (str.indexOf(filter) >= 0)
+				{
 					return true;
 				}
 
@@ -58,21 +72,30 @@ public class JDBCAppenderFilter {
 		return false;
 	}
 
-	private static void init() {
+	private static void init()
+	{
 		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(
-					JDBCAppenderFilter.class.getResourceAsStream("FilterList")));
+		try
+		{
+			reader = new BufferedReader(new InputStreamReader(JDBCAppenderFilter.class.getResourceAsStream("FilterList")));
 			String line = null;
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null)
+			{
 				getFilterList().add(line);
 			}
-		} catch (Exception ex) {
+		}
+		catch (Exception ex)
+		{
 			ex.printStackTrace();
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				reader.close();
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 			}
 		}
 
@@ -81,7 +104,8 @@ public class JDBCAppenderFilter {
 	/**
 	 * @return Returns the filterList.
 	 */
-	public static List getFilterList() {
+	public static List getFilterList()
+	{
 		return filterList;
 	}
 
@@ -89,7 +113,8 @@ public class JDBCAppenderFilter {
 	 * @param filterList
 	 *            The filterList to set.
 	 */
-	public static void setFilterList(List filterList) {
+	public static void setFilterList(List filterList)
+	{
 		JDBCAppenderFilter.filterList = filterList;
 	}
 }

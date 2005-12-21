@@ -11,7 +11,7 @@
       <param name="dbDriverClass" value="com.mysql.jdbc.Driver" />
       <param name="dbUrl" value="jdbc:mysql://localhost:3306/log" />
       <param name="dbUser" value="root" />
-      <param name="dbPwd" value="" />
+      <param name="dbPwd" value="love" />
 	  <param name="useFilter" value="true" />
       <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern"

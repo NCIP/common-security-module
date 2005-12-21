@@ -1,40 +1,45 @@
 package gov.nih.nci.logging;
 
 /**
- * The Password class is used to encode
- * and/or decode a password.
- * This class supports SHA-1 encoding.
+ * <!-- LICENSE_TEXT_START -->
  * 
- * @author: Brian Husted
+ * 
+ * <!-- LICENSE_TEXT_END -->
  */
-public class Password {
 
+/**
+ * The Password class is used to encode and/or decode a password. This class
+ * supports SHA-1 encoding.
+ * 
+ * @author: Ekagra Software Technologies Limited ('Ekagra')
+ */
+public class Password
+{
 
-    /**
-     * SHA encodes the string passed in to the method.
-     * 
-     * @return java.lang.String
-     * @param unencodedPassword java.lang.String
-     */
-    public static String shaEncode(String unencodedPassword) {
+	/**
+	 * SHA encodes the string passed in to the method.
+	 * 
+	 * @return java.lang.String
+	 * @param unencodedPassword
+	 *            java.lang.String
+	 */
+	public static String shaEncode(String unencodedPassword)
+	{
 
-    	try {
-    		java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA");
+		try
+		{
+			java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA");
 
-    		String hashedPw = new sun.misc.BASE64Encoder().encode(
-    			md.digest(unencodedPassword.getBytes()));
+			String hashedPw = new sun.misc.BASE64Encoder().encode(md.digest(unencodedPassword.getBytes()));
 
-    		return hashedPw;
+			return hashedPw;
 
-    	} catch (java.security.NoSuchAlgorithmException ex) {
-    		throw new RuntimeException (
-    			"NoSuchAlgorithmException in " +
-    			"User.setPassword()\n" + ex);
-    	}
+		}
+		catch (java.security.NoSuchAlgorithmException ex)
+		{
+			throw new RuntimeException("NoSuchAlgorithmException in " + "User.setPassword()\n" + ex);
+		}
 
-    }
-
-   
-
+	}
 
 }

@@ -1,73 +1,84 @@
 package gov.nih.nci.logging.dao;
 
+/**
+ * <!-- LICENSE_TEXT_START -->
+ * 
+ * 
+ * <!-- LICENSE_TEXT_END -->
+ */
 /*
  * authored by Enoch Moses for NGIT
  */
 import java.sql.*;
 import gov.nih.nci.logging.Constants;
-import gov.nih.nci.logging.struts.*;
 
 /**
  * DAO class used to query for user's credentials.
  * 
- * @author Brian Husted
- *  
+ * @author Ekagra Software Technologies Limited ('Ekagra')
+ * 
  */
-public class LoginDaoJdbc implements Constants {
+public class LoginDaoJdbc implements Constants
+{
 
 	/**
 	 * Retrieves the users password from the RDBMS.
-	 * 
-	 * @param username
-	 * @return @throws
-	 *         Exception
+	 * 	
+	 * @param username - the username used to log on
+	 * @param application - the application used for log on
+	 * @return Returns the password for this username and the application
+	 * @throws Exception
 	 */
-	public String retrieveLoginInformation(String username) throws Exception {
-		// variables defined
-		String signin = null;
+	public String retrieveLoginInformation(String username, String application) throws Exception
+	{
+		// variables defined	
 		String signinP = null;
 		Login signLog = null;
 		Connection conn = null;
 		ResultSet rs = null;
-		Statement stmt = null;
-		LoginForm logForm = null;
+		Statement stmt = null;		
 
-		try {
+		try
+		{
 			// open connection
 			conn = JdbcConnectionHandler.createConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery(generateSQL(username));
+			rs = stmt.executeQuery(generateSQL(username, application));
 
-			if (rs.next()) {
+			if (rs.next())
+			{
 				signLog = new Login();
 				signLog.setUsername(rs.getString(1));
 				signLog.setPassword(rs.getString(2));
-				signin = rs.getString(1);
 				signinP = rs.getString(2);
 			}
-		} finally {
+		}
+		finally
+		{
 			// close connection
-			try {
+			try
+			{
 				rs.close();
-			} catch (Exception e) {
-			}
-			try {
 				stmt.close();
-			} catch (Exception e) {
-			}
-			try {
 				conn.close();
-			} catch (Exception e) {
 			}
+			catch (Exception e)
+			{
+			}			
 		}
 
 		return signinP;
 
 	}
 
-	protected String generateSQL(String username) {
-		String sql = "SELECT USERNAME, PASSWORD FROM "
-				+ "SIGNIN_USERS WHERE USERNAME = '" + username + "'";
+	/**
+	 * @param username - the username used to log on
+	 * @param application - the application used for log on
+	 * @return Returns the query string used for log on
+	 */
+	protected String generateSQL(String username, String application)
+	{
+		String sql = "SELECT USERNAME, PASSWORD, APPLICATION FROM " + "SIGNIN_USERS WHERE USERNAME = '" + username + "' " + "AND APPLICATION ='" + application + "'";
 		System.out.println(sql);
 		return sql;
 

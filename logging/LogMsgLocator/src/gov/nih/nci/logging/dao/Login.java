@@ -1,41 +1,64 @@
 package gov.nih.nci.logging.dao;
 
+/**
+ * <!-- LICENSE_TEXT_START -->
+ * 
+ * 
+ * <!-- LICENSE_TEXT_END -->
+ */
 import java.io.*;
 
 /**
  * ean class for storing user credentials.
  * 
- * @author Brian Husted
+ * @author Ekagra Software Technologies Limited ('Ekagra')
  */
-public class Login implements Serializable {
+public class Login implements Serializable
+{
 
- 	private String username;
- 	private String password;
-
-
+	private String username;
+	private String password;
 
 	/**
 	 * @return Returns the password.
 	 */
-	public String getPassword() {
+	public String getPassword()
+	{
 		return password;
 	}
+
 	/**
-	 * @param password The password to set.
+	 * @param password
+	 * The password to set.
 	 */
-	public void setPassword(String password) {
+	public void setPassword(String password)
+	{
 		this.password = password;
 	}
+
 	/**
 	 * @return Returns the username.
 	 */
-	public String getUsername() {
+	public String getUsername()
+	{
 		return username;
 	}
+
 	/**
-	 * @param username The username to set.
+	 * @param username
+	 * The username to set.
 	 */
-	public void setUsername(String username) {
+	public void setUsername(String username)
+	{
 		this.username = username;
 	}
+	
+	/**
+	 * Determines if a de-serialized file is compatible with this class.
+     *
+     * Maintainers must change this value if and only if the new version
+     * of this class is not compatible with old versions.
+	 */
+	private static final long serialVersionUID = 7526471155622776147L;
+
 }
