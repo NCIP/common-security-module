@@ -97,6 +97,7 @@ package test.gov.nih.nci.security;
 
 
 
+import gov.nih.nci.logging.api.logger.util.ApplicationProperties;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
@@ -123,6 +124,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.xml.DOMConfigurator;
+
 
 
 /**
@@ -135,18 +139,29 @@ public class TestClient {
 	static AuthorizationManager am = null;
 	static AuthenticationManager am1 = null;
 	
-	static{
+	public TestClient()
+	{
 		try{
-		Properties p = System.getProperties();
-		p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationSecurityConfig.xml");
-		upm = SecurityServiceProvider.getUserProvisioningManager("security");
-		//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
-		//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
+			Properties p = System.getProperties();
+			p.setProperty("gov.nih.nci.security.configFile", "C:/securityconfig/ApplicationSecurityConfig.xml");
+			
+			upm = SecurityServiceProvider.getUserProvisioningManager("security");
+			
+			//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
+			//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			String log4jConfigFile = ApplicationProperties.getInstance().getConfigFile();
+			if (log4jConfigFile.toUpperCase().endsWith(".XML"))
+			{
+				DOMConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
+			}
+			else
+			{
+				PropertyConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
+			}
 	}
-	
 	
 	public void testPrivilegeCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
@@ -954,22 +969,10 @@ public class TestClient {
 
 		
 	public static void main(String[] args) {
+
 		TestClient ts = new TestClient();
-		//ts.testPrivilegeCreate();
-		//ts.testRoleCreate();
-		//ts.assignPrivilegeToRoles();
-		//ts.checkPermission();
-		//ts.assignUserRoleToProtectionGroup();
-		//ts.testSecureObject();
-		//ts.testGroupPEPrivilegeObject();
-		//ts.testSetOwnerForProtectionElement();
-		//ts.testGetProtectionElements();
-		//ts.getProtectionElementPrivilegeContextForUser();
-		//ts.getProtectionElementPrivilegeContextForGroup();
-		//ts.testSecureObject();
-		//ts.getUser("testcaseuser1");
-		ts.testAuthenticationManager();
 		ts.testAuthorizationManager();
+		am.setAuditUserInfo("Art", "JHDFG15312FHFCGSEDD4156453241GVDGD");
 		ts.testUserCreate();
 		ts.getPrivilegeMap1();
 		ts.getPrivilegeMap2();
