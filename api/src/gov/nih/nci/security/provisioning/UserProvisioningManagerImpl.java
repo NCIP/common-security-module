@@ -88,6 +88,7 @@ package gov.nih.nci.security.provisioning;
  *
  */
 
+import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
@@ -1020,4 +1021,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		authorizationDAO.assignUserToGroup( userName, groupName );
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#setAuditUserInfo(java.lang.String, java.lang.String)
+	 */
+	public void setAuditUserInfo(String userName, String sessionId)
+	{
+		UserInfoHelper.setUserInfo(userName, sessionId);
+	}
 }

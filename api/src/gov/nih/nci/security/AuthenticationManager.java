@@ -192,4 +192,14 @@ public interface AuthenticationManager {
 	 * @return A null object
 	 */
 	public Subject getSubject();
+	
+	/**
+	 * This method is used to set the Audit user info. This method should be used
+	 * only if you are creating a new Authentication Manager for each user. Else
+	 * just set the user info using the <code>UserInfoHelper</code> class directly 
+	 * @param userName The name of the user accessing the Authentication Service
+	 * @param sessionId The session id of the user trying to access the Authentication Service
+	 */
+	public void setAuditUserInfo(String userName, String sessionId);
+	
 }

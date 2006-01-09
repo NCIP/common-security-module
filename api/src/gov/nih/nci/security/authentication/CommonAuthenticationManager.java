@@ -97,6 +97,7 @@ package gov.nih.nci.security.authentication;
 
  
 
+import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.authentication.callback.CSMCallbackHandler;
 import gov.nih.nci.security.exceptions.CSException;
@@ -125,6 +126,8 @@ import org.apache.log4j.Logger;
 public class CommonAuthenticationManager implements AuthenticationManager{
 
 	private static final Logger log = Logger.getLogger(CommonAuthenticationManager.class);		
+	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Authentication");		
+	private static final LockoutManager lockoutManager = LockoutManager.getInstance();
 	
 	private String applicationContextName = null;
 	
@@ -141,21 +144,29 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 */
 	public boolean login(String userName, String password) throws CSException
 	{
+		UserInfoHelper.setUserInfo(userName, null);
 		boolean loginSuccessful = false;
 		try
 		{
+			if (lockoutManager.isUserLockedOut(userName))
+			{
+				throw new CSException ("Allowed Attempts Reached ! User Name is locked out !");
+			}
 			CSMCallbackHandler csmCallbackHandler = new CSMCallbackHandler(userName, password);
 			LoginContext loginContext = new LoginContext(applicationContextName, csmCallbackHandler);
 			loginContext.login();
 			loginSuccessful = true;
 			if (log.isDebugEnabled())
-				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is "+loginSuccessful+" for user "+userName+"|");			
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is "+loginSuccessful+" for user "+userName+"|");
+			auditLog.info("Successful Login attempt for user "+ userName);
 		}
 		catch (LoginException le)
 		{
 			loginSuccessful = false;
 			if (log.isDebugEnabled())
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is not successful for user "+userName+"|" + le.getMessage());			
+			lockoutManager.setFailedAttempt(userName);
+			auditLog.info("Unsuccessful Login attempt for user "+ userName);			
 			throw new CSException (le.getMessage(), le);
 		}
 		return loginSuccessful;
@@ -200,5 +211,15 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthenticationManager#setAuditUserInfo(java.lang.String, java.lang.String)
+	 */
+	public void setAuditUserInfo(String userName, String sessionId)
+	{
+		UserInfoHelper.setUserInfo(userName, sessionId);
+	}
+	
+	
 
 }

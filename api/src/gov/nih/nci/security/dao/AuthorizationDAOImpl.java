@@ -89,6 +89,7 @@ package gov.nih.nci.security.dao;
  */
 
 
+import gov.nih.nci.logging.api.logger.hibernate.HibernateSessionFactoryHelper;
 import gov.nih.nci.security.authorization.ObjectAccessMap;
 import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.Application;
@@ -145,9 +146,14 @@ import org.apache.log4j.Logger;
  */
 public class AuthorizationDAOImpl implements AuthorizationDAO {
 
-	static final Logger log = Logger.getLogger(AuthorizationDAOImpl.class
-			.getName());
+	static final Logger log = Logger.getLogger(AuthorizationDAOImpl.class.getName());
+	
+	/**
+	 * auditLog is an instance of Logger , which is used for Audit Logging
+	 */
+	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Authorization");		
 
+	
 	private SessionFactory sf = null;
 
 	private Application application = null;
@@ -184,6 +190,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|"
 							+ applicationContextName
 							+ "||AuthorizationDAOImpl|Success|Instantiated AuthorizationDAOImpl|");
+		
 	}
 
 	public void finalize() throws Throwable {
@@ -232,7 +239,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}
 			}
 			
-			s = sf.openSession();			
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);			
 			t = s.beginTransaction();
 
 			if (!hasGroupAlready) {
@@ -264,6 +271,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			} catch (Exception ex2) {
 			}
 		}
+		auditLog.info("Assigning User " + userName + " to Group " + groupName);
+		
 
 	}
 
@@ -272,7 +281,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
@@ -322,6 +331,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||assignGroupsToUser|Success|Successful in assigning Groups "
 							+ StringUtilities.stringArrayToString(groupIds)
 							+ " to User " + userId + "|");
+		auditLog.info("Assigning User " + userId + " to Groups");		
 	}
 
 	/*
@@ -339,7 +349,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
         ArrayList roles = new ArrayList();
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			
 			for (int i = 0; i < rolesId.length; i++){
@@ -389,7 +399,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			
 
 			t.commit();
-
+			auditLog.info("Assigning Roles to Group " + group.getGroupName() + " for Protection Group " + pgroup.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -445,7 +455,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
@@ -465,7 +475,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			role.setPrivileges(newPrivs);
 			s.update(role);
 			t.commit();
-
+			auditLog.info("Assigning Privileges to Role " + role.getName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -517,7 +527,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			if (StringUtilities.isBlank(protectionGroupName)) {
@@ -553,7 +563,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			t.commit();
-
+			auditLog.info("Assigning Protection Element with Object Id " + protectionElementObjectId + "Attribute " + protectionElementAttributeName + "to Protection Group" + protectionGroupName);
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -623,7 +633,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		ArrayList roles = new ArrayList();
 
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			for (int i = 0; i < rolesId.length; i++){
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
@@ -665,7 +675,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			
 			t.commit();
-
+			auditLog.info("Assigning Roles to User " + user.getLoginName() + " for Protection Group " + pgroup.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -792,7 +802,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
@@ -887,7 +897,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
@@ -956,7 +966,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
@@ -1026,7 +1036,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (privilegeName == null) {
 				return false;
 			}
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 			String application_id = this.application.getApplicationId()
@@ -1151,7 +1161,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		List result = new ArrayList();
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			Criteria criteria = s
 					.createCriteria(searchCriteria.getObjectType());
 			Hashtable fieldValues = searchCriteria.getFieldAndValues();
@@ -1346,7 +1356,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					"The protection element can't be searched with null objectId");
 		}
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			ProtectionElement search = new ProtectionElement();
 			search.setObjectId(objectId);
@@ -1432,7 +1442,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			search.setApplication(application);
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			List list = s.createCriteria(ProtectionGroup.class).add(
 					Example.create(search)).list();
 
@@ -1486,7 +1496,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			search.setApplication(application);
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			List list = s.createCriteria(Role.class)
 					.add(Example.create(search)).list();
 
@@ -1535,7 +1545,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			List list = s.createCriteria(User.class)
 					.add(Example.create(search)).list();
 			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
@@ -1579,7 +1589,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			search.setApplication( getApplication() );
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			List list = s.createCriteria(Group.class).add(
 					Example.create(search)).list();
 			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
@@ -1618,7 +1628,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			cn = s.connection();
 			String sql = "delete from csm_user_group_role_pg where protection_group_id=? and group_id=?";
@@ -1631,7 +1641,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			int i = pstmt.executeUpdate();
 
 			t.commit();
-
+			auditLog.info("Deassigning Roles and Protection Group Assignment from Group");
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -1683,7 +1693,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			ProtectionGroup pgroup = (ProtectionGroup) this
@@ -1718,7 +1728,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			t.commit();
-
+			auditLog.info("Deassigning Roles From Group " + group.getGroupName() + " for Protection Group " + pgroup.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -1780,7 +1790,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
@@ -1794,6 +1804,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			t.commit();
+			auditLog.info("Deassigning User " + user.getLoginName() + " from Group " + group.getGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -1845,7 +1856,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			cn = s.connection();
 			String sql = "delete from csm_user_group_role_pg where protection_group_id=? and user_id=?";
@@ -1858,7 +1869,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			int i = pstmt.executeUpdate();
 			pstmt.close();
 			t.commit();
-
+			auditLog.info("Deassigning Roles and Protection Group Assignment from User");
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -1911,7 +1922,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			ProtectionGroup pgroup = (ProtectionGroup) this
@@ -1946,7 +1957,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			t.commit();
-
+			auditLog.info("Deassigning Roles From User " + user.getLoginName() + " for Protection Group " + pgroup.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -1996,7 +2007,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			User search = new User();
 			search.setLoginName(loginName);
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			List list = s.createCriteria(User.class)
 					.add(Example.create(search)).list();
 
@@ -2039,7 +2050,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			User user = getLightWeightUser(loginName);
@@ -2077,7 +2088,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			protectionElement.setOwners(ownerList);
 			s.save(protectionElement);
 			t.commit();
-
+			auditLog.info("Assinging User " + loginName + " as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2134,7 +2145,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSTransactionException("object Id can't be null!");
 		}
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			Set users = new HashSet();
@@ -2157,7 +2168,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s.update(protectionElement);
 			t.commit();
-
+			auditLog.info("Assigning Users as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());		
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2203,7 +2214,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Set result = new HashSet();
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 					new Long(roleId));
 			result = role.getPrivileges();
@@ -2235,7 +2246,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/**
 	 * public void createUser(User user) throws CSTransactionException { Session
-	 * s = null; Transaction t = null; try { s = sf.openSession(); t =
+	 * s = null; Transaction t = null; try { s = HibernateSessionFactoryHelper.getAuditSession(sf); t =
 	 * s.beginTransaction(); user.setUpdateDate(new Date()); s.save(user);
 	 * t.commit(); log.debug("User ID is: " + user.getUserId()); } catch
 	 * (Exception ex) { log.error(ex); try { t.rollback(); } catch (Exception
@@ -2249,7 +2260,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		Set pes = new HashSet();
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
@@ -2268,7 +2279,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			protectionGroup.setProtectionElements(pes);
 			s.update(protectionGroup);
 			t.commit();
-
+			auditLog.info("Assinging Protection Elements to Protection Group " + protectionGroup.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2315,7 +2326,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
@@ -2336,7 +2347,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			t.commit();
-
+			auditLog.info("Deassinging Protection Elements from Protection Group " + protectionGroup.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2407,7 +2418,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			oj = getObjectByPrimaryKey(s, objectType, new Long(primaryKey));
 
 		} catch (Exception ex) {
@@ -2438,13 +2449,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			s.delete(oj);
 
 			t.commit();
-
+			auditLog.info("Deleting the " + oj.getClass().getName().substring(oj.getClass().getName().lastIndexOf(".")+1) + " Object ");
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2488,7 +2499,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			Application search = new Application();
 			search.setApplicationName(contextName);
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			List list = s.createCriteria(Application.class).add(
 					Example.create(search)).list();
 			if (list.size() == 0) {
@@ -2559,7 +2570,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 			ArrayList pgIds = new ArrayList();
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
@@ -2642,7 +2653,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 			ArrayList pgIds = new ArrayList();
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
@@ -2740,7 +2751,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			cn = s.connection();
 			stmt = cn.createStatement();
 
@@ -2819,7 +2830,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			cn = s.connection();
 			stmt = cn.createStatement();
 
@@ -2880,12 +2891,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			s.update(obj);
 			t.commit();
-
+			auditLog.info("Updating the " + obj.getClass().getName().substring(obj.getClass().getName().lastIndexOf(".")+1) + " Object ");
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2931,10 +2942,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			s.save(obj);
 			t.commit();
+			auditLog.info("Creating the " + obj.getClass().getName().substring(obj.getClass().getName().lastIndexOf(".")+1) + " Object ");			
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2983,7 +2995,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Set groups = new HashSet();
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
@@ -3022,7 +3034,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Set result = new HashSet();
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
@@ -3059,7 +3071,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Set result = new HashSet();
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			if (StringUtilities.isBlank(protectionElementId)) {
 				throw new CSObjectNotFoundException("Primary key can't be null");
 			}
@@ -3100,7 +3112,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			ProtectionElement protectionElement = (ProtectionElement) this
@@ -3121,7 +3133,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			protectionElement.setProtectionGroups(newSet);
 			s.update(protectionElement);
 			t.commit();
-
+			auditLog.info("Assigning Protection Groups to Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -3167,7 +3179,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			ProtectionGroup parent = null;
 
@@ -3187,7 +3199,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s.update(child);
 			t.commit();
-
+			auditLog.info("Assigning Protection Group " + parent.getProtectionGroupName() + " as Parent of Protection Group " + child.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -3238,7 +3250,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
@@ -3484,7 +3496,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Set result = new HashSet();
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			ProtectionElement protectionElement = (ProtectionElement) this
 					.getObjectByPrimaryKey(s, ProtectionElement.class,
 							new Long(protectionElementId));
@@ -3524,7 +3536,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 
 		try {
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			Set users = new HashSet();
@@ -3542,7 +3554,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s.update(pe);
 			t.commit();
-
+			auditLog.info("Assigning Users as Owner of Protection Element with Object Id " + pe.getObjectId() + " and Attribute " + pe.getAttribute());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -3590,7 +3602,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
@@ -3672,7 +3684,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 
-			s = sf.openSession();
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			cn = s.connection();
 
