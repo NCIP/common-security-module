@@ -95,6 +95,7 @@ package gov.nih.nci.security.upt.actions;
  */
 
 
+import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
@@ -172,6 +173,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|setDoubleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
 			baseDoubleAssociationForm.buildDisplayForm(request);
@@ -298,6 +300,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|removeProtectionGroupAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		if (baseDoubleAssociationForm.getProtectionGroupAssociatedId() == null || baseDoubleAssociationForm.getProtectionGroupAssociatedId().equalsIgnoreCase(""))
 		{
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "A record needs to be selected first" ));
@@ -385,6 +388,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|setRoleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
 			baseDoubleAssociationForm.buildDisplayForm(request);

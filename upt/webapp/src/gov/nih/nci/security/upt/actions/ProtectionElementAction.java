@@ -95,6 +95,7 @@ package gov.nih.nci.security.upt.actions;
  */
 
 
+import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
@@ -102,6 +103,7 @@ import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
+import gov.nih.nci.security.upt.forms.LoginForm;
 import gov.nih.nci.security.upt.forms.ProtectionElementForm;
 import gov.nih.nci.security.util.ObjectSetUtil;
 
@@ -167,7 +169,7 @@ public class ProtectionElementAction extends CommonAssociationAction
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionElementForm protectionElementForm = (ProtectionElementForm)form;
 		errors.clear();
-
+		UserInfoHelper.setUserInfo(((LoginForm)request.getSession().getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), request.getSession().getId());
 		try
 		{
 			// TO-DO replace assignProtectionElements with setOwners or such method

@@ -95,6 +95,7 @@ package gov.nih.nci.security.upt.actions;
  */
 
 
+import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
@@ -183,6 +184,7 @@ public class ProtectionGroupAction extends CommonAssociationAction
 				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|setParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
 			// TO-DO replace assignProtectionGroups with setOwners or such method

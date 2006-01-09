@@ -95,6 +95,7 @@ package gov.nih.nci.security.upt.actions;
  */
 
 
+import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
@@ -143,6 +144,7 @@ public class LoginAction extends Action
 		String uptContextName = null;
 		
 		LoginForm loginForm = (LoginForm)form;
+		UserInfoHelper.setUserInfo(loginForm.getLoginId(), request.getSession().getId());
 		errors.clear();
 		try
 		{
