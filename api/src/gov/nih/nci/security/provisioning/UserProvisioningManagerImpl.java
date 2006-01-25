@@ -247,11 +247,19 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#removeProtectionGroup(String)
 	 */
 	public void removeProtectionGroup(String protectionGroupId) throws CSTransactionException{
-		ProtectionGroup protectionGroup = new ProtectionGroup();
-		protectionGroup.setProtectionGroupId(new Long(protectionGroupId));
-		protectionGroup.setProtectionGroupName("XX");
-		protectionGroup.setProtectionGroupDescription("XX");
-		protectionGroup.setUpdateDate(new Date());
+		ProtectionGroup protectionGroup;
+		try
+		{
+			protectionGroup = this.getProtectionGroupById(protectionGroupId);
+		}
+		catch (CSObjectNotFoundException e)
+		{
+			protectionGroup = new ProtectionGroup();
+			protectionGroup.setProtectionGroupId(new Long(protectionGroupId));
+			protectionGroup.setProtectionGroupName("XX");
+			protectionGroup.setProtectionGroupDescription("XX");
+			protectionGroup.setUpdateDate(new Date());
+		}
 		authorizationDAO.removeObject(protectionGroup);
 		
     }
@@ -261,14 +269,21 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @throws CSTransactionException
 	 * @see gov.nih.nci.security.UserProvisioningManager#removeProtectionElement(String)
 	 */
-	public void removeProtectionElement(String  protectionElementId) throws CSTransactionException{
-            
-		ProtectionElement protectionElement = new ProtectionElement();
-		protectionElement.setProtectionElementId(new Long(protectionElementId));
-		protectionElement.setProtectionElementName("XX");
-		protectionElement.setObjectId("XX");
-		protectionElement.setAttribute("XX");
-		protectionElement.setUpdateDate(new Date());
+	public void removeProtectionElement(String  protectionElementId) throws CSTransactionException{            				
+		ProtectionElement protectionElement;
+		try
+		{
+			protectionElement = this.getProtectionElementById(protectionElementId);
+		}
+		catch (CSObjectNotFoundException e)
+		{
+			protectionElement = new ProtectionElement();
+			protectionElement.setProtectionElementId(new Long(protectionElementId));
+			protectionElement.setProtectionElementName("XX");
+			protectionElement.setProtectionElementDescription("XX");
+			protectionElement.setUpdateDate(new Date());
+		}
+		
 		authorizationDAO.removeObject(protectionElement);
 	}
 
@@ -403,11 +418,19 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#removeRole(String)
 	 */
 	public void removeRole(String roleId) throws CSTransactionException{
-		Role r = new Role();
+		Role r;
+		try
+		{
+			r = this.getRoleById(roleId);
+		}
+		catch (CSObjectNotFoundException e){
+		
+		r = new Role();
 		r.setId(new Long(roleId));
 		r.setName("XX");
 		r.setDesc("XX");
 		r.setUpdateDate(new Date());
+		}
 		authorizationDAO.removeObject(r);
 		
 	}
@@ -469,12 +492,18 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#removePrivilege(String)
 	 */
 	public void removePrivilege(String privilegeId) throws CSTransactionException{
-      
-		Privilege p = new Privilege();
+		Privilege p;
+		try
+		{
+			p = this.getPrivilegeById(privilegeId);
+		}
+		catch (CSObjectNotFoundException e){
+		p = new Privilege();
 		p.setId(new Long(privilegeId));
 		p.setDesc("XX");
 		p.setName("XX");
 		p.setUpdateDate(new Date());
+		}
 		authorizationDAO.removeObject(p);
 		
 	}
@@ -560,11 +589,18 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#removeGroup(String)
 	 */
 	public void removeGroup(String groupId)throws CSTransactionException{
-		Group group = new Group();
+		Group group;
+		try
+		{
+			group = this.getGroupById(groupId);
+		}
+		catch (CSObjectNotFoundException e){
+		group = new Group();
 		group.setGroupId(new Long(groupId));
 		group.setGroupName("XX");
 		group.setGroupDesc("XX");
 		group.setUpdateDate(new Date());    
+		}
 		authorizationDAO.removeObject(group);
 	}
 
