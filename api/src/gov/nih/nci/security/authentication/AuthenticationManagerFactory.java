@@ -103,6 +103,7 @@ import gov.nih.nci.security.exceptions.CSException;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -231,6 +232,9 @@ public class AuthenticationManagerFactory
 
 	private static String getAuthenticationManagerClass(String applicationContextName) throws CSException{
 		String authenticationProviderClassName = null;
+		String lockoutTime = null;
+		String allowedLoginTime = null;
+		String allowedAttempts = null;
 		Document configDocument;
 		try {
 			configDocument = getConfigDocument();
@@ -249,8 +253,27 @@ public class AuthenticationManagerFactory
 		 	String contextNameValue = contextName.getText().trim();
 			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
 				Element authentication = application.getChild("authentication");
+
 				Element authenticationProviderClass = authentication.getChild("authentication-provider-class");
 				authenticationProviderClassName = authenticationProviderClass.getText().trim();
+
+				Element lockoutTimeElement = authentication.getChild("lockout-time");
+				if (lockoutTimeElement != null)
+					lockoutTime = lockoutTimeElement.getText().trim();
+				else
+					lockoutTime = "0";
+				Element allowedLoginTimeElement = authentication.getChild("allowed-login-time");
+				if (allowedLoginTimeElement != null)
+					allowedLoginTime = allowedLoginTimeElement.getText().trim();
+				else
+					allowedLoginTime = "0";
+				Element allowedAttemptsElement = authentication.getChild("allowed-attempts");
+				if (allowedAttemptsElement != null)
+					allowedAttempts = allowedAttemptsElement.getText().trim();
+				else
+					allowedAttempts = "0";
+
+				LockoutManager.initialize(lockoutTime,allowedLoginTime,allowedAttempts);
 			}
 		 }
 			if (log.isDebugEnabled())

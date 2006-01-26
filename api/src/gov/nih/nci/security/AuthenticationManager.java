@@ -201,5 +201,14 @@ public interface AuthenticationManager {
 	 * @param sessionId The session id of the user trying to access the Authentication Service
 	 */
 	public void setAuditUserInfo(String userName, String sessionId);
-	
+
+	/**
+	 * This method is currently added just as a temporary place holder. It doesnt perform any
+	 * real logout fuctionality. In current release all it does is generate a log message for user
+	 * lockout action
+	 * @param userName The name of the user whose login session needs to be terminated
+	 * @throws CSException Explains the error in logging the user out.
+	 */
+	public void logout(String userName) throws CSException;
+
 }

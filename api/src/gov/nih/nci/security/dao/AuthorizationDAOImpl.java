@@ -151,7 +151,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	/**
 	 * auditLog is an instance of Logger , which is used for Audit Logging
 	 */
-	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Authorization");		
+	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Event.Authorization");		
 
 	
 	private SessionFactory sf = null;

@@ -126,7 +126,7 @@ import org.apache.log4j.Logger;
 public class CommonAuthenticationManager implements AuthenticationManager{
 
 	private static final Logger log = Logger.getLogger(CommonAuthenticationManager.class);		
-	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Authentication");		
+	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Event.Authentication");		
 	private static final LockoutManager lockoutManager = LockoutManager.getInstance();
 	
 	private String applicationContextName = null;
@@ -150,6 +150,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		{
 			if (lockoutManager.isUserLockedOut(userName))
 			{
+				auditLog.info("Allowed Attempts Reached ! User " + userName + " is locked out !");				
 				throw new CSException ("Allowed Attempts Reached ! User Name is locked out !");
 			}
 			CSMCallbackHandler csmCallbackHandler = new CSMCallbackHandler(userName, password);
@@ -166,7 +167,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is not successful for user "+userName+"|" + le.getMessage());			
 			lockoutManager.setFailedAttempt(userName);
-			auditLog.info("Unsuccessful Login attempt for user "+ userName);			
+			auditLog.info("Unsuccessful Login attempt for user "+ userName);
 			throw new CSException (le.getMessage(), le);
 		}
 		return loginSuccessful;
@@ -218,6 +219,15 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	public void setAuditUserInfo(String userName, String sessionId)
 	{
 		UserInfoHelper.setUserInfo(userName, sessionId);
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthenticationManager#logout(java.lang.String)
+	 */
+	public void logout(String userName) throws CSException
+	{
+		UserInfoHelper.setUserInfo(userName, null);
+		auditLog.info("Successful log out for user "+ userName);			
 	}
 	
 	
