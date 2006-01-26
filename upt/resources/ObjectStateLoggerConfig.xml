@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <logging-config>
-	<logger-name>CSM.Audit.Logging.Authorization</logger-name>
+	<logger-name>CSM.Audit.Logging.ObjectState.Authorization</logger-name>
 	<logger-config-file>log4jConfig.xml</logger-config-file>
+	<log-level>warn</log-level>
 	<messageType>string</messageType>
 	<domainObjectList>
 		<object-name>gov.nih.nci.security.authorization.domainobjects.Application</object-name>
@@ -24,5 +25,3 @@
 	</domainObjectList>
 	<loggingEnabled>true</loggingEnabled>
 </logging-config>
-
-
