@@ -2,6 +2,7 @@
 <logging-config>
 	<logger-name>CSM.Audit.Logging.Authorization</logger-name>
 	<logger-config-file>log4jConfig.xml</logger-config-file>
+	<log-level>info</log-level>
 	<messageType>string</messageType>
 	<domainObjectList>
 		<object-name>gov.nih.nci.security.authorization.domainobjects.Application</object-name>
