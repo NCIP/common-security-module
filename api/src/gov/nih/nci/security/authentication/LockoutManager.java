@@ -128,8 +128,9 @@ public class LockoutManager
 			return false;
 	}
 	
-	public void setFailedAttempt(String userId)
+	public boolean setFailedAttempt(String userId)
 	{
+		boolean isUserLockedout = false;
 		if (!disableLockoutManager)
 		{
 			LockoutInfo lockoutInfo = (LockoutInfo)lockoutCache.get(userId);
@@ -141,8 +142,11 @@ public class LockoutManager
 					{
 						lockoutInfo.setNoOfAttempts(lockoutInfo.getNoOfAttempts()+ 1);
 						System.out.println("lockoutInfo.getNoOfAttempts()" + lockoutInfo.getNoOfAttempts());
-						if (lockoutInfo.getNoOfAttempts() > allowedAttempts)
+						if (lockoutInfo.getNoOfAttempts() >= allowedAttempts)
+						{
 							lockoutInfo.setLockedout(true);
+							isUserLockedout = true;
+						}
 					}
 					else
 					{
@@ -159,5 +163,6 @@ public class LockoutManager
 			}
 			lockoutCache.put(userId,lockoutInfo);
 		}
+		return isUserLockedout;
 	}
 }

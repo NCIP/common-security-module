@@ -145,7 +145,7 @@ public class TestClient {
 			Properties p = System.getProperties();
 			p.setProperty("gov.nih.nci.security.configFile", "C:/securityconfig/ApplicationSecurityConfig.xml");
 			
-			upm = SecurityServiceProvider.getUserProvisioningManager("security");
+			upm = SecurityServiceProvider.getUserProvisioningManager("TestApplication");
 			
 			//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 			//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
@@ -971,12 +971,12 @@ public class TestClient {
 	public static void main(String[] args) {
 
 		TestClient ts = new TestClient();
-		ts.testAuthorizationManager();
-		am.setAuditUserInfo("Art", "JHDFG15312FHFCGSEDD4156453241GVDGD");
+		//ts.testAuthorizationManager();
+		//am.setAuditUserInfo("Art", "JHDFG15312FHFCGSEDD4156453241GVDGD");
 		ts.testUserCreate();
-		ts.getPrivilegeMap1();
-		ts.getPrivilegeMap2();
-		ts.getPrivilegeMap3();
-		ts.getPrivilegeMap4();
+		//ts.getPrivilegeMap1();
+		//ts.getPrivilegeMap2();
+		//ts.getPrivilegeMap3();
+		//ts.getPrivilegeMap4();
 	}
 }

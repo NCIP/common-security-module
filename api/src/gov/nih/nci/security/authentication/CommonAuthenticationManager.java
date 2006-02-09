@@ -144,6 +144,14 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 */
 	public boolean login(String userName, String password) throws CSException
 	{
+		if (null == userName || userName.trim().length() == 0)
+		{
+			throw new CSException("User Name cannot be blank");
+		}
+		if (null == password || password.trim().length() == 0)
+		{
+			throw new CSException("Password cannot be blank");
+		}
 		UserInfoHelper.setUserInfo(userName, null);
 		boolean loginSuccessful = false;
 		try
@@ -166,7 +174,12 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			loginSuccessful = false;
 			if (log.isDebugEnabled())
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is not successful for user "+userName+"|" + le.getMessage());			
-			lockoutManager.setFailedAttempt(userName);
+			boolean isUserLockedOut = lockoutManager.setFailedAttempt(userName);
+			if (isUserLockedOut)
+			{
+				auditLog.info("Allowed Attempts Reached ! User " + userName + " is locked out !");				
+				throw new CSException ("Allowed Attempts Reached ! User Name is locked out !");			
+			}
 			auditLog.info("Unsuccessful Login attempt for user "+ userName);
 			throw new CSException (le.getMessage(), le);
 		}
