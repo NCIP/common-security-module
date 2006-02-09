@@ -320,10 +320,10 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 
 		this.applicationName = application.getApplicationName();
 		this.applicationDescription = application.getApplicationDescription();
-		if (application.getActiveFlag() == 1) this.applicationActiveFlag = DisplayConstants.YES;
+		if (application.getActiveFlag() == DisplayConstants.ONE) this.applicationActiveFlag = DisplayConstants.YES;
 			else this.applicationActiveFlag = DisplayConstants.NO;
-		if (application.getDeclarativeFlag() == 1) this.applicationDeclarativeFlag = DisplayConstants.YES;
-		else this.applicationDeclarativeFlag = DisplayConstants.NO;
+		if (application.getDeclarativeFlag() == DisplayConstants.ONE) this.applicationDeclarativeFlag = DisplayConstants.YES;
+			else this.applicationDeclarativeFlag = DisplayConstants.NO;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 		
@@ -360,8 +360,11 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		protectionElement.setProtectionElementName(this.applicationName);
 		protectionElement.setObjectId(this.applicationName);
 		
-		if (this.applicationActiveFlag == DisplayConstants.YES) application.setActiveFlag(DisplayConstants.ONE);
+		if (this.applicationActiveFlag.equals(DisplayConstants.YES)) application.setActiveFlag(DisplayConstants.ONE);
 			else application.setActiveFlag(DisplayConstants.ZERO);
+
+		if (this.applicationDeclarativeFlag.equals(DisplayConstants.YES)) application.setDeclarativeFlag(DisplayConstants.ONE);
+			else application.setDeclarativeFlag(DisplayConstants.ZERO);
 		
 		if ((this.applicationId == null) || ((this.applicationId).equalsIgnoreCase("")))
 		{

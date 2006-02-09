@@ -159,6 +159,10 @@ public class ProtectionGroupAction extends CommonAssociationAction
 
 		Collection availableProtectionGroups = ObjectSetUtil.minus(totalProtectionGroups,associatedProtectionGroup);
 		
+		Collection protectionGroupList = (Collection)new HashSet();
+		protectionGroupList.add(userProvisioningManager.getProtectionGroupById(protectionGroupForm.getPrimaryId()));
+		availableProtectionGroups = ObjectSetUtil.minus(availableProtectionGroups,protectionGroupList);
+		
 		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedProtectionGroup);
 		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableProtectionGroups);
 		

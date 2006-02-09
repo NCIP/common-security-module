@@ -120,6 +120,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
@@ -143,6 +144,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	private String userTitle;
 	private String userPhoneNumber;
 	private String userPassword;
+	private String userPasswordConfirm;
 	private String userEmailId;
 	private String userStartDate;
 	private String userEndDate;
@@ -262,6 +264,23 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
+
+	/**
+	 * @return Returns the userPasswordConfirm.
+	 */
+	public String getUserPasswordConfirm()
+	{
+		return userPasswordConfirm;
+	}
+	
+	/**
+	 * @param userPasswordConfirm The userPassword to set.
+	 */
+	public void setUserPasswordConfirm(String userPasswordConfirm)
+	{
+		this.userPasswordConfirm = userPasswordConfirm;
+	}
+	
 	/**
 	 * @return Returns the userPhoneNumber.
 	 */
@@ -374,6 +393,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.userTitle = "";
 		this.userPhoneNumber = "";
 		this.userPassword = "";
+		this.userPasswordConfirm = "";
 		this.userEmailId = "";
 		this.userStartDate = "";
 		this.userEndDate = "";
@@ -394,6 +414,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.userTitle = "";
 		this.userPhoneNumber = "";
 		this.userPassword = "";
+		this.userPasswordConfirm = "";
 		this.userEmailId = "";
 		this.userStartDate = "";
 		this.userEndDate = "";
@@ -412,7 +433,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		formElementList.add(new FormElement("User Department", "userDepartment", getUserDepartment(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
 		formElementList.add(new FormElement("User Title", "userTitle", getUserTitle(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
 		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", getUserPhoneNumber(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));	
-		formElementList.add(new FormElement("User Password", "userPassword", getUserPassword(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("User Password", "userPassword", getUserPassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", getUserPasswordConfirm(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Email Id", "userEmailId", getUserEmailId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
@@ -431,7 +453,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		formElementList.add(new FormElement("User Department", "userDepartment", getUserDepartment(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
 		formElementList.add(new FormElement("User Title", "userTitle", getUserTitle(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
 		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", getUserPhoneNumber(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));	
-		formElementList.add(new FormElement("User Password", "userPassword", getUserPassword(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("User Password", "userPassword", getUserPassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", getUserPasswordConfirm(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Email Id", "userEmailId", getUserEmailId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
@@ -469,6 +492,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.userTitle = user.getTitle();
 		this.userPhoneNumber = user.getPhoneNumber();
 		this.userPassword = user.getPassword();
+		this.userPasswordConfirm = user.getPassword();
 		this.userEmailId = user.getEmailId();
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -716,12 +740,14 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		
 		request.setAttribute(DisplayConstants.ONLY_ROLES, DisplayConstants.ONLY_ROLES);	
 	}
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
 	 */
 	public String getFormName() {
 		return DisplayConstants.USER_ID;
 	}
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildProtectionElementPrivilegesObject(javax.servlet.http.HttpServletRequest)
 	 */
@@ -735,5 +761,18 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		return protectionElementPrivilegesContextList;
 		
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see org.apache.struts.action.ActionForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+	 */
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) 
+	{
+		ActionErrors errors = new ActionErrors();
+		errors = super.validate(mapping,request);
+		if (!this.userPassword.equals(this.userPasswordConfirm))
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Confirm Password does not match with User Password"));
+		}
+		return errors;
+	}
 }
