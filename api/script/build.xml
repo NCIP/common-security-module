@@ -38,6 +38,7 @@
 			</fileset>
 		</copy>
 		<copy file="${src}/hibernate.properties" todir="${build}" />
+		<copy file="${src}/resources/ObjectStateLoggerConfig.xml" todir="${build}" />		
 		<delete dir="${build}/resources"/>
 	</target>
 
@@ -60,7 +61,7 @@
 		<property name="distuptresources" location="./../upt/upt/resources" />
 		<copy todir="${distupt}">
 			<fileset dir="${dist}">
-				<include name="**/*.jar" />
+				<include name="csmapi.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${distuptresources}">
