@@ -302,7 +302,7 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 
 		this.protectionGroupName = protectionGroup.getProtectionGroupName();
 		this.protectionGroupDescription = protectionGroup.getProtectionGroupDescription();
-		if (protectionGroup.getLargeElementCountFlag() == 1) this.protectionGroupLargeCountFlag = DisplayConstants.YES;
+		if (protectionGroup.getLargeElementCountFlag() == DisplayConstants.ONE) this.protectionGroupLargeCountFlag = DisplayConstants.YES;
 			else this.protectionGroupLargeCountFlag = DisplayConstants.NO;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		this.protectionGroupUpdateDate = simpleDateFormat.format(protectionGroup.getUpdateDate());
@@ -329,7 +329,7 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 		protectionGroup.setProtectionGroupName(this.protectionGroupName);
 		protectionGroup.setProtectionGroupDescription(this.protectionGroupDescription);
 		
-		if (this.protectionGroupLargeCountFlag == DisplayConstants.YES) protectionGroup.setLargeElementCountFlag(DisplayConstants.ONE);
+		if (this.protectionGroupLargeCountFlag.equals(DisplayConstants.YES)) protectionGroup.setLargeElementCountFlag(DisplayConstants.ONE);
 			else protectionGroup.setLargeElementCountFlag(DisplayConstants.ZERO);
 		
 		protectionGroup.setParentProtectionGroup(this.protectionGroupParentProtectionGroup);

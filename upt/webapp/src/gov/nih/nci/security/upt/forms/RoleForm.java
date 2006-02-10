@@ -272,7 +272,7 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 
 		this.roleName = role.getName();
 		this.roleDescription = role.getDesc();
-		if (role.getActive_flag() == 1) this.roleActiveFlag = DisplayConstants.YES;
+		if (role.getActive_flag() == DisplayConstants.ONE) this.roleActiveFlag = DisplayConstants.YES;
 			else this.roleActiveFlag = DisplayConstants.NO;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		this.roleUpdateDate = simpleDateFormat.format(role.getUpdateDate());
@@ -299,7 +299,7 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 		role.setName(this.roleName);
 		role.setDesc(this.roleDescription);
 
-		if (this.roleActiveFlag == DisplayConstants.YES) role.setActive_flag(DisplayConstants.ONE);
+		if (this.roleActiveFlag.equals(DisplayConstants.YES)) role.setActive_flag(DisplayConstants.ONE);
 			else role.setActive_flag(DisplayConstants.ZERO);
 		
 		if ((this.roleId == null) || ((this.roleId).equalsIgnoreCase("")))
