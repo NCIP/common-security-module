@@ -83,6 +83,7 @@
 			</fileset>
 		</copy>
 		<jar jarfile="${war.file}" basedir="${build.home}" />
+		<copy todir="${dist.home}" file="${lib.home}/clm.jar" />
 	</target>
 
 	<target name="cleanup" depends="dist" description="Delete the Build directory">
