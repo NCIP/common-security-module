@@ -10,6 +10,15 @@
 				<<upt_context_name>>
 			</context-name>
 			<authentication>
+				<lockout-time>
+					18000000				
+				</lockout-time>
+				<allowed-login-time>
+					300000
+				</allowed-login-time>
+				<allowed-attempts>
+					3
+				</allowed-attempts>
 				<authentication-provider-class>
 				<!-- Fully qualified class name-->
 				</authentication-provider-class>
