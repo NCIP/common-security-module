@@ -3,6 +3,7 @@ package test.gov.nih.nci.security.provisioning;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.List;
 //import java.util.TreeSet;
 
 import gov.nih.nci.security.authorization.domainobjects.Application;
@@ -24,23 +25,28 @@ public class UserProvisioningManagerImplTest extends TestCase {
 
 	private UserProvisioningManagerImpl userProvisioningManagerImpl; 
 	
+	//Test Set-up variables
 	private int NumberOfApplicationsToTest			= 5;
 	private int NumberOfUsersToTest 				= 5;
-	private int NumberOfGroupsToTest 				= 2;
+	private int NumberOfGroupsToTest 				= 5;
 	private int NumberOfPrivilegesToTest 			= 5;
 	private int NumberOfProtectionElementsToTest 	= 20;  //Must be larger than NumberOfProtectionGroupsToTest?
-	private int NumberOfProtectionGroupsToTest 		= 10;
+	private int NumberOfProtectionGroupsToTest 		= 5;
 	private int NumberOfRolesToTest 				= 5;
-
-	private String[][] UserStringArray 				= new String[NumberOfUsersToTest][9];
-	private String[][] RoleStringArray 				= new String[NumberOfRolesToTest][2];
-	private String[][] GroupStringArray 			= new String[NumberOfGroupsToTest][2];
-	private String[][] ApplicationStringArray 		= new String[NumberOfApplicationsToTest][2];
-	private String[][] PrivilegeStringArray 		= new String[NumberOfPrivilegesToTest][2];
-	private String[][] ProtectionElementStringArray = new String[NumberOfProtectionElementsToTest][4];
-	private String[][] ProtectionGroupStringArray 	= new String[NumberOfProtectionGroupsToTest][4];
-	private String[][] PG_PERelationship			= new String[NumberOfProtectionGroupsToTest][2];
-	//private ArrayList userList = new ArrayList();
+	private String	   StrangeCharacters			= new String("");       //~!@#$%^&*()_+1234567890");      //-=[]\\;//,./{}:\"<>?-+/*&&||==.");
+	//TODO: Get single quote and other characters above figured out, so they work
+	
+	//Test text comparison arrays - initialized in Setup() and used to confirm every text related field in each object (user, PE, etc.)
+	//TODO: change all variable names to be more meaningful and easier to read (NumberOf = nbr, UserStringArray = UserTextFields
+	private String[][] UserStringArray 				= new String[NumberOfUsersToTest]				[9];
+	private String[][] RoleStringArray 				= new String[NumberOfRolesToTest]				[2];
+	private String[][] GroupStringArray 			= new String[NumberOfGroupsToTest]				[2];
+	private String[][] ApplicationStringArray 		= new String[NumberOfApplicationsToTest]		[2];
+	private String[][] PrivilegeStringArray 		= new String[NumberOfPrivilegesToTest]			[2];
+	private String[][] ProtectionElementStringArray = new String[NumberOfProtectionElementsToTest]	[4];
+	private String[][] ProtectionGroupStringArray 	= new String[NumberOfProtectionGroupsToTest]	[4];
+	private String[][] PG_PERelationship			= new String[NumberOfProtectionGroupsToTest]	[NumberOfProtectionElementsToTest];
+	private String[][] Group_UserRelationship		= new String[NumberOfGroupsToTest]				[NumberOfUsersToTest];
 	
 	
 	protected void setUp() throws Exception {
@@ -78,6 +84,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 
 		
 		//Confirm Created (only tests basic data - strings, IDs, and flags)
+		//TODO: Write an AssertEqualsForTextInXXX() for all of these "Get" functions below - make it as generic as possible (possibly one function)
 		this.testGetApplicationById();
 		this.testGetUser();
 		this.testGetUserById();
@@ -88,6 +95,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		this.testGetRoleById();
 		this.testGetGroupById();
 		this.testGetProtectionGroupById();
+		this.testGetProtectionGroups();
 		this.testGetProtectionElementString();
 
 		//Assigns each user 1 group
@@ -98,12 +106,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		// 		gets assigned to all the groups, second to all groups - 1, etc.
 		this.testRemoveUserFromGroup(); 	// Removes only groups added by "testAssignUserToGroup()"
 		this.testAssignGroupsToUser();  	// Assigns multiple groups per most users
-		this.testGetGroupsDecrementing();	// Checks all user to group associations are correct
+		this.testGetGroupsMulti();			// Checks all user to group associations are correct
 		
 		// PE to PG Associations
-		this.testAssignProtectionElements();// Assigns 2 PE to every one PG, initializes PG_PERelationships array
+		//Assigns PE starting with all PE to first PG then decrementing the number assigned by one for each new PG, 
+		//			Also initializes PG_PERelationships array, used in testGetProtectionGroupsString()
+		this.testAssignProtectionElements();
 		this.testGetProtectionGroupsString();
-		//this.testGetProtectionGroups();
+		//this.testDeAssignProtectionElements();
 		
 		//this.testAssignProtectionElementStringString();
 		//this.testGetProtectionGroupsString();
@@ -152,7 +162,9 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createProtectionGroup(ProtectionGroup)'
 	 */
-	private void testCreateProtectionGroup() throws CSTransactionException {
+	
+	private void testCreateProtectionGroup() throws CSTransactionException 
+	{
 		
 		byte tempFlag = 0;
 		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
@@ -172,7 +184,6 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			
 			userProvisioningManagerImpl.createProtectionGroup(tempProtectionGroup);
 		}
-
 	}
 
 	/*
@@ -250,15 +261,51 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.deAssignProtectionElements(String, String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testDeAssignProtectionElements() {
 
+	//Deassign all PG_PE relationships in the same way they were added
+	private void testDeAssignProtectionElements() throws CSTransactionException, CSObjectNotFoundException 
+	{
+		//Cycle through each PE and make sure each element and remove each association
+//		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
+//		{
+//			Set SetOfProtectionGroups = userProvisioningManagerImpl.getProtectionGroups(Integer.toString(x+1));
+//			assertNotNull("\ngetProtectionGroups(String) returned NULL\n", SetOfProtectionGroups);
+//			if ((SetOfProtectionGroups != null) && (!SetOfProtectionGroups.isEmpty())) 
+//			{
+//				Iterator i = SetOfProtectionGroups.iterator();
+//				while (i.hasNext()) 
+//				{
+//					ProtectionGroup tempProtectionGroup = (ProtectionGroup) i.next();
+//					
+//					userProvisioningManagerImpl.deAssignProtectionElements(tempProtectionGroup.getProtectionGroupName(),ProtectionElementStringArray[x][2]);
+//				}
+//			}
+//		}
+					
+		userProvisioningManagerImpl.deAssignProtectionElements("TestProtectionGroupName0", "TestProtectionElementObjectID0");
+		
+//		int tempPECounter = NumberOfProtectionElementsToTest;
+//		
+//		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
+//		{
+//			if ( tempPECounter == 0 ) 
+//				tempPECounter = NumberOfProtectionElementsToTest;
+//
+//			for (int y=0; y<tempPECounter; y++)
+//			{
+//				if (ProtectionGroupStringArray[x][0] != null && ProtectionElementStringArray[y][2] != null)
+//					userProvisioningManagerImpl.deAssignProtectionElements(ProtectionGroupStringArray[x][0], ProtectionElementStringArray[y][2]);
+//			}
+//			tempPECounter--;
+//		}
+		//TODO: confirm the deletion of all records in PG_PE
 	}
 
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createProtectionElement(ProtectionElement)'
 	 */
-	private void testCreateProtectionElement() throws CSTransactionException {
+	private void testCreateProtectionElement() throws CSTransactionException 
+	{
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 		{
 			ProtectionElement tempProtectionElement = new ProtectionElement();
@@ -273,7 +320,6 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			
 			tempProtectionElement = null;
 		}
-
 	}
 
 	/*
@@ -307,7 +353,6 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			
 			userProvisioningManagerImpl.createRole(tempRole);
 		}
-
 	}
 
 	/*
@@ -417,7 +462,6 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 		{
 			tempProtectionElement = userProvisioningManagerImpl.getProtectionElement(ProtectionElementStringArray[x][2]);  //By Object ID
-			
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
@@ -445,8 +489,9 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElement(String, String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testAssignProtectionElementStringString() {
+
+	private void testAssignProtectionElementStringString() 
+	{
 
 	}
 
@@ -509,13 +554,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			for (int z=0; z<NumberOfGroupsToAddToThisUser; z++)
 			{
 				tempGroupsToAdd[z] = Integer.toString(z+1);
+				
+				//Populate array used to check the added associations
+				Group_UserRelationship[z][x] = Integer.toString(z+1); //Stores which Group_User association exists, if blank (null) then it doesn't exist
 			}
 			userProvisioningManagerImpl.assignGroupsToUser(Integer.toString(x+1), tempGroupsToAdd);
 			
 			NumberOfGroupsToAddToThisUser--;
 		}
-		
-		//Now Confirm they were added
 	}
 
 	/*
@@ -575,7 +621,6 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			
 			assertEquals("\nIncorrect Privilege Name\n", PrivilegeStringArray[x][0], tempPrivilege.getName() );
 			assertEquals("\nIncorrect Privilege Desc\n", PrivilegeStringArray[x][1], tempPrivilege.getDesc() );
-
 		}
 	}
 
@@ -606,7 +651,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionGroupById(String)'
 	 */
-	@SuppressWarnings("unused")
+
 	private void testGetProtectionGroupById() throws CSObjectNotFoundException 
 	{
 		ProtectionGroup tempProtectionGroup;
@@ -648,6 +693,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			
 			assertEquals("\nIncorrect Role Name\n", RoleStringArray[x][0], tempRole.getName() );
 			assertEquals("\nIncorrect Role Desc\n", RoleStringArray[x][1], tempRole.getDesc() );
+			//TODO: Confirm dates in general (we don't store time anyway, so should be easy)
 			//assertEquals("\nIncorrect Update Date\n", CurrentTime, tempRole.getUpdateDate() );
 			assertEquals("\nIncorrect Active_Flag\n", tempFlag, tempRole.getActive_flag() );
 			if (tempFlag == 1)
@@ -681,15 +727,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		{
 			User tempUser = new User();
 			java.util.Date CurrentTime = new java.util.Date();
-			tempUser.setLoginName("TestUserLoginName" + x);
-			tempUser.setFirstName("TestUserFirstName" + x);
-			tempUser.setLastName("TestUserLastName" + x);
-			tempUser.setDepartment("TestUserDepartment" + x);
-			tempUser.setEmailId("TestUserEmailID" + x + "@TestUserEmailID" + x + ".com");
-			tempUser.setOrganization("TestUserOrganizationName" + x);
-			tempUser.setPassword("TestUserPassword" + x);
-			tempUser.setTitle("TestUserTitle" + x);
-			tempUser.setPhoneNumber(new String("###-###-####").replace('#',Integer.toString(x).charAt(0)));
+			tempUser.setLoginName(UserStringArray[x][0]);
+			tempUser.setFirstName(UserStringArray[x][1]);
+			tempUser.setLastName(UserStringArray[x][2]);
+			tempUser.setDepartment(UserStringArray[x][3]);
+			tempUser.setEmailId(UserStringArray[x][4]);
+			tempUser.setOrganization(UserStringArray[x][5]);
+			tempUser.setPassword(UserStringArray[x][6]);
+			tempUser.setTitle(UserStringArray[x][7]);
+			tempUser.setPhoneNumber(UserStringArray[x][8]);
 			
 			tempUser.setEndDate(CurrentTime);
 			tempUser.setStartDate(CurrentTime);
@@ -709,25 +755,24 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	private void testAssignProtectionElements() throws CSTransactionException 
 	{
 		
-		int tempPECounter = 1;
+		int tempPECounter = NumberOfProtectionElementsToTest;
 		
-		for (int x=0; x< NumberOfProtectionGroupsToTest; x++)
+		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
 		{
-			if ( tempPECounter + 2 > NumberOfProtectionElementsToTest ) 
-				tempPECounter = 1;
-			
-			//TODO: make this different so not always 2 PE per a PG
-			String[] tempProtectionElementsArray = new String[2];  //Max of two strings associated with each protection Group for now
-			tempProtectionElementsArray[0] = Integer.toString(tempPECounter   );
-			tempProtectionElementsArray[1] = Integer.toString(tempPECounter +1);
-			
-			// Propogate PG_PERelationship array (see getProtectionGroups() for use
-			PG_PERelationship[x][0] = Integer.toString(tempPECounter   );
-			PG_PERelationship[x][1] = Integer.toString(tempPECounter +1);
-			
+			if ( tempPECounter == 0 ) 
+				tempPECounter = NumberOfProtectionElementsToTest;
+			String[] tempProtectionElementsArray = new String[tempPECounter]; //Min value = 1, max = NumberOfProtectionElementsToTest
+			for (int y=0; y<tempPECounter; y++)
+			{
+				tempProtectionElementsArray[y] = Integer.toString(y+1); //+1 because that is ID stored in database
+				
+				// Propogate PG_PERelationship array (see getProtectionGroups() for use
+				PG_PERelationship[x][y] = Integer.toString(y);  //Don't add +1 for the ID, just assume the +1
+			}
 			userProvisioningManagerImpl.assignProtectionElements(Integer.toString(x+1), tempProtectionElementsArray);
-			
-			tempPECounter = tempPECounter + 2;
+		
+			tempProtectionElementsArray = null;
+			tempPECounter--;
 		}
 		
 		
@@ -856,56 +901,48 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempString = Integer.toString(x+1);
 			Set SetOfGroups = userProvisioningManagerImpl.getGroups(tempString);
 			
+			assertNotNull("\ntestGetGroups returned no groups for user " + x, SetOfGroups);
 			if ((null != SetOfGroups) && (!SetOfGroups.isEmpty())) 
 			{
 				Iterator i = SetOfGroups.iterator();
 				while (i.hasNext()) 
 				{
 					Group tempGroup = (Group) i.next();
-					tempString = "\nIncorrect GroupID assigned to User with ID = " + x + "\n";
-					//TODO: make this so it works with multiple groups assigned to a user
+					tempString = "\nIncorrect GroupID assigned to User with ID = " + Integer.toString(x+1) + "\n";
+					//Only reason this works like this is because there is always only one group assigned right now
+					//TODO: change this so it assigns differently, and checks here differently
 					assertEquals(tempString, y+1, (long)tempGroup.getGroupId() );
 				}
 			}
 			y++;
 		}
-		//userProvisioningManagerImpl.assignUserToGroup(UserStringArray[x][0], GroupStringArray[y][0] );
-		
 	}
 	
-	private void testGetGroupsDecrementing() throws CSObjectNotFoundException
+	private void testGetGroupsMulti() throws CSObjectNotFoundException
 	{
 		String tempString = "";
-		int NumberOfGroupsAddedToThisUser = NumberOfGroupsToTest;
 		
 		for (int x=0; x<NumberOfUsersToTest; x++)
-		{
-			if (NumberOfGroupsAddedToThisUser == 0)
-				NumberOfGroupsAddedToThisUser = NumberOfGroupsToTest;
-			String[] tempGroupsAdded = new String[NumberOfGroupsAddedToThisUser];
-			for (int z=0; z<NumberOfGroupsAddedToThisUser; z++)
-			{
-				tempGroupsAdded[z] = Integer.toString(z+1);
-			}
-			
-			tempString = Integer.toString(x+1);
-			Set SetOfGroups = userProvisioningManagerImpl.getGroups(tempString);
+		{			
+			Set SetOfGroups = userProvisioningManagerImpl.getGroups(Integer.toString(x+1));
+			assertNotNull("No groups were returned with testGetGroupsDecrementing()\n", SetOfGroups);
 			if ((null != SetOfGroups) && (!SetOfGroups.isEmpty())) 
 			{
 				Iterator i = SetOfGroups.iterator();
-				int y = NumberOfGroupsAddedToThisUser - 1;
+				//For each group assigned to this user, check Group_UserRelationship array to see if the relationship is supposed to exist
 				while (i.hasNext()) 
 				{
 					Group tempGroup = (Group) i.next();
-					tempString = "\nIncorrect GroupID assigned to User with ID = " + x + "\n";
-					if (y<0)
-						tempString = "\nUser " + x + " had too many groups assigned to it\n";
-					//TODO: make this so it works with multiple groups assigned to a user
-					assertEquals(tempString, tempGroupsAdded[y], Long.toString((long)tempGroup.getGroupId()) );
-					y--;
+					
+					//Get the Group's ID minus one, so it corresponds to the array element associated with it
+					int tempGroupID = Integer.parseInt(Long.toString(tempGroup.getGroupId() -1) );	
+					if (Group_UserRelationship[tempGroupID][x].length() == 0)
+					{
+						tempString = "\nIncorrect Group assigned to User with ID = " + Integer.toString(x+1) + "\n";
+						fail(tempString);
+					}
 				}
 			}
-			NumberOfGroupsAddedToThisUser--;
 		}
 	}
 
@@ -939,21 +976,22 @@ public class UserProvisioningManagerImplTest extends TestCase {
 					ProtectionGroup tempProtectionGroup = (ProtectionGroup) i.next();
 					
 					//Get the PG's ID minus one, so it corresponds to the array element associated with it
-					int tempPGID = Integer.parseInt(Long.toString(tempProtectionGroup.getProtectionGroupId()-1));
-					
+					int tempPGID = Integer.parseInt(Long.toString(tempProtectionGroup.getProtectionGroupId()-1));		
 					boolean PEExistsWithinPG = false;
-					//TODO: change the 2, to something that works with the way the string array is populated
+
 					//Look within each PG for the PE, if not there than this test fails
-					for (int y=0; y<2; y++)
+					//This loop is unecessary because if PG_PERelationship[tempPGID][x] is not null, then the relationship exists
+					//	but it works, so I'm not going to change it.
+					for (int y=0; y<NumberOfProtectionElementsToTest; y++)
 					{
 						if (PG_PERelationship[tempPGID][y] != null)
 						{
-							if ( PG_PERelationship[tempPGID][y].equals(Integer.toString(x+1)) )
+							if ( PG_PERelationship[tempPGID][y].equals(Integer.toString(x)) )
 								PEExistsWithinPG = true;
 						}
 					}
 					tempString = "\nIncorrect PG assigned to PE with ID = " + (x+1) + "\n";
-					assertEquals(tempString, PEExistsWithinPG, true );
+					assertTrue(tempString, PEExistsWithinPG);
 				}
 			}
 		}
@@ -988,15 +1026,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempApplication.setApplicationName(ApplicationStringArray[x][0]);
 			tempApplication.setApplicationDescription(ApplicationStringArray[x][1]);
 			tempApplication.setUpdateDate(CurrentTime);
-			
-			
 			tempApplication.setActiveFlag(tempFlag);
 			if (tempFlag == 1)
 				tempFlag = 0;
 			else
 				tempFlag = 1;
 
-			
 			userProvisioningManagerImpl.createApplication(tempApplication);
 			tempApplication = null;
 		}
@@ -1079,10 +1114,32 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionGroups()'
 	 */
-	@SuppressWarnings("unused")
+
+	//Gets all PG, and checks the text of each group and the number of PG records returned to make sure they are correct
 	private void testGetProtectionGroups() throws CSObjectNotFoundException 
 	{
+		List tempPGList = userProvisioningManagerImpl.getProtectionGroups();
 
+		
+	    Iterator i = tempPGList.iterator();
+	    while (i.hasNext())
+	    {
+	    	ProtectionGroup tempProtectionGroup = (ProtectionGroup) i.next();
+	    	AssertEqualsForTextInProtectionGroup(Integer.parseInt(Long.toString(tempProtectionGroup.getProtectionGroupId() - 1)), tempProtectionGroup);
+	 
+	    }
+
+		if (tempPGList.size() != (long)NumberOfProtectionGroupsToTest || tempPGList == null || tempPGList.isEmpty())
+	    {
+	    	String tempString = "";
+	    	tempString = "\nThe Number of PGs in the DB is different than origionally created\nExpected: " + NumberOfProtectionGroupsToTest + "\nActual: " + tempPGList.size() + "\n";
+	   								 										
+	    	fail(tempString);
+	    }
+
+		
+		
+		
 	}
 
 	/*
@@ -1170,33 +1227,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		for (int x=0; x<NumberOfUsersToTest; x++)
 		{	
-			UserStringArray[x][0] = "TestUserLoginName" + x;
-			UserStringArray[x][1] = "TestUserFirstName" + x;
-			UserStringArray[x][2] = "TestUserLastName" + x;
-			UserStringArray[x][3] = "TestUserDepartment" + x;
-			UserStringArray[x][4] = "TestUserEmailID" + x + "@TestUserEmailID" + x + ".com";
-			UserStringArray[x][5] = "TestUserOrganizationName" + x;
-			UserStringArray[x][6] = "TestUserPassword" + x;
-			UserStringArray[x][7] = "TestUserTitle" + x;
+			UserStringArray[x][0] = "TestUserLoginName" + StrangeCharacters + x;
+			UserStringArray[x][1] = "TestUserFirstName" + StrangeCharacters + x;
+			UserStringArray[x][2] = "TestUserLastName" + StrangeCharacters + x;
+			UserStringArray[x][3] = "TestUserDepartment" + StrangeCharacters + x;
+			UserStringArray[x][4] = "TestUserEmailID" + x + "@TestUserEmailID" + x + ".com";//TODO: Make a seperate StrangeCharacters variable to test this
+			UserStringArray[x][5] = "TestUserOrganizationName" + StrangeCharacters + x;
+			UserStringArray[x][6] = "TestUserPassword" + StrangeCharacters + x;
+			UserStringArray[x][7] = "TestUserTitle" + StrangeCharacters + x;
 			UserStringArray[x][8] = new String("###-###-####").replace('#',Integer.toString(x).charAt(0));
-			
-//			User tempUser = new User();
-//			java.util.Date CurrentTime = new java.util.Date();
-//			tempUser.setLoginName("TestUserLoginName" + x);
-//			tempUser.setFirstName("TestUserFirstName" + x);
-//			tempUser.setLastName("TestUserLastName" + x);
-//			tempUser.setDepartment("TestUserDepartment" + x);
-//			tempUser.setEmailId("TestUserEmailID" + x + "@TestUserEmailID" + x + ".com");
-//			tempUser.setOrganization("TestUserOrganizationName" + x);
-//			tempUser.setPassword("TestUserPassword" + x);
-//			tempUser.setTitle("TestUserTitle" + x);
-//			tempUser.setPhoneNumber(new String("###-###-####").replace('#',Integer.toString(x).charAt(0)));
-//			
-//			tempUser.setEndDate(CurrentTime);
-//			tempUser.setStartDate(CurrentTime);
-//			tempUser.setUpdateDate(CurrentTime);
-//			userList.add(x, tempUser);
-
 		}
 	}
 	private void AssertEqualsForUsers (int iteration, User tempUser)
@@ -1228,13 +1267,19 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		assertEquals("\nIncorrect Protection Element ID\n", 		 tempLong, (long)tempProtectionElement.getProtectionElementId() );	
 	}
 	
+	private void AssertEqualsForTextInProtectionGroup(int iteration, ProtectionGroup tempPG)
+	{
+		assertEquals("\nIncorrect PG Name\n", ProtectionGroupStringArray[iteration][0], tempPG.getProtectionGroupName() );
+		assertEquals("\nIncorrect PG Description\n", ProtectionGroupStringArray[iteration][1], tempPG.getProtectionGroupDescription() );
+	}
+	
 	private void InitializeRoleStringArray()
 	{
 		for ( int x=0; x<NumberOfRolesToTest; x++)
 		{
 			//java.util.Date CurrentTime = new java.util.Date();
-			RoleStringArray[x][0] = "TestRoleName" + x;
-			RoleStringArray[x][1] = "TestRoleDesc" + x;
+			RoleStringArray[x][0] = "TestRoleName" + StrangeCharacters + x;
+			RoleStringArray[x][1] = "TestRoleDesc" + StrangeCharacters + x;
 		}
 	}
 	
@@ -1242,8 +1287,8 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		for (int x=0; x<NumberOfGroupsToTest; x++)
 		{
-			GroupStringArray[x][0] = "TestGroupName" + x;
-			GroupStringArray[x][1] = "TestGroupDesc" + x;
+			GroupStringArray[x][0] = "TestGroupName" + StrangeCharacters + x;
+			GroupStringArray[x][1] = "TestGroupDesc" + StrangeCharacters + x;
 		}
 	}
 	
@@ -1251,8 +1296,8 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		for (int x=0; x<NumberOfApplicationsToTest; x++)
 		{
-			ApplicationStringArray[x][0] = "TestApplicationName" + x;
-			ApplicationStringArray[x][1] = "TestApplicationDescription" + x;
+			ApplicationStringArray[x][0] = "TestApplicationName" + StrangeCharacters + x;
+			ApplicationStringArray[x][1] = "TestApplicationDescription"  + StrangeCharacters + x;
 		}
 	}
 	
@@ -1260,8 +1305,8 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		for (int x=0; x<NumberOfPrivilegesToTest; x++)
 		{
-			PrivilegeStringArray[x][0] = "TestPrivilegeName" + x;
-			PrivilegeStringArray[x][1] = "TestPrivilegeDesc" + x;
+			PrivilegeStringArray[x][0] = "TestPrivilegeName" + StrangeCharacters + x;
+			PrivilegeStringArray[x][1] = "TestPrivilegeDesc" + StrangeCharacters + x;
 		}
 	}
 	
@@ -1269,10 +1314,10 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 		{
-			ProtectionElementStringArray[x][0] = "TestProtectionElementName" + x;
-			ProtectionElementStringArray[x][1] = "TestProtectionElementDescription" + x;
-			ProtectionElementStringArray[x][2] = "TestProtectionElementObjectID" + x;
-			ProtectionElementStringArray[x][3] = "TestProtectionElementAttribute" + x;
+			ProtectionElementStringArray[x][0] = "TestProtectionElementName" + StrangeCharacters + x;
+			ProtectionElementStringArray[x][1] = "TestProtectionElementDescription" + StrangeCharacters + x;
+			ProtectionElementStringArray[x][2] = "TestProtectionElementObjectID" + StrangeCharacters + x;
+			ProtectionElementStringArray[x][3] = "TestProtectionElementAttribute" + StrangeCharacters + x;
 		}
 	}
 	
@@ -1280,8 +1325,8 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
 		{
-			ProtectionGroupStringArray[x][0] = "TestProtectionGroupName" + x;
-			ProtectionGroupStringArray[x][1] = "TestProtectionGroupDesc" + x;
+			ProtectionGroupStringArray[x][0] = "TestProtectionGroupName" + StrangeCharacters + x;
+			ProtectionGroupStringArray[x][1] = "TestProtectionGroupDesc" + StrangeCharacters + x;
 		}
 	}
 	
