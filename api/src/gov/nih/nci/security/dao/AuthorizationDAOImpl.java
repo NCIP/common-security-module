@@ -2502,6 +2502,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			List list = s.createCriteria(Application.class).add(
 					Example.create(search)).list();
+			// Added this fix to check for active flag = 1 also
+			if (list.size() == 0)
+			{
+				search.setActiveFlag((byte) 1);
+				list = s.createCriteria(Application.class).add(Example.create(search)).list();
+			}			
 			if (list.size() == 0) {
 				if (log.isDebugEnabled())
 					log
