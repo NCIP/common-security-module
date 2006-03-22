@@ -11,13 +11,13 @@
 			</context-name>
 			<authentication>
 				<lockout-time>
-					18000000				
+					<<lockout_time_milliseconds>>				
 				</lockout-time>
 				<allowed-login-time>
-					300000
+					<<lockout_time_milliseconds>>				
 				</allowed-login-time>
 				<allowed-attempts>
-					3
+					<<no_of_allowed_attempts>>				
 				</allowed-attempts>
 				<authentication-provider-class>
 				<!-- Fully qualified class name-->
