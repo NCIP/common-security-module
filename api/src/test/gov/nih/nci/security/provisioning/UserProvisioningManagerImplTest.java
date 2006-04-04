@@ -1,9 +1,12 @@
 package test.gov.nih.nci.security.provisioning;
 
 
+
 import java.util.Iterator;
 import java.util.Set;
 import java.util.List;
+
+
 //import java.util.TreeSet;
 
 import gov.nih.nci.security.authorization.domainobjects.Application;
@@ -26,13 +29,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	private UserProvisioningManagerImpl userProvisioningManagerImpl; 
 	
 	//Test Set-up variables
-	private int NumberOfApplicationsToTest			= 5;
-	private int NumberOfUsersToTest 				= 5;
-	private int NumberOfGroupsToTest 				= 5;
-	private int NumberOfPrivilegesToTest 			= 5;
-	private int NumberOfProtectionElementsToTest 	= 20;  //Must be larger than NumberOfProtectionGroupsToTest?
-	private int NumberOfProtectionGroupsToTest 		= 5;
-	private int NumberOfRolesToTest 				= 5;
+	private int NumberOfApplicationsToTest			= 500;
+	private int NumberOfUsersToTest 				= 10000;
+	private int NumberOfGroupsToTest 				= 1000;
+	private int NumberOfPrivilegesToTest 			= 20;
+	private int NumberOfProtectionElementsToTest 	= 5000;  //Must be larger than NumberOfProtectionGroupsToTest?
+	private int NumberOfProtectionGroupsToTest 		= 100;
+	private int NumberOfRolesToTest 				= 500;
 	private String	   StrangeCharacters			= new String("");       //~!@#$%^&*()_+1234567890");      //-=[]\\;//,./{}:\"<>?-+/*&&||==.");
 	//TODO: Get single quote and other characters above figured out, so they work
 	
@@ -263,6 +266,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 */
 
 	//Deassign all PG_PE relationships in the same way they were added
+	@SuppressWarnings("unused")
 	private void testDeAssignProtectionElements() throws CSTransactionException, CSObjectNotFoundException 
 	{
 		//Cycle through each PE and make sure each element and remove each association
@@ -490,6 +494,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElement(String, String)'
 	 */
 
+	@SuppressWarnings("unused")
 	private void testAssignProtectionElementStringString() 
 	{
 
