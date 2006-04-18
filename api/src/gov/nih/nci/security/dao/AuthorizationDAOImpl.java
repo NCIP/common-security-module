@@ -3205,7 +3205,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s.update(child);
 			t.commit();
-			auditLog.info("Assigning Protection Group " + parent.getProtectionGroupName() + " as Parent of Protection Group " + child.getProtectionGroupName());
+			if ( parent == null ) 
+			{
+				auditLog.info("Parent of Protection Group " + child.getProtectionGroupName() + " successfully removed");
+			}
+			else
+			{
+				auditLog.info("Assigning Protection Group " + parent.getProtectionGroupName() + " as Parent of Protection Group " + child.getProtectionGroupName());
+			}
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
