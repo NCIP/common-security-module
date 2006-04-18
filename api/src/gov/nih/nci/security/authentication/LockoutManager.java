@@ -2,8 +2,7 @@ package gov.nih.nci.security.authentication;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,9 +23,13 @@ public class LockoutManager
 	{
 		public void run()
 		{
-			Collection<String> userIds = lockoutCache.keySet();
-			for (String userId : userIds)
+			//Collection<String> userIds = lockoutCache.keySet();
+			Collection userIds = (Collection)lockoutCache.keySet();
+			Iterator iter = userIds.iterator();
+			//for (String userId : userIds)
+			while (iter.hasNext())
 			{
+				String userId = (String) iter.next();
 				LockoutInfo lockoutInfo = (LockoutInfo)lockoutCache.get(userId);
 				if (delayTime < (System.currentTimeMillis() - lockoutInfo.getFirstLoginTime()))
 				{
@@ -82,8 +85,10 @@ public class LockoutManager
 			disableLockoutManager = true;
 		else
 		{
-			this.lockoutTime = new Long(lockoutTime);
-			this.allowedLoginTime = new Long(allowedLoginTime);
+			//this.lockoutTime = new Long(lockoutTime);
+			this.lockoutTime = new Long(lockoutTime).longValue();
+			//this.allowedLoginTime = new Long(allowedLoginTime);
+			this.allowedLoginTime = new Long(allowedLoginTime).longValue();
 			this.allowedAttempts = Integer.parseInt(allowedAttempts);
 			this.disableLockoutManager = false;
 			this.delayTime = this.lockoutTime + this.allowedLoginTime;
