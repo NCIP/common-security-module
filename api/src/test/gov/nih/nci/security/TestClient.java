@@ -145,8 +145,7 @@ public class TestClient {
 			Properties p = System.getProperties();
 			p.setProperty("gov.nih.nci.security.configFile", "C:/securityconfig/ApplicationSecurityConfig.xml");
 			
-			upm = SecurityServiceProvider.getUserProvisioningManager("TestApplication");
-			
+			upm = SecurityServiceProvider.getUserProvisioningManager("security");
 			//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 			//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 			}catch(Exception ex){
@@ -264,11 +263,17 @@ public class TestClient {
 		try{
 			//for(int i=1;i<11;i++){
 				Role r = new Role();
-				r.setName("Admin1234");
-				r.setDesc("Admin role 1234 desc");
+				r.setName("Admin" + System.currentTimeMillis());
+				r.setDesc("Admin role 1234 desc3");
 				Byte b = new Byte("1");
 				r.setActive_flag(b.byteValue());
 				upm.createRole(r);
+				Role myRole = upm.getRoleById(r.getId().toString());
+				System.out.println("Id: " + myRole.getId());
+				System.out.println("Name: " + myRole.getName());
+				System.out.println("Desc: " + myRole.getDesc());
+				System.out.println("Application: " + myRole.getApplication());
+				
 			//}
 			
 			
@@ -540,10 +545,6 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
-	
-	
-	
 	
 	public void getUser(String userName){
 		
@@ -973,7 +974,8 @@ public class TestClient {
 		TestClient ts = new TestClient();
 		//ts.testAuthorizationManager();
 		//am.setAuditUserInfo("Art", "JHDFG15312FHFCGSEDD4156453241GVDGD");
-		ts.testUserCreate();
+		//ts.testUserCreate();
+		ts.testRoleCreate();
 		//ts.getPrivilegeMap1();
 		//ts.getPrivilegeMap2();
 		//ts.getPrivilegeMap3();
