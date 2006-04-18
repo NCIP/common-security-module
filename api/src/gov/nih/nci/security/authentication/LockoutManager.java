@@ -23,10 +23,10 @@ public class LockoutManager
 	{
 		public void run()
 		{
-			//Collection<String> userIds = lockoutCache.keySet();
+			//Collection<String> userIds = lockoutCache.keySet(); - Removed to support java1.4 osr
 			Collection userIds = (Collection)lockoutCache.keySet();
 			Iterator iter = userIds.iterator();
-			//for (String userId : userIds)
+			//for (String userId : userIds) - Removed to support java1.4 osr
 			while (iter.hasNext())
 			{
 				String userId = (String) iter.next();
@@ -85,9 +85,9 @@ public class LockoutManager
 			disableLockoutManager = true;
 		else
 		{
-			//this.lockoutTime = new Long(lockoutTime);
+			//this.lockoutTime = new Long(lockoutTime); - Removed to support java1.4 osr
 			this.lockoutTime = new Long(lockoutTime).longValue();
-			//this.allowedLoginTime = new Long(allowedLoginTime);
+			//this.allowedLoginTime = new Long(allowedLoginTime); - Removed to support java1.4 osr
 			this.allowedLoginTime = new Long(allowedLoginTime).longValue();
 			this.allowedAttempts = Integer.parseInt(allowedAttempts);
 			this.disableLockoutManager = false;
