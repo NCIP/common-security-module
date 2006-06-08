@@ -160,6 +160,7 @@ public class TestClient {
 			{
 				PropertyConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
 			}
+			
 	}
 	
 	public void testPrivilegeCreate(){
@@ -971,14 +972,30 @@ public class TestClient {
 		
 	public static void main(String[] args) {
 
-		TestClient ts = new TestClient();
-		//ts.testAuthorizationManager();
-		//am.setAuditUserInfo("Art", "JHDFG15312FHFCGSEDD4156453241GVDGD");
-		//ts.testUserCreate();
-		ts.testRoleCreate();
-		//ts.getPrivilegeMap1();
-		//ts.getPrivilegeMap2();
-		//ts.getPrivilegeMap3();
-		//ts.getPrivilegeMap4();
+//		TestClient ts = new TestClient();
+//<<<<<<< TestClient.java
+////		ts.testAuthorizationManager();
+////		am.setAuditUserInfo("Steve", "JHDFG15312FHFCGSEDD4156453241GVDGD");
+//=======
+//		//ts.testAuthorizationManager();
+//		//am.setAuditUserInfo("Art", "JHDFG15312FHFCGSEDD4156453241GVDGD");
+//<<<<<<< TestClient.java
+//>>>>>>> 1.56
+//		ts.testUserCreate();
+//<<<<<<< TestClient.java
+////		ts.getPrivilegeMap1();
+////		ts.getPrivilegeMap2();
+////		ts.getPrivilegeMap3();
+////		ts.getPrivilegeMap4();
+//=======
+//=======
+//		//ts.testUserCreate();
+//		ts.testRoleCreate();
+//>>>>>>> 1.57
+//		//ts.getPrivilegeMap1();
+//		//ts.getPrivilegeMap2();
+//		//ts.getPrivilegeMap3();
+//		//ts.getPrivilegeMap4();
+//>>>>>>> 1.56
 	}
 }
