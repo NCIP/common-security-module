@@ -50,7 +50,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	private String[][] ProtectionGroupStringArray 	= new String[NumberOfProtectionGroupsToTest]	[4];
 	private String[][] PG_PERelationship			= new String[NumberOfProtectionGroupsToTest]	[NumberOfProtectionElementsToTest];
 	private String[][] Group_UserRelationship		= new String[NumberOfGroupsToTest]				[NumberOfUsersToTest];
-	private String[][] Privilege_RoleRelationship	= new String[NumberOfPrivilegesToTest+7]		[NumberOfRolesToTest];
+	//private String[][] Privilege_RoleRelationship	= new String[NumberOfPrivilegesToTest+7]		[NumberOfRolesToTest];
 	
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -116,19 +116,33 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		//			Also initializes PG_PERelationships array, used in testGetProtectionGroupsString()
 		this.testAssignProtectionElements();
 		this.testGetProtectionGroupsString();
+		//this.testDeAssignProtectionElements();  //I can't get this to work.
+		//this.testAssignProtectionElementStringString();  //Needs above line before can execute
+		
+		
 		
 		//Associate Privileges to Role
-		//this.testAssignPrivilegesToRole();
-		//this.testAssignProtectionElementStringString();
+		this.testAssignPrivilegesToRole();
+		
 		//this.testGetProtectionGroupsString();
 		
 		//this.testAssignProtectionElementStringStringString();
 		
-		//this.testAddUserToGroup();  //This is not yet implemented
-		
-		
+	
 		//DELETE EVERYTHING
-		//this.testDeAssignProtectionElements();
+		this.testRemoveGroup();
+		this.testRemovePrivilege();
+		this.testRemoveRole();
+		this.testRemoveProtectionElement();
+		this.testRemoveProtectionGroup();
+		this.testRemoveUser();
+		this.testRemoveApplication();
+		
+		// UNIMPLEMENTED CODE
+		//testRemoveProtectionElementsFromProtectionGroup();  	// Unimplemented
+		//testAddUserToGroup();  								// Unimplemented
+		
+		
 	}	
 	
 	
@@ -237,17 +251,29 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeProtectionGroup(String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemoveProtectionGroup() {
 
+	private void testRemoveProtectionGroup() throws CSTransactionException 
+	{
+		String tempString = "";
+		for (int x=0; x < NumberOfProtectionGroupsToTest; x++)
+		{
+			tempString = Integer.toString(x+1);
+			userProvisioningManagerImpl.removeProtectionGroup(tempString);
+		}
 	}
 
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeProtectionElement(String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemoveProtectionElement() {
 
+	private void testRemoveProtectionElement() throws CSTransactionException 
+	{
+		String tempString = "";
+		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
+		{
+			tempString = Integer.toString(x+1);
+			userProvisioningManagerImpl.removeProtectionElement(tempString);
+		}
 	}
 
 	/*
@@ -270,10 +296,18 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.deAssignProtectionElements(String, String)'
 	 */
 
-	//Deassign all PG_PE relationships in the same way they were added
+	//  Removes all PE associations from the first PG
 	@SuppressWarnings("unused")
 	private void testDeAssignProtectionElements() throws CSTransactionException, CSObjectNotFoundException 
 	{
+		//TODO: Make this dynamic (see commented code below)
+		userProvisioningManagerImpl.deAssignProtectionElements("TestProtectionGroupName0", "TestProtectionElementObjectID0");
+//		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
+//		{	
+//			//userProvisioningManagerImpl.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[x][2]);
+//		}
+
+		
 		//Cycle through each PE and make sure each element and remove each association
 //		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 //		{
@@ -290,10 +324,8 @@ public class UserProvisioningManagerImplTest extends TestCase {
 //				}
 //			}
 //		}
-					
-		userProvisioningManagerImpl.deAssignProtectionElements("TestProtectionGroupName0", "TestProtectionElementObjectID0");
 		
-//		int tempPECounter = NumberOfProtectionElementsToTest;
+		//		int tempPECounter = NumberOfProtectionElementsToTest;
 //		
 //		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
 //		{
@@ -307,7 +339,6 @@ public class UserProvisioningManagerImplTest extends TestCase {
 //			}
 //			tempPECounter--;
 //		}
-		//TODO: confirm the deletion of all records in PG_PE
 	}
 
 	/*
@@ -399,9 +430,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeRole(String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemoveRole() {
 
+	private void testRemoveRole() throws CSTransactionException 
+	{
+		String tempString = "";
+		for (int x=0; x < NumberOfRolesToTest; x++)
+		{
+			tempString = Integer.toString(x+1);
+			userProvisioningManagerImpl.removeRole(tempString);
+		}
 	}
 
 	/*
@@ -447,9 +484,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removePrivilege(String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemovePrivilege() {
 
+	private void testRemovePrivilege() throws CSTransactionException 
+	{
+		String tempString = "";
+		for (int x=0; x < NumberOfPrivilegesToTest; x++)
+		{
+			tempString = Integer.toString(x + 8);
+			userProvisioningManagerImpl.removePrivilege(tempString);
+		}
 	}
 
 	/*
@@ -457,19 +500,19 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 */
 	private void testAssignPrivilegesToRole() throws CSTransactionException 
 	{
-		int NumberOfPrivilegesToAddToThisRole = NumberOfPrivilegesToTest + 7;  //7 privileges are already in database
-		
+		int NumberOfPrivilegesToAddToThisRole = NumberOfPrivilegesToTest+7;  
+
 		for (int x=0; x<NumberOfRolesToTest; x++)
 		{
 			if (NumberOfPrivilegesToAddToThisRole == 0) 
-				NumberOfPrivilegesToAddToThisRole = NumberOfPrivilegesToTest + 7;	
+				NumberOfPrivilegesToAddToThisRole = NumberOfPrivilegesToTest+7;	
 			String[] tempPrivilegesToAdd = new String[NumberOfPrivilegesToAddToThisRole];
 			for (int z=0; z<NumberOfPrivilegesToAddToThisRole; z++)
 			{
 				tempPrivilegesToAdd[z] = Integer.toString(z+1);
 				
 				//Populate array used to check the added associations
-				Privilege_RoleRelationship[z][x] = Integer.toString(z+1); //Stores which Privilege_Role association exists, if blank (null) then it doesn't exist
+				//Privilege_RoleRelationship[x][z] = Integer.toString(z+1); //Stores which Privilege_Role association exists, if blank (null) then it doesn't exist
 			}
 			userProvisioningManagerImpl.assignPrivilegesToRole(Integer.toString(x+1), tempPrivilegesToAdd);
 			
@@ -516,16 +559,19 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElement(String, String)'
 	 */
 
-	@SuppressWarnings("unused")
-	private void testAssignProtectionElementStringString() 
-	{
 
+	private void testAssignProtectionElementStringString() throws CSTransactionException
+	{
+		// Pulls the Group Name and PEObjectID from the initialization string.
+		// TODO: Update to be more dynamic.
+		//userProvisioningManagerImpl.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
 	}
 
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createGroup(Group)'
 	 */
-	private void testCreateGroup() throws CSTransactionException {
+	private void testCreateGroup() throws CSTransactionException 
+	{
 		
 		for (int x=0; x<NumberOfGroupsToTest; x++)
 		{
@@ -551,9 +597,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeGroup(String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemoveGroup() {
-
+	//@SuppressWarnings("unused")
+	private void testRemoveGroup() throws CSTransactionException 
+	{
+		String tempString = "";
+		for (int x=0; x < NumberOfGroupsToTest; x++)
+		{
+			tempString = Integer.toString(x + 1);
+			userProvisioningManagerImpl.removeGroup(tempString);
+		}
 	}
 
 	/*
@@ -808,9 +860,16 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeProtectionElementsFromProtectionGroup(String, String[])'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemoveProtectionElementsFromProtectionGroup() {
-
+	@SuppressWarnings("unused")  //This method is unimplemented
+	private void testRemoveProtectionElementsFromProtectionGroup() throws CSTransactionException 
+	{
+		String[] tempString = new String[NumberOfProtectionElementsToTest];
+		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
+		{
+			tempString[x] = "" + x;
+		}
+		
+		userProvisioningManagerImpl.removeProtectionElementsFromProtectionGroup("1", tempString);
 	}
 
 	/*
@@ -905,9 +964,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeUser(String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemoveUser() {
 
+	private void testRemoveUser() throws CSTransactionException 
+	{
+		String tempString = "";
+		for (int x=0; x < NumberOfUsersToTest; x++)
+		{
+			tempString = Integer.toString(x+1);
+			userProvisioningManagerImpl.removeUser(tempString);
+		}
 	}
 
 	/*
@@ -1075,9 +1140,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeApplication(String)'
 	 */
-	@SuppressWarnings("unused")
-	private void testRemoveApplication() {
 
+	private void testRemoveApplication() throws CSTransactionException 
+	{
+		String tempString = "";
+		for (int x=0; x < NumberOfApplicationsToTest; x++)
+		{
+			tempString = Integer.toString(x+2);
+			userProvisioningManagerImpl.removeApplication(tempString);
+		}
 	}
 
 	/*
