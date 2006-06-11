@@ -116,27 +116,29 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		//			Also initializes PG_PERelationships array, used in testGetProtectionGroupsString()
 		this.testAssignProtectionElements();
 		this.testGetProtectionGroupsString();
-		//this.testDeAssignProtectionElements();  //I can't get this to work.
-		//this.testAssignProtectionElementStringString();  //Needs above line before can execute
-		
-		
+		//this.testDeAssignProtectionElements();  			//I can't get this to work.
+		//this.testAssignProtectionElementStringString();  	//Needs above line before can execute
+		//this.testAssignProtectionElementStringStringString();
+		this.testModifyProtectionGroup();  				
+		this.testModifyProtectionElement();  				
+		this.testModifyRole();
+		this.testModifyApplication();
+		//this.testModifyGroup();
+		//this.testModifyPrivilege();
+		//this.testModifyUser();
+		//this.testAssignGroupRoleToProtectionGroup();
 		
 		//Associate Privileges to Role
 		this.testAssignPrivilegesToRole();
-		
-		//this.testGetProtectionGroupsString();
-		
-		//this.testAssignProtectionElementStringStringString();
-		
-	
+
 		//DELETE EVERYTHING
-		this.testRemoveGroup();
-		this.testRemovePrivilege();
-		this.testRemoveRole();
-		this.testRemoveProtectionElement();
-		this.testRemoveProtectionGroup();
-		this.testRemoveUser();
-		this.testRemoveApplication();
+//		this.testRemoveGroup();
+//		this.testRemovePrivilege();
+//		this.testRemoveRole();
+//		this.testRemoveProtectionElement();
+//		this.testRemoveProtectionGroup();
+//		this.testRemoveUser();
+//		this.testRemoveApplication();
 		
 		// UNIMPLEMENTED CODE
 		//testRemoveProtectionElementsFromProtectionGroup();  	// Unimplemented
@@ -235,17 +237,31 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyProtectionGroup(ProtectionGroup)'
 	 */
-	@SuppressWarnings("unused")
-	private void testModifyProtectionGroup() {
 
+	private void testModifyProtectionGroup() throws CSTransactionException, CSObjectNotFoundException 
+	{
+		byte tempFlag = 0;
+		ProtectionGroup tempProtectionGroup = new ProtectionGroup();
+		java.util.Date midnight_jan2_1970 = new java.util.Date(24L*60L*60L*1000L);
+		
+		tempProtectionGroup = userProvisioningManagerImpl.getProtectionGroupById("4");
+		tempProtectionGroup.setProtectionGroupName(ProtectionGroupStringArray[3][0] + "Modified");
+		tempProtectionGroup.setProtectionGroupDescription(ProtectionGroupStringArray[3][1] + "Modified");
+		tempProtectionGroup.setUpdateDate(midnight_jan2_1970);	//TODO: Doesn't update the "Update Date"
+		tempProtectionGroup.setLargeElementCountFlag(tempFlag);
+		
+		userProvisioningManagerImpl.modifyProtectionGroup(tempProtectionGroup);
+		
+		//assertTrue(midnight_jan2_1970.before(new java.util.Date()));  //Use get to compare to the current date
 	}
 
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElement(String, String, String)'
 	 */
 	@SuppressWarnings("unused")
-	private void testAssignProtectionElementStringStringString() {
-
+	private void testAssignProtectionElementStringStringString() throws CSTransactionException 
+	{
+		//userProvisioningManagerImpl.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2], ProtectionElementStringArray[0][3]);
 	}
 
 	/*
@@ -406,9 +422,21 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyRole(Role)'
 	 */
-	@SuppressWarnings("unused")
-	private void testModifyRole() {
 
+	private void testModifyRole() throws CSObjectNotFoundException, CSTransactionException 
+	{
+		Role tempRole = new Role();
+		byte tempFlag = 0;
+		java.util.Date midnight_jan2_1970 = new java.util.Date(24L*60L*60L*1000L);
+		
+		tempRole = userProvisioningManagerImpl.getRoleById("4");
+		
+		tempRole.setName(RoleStringArray[3][0] + "Modified");
+		tempRole.setDesc(RoleStringArray[3][1] + "Modified");
+		tempRole.setUpdateDate(midnight_jan2_1970);
+		tempRole.setActive_flag(tempFlag);
+		
+		userProvisioningManagerImpl.modifyRole(tempRole);
 	}
 
 	/*
@@ -559,7 +587,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElement(String, String)'
 	 */
 
-
+	@SuppressWarnings("unused")
 	private void testAssignProtectionElementStringString() throws CSTransactionException
 	{
 		// Pulls the Group Name and PEObjectID from the initialization string.
@@ -678,8 +706,10 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignGroupRoleToProtectionGroup(String, String, String[])'
 	 */
 	@SuppressWarnings("unused")
-	private void testAssignGroupRoleToProtectionGroup() {
-
+	private void testAssignGroupRoleToProtectionGroup() throws CSTransactionException 
+	{
+		String[]ArrayOfRoles = {"1", "2", "3"};
+		userProvisioningManagerImpl.assignGroupRoleToProtectionGroup("1", "1", ArrayOfRoles); //PGID, GID, RoleID array of strings
 	}
 
 	/*
@@ -928,9 +958,21 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyProtectionElement(ProtectionElement)'
 	 */
-	@SuppressWarnings("unused")
-	private void testModifyProtectionElement() {
 
+	private void testModifyProtectionElement() throws CSTransactionException, CSObjectNotFoundException 
+	{
+		ProtectionElement tempProtectionElement = new ProtectionElement();
+		java.util.Date midnight_jan2_1970 = new java.util.Date(24L*60L*60L*1000L);
+
+		tempProtectionElement = userProvisioningManagerImpl.getProtectionElementById("4");
+		
+		tempProtectionElement.setProtectionElementName(ProtectionElementStringArray[3][0] + "Modified");
+		tempProtectionElement.setProtectionElementDescription(ProtectionElementStringArray[3][1] + "Modified");
+		tempProtectionElement.setObjectId(ProtectionElementStringArray[3][2] + "Modified");
+		tempProtectionElement.setAttribute(ProtectionElementStringArray[3][3] + "Modified");
+		tempProtectionElement.setUpdateDate(midnight_jan2_1970);	//TODO: Not updating the "Update Date"
+		
+		userProvisioningManagerImpl.modifyProtectionElement(tempProtectionElement); 
 	}
 
 	/*
@@ -1133,8 +1175,20 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyApplication(Application)'
 	 */
 	@SuppressWarnings("unused")
-	private void testModifyApplication() {
-
+	private void testModifyApplication() throws CSObjectNotFoundException, CSTransactionException 
+	{
+		Application tempApplication = new Application();
+		byte tempFlag = 0;
+		java.util.Date midnight_jan2_1970 = new java.util.Date(63, 0, 16);
+		
+		tempApplication = userProvisioningManagerImpl.getApplicationById("3");
+		
+		tempApplication.setApplicationName(ApplicationStringArray[2][0] + "Modified");
+		tempApplication.setApplicationDescription(ApplicationStringArray[2][1] + "Modified");
+		tempApplication.setUpdateDate(midnight_jan2_1970);
+		tempApplication.setActiveFlag(tempFlag);
+		
+		userProvisioningManagerImpl.modifyApplication(tempApplication);
 	}
 
 	/*
