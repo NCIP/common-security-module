@@ -2,6 +2,7 @@ package test.gov.nih.nci.security.provisioning;
 
 
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.List;
@@ -123,9 +124,9 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		this.testModifyProtectionElement();  				
 		this.testModifyRole();
 		this.testModifyApplication();
-		//this.testModifyGroup();
-		//this.testModifyPrivilege();
-		//this.testModifyUser();
+		this.testModifyGroup();
+		this.testModifyPrivilege();
+		this.testModifyUser();
 		//this.testAssignGroupRoleToProtectionGroup();
 		
 		//Associate Privileges to Role
@@ -242,17 +243,22 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		byte tempFlag = 0;
 		ProtectionGroup tempProtectionGroup = new ProtectionGroup();
-		java.util.Date midnight_jan2_1970 = new java.util.Date(24L*60L*60L*1000L);
+		java.util.Date tempDate = new java.util.Date();
 		
 		tempProtectionGroup = userProvisioningManagerImpl.getProtectionGroupById("4");
+		
 		tempProtectionGroup.setProtectionGroupName(ProtectionGroupStringArray[3][0] + "Modified");
 		tempProtectionGroup.setProtectionGroupDescription(ProtectionGroupStringArray[3][1] + "Modified");
-		tempProtectionGroup.setUpdateDate(midnight_jan2_1970);	//TODO: Doesn't update the "Update Date"
+		tempProtectionGroup.setUpdateDate(tempDate);	
 		tempProtectionGroup.setLargeElementCountFlag(tempFlag);
 		
 		userProvisioningManagerImpl.modifyProtectionGroup(tempProtectionGroup);
 		
-		//assertTrue(midnight_jan2_1970.before(new java.util.Date()));  //Use get to compare to the current date
+		tempProtectionGroup = userProvisioningManagerImpl.getProtectionGroupById("4");
+		assertEquals("\nModifyProtectionGroup did not modify the Group Name\n\n", ProtectionGroupStringArray[3][0] + "Modified", tempProtectionGroup.getProtectionGroupName());
+		assertEquals("\nModifyProtectionGroup did not modify the Group Description\n\n", ProtectionGroupStringArray[3][1] + "Modified", tempProtectionGroup.getProtectionGroupDescription());
+		assertEquals("\nModifyProtectionGroup did not modify the Large Element Count Flag\n", tempFlag, tempProtectionGroup.getLargeElementCountFlag());
+		//assertEquals("\nModifyProtectionGroup did not modify the UpdateDate\n", tempDate, tempProtectionGroup.getUpdateDate());
 	}
 
 	/*
@@ -317,7 +323,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	private void testDeAssignProtectionElements() throws CSTransactionException, CSObjectNotFoundException 
 	{
 		//TODO: Make this dynamic (see commented code below)
-		userProvisioningManagerImpl.deAssignProtectionElements("TestProtectionGroupName0", "TestProtectionElementObjectID0");
+		userProvisioningManagerImpl.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
 //		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
 //		{	
 //			//userProvisioningManagerImpl.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[x][2]);
@@ -504,8 +510,19 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyPrivilege(Privilege)'
 	 */
-	@SuppressWarnings("unused")
-	private void testModifyPrivilege() {
+
+	private void testModifyPrivilege() throws CSObjectNotFoundException, CSTransactionException 
+	{
+		Privilege tempPrivilege = new Privilege();
+		java.util.Date CurrentTime = new java.util.Date();
+		
+		tempPrivilege = userProvisioningManagerImpl.getPrivilegeById("11");
+		
+		tempPrivilege.setName(PrivilegeStringArray[3][0] + "Modified");
+		tempPrivilege.setDesc(PrivilegeStringArray[3][1] + "Modified");
+		tempPrivilege.setUpdateDate(CurrentTime);
+		
+		userProvisioningManagerImpl.modifyPrivilege(tempPrivilege);
 
 	}
 
@@ -639,9 +656,19 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyGroup(Group)'
 	 */
-	@SuppressWarnings("unused")
-	private void testModifyGroup() {
 
+	private void testModifyGroup() throws CSTransactionException, CSObjectNotFoundException 
+	{
+		Group tempGroup = new Group();
+		java.util.Date CurrentTime = new java.util.Date();
+		
+		tempGroup = userProvisioningManagerImpl.getGroupById("4");
+		
+		tempGroup.setGroupName(GroupStringArray[3][0] + "Modified");
+		tempGroup.setGroupDesc(GroupStringArray[3][1] + "Modified");
+		tempGroup.setUpdateDate(CurrentTime);
+		
+		userProvisioningManagerImpl.modifyGroup(tempGroup);
 	}
 
 	/*
@@ -998,9 +1025,29 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyUser(User)'
 	 */
-	@SuppressWarnings("unused")
-	private void testModifyUser() {
 
+	private void testModifyUser() throws CSObjectNotFoundException, CSTransactionException 
+	{
+		User tempUser = new User();
+		java.util.Date CurrentTime = new java.util.Date();
+		
+		tempUser = userProvisioningManagerImpl.getUserById("4");
+		
+		tempUser.setLoginName(UserStringArray[3][0] + "Modified");
+		tempUser.setFirstName(UserStringArray[3][1] + "Modified");
+		tempUser.setLastName(UserStringArray[3][2] + "Modified");
+		tempUser.setDepartment(UserStringArray[3][3] + "Modified");
+		tempUser.setEmailId(UserStringArray[3][4] + "Modified");
+		tempUser.setOrganization(UserStringArray[3][5] + "Modified");
+		tempUser.setPassword(UserStringArray[3][6] + "Modified");
+		tempUser.setTitle(UserStringArray[3][7] + "Modified");
+		tempUser.setPhoneNumber(UserStringArray[3][8] + "Modified");
+		
+		tempUser.setEndDate(CurrentTime);
+		tempUser.setStartDate(CurrentTime);
+		tempUser.setUpdateDate(CurrentTime);
+
+		userProvisioningManagerImpl.modifyUser(tempUser);		
 	}
 
 	/*
@@ -1174,18 +1221,18 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyApplication(Application)'
 	 */
-	@SuppressWarnings("unused")
+
 	private void testModifyApplication() throws CSObjectNotFoundException, CSTransactionException 
 	{
 		Application tempApplication = new Application();
 		byte tempFlag = 0;
-		java.util.Date midnight_jan2_1970 = new java.util.Date(63, 0, 16);
+		java.util.Date midnight_jan2_1970 = new java.util.Date(0);
 		
 		tempApplication = userProvisioningManagerImpl.getApplicationById("3");
 		
 		tempApplication.setApplicationName(ApplicationStringArray[2][0] + "Modified");
 		tempApplication.setApplicationDescription(ApplicationStringArray[2][1] + "Modified");
-		tempApplication.setUpdateDate(midnight_jan2_1970);
+		tempApplication.setUpdateDate(midnight_jan2_1970);  //TODO: I have no way of testing this without a BIG long wait
 		tempApplication.setActiveFlag(tempFlag);
 		
 		userProvisioningManagerImpl.modifyApplication(tempApplication);
