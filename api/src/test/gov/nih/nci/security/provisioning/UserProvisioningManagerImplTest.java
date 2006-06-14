@@ -255,8 +255,8 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		userProvisioningManagerImpl.modifyProtectionGroup(tempProtectionGroup);
 		
 		tempProtectionGroup = userProvisioningManagerImpl.getProtectionGroupById("4");
-		assertEquals("\nModifyProtectionGroup did not modify the Group Name\n\n", ProtectionGroupStringArray[3][0] + "Modified", tempProtectionGroup.getProtectionGroupName());
-		assertEquals("\nModifyProtectionGroup did not modify the Group Description\n\n", ProtectionGroupStringArray[3][1] + "Modified", tempProtectionGroup.getProtectionGroupDescription());
+		assertEquals("\nModifyProtectionGroup did not modify the Group Name\n", ProtectionGroupStringArray[3][0] + "Modified", tempProtectionGroup.getProtectionGroupName());
+		assertEquals("\nModifyProtectionGroup did not modify the Group Description\n", ProtectionGroupStringArray[3][1] + "Modified", tempProtectionGroup.getProtectionGroupDescription());
 		assertEquals("\nModifyProtectionGroup did not modify the Large Element Count Flag\n", tempFlag, tempProtectionGroup.getLargeElementCountFlag());
 		//assertEquals("\nModifyProtectionGroup did not modify the UpdateDate\n", tempDate, tempProtectionGroup.getUpdateDate());
 	}
@@ -443,6 +443,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		tempRole.setActive_flag(tempFlag);
 		
 		userProvisioningManagerImpl.modifyRole(tempRole);
+		
+		tempRole = userProvisioningManagerImpl.getRoleById("4");
+		
+		assertEquals("\nmodifyRole did not modify the Role Name\n", RoleStringArray[3][0] + "Modified", tempRole.getName());
+		assertEquals("\nmodifyRole did not modify the Role Description\n", RoleStringArray[3][1] + "Modified", tempRole.getDesc());
+		assertEquals("\nmodifyRole did not modify the Role Active Flag\n", tempFlag, tempRole.getActive_flag());
+		
 	}
 
 	/*
@@ -524,6 +531,10 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		
 		userProvisioningManagerImpl.modifyPrivilege(tempPrivilege);
 
+		tempPrivilege = userProvisioningManagerImpl.getPrivilegeById("11");
+		
+		assertEquals("\nmodifyPrivilege did not modify the Name\n", PrivilegeStringArray[3][0] + "Modified", tempPrivilege.getName());
+		assertEquals("\nmodifyPrivilege did not modify the Description\n", PrivilegeStringArray[3][1] + "Modified", tempPrivilege.getDesc());
 	}
 
 	/*
@@ -669,6 +680,11 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		tempGroup.setUpdateDate(CurrentTime);
 		
 		userProvisioningManagerImpl.modifyGroup(tempGroup);
+		
+		tempGroup = userProvisioningManagerImpl.getGroupById("4");
+		
+		assertEquals("\nmodifyGroup did not modify Group Name\n", GroupStringArray[3][0] + "Modified", tempGroup.getGroupName());
+		assertEquals("\nmodifyGroup did not modify Group Description\n", GroupStringArray[3][1] + "Modified", tempGroup.getGroupDesc());
 	}
 
 	/*
@@ -1000,6 +1016,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		tempProtectionElement.setUpdateDate(midnight_jan2_1970);	//TODO: Not updating the "Update Date"
 		
 		userProvisioningManagerImpl.modifyProtectionElement(tempProtectionElement); 
+		
+		tempProtectionElement = userProvisioningManagerImpl.getProtectionElementById("4");
+		
+		assertEquals("\nmodifyProtectionElement did not modify the Name\n", ProtectionElementStringArray[3][0] + "Modified", tempProtectionElement.getProtectionElementName());
+		assertEquals("\nmodifyProtectionElement did not modify the Description\n", ProtectionElementStringArray[3][1] + "Modified", tempProtectionElement.getProtectionElementDescription());
+		assertEquals("\nmodifyProtectionElement did not modify the Object ID\n", ProtectionElementStringArray[3][2] + "Modified", tempProtectionElement.getObjectId());
+		assertEquals("\nmodifyProtectionElement did not modify the Attribute\n", ProtectionElementStringArray[3][3] + "Modified", tempProtectionElement.getAttribute());
 	}
 
 	/*
@@ -1041,13 +1064,26 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		tempUser.setOrganization(UserStringArray[3][5] + "Modified");
 		tempUser.setPassword(UserStringArray[3][6] + "Modified");
 		tempUser.setTitle(UserStringArray[3][7] + "Modified");
-		tempUser.setPhoneNumber(UserStringArray[3][8] + "Modified");
+		//TODO: Make this phone number modification more flexable if you have time
+		tempUser.setPhoneNumber(UserStringArray[3][8] + "Mod");  //Database truncates this if try to go over max, so have to use 3 characters.  Reduce if add more characters in create
 		
 		tempUser.setEndDate(CurrentTime);
 		tempUser.setStartDate(CurrentTime);
 		tempUser.setUpdateDate(CurrentTime);
 
 		userProvisioningManagerImpl.modifyUser(tempUser);		
+		
+		tempUser = userProvisioningManagerImpl.getUserById("4");
+		
+		assertEquals("\nmodifyUser did not modify Login Name\n", UserStringArray[3][0] + "Modified", tempUser.getLoginName());
+		assertEquals("\nmodifyUser did not modify First Name\n", UserStringArray[3][1] + "Modified", tempUser.getFirstName());
+		assertEquals("\nmodifyUser did not modify Last Name\n", UserStringArray[3][2] + "Modified", tempUser.getLastName());
+		assertEquals("\nmodifyUser did not modify Department\n", UserStringArray[3][3] + "Modified", tempUser.getDepartment());
+		assertEquals("\nmodifyUser did not modify Email ID\n", UserStringArray[3][4] + "Modified", tempUser.getEmailId());
+		assertEquals("\nmodifyUser did not modify Organization\n", UserStringArray[3][5] + "Modified", tempUser.getOrganization());
+		assertEquals("\nmodifyUser did not modify Password\n", UserStringArray[3][6] + "Modified", tempUser.getPassword());
+		assertEquals("\nmodifyUser did not modify Title\n", UserStringArray[3][7] + "Modified", tempUser.getTitle());
+		assertEquals("\nmodifyUser did not modify Phone Number\n", UserStringArray[3][8] + "Mod", tempUser.getPhoneNumber());
 	}
 
 	/*
@@ -1236,6 +1272,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		tempApplication.setActiveFlag(tempFlag);
 		
 		userProvisioningManagerImpl.modifyApplication(tempApplication);
+		
+		tempApplication = userProvisioningManagerImpl.getApplicationById("3");
+		
+		assertEquals("\nmodifyApplication did not modify Application name\n", ApplicationStringArray[2][0] + "Modified", tempApplication.getApplicationName());
+		assertEquals("\nmodifyApplication did not modify Application Description\n", ApplicationStringArray[2][1] + "Modified", tempApplication.getApplicationDescription());
+		assertEquals("\nmodifyApplication did not modify Application Active Flag\n", tempFlag, tempApplication.getActiveFlag());
 	}
 
 	/*
