@@ -132,6 +132,46 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		//Associate Privileges to Role
 		this.testAssignPrivilegesToRole();
 
+		
+		//Still to be done
+		this.testGetProtectionElements();
+		this.testAssignOwners();
+		this.testGetOwners();
+		this.testGetPrincipals();
+		this.testAssignProtectionElementStringString();
+		this.testAssignProtectionElementStringStringString();
+		this.testAssignToProtectionGroups();
+		this.testAssignParentProtectionGroup();
+		this.testAssignUserRoleToProtectionGroup();
+		this.testCheckOwnership();
+		this.testSecureUpdate();
+		this.testGetPrivilegeMap();
+		this.testSecureCollection();
+		this.testSecureObject();
+		this.testCheckPermissionAccessPermissionString();
+		this.testInitialize();
+		this.testCheckPermissionAccessPermissionSubject();
+		this.testCheckPermissionStringStringString();
+		this.testCheckPermissionStringStringStringString();
+		this.testFinalize();
+		this.testGetObjects();
+		this.testGetPrivileges();
+		this.testGetProtectionElementPrivilegeContextForGroup();
+		this.testGetProtectionElementPrivilegeContextForUser();
+		this.testGetProtectionGroupRoleContextForGroup();
+		this.testGetProtectionGroupRoleContextForUser();
+		this.testRemoveGroupFromProtectionGroup();
+		this.testRemoveGroupRoleFromProtectionGroup();
+		this.testRemoveUserFromProtectionGroup();
+		this.testRemoveUserRoleFromProtectionGroup();
+		this.testSetAuditUserInfo();
+		this.testSetAuthorizationDAO();
+		this.testSetOwnerForProtectionElementStringStringArray();
+		this.testSetOwnerForProtectionElementStringStringString();
+		this.testUserProvisioningManagerImpl();
+		
+		
+		
 		//DELETE EVERYTHING
 //		this.testRemoveGroup();
 //		this.testRemovePrivilege();
@@ -144,6 +184,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		// UNIMPLEMENTED CODE
 		//testRemoveProtectionElementsFromProtectionGroup();  	// Unimplemented
 		//testAddUserToGroup();  								// Unimplemented
+		//this.testGetApplicationContext();						// Unimplemented 
 		
 		
 	}	
@@ -691,7 +732,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignGroupsToUser(String, String[])'
 	 */
 
-	// This test assigns all possible grous to the first user and increments DOWNWARD with each user
+	// This test assigns all possible groups to the first user and increments DOWNWARD with each user
 	private void testAssignGroupsToUser() throws CSTransactionException 
 	{
 		int NumberOfGroupsToAddToThisUser = NumberOfGroupsToTest;
