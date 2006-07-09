@@ -94,25 +94,6 @@ import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import test.gov.nih.nci.security.authentication.AuthenticationManagerFactoryTest;
-import test.gov.nih.nci.security.authentication.CommonAuthenticationManagerTest;
-import test.gov.nih.nci.security.authorization.AuthorizationManagerFactoryTest;
-import test.gov.nih.nci.security.authorization.domainobjects.ApplicationContextTest;
-import test.gov.nih.nci.security.authorization.domainobjects.ApplicationTest;
-import test.gov.nih.nci.security.authorization.domainobjects.GroupRoleContextTest;
-import test.gov.nih.nci.security.authorization.domainobjects.PrivilegeTest;
-import test.gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContextTest;
-import test.gov.nih.nci.security.authorization.domainobjects.ProtectionGroupTest;
-import test.gov.nih.nci.security.authorization.domainobjects.RoleTest;
-import test.gov.nih.nci.security.authorization.domainobjects.UserRoleContextTest;
-import test.gov.nih.nci.security.authorization.domainobjects.UserTest;
-import test.gov.nih.nci.security.authorization.jaas.AccessPermissionTest;
-import test.gov.nih.nci.security.authorization.jaas.AuthPermissionCollectionTest;
-import test.gov.nih.nci.security.authorization.jaas.PermissionAdapterFactoryTest;
-import test.gov.nih.nci.security.authorization.jaas.PermissionRoleDBAdapterTest;
-import test.gov.nih.nci.security.dao.AuthorizationDAOImplTest;
-import test.gov.nih.nci.security.dao.SearchCriteriaTest;
-import test.gov.nih.nci.security.provisioning.UserProvisioningManagerImplTest;
 
 /**
  * Test Suite for executing all of the Security Junit tests.
@@ -123,7 +104,7 @@ public class SecurityTestSuite {
 	static{
 			
 			Properties p = System.getProperties();
-			p.setProperty("gov.nih.nci.security.configFile","c:/temp/ApplicationSecurityConfig.xml");
+			p.setProperty("gov.nih.nci.security.configFile","c:/securityConfig/ApplicationSecurityConfig.xml");
 			
 	}
 	public static void main(String[] args) {
@@ -133,25 +114,13 @@ public class SecurityTestSuite {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for gov.nih.nci.security");
 		//$JUnit-BEGIN$
-		suite.addTest(new TestSuite(ApplicationContextTest.class));
-		suite.addTest(new TestSuite(ApplicationTest.class));
-		suite.addTest(new TestSuite(GroupRoleContextTest.class));
-		suite.addTest(new TestSuite(PrivilegeTest.class));
-		suite.addTest(new TestSuite(ProtectionGroupTest.class));
-		suite.addTest(new TestSuite(ProtectionGroupRoleContextTest.class));
-		suite.addTest(new TestSuite(RoleTest.class));
-		suite.addTest(new TestSuite(UserRoleContextTest.class));
-		suite.addTest(new TestSuite(UserTest.class));
-		suite.addTest(new TestSuite(AuthenticationManagerFactoryTest.class));
-		suite.addTest(new TestSuite(CommonAuthenticationManagerTest.class));
-		suite.addTest(new TestSuite(AccessPermissionTest.class));
-		suite.addTest(new TestSuite(AuthPermissionCollectionTest.class));
-		suite.addTest(new TestSuite(PermissionAdapterFactoryTest.class));
-		suite.addTest(new TestSuite(PermissionRoleDBAdapterTest.class));
-		suite.addTest(new TestSuite(AuthorizationManagerFactoryTest.class));
-		suite.addTest(new TestSuite(SearchCriteriaTest.class));
-		suite.addTest(new TestSuite(UserProvisioningManagerImplTest.class));
-		suite.addTest(new TestSuite(AuthorizationDAOImplTest.class));
+
+		// To test obtaining the various managers
+//		suite.addTest(new TestSuite(SecurityServiceProviderTest.class));
+		// To test authentication functionalities
+//		suite.addTest(new TestSuite(AuthenticationManagerTest.class));
+		// To test authorization functionalities
+		suite.addTest(new TestSuite(UserProvisioningManagerTest.class));
 		
 		//$JUnit-END$
 		return suite;

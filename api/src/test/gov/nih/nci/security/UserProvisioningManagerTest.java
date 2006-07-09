@@ -1,15 +1,9 @@
-package test.gov.nih.nci.security.provisioning;
+package test.gov.nih.nci.security;
 
 
 
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.List;
-
-
-//import java.util.TreeSet;
-
+import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
@@ -19,15 +13,19 @@ import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
-import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import junit.framework.TestCase;
 
 
 
 
-public class UserProvisioningManagerImplTest extends TestCase {
+public class UserProvisioningManagerTest extends TestCase {
 
-	private UserProvisioningManagerImpl userProvisioningManagerImpl; 
+	private UserProvisioningManager userProvisioningManager; 
 	
 	//Test Set-up variables
 	private int NumberOfApplicationsToTest			= 5;
@@ -56,7 +54,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
-		userProvisioningManagerImpl = new UserProvisioningManagerImpl("TestApplication");
+		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("TestApplication");
 
 		//Initialize the userList - used to check the "get" functions
 		InitializeUserStringArray();
@@ -191,7 +189,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	
 	
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.finalize()'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.finalize()'
 	 */
 	@SuppressWarnings("unused")
 	private void testFinalize() {
@@ -199,7 +197,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.addUserToGroup(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.addUserToGroup(String, String)'
 	 */
 	@SuppressWarnings("unused")  // This is not yet implemented
 	private void testAddUserToGroup() throws CSTransactionException 
@@ -210,15 +208,15 @@ public class UserProvisioningManagerImplTest extends TestCase {
 //		for (int x=0; x<NumberOfUsersToTest; x++)  //NumberOfUsersToTest; x++)
 //		{
 //			//Retrieve the User based off the login ID (see setup() for initialization of UserStringArray)
-//			//tempUser = userProvisioningManagerImpl.getUser(UserStringArray[x][0]);  //UserStringArray[x][0] contains user login name
+//			//tempUser = userProvisioningManager.getUser(UserStringArray[x][0]);  //UserStringArray[x][0] contains user login name
 //			
 //			tempString = Integer.toString(x+1);
-//			userProvisioningManagerImpl.addUserToGroup(tempString, tempString);  //Adds User 1 to Group 1, etc.
+//			userProvisioningManager.addUserToGroup(tempString, tempString);  //Adds User 1 to Group 1, etc.
 //		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.UserProvisioningManagerImpl(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.userProvisioningManager(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testUserProvisioningManagerImpl() {
@@ -226,7 +224,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createProtectionGroup(ProtectionGroup)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.createProtectionGroup(ProtectionGroup)'
 	 */
 	
 	private void testCreateProtectionGroup() throws CSTransactionException 
@@ -248,12 +246,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			else
 				tempFlag = 1;
 			
-			userProvisioningManagerImpl.createProtectionGroup(tempProtectionGroup);
+			userProvisioningManager.createProtectionGroup(tempProtectionGroup);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getUser(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getUser(String)'
 	 */
 	private void testGetUser() 
 	{
@@ -262,14 +260,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x<NumberOfUsersToTest; x++)  //NumberOfUsersToTest; x++)
 		{
 			//Retrieve the User based off the login ID (see setup() for initialization of UserStringArray)
-			tempUser = userProvisioningManagerImpl.getUser(UserStringArray[x][0]);  //UserStringArray[x][0] contains user login name
+			tempUser = userProvisioningManager.getUser(UserStringArray[x][0]);  //UserStringArray[x][0] contains user login name
 
 			AssertEqualsForUsers(x, tempUser);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.setAuthorizationDAO(AuthorizationDAO)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setAuthorizationDAO(AuthorizationDAO)'
 	 */
 	@SuppressWarnings("unused")
 	private void testSetAuthorizationDAO() {
@@ -277,7 +275,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyProtectionGroup(ProtectionGroup)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.modifyProtectionGroup(ProtectionGroup)'
 	 */
 
 	private void testModifyProtectionGroup() throws CSTransactionException, CSObjectNotFoundException 
@@ -286,16 +284,16 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		ProtectionGroup tempProtectionGroup = new ProtectionGroup();
 		java.util.Date tempDate = new java.util.Date();
 		
-		tempProtectionGroup = userProvisioningManagerImpl.getProtectionGroupById("4");
+		tempProtectionGroup = userProvisioningManager.getProtectionGroupById("4");
 		
 		tempProtectionGroup.setProtectionGroupName(ProtectionGroupStringArray[3][0] + "Modified");
 		tempProtectionGroup.setProtectionGroupDescription(ProtectionGroupStringArray[3][1] + "Modified");
 		tempProtectionGroup.setUpdateDate(tempDate);	
 		tempProtectionGroup.setLargeElementCountFlag(tempFlag);
 		
-		userProvisioningManagerImpl.modifyProtectionGroup(tempProtectionGroup);
+		userProvisioningManager.modifyProtectionGroup(tempProtectionGroup);
 		
-		tempProtectionGroup = userProvisioningManagerImpl.getProtectionGroupById("4");
+		tempProtectionGroup = userProvisioningManager.getProtectionGroupById("4");
 		assertEquals("\nModifyProtectionGroup did not modify the Group Name\n", ProtectionGroupStringArray[3][0] + "Modified", tempProtectionGroup.getProtectionGroupName());
 		assertEquals("\nModifyProtectionGroup did not modify the Group Description\n", ProtectionGroupStringArray[3][1] + "Modified", tempProtectionGroup.getProtectionGroupDescription());
 		assertEquals("\nModifyProtectionGroup did not modify the Large Element Count Flag\n", tempFlag, tempProtectionGroup.getLargeElementCountFlag());
@@ -303,16 +301,16 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElement(String, String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignProtectionElement(String, String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testAssignProtectionElementStringStringString() throws CSTransactionException 
 	{
-		//userProvisioningManagerImpl.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2], ProtectionElementStringArray[0][3]);
+		//userProvisioningManager.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2], ProtectionElementStringArray[0][3]);
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeProtectionGroup(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeProtectionGroup(String)'
 	 */
 
 	private void testRemoveProtectionGroup() throws CSTransactionException 
@@ -321,12 +319,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x < NumberOfProtectionGroupsToTest; x++)
 		{
 			tempString = Integer.toString(x+1);
-			userProvisioningManagerImpl.removeProtectionGroup(tempString);
+			userProvisioningManager.removeProtectionGroup(tempString);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeProtectionElement(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeProtectionElement(String)'
 	 */
 
 	private void testRemoveProtectionElement() throws CSTransactionException 
@@ -335,12 +333,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
 		{
 			tempString = Integer.toString(x+1);
-			userProvisioningManagerImpl.removeProtectionElement(tempString);
+			userProvisioningManager.removeProtectionElement(tempString);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.setOwnerForProtectionElement(String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setOwnerForProtectionElement(String, String[])'
 	 */
 	@SuppressWarnings("unused")
 	private void testSetOwnerForProtectionElementStringStringArray() {
@@ -348,7 +346,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignUserRoleToProtectionGroup(String, String[], String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignUserRoleToProtectionGroup(String, String[], String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testAssignUserRoleToProtectionGroup() {
@@ -356,7 +354,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.deAssignProtectionElements(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.deAssignProtectionElements(String, String)'
 	 */
 
 	//  Removes all PE associations from the first PG
@@ -364,17 +362,17 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	private void testDeAssignProtectionElements() throws CSTransactionException, CSObjectNotFoundException 
 	{
 		//TODO: Make this dynamic (see commented code below)
-		userProvisioningManagerImpl.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
+		userProvisioningManager.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
 //		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
 //		{	
-//			//userProvisioningManagerImpl.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[x][2]);
+//			//userProvisioningManager.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[x][2]);
 //		}
 
 		
 		//Cycle through each PE and make sure each element and remove each association
 //		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 //		{
-//			Set SetOfProtectionGroups = userProvisioningManagerImpl.getProtectionGroups(Integer.toString(x+1));
+//			Set SetOfProtectionGroups = userProvisioningManager.getProtectionGroups(Integer.toString(x+1));
 //			assertNotNull("\ngetProtectionGroups(String) returned NULL\n", SetOfProtectionGroups);
 //			if ((SetOfProtectionGroups != null) && (!SetOfProtectionGroups.isEmpty())) 
 //			{
@@ -383,7 +381,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 //				{
 //					ProtectionGroup tempProtectionGroup = (ProtectionGroup) i.next();
 //					
-//					userProvisioningManagerImpl.deAssignProtectionElements(tempProtectionGroup.getProtectionGroupName(),ProtectionElementStringArray[x][2]);
+//					userProvisioningManager.deAssignProtectionElements(tempProtectionGroup.getProtectionGroupName(),ProtectionElementStringArray[x][2]);
 //				}
 //			}
 //		}
@@ -398,14 +396,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 //			for (int y=0; y<tempPECounter; y++)
 //			{
 //				if (ProtectionGroupStringArray[x][0] != null && ProtectionElementStringArray[y][2] != null)
-//					userProvisioningManagerImpl.deAssignProtectionElements(ProtectionGroupStringArray[x][0], ProtectionElementStringArray[y][2]);
+//					userProvisioningManager.deAssignProtectionElements(ProtectionGroupStringArray[x][0], ProtectionElementStringArray[y][2]);
 //			}
 //			tempPECounter--;
 //		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createProtectionElement(ProtectionElement)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.createProtectionElement(ProtectionElement)'
 	 */
 	private void testCreateProtectionElement() throws CSTransactionException 
 	{
@@ -419,14 +417,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempProtectionElement.setAttribute(ProtectionElementStringArray[x][3]);
 			tempProtectionElement.setUpdateDate(CurrentTime);
 			
-			userProvisioningManagerImpl.createProtectionElement(tempProtectionElement);
+			userProvisioningManager.createProtectionElement(tempProtectionElement);
 			
 			tempProtectionElement = null;
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeUserRoleFromProtectionGroup(String, String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeUserRoleFromProtectionGroup(String, String, String[])'
 	 */
 	@SuppressWarnings("unused")
 	private void testRemoveUserRoleFromProtectionGroup() {
@@ -434,7 +432,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createRole(Role)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.createRole(Role)'
 	 */
 	private void testCreateRole() throws CSTransactionException 
 	{
@@ -454,12 +452,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			else
 				tempFlag = 1;
 			
-			userProvisioningManagerImpl.createRole(tempRole);
+			userProvisioningManager.createRole(tempRole);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(AccessPermission, Subject)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(AccessPermission, Subject)'
 	 */
 	@SuppressWarnings("unused")
 	private void testCheckPermissionAccessPermissionSubject() {
@@ -467,7 +465,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyRole(Role)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.modifyRole(Role)'
 	 */
 
 	private void testModifyRole() throws CSObjectNotFoundException, CSTransactionException 
@@ -476,16 +474,16 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		byte tempFlag = 0;
 		java.util.Date midnight_jan2_1970 = new java.util.Date(24L*60L*60L*1000L);
 		
-		tempRole = userProvisioningManagerImpl.getRoleById("4");
+		tempRole = userProvisioningManager.getRoleById("4");
 		
 		tempRole.setName(RoleStringArray[3][0] + "Modified");
 		tempRole.setDesc(RoleStringArray[3][1] + "Modified");
 		tempRole.setUpdateDate(midnight_jan2_1970);
 		tempRole.setActive_flag(tempFlag);
 		
-		userProvisioningManagerImpl.modifyRole(tempRole);
+		userProvisioningManager.modifyRole(tempRole);
 		
-		tempRole = userProvisioningManagerImpl.getRoleById("4");
+		tempRole = userProvisioningManager.getRoleById("4");
 		
 		assertEquals("\nmodifyRole did not modify the Role Name\n", RoleStringArray[3][0] + "Modified", tempRole.getName());
 		assertEquals("\nmodifyRole did not modify the Role Description\n", RoleStringArray[3][1] + "Modified", tempRole.getDesc());
@@ -494,7 +492,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(AccessPermission, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(AccessPermission, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testCheckPermissionAccessPermissionString() {
@@ -502,7 +500,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.initialize(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.initialize(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testInitialize() {
@@ -510,7 +508,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeRole(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeRole(String)'
 	 */
 
 	private void testRemoveRole() throws CSTransactionException 
@@ -519,12 +517,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x < NumberOfRolesToTest; x++)
 		{
 			tempString = Integer.toString(x+1);
-			userProvisioningManagerImpl.removeRole(tempString);
+			userProvisioningManager.removeRole(tempString);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(String, String, String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testCheckPermissionStringStringStringString() {
@@ -532,7 +530,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createPrivilege(Privilege)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.createPrivilege(Privilege)'
 	 */
 	private void testCreatePrivilege() throws CSTransactionException {
 
@@ -543,12 +541,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempPrivilege.setName(PrivilegeStringArray[x][0]);
 			tempPrivilege.setDesc(PrivilegeStringArray[x][1]);
 			tempPrivilege.setUpdateDate(CurrentTime);
-			userProvisioningManagerImpl.createPrivilege(tempPrivilege);
+			userProvisioningManager.createPrivilege(tempPrivilege);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(String, String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testCheckPermissionStringStringString() {
@@ -556,7 +554,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyPrivilege(Privilege)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.modifyPrivilege(Privilege)'
 	 */
 
 	private void testModifyPrivilege() throws CSObjectNotFoundException, CSTransactionException 
@@ -564,22 +562,22 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		Privilege tempPrivilege = new Privilege();
 		java.util.Date CurrentTime = new java.util.Date();
 		
-		tempPrivilege = userProvisioningManagerImpl.getPrivilegeById("11");
+		tempPrivilege = userProvisioningManager.getPrivilegeById("11");
 		
 		tempPrivilege.setName(PrivilegeStringArray[3][0] + "Modified");
 		tempPrivilege.setDesc(PrivilegeStringArray[3][1] + "Modified");
 		tempPrivilege.setUpdateDate(CurrentTime);
 		
-		userProvisioningManagerImpl.modifyPrivilege(tempPrivilege);
+		userProvisioningManager.modifyPrivilege(tempPrivilege);
 
-		tempPrivilege = userProvisioningManagerImpl.getPrivilegeById("11");
+		tempPrivilege = userProvisioningManager.getPrivilegeById("11");
 		
 		assertEquals("\nmodifyPrivilege did not modify the Name\n", PrivilegeStringArray[3][0] + "Modified", tempPrivilege.getName());
 		assertEquals("\nmodifyPrivilege did not modify the Description\n", PrivilegeStringArray[3][1] + "Modified", tempPrivilege.getDesc());
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removePrivilege(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removePrivilege(String)'
 	 */
 
 	private void testRemovePrivilege() throws CSTransactionException 
@@ -588,12 +586,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x < NumberOfPrivilegesToTest; x++)
 		{
 			tempString = Integer.toString(x + 8);
-			userProvisioningManagerImpl.removePrivilege(tempString);
+			userProvisioningManager.removePrivilege(tempString);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignPrivilegesToRole(String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignPrivilegesToRole(String, String[])'
 	 */
 	private void testAssignPrivilegesToRole() throws CSTransactionException 
 	{
@@ -611,14 +609,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 				//Populate array used to check the added associations
 				//Privilege_RoleRelationship[x][z] = Integer.toString(z+1); //Stores which Privilege_Role association exists, if blank (null) then it doesn't exist
 			}
-			userProvisioningManagerImpl.assignPrivilegesToRole(Integer.toString(x+1), tempPrivilegesToAdd);
+			userProvisioningManager.assignPrivilegesToRole(Integer.toString(x+1), tempPrivilegesToAdd);
 			
 			NumberOfPrivilegesToAddToThisRole--;
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionElement(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElement(String)'
 	 */
 
 	private void testGetProtectionElementString() throws CSObjectNotFoundException 
@@ -627,13 +625,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 		{
-			tempProtectionElement = userProvisioningManagerImpl.getProtectionElement(ProtectionElementStringArray[x][2]);  //By Object ID
+			tempProtectionElement = userProvisioningManager.getProtectionElement(ProtectionElementStringArray[x][2]);  //By Object ID
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionElementById(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElementById(String)'
 	 */
 
 	private void testGetProtectionElementById() throws CSObjectNotFoundException 
@@ -646,14 +644,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempString = Integer.toString(x+1);
 			
 			//Id is assigned by database automatically, so this test must be done with a fresh database
-			tempProtectionElement = userProvisioningManagerImpl.getProtectionElementById(tempString);
+			tempProtectionElement = userProvisioningManager.getProtectionElementById(tempString);
 			
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElement(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignProtectionElement(String, String)'
 	 */
 
 	@SuppressWarnings("unused")
@@ -661,11 +659,11 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	{
 		// Pulls the Group Name and PEObjectID from the initialization string.
 		// TODO: Update to be more dynamic.
-		//userProvisioningManagerImpl.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
+		//userProvisioningManager.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createGroup(Group)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.createGroup(Group)'
 	 */
 	private void testCreateGroup() throws CSTransactionException 
 	{
@@ -678,13 +676,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempGroup.setGroupDesc(GroupStringArray[x][1]);
 			tempGroup.setUpdateDate(CurrentTime);
 			
-			userProvisioningManagerImpl.createGroup(tempGroup);
+			userProvisioningManager.createGroup(tempGroup);
 		}
 
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.setOwnerForProtectionElement(String, String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setOwnerForProtectionElement(String, String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testSetOwnerForProtectionElementStringStringString() {
@@ -692,7 +690,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeGroup(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeGroup(String)'
 	 */
 	//@SuppressWarnings("unused")
 	private void testRemoveGroup() throws CSTransactionException 
@@ -701,12 +699,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x < NumberOfGroupsToTest; x++)
 		{
 			tempString = Integer.toString(x + 1);
-			userProvisioningManagerImpl.removeGroup(tempString);
+			userProvisioningManager.removeGroup(tempString);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyGroup(Group)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.modifyGroup(Group)'
 	 */
 
 	private void testModifyGroup() throws CSTransactionException, CSObjectNotFoundException 
@@ -714,22 +712,22 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		Group tempGroup = new Group();
 		java.util.Date CurrentTime = new java.util.Date();
 		
-		tempGroup = userProvisioningManagerImpl.getGroupById("4");
+		tempGroup = userProvisioningManager.getGroupById("4");
 		
 		tempGroup.setGroupName(GroupStringArray[3][0] + "Modified");
 		tempGroup.setGroupDesc(GroupStringArray[3][1] + "Modified");
 		tempGroup.setUpdateDate(CurrentTime);
 		
-		userProvisioningManagerImpl.modifyGroup(tempGroup);
+		userProvisioningManager.modifyGroup(tempGroup);
 		
-		tempGroup = userProvisioningManagerImpl.getGroupById("4");
+		tempGroup = userProvisioningManager.getGroupById("4");
 		
 		assertEquals("\nmodifyGroup did not modify Group Name\n", GroupStringArray[3][0] + "Modified", tempGroup.getGroupName());
 		assertEquals("\nmodifyGroup did not modify Group Description\n", GroupStringArray[3][1] + "Modified", tempGroup.getGroupDesc());
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignGroupsToUser(String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignGroupsToUser(String, String[])'
 	 */
 
 	// This test assigns all possible groups to the first user and increments DOWNWARD with each user
@@ -749,14 +747,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 				//Populate array used to check the added associations
 				Group_UserRelationship[z][x] = Integer.toString(z+1); //Stores which Group_User association exists, if blank (null) then it doesn't exist
 			}
-			userProvisioningManagerImpl.assignGroupsToUser(Integer.toString(x+1), tempGroupsToAdd);
+			userProvisioningManager.assignGroupsToUser(Integer.toString(x+1), tempGroupsToAdd);
 			
 			NumberOfGroupsToAddToThisUser--;
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeUserFromGroup(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeUserFromGroup(String, String)'
 	 */
 
 	private void testRemoveUserFromGroup() throws CSTransactionException, CSObjectNotFoundException 
@@ -770,7 +768,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			if (y == NumberOfGroupsToTest) y = 0;			
 			tempStringGroupID = Integer.toString(y + 1);
 			tempStringUserID = Integer.toString(x + 1);		
-			userProvisioningManagerImpl.removeUserFromGroup(tempStringGroupID, tempStringUserID);
+			userProvisioningManager.removeUserFromGroup(tempStringGroupID, tempStringUserID);
 			y++;
 		}
 		
@@ -780,24 +778,24 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x<NumberOfUsersToTest; x++)
 		{
 			tempString = Integer.toString(x+1);
-			Set SetOfGroups = userProvisioningManagerImpl.getGroups(tempString);
+			Set SetOfGroups = userProvisioningManager.getGroups(tempString);
 	
 			assertTrue("Group was not cleared from User" + x, SetOfGroups.isEmpty());
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignGroupRoleToProtectionGroup(String, String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignGroupRoleToProtectionGroup(String, String, String[])'
 	 */
 	@SuppressWarnings("unused")
 	private void testAssignGroupRoleToProtectionGroup() throws CSTransactionException 
 	{
 		String[]ArrayOfRoles = {"1", "2", "3"};
-		userProvisioningManagerImpl.assignGroupRoleToProtectionGroup("1", "1", ArrayOfRoles); //PGID, GID, RoleID array of strings
+		userProvisioningManager.assignGroupRoleToProtectionGroup("1", "1", ArrayOfRoles); //PGID, GID, RoleID array of strings
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getPrivilegeById(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrivilegeById(String)'
 	 */
 
 	private void testGetPrivilegeById() throws CSObjectNotFoundException 
@@ -810,7 +808,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempString = Integer.toString(x+8); //7 Privileges already loaded
 			
 			//Retrieve the User based off the login ID (see setup() for initialization of UserStringArray)
-			tempPrivilege = userProvisioningManagerImpl.getPrivilegeById(tempString);
+			tempPrivilege = userProvisioningManager.getPrivilegeById(tempString);
 			
 			assertEquals("\nIncorrect Privilege Name\n", PrivilegeStringArray[x][0], tempPrivilege.getName() );
 			assertEquals("\nIncorrect Privilege Desc\n", PrivilegeStringArray[x][1], tempPrivilege.getDesc() );
@@ -818,7 +816,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeUserFromProtectionGroup(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeUserFromProtectionGroup(String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testRemoveUserFromProtectionGroup() {
@@ -826,7 +824,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeGroupRoleFromProtectionGroup(String, String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeGroupRoleFromProtectionGroup(String, String, String[])'
 	 */
 	@SuppressWarnings("unused")
 	private void testRemoveGroupRoleFromProtectionGroup() {
@@ -834,7 +832,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeGroupFromProtectionGroup(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeGroupFromProtectionGroup(String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testRemoveGroupFromProtectionGroup() {
@@ -842,7 +840,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionGroupById(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionGroupById(String)'
 	 */
 
 	private void testGetProtectionGroupById() throws CSObjectNotFoundException 
@@ -855,7 +853,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		{
 			//java.util.Date CurrentTime = new java.util.Date();
 			tempString = Integer.toString(x+1);
-			tempProtectionGroup = userProvisioningManagerImpl.getProtectionGroupById(tempString);
+			tempProtectionGroup = userProvisioningManager.getProtectionGroupById(tempString);
 			
 			assertEquals("\nIncorrect Protection Group Name\n", ProtectionGroupStringArray[x][0], tempProtectionGroup.getProtectionGroupName() );
 			assertEquals("\nIncorrect Protection Group Desc\n", ProtectionGroupStringArray[x][1], tempProtectionGroup.getProtectionGroupDescription() );
@@ -869,7 +867,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getRoleById(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getRoleById(String)'
 	 */
 	
 	private void testGetRoleById() throws CSObjectNotFoundException 
@@ -882,7 +880,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		{
 			//java.util.Date CurrentTime = new java.util.Date();
 			tempString = Integer.toString(x+1);
-			tempRole = userProvisioningManagerImpl.getRoleById(tempString);
+			tempRole = userProvisioningManager.getRoleById(tempString);
 			
 			assertEquals("\nIncorrect Role Name\n", RoleStringArray[x][0], tempRole.getName() );
 			assertEquals("\nIncorrect Role Desc\n", RoleStringArray[x][1], tempRole.getDesc() );
@@ -897,7 +895,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getPrivileges(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrivileges(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetPrivileges() {
@@ -905,7 +903,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getObjects(SearchCriteria)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getObjects(SearchCriteria)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetObjects() {
@@ -913,7 +911,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createUser(User)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.createUser(User)'
 	 */
 	private void testCreateUser() throws CSTransactionException {
 		for (int x=0; x<NumberOfUsersToTest; x++)
@@ -934,14 +932,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempUser.setStartDate(CurrentTime);
 			tempUser.setUpdateDate(CurrentTime);
 
-			userProvisioningManagerImpl.createUser(tempUser);
+			userProvisioningManager.createUser(tempUser);
 			//userList.add(x,tempUser);
 			
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignProtectionElements(String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignProtectionElements(String, String[])'
 	 * This test adds all of the protection elements to the first protection group, allPE-1 to the next PG, etc.
 	 */
 
@@ -962,7 +960,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 				// Propogate PG_PERelationship array (see getProtectionGroups() for use
 				PG_PERelationship[x][y] = Integer.toString(y);  //Don't add +1 for the ID, just assume the +1
 			}
-			userProvisioningManagerImpl.assignProtectionElements(Integer.toString(x+1), tempProtectionElementsArray);
+			userProvisioningManager.assignProtectionElements(Integer.toString(x+1), tempProtectionElementsArray);
 		
 			tempProtectionElementsArray = null;
 			tempPECounter--;
@@ -972,7 +970,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeProtectionElementsFromProtectionGroup(String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeProtectionElementsFromProtectionGroup(String, String[])'
 	 */
 	@SuppressWarnings("unused")  //This method is unimplemented
 	private void testRemoveProtectionElementsFromProtectionGroup() throws CSTransactionException 
@@ -983,11 +981,11 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempString[x] = "" + x;
 		}
 		
-		userProvisioningManagerImpl.removeProtectionElementsFromProtectionGroup("1", tempString);
+		userProvisioningManager.removeProtectionElementsFromProtectionGroup("1", tempString);
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionGroupRoleContextForUser(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionGroupRoleContextForUser(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetProtectionGroupRoleContextForUser() {
@@ -995,7 +993,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionGroupRoleContextForGroup(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionGroupRoleContextForGroup(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetProtectionGroupRoleContextForGroup() {
@@ -1003,7 +1001,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionElementPrivilegeContextForUser(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElementPrivilegeContextForUser(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetProtectionElementPrivilegeContextForUser() {
@@ -1011,7 +1009,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionElementPrivilegeContextForGroup(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElementPrivilegeContextForGroup(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetProtectionElementPrivilegeContextForGroup() {
@@ -1019,7 +1017,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getGroupById(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getGroupById(String)'
 	 */
 
 	private void testGetGroupById() throws CSObjectNotFoundException 
@@ -1032,7 +1030,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempString = Integer.toString(x+1);
 			
 			//Retrieve the User based off the login ID (see setup() for initialization of UserStringArray)
-			tempGroup = userProvisioningManagerImpl.getGroupById(tempString);
+			tempGroup = userProvisioningManager.getGroupById(tempString);
 			
 			assertEquals("\nIncorrect Group Name\n", GroupStringArray[x][0], tempGroup.getGroupName() );
 			assertEquals("\nIncorrect Group Desc\n", GroupStringArray[x][1], tempGroup.getGroupDesc() );
@@ -1040,7 +1038,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyProtectionElement(ProtectionElement)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.modifyProtectionElement(ProtectionElement)'
 	 */
 
 	private void testModifyProtectionElement() throws CSTransactionException, CSObjectNotFoundException 
@@ -1048,7 +1046,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		ProtectionElement tempProtectionElement = new ProtectionElement();
 		java.util.Date midnight_jan2_1970 = new java.util.Date(24L*60L*60L*1000L);
 
-		tempProtectionElement = userProvisioningManagerImpl.getProtectionElementById("4");
+		tempProtectionElement = userProvisioningManager.getProtectionElementById("4");
 		
 		tempProtectionElement.setProtectionElementName(ProtectionElementStringArray[3][0] + "Modified");
 		tempProtectionElement.setProtectionElementDescription(ProtectionElementStringArray[3][1] + "Modified");
@@ -1056,9 +1054,9 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		tempProtectionElement.setAttribute(ProtectionElementStringArray[3][3] + "Modified");
 		tempProtectionElement.setUpdateDate(midnight_jan2_1970);	//TODO: Not updating the "Update Date"
 		
-		userProvisioningManagerImpl.modifyProtectionElement(tempProtectionElement); 
+		userProvisioningManager.modifyProtectionElement(tempProtectionElement); 
 		
-		tempProtectionElement = userProvisioningManagerImpl.getProtectionElementById("4");
+		tempProtectionElement = userProvisioningManager.getProtectionElementById("4");
 		
 		assertEquals("\nmodifyProtectionElement did not modify the Name\n", ProtectionElementStringArray[3][0] + "Modified", tempProtectionElement.getProtectionElementName());
 		assertEquals("\nmodifyProtectionElement did not modify the Description\n", ProtectionElementStringArray[3][1] + "Modified", tempProtectionElement.getProtectionElementDescription());
@@ -1067,7 +1065,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getUserById(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getUserById(String)'
 	 */
 	
 	private void testGetUserById() throws CSObjectNotFoundException 
@@ -1080,14 +1078,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			tempString = Integer.toString(x+1);
 			
 			//Id is assigned by database automatically, so this test must be done with a fresh database
-			tempUser = userProvisioningManagerImpl.getUserById(tempString); 
+			tempUser = userProvisioningManager.getUserById(tempString); 
 			
 			AssertEqualsForUsers(x, tempUser);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyUser(User)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.modifyUser(User)'
 	 */
 
 	private void testModifyUser() throws CSObjectNotFoundException, CSTransactionException 
@@ -1095,7 +1093,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		User tempUser = new User();
 		java.util.Date CurrentTime = new java.util.Date();
 		
-		tempUser = userProvisioningManagerImpl.getUserById("4");
+		tempUser = userProvisioningManager.getUserById("4");
 		
 		tempUser.setLoginName(UserStringArray[3][0] + "Modified");
 		tempUser.setFirstName(UserStringArray[3][1] + "Modified");
@@ -1112,9 +1110,9 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		tempUser.setStartDate(CurrentTime);
 		tempUser.setUpdateDate(CurrentTime);
 
-		userProvisioningManagerImpl.modifyUser(tempUser);		
+		userProvisioningManager.modifyUser(tempUser);		
 		
-		tempUser = userProvisioningManagerImpl.getUserById("4");
+		tempUser = userProvisioningManager.getUserById("4");
 		
 		assertEquals("\nmodifyUser did not modify Login Name\n", UserStringArray[3][0] + "Modified", tempUser.getLoginName());
 		assertEquals("\nmodifyUser did not modify First Name\n", UserStringArray[3][1] + "Modified", tempUser.getFirstName());
@@ -1128,7 +1126,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeUser(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeUser(String)'
 	 */
 
 	private void testRemoveUser() throws CSTransactionException 
@@ -1137,12 +1135,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x < NumberOfUsersToTest; x++)
 		{
 			tempString = Integer.toString(x+1);
-			userProvisioningManagerImpl.removeUser(tempString);
+			userProvisioningManager.removeUser(tempString);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getGroups(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getGroups(String)'
 	 */
 	//This test only checks the User/Group associations added by the blasdsdasdf() method
 	private void testGetGroups() throws CSObjectNotFoundException 
@@ -1157,7 +1155,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		{
 			if (y == NumberOfGroupsToTest) y=0;
 			tempString = Integer.toString(x+1);
-			Set SetOfGroups = userProvisioningManagerImpl.getGroups(tempString);
+			Set SetOfGroups = userProvisioningManager.getGroups(tempString);
 			
 			assertNotNull("\ntestGetGroups returned no groups for user " + x, SetOfGroups);
 			if ((null != SetOfGroups) && (!SetOfGroups.isEmpty())) 
@@ -1182,7 +1180,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		
 		for (int x=0; x<NumberOfUsersToTest; x++)
 		{			
-			Set SetOfGroups = userProvisioningManagerImpl.getGroups(Integer.toString(x+1));
+			Set SetOfGroups = userProvisioningManager.getGroups(Integer.toString(x+1));
 			assertNotNull("No groups were returned with testGetGroupsDecrementing()\n", SetOfGroups);
 			if ((null != SetOfGroups) && (!SetOfGroups.isEmpty())) 
 			{
@@ -1205,7 +1203,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionElements(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElements(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetProtectionElements() {
@@ -1213,7 +1211,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionGroups(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionGroups(String)'
 	 */
 
 	//	 Use PG_PERelationship Array to check that PE and PG associations are correct
@@ -1224,7 +1222,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		//Cycle through each PE and make sure each element has the proper groups associated with it
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 		{
-			Set SetOfProtectionGroups = userProvisioningManagerImpl.getProtectionGroups(Integer.toString(x+1));
+			Set SetOfProtectionGroups = userProvisioningManager.getProtectionGroups(Integer.toString(x+1));
 			assertNotNull("\ngetProtectionGroups(String) returned NULL\n", SetOfProtectionGroups);
 			if ((SetOfProtectionGroups != null) && (!SetOfProtectionGroups.isEmpty())) 
 			{
@@ -1256,7 +1254,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignToProtectionGroups(String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignToProtectionGroups(String, String[])'
 	 */
 	@SuppressWarnings("unused")
 	private void testAssignToProtectionGroups() {
@@ -1264,7 +1262,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignParentProtectionGroup(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignParentProtectionGroup(String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testAssignParentProtectionGroup() {
@@ -1272,7 +1270,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.createApplication(Application)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.createApplication(Application)'
 	 */
 	private void testCreateApplication() throws CSTransactionException 
 	{
@@ -1290,13 +1288,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 			else
 				tempFlag = 1;
 
-			userProvisioningManagerImpl.createApplication(tempApplication);
+			userProvisioningManager.createApplication(tempApplication);
 			tempApplication = null;
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.modifyApplication(Application)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.modifyApplication(Application)'
 	 */
 
 	private void testModifyApplication() throws CSObjectNotFoundException, CSTransactionException 
@@ -1305,16 +1303,16 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		byte tempFlag = 0;
 		java.util.Date midnight_jan2_1970 = new java.util.Date(0);
 		
-		tempApplication = userProvisioningManagerImpl.getApplicationById("3");
+		tempApplication = userProvisioningManager.getApplicationById("3");
 		
 		tempApplication.setApplicationName(ApplicationStringArray[2][0] + "Modified");
 		tempApplication.setApplicationDescription(ApplicationStringArray[2][1] + "Modified");
 		tempApplication.setUpdateDate(midnight_jan2_1970);  //TODO: I have no way of testing this without a BIG long wait
 		tempApplication.setActiveFlag(tempFlag);
 		
-		userProvisioningManagerImpl.modifyApplication(tempApplication);
+		userProvisioningManager.modifyApplication(tempApplication);
 		
-		tempApplication = userProvisioningManagerImpl.getApplicationById("3");
+		tempApplication = userProvisioningManager.getApplicationById("3");
 		
 		assertEquals("\nmodifyApplication did not modify Application name\n", ApplicationStringArray[2][0] + "Modified", tempApplication.getApplicationName());
 		assertEquals("\nmodifyApplication did not modify Application Description\n", ApplicationStringArray[2][1] + "Modified", tempApplication.getApplicationDescription());
@@ -1322,7 +1320,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.removeApplication(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeApplication(String)'
 	 */
 
 	private void testRemoveApplication() throws CSTransactionException 
@@ -1331,12 +1329,12 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x < NumberOfApplicationsToTest; x++)
 		{
 			tempString = Integer.toString(x+2);
-			userProvisioningManagerImpl.removeApplication(tempString);
+			userProvisioningManager.removeApplication(tempString);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getApplicationById(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getApplicationById(String)'
 	 */
 
 	private void testGetApplicationById() throws CSObjectNotFoundException 
@@ -1348,7 +1346,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x<NumberOfApplicationsToTest; x++)
 		{
 			tempString = Integer.toString(x+2);  //Loading script loads an app in the database, so 2 is my first id I've created
-			tempApplication = userProvisioningManagerImpl.getApplicationById(tempString);
+			tempApplication = userProvisioningManager.getApplicationById(tempString);
 			
 			assertEquals("\nIncorrect Application Name\n", ApplicationStringArray[x][0], tempApplication.getApplicationName() );
 			assertEquals("\nIncorrect Application Description\n", ApplicationStringArray[x][1], tempApplication.getApplicationDescription() );
@@ -1361,7 +1359,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignOwners(String, String[])'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignOwners(String, String[])'
 	 */
 	@SuppressWarnings("unused")
 	private void testAssignOwners() {
@@ -1369,7 +1367,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getOwners(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getOwners(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetOwners() {
@@ -1377,7 +1375,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getApplicationContext()'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getApplicationContext()'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetApplicationContext() {
@@ -1385,7 +1383,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getPrincipals(String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrincipals(String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetPrincipals() 
@@ -1394,13 +1392,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionGroups()'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionGroups()'
 	 */
 
 	//Gets all PG, and checks the text of each group and the number of PG records returned to make sure they are correct
 	private void testGetProtectionGroups() throws CSObjectNotFoundException 
 	{
-		List tempPGList = userProvisioningManagerImpl.getProtectionGroups();
+		List tempPGList = userProvisioningManager.getProtectionGroups();
 
 		
 	    Iterator i = tempPGList.iterator();
@@ -1425,7 +1423,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getProtectionElement(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElement(String, String)'
 	 */
 
 	private void testGetProtectionElementStringString() 
@@ -1434,14 +1432,14 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 		{
-			tempProtectionElement = userProvisioningManagerImpl.getProtectionElement(ProtectionElementStringArray[x][2], ProtectionElementStringArray[x][3]);
+			tempProtectionElement = userProvisioningManager.getProtectionElement(ProtectionElementStringArray[x][2], ProtectionElementStringArray[x][3]);
 			
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.secureObject(String, Object)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.secureObject(String, Object)'
 	 */
 	@SuppressWarnings("unused")
 	private void testSecureObject() {
@@ -1449,7 +1447,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.secureCollection(String, Collection)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.secureCollection(String, Collection)'
 	 */
 	@SuppressWarnings("unused")
 	private void testSecureCollection() {
@@ -1457,7 +1455,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.getPrivilegeMap(String, Collection)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrivilegeMap(String, Collection)'
 	 */
 	@SuppressWarnings("unused")
 	private void testGetPrivilegeMap() {
@@ -1465,7 +1463,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.secureUpdate(String, Object, Object)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.secureUpdate(String, Object, Object)'
 	 */
 	@SuppressWarnings("unused")
 	private void testSecureUpdate() {
@@ -1473,7 +1471,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkOwnership(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkOwnership(String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testCheckOwnership() {
@@ -1481,7 +1479,7 @@ public class UserProvisioningManagerImplTest extends TestCase {
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.assignUserToGroup(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignUserToGroup(String, String)'
 	 */
 	
 	private void testAssignUserToGroup() throws CSTransactionException 
@@ -1491,13 +1489,13 @@ public class UserProvisioningManagerImplTest extends TestCase {
 		for (int x=0; x<NumberOfUsersToTest; x++)
 		{
 			if (y == NumberOfGroupsToTest) y=0;
-			userProvisioningManagerImpl.assignUserToGroup(UserStringArray[x][0], GroupStringArray[y][0] );
+			userProvisioningManager.assignUserToGroup(UserStringArray[x][0], GroupStringArray[y][0] );
 			y++;
 		}
 	}
 
 	/*
-	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.setAuditUserInfo(String, String)'
+	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setAuditUserInfo(String, String)'
 	 */
 	@SuppressWarnings("unused")
 	private void testSetAuditUserInfo() {
