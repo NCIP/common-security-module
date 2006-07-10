@@ -191,7 +191,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.finalize()'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testFinalize() {
 
 	}
@@ -199,7 +199,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.addUserToGroup(String, String)'
 	 */
-	@SuppressWarnings("unused")  // This is not yet implemented
+	  // This is not yet implemented
 	private void testAddUserToGroup() throws CSTransactionException 
 	{
 //		//User tempUser;
@@ -218,7 +218,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.userProvisioningManager(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testUserProvisioningManagerImpl() {
 
 	}
@@ -269,7 +269,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setAuthorizationDAO(AuthorizationDAO)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testSetAuthorizationDAO() {
 
 	}
@@ -303,7 +303,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignProtectionElement(String, String, String)'
 	 */
-	@SuppressWarnings("unused")
+
 	private void testAssignProtectionElementStringStringString() throws CSTransactionException 
 	{
 		//userProvisioningManager.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2], ProtectionElementStringArray[0][3]);
@@ -340,7 +340,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setOwnerForProtectionElement(String, String[])'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testSetOwnerForProtectionElementStringStringArray() {
 
 	}
@@ -348,7 +348,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignUserRoleToProtectionGroup(String, String[], String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testAssignUserRoleToProtectionGroup() {
 
 	}
@@ -358,7 +358,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	 */
 
 	//  Removes all PE associations from the first PG
-	@SuppressWarnings("unused")
+	
 	private void testDeAssignProtectionElements() throws CSTransactionException, CSObjectNotFoundException 
 	{
 		//TODO: Make this dynamic (see commented code below)
@@ -426,7 +426,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeUserRoleFromProtectionGroup(String, String, String[])'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testRemoveUserRoleFromProtectionGroup() {
 
 	}
@@ -459,7 +459,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(AccessPermission, Subject)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testCheckPermissionAccessPermissionSubject() {
 
 	}
@@ -494,7 +494,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(AccessPermission, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testCheckPermissionAccessPermissionString() {
 
 	}
@@ -502,7 +502,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.initialize(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testInitialize() {
 
 	}
@@ -524,7 +524,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(String, String, String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testCheckPermissionStringStringStringString() {
 
 	}
@@ -548,7 +548,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(String, String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testCheckPermissionStringStringString() {
 
 	}
@@ -654,7 +654,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignProtectionElement(String, String)'
 	 */
 
-	@SuppressWarnings("unused")
+	
 	private void testAssignProtectionElementStringString() throws CSTransactionException
 	{
 		// Pulls the Group Name and PEObjectID from the initialization string.
@@ -684,7 +684,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setOwnerForProtectionElement(String, String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testSetOwnerForProtectionElementStringStringString() {
 
 	}
@@ -692,7 +692,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeGroup(String)'
 	 */
-	//@SuppressWarnings("unused")
+	//
 	private void testRemoveGroup() throws CSTransactionException 
 	{
 		String tempString = "";
@@ -787,7 +787,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignGroupRoleToProtectionGroup(String, String, String[])'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testAssignGroupRoleToProtectionGroup() throws CSTransactionException 
 	{
 		String[]ArrayOfRoles = {"1", "2", "3"};
@@ -818,7 +818,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeUserFromProtectionGroup(String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testRemoveUserFromProtectionGroup() {
 
 	}
@@ -826,7 +826,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeGroupRoleFromProtectionGroup(String, String, String[])'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testRemoveGroupRoleFromProtectionGroup() {
 
 	}
@@ -834,7 +834,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeGroupFromProtectionGroup(String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testRemoveGroupFromProtectionGroup() {
 
 	}
@@ -897,7 +897,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrivileges(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetPrivileges() {
 
 	}
@@ -905,7 +905,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getObjects(SearchCriteria)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetObjects() {
 
 	}
@@ -972,7 +972,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeProtectionElementsFromProtectionGroup(String, String[])'
 	 */
-	@SuppressWarnings("unused")  //This method is unimplemented
+	  //This method is unimplemented
 	private void testRemoveProtectionElementsFromProtectionGroup() throws CSTransactionException 
 	{
 		String[] tempString = new String[NumberOfProtectionElementsToTest];
@@ -987,7 +987,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionGroupRoleContextForUser(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetProtectionGroupRoleContextForUser() {
 
 	}
@@ -995,7 +995,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionGroupRoleContextForGroup(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetProtectionGroupRoleContextForGroup() {
 
 	}
@@ -1003,7 +1003,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElementPrivilegeContextForUser(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetProtectionElementPrivilegeContextForUser() {
 
 	}
@@ -1011,7 +1011,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElementPrivilegeContextForGroup(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetProtectionElementPrivilegeContextForGroup() {
 
 	}
@@ -1167,7 +1167,7 @@ public class UserProvisioningManagerTest extends TestCase {
 					tempString = "\nIncorrect GroupID assigned to User with ID = " + Integer.toString(x+1) + "\n";
 					//Only reason this works like this is because there is always only one group assigned right now
 					//TODO: change this so it assigns differently, and checks here differently
-					assertEquals(tempString, y+1, (long)tempGroup.getGroupId() );
+					assertEquals(tempString, y+1, ((Long)tempGroup.getGroupId()).longValue() );
 				}
 			}
 			y++;
@@ -1191,7 +1191,7 @@ public class UserProvisioningManagerTest extends TestCase {
 					Group tempGroup = (Group) i.next();
 					
 					//Get the Group's ID minus one, so it corresponds to the array element associated with it
-					int tempGroupID = Integer.parseInt(Long.toString(tempGroup.getGroupId() -1) );	
+					int tempGroupID = Integer.parseInt(Long.toString(((Long)tempGroup.getGroupId()).longValue() -1) );	
 					if (Group_UserRelationship[tempGroupID][x].length() == 0)
 					{
 						tempString = "\nIncorrect Group assigned to User with ID = " + Integer.toString(x+1) + "\n";
@@ -1205,7 +1205,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElements(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetProtectionElements() {
 
 	}
@@ -1232,7 +1232,7 @@ public class UserProvisioningManagerTest extends TestCase {
 					ProtectionGroup tempProtectionGroup = (ProtectionGroup) i.next();
 					
 					//Get the PG's ID minus one, so it corresponds to the array element associated with it
-					int tempPGID = Integer.parseInt(Long.toString(tempProtectionGroup.getProtectionGroupId()-1));		
+					int tempPGID = Integer.parseInt(Long.toString(((Long)tempProtectionGroup.getProtectionGroupId()).longValue() -1));		
 					boolean PEExistsWithinPG = false;
 
 					//Look within each PG for the PE, if not there than this test fails
@@ -1256,7 +1256,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignToProtectionGroups(String, String[])'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testAssignToProtectionGroups() {
 
 	}
@@ -1264,7 +1264,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignParentProtectionGroup(String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testAssignParentProtectionGroup() {
 
 	}
@@ -1361,7 +1361,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.assignOwners(String, String[])'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testAssignOwners() {
 
 	}
@@ -1369,7 +1369,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getOwners(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetOwners() {
 
 	}
@@ -1377,7 +1377,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getApplicationContext()'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetApplicationContext() {
 
 	}
@@ -1385,7 +1385,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrincipals(String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetPrincipals() 
 	{
 
@@ -1405,7 +1405,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	    while (i.hasNext())
 	    {
 	    	ProtectionGroup tempProtectionGroup = (ProtectionGroup) i.next();
-	    	AssertEqualsForTextInProtectionGroup(Integer.parseInt(Long.toString(tempProtectionGroup.getProtectionGroupId() - 1)), tempProtectionGroup);
+	    	AssertEqualsForTextInProtectionGroup(Integer.parseInt(Long.toString(((Long)tempProtectionGroup.getProtectionGroupId()).longValue() - 1)), tempProtectionGroup);
 	 
 	    }
 
@@ -1441,7 +1441,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.secureObject(String, Object)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testSecureObject() {
 
 	}
@@ -1449,7 +1449,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.secureCollection(String, Collection)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testSecureCollection() {
 
 	}
@@ -1457,7 +1457,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrivilegeMap(String, Collection)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testGetPrivilegeMap() {
 
 	}
@@ -1465,7 +1465,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.secureUpdate(String, Object, Object)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testSecureUpdate() {
 
 	}
@@ -1473,7 +1473,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkOwnership(String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testCheckOwnership() {
 
 	}
@@ -1497,7 +1497,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setAuditUserInfo(String, String)'
 	 */
-	@SuppressWarnings("unused")
+	
 	private void testSetAuditUserInfo() {
 
 	}
@@ -1532,7 +1532,7 @@ public class UserProvisioningManagerTest extends TestCase {
 		assertEquals("\nIncorrect Password\n", 			UserStringArray[iteration][6], tempUser.getPassword());
 		assertEquals("\nIncorrect Title\n", 			UserStringArray[iteration][7], tempUser.getTitle());
 		assertEquals("\nIncorrect Phone Number\n", 		UserStringArray[iteration][8], tempUser.getPhoneNumber());
-		assertEquals("\nIncorrect User ID\n",			tempLong					 , (long)tempUser.getUserId());
+		assertEquals("\nIncorrect User ID\n",			tempLong					 , ((Long)tempUser.getUserId()).longValue());
 	}
 	
 	private void AssertEqualsForProtectionElements (int iteration, ProtectionElement tempProtectionElement)
@@ -1544,7 +1544,7 @@ public class UserProvisioningManagerTest extends TestCase {
 		assertEquals("\nIncorrect Protection Element Description\n", ProtectionElementStringArray[iteration][1], tempProtectionElement.getProtectionElementDescription() );
 		assertEquals("\nIncorrect Protection Element ObjectId\n", 	 ProtectionElementStringArray[iteration][2], tempProtectionElement.getObjectId() );
 		assertEquals("\nIncorrect Protection Element Description\n", ProtectionElementStringArray[iteration][3], tempProtectionElement.getAttribute() );
-		assertEquals("\nIncorrect Protection Element ID\n", 		 tempLong, (long)tempProtectionElement.getProtectionElementId() );	
+		assertEquals("\nIncorrect Protection Element ID\n", 		 tempLong, ((Long)tempProtectionElement.getProtectionElementId()).longValue() );	
 	}
 	
 	private void AssertEqualsForTextInProtectionGroup(int iteration, ProtectionGroup tempPG)
