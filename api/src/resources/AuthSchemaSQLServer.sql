@@ -418,8 +418,7 @@ EXEC sp_addextendedproperty 'MS_Description', 'Establishes the relationship betw
 EXEC sp_addextendedproperty 'MS_Description', 'This table stores the privileges. e.g. CRUD', 'User', dbo, 'table', CSM_PRIVILEGE
 ;
 
-EXEC sp_addextendedproperty 'MS_Description', 'Protection element is a any resource that is to be secured within an application based on roles of the user in a particular protection group context.
-e.g. Any object, Resource etc.', 'User', dbo, 'table', CSM_PROTECTION_ELEMENT
+EXEC sp_addextendedproperty 'MS_Description', 'Protection element is a any resource that is to be secured within an application based on roles of the user in a particular protection group context. e.g. Any object, Resource etc.', 'User', dbo, 'table', CSM_PROTECTION_ELEMENT
 ;
 
 EXEC sp_addextendedproperty 'MS_Description', 'Protection group is a collection of protection elements.', 'User', dbo, 'table', CSM_PROTECTION_GROUP
@@ -437,10 +436,7 @@ EXEC sp_addextendedproperty 'MS_Description', 'Stores the users of the applicati
 EXEC sp_addextendedproperty 'MS_Description', 'Establishes the relationship between users and group. Using this table one can find out the users for a group or groups for a user.', 'User', dbo, 'table', CSM_USER_GROUP
 ;
 
-EXEC sp_addextendedproperty 'MS_Description', 'This table establishes the relation between protection group, user, role and group.
-A user is assigned a role for a particular protection group.
-Or
-A a group is assigned a role for a particular protection group. This way a context of the protection group is set here for a role assumed by a user or  a group.', 'User', dbo, 'table', CSM_USER_GROUP_ROLE_PG
+EXEC sp_addextendedproperty 'MS_Description', 'This table establishes the relation between protection group, user, role and group. A user is assigned a role for a particular protection group. Or A a group is assigned a role for a particular protection group. This way a context of the protection group is set here for a role assumed by a user or  a group.', 'User', dbo, 'table', CSM_USER_GROUP_ROLE_PG
 ;
 
 EXEC sp_addextendedproperty 'MS_Description', 'This table established the relationship between users and protection elements stating them as owner of that protection element.', 'User', dbo, 'table', CSM_USER_PE
