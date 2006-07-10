@@ -129,44 +129,44 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 		//Associate Privileges to Role
 		this.testAssignPrivilegesToRole();
+		//this.testGetPrivileges();  			//ME
 
 		
 		//Still to be done
-		this.testGetProtectionElements();
-		this.testAssignOwners();
-		this.testGetOwners();
-		this.testGetPrincipals();
-		this.testAssignProtectionElementStringString();
-		this.testAssignProtectionElementStringStringString();
-		this.testAssignToProtectionGroups();
-		this.testAssignParentProtectionGroup();
-		this.testAssignUserRoleToProtectionGroup();
-		this.testCheckOwnership();
-		this.testSecureUpdate();
-		this.testGetPrivilegeMap();
-		this.testSecureCollection();
-		this.testSecureObject();
-		this.testCheckPermissionAccessPermissionString();
-		this.testInitialize();
-		this.testCheckPermissionAccessPermissionSubject();
-		this.testCheckPermissionStringStringString();
-		this.testCheckPermissionStringStringStringString();
-		this.testFinalize();
-		this.testGetObjects();
-		this.testGetPrivileges();
-		this.testGetProtectionElementPrivilegeContextForGroup();
-		this.testGetProtectionElementPrivilegeContextForUser();
-		this.testGetProtectionGroupRoleContextForGroup();
-		this.testGetProtectionGroupRoleContextForUser();
-		this.testRemoveGroupFromProtectionGroup();
-		this.testRemoveGroupRoleFromProtectionGroup();
-		this.testRemoveUserFromProtectionGroup();
-		this.testRemoveUserRoleFromProtectionGroup();
-		this.testSetAuditUserInfo();
-		this.testSetAuthorizationDAO();
-		this.testSetOwnerForProtectionElementStringStringArray();
-		this.testSetOwnerForProtectionElementStringStringString();
-		this.testUserProvisioningManagerImpl();
+//		this.testGetProtectionElements();	//ME
+//		this.testAssignOwners();
+//		this.testGetOwners();				//ME
+//		this.testGetPrincipals();
+//		this.testAssignProtectionElementStringString();
+//		this.testAssignProtectionElementStringStringString();
+//		this.testAssignToProtectionGroups();
+//		this.testAssignParentProtectionGroup();
+//		this.testAssignUserRoleToProtectionGroup();
+//		this.testCheckOwnership();
+//		this.testSecureUpdate();
+//		this.testGetPrivilegeMap();			//ME
+//		this.testSecureCollection();
+//		this.testSecureObject();
+//		this.testCheckPermissionAccessPermissionString();
+//		this.testInitialize();
+//		this.testCheckPermissionAccessPermissionSubject();
+//		this.testCheckPermissionStringStringString();
+//		this.testCheckPermissionStringStringStringString();
+//		this.testFinalize();
+//		this.testGetObjects();
+//		this.testGetProtectionElementPrivilegeContextForGroup();
+//		this.testGetProtectionElementPrivilegeContextForUser();
+//		this.testGetProtectionGroupRoleContextForGroup();
+//		this.testGetProtectionGroupRoleContextForUser();
+//		this.testRemoveGroupFromProtectionGroup();
+//		this.testRemoveGroupRoleFromProtectionGroup();
+//		this.testRemoveUserFromProtectionGroup();
+//		this.testRemoveUserRoleFromProtectionGroup();
+//		this.testSetAuditUserInfo();
+//		this.testSetAuthorizationDAO();
+//		this.testSetOwnerForProtectionElementStringStringArray();
+//		this.testSetOwnerForProtectionElementStringStringString();
+//		this.testUserProvisioningManagerImpl();
 		
 		
 		
@@ -898,8 +898,27 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrivileges(String)'
 	 */
 	
-	private void testGetPrivileges() {
+	private void testGetPrivileges() throws CSObjectNotFoundException 
+	{
+		
+		List tempPrivilegesList = (List) userProvisioningManager.getPrivileges("1");
+		
+//	    Iterator i = tempPrivilegesList.iterator();
+//	    while (i.hasNext())
+//	    {
+//	    	Privilege tempPrivilege= (Privilege) i.next();
+//	    	AssertEqualsForTextInProtectionGroup(Integer.parseInt(Long.toString(((Long)tempProtectionGroup.getProtectionGroupId()).longValue() - 1)), tempProtectionGroup);
+//	 
+//	    }
 
+		if (tempPrivilegesList.size() != (long)NumberOfPrivilegesToTest+7 || tempPrivilegesList == null || tempPrivilegesList.isEmpty())
+	    {
+	    	String tempString = "";
+	    	tempString = "\nThe Number of Privileges associated to this Role is diiferent than expected\nExpected: " + NumberOfPrivilegesToTest + "\nActual: " + tempPrivilegesList.size() + "\n";
+	   								 										
+	    	fail(tempString);
+	    }
+		
 	}
 
 	/*
@@ -1416,10 +1435,6 @@ public class UserProvisioningManagerTest extends TestCase {
 	   								 										
 	    	fail(tempString);
 	    }
-
-		
-		
-		
 	}
 
 	/*
