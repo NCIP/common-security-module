@@ -11,12 +11,15 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
@@ -113,11 +116,15 @@ public class UserProvisioningManagerTest extends TestCase {
 		// PE to PG Associations
 		//Assigns PE starting with all PE to first PG then decrementing the number assigned by one for each new PG, 
 		//			Also initializes PG_PERelationships array, used in testGetProtectionGroupsString()
-		this.testAssignProtectionElements();
+		this.testAssignProtectionElements();					//After this function executes is where the occational freeze occurs!!!!!!!!!
 		this.testGetProtectionGroupsString();
-		//this.testDeAssignProtectionElements();  			//I can't get this to work.
-		//this.testAssignProtectionElementStringString();  	//Needs above line before can execute
-		//this.testAssignProtectionElementStringStringString();
+		//this.testAssignProtectionElementStringStringString();	//This works, but is not dynamic, only assigns 1st PE to 1st PG
+		//this.testDeAssignProtectionElements();  				//I can't get this to work.
+		//this.testAssignProtectionElementStringString();  		//Needs above line before can execute
+		
+//		this.testGetProtectionElements();						//Suggested by Kunal
+		
+		//MODIFY
 		this.testModifyProtectionGroup();  				
 		this.testModifyProtectionElement();  				
 		this.testModifyRole();
@@ -129,29 +136,29 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 		//Associate Privileges to Role
 		this.testAssignPrivilegesToRole();
-		//this.testGetPrivileges();  			//ME
-
+		this.testGetPrivileges();  			
+		
 		
 		//Still to be done
-//		this.testGetProtectionElements();	//ME
+
 //		this.testAssignOwners();
-//		this.testGetOwners();				//ME
-//		this.testGetPrincipals();
-//		this.testAssignProtectionElementStringString();
+//		this.testGetOwners();										//Suggested by Kunal
+//		this.testGetPrincipals();									//NOT tested by UPT
+//		this.testAssignProtectionElementStringString();				//NOT tested by UPT
 //		this.testAssignProtectionElementStringStringString();
-//		this.testAssignToProtectionGroups();
-//		this.testAssignParentProtectionGroup();
-//		this.testAssignUserRoleToProtectionGroup();
-//		this.testCheckOwnership();
-//		this.testSecureUpdate();
-//		this.testGetPrivilegeMap();			//ME
-//		this.testSecureCollection();
-//		this.testSecureObject();
-//		this.testCheckPermissionAccessPermissionString();
-//		this.testInitialize();
-//		this.testCheckPermissionAccessPermissionSubject();
-//		this.testCheckPermissionStringStringString();
-//		this.testCheckPermissionStringStringStringString();
+//		this.testAssignToProtectionGroups();						//NOT tested by UPT
+//		this.testAssignParentProtectionGroup();						//NOT tested by UPT
+//		this.testAssignUserRoleToProtectionGroup();					//NOT tested by UPT
+//		this.testCheckOwnership();									//NOT tested by UPT
+//		this.testSecureUpdate();									//NOT tested by UPT
+		this.testGetPrivilegeMap();									//NOT tested by UPT  //Suggested by Kunal
+//		this.testSecureCollection();								//NOT tested by UPT
+//		this.testSecureObject();									//NOT tested by UPT
+//		this.testCheckPermissionAccessPermissionString();			//NOT tested by UPT
+//		this.testInitialize();										//NOT tested by UPT
+//		this.testCheckPermissionAccessPermissionSubject();			//NOT tested by UPT
+//		this.testCheckPermissionStringStringString();				//NOT tested by UPT
+//		this.testCheckPermissionStringStringStringString();			//NOT tested by UPT
 //		this.testFinalize();
 //		this.testGetObjects();
 //		this.testGetProtectionElementPrivilegeContextForGroup();
@@ -159,13 +166,13 @@ public class UserProvisioningManagerTest extends TestCase {
 //		this.testGetProtectionGroupRoleContextForGroup();
 //		this.testGetProtectionGroupRoleContextForUser();
 //		this.testRemoveGroupFromProtectionGroup();
-//		this.testRemoveGroupRoleFromProtectionGroup();
+//		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT
 //		this.testRemoveUserFromProtectionGroup();
-//		this.testRemoveUserRoleFromProtectionGroup();
-//		this.testSetAuditUserInfo();
-//		this.testSetAuthorizationDAO();
-//		this.testSetOwnerForProtectionElementStringStringArray();
-//		this.testSetOwnerForProtectionElementStringStringString();
+//		this.testRemoveUserRoleFromProtectionGroup();				//NOT tested by UPT
+//		this.testSetAuditUserInfo();								//NOT tested by UPT
+//		this.testSetAuthorizationDAO();								
+//		this.testSetOwnerForProtectionElementStringStringArray();	//NOT tested by UPT
+//		this.testSetOwnerForProtectionElementStringStringString();	//NOT tested by UPT
 //		this.testUserProvisioningManagerImpl();
 		
 		
@@ -306,7 +313,7 @@ public class UserProvisioningManagerTest extends TestCase {
 
 	private void testAssignProtectionElementStringStringString() throws CSTransactionException 
 	{
-		//userProvisioningManager.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2], ProtectionElementStringArray[0][3]);
+		userProvisioningManager.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2], ProtectionElementStringArray[0][3]);
 	}
 
 	/*
@@ -362,7 +369,8 @@ public class UserProvisioningManagerTest extends TestCase {
 	private void testDeAssignProtectionElements() throws CSTransactionException, CSObjectNotFoundException 
 	{
 		//TODO: Make this dynamic (see commented code below)
-		userProvisioningManager.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
+		userProvisioningManager.deAssignProtectionElements("TestProtectionGroupName0", "TestProtectionElementObjectID0");
+		//userProvisioningManager.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
 //		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
 //		{	
 //			//userProvisioningManager.deAssignProtectionElements(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[x][2]);
@@ -901,20 +909,12 @@ public class UserProvisioningManagerTest extends TestCase {
 	private void testGetPrivileges() throws CSObjectNotFoundException 
 	{
 		
-		List tempPrivilegesList = (List) userProvisioningManager.getPrivileges("1");
+		Set tempPrivilegesSet = (Set) userProvisioningManager.getPrivileges("1");
 		
-//	    Iterator i = tempPrivilegesList.iterator();
-//	    while (i.hasNext())
-//	    {
-//	    	Privilege tempPrivilege= (Privilege) i.next();
-//	    	AssertEqualsForTextInProtectionGroup(Integer.parseInt(Long.toString(((Long)tempProtectionGroup.getProtectionGroupId()).longValue() - 1)), tempProtectionGroup);
-//	 
-//	    }
-
-		if (tempPrivilegesList.size() != (long)NumberOfPrivilegesToTest+7 || tempPrivilegesList == null || tempPrivilegesList.isEmpty())
+		if (tempPrivilegesSet.size() != (long)NumberOfPrivilegesToTest+7 || tempPrivilegesSet == null || tempPrivilegesSet.isEmpty())
 	    {
 	    	String tempString = "";
-	    	tempString = "\nThe Number of Privileges associated to this Role is diiferent than expected\nExpected: " + NumberOfPrivilegesToTest + "\nActual: " + tempPrivilegesList.size() + "\n";
+	    	tempString = "\nThe Number of Privileges associated to this Role is different than expected\nExpected: " + NumberOfPrivilegesToTest + "\nActual: " + tempPrivilegesSet.size() + "\n";
 	   								 										
 	    	fail(tempString);
 	    }
@@ -981,7 +981,6 @@ public class UserProvisioningManagerTest extends TestCase {
 			}
 			userProvisioningManager.assignProtectionElements(Integer.toString(x+1), tempProtectionElementsArray);
 		
-			tempProtectionElementsArray = null;
 			tempPECounter--;
 		}
 		
@@ -1225,8 +1224,17 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getProtectionElements(String)'
 	 */
 	
-	private void testGetProtectionElements() {
-
+	private void testGetProtectionElements() throws CSObjectNotFoundException 
+	{
+//		Set tempPESet = (Set) userProvisioningManager.getProtectionElements("1");
+//		long tempLong = 1;
+//		
+//	    Iterator i = tempPESet.iterator();
+//	    while (i.hasNext())
+//	    {
+//	    	Privilege tempPE = (Privilege) i.next();
+//	    	assertEquals("\nTemporary fail of PE/PG assignment check.\n", tempLong, (long)tempPE.getId());
+//	    }
 	}
 
 	/*
@@ -1473,8 +1481,10 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getPrivilegeMap(String, Collection)'
 	 */
 	
-	private void testGetPrivilegeMap() {
-
+	private void testGetPrivilegeMap() throws CSException 
+	{
+		ArrayList tempPEArrayList = new ArrayList();
+		Collection tempResults = userProvisioningManager.getPrivilegeMap(UserStringArray[0][0], tempPEArrayList);
 	}
 
 	/*
