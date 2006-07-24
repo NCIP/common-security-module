@@ -15,6 +15,7 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -90,70 +91,79 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 		//Confirm Created (only tests basic data - strings, IDs, and flags)
 		//TODO: Write an AssertEqualsForTextInXXX() for all of these "Get" functions below - make it as generic as possible (possibly one function)
-//		this.testGetApplicationById();
-//		this.testGetUser();
-//		this.testGetUserById();
-//		this.testGetPrivilegeById();
-//		this.testGetProtectionElementById();
-//		this.testGetProtectionElementString();
-//		this.testGetProtectionElementStringString();
-//		this.testGetRoleById();
-//		this.testGetGroupById();
-//		this.testGetProtectionGroupById();
-//		this.testGetProtectionGroups();
-//		this.testGetProtectionElementString();
+		this.testGetApplicationById();
+		this.testGetUser();
+		this.testGetUserById();
+		this.testGetPrivilegeById();
+		this.testGetProtectionElementById();
+		this.testGetProtectionElementString();
+		this.testGetProtectionElementStringString();
+		this.testGetRoleById();
+		this.testGetGroupById();
+		this.testGetProtectionGroupById();
+		this.testGetProtectionGroups();
+		this.testGetProtectionElementString();
 
 		//Assigns each user 1 group
-//		this.testAssignUserToGroup();
-//		this.testGetGroups();
+		this.testAssignUserToGroup();
+		this.testGetGroups();
 		
 		//Remove the associations just made, then remake associations where first user
 		// 		gets assigned to all the groups, second to all groups - 1, etc.
-//		this.testRemoveUserFromGroup(); 	// Removes only groups added by "testAssignUserToGroup()"
-//		this.testAssignGroupsToUser();  	// Assigns multiple groups per most users
-//		this.testGetGroupsMulti();			// Checks all user to group associations are correct
-//		
+		this.testRemoveUserFromGroup(); 	// Removes only groups added by "testAssignUserToGroup()"
+		this.testAssignGroupsToUser();  	// Assigns multiple groups per most users
+		this.testGetGroupsMulti();			// Checks all user to group associations are correct
+		this.testGetPrincipals();			//NOT tested by UPT  //I still don't know what this does exactly, but it seems to be working
+
+		
 		// PE to PG Associations
+		this.testAssignProtectionElementStringStringString();	//This works, but is not dynamic, only assigns 1st PE to 1st PG
+		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
+		this.testAssignToProtectionGroups();						//NOT tested by UPT  //Assigns all Protection Groups to all Protection Elements
+		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
+		//this.testDeAssignProtectionElements();  				//BUGGED - posted in GForge
+		this.testAssignProtectionElementStringString();  		//Needs above line before can execute
+		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
+		
 		//Assigns PE starting with all PE to first PG then decrementing the number assigned by one for each new PG, 
 		//			Also initializes PG_PERelationships array, used in testGetProtectionGroupsString()
-		//this.testAssignProtectionElements();					//After this function executes is where the occational freeze occurs!!!!!!!!!
-//		this.testGetProtectionGroupsString();
-		//this.testAssignProtectionElementStringStringString();	//This works, but is not dynamic, only assigns 1st PE to 1st PG
-		//this.testDeAssignProtectionElements();  				//I can't get this to work.
-		//this.testAssignProtectionElementStringString();  		//Needs above line before can execute
+		this.testAssignProtectionElements();					//After this function executes is where the occational freeze occurs!!!!!!!!!
+		this.testGetProtectionGroupsString();					//Must be paired with testAssignProtectionElements()
 		
-//		this.testGetProtectionElements();						//Suggested by Kunal
+		//TODO: Enhance this method to ensure the CORRECT PEs are returned
+		this.testGetProtectionElements();						//This method only checks to make sure a valid set of PEs was returned
 		
 		//MODIFY
-//		this.testModifyProtectionGroup();  				
-//		this.testModifyProtectionElement();  				
-//		this.testModifyRole();
-//		this.testModifyApplication();
-//		this.testModifyGroup();
-//		this.testModifyPrivilege();
-//		this.testModifyUser();
-		//this.testAssignGroupRoleToProtectionGroup();
+		this.testModifyProtectionGroup();  				
+		this.testModifyProtectionElement();  				
+		this.testModifyRole();
+		this.testModifyApplication();
+		this.testModifyGroup();
+		this.testModifyPrivilege();
+		this.testModifyUser();
 		
 		//Associate Privileges to Role
-//		this.testAssignPrivilegesToRole();
-//		this.testGetPrivileges();  			
+		this.testAssignPrivilegesToRole();
+		this.testGetPrivileges();  			
 		
 		
 		//Work in Progress - the methods below need to have assertions added
-		//this.testGetPrivilegeMap();								//NOT tested by UPT  //Suggested by Kunal, but has dependancy on others first
-//		this.testAssignToProtectionGroups();						//NOT tested by UPT  //Assigns all Protection Groups to all Protection Elements
-		this.testAssignUserRoleToProtectionGroup();					//NOT tested by UPT
-		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //Not sure if this is working cause I'm not exactly sure what it does???
-//		this.testAssignParentProtectionGroup();						//NOT tested by UPT
-//		this.testSetOwnerForProtectionElementStringStringArray();	//NOT tested by UPT  //This is bugged I think
-//		this.testAssignOwners();									//TODO: make this more dynamic, only assigns one PE to each user
-//		this.testCheckOwnership();									//NOT tested by UPT
 		
+		this.testAssignUserRoleToProtectionGroup();					//NOT tested by UPT
+		this.testAssignParentProtectionGroup();						//NOT tested by UPT
+		//this.testSetOwnerForProtectionElementStringStringArray();	//NOT tested by UPT  //Needs work
+		this.testAssignOwners();									//TODO: make this more dynamic, only assigns one PE to each user
+		this.testCheckOwnership();									//NOT tested by UPT
+		
+		
+//		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //In Progress
+//		this.testGetPrivilegeMap();									//NOT tested by UPT  //Suggested by Kunal, but has dependancy on others first
+		
+		
+		//---------------------------------------------------------------------------------------------------
 		//Still to be done
-
-
+		//---------------------------------------------------------------------------------------------------
 //		this.testGetOwners();										//Suggested by Kunal
-//		this.testGetPrincipals();									//NOT tested by UPT
 //		this.testAssignProtectionElementStringString();				//NOT tested by UPT
 //		this.testAssignProtectionElementStringStringString();
 //		this.testSecureUpdate();									//NOT tested by UPT
@@ -181,13 +191,13 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 		
 		//DELETE EVERYTHING
-//		this.testRemoveGroup();
-//		this.testRemovePrivilege();
-//		this.testRemoveRole();
-//		this.testRemoveProtectionElement();
-//		this.testRemoveProtectionGroup();
-//		this.testRemoveUser();
-//		this.testRemoveApplication();
+		this.testRemoveGroup();
+		this.testRemovePrivilege();
+		this.testRemoveRole();
+		this.testRemoveProtectionElement();
+		this.testRemoveProtectionGroup();
+		this.testRemoveUser();
+		this.testRemoveApplication();
 		
 		// UNIMPLEMENTED CODE
 		//testRemoveProtectionElementsFromProtectionGroup();  	// Unimplemented
@@ -353,8 +363,14 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testSetOwnerForProtectionElementStringStringArray() throws CSTransactionException 
 	{
-		// I think this is bugged
-		userProvisioningManager.setOwnerForProtectionElement(UserStringArray[0][0], ProtectionElementStringArray[0][0], ProtectionElementStringArray[0][3]);
+		//Adds all PEs to all Users
+		for (int x=0; x<NumberOfUsersToTest; x++)
+		{
+			for (int y=0; y<NumberOfProtectionElementsToTest; y++)
+			{
+				userProvisioningManager.setOwnerForProtectionElement(UserStringArray[x][0], ProtectionElementStringArray[y][2], ProtectionElementStringArray[y][3]);
+			}
+		}
 	}
 
 	/*
@@ -692,7 +708,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	{
 		// Pulls the Group Name and PEObjectID from the initialization string.
 		// TODO: Update to be more dynamic.
-		//userProvisioningManager.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
+		userProvisioningManager.assignProtectionElement(ProtectionGroupStringArray[0][0], ProtectionElementStringArray[0][2]);
 	}
 
 	/*
@@ -997,7 +1013,6 @@ public class UserProvisioningManagerTest extends TestCase {
 
 	private void testAssignProtectionElements() throws CSTransactionException 
 	{
-		
 		int tempPECounter = NumberOfProtectionElementsToTest;
 		
 		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
@@ -1016,10 +1031,17 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 			tempPECounter--;
 		}
-		
-		
 	}
 
+	private void testRemoveAllAssignedProtectionElementsFromAllProtectionGroups() throws CSTransactionException
+	{
+		String[] tempProtectionElementsArray = new String[0];
+		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
+		{
+			userProvisioningManager.assignProtectionElements(Integer.toString(x+1), tempProtectionElementsArray);
+		}
+	}
+	
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeProtectionElementsFromProtectionGroup(String, String[])'
 	 */
@@ -1259,15 +1281,18 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testGetProtectionElements() throws CSObjectNotFoundException 
 	{
-//		Set tempPESet = (Set) userProvisioningManager.getProtectionElements("1");
-//		long tempLong = 1;
-//		
-//	    Iterator i = tempPESet.iterator();
-//	    while (i.hasNext())
-//	    {
-//	    	Privilege tempPE = (Privilege) i.next();
-//	    	assertEquals("\nTemporary fail of PE/PG assignment check.\n", tempLong, (long)tempPE.getId());
-//	    }
+		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
+		{
+			Set tempPESet = (Set) userProvisioningManager.getProtectionElements(x+1+"");
+			
+		    Iterator i = tempPESet.iterator();
+		    while (i.hasNext())
+		    {
+		    	ProtectionElement tempPE = (ProtectionElement) i.next();
+		    	AssertEqualsForProtectionElements(tempPE.getProtectionElementId().intValue()-1, tempPE);
+		    }
+		}
+		
 	}
 
 	/*
@@ -1473,7 +1498,8 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testGetPrincipals() 
 	{
-
+		Principal[] tempPrincipal = userProvisioningManager.getPrincipals(UserStringArray[0][0]);
+		assertNotNull("\nThe pricipal returned was NULL.\n", tempPrincipal);
 	}
 
 	/*
