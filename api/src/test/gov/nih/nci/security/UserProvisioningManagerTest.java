@@ -169,6 +169,10 @@ public class UserProvisioningManagerTest extends TestCase {
 //		this.testAssignProtectionElementStringString();				//NOT tested by UPT
 //		this.testAssignProtectionElementStringStringString();
 //		this.testSecureUpdate();									//NOT tested by UPT
+		/* 	Parameters for Secure Update()
+		 * 	userName - The user name of the User which is trying to update the object
+		 	originalObject - The original data object as it was read from the data base
+		 	mutatedObject - The data object which contains the changes which the user has made */
 //		this.testSecureCollection();								//NOT tested by UPT
 //		this.testSecureObject();									//NOT tested by UPT
 //		this.testCheckPermissionAccessPermissionString();			//NOT tested by UPT
@@ -184,7 +188,6 @@ public class UserProvisioningManagerTest extends TestCase {
 //		this.testGetProtectionGroupRoleContextForUser();
 //		this.testRemoveGroupFromProtectionGroup();
 //		this.testRemoveUserFromProtectionGroup();
-
 //		this.testSetAuditUserInfo();								//NOT tested by UPT
 //		this.testSetAuthorizationDAO();								
 //		this.testSetOwnerForProtectionElementStringStringString();	//NOT tested by UPT
