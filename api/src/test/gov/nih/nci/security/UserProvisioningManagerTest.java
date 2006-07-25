@@ -150,13 +150,15 @@ public class UserProvisioningManagerTest extends TestCase {
 		//Work in Progress - the methods below need to have assertions added
 		
 		this.testAssignUserRoleToProtectionGroup();					//NOT tested by UPT
+		this.testRemoveUserRoleFromProtectionGroup();				//NOT tested by UPT
+		
 		this.testAssignParentProtectionGroup();						//NOT tested by UPT
 		//this.testSetOwnerForProtectionElementStringStringArray();	//NOT tested by UPT  //Needs work
 		this.testAssignOwners();									//TODO: make this more dynamic, only assigns one PE to each user
 		this.testCheckOwnership();									//NOT tested by UPT
 		
 		
-//		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //In Progress
+//		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //Need to know how to assign group and role and PG
 //		this.testGetPrivilegeMap();									//NOT tested by UPT  //Suggested by Kunal, but has dependancy on others first
 		
 		
@@ -182,7 +184,7 @@ public class UserProvisioningManagerTest extends TestCase {
 //		this.testGetProtectionGroupRoleContextForUser();
 //		this.testRemoveGroupFromProtectionGroup();
 //		this.testRemoveUserFromProtectionGroup();
-//		this.testRemoveUserRoleFromProtectionGroup();				//NOT tested by UPT
+
 //		this.testSetAuditUserInfo();								//NOT tested by UPT
 //		this.testSetAuthorizationDAO();								
 //		this.testSetOwnerForProtectionElementStringStringString();	//NOT tested by UPT
@@ -191,13 +193,13 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 		
 		//DELETE EVERYTHING
-		this.testRemoveGroup();
-		this.testRemovePrivilege();
-		this.testRemoveRole();
-		this.testRemoveProtectionElement();
-		this.testRemoveProtectionGroup();
-		this.testRemoveUser();
-		this.testRemoveApplication();
+//		this.testRemoveGroup();
+//		this.testRemovePrivilege();
+//		this.testRemoveRole();
+//		this.testRemoveProtectionElement();
+//		this.testRemoveProtectionGroup();
+//		this.testRemoveUser();
+//		this.testRemoveApplication();
 		
 		// UNIMPLEMENTED CODE
 		//testRemoveProtectionElementsFromProtectionGroup();  	// Unimplemented
@@ -379,6 +381,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testAssignUserRoleToProtectionGroup() throws CSTransactionException 
 	{
+		//This method adds all roles to all groups for each user
 		String[] tempRoleIDs = new String[NumberOfRolesToTest];
 		int tempNumberOfGroupsToTest = NumberOfGroupsToTest;
 		
@@ -476,8 +479,18 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeUserRoleFromProtectionGroup(String, String, String[])'
 	 */
 	
-	private void testRemoveUserRoleFromProtectionGroup() {
-
+	private void testRemoveUserRoleFromProtectionGroup() throws CSTransactionException 
+	{
+		String[] tempRoleIDs = new String[NumberOfRolesToTest];
+		
+		for (int x=0; x<NumberOfRolesToTest; x++)
+		{
+			tempRoleIDs[x] = x+1+"";
+		}
+		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
+		{
+			userProvisioningManager.removeUserRoleFromProtectionGroup(x+1+"", "1", tempRoleIDs);
+		}
 	}
 
 	/*
