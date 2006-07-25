@@ -174,5 +174,52 @@ public class SecurityServiceProvider {
 	{
 		return AuthenticationManagerFactory.getAuthenticationManager(applicationContextName);		
 	}
+	
+	/**
+	 * Obtains an instance of {@link AuthorizationManager} implementation from the
+	 * {@link AuthorizationManagerFactory} class, for the Application Context/Name provide.
+	 * If an custom Authorization Manager Class is registered for the application then the
+	 * {@link AuthorizationManagerFactory} class will instantiate the same and return it.
+	 * If no configuration is found then the default {@link UserProvisioningManagerImpl} class
+	 * is instantiated and returned. This manager should be used by the Client Applications which
+	 * needs to use the Authorization service provided by Common Security Module
+	 * 
+	 * @param applicationContextName The name or context of the calling application. This parameter is used to retrieve
+	 * the implementation class for that Application from the property file if it is configured.
+	 * @param userOrGroupName 
+	 * @param isUserName 
+	 * @return The implementation of the {@link AuthorizationManager} interface is returned based on the
+	 * configuration for the application
+	 * @throws CSException if an instance of {@link AuthorizationManager} could not be obtained
+	 */
+	public static AuthorizationManager getAuthorizationManager(String applicationContextName, String userOrGroupName, boolean isUserName)throws CSException
+	{
+		return AuthorizationManagerFactory.getAuthorizationManager(applicationContextName, userOrGroupName, isUserName);
+	}
+	
+	/**
+	 * This method will provides the default implementation of the {@link UserProvisioningManager}. This Manager
+	 * is used only by the User Provisioning Tool and is not available for the applications to use at runtime. The 
+	 * methods exposed 
+	 * @param contextName
+	 * @param userOrGroupName 
+	 * @param isUserName 
+	 * @return The implementation of the {@link UserProvisioningManager} interface is returned based on the
+	 * configuration for the application
+	 * @throws CSException if an instance of {@link UserProvisioningManager} could not be obtained
+	 */
+	public static UserProvisioningManager getUserProvisioningManager(String contextName, String userOrGroupName, boolean isUserName) throws CSException{
+		
+		UserProvisioningManager userProvisioningManager = null;
+		try{
+			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, userOrGroupName, isUserName);		
+			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
+		}catch(Exception ex)
+		{
+			throw new CSException("Could  not initialize Manager",ex);
+		}
+		return userProvisioningManager;
+	}
+
 
 }

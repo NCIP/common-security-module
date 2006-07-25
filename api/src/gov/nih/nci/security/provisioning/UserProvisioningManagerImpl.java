@@ -174,6 +174,30 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	}
 
 	/**
+	 * Constructor for UserProvisioningManagerImpl.
+	 * @param applicationContextName String
+	 * @param userOrGroupName 
+	 * @param isUserName 
+	 * @throws Exception
+	 */
+	public UserProvisioningManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName) throws Exception{
+		/**
+		 *  Ultimately we have to use ApplicationSessionFactory class
+		 *  to get appropriate sessionFcatory for a application.
+		 */
+		try{
+		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
+		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
+		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
+		authorizationDAO = (AuthorizationDAO)(adi);
+		}catch(Exception ex){
+			throw ex;
+		}
+
+	}	
+	
+	
+	/**
 	 * Method finalize.
 	 * @throws Throwable
 	 */
@@ -473,6 +497,17 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.checkPermission(userName,objectId,privilegeName);
 	}
 
+	
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException
+	{
+		return authorizationDAO.checkPermissionForGroup(groupName,objectId,attributeName,privilegeName) ;
+	}
+
+	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException
+	{
+		return authorizationDAO.checkPermissionForGroup(groupName,objectId,privilegeName) ;
+	}	
+	
 	/**
 	 * @param privilege
 	 * 
@@ -1064,4 +1099,5 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	{
 		UserInfoHelper.setUserInfo(userName, sessionId);
 	}
+
 }

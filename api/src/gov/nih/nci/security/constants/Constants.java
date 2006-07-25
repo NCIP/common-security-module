@@ -107,4 +107,6 @@ public class Constants
 	public static final String LDAP_HOST = "ldapHost";
 	public static final String LDAP_SEARCHABLE_BASE = "ldapSearchableBase";
 	public static final String LDAP_USER_ID_LABEL = "ldapUserIdLabel";
+	public static final String LDAP_ADMIN_USER_NAME = "ldapAdminUserName";
+	public static final String LDAP_ADMIN_PASSWORD = "ldapAdminPassword";
 }

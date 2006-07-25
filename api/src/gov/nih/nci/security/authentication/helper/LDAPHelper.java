@@ -162,7 +162,13 @@ public class LDAPHelper {
 		environment.put(Context.INITIAL_CONTEXT_FACTORY, Constants.INITIAL_CONTEXT);
 		environment.put(Context.PROVIDER_URL, connectionProperties.get(Constants.LDAP_HOST));
 		environment.put(Context.SECURITY_AUTHENTICATION, "simple");
-		environment.put(Context.SECURITY_PROTOCOL, "ssl");
+		if (((String)connectionProperties.get(Constants.LDAP_HOST)).contains("ldaps"))
+			environment.put(Context.SECURITY_PROTOCOL, "ssl");
+		if (connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME)!= null && ((String)connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME)).length() != 0)
+			environment.put(Context.SECURITY_PRINCIPAL, connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME));
+		if (connectionProperties.get(Constants.LDAP_ADMIN_PASSWORD)!= null && ((String)connectionProperties.get(Constants.LDAP_ADMIN_PASSWORD)).length() != 0)
+			environment.put(Context.SECURITY_CREDENTIALS, connectionProperties.get(Constants.LDAP_ADMIN_PASSWORD));
+		
 		if (log.isDebugEnabled())
 			log.debug("Authentication|||setLDAPEnvironment|Success| Set the LDAP Environment Properties |" + connectionProperties.get(Constants.LDAP_HOST));			
 	}
@@ -181,8 +187,8 @@ public class LDAPHelper {
 	 */
 	private static String getFullyDistinguishedName(Hashtable environment,
 			Hashtable connectionProperties, String userName) throws CSException {
-		String[] attributeIDs = { (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) };
-		String searchFilter = "(" + (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + "*)";
+		String[] attributeIDs = { (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) }; //{"dn"} ;
+		String searchFilter = "(" + (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + ")";
 
 		try {
 			DirContext dirContext = new InitialDirContext(environment);
@@ -192,9 +198,7 @@ public class LDAPHelper {
 			searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
 			String fullyDistinguishedName = null;
-			NamingEnumeration searchEnum = dirContext.search(
-					(String) connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE),
-					searchFilter, searchControls);
+			NamingEnumeration searchEnum = dirContext.search((String) connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE), searchFilter, searchControls);
 			dirContext.close();
 
 			while (searchEnum.hasMore()) {
@@ -223,7 +227,7 @@ public class LDAPHelper {
 	 */
 	private static boolean ldapAuthenticateUser(Hashtable environment, Hashtable connectionProperties, String userName, String password) throws CSException
 	{
-		String fullyDistinguishedName = getFullyDistinguishedName(environment, connectionProperties, userName);
+		String fullyDistinguishedName = getFullyDistinguishedName(environment, connectionProperties, userName);//connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + "," + connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE);
 
 		if (null == fullyDistinguishedName) {
 			if (log.isDebugEnabled())

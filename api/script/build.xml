@@ -6,6 +6,8 @@
 	<property name="lib" location="lib" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
+	<property name="resources" location="resources" />
+	
 
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -38,8 +40,7 @@
 			</fileset>
 		</copy>
 		<copy file="${src}/hibernate.properties" todir="${build}" />
-		<copy file="${src}/resources/ObjectStateLoggerConfig.xml" todir="${build}" />		
-		<delete dir="${build}/resources"/>
+		<copy file="${resources}/ObjectStateLoggerConfig.xml" todir="${build}" />		
 	</target>
 
 	<target name="dist" depends="compile" description="generate the distribution">
@@ -51,7 +52,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${dist}">
-			<fileset dir="${src}\resources">
+			<fileset dir="${resources}">
 			</fileset>
 		</copy>
 	</target>

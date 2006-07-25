@@ -123,6 +123,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -159,6 +160,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	private Application application = null;
 
 	private String typeOfAccess = "MIXED";
+	private static final String SEPERATOR = "#@#";
+
+	private String localUserOrGroupName = "";
+	
+	private int cacheLevel = 0;
+	
+	private HashMap localCache = new HashMap();
 
 	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) {
 		setHibernateSessionFactory(sf);
@@ -191,6 +199,125 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ applicationContextName
 							+ "||AuthorizationDAOImpl|Success|Instantiated AuthorizationDAOImpl|");
 		
+	}
+
+	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName, String userOrGroupName, boolean isUserName) 
+	{
+		setHibernateSessionFactory(sf);
+		try {
+			Application app = this.getApplicationByName(applicationContextName);
+			if (app == null) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|" + applicationContextName + "||AuthorizationDAOImpl|Failure|No Application found for the Context Name|");
+				throw new Exception("Unable to retrieve Application with this Context Name");
+			}
+			this.setApplication(app);
+
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Authorization|" + applicationContextName	+ "||AuthorizationDAOImpl|Failure|Cannot instantiate AuthorizationDAOImpl|"	+ ex.getMessage());
+			throw new RuntimeException(	"Unable to Instantiate the AuthorizationDAOImpl");
+		}
+		
+		populateCache(userOrGroupName, isUserName);
+		
+		localUserOrGroupName = userOrGroupName;
+		if (isUserName)
+			cacheLevel = 1;
+		else
+			cacheLevel = 2;
+		
+		if (log.isDebugEnabled())
+			log.debug("Authorization|" + applicationContextName + "||AuthorizationDAOImpl|Success|Instantiated AuthorizationDAOImpl|");
+		
+	}
+	
+	
+	private void populateCache(String userOrGroupName, boolean isUserName)
+	{
+		Collection protectionElementPrivilegeContexts = null;
+		if (isUserName)
+		{
+			User user = getUser(userOrGroupName);
+			if (user == null)
+			{
+				throw new RuntimeException ("User Name doesnot Exist");
+			}
+			try
+			{
+				protectionElementPrivilegeContexts = getProtectionElementPrivilegeContextForUser(user.getUserId().toString());
+			}
+			catch (CSObjectNotFoundException e)
+			{
+				throw new RuntimeException ("User Name doesnot Exist");
+			}
+		}
+		else
+		{
+			Group group = new Group();
+			group.setGroupName(userOrGroupName);
+			List groups = getObjects(new GroupSearchCriteria(group));
+			if (groups == null || groups.size() == 0)
+			{
+				throw new RuntimeException ("Group Name doesnot Exist");
+			}
+			try
+			{
+				protectionElementPrivilegeContexts = getProtectionElementPrivilegeContextForGroup(((Group)groups.get(0)).getGroupId().toString());
+			}
+			catch (CSObjectNotFoundException e)
+			{
+				throw new RuntimeException ("Group Name doesnot Exist");
+			}
+		}
+		if ( protectionElementPrivilegeContexts != null && protectionElementPrivilegeContexts.size() != 0 )
+		{
+			Iterator iterator = protectionElementPrivilegeContexts.iterator();
+			String key = null;
+			while (iterator.hasNext())
+			{
+				ProtectionElementPrivilegeContext protectionElementPrivilegeContext = (ProtectionElementPrivilegeContext)iterator.next();
+				ProtectionElement protectionElement = protectionElementPrivilegeContext.getProtectionElement();
+				Set privileges = protectionElementPrivilegeContext.getPrivileges();
+				Iterator iterator2 = privileges.iterator();
+				List privilegesName = new ArrayList();
+				while (iterator2.hasNext())
+				{
+					privilegesName.add(((Privilege)iterator2.next()).getName());
+				}
+				if (protectionElement.getAttribute() != null && protectionElement.getAttribute().trim().length() != 0)
+					key = protectionElement.getObjectId() + AuthorizationDAOImpl.SEPERATOR + protectionElement.getAttribute();
+				else
+					key = protectionElement.getObjectId();					
+				localCache.put(key,privilegesName);
+			}
+		}
+		if (log.isDebugEnabled())
+		{
+			if (isUserName)
+				log.debug("Authorization|||populateCache|Success|Loaded Cache for User "+ userOrGroupName +"|");
+			else
+				log.debug("Authorization|||populateCache|Success|Loaded Cache for Group "+ userOrGroupName +"|");
+		}
+	}
+	
+	private boolean checkCachedPermission(String userOrGroupName, String objectId, String attribute, String privilege)
+	{
+		boolean isAllowed = false;
+		String key = null;
+		List privileges = null;
+		if (attribute != null)
+			key = objectId + AuthorizationDAOImpl.SEPERATOR + attribute;
+		else
+			key = objectId;
+		
+		if (localCache.containsKey(key))
+		{
+			privileges = (List) localCache.get(key);
+		}
+		if (privileges != null && (privileges.contains("OWNER") || privileges.contains(privilege)))
+			isAllowed = true;
+		return isAllowed;
 	}
 
 	public void finalize() throws Throwable {
@@ -792,6 +919,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(objectId)) {
 			throw new CSException("objectId can't be null!");
 		}
+		
+		// Check if cache is enabled for user
+		if (cacheLevel == 1 && localUserOrGroupName.equals(userName))
+			return checkCachedPermission(userName, objectId, attributeName, privilegeName);
+		
 		test = this.checkOwnership(userName, objectId);
 		if (test)
 			return true;
@@ -857,6 +989,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(objectId)) {
 			throw new CSException("objectId can't be null!");
 		}
+		// Check if cache is enabled for user
+		if (cacheLevel == 1 && localUserOrGroupName.equals(userName))
+			return checkCachedPermission(userName, objectId, null, privilegeName);
+		
 		test = this.checkOwnership(userName, objectId);
 		if (test)
 			return true;
@@ -869,7 +1005,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 
 		if (typeOfAccess.equalsIgnoreCase("GROUP_ONLY")) {
-			test = this.checkPermissionForGroup(userName, objectId,
+			test = this.checkPermissionForUserGroup(userName, objectId,
 					privilegeName);
 
 			return test;
@@ -884,6 +1020,130 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		return test;
 	}
+	
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException
+	{
+		boolean hasAccess = false;
+
+		Session session = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		
+		if (StringUtilities.isBlank(groupName)) {
+			throw new CSException("Group name can't be null!");
+		}
+		if (StringUtilities.isBlank(objectId)) {
+			throw new CSException("Object Id can't be null!");
+		}
+		if (StringUtilities.isBlank(privilegeName)) {
+			throw new CSException("Privilege can't be null!");
+		}
+		
+		// Check if cache is enabled for group
+		if (cacheLevel == 2 && localUserOrGroupName.equals(groupName))
+			return checkCachedPermission(groupName, objectId, attributeName, privilegeName);
+		
+		try {
+
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			connection = session.connection();
+			String application_id = this.application.getApplicationId().toString();
+			String sql = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, attributeName, privilegeName, application_id);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			if (resultSet.next())
+			{
+				hasAccess = true;
+			}
+			resultSet.close();
+			statement.close();
+
+		} catch (Exception ex)
+		{
+			log.error(ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"	+ groupName	+ "|checkPermission|Failure|Error Occured in checking permissions with group name " + groupName + " object id: " + objectId + " and privilege name " + privilegeName + "|"	+ ex.getMessage());
+			throw new CSException( "An error occurred while checking permissions\n"	+ ex.getMessage(), ex);
+		} finally {
+			try {
+
+				session.close();
+				resultSet.close();
+				statement.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||" + groupName + "|checkPermission|Success|Successful in checking permissions with group id "	+ groupName + " object id: " + objectId	+ " and privilege name " + privilegeName + " and the result is " + hasAccess + "|");
+		
+		return hasAccess;
+	}
+
+	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException
+	{
+		boolean hasAccess = false;
+
+		Session session = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		
+		if (StringUtilities.isBlank(groupName)) {
+			throw new CSException("Group name can't be null!");
+		}
+		if (StringUtilities.isBlank(objectId)) {
+			throw new CSException("Object Id can't be null!");
+		}
+		if (StringUtilities.isBlank(privilegeName)) {
+			throw new CSException("Privilege can't be null!");
+		}
+		
+		// Check if cache is enabled for group
+		if (cacheLevel == 2 && localUserOrGroupName.equals(groupName))
+			return checkCachedPermission(groupName, objectId, null, privilegeName);
+		
+		try {
+
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			connection = session.connection();
+			String application_id = this.application.getApplicationId().toString();
+			String sql = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, privilegeName, application_id);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			if (resultSet.next())
+			{
+				hasAccess = true;
+			}
+			resultSet.close();
+			statement.close();
+
+		} catch (Exception ex)
+		{
+			log.error(ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"	+ groupName	+ "|checkPermission|Failure|Error Occured in checking permissions with group name " + groupName + " object id: " + objectId + " and privilege name " + privilegeName + "|"	+ ex.getMessage());
+			throw new CSException( "An error occurred while checking permissions\n"	+ ex.getMessage(), ex);
+		} finally {
+			try {
+
+				session.close();
+				resultSet.close();
+				statement.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||" + groupName + "|checkPermission|Success|Successful in checking permissions with group id "	+ groupName + " object id: " + objectId	+ " and privilege name " + privilegeName + " and the result is " + hasAccess + "|");
+		
+		return hasAccess;
+	}
+
+	
 
 	private boolean checkPermissionForUser(String userName, String objectId,
 			String privilegeName) throws CSException {
@@ -1024,7 +1284,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return test;
 	}
 
-	private boolean checkPermissionForGroup(String userName, String objectId,
+	private boolean checkPermissionForUserGroup(String userName, String objectId,
 			String privilegeName) throws CSException {
 		boolean test = false;
 		Session s = null;
@@ -3781,5 +4041,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		return result;
 	}
+
 
 }

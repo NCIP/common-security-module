@@ -407,5 +407,9 @@ public interface AuthorizationDAO {
 	
 	public Object secureUpdate(String userName, Object originalObject,Object mutatedObject) throws CSException;
 
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException;
+
+	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;;
+
 }
 

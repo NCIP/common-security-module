@@ -90,6 +90,7 @@ package gov.nih.nci.security;
 
 import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
+import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.User;
@@ -275,6 +276,35 @@ public interface AuthorizationManager {
 	 */
 	public boolean checkPermission(String userName, String objectId, String privilegeName) throws CSException;
 
+	/**
+	 * The method checks the permission for a {@link Group} for a given {@link ProtectionElement}. The 
+	 * {@link ProtectionElement} is obtained using the object id and the attribute name both. 
+	 * The groupName is used to to obtain the Group object. Then the check
+	 * permission operation is performed to see if the Group has the required access or not.
+	 * @param groupName The user name of the user which is trying to perform the operation
+	 * @param objectId The object id of the protection element on which the user wants to perform the operation
+	 * @param attributeName The attribute of the protection element on which the user wants to perform the operation
+	 * @param privilegeName The operation which the use wants to perform on the protection element
+	 * 
+	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
+	 * @throws CSException If there are any errors while checking for permission
+	 */
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException;
+
+	/**
+	 * The method checks the permission for a {@link Group} for a given {@link ProtectionElement}. The 
+	 * {@link ProtectionElement} is obtained using the object id only. 
+	 * The userName is used to to obtain the Group object. Then the check
+	 * permission operation is performed to see if the group has the required access or not.
+	 * @param groupName The user name of the user which is trying to perform the operation
+	 * @param objectId The object id of the protection element on which the user wants to perform the operation
+	 * @param privilegeName The operation which the use wants to perform on the protection element
+	 * 
+	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
+	 * @throws CSException If there are any errors while checking for permission
+	 */
+	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;
+	
 	/**
 	 * The method returns all the principals for the user.
 	 * @param userName The user name whose principals we are trying to obtain
