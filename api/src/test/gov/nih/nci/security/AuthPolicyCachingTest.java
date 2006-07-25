@@ -1,5 +1,7 @@
 package test.gov.nih.nci.security;
 
+import java.net.URL;
+import java.util.Properties;
 import java.util.Set;
 
 import gov.nih.nci.security.AuthorizationManager;
@@ -27,7 +29,11 @@ public class AuthPolicyCachingTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
-		System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
+        Properties props = System.getProperties();
+        URL url = this.getClass().getClassLoader().getSystemResource("ApplicationSecurityConfig.xml");
+        String path = url.getPath();
+        props.setProperty("gov.nih.nci.security.configFile", path.substring(1,(path.length())));
+
 		try
 		{
 			if (authorizationManagerUser == null)
