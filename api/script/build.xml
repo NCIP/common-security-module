@@ -1,4 +1,4 @@
-<project name="CSMAPIProject" default="dist" basedir="./..">
+<project name="CSMAPIProject" default="distupt" basedir="./..">
 	<description>CSM API Project Build File</description>
 
 	<!-- set global properties for this build -->
@@ -39,7 +39,7 @@
 				<include name="**/*.xml" />
 			</fileset>
 		</copy>
-		<copy file="${src}/hibernate.properties" todir="${build}" />
+		<!---<copy file="${src}/hibernate.properties" todir="${build}" />-->
 		<copy file="${resources}/ObjectStateLoggerConfig.xml" todir="${build}" />		
 	</target>
 
