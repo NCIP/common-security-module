@@ -162,7 +162,8 @@ public class LDAPHelper {
 		environment.put(Context.INITIAL_CONTEXT_FACTORY, Constants.INITIAL_CONTEXT);
 		environment.put(Context.PROVIDER_URL, connectionProperties.get(Constants.LDAP_HOST));
 		environment.put(Context.SECURITY_AUTHENTICATION, "simple");
-		if (((String)connectionProperties.get(Constants.LDAP_HOST)).contains("ldaps"))
+		//if (((String)connectionProperties.get(Constants.LDAP_HOST)).contains("ldaps"))
+		if (((String)connectionProperties.get(Constants.LDAP_HOST)).regionMatches(true, 0, "ldaps", 0, "ldaps".length()))
 			environment.put(Context.SECURITY_PROTOCOL, "ssl");
 		if (connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME)!= null && ((String)connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME)).length() != 0)
 			environment.put(Context.SECURITY_PRINCIPAL, connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME));
