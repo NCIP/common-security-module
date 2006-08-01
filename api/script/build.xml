@@ -8,6 +8,7 @@
 	<property name="dist" location="dist" />
 	<property name="resources" location="resources" />
 	
+	
 
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -68,6 +69,28 @@
 		<copy todir="${distuptresources}">
 			<fileset dir="${dist}">
 				<exclude name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="distws" depends="dist" description="propogates the distribution to webservices project">
+		<property name="distws" location="./../webservices/WebRoot/WEB-INF/lib" />
+		<property name="distwsresources" location="./../webservices/resources" />
+		<property name="ws.src" location="./../webservices/src/gov/nih/nci/security/ws" />
+		<copy todir="${distws}">
+			<fileset dir="${dist}">
+				<include name="csmapi.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${distwsresources}/csmapi">
+			<fileset dir="${dist}">
+				<exclude name="**/*.jar" />
+				<exclude name="**/*.wsdd" />
+			</fileset>
+		</copy>
+		<copy todir="${distwsresources}">
+			<fileset dir="${ws.src}">
+				<include name="**/*.wsdd" />
 			</fileset>
 		</copy>
 	</target>
