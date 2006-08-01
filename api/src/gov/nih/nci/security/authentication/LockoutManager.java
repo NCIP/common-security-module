@@ -13,7 +13,7 @@ public class LockoutManager
 	private static LockoutManager lockoutManager = null;
 	static Timer cleanupTimer = new Timer();
 
-	private long lockoutTime;
+	private long lockoutTime = 60000;
 	private long allowedLoginTime;
 	private int allowedAttempts;
 	private boolean disableLockoutManager;
@@ -80,7 +80,7 @@ public class LockoutManager
 	private LockoutManager(String lockoutTime, String allowedLoginTime, String allowedAttempts)
 	{
 		lockoutManager = new LockoutManager();
-		lockoutCache = new HashMap();
+		//lockoutCache = new HashMap();
 		if (lockoutTime.equals("0") || allowedLoginTime.equals("0") || allowedAttempts.equals("0"))
 			disableLockoutManager = true;
 		else
@@ -99,6 +99,7 @@ public class LockoutManager
 	
 	private LockoutManager()
 	{
+		lockoutCache = new HashMap();
 	}
 	
 
@@ -114,7 +115,8 @@ public class LockoutManager
 	{
 		if (null == lockoutManager)
 		{
-			return null;
+			// Initialize with the following defaults
+			lockoutManager = new LockoutManager("60000", "60000", "3");
 		}
 		return lockoutManager;
 	}	
