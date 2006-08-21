@@ -107,7 +107,7 @@
 										<td class="sidebarTitle" height="20">WHAT'S NEW</td>
 									</tr>
 									<tr>
-										<td class="sidebarContent">CSM is now available for the caCORE 3.0 release!</td>
+										<td class="sidebarContent">CSM v3.2.1 is now available for the caCORE 3.0 release!</td>
 									</tr>
 								</table>
 								</td>
