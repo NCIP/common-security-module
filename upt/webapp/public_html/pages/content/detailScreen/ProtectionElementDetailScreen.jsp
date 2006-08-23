@@ -150,7 +150,7 @@
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
+										
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('create');">Add</html:submit></td>
 										</logic:equal>
@@ -158,17 +158,19 @@
 											<td><html:submit style="actionButton" onclick="setAndSubmit('search');">Search</html:submit></td>
 										</logic:equal>
 										<td><html:reset style="actionButton">Reset</html:reset></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated PGs</html:submit></td>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
 										</logic:equal>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated PGs</html:submit></td>
+										
 									</logic:notEqual>
 								</tr>
 							</table>

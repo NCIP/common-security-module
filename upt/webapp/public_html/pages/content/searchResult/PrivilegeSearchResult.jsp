@@ -92,9 +92,10 @@
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
 										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
-										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('read');">View Details</html:submit></td>
+										<td><html:submit style="actionButton"
+											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
+											
 									</tr>
 								</table>
 								<!-- action buttons end --></td>

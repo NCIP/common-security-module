@@ -126,12 +126,13 @@
 								<td align="right" class="actionSection"><!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
-										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('read');">Back</html:submit></td>
+
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove PG & Roles</html:submit></td>											
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('loadRoleAssociation');">Associated Roles</html:submit></td>
+										<td><html:submit style="actionButton"
+											onclick="setAndSubmit('read');">Back</html:submit></td>											
 									</tr>
 								</table>
 								<!-- action buttons end --></td>

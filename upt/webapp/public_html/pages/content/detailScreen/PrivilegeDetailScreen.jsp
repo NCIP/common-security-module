@@ -164,7 +164,7 @@
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
+										
 										
 										<!--3.0.1-->
 										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
@@ -185,11 +185,20 @@
 										<td><html:reset style="actionButton">Reset</html:reset></td>
 										<!--3.0.1-->
 										</logic:present>										
-									
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 										
 										
+										
+										<!--3.0.1-->
+										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+										<!--3.0.1-->
+										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										<!--3.0.1-->
+										</logic:present>
+
 										<!--3.0.1-->
 										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
 										<!--3.0.1-->
@@ -204,14 +213,6 @@
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
-										
-										<!--3.0.1-->
-										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-										<!--3.0.1-->
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<!--3.0.1-->
-										</logic:present>
 										
 										
 									</logic:notEqual>

@@ -460,14 +460,15 @@
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						<td><html:submit style="actionButton"
-							onclick="setAndSubmit('read');">Back</html:submit></td>
+						<td>
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 						<td><input type="button" style="actionButton" onclick="setAndSubmitPG('setDoubleAssociation');" value="Update Association"></td>
 						</logic:notPresent>
 						<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
 						<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
 						</logic:present>
+						<html:submit style="actionButton"
+							onclick="setAndSubmit('read');">Back</html:submit></td>
 					</tr>
 				</table>
 				</td>

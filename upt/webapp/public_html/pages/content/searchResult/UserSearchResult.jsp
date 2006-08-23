@@ -23,11 +23,10 @@
 </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
-		class="contentPage" width="100%" height="100%">
-		<html:form styleId="UserForm"
-	action="<%="/UserDBOperation"%>">
-	<html:hidden property="operation" value="read" />
+<table summary="" cellpadding="0" cellspacing="0" border="0"
+	class="contentPage" width="100%" height="100%">
+	<html:form styleId="UserForm" action="<%="/UserDBOperation"%>">
+		<html:hidden property="operation" value="read" />
 		<tr>
 			<td>
 			<h2>User</h2>
@@ -35,8 +34,8 @@
 		</tr>
 		<tr>
 			<td valign="top">
-			<table cellpadding="0" cellspacing="0" border="0"
-				width="100%" class="contentBegins">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%"
+				class="contentBegins">
 				<tr>
 					<td>
 					<table summary="" cellpadding="0" cellspacing="0" border="0"
@@ -70,42 +69,44 @@
 									</tr>
 									<logic:iterate name="searchResultObjects"
 										id="searchResultObject" type="User">
-										<%if (oddRow.equals("true")) { oddRow ="false";%>
-											<tr class="dataRowLight">
-												<td class="dataCellNumerical" width="10%"><html:radio
-													style="formFieldSized" property="userId"
-													value="<%=searchResultObject.getUserId().toString()%>" /></td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="loginName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="firstName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="lastName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="organization" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="department" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="emailId" />&nbsp;</td>
-											</tr>
-										<%}else{ oddRow = "true";%>
-											<tr class="dataRowDark">
-												<td class="dataCellNumerical" width="10%"><html:radio
-													style="formFieldSized" property="userId"
-													value="<%=searchResultObject.getUserId().toString()%>" /></td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="loginName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="firstName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="lastName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="organization" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="department" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="emailId" />&nbsp;</td>
-											</tr>
+										<%if (oddRow.equals("true")) {
+			oddRow = "false";%>
+										<tr class="dataRowLight">
+											<td class="dataCellNumerical" width="10%"><html:radio
+												style="formFieldSized" property="userId"
+												value="<%=searchResultObject.getUserId().toString()%>" /></td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="loginName" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="firstName" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="lastName" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="organization" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="department" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="emailId" />&nbsp;</td>
+										</tr>
+										<%} else {
+			oddRow = "true";%>
+										<tr class="dataRowDark">
+											<td class="dataCellNumerical" width="10%"><html:radio
+												style="formFieldSized" property="userId"
+												value="<%=searchResultObject.getUserId().toString()%>" /></td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="loginName" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="firstName" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="lastName" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="organization" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="department" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="emailId" />&nbsp;</td>
+										</tr>
 										<%}%>
 									</logic:iterate>
 								</table>
@@ -115,10 +116,11 @@
 								<td align="right" class="actionSection"><!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
-										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
+
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('read');">View Details</html:submit></td>
+										<td><html:submit style="actionButton"
+											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
 									</tr>
 								</table>
 								<!-- action buttons end --></td>
@@ -130,5 +132,5 @@
 			</table>
 			</td>
 		</tr>
-		</html:form>
-	</table>
+	</html:form>
+</table>

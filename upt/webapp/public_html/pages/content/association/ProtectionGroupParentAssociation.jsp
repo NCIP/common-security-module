@@ -224,8 +224,9 @@
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
+
 						<td><button class="actionButton" onclick="setAndSubmit('setParentAssociation');">Update Association</button></td>
+						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
 					</tr>
 				</table>
 				</td>				
