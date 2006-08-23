@@ -37,7 +37,7 @@ public class AuthPolicyCachingQATest extends TestCase
 		try
 		{
 			if (authorizationManagerUser == null)
-				authorizationManagerUser = SecurityServiceProvider.getAuthorizationManager("security", "modik", true);
+				authorizationManagerUser = SecurityServiceProvider.getAuthorizationManager("security", "modik", true);  //Uncomment to test with caching turned OFF
 		}
 		catch (Exception e)
 		{
@@ -46,7 +46,7 @@ public class AuthPolicyCachingQATest extends TestCase
 		try
 		{
 			if (authorizationManagerGroup == null)
-			authorizationManagerGroup = SecurityServiceProvider.getAuthorizationManager("security", "AuthPolicyTest", false);
+				authorizationManagerGroup = SecurityServiceProvider.getAuthorizationManager("security", "AuthPolicyTest", false);
 		}
 		catch (Exception e)
 		{
@@ -91,7 +91,7 @@ public class AuthPolicyCachingQATest extends TestCase
 			//TEST CODE, UNCOMMENT THIS CODE AS NEEDED
 //			Thread.sleep(30000);  //Change or remove permissions in the database during this time
 //			hasPermission = authorizationManagerUser.checkPermission("modik", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
-//			assertEquals(true,hasPermission);
+//			assertEquals(false,hasPermission);
 		}
 		catch (CSException e)
 		{
@@ -107,7 +107,7 @@ public class AuthPolicyCachingQATest extends TestCase
 		try
 		{
 			boolean hasPermission = authorizationManagerUser.checkPermission("modik", "AuthPolicyTest2", "AuthPolicyTest2", "READ");
-			assertEquals(false,hasPermission);
+			assertEquals(true,hasPermission);
 		}
 		catch (CSException e)
 		{
@@ -123,9 +123,9 @@ public class AuthPolicyCachingQATest extends TestCase
 	{
 		try
 		{
-			boolean hasPermission = authorizationManagerUser.checkPermission("modik", "AuthPolicyTest2", "", "READ");
+			boolean hasPermission = authorizationManagerUser.checkPermission("modik", "AuthPolicyTest2", "AuthPolicyTest2", "READ");
 			//Thread.sleep(30000);
-			assertEquals(false,hasPermission);
+			assertEquals(true,hasPermission);
 		}
 		catch (CSException e)
 		{
@@ -168,16 +168,16 @@ public class AuthPolicyCachingQATest extends TestCase
 	
 	public void testCheckPermissionStringStringString3() throws InterruptedException, CSException
 	{
-		//Checks how CheckPermission() handles a user that is not in session
-		boolean hasPermission = false;
-		try 
-		{	
-			hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
-		} catch (CSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertEquals(true,hasPermission);
+//		//Checks how CheckPermission() handles a user that is not in session
+//		boolean hasPermission = false;
+//		try 
+//		{	
+//			hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
+//		} catch (CSException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		assertEquals(true,hasPermission);
 		
 		//Test code!!!  Comment this code out as needed
 //		Thread.sleep(30000);  //Change or remove permissions in the database during this time
@@ -207,18 +207,25 @@ public class AuthPolicyCachingQATest extends TestCase
 	
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
+	 * This test is designed to ensure that the group checkpermission() is caching properly
 	 */
 	public void testCheckPermissionForGroupStringStringStringString1() throws InterruptedException
 	{		
+		/* QA - during the sleep() use UPT to remove the permissions to the group.
+		 * Since the group is not the group that was acquired in the getAuthorizationManager(),
+		 * the group authorization policy should NOT be cached and therefore the same assertion
+		 * should fail.  Thus, the assertion after the sleep is reversed to it should pass.  (Defective as of 08/22/2006)
+		 */
 		try
 		{
+			//boolean hasPermission = authorizationManagerGroup.checkPermissionForGroup("GroupNotInSession", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
 			boolean hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
 			assertEquals(true,hasPermission);
 			
 			//TEST CODE, UNCOMMENT THIS CODE AS NEEDED
-			//Thread.sleep(30000);  //Change or remove permissions in the database during this time
-			hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
-			assertEquals(true,hasPermission);
+			//Thread.sleep(30000);  //Unplug internet cable OR Change or remove permissions in the database during this time
+			//hasPermission = authorizationManagerGroup.checkPermissionForGroup("GroupNotInSession", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
+			//assertEquals(false,hasPermission);
 		}
 		catch (CSException e)
 		{
@@ -229,12 +236,17 @@ public class AuthPolicyCachingQATest extends TestCase
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
 	 */
-	public void testCheckPermissionForGroupStringStringStringString2()
+	public void testCheckPermissionForGroupStringStringStringString2() throws InterruptedException
 	{
 		try
 		{
-			boolean hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "READ");
-			assertEquals(false,hasPermission);
+			boolean hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
+			assertEquals(true,hasPermission);
+			
+			//TEST CODE, UNCOMMENT THIS CODE AS NEEDED
+			//Thread.sleep(30000);  //Change or remove permissions in the database during this time
+			hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
+			assertEquals(true,hasPermission);
 		}
 		catch (CSException e)
 		{
