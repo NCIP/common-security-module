@@ -11,6 +11,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -21,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
+
 
 import junit.framework.TestCase;
 
@@ -75,7 +77,7 @@ public class UserProvisioningManagerTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testRun() throws CSTransactionException, CSObjectNotFoundException {
+	public void testRun() throws CSException {
 		
 		//Order of Execution
 		
@@ -122,8 +124,10 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testAssignToProtectionGroups();						//NOT tested by UPT  //Assigns all Protection Groups to all Protection Elements
 		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
 		//this.testDeAssignProtectionElements();  				//BUGGED - posted in GForge
-		this.testAssignProtectionElementStringString();  		//Needs above line before can execute
+		//this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
+		this.testAssignProtectionElementStringString();  		//Needs above line before can execute //NOT Tested by UPT
 		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
+
 		
 		//Assigns PE starting with all PE to first PG then decrementing the number assigned by one for each new PG, 
 		//			Also initializes PG_PERelationships array, used in testGetProtectionGroupsString()
@@ -155,19 +159,22 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testAssignParentProtectionGroup();						//NOT tested by UPT
 		//this.testSetOwnerForProtectionElementStringStringArray();	//NOT tested by UPT  //Needs work
 		this.testAssignOwners();									//TODO: make this more dynamic, only assigns one PE to each user
+		this.testSetOwnerForProtectionElementStringStringString();	//NOT tested by UPT  //Assigns users 2 to PE 2 //TODO: make more diverse
 		this.testCheckOwnership();									//NOT tested by UPT
+		
+		//CHECK PERMISSIONS
+		this.testCheckPermissionStringStringStringString();			//NOT tested by UPT
+		this.testCheckPermissionStringStringString();				//NOT tested by UPT
 		
 		
 //		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //Need to know how to assign group and role and PG
-//		this.testGetPrivilegeMap();									//NOT tested by UPT  //Suggested by Kunal, but has dependancy on others first
+//		this.testGetPrivilegeMap();									//NOT tested by UPT  //Suggested by Kunal, but has dependency on others first
 		
 		
 		//---------------------------------------------------------------------------------------------------
 		//Still to be done
 		//---------------------------------------------------------------------------------------------------
 //		this.testGetOwners();										//Suggested by Kunal
-//		this.testAssignProtectionElementStringString();				//NOT tested by UPT
-//		this.testAssignProtectionElementStringStringString();
 //		this.testSecureUpdate();									//NOT tested by UPT
 		/* 	Parameters for Secure Update()
 		 * 	userName - The user name of the User which is trying to update the object
@@ -178,8 +185,8 @@ public class UserProvisioningManagerTest extends TestCase {
 //		this.testCheckPermissionAccessPermissionString();			//NOT tested by UPT
 //		this.testInitialize();										//NOT tested by UPT
 //		this.testCheckPermissionAccessPermissionSubject();			//NOT tested by UPT
-//		this.testCheckPermissionStringStringString();				//NOT tested by UPT
-//		this.testCheckPermissionStringStringStringString();			//NOT tested by UPT
+
+
 //		this.testFinalize();
 //		this.testGetObjects();
 //		this.testGetProtectionElementPrivilegeContextForGroup();
@@ -190,7 +197,7 @@ public class UserProvisioningManagerTest extends TestCase {
 //		this.testRemoveUserFromProtectionGroup();
 //		this.testSetAuditUserInfo();								//NOT tested by UPT
 //		this.testSetAuthorizationDAO();								
-//		this.testSetOwnerForProtectionElementStringStringString();	//NOT tested by UPT
+
 //		this.testUserProvisioningManagerImpl();
 		
 		
@@ -525,8 +532,10 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(AccessPermission, Subject)'
 	 */
 	
-	private void testCheckPermissionAccessPermissionSubject() {
-
+	private void testCheckPermissionAccessPermissionSubject() throws CSException 
+	{
+		AccessPermission AP = null;
+		userProvisioningManager.checkPermission(AP, UserStringArray[0][0]);
 	}
 
 	/*
@@ -590,8 +599,13 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(String, String, String, String)'
 	 */
 	
-	private void testCheckPermissionStringStringStringString() {
-
+	private void testCheckPermissionStringStringStringString() throws CSException 
+	{
+		boolean HasPermission = userProvisioningManager.checkPermission(UserStringArray[1][0], ProtectionElementStringArray[1][2], ProtectionElementStringArray[1][3], PrivilegeStringArray[0][0]);
+		assertEquals("\nIncorrect permission from the checkPermission method with 4 strings for parameters", true, HasPermission);
+		
+		HasPermission = userProvisioningManager.checkPermission(UserStringArray[NumberOfUsersToTest-1][0], ProtectionElementStringArray[1][2], ProtectionElementStringArray[1][3], PrivilegeStringArray[0][0]);
+		assertEquals("\nIncorrect permission from the checkPermission method with 4 strings for parameters - user should not have permission", false, HasPermission);
 	}
 
 	/*
@@ -614,8 +628,10 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.checkPermission(String, String, String)'
 	 */
 	
-	private void testCheckPermissionStringStringString() {
-
+	private void testCheckPermissionStringStringString() throws CSException 
+	{
+		boolean HasPermission = userProvisioningManager.checkPermission(UserStringArray[0][0], ProtectionElementStringArray[0][2], PrivilegeStringArray[0][0]);
+		assertEquals("\nIncorrect permission from the checkPermission method with 3 strings for parameters", true, HasPermission);
 	}
 
 	/*
@@ -750,8 +766,9 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setOwnerForProtectionElement(String, String, String)'
 	 */
 	
-	private void testSetOwnerForProtectionElementStringStringString() {
-
+	private void testSetOwnerForProtectionElementStringStringString() throws CSTransactionException 
+	{
+		userProvisioningManager.setOwnerForProtectionElement(UserStringArray[1][0], ProtectionElementStringArray[1][2], ProtectionElementStringArray[1][3]);
 	}
 
 	/*
@@ -1482,6 +1499,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testAssignOwners() throws CSTransactionException 
 	{
+		// Assigns all users to PE #1
 		String[] tempUserIDs = new String[NumberOfUsersToTest];
 		
 		for (int x=0; x<NumberOfUsersToTest; x++)
@@ -1629,8 +1647,9 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.setAuditUserInfo(String, String)'
 	 */
 	
-	private void testSetAuditUserInfo() {
-
+	private void testSetAuditUserInfo() 
+	{
+		userProvisioningManager.setAuditUserInfo(UserStringArray[0][0], "sessionid");
 	}
 	
 	//Setup UserStringArray
