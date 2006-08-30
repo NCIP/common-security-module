@@ -1,112 +1,74 @@
-<project name="CSM Webservices Project" default="compile" basedir="./..">
+<project name="Security Web Services Project" basedir="./.." default="all">
+	<description>Security Web Services Project Build File</description>
 
-	<description>CSM Webservices Project Build File</description>
-
-	<!-- set global properties for this build -->
-	<property name="src" location="src" />
-	<property name="test" location="test" />
-	<property name="lib" location="WebRoot/WEB-INF/lib" />
-	<property name="classes" location="WebRoot/WEB-INF/classes" />
-	<property name="resources" location="resources" />
-	<property name="app.name" value="csmws" />
-	
-	<!-- set web-service properties for this build -->
-	<property name="axis.home" value="C:/dev/axis-1_4" />
-	<property name="wsdl.url" value="${resources}" />
-	<property name="wsdl.filename" value="CSMService.wsdl" />
-	<property name="jboss.home" value="C:/dev/jboss-4.0.2" />
-	<property name="target.port" value="8080" />
-	<property name="target.server" value="http://localhost" />
-	
-	<path id="axis.classpath">
-  		<fileset dir="${axis.home}/lib">
-    		<include name="**/*.jar" />
-  		</fileset>
-	</path>
-	
-	<target name="clean" description="perform the clean up">
-		<delete dir="${classes}" />
-	</target>
-	
-	<target name="init" depends="clean">
-		<!-- Create the time stamp -->
-		<tstamp />
-		<!-- Create the build directory structure used by compile -->
-		<mkdir dir="${classes}" />
-	</target>
-	
-	<target name="axis.init" depends="init">
-  		<taskdef resource="axis-tasks.properties">
-    		<classpath refid="axis.classpath"/>
- 		</taskdef>
-	</target>
-	
-	<target name="wsdl2java" depends="axis.init">
-	
- 		<axis-wsdl2java 
-  			output="${src}" 
-  			deployScope="Application"
-  			verbose="true"
-  			serverSide="true"
-  			testcase="true"
-  			url="${wsdl.url}/${wsdl.filename}" >
-     		<mapping
-       			namespace="http://security.nci.nih.gov/ws"
-       			package="gov.nih.nci.security.ws" />
- 		</axis-wsdl2java>
+	<target name="init" >
+		<property name="app.name"				value="securityws" />
+		<property name="app.path"				value="/${app.name}" />
+		<property name="src.home"				value="${basedir}/src" />
+		<property name="web.home"				value="${basedir}/WebRoot" />
+		<property name="webinf.home"			value="${web.home}/WEB-INF" />
+		<property name="lib.home"				value="${webinf.home}/lib" />
+		<property name="build.home"				value="${basedir}/build" />
+		<property name="dist.home"				value="${basedir}/dist" />
+		<property name="classes.home"		value="${webinf.home}/classes" />
+		<property name="war.file"					value="${dist.home}/${app.name}.war" />
 	</target>
 
-	<target name="compile" description="compile the source ">
-		<!-- Compile the java source code from ${src} into ${build} -->
-		<javac srcdir="${src}" destdir="${classes}" debug="true" deprecation="true">
+
+	<target name="clean" depends="init" description="Delete the Build and Dist directories">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+	</target>
+
+
+	<target name="prepareDir" depends="init">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/WEB-INF" />
+		<mkdir dir="${build.home}/WEB-INF/lib" />
+		<mkdir dir="${build.home}/META-INF" />
+		<mkdir dir="${build.home}/WEB-INF/classes" />
+
+		<mkdir dir="${dist.home}" />
+	</target>
+
+
+	<target name="prepareBuild" depends="prepareDir">
+
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}"/>
+		</copy>
+
+		<copy todir="${build.home}/WEB-INF/">
+			<fileset dir="${webinf.home}"/>
+		</copy>
+
+		<copy todir="${build.home}/WEB-INF/lib">
+			<fileset dir="${lib.home}" includes="**/*.jar"/>
+		</copy>
+	</target>
+
+
+	<target name="prepare" depends="prepareDir,prepareBuild"/>
+
+	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
+		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true" >
 			<classpath>
-				<fileset dir="${lib}">
-					<include name="*.jar" />
-				</fileset>
+				<fileset dir="${lib.home}" includes="*.jar" />
 			</classpath>
 		</javac>
-		
-		<!--move todir="${classes}">
-			<fileset dir="{build}/**" />
-		 </move-->
-		
-		<!-- Compile the java test code from ${src} into ${test} -->
-		<!--javac 	srcdir="${test}" destdir="${build}" debug="true" deprecation="true">
-			<classpath>
-				<fileset dir="${lib}">
-					<include name="*.jar" />
-					<include name="${classes}/**" />
-				</fileset>
-			</classpath>
-		</javac-->
-	</target>
-
-	<target name="deploy" depends="compile" description="generate and deploy the .war file">
-		<property name="distws" location="./../webservices/WebRoot/WEB-INF/lib" />
-		<property name="distwsresources" location="./../webservices/resources" />
-		
-		<exec command="run.jar" dir="${jboss.home}\bin\" spawn="true" />
-
-		<!-- axis-admin
-    		port="${target.port}"
-    		hostname="${target.server}"
-    		failonerror="true"
-    		servletpath="csmService/services/AdminService"
-    		debug="true"
-    		xmlfile="deploy.wsdd"
-    	/>
-    	
-		<copy todir="${distws}">
-			<fileset dir="${dist}">
-				<include name="${app.name}.jar" />
-			</fileset>
+		<copy todir="${build.home}/WEB-INF/classes" >
+			<fileset dir="${src.home}" excludes="**/*.java" />
 		</copy>
-		
-		<copy todir="${distuptresources}">
-			<fileset dir="${dist}">
-				<exclude name="**/*.jar" />
-			</fileset>
-		</copy-->
 	</target>
+
+	<target name="dist" depends="init,compile" description="Creates war file">
+		<jar jarfile="${war.file}" basedir="${build.home}" />
+	</target>
+
+	<target name="cleanup" depends="dist" description="Delete the Build directory">
+		<delete dir="${build.home}" />
+	</target>
+	
+	<target name="all" depends="init,clean,prepare,compile,dist,cleanup" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
 </project>
