@@ -32,12 +32,12 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
                 jre.getLinkedCause().printStackTrace();
             throw new junit.framework.AssertionFailedError("JAX-RPC ServiceException caught: " + jre);
         }
-        assertNotNull("binding is null", binding);
+        assertNotNull("binding is null", binding); 
 
         // Time out after a minute
-        binding.setTimeout(60000);
+        binding.setTimeout(60000);  
 
-        // Test operation
+        // Test an EDirectory ApplicationContext request for login including valid data that return a positive result
         try {
             gov.nih.nci.security.ws.authentication.LoginResponse value = null;
             gov.nih.nci.security.ws.authentication.LoginRequest loginRequest =  new gov.nih.nci.security.ws.authentication.LoginRequest();
@@ -69,18 +69,18 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test login operation to EDirectory when passed an incorrect password
         try {
             gov.nih.nci.security.ws.authentication.LoginResponse value = null;
             gov.nih.nci.security.ws.authentication.LoginRequest loginRequest =  new gov.nih.nci.security.ws.authentication.LoginRequest();
             loginRequest.setApplicationContext("EDirectory");
             loginRequest.setUserName("NCICB_Test");
-            loginRequest.setPassword("CSMt3st1");            
-            value = binding.login(loginRequest);
+            loginRequest.setPassword("CSMt3st1");    	//Intentionally give incorrect password        
+            value = binding.login(loginRequest);		
             assertEquals(false,value.isResult());
         }
         catch (gov.nih.nci.security.ws.common.ErrorDetails e1) {
-            assertEquals(false,false);
+            assertEquals(false,false);  
         }
         
     }
@@ -102,7 +102,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test login operation to EDirectory with incorrect value for UserName
         try {
             gov.nih.nci.security.ws.authentication.LoginResponse value = null;
             gov.nih.nci.security.ws.authentication.LoginRequest loginRequest =  new gov.nih.nci.security.ws.authentication.LoginRequest();
@@ -136,7 +136,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test login operation using OpenLDAP with valid input
         try {
             gov.nih.nci.security.ws.authentication.LoginResponse value = null;
             gov.nih.nci.security.ws.authentication.LoginRequest loginRequest =  new gov.nih.nci.security.ws.authentication.LoginRequest();
@@ -168,7 +168,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test login operation when passed an incorrect password using OpenLDAP
         try {
             gov.nih.nci.security.ws.authentication.LoginResponse value = null;
             gov.nih.nci.security.ws.authentication.LoginRequest loginRequest =  new gov.nih.nci.security.ws.authentication.LoginRequest();
@@ -201,7 +201,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test login operation with incorrect value for UserName using OpenLDAP
         try {
             gov.nih.nci.security.ws.authentication.LoginResponse value = null;
             gov.nih.nci.security.ws.authentication.LoginRequest loginRequest =  new gov.nih.nci.security.ws.authentication.LoginRequest();
@@ -234,7 +234,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission with valid inputs that return a positive result
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -271,7 +271,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission with valid inputs that return a negative result
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -291,7 +291,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
     }
 
     
-    public void test3SecurityServiceSoapPortCheckPermission() throws Exception {
+    public void test3SecurityServiceSoapPortCheckPermission() throws Exception { //Fails, defect here!!!!!!!!!!!!!!!!1
         gov.nih.nci.security.ws.SecurityServiceSoapBindingStub binding;
         try {
             binding = (gov.nih.nci.security.ws.SecurityServiceSoapBindingStub)
@@ -307,7 +307,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission with valid inputs (including blank Attribute) that return a positive result
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -342,7 +342,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission with valid inputs that return a positive result for a check on "ACCESS" privileges
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -376,7 +376,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission with valid inputs that return a negative result using the "READ" privilege
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -410,7 +410,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission on a group using valid inputs that return a positive result for a check on "UPDATE" privilege
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -447,7 +447,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission on a group using valid inputs that return a negative result for a check on "READ" privilege
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -467,7 +467,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
     }
 
     
-    public void test8SecurityServiceSoapPortCheckPermission() throws Exception {
+    public void test8SecurityServiceSoapPortCheckPermission() throws Exception { //Fails, defect here!!!!!!!!!!!!!!!!1
         gov.nih.nci.security.ws.SecurityServiceSoapBindingStub binding;
         try {
             binding = (gov.nih.nci.security.ws.SecurityServiceSoapBindingStub)
@@ -483,7 +483,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission on a group using valid inputs (including a blank Attribute) that return a negative result for a check on "UPDATE" privilege
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -518,7 +518,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission on a group using valid inputs (excluding the Attribute entirely) that return a positive result for a check on the "ACCESS" privilege
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -552,7 +552,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission on a group using valid inputs (excluding the Attribute entirely) that return a negative result for a check on the "READ" privilege
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -587,7 +587,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission when passing it a group and a user with valid inputs and returning a negative expected result
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -622,7 +622,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission when passing it a group and a user with valid inputs including a blank GroupName
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -657,7 +657,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission when passing it a group and a user with valid inputs including a blank username - return negative result
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
@@ -693,7 +693,7 @@ public class SecurityService_ServiceTestCase extends junit.framework.TestCase {
         // Time out after a minute
         binding.setTimeout(60000);
 
-        // Test operation
+        // Test checkPermission when passing it an superadmin ApplicationContext and a user with valid inputs including a blank GroupName
         try {
             gov.nih.nci.security.ws.authorization.CheckPermissionResponse value = null;
             CheckPermissionRequest checkPermissionRequest = new CheckPermissionRequest();
