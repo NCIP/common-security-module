@@ -1,0 +1,112 @@
+<project name="CSM Webservices Project" default="compile" basedir="./..">
+
+	<description>CSM Webservices Project Build File</description>
+
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="test" location="test" />
+	<property name="lib" location="WebRoot/WEB-INF/lib" />
+	<property name="classes" location="WebRoot/WEB-INF/classes" />
+	<property name="resources" location="resources" />
+	<property name="app.name" value="csmws" />
+	
+	<!-- set web-service properties for this build -->
+	<property name="axis.home" value="C:/dev/axis-1_4" />
+	<property name="wsdl.url" value="${resources}" />
+	<property name="wsdl.filename" value="CSMService.wsdl" />
+	<property name="jboss.home" value="C:/dev/jboss-4.0.2" />
+	<property name="target.port" value="8080" />
+	<property name="target.server" value="http://localhost" />
+	
+	<path id="axis.classpath">
+  		<fileset dir="${axis.home}/lib">
+    		<include name="**/*.jar" />
+  		</fileset>
+	</path>
+	
+	<target name="clean" description="perform the clean up">
+		<delete dir="${classes}" />
+	</target>
+	
+	<target name="init" depends="clean">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${classes}" />
+	</target>
+	
+	<target name="axis.init" depends="init">
+  		<taskdef resource="axis-tasks.properties">
+    		<classpath refid="axis.classpath"/>
+ 		</taskdef>
+	</target>
+	
+	<target name="wsdl2java" depends="axis.init">
+	
+ 		<axis-wsdl2java 
+  			output="${src}" 
+  			deployScope="Application"
+  			verbose="true"
+  			serverSide="true"
+  			testcase="true"
+  			url="${wsdl.url}/${wsdl.filename}" >
+     		<mapping
+       			namespace="http://security.nci.nih.gov/ws"
+       			package="gov.nih.nci.security.ws" />
+ 		</axis-wsdl2java>
+	</target>
+
+	<target name="compile" description="compile the source ">
+		<!-- Compile the java source code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${classes}" debug="true" deprecation="true">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		
+		<!--move todir="${classes}">
+			<fileset dir="{build}/**" />
+		 </move-->
+		
+		<!-- Compile the java test code from ${src} into ${test} -->
+		<!--javac 	srcdir="${test}" destdir="${build}" debug="true" deprecation="true">
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.jar" />
+					<include name="${classes}/**" />
+				</fileset>
+			</classpath>
+		</javac-->
+	</target>
+
+	<target name="deploy" depends="compile" description="generate and deploy the .war file">
+		<property name="distws" location="./../webservices/WebRoot/WEB-INF/lib" />
+		<property name="distwsresources" location="./../webservices/resources" />
+		
+		<exec command="run.jar" dir="${jboss.home}\bin\" spawn="true" />
+
+		<!-- axis-admin
+    		port="${target.port}"
+    		hostname="${target.server}"
+    		failonerror="true"
+    		servletpath="csmService/services/AdminService"
+    		debug="true"
+    		xmlfile="deploy.wsdd"
+    	/>
+    	
+		<copy todir="${distws}">
+			<fileset dir="${dist}">
+				<include name="${app.name}.jar" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${distuptresources}">
+			<fileset dir="${dist}">
+				<exclude name="**/*.jar" />
+			</fileset>
+		</copy-->
+	</target>
+
+</project>
