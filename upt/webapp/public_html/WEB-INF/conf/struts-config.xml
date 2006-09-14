@@ -21,6 +21,11 @@
 			type="gov.nih.nci.security.upt.forms.ProtectionElementForm" />
 		<form-bean name="UserForm"
 			type="gov.nih.nci.security.upt.forms.UserForm" />
+		<form-bean name="SearchUserForm"
+			type="gov.nih.nci.security.upt.forms.SearchUserForm" />
+		<form-bean name="SearchProtectionElementForm"
+			type="gov.nih.nci.security.upt.forms.SearchProtectionElementForm" />			
+
 	</form-beans>
 	<global-exceptions>
 		<exception key="" scope="request" type="java.lang.Exception" path="Tiles.500.Error.Page" handler="gov.nih.nci.security.upt.exceptionHandler.DefaultExceptionHandler"/>
@@ -201,6 +206,18 @@
 			<forward name="LoadAssociationSuccess" path="Tiles.ProtectionElement.Association.Screen" />
 			<forward name="SetAssociationSuccess" path="Tiles.ProtectionElement.Detail.Screen" />						
 		</action>
+		<action path="/SearchProtectionElementDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="SearchProtectionElementForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.SearchProtectionElement.Detail.Screen">
+			<forward name="LoadSearchSuccess" path="Tiles.SearchProtectionElement.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.SearchProtectionElement.Search.Result" />
+			<forward name="SearchSuccess" path="Tiles.SearchProtectionElement.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.SearchProtectionElement.Detail.Screen" />
+		</action>
 		<action path="/UserDBOperation"
 			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
 			name="UserForm" 
@@ -231,12 +248,26 @@
 			<forward name="SetDoubleAssociationSuccess" path="Tiles.User.Detail.Screen" />
 			<forward name="SetRoleAssociationSuccess" path="Tiles.User.Detail.Screen" />			
 		</action>
-		<action path="/ApplicationDBOperation"
+		
+		<action path="/SearchUserDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="SearchUserForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.SearchUser.Detail.Screen">
+			<forward name="LoadSearchSuccess" path="Tiles.SearchUser.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.SearchUser.Search.Result" />
+			<forward name="SearchSuccess" path="Tiles.SearchUser.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.SearchUser.Detail.Screen" />
+		</action>
+		
+		<action path="/ApplicationDBOperation" 
 			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
 			name="ApplicationForm" 
 			scope="session" 
 			validate="false"
-			parameter="operation" 
+			parameter="operation"
 			input="Tiles.Application.Detail.Screen">
 			<forward name="LoadHomeSuccess" path="Tiles.Application.Home" />
 			<forward name="LoadAddSuccess" path="Tiles.Application.Detail.Screen" />

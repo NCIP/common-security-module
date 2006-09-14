@@ -16,6 +16,11 @@
 		<put name="Title" type="string"	value="NCI Security Admin Application" />
 	</definition>
 
+	<definition name="Popup" page="/pages/layout/PopupLayout.jsp">
+		<put name="AppMenu" value="/pages/menu/MainMenu.jsp"/>
+		<put name="Title" type="string"	value="NCI Security Admin Application" />
+	</definition>
+
 	<!-- Pages Begin -->
 	
 	<!-- Login Pages -->
@@ -93,13 +98,20 @@
 	<definition name="Tiles.User.Detail.Screen" extends="Base">
 		<put name="Content" value="/pages/content/detailScreen/UserDetailScreen.jsp" />
 	</definition>
+	
+	<definition name="Tiles.SearchUser.Detail.Screen" extends="Popup">
+		<put name="Content" value="/pages/content/detailScreen/SearchUserDetailScreen.jsp" />
+	</definition>
+	
 	<definition name="Tiles.ProtectionGroup.Detail.Screen" extends="Base">
 		<put name="Content" value="/pages/content/detailScreen/ProtectionGroupDetailScreen.jsp" />
 	</definition>
 	<definition name="Tiles.ProtectionElement.Detail.Screen" extends="Base">
 		<put name="Content" value="/pages/content/detailScreen/ProtectionElementDetailScreen.jsp" />
 	</definition>
-	
+	<definition name="Tiles.SearchProtectionElement.Detail.Screen" extends="Popup">
+		<put name="Content" value="/pages/content/detailScreen/SearchProtectionElementDetailScreen.jsp" />
+	</definition>	
 	
 	<!-- Search Result Pages -->
 	<definition name="Tiles.Privilege.Search.Result" extends="Base">
@@ -120,9 +132,16 @@
 	<definition name="Tiles.ProtectionElement.Search.Result" extends="Base">
 		<put name="Content" value="/pages/content/searchResult/ProtectionElementSearchResult.jsp" />
 	</definition>
+	<definition name="Tiles.SearchProtectionElement.Search.Result" extends="Popup">
+		<put name="Content" value="/pages/content/searchResult/SearchProtectionElementSearchResult.jsp" />
+	</definition>
 	<definition name="Tiles.User.Search.Result" extends="Base">
 		<put name="Content" value="/pages/content/searchResult/UserSearchResult.jsp" />
 	</definition>
+
+	<definition name="Tiles.SearchUser.Search.Result" extends="Popup">
+		<put name="Content" value="/pages/content/searchResult/SearchUserSearchResult.jsp" />
+	</definition>	
 	
 	<!-- Association Pages -->
 	<definition name="Tiles.Role.Association.Screen" extends="Base">

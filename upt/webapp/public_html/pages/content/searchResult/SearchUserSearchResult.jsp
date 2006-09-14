@@ -13,79 +13,82 @@
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
-<%@ page import="gov.nih.nci.security.upt.forms.*"%>
-<% int cntResObj=1; //Anzen Comment(Added By Vijay) - Count the number of objects to display%>
+
 <script>
 <!--
    	function setAndSubmit(target)
    	{
   		document.UserForm.operation.value=target;
  	}
-
+ 	
  	function keySearch(associatedIds, key)
  	{
- 		//alert ("I am here");
  		for(var j=0; j<associatedIds.length; j++)
 		{
+		
 			if(associatedIds[j].value == (key))
+			{
 				return true;
+			}
 		}
 		return false;
 	}
-
+ 	
  	 function selSwitch(btn)
 	{
 
-  		var radioLen = document.UserForm.userId.length
+  		var radioLen = document.UserForm.userId.length;
 
   		if(radioLen == undefined)
   		{
-  			if (document.UserForm.userId.checked)
-			{
+ 			if (document.UserForm.userId.checked) 
+			{		
 				if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId.value))
 				{
+			
 					var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;
-
+					
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
 				}
 				else
-				{
+				{ 
 					alert("User already exists");
 				}
 			}
   		}
+  	
 
-
-		for (var i = 0; i <radioLen; i++)
+		for (var i = 0; i <radioLen; i++) 
 		{
-			if (document.UserForm.userId[i].checked)
+			if (document.UserForm.userId[i].checked) 
 			{
 				if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId[i].value))
 				{
 					var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;
-
+					//alert(document.UserForm.userId[i].lgName.value);
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
 				}
 				else
-				{
+				{ 
 					alert("User already exists");
 					break;
 				}
 			}
 		}
+		
 
-	}
+	      window.close();
+	}  
 		// -->
-
 </script>
 
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="UserForm"
-	action='<%="/UserDBOperation"%>'>
+	action='<%="/SearchUserDBOperation"%>'>
 	<html:hidden property="operation" value="read" />
 		<tr>
 			<td>
@@ -148,8 +151,7 @@
 													name="searchResultObject" property="department" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
 													name="searchResultObject" property="emailId" />&nbsp;</td>
-												</tr>
-											
+											</tr>
 										<%} else {oddRow = "true";%>
 											<tr class="dataRowDark">
 												<td class="dataCellNumerical" width="10%"><html:radio
@@ -169,9 +171,9 @@
 													name="searchResultObject" property="department" />&nbsp;</td>
 												<td class="dataCellText" width="15%"><bean:write
 													name="searchResultObject" property="emailId" />&nbsp;</td>
-												</tr>
+											</tr>
 										<%}%>
-										<% cntResObj=cntResObj+1; %>
+
 									</logic:iterate>
 								</table>
 								</td>
@@ -180,28 +182,41 @@
 								<td align="right" class="actionSection"><!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
+										<script>
+											if (window.opener)
+											{
+												var loc2 = "";
+												loc2 = window.opener.location + "";
+												var locIndex2 = loc2.indexOf("ApplicationDBOperation");
+												
+												if ( locIndex2 != -1	)
+												{
+													document.write('<td><input type="button" value="Assign Admin" style="width:92px;" onclick="selSwitch(this);"></td>');
+												}
+											}
+										</script>
 										
-										<td><html:submit style="actionButton" onclick="setAndSubmit('read');">View Details</html:submit></td>
+										<script>
+						
+											if (!window.opener)
+											{
+												var loc1 = window.opener.location;
+												var locIndex1 = loc1.indexOf("ApplicationDBOperation");
+												if ( locIndex1 == -1 || locIndex1 =="" )
+												{
+													var read = 'read';
+													document.write('<td><html:submit style="actionButton" onclick="setAndSubmit(read);">View Details</html:submit></td>');
+												}
+											}
+										</script>
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
-											
-                                       	
 									</tr>
 								</table>
 								<!-- action buttons end --></td>
 							</tr>
 						</logic:present>
-						<% //Check for 100 users and display error if exceeds
-						if (cntResObj>=100){ %>								
-						<tr>
-							<td>
-							Warning, the result is incomplete because the maximal number of items that can 
-							be returned has been exceeded.
-							</td>
-						</tr>
-						<%} 
-						
-						%>
+											
 					</table>
 					</td>
 				</tr>

@@ -186,6 +186,8 @@ public class CommonAssociationAction extends CommonDBAction
 					"|"+baseAssociationForm.getFormName()+"|setAssociation|Failure|Error in setting Association for the "+baseAssociationForm.getFormName()+" object|"
 					+form.toString()+"|"+ cse.getMessage());
 		}
+		session.setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.SEARCH);
+		session.setAttribute(DisplayConstants.CURRENT_FORM, baseAssociationForm);
 		if (logAssociation.isDebugEnabled())
 			logAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseAssociationForm.getFormName()+"|setAssociation|Success|Success in setting association for "+baseAssociationForm.getFormName()+" object|"

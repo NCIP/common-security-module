@@ -10,43 +10,61 @@
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
 <script>
 <!--
+// Anzen Comments(Added By Vijay)  -  Check Value Null values for all fileds Code Start
+	function chkVal(){
+				if ( (document.UserForm.userLoginName.value == null || document.UserForm.userLoginName.value == "") &&
+	   			 (document.UserForm.userFirstName.value == null || document.UserForm.userFirstName.value == "") &&
+			   	 (document.UserForm.userLastName.value == null  || document.UserForm.userLastName.value == "") &&
+			   	 (document.UserForm.userOrganization.value == null || document.UserForm.userOrganization.value == "") &&
+			   	 (document.UserForm.userDepartment.value == null ||document.UserForm.userDepartment.value == "") &&
+			   	 (document.UserForm.userEmailId.value == null || document.UserForm.userEmailId.value == "") )
+		    {
+		     	alert("Please enter some search criteria ");
+		     	return false;
+
+			}
+            return true;
+	  	}
+
+
    	function setAndSubmit(target)
    	{
+
+
    		if (target == "delete")
    		{
    			if (confirm("Are you sure you want to delete the record?"))
    			{
-   				document.ProtectionGroupForm.operation.value=target;
-				document.ProtectionGroupForm.submit();
+   				document.UserForm.operation.value=target;
+				document.UserForm.submit();
 			}
 		}
 		else
 		{
-	  		document.ProtectionGroupForm.operation.value=target;
-	  	}
+			document.UserForm.operation.value=target;
+			document.UserForm.submit();
+		}
+
  	}
+
+
 // -->
+
 </script>
 <bean:define id="submitValue" value="error" />
 <logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-		<bean:define id="submitValue" value="create" />
-	</logic:equal>
 	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 		<bean:define id="submitValue" value="search" />
 	</logic:equal>
 </logic:equal>
 <logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-		<bean:define id="submitValue" value="loadAdd" />
-	</logic:equal>
 	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 		<bean:define id="submitValue" value="loadSearchResult" />
 	</logic:equal>
 </logic:notEqual>
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="ProtectionGroupForm" action="/ProtectionGroupDBOperation">
+	<html:form styleId="UserForm" action="/SearchUserDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">
@@ -66,58 +84,33 @@
 							<html:errors />
 							</td>
 						</tr>
-						<tr>
+
 						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
+
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-								<tr>
-									<td class="formMessage" colspan="3">Enter the details to add a new Protection Group. 
-									The <b>Protection Group Name</b> uniquely identifies the Protection Group and is a required field. 
-									The <b>Protection Group Description</b> is a brief summary about the Protection Group. 
-									The <b>Protection Group Large Count Flag</b> is used to indicate if the Protection Group has a large
-									number of associated Protection Elements.</td>
-								</tr>
-								<tr>
-									<td class="formMessage" colspan="3">* indicates a required field</td>
-								</tr>
-								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing Protection Group by entering the <b>Protection Group Name</b>.</td>
+									<td class="formMessage" colspan="3">Search for an existing User by entering the 
+									<b>User Login Name, User First Name, User Last Name, User Organization, User Department</b> or <b>User Email Id</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
 								</tr>
 								</logic:equal>
 							</logic:equal>
-							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<tr>
-									<td class="formMessage" colspan="3">Update the details of the displayed Protection Group. 
-									The <b>Protection Group Name</b> uniquely identifies the Protection Group and is a required field. 
-									The <b>Protection Group Description</b> is a brief summary about the Protection Group. 
-									The <b>Protection Group Large Count Flag</b> is used to indicate if the Protection Group has a large
-									number of associated Protection Elements. The <b>Update Date</b> indicates the date when this Protection Group's Details were last updated.</td>
-								</tr>							
-							</logic:notEqual>
-						</tr>
 						<tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE NEW PROTECTION GROUP DETAILS</td>								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE PROTECTION GROUP SEARCH CRITERIA</td>
+									<td class="formTitle" height="20" colspan="3">ENTER THE USER SEARCH CRITERIA</td>
 								</logic:equal>
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-									<td class="formTitle" height="20" colspan="3">PROTECTION GROUP DETAILS</td>
+									<td class="formTitle" height="20" colspan="3">USER DETAILS</td>
 							</logic:notEqual>
 						</tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="searchFormElements" id="formElements" />
-								</logic:equal>
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="addFormElements" id="formElements" />
 								</logic:equal>
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
@@ -151,35 +144,26 @@
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
+									
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('create');">Add</html:submit></td>
-										</logic:equal>
+									<td><html:button property="action" onclick="window.close();">Exit</html:button></td>
+                                      
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('search');">Search</html:submit></td>
+											<td><html:button property="action" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:button></td>
 										</logic:equal>
+                                      
 										<td><html:reset style="actionButton">Reset</html:reset></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>										
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadParentAssociation');">Associated Parent PG</html:submit></td>										
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated PEs</html:submit></td>
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
-										</logic:equal>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadOriginalSearchResult');">Back</html:submit></td>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
 										
 									</logic:notEqual>
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
-						</tr>
-						</logic:present>						
+						</logic:present>
 					</table>
 					</td>
 				</tr>
@@ -188,4 +172,5 @@
 		</tr>
 		</html:form>
 	</table>
+
 

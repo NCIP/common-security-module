@@ -9,6 +9,33 @@
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
     <script> 
     <!--
+    
+    
+    	//Anzen Comment(Added By Vijay) - Popup window for ProtectionElement Search and close the popup Windw (Code Start)
+   		
+	    function closepopup()
+		{
+			newwin = window.open("about:blank", "PESearchWindow");
+			if(false == newwin.closed)
+			{
+				newwin.close();
+			}
+		}
+    
+    	function opennewwin()
+    	{
+    		newwin = window.open("about:blank", "PESearchWindow", "left=100,top=190,scrollbars=1,width=790,height=400");
+    		newwin.document.open();
+    		newwin.document.writeln('<form name="ProtectionElementForm" method="post" action="/upt/SearchProtectionElementDBOperation.do" id="ProtectionElementForm">');
+    		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
+    		newwin.document.writeln('</form>');
+    		newwin.document.close();
+   			newwin.document.ProtectionElementForm.operation.value='loadSearch';
+    		newwin.document.ProtectionElementForm.submit();
+    	}
+    	
+		//Anzen Comment(Added By Vijay) - Code End
+		
     	function setAndSubmit(target)
     	{
     		if (target == "read")
@@ -77,6 +104,7 @@
 		}    // -->
     </script>
 
+<body onUnload="closepopup();">
 <table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
@@ -121,7 +149,14 @@
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
-					
+					<td>
+					<form name="dummyForm">
+							<select name="availableIds"  style="width:0;" size="0">
+							<logic:iterate name="availableIds" id="protectionElement" type="ProtectionElement">
+							</logic:iterate>
+	                    	</select>
+					</form>
+					</td>
 					
 					<!-- cell begins-->
 					<td width="100%">
@@ -132,61 +167,18 @@
 					<!-- first section -->
 					
 					
-					<td width="35%" valign="top">
-					<form name="dummyForm">
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
-						<tr>
-
-							<td class="sidebarTitle" height="20">AVAILABLE PEs</td>
-						</tr>
-						<tr>
-						<td class="formField" align="center">
-							<select name="availableIds" multiple style="width:100%;" size="6">
-							<logic:iterate name="availableIds" id="protectionElement" type="ProtectionElement">
-								<option value="<bean:write name="protectionElement" property="protectionElementId" />"><bean:write name="protectionElement" property="protectionElementName" /></option>
-							</logic:iterate>
-	                    	</select>
-	                    </td>
-						</tr>
-					</table>
-					</form>
-					</td>
+					
 					
 					
 					</tr>
 					<!-- end first, start second -->
-					<tr>
 					
-					<!-- extra code -->
-							<td align="center" width="100%">
-							<table width="220">
-							<tr>
-							<!-- -->
-					
-					
-					<td align="center">
-						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
-						</td>
-						<td>
-						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
-						
-					</td>
-					
-					
-					<!-- extra code -->
-							</tr>
-							</table>
-							</td>
-							<!-- -->	
-					
-					
-					</tr>
 					<!-- end second, start third -->
 					<tr>
 					
 					
 					<td width="35%" valign="top">
-					<html:form styleId="ProtectionGroupForm" action = "<%="/ProtectionGroupDBOperation"%>">
+					<html:form styleId="ProtectionGroupForm" action = '<%="/ProtectionGroupDBOperation"%>'>
 					<html:hidden property="operation" value="read"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
@@ -212,7 +204,8 @@
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-
+						<td><input type="button" value="Assign PE" style="width:75px;" onclick="closepopup();opennewwin();"></td>
+						<td><input type="button" value="Deassign" style="width:92px;" onclick="selSwitch(this);"></td>
 						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
 					</tr>

@@ -7,27 +7,52 @@
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+
     <script> 
     <!--
+    
+   		//Anzen Comment(Added By Vijay) - Popup window for User Search and close the popup Windw (Code Start)
+   		
+	    function closepopup()
+		{
+			newwin = window.open("about:blank", "UserSearchWin");
+			if(false == newwin.closed)
+			{
+				newwin.close();
+			}
+		}
+    
+    	function opennewwin()
+    	{
+    		newwin = window.open("about:blank", "UserSearchWin", "left=100,top=190,scrollbars=1,width=790,height=400");
+    		newwin.document.open();
+    		newwin.document.writeln('<form name="UserForm" method="post" action="/upt/SearchUserDBOperation.do" id="UserForm">');
+    		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
+    		newwin.document.writeln('</form>');
+    		newwin.document.close();
+   			newwin.document.UserForm.operation.value='loadSearch';
+    		newwin.document.UserForm.submit();
+    	}
+    	
+		//Anzen Comment(Added By Vijay) - Code End
+    	
     	function setAndSubmit(target)
     	{
-    		if (target == "read")
-    		{
-	    		document.ApplicationForm.operation.value=target;
-    		}
-    		else
-    		{		
-	    		var len = document.ApplicationForm.associatedIds.length;
-	    		for (i=0 ; i < len ; i++)
-	    		{
-	    			document.ApplicationForm.associatedIds[i].selected = true;
-	    		}
-	    		document.ApplicationForm.operation.value=target;
-	    		document.ApplicationForm.submit();
-			}
+    			if (target == "read")
+    			{
+	    			document.ApplicationForm.operation.value=target;
+    			}
+    			else
+    			{		
+	    			var len = document.ApplicationForm.associatedIds.length;
+	    			for (i=0 ; i < len ; i++)
+	    			{
+	    				document.ApplicationForm.associatedIds[i].selected = true;
+	    			}
+	    			document.ApplicationForm.operation.value=target;
+	    			document.ApplicationForm.submit();
+				}
 	    }
-    	
-    	// selSwitch functions
 
 		function selSwitch(btn)
 		{
@@ -77,7 +102,7 @@
 	      } // end with isavailableIds
 		}    // -->
     </script>
-
+<body onUnload="closepopup();">
 <table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
@@ -113,40 +138,31 @@
 		  				</td>
 					</tr>
 					<tr>
-						<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Admins</b> 
+						<td  align="center" class="formMessage" colspan="3">Assign or Deassign multiple <b>Admins</b> 
 						for the selected <b>Application</b>. To remove the complete association Deassign all the <b>Admins</b>.</td>
 					</tr>
 					
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
-					
+					<td>
+					<form name="dummyForm">
+							<select name="availableIds"  style="width:0;" size="0">
+							<logic:iterate name="availableIds" id="user" type="User">
+							</logic:iterate>
+	                    	</select>
+					</form>
+					</td>
 					<!-- big table starts -->
 					<td width="100%">
 					<table width="100%">
 					<!-- ROW 1 begins -->
 					<tr>
+
+					<td width="0%" valign="top">
 					
-							
-					<td width="100%" valign="top">
-					<form name="dummyForm">
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
-						<tr>
-							<td class="sidebarTitle" height="20">AVAILABLE USERS</td>
-						</tr>
-						<tr>
-						<td class="formField" align="center">
-							<select name="availableIds" multiple style="width:100%;" size="6">
-							<logic:iterate name="availableIds" id="user" type="User">
-								<option value="<bean:write name="user" property="userId" />"><bean:write name="user" property="loginName" /></option>
-							</logic:iterate>
-	                    	</select>
-	                    </td>
-						</tr>
-					</table>
-					</form>
 					</td>
-					
+	
 					<!-- transition to ROW 2 -->
 					</tr>
 					<tr>							
@@ -155,11 +171,9 @@
 					<table width="220">
 					<tr>
 					<td align="center">
-						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);"></td>
-						<td align="center">
-						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);"></td>
-					</tr>
-					
+
+
+		
 					</table>	
 					</td>
 					
@@ -167,9 +181,8 @@
 					</tr>
 					<tr>		
 					
-					
 					<td width="100%" valign="top">
-					<html:form styleId="ApplicationForm" action = "<%="/ApplicationDBOperation"%>">
+					<html:form styleId="ApplicationForm" action = '<%="/ApplicationDBOperation"%>'>
 					<html:hidden property="operation" value="read"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
@@ -197,9 +210,13 @@
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-
+						
+						<td align="center">
+							<input type="button" value="Assign Admin" style="width:92px;" onclick="closepopup();opennewwin();"></td>
+						<td align="center">
+							<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);"></td>
 						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
+						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
 					</tr>
 				</table>
 				</td>				
@@ -220,5 +237,5 @@
 		</td>
 	</tr>
 </table>
-
+</body>
 

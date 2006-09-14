@@ -10,19 +10,34 @@
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
 <script>
 <!--
+	function chkVal(){
+				if ( (document.ProtectionElementForm.protectionElementName.value == null || document.ProtectionElementForm.protectionElementName.value == "") &&
+			   	 (document.ProtectionElementForm.protectionElementObjectId.value == null || document.ProtectionElementForm.protectionElementObjectId.value == "") &&
+			   	 (document.ProtectionElementForm.protectionElementAttribute.value == null || document.ProtectionElementForm.protectionElementAttribute.value == "") )
+		    {
+		     	alert("Please enter some search criteria ");
+		     	return false;
+
+			}else{
+			//	alert("Vijay Test");
+			}
+            return true;
+	  }
+	  	
    	function setAndSubmit(target)
    	{
    		if (target == "delete")
    		{
    			if (confirm("Are you sure you want to delete the record?"))
    			{
-   				document.ProtectionGroupForm.operation.value=target;
-				document.ProtectionGroupForm.submit();
+   				document.ProtectionElementForm.operation.value=target;
+				document.ProtectionElementForm.submit();
 			}
 		}
 		else
 		{
-	  		document.ProtectionGroupForm.operation.value=target;
+	  		document.ProtectionElementForm.operation.value=target;
+	  		document.ProtectionElementForm.submit();
 	  	}
  	}
 // -->
@@ -46,7 +61,7 @@
 </logic:notEqual>
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="ProtectionGroupForm" action="/ProtectionGroupDBOperation">
+	<html:form styleId="ProtectionElementForm" action="/SearchProtectionElementDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">
@@ -71,11 +86,10 @@
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
-									<td class="formMessage" colspan="3">Enter the details to add a new Protection Group. 
-									The <b>Protection Group Name</b> uniquely identifies the Protection Group and is a required field. 
-									The <b>Protection Group Description</b> is a brief summary about the Protection Group. 
-									The <b>Protection Group Large Count Flag</b> is used to indicate if the Protection Group has a large
-									number of associated Protection Elements.</td>
+									<td class="formMessage" colspan="3">Enter the details to add a new Protection Element. 
+									The <b>Protection Element Name, Protection Element Object Id</b> and <b>Protection Element Attribute Name</b> uniquely identifies the Protection Element. 
+									<b>Protection Element Name</b> and <b>Protection Element Object Id</b> are required fields. 
+									The <b>Protection Element Description</b> is a brief summary about the Protection Element.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
@@ -83,7 +97,7 @@
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing Protection Group by entering the <b>Protection Group Name</b>.</td>
+									<td class="formMessage" colspan="3">Search for an existing Protection Element by entering the <b>Protection Element Name, Protection Element Object Id</b> or <b>Protection Element Attribute Name</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -92,24 +106,23 @@
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3">Update the details of the displayed Protection Group. 
-									The <b>Protection Group Name</b> uniquely identifies the Protection Group and is a required field. 
-									The <b>Protection Group Description</b> is a brief summary about the Protection Group. 
-									The <b>Protection Group Large Count Flag</b> is used to indicate if the Protection Group has a large
-									number of associated Protection Elements. The <b>Update Date</b> indicates the date when this Protection Group's Details were last updated.</td>
+									<td class="formMessage" colspan="3">Update the details of the displayed Protection Element. 
+									The <b>Protection Element Name, Protection Element Object Id</b> and <b>Protection Element Attribute Name</b> uniquely identifies the Protection Element. 
+									<b>Protection Element Name</b> and <b>Protection Element Object Id</b> are required fields. 
+									The <b>Protection Element Description</b> is a brief summary about the Protection Element. The <b>Update Date</b> indicates the date when this Privilege's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>
 						<tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE NEW PROTECTION GROUP DETAILS</td>								</logic:equal>
+									<td class="formTitle" height="20" colspan="3">ENTER THE NEW PROTECTION ELEMENT DETAILS</td>								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE PROTECTION GROUP SEARCH CRITERIA</td>
+									<td class="formTitle" height="20" colspan="3">ENTER THE PROTECTION ELEMENT SEARCH CRITERIA</td>
 								</logic:equal>
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-									<td class="formTitle" height="20" colspan="3">PROTECTION GROUP DETAILS</td>
+									<td class="formTitle" height="20" colspan="3">PROTECTION ELEMENT DETAILS</td>
 							</logic:notEqual>
 						</tr>
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
@@ -151,37 +164,31 @@
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
+									
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('create');">Add</html:submit></td>
-										</logic:equal>
+									<td><html:button property="action" onclick="window.close();">Exit</html:button></td>
+                                      
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('search');">Search</html:submit></td>
+											<td><html:button property="action" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:button></td>
 										</logic:equal>
+                                      
 										<td><html:reset style="actionButton">Reset</html:reset></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>										
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadParentAssociation');">Associated Parent PG</html:submit></td>										
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated PEs</html:submit></td>
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
-										</logic:equal>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadOriginalSearchResult');">Back</html:submit></td>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
 										
 									</logic:notEqual>
+
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
 						</tr>
-						</logic:present>						
+						</logic:present>
 					</table>
 					</td>
+
 				</tr>
 			</table>
 			</td>

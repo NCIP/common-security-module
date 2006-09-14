@@ -96,6 +96,9 @@ package gov.nih.nci.security.upt.actions;
 
 
 
+import java.util.ArrayList;
+import org.apache.log4j.Logger;
+
 import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
@@ -218,6 +221,42 @@ public class CommonDBAction extends DispatchAction
 				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearchResult|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		
+		// VNP: Added this to handle Original search results for popup searches.
+		if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
+			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
+		}
+
+		if (logDB.isDebugEnabled())
+			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+					"|"+baseDBForm.getFormName()+"|loadSearchResult|Success|Loading the Search Result Page||");		
+		
+		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));
+	}
+	
+	/**
+	* Added this method to handle pre-popup search results.
+	*/
+
+	public ActionForward loadOriginalSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
+		HttpSession session = request.getSession();
+		BaseDBForm baseDBForm = (BaseDBForm)form;
+		
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
+			if (logDB.isDebugEnabled())
+				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearchResult|Failure|No Session or User Object Forwarding to the Login Page||");
+			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		}
+		
+		
+		if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
+			session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));
+			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
+		}
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -312,6 +351,7 @@ public class CommonDBAction extends DispatchAction
 					"|"+baseDBForm.getFormName()+"|read|Failure|Error Reading the "+baseDBForm.getFormName()+" object|"
 					+form.toString()+"|"+ cse.getMessage());
 		}
+		
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -328,7 +368,7 @@ public class CommonDBAction extends DispatchAction
 		
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
-		
+	
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|update|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -362,6 +402,7 @@ public class CommonDBAction extends DispatchAction
 					+form.toString()+"|"+ cse.getMessage());
 		}
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDBForm.getFormName()+"|update|Success|Updating existing "+baseDBForm.getFormName()+" object|"
@@ -432,12 +473,17 @@ public class CommonDBAction extends DispatchAction
 					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 						"|"+baseDBForm.getFormName()+"|search|Failure|No Records found for "+baseDBForm.getFormName()+" object|"
 						+form.toString()+"|");
+				baseDBForm.resetForm();
 				return (mapping.findForward(ForwardConstants.SEARCH_FAILURE));					
 			}
 			if (searchResult.getSearchResultMessage() != null && !(searchResult.getSearchResultMessage().trim().equalsIgnoreCase("")))
 			{
 				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, searchResult.getSearchResultMessage()));
 				saveMessages( request, messages );
+			}
+			
+			if(session.getAttribute(DisplayConstants.SEARCH_RESULT)!=null){
+				session.setAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT, session.getAttribute(DisplayConstants.SEARCH_RESULT) );
 			}
 			session.setAttribute(DisplayConstants.SEARCH_RESULT, searchResult);
 		}

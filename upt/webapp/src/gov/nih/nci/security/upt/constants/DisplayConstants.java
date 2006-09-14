@@ -111,9 +111,12 @@ public class DisplayConstants
 	public static final String INPUT_BOX = "INPUT_BOX";
 	public static final String INPUT_DATE = "INPUT_DATE";
 	public static final String INPUT_RADIO = "INPUT_RADIO";
+	public static final String INPUT_HIDDEN = "INPUT_HIDDEN";
 	public static final String PASSWORD = "PASSWORD";
 	
+	public static final String ORIGINAL_SEARCH_RESULT = "ORIGINAL_SEARCH_RESULT";
 	public static final String SEARCH_RESULT = "SEARCH_RESULT";
+	public static final String LOAD_SEARCH_RESULT = "LOAD_SEARCH_RESULT";
 	public static final String CURRENT_TABLE_ID = "CURRENT_TABLE_ID";
 	public static final String CURRENT_FORM = "CURRENT_FORM";
 	public static final String CURRENT_ACTION = "CURRENT_ACTION";
