@@ -378,7 +378,7 @@ public class Queries {
 	}
 	
 	
-	protected static String getQueryforUserPEPrivilegeMap(String user_id)
+	protected static String getQueryforUserPEPrivilegeMap(String user_id, String application_id)
 	{
 		StringBuffer stbr = new StringBuffer();
 
@@ -397,6 +397,8 @@ public class Queries {
 		stbr.append("            AND ugrpg.role_id = rp.role_id");
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append(" 			 AND pg.application_id="+application_id);
+		stbr.append(" 			 AND pe.application_id="+application_id);		
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ug.group_id = ugrpg.group_id");
 		stbr.append("            AND ug.user_id = ").append(user_id);
@@ -414,19 +416,23 @@ public class Queries {
 		stbr.append("            AND ugrpg.role_id = rp.role_id");
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append(" 			 AND pg.application_id="+application_id);
+		stbr.append(" 			 AND pe.application_id="+application_id);		
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ugrpg.user_id = ").append(user_id);
 		stbr.append(" UNION ALL ");
 		stbr.append("SELECT DISTINCT upe.protection_element_id pe_id, 0 p_id");
-		stbr.append("      FROM  csm_user_pe upe");
-		stbr.append("      WHERE upe.user_id = ").append(user_id);
+		stbr.append("      FROM csm_user_pe upe, csm_protection_element cpe");
+		stbr.append("      WHERE cpe.protection_element_id = upe.protection_element_id ");
+		stbr.append("      and upe.user_id = ").append(user_id);
+		stbr.append("      and cpe.application_id = ").append(application_id);
 		stbr.append(" ORDER BY pe_id, p_id");
 		
 		return stbr.toString();
 		
 	}
 	
-	protected static String getQueryforGroupPEPrivilegeMap(String group_id)
+	protected static String getQueryforGroupPEPrivilegeMap(String group_id, String application_id)
 	{
 		StringBuffer stbr = new StringBuffer();
 
@@ -443,6 +449,8 @@ public class Queries {
 		stbr.append("            AND ugrpg.role_id = rp.role_id");
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append(" 			 AND pg.application_id="+application_id);
+		stbr.append(" 			 AND pe.application_id="+application_id);		
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ugrpg.group_id = ").append(group_id);
 		stbr.append("      ORDER BY pe_id, p_id");
