@@ -134,6 +134,7 @@ import javax.security.auth.Subject;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -2760,14 +2761,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Application search = new Application();
 			search.setApplicationName(contextName);
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			List list = s.createCriteria(Application.class).add(
-					Example.create(search)).list();
-			// Added this fix to check for active flag = 1 also
-			if (list.size() == 0)
-			{
-				search.setActiveFlag((byte) 1);
-				list = s.createCriteria(Application.class).add(Example.create(search)).list();
-			}			
+		
+			Query q = s.createQuery("from Application as app where app.applicationName='"+contextName+"'");
+			List list = q.list();
+			
 			if (list.size() == 0) {
 				if (log.isDebugEnabled())
 					log
@@ -2841,10 +2838,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			cn = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
-			stbr.append("SELECT distinct protection_group_id ");
-			stbr.append("FROM csm_user_group_role_pg ");
-			stbr.append("where user_id = " + userId);
-
+			stbr.append("SELECT distinct ugrp.protection_group_id "); 
+			stbr.append("FROM csm_user_group_role_pg  ugrp , csm_protection_group pg ");
+			stbr.append("where ugrp.protection_group_id  = pg.protection_group_id and  ");
+			stbr.append("ugrp.user_id = " + userId);
+			stbr.append(" and pg.application_id = "+ this.application.getApplicationId().toString());
+			
 			String sql = stbr.toString();
 			Statement stmt = cn.createStatement();
 
@@ -2923,10 +2922,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			cn = s.connection();
 
+
 			StringBuffer stbr = new StringBuffer();
-			stbr.append("SELECT distinct protection_group_id ");
-			stbr.append("FROM csm_user_group_role_pg ");
-			stbr.append("where group_id = " + groupId);
+			stbr.append("SELECT distinct ugrp.protection_group_id "); 
+			stbr.append("FROM csm_user_group_role_pg  ugrp , csm_group g ");
+			stbr.append("where ugrp.group_id  = g.group_id and  ");
+			stbr.append("ugrp.group_id = " + groupId);
+			stbr.append(" and g.application_id = "+ this.application.getApplicationId().toString());
 
 			String sql = stbr.toString();
 			Statement stmt = cn.createStatement();
@@ -3021,7 +3023,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			cn = s.connection();
 			stmt = cn.createStatement();
 
-			String sql = Queries.getQueryforUserPEPrivilegeMap(userId);
+			String sql = Queries.getQueryforUserPEPrivilegeMap(userId, this.application.getApplicationId().toString());
 			log.debug("SQL is : " + sql);
 
 			rs = stmt.executeQuery(sql);
@@ -3100,7 +3102,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			cn = s.connection();
 			stmt = cn.createStatement();
 
-			String sql = Queries.getQueryforGroupPEPrivilegeMap(groupId);
+			String sql = Queries.getQueryforGroupPEPrivilegeMap(groupId, this.application.getApplicationId().toString());
 			log.debug("SQL is : " + sql);
 
 			rs = stmt.executeQuery(sql);
@@ -3266,6 +3268,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
 			groups = user.getGroups();
+			
+			
+			Iterator groupIterator = groups.iterator();
+			Set removedGroups = new HashSet();
+			while(groupIterator.hasNext()){
+				Group g = (Group)groupIterator.next();
+				if( g.getApplication().getApplicationId().intValue() != this.application.getApplicationId().intValue()){
+					groups.remove(g);
+				}	
+			}
+			
+			
 			log.debug("The result size:" + groups.size());
 
 		} catch (Exception ex) {
