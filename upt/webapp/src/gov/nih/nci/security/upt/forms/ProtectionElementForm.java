@@ -131,7 +131,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	private String protectionElementDescription;
 	private String protectionElementObjectId;
 	private String protectionElementAttribute;
-	private String protectionElementTypeId;
+	private String protectionElementType;
 	private String protectionElementUpdateDate;
 	
 	private String[] associatedIds;
@@ -200,16 +200,16 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.protectionElementObjectId = protectionElementObjectId;
 	}
 	/**
-	 * @return Returns the protectionElementTypeId.
+	 * @return Returns the protectionElementType.
 	 */
-	public String getProtectionElementTypeId() {
-		return protectionElementTypeId;
+	public String getProtectionElementType() {
+		return protectionElementType;
 	}
 	/**
-	 * @param protectionElementTypeId The protectionElementTypeId to set.
+	 * @param protectionElementType The protectionElementType to set.
 	 */
-	public void setProtectionElementTypeId(String protectionElementTypeId) {
-		this.protectionElementTypeId = protectionElementTypeId;
+	public void setProtectionElementType(String protectionElementType) {
+		this.protectionElementType = protectionElementType;
 	}
 	
 	/**
@@ -256,6 +256,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.protectionElementId = "";
 		this.protectionElementName = "";
 		this.protectionElementDescription = "";
+		this.protectionElementType = "";
 		this.protectionElementObjectId = "";
 		this.protectionElementAttribute = "";
 		this.protectionElementUpdateDate = "";
@@ -267,6 +268,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	{
 		this.protectionElementName = "";
 		this.protectionElementDescription = "";
+		this.protectionElementType = "";
 		this.protectionElementObjectId = "";
 		this.protectionElementAttribute = "";
 		this.associatedIds = null;
@@ -279,6 +281,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 
 		formElementList.add(new FormElement("Protection Element Name", "protectionElementName", getProtectionElementName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Description", "protectionElementDescription", getProtectionElementDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", getProtectionElementType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
@@ -291,6 +294,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 
 		formElementList.add(new FormElement("Protection Element Name", "protectionElementName", getProtectionElementName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Description", "protectionElementDescription", getProtectionElementDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", getProtectionElementType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Update Date", "protectionElementUpdateDate", getProtectionElementUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
@@ -303,6 +307,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		ArrayList formElementList = new ArrayList();
 
 		formElementList.add(new FormElement("Protection Element Name", "protectionElementName", getProtectionElementName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", getProtectionElementType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
@@ -331,6 +336,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 
 		this.protectionElementName = protectionElement.getProtectionElementName();
 		this.protectionElementDescription = protectionElement.getProtectionElementDescription();
+		this.protectionElementType = protectionElement.getProtectionElementType();
 		this.protectionElementObjectId = protectionElement.getObjectId();
 		this.protectionElementAttribute = protectionElement.getAttribute();
 		
@@ -357,6 +363,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 
 		protectionElement.setProtectionElementName(this.protectionElementName);
 		protectionElement.setProtectionElementDescription(this.protectionElementDescription);
+		protectionElement.setProtectionElementType(this.protectionElementType);
 		protectionElement.setObjectId(this.protectionElementObjectId);
 		protectionElement.setAttribute(this.protectionElementAttribute);
 		
@@ -396,6 +403,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		
 		if (this.protectionElementName != null && !(this.protectionElementName.trim().equalsIgnoreCase("")))
 			protectionElement.setProtectionElementName(this.protectionElementName);
+		if (this.protectionElementType != null && !(this.protectionElementType.trim().equalsIgnoreCase("")))
+			protectionElement.setProtectionElementType(this.protectionElementType);
 		if (this.protectionElementObjectId != null && !(this.protectionElementObjectId.trim().equalsIgnoreCase("")))
 			protectionElement.setObjectId(this.protectionElementObjectId);
 		if (this.protectionElementAttribute != null && !(this.protectionElementAttribute.trim().equalsIgnoreCase("")))

@@ -168,6 +168,14 @@
   				<var-value>200</var-value>
   			</var>
   		</field>
+		<field property="protectionElementType" depends="maxlength">
+  			<arg0 key="ProtectionElementForm.protectionElementType.displayLabel"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
 		<field property="protectionElementObjectId" depends="required,maxlength">
   			<arg0 key="ProtectionElementForm.protectionElementObjectId.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>

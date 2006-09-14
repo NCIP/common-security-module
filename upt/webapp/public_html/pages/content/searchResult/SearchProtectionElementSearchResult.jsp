@@ -117,11 +117,13 @@
 										<th class="dataTableHeader" scope="col" align="center"
 											width="20%">Protection Element Name</th>
 										<th class="dataTableHeader" scope="col" align="center"
-											width="30%">Protection Element Description</th>
+											width="20%">Protection Element Description</th>
+										<th class="dataTableHeader" scope="col" align="center"
+											width="15%">Protection Element Type</th>
 										<th class="dataTableHeader" scope="col" align="center"
 											width="20%">Object Id</th>
 										<th class="dataTableHeader" scope="col" align="center"
-											width="20%">Attribute</th>
+											width="15%">Attribute</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
 										id="searchResultObject" type="ProtectionElement">
@@ -135,12 +137,14 @@
 											<td class="dataCellText" width="20%" ><html:hidden	name="protElementName" property="protectionElementName"
 												value="<%=searchResultObject.getProtectionElementName().toString()%>" /><bean:write
 												name="searchResultObject" property="protectionElementName" />&nbsp;</td>
-											<td class="dataCellText" width="30%"><bean:write
+											<td class="dataCellText" width="20%"><bean:write
 												name="searchResultObject"
 												property="protectionElementDescription" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="protectionElementType" />&nbsp;</td>
 											<td class="dataCellText" width="20%"><bean:write
 												name="searchResultObject" property="objectId" />&nbsp;</td>
-											<td class="dataCellText" width="20%"><bean:write
+											<td class="dataCellText" width="15%"><bean:write
 												name="searchResultObject" property="attribute" />&nbsp;</td>
 										</tr>
 										<%}
@@ -154,12 +158,14 @@
 											<td class="dataCellText" width="20%"><html:hidden	name="protElementName" property="protectionElementName"
 												value="<%=searchResultObject.getProtectionElementName().toString()%>" /><bean:write
 												name="searchResultObject" property="protectionElementName" />&nbsp;</td>
-											<td class="dataCellText" width="30%"><bean:write
+											<td class="dataCellText" width="20%"><bean:write
 												name="searchResultObject"
 												property="protectionElementDescription" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><bean:write
+												name="searchResultObject" property="protectionElementType" />&nbsp;</td>
 											<td class="dataCellText" width="20%"><bean:write
 												name="searchResultObject" property="objectId" />&nbsp;</td>
-											<td class="dataCellText" width="20%"><bean:write
+											<td class="dataCellText" width="15%"><bean:write
 												name="searchResultObject" property="attribute" />&nbsp;</td>
 										</tr>
 										<%}%>
