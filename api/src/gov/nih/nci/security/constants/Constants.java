@@ -109,4 +109,17 @@ public class Constants
 	public static final String LDAP_USER_ID_LABEL = "ldapUserIdLabel";
 	public static final String LDAP_ADMIN_USER_NAME = "ldapAdminUserName";
 	public static final String LDAP_ADMIN_PASSWORD = "ldapAdminPassword";
+	
+	public static final String USER_FIRST_NAME = "USER_FIRST_NAME";
+	public static final String USER_LAST_NAME = "USER_LAST_NAME";	
+	public static final String USER_EMAIL_ID = "USER_EMAIL_ID";
+	
+	public static final String CSM_EXECUTE_PRIVILEGE = "EXECUTE";
+	public static final String CSM_ACCESS_PRIVILEGE = "ACCESS";
+	public static final String CSM_READ_PRIVILEGE = "READ";
+	public static final String CSM_WRITE_PRIVILEGE = "WRITE";
+	public static final String CSM_UPDATE_PRIVILEGE = "UPDATE";
+	public static final String CSM_DELETE_PRIVILEGE = "DELETE";
+	public static final String CSM_CREATE_PRIVILEGE = "CREATE";
+
 }

@@ -208,6 +208,60 @@ public class Queries {
 		return stbr.toString();
 	}
 
+	protected static String getQueryForAccessibleGroups(String objectId, String privilegeName, String applicationId)
+	{
+		StringBuffer stbr = new StringBuffer();
+		stbr.append("select distinct g.group_id ");
+		stbr.append("from csm_group g, ");
+		stbr.append("csm_protection_group pg, ");
+		stbr.append("csm_protection_element pe, ");
+		stbr.append("csm_pg_pe pgpe, ");
+		stbr.append("csm_user_group_role_pg ugrpg, ");
+		stbr.append("csm_user_group ug, ");
+		stbr.append("csm_role_privilege rp, ");
+		stbr.append("csm_privilege p ");
+		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
+		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id ");
+		stbr.append(" and pe.object_id='"+ objectId +"'");
+		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
+		stbr.append(" and g.group_id = ugrpg.group_id");
+		stbr.append(" and ugrpg.role_id = rp.role_id ");
+		stbr.append(" and rp.privilege_id = p.privilege_id");
+		stbr.append(" and p.privilege_name='" + privilegeName + "'");
+		stbr.append(" and g.application_id="+ applicationId);
+		stbr.append(" and pg.application_id="+ applicationId);
+		stbr.append(" and pe.application_id="+ applicationId);
+		return stbr.toString();
+	}
+
+	protected static String getQueryForAccessibleGroupsWithAttribute(String objectId, String attribute, String privilegeName, String applicationId)
+	{
+		StringBuffer stbr = new StringBuffer();
+		stbr.append("select distinct g.group_id ");
+		stbr.append("from csm_group g, ");
+		stbr.append("csm_protection_group pg, ");
+		stbr.append("csm_protection_element pe, ");
+		stbr.append("csm_pg_pe pgpe, ");
+		stbr.append("csm_user_group_role_pg ugrpg, ");
+		stbr.append("csm_user_group ug, ");
+		stbr.append("csm_role_privilege rp, ");
+		stbr.append("csm_privilege p ");
+		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
+		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id ");
+		stbr.append(" and pe.object_id='"+ objectId +"'");
+		stbr.append(" and pe.attribute='"+ attribute +"'");
+		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
+		stbr.append(" and g.group_id = ugrpg.group_id");
+		stbr.append(" and ugrpg.role_id = rp.role_id ");
+		stbr.append(" and rp.privilege_id = p.privilege_id");
+		stbr.append(" and p.privilege_name='" + privilegeName + "'");
+		stbr.append(" and g.application_id="+ applicationId);
+		stbr.append(" and pg.application_id="+ applicationId);
+		stbr.append(" and pe.application_id="+ applicationId);
+		return stbr.toString();
+	}
+
+	
 	protected static String getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String attributeName, String privilegeName, String application_id)
 	{
 		StringBuffer stbr = new StringBuffer();

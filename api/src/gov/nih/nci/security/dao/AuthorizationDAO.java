@@ -97,6 +97,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -410,6 +411,10 @@ public interface AuthorizationDAO {
 	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException;
 
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;;
+
+	public List getAccessibleGroups(String objectId, String privilegeName) throws CSException;
+
+	public List getAccessibleGroups(String objectId, String attributeName, String privilegeName) throws CSException;
 
 }
 

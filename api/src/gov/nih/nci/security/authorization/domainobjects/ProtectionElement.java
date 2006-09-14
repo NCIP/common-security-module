@@ -130,6 +130,10 @@ public class ProtectionElement {
 	 */
 	private String protectionElementDescription;
 	/**
+	 * A type of the protection element
+	 */
+	private String protectionElementType;	
+	/**
 	 * The date when the data for the protection element was updated
 	 */
 	private java.util.Date updateDate;
@@ -209,6 +213,14 @@ public class ProtectionElement {
 	}
 
 	/**
+	 * It is the type of the protection element
+	 */
+	public String getProtectionElementType()
+	{
+		return protectionElementType;
+	}
+	
+	/**
 	 * A collection of protection groups that this protection element belongs to.
 	 */
 	public java.util.Set getProtectionGroups(){
@@ -271,6 +283,14 @@ public class ProtectionElement {
 	}
 
 	/**
+	 * A type of the protection element
+	 * @param newVal the new value for the type
+	 * 
+	 */
+	public void setProtectionElementType(String newVal){
+		protectionElementType = newVal;
+	}
+	/**
 	 * It is the unique id by which it is identified in an application.
 	 * @param newVal
 	 * 
@@ -326,5 +346,8 @@ public class ProtectionElement {
 		return false;
 		}
 	}
+
+	
+
 
 }

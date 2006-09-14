@@ -91,6 +91,7 @@ package gov.nih.nci.security;
 import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.User;
@@ -103,6 +104,7 @@ import gov.nih.nci.security.SecurityServiceProvider;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -255,7 +257,7 @@ public interface AuthorizationManager {
 	 * @param userName The user name of the user which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
 	 * @param attributeName The attribute of the protection element on which the user wants to perform the operation
-	 * @param privilegeName The operation which the use wants to perform on the protection element
+	 * @param privilegeName The operation which the user wants to perform on the protection element
 	 * 
 	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
 	 * @throws CSException If there are any errors while checking for permission
@@ -269,7 +271,7 @@ public interface AuthorizationManager {
 	 * permission operation is performed to see if the user has the required access or not.
 	 * @param userName The user name of the user which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
-	 * @param privilegeName The operation which the use wants to perform on the protection element
+	 * @param privilegeName The operation which the user wants to perform on the protection element
 	 * 
 	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
 	 * @throws CSException If there are any errors while checking for permission
@@ -284,7 +286,7 @@ public interface AuthorizationManager {
 	 * @param groupName The user name of the user which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
 	 * @param attributeName The attribute of the protection element on which the user wants to perform the operation
-	 * @param privilegeName The operation which the use wants to perform on the protection element
+	 * @param privilegeName The operation which the user wants to perform on the protection element
 	 * 
 	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
 	 * @throws CSException If there are any errors while checking for permission
@@ -298,12 +300,37 @@ public interface AuthorizationManager {
 	 * permission operation is performed to see if the group has the required access or not.
 	 * @param groupName The user name of the user which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
-	 * @param privilegeName The operation which the use wants to perform on the protection element
+	 * @param privilegeName The operation which the user wants to perform on the protection element
 	 * 
 	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
 	 * @throws CSException If there are any errors while checking for permission
 	 */
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;
+	
+	/**
+	 * The method returns a list of all the {@link Group} which has permission to perform 
+	 * the passed {@link Privilege} for the passed {@link ProtectionElement}. This method queries 
+	 * the database using the passed objectId and the privilege and obtains all the groups which have access over.
+	 * @param objectId The object id of the protection element on which the operation is performed
+	 * @param privilegeName The operation which is performed on the protection element
+	 * 
+	 * @return List Returns the list of {@link Group} which as access permission
+	 * @throws CSException If there are any errors while retrieving the accessbile groups
+	 */
+	public List getAccessibleGroups(String objectId, String privilegeName) throws CSException;
+
+	/**
+	 * The method returns a list of all the {@link Group} which has permission to perform 
+	 * the passed {@link Privilege} for the passed {@link ProtectionElement}. This method queries 
+	 * the database using the passed objectId and the privilege and obtains all the groups which have access over.
+	 * @param objectId The object id of the protection element on which the operation is performed
+	 * @param attributeName The attribute of the protection element on  on which the operation is performed
+	 * @param privilegeName The operation which is performed on the protection element
+	 * 
+	 * @return List Returns the list of {@link Group} which as access permission
+	 * @throws CSException If there are any errors while retrieving the accessbile groups
+	 */
+	public List getAccessibleGroups(String objectId, String attributeName, String privilegeName) throws CSException;
 	
 	/**
 	 * The method returns all the principals for the user.

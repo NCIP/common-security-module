@@ -60,7 +60,14 @@
         column="ATTRIBUTE"
         length="100"
     >
-        
+    </property>
+    
+    <property
+        name="protectionElementType"
+        type="java.lang.String"
+        column="PROTECTION_ELEMENT_TYPE"
+        length="100"
+    >
     </property>
     
     <property

@@ -95,7 +95,12 @@ package gov.nih.nci.security.authentication.helper;
  */
 
 
+import gov.nih.nci.security.authentication.principal.EmailIdPrincipal;
+import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
+import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
+import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -103,6 +108,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
+
+import javax.security.auth.Subject;
 
 import org.apache.log4j.Logger;
 
@@ -138,11 +145,12 @@ public class RDBMSHelper {
 	 * 			application
 	 * @param password the user entered password provided by the calling 
 	 * 			application
+	 * @param subject 
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * 		   	credentials and FALSE if the authentication fails
 	 * @throws CSException
 	 */
-	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password) throws CSException
+	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSException
 	{		
 		
 		Connection connection = getConnection (connectionProperties);
@@ -153,10 +161,105 @@ public class RDBMSHelper {
 		}
 		
 		String query = (String)connectionProperties.get("query");
-		return executeQuery(connection, query, userID, new String(password));
+		if (!StringUtilities.isBlank(query))
+		{
+			return executeQuery(connection, query, userID, new String(password));
+		}
+		else
+		{
+			return authenticateAndObtainSubject(connection, connectionProperties, userID, new String(password), subject);
+		}
 
 	}
 
+
+	private static boolean authenticateAndObtainSubject(Connection connection, Hashtable connectionProperties, String userID, String password, Subject subject) throws CSException
+	{
+
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		boolean loginOK = false;
+		
+		String userNameColumn = (String)connectionProperties.get("USER_NAME_COLUMN");
+		String passwordColumn = (String)connectionProperties.get("PASSWORD_COLUMN");
+		String firstNameColumn = (String)connectionProperties.get("FIRST_NAME_COLUMN");
+		String lastNameColumn = (String)connectionProperties.get("LAST_NAME_COLUMN");
+		String emailIdColumn = (String)connectionProperties.get("EMAIL_ID_COLUMN");
+		
+		String query = new String();
+		
+		query = "SELECT" + userNameColumn + ", " + firstNameColumn + ", " + lastNameColumn + ", " + emailIdColumn + " WHERE " + userNameColumn + " = ? " + "AND " + passwordColumn + " = ?";
+		
+		try
+		{
+			statement = connection.prepareStatement(query);
+			statement.setString(1, userID);
+			statement.setString(2,password);
+		}
+		catch (SQLException e)
+		{
+			throw new CSException("Unable to generate query statement to validate user credentials", e);
+		}
+		
+		try
+		{
+			resultSet = statement.executeQuery();
+		}
+		catch (SQLException e)
+		{
+			throw new CSException("Unable to execute the query to validate user credentials", e);			
+		}
+		if (resultSet != null)
+		{
+			try
+			{
+				while(resultSet.next())
+				{
+					String firstName = resultSet.getString(firstNameColumn);
+					if (!StringUtilities.isBlank(firstName))
+						subject.getPrincipals().add(new FirstNamePrincipal(firstName));
+					else
+						throw new CSException("User Attribute First Name not found");
+					String lastName = resultSet.getString(lastNameColumn);
+					if (!StringUtilities.isBlank(lastName))
+						subject.getPrincipals().add(new LastNamePrincipal(lastName));
+					else
+						throw new CSException("User Attribute Last Name not found");
+					String emailId = resultSet.getString(emailIdColumn);
+					if (!StringUtilities.isBlank(emailId))
+						subject.getPrincipals().add(new EmailIdPrincipal(emailId));
+					else
+						throw new CSException("User Attribute Email Id not found");
+					
+					subject.getPrincipals().add(new LoginIdPrincipal(userID));
+					
+					loginOK = true;
+					break;
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new CSException("Unable to execute the query to validate user credentials", e);				
+			}
+		}
+		try
+		{
+			if (resultSet != null)
+				resultSet.close();
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		}
+		catch (SQLException sqe)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| Login is "+loginOK+" for the user "+userID+"and password "+password+"|");
+		return loginOK;
+	}
 
 	/**
 	 * Accepts the connection object, the query string and the user credentials

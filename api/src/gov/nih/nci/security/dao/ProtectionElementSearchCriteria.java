@@ -119,6 +119,9 @@ public class ProtectionElementSearchCriteria extends SearchCriteria{
 		 if(pe.getProtectionElementName()!=null){
 		 	ht.put("protectionElementName",pe.getProtectionElementName());
 		 }
+		 if(pe.getProtectionElementType()!=null){
+			 	ht.put("protectionElementType",pe.getProtectionElementType());
+			 }
 		 if(pe.getObjectId()!=null){
 		 	ht.put("objectId",pe.getObjectId());
 		 }

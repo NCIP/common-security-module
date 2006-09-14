@@ -112,6 +112,7 @@ import gov.nih.nci.security.system.ApplicationSessionFactory;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -506,6 +507,17 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException
 	{
 		return authorizationDAO.checkPermissionForGroup(groupName,objectId,privilegeName) ;
+	}	
+	
+	
+	public List getAccessibleGroups(String objectId, String privilegeName) throws CSException
+	{
+		return authorizationDAO.getAccessibleGroups(objectId, privilegeName) ;
+	}
+
+	public List getAccessibleGroups(String objectId, String attributeName, String privilegeName) throws CSException
+	{
+		return authorizationDAO.getAccessibleGroups(objectId, attributeName, privilegeName) ;
 	}	
 	
 	/**
@@ -1099,5 +1111,6 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	{
 		UserInfoHelper.setUserInfo(userName, sessionId);
 	}
+
 
 }

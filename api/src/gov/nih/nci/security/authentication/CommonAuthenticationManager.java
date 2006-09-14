@@ -144,6 +144,31 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 */
 	public boolean login(String userName, String password) throws CSException
 	{
+		return this.login(userName, password, null);
+	}
+	
+	/**
+	 * This method accepts the user credentials as parameter and uses the same to authenticate the user
+	 * against the registered credential providers. It creates an instance of the  {@link CSMCallbackHandler} class 
+	 * and populates the same with the user credentials. It also creates a JAAS {@link LoginContext} class using the 
+	 * Application Context/Name as parameter. It then calls the <code>login</code> method on the {@link LoginContext} class.
+	 * The login Method then uses the registered {@link LoginModule} for the given Application Context/Name in the JAAS policy file
+	 * and authenticate the user credentails. There can be more than one {@link LoginModule} class registered for the application.
+	 * @throws CSException
+	 * 
+	 * @see gov.nih.nci.security.AuthenticationManager#authenticate(java.lang.String, java.lang.String)
+	 */
+	public Subject authenticate(String userName, String password) throws CSException
+	{
+		Subject subject = new Subject(); 
+		this.login(userName, password, subject);
+		return subject;
+	}
+	
+	
+	
+	private boolean login(String userName, String password, Subject subject) throws CSException
+	{
 		if (null == userName || userName.trim().length() == 0)
 		{
 			throw new CSException("User Name cannot be blank");
@@ -154,6 +179,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		}
 		UserInfoHelper.setUserInfo(userName, null);
 		boolean loginSuccessful = false;
+		LoginContext loginContext = null;
 		try
 		{
 			if (lockoutManager.isUserLockedOut(userName))
@@ -162,7 +188,10 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 				throw new CSException ("Allowed Attempts Reached ! User Name is locked out !");
 			}
 			CSMCallbackHandler csmCallbackHandler = new CSMCallbackHandler(userName, password);
-			LoginContext loginContext = new LoginContext(applicationContextName, csmCallbackHandler);
+			if (null == subject)
+				loginContext = new LoginContext(applicationContextName, csmCallbackHandler);
+			else
+				loginContext = new LoginContext(applicationContextName, subject, csmCallbackHandler);
 			loginContext.login();
 			loginSuccessful = true;
 			if (log.isDebugEnabled())
@@ -186,6 +215,8 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		return loginSuccessful;
 	}
 
+	
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthenticationManager#initialize(java.lang.String)
 	 */

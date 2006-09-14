@@ -1144,7 +1144,60 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return hasAccess;
 	}
 
+
+	public List getAccessibleGroups(String objectId, String privilegeName) throws CSException
+	{
 	
+		return getAccessibleGroups(objectId, null, privilegeName);
+	}
+
+	public List getAccessibleGroups(String objectId, String attributeName, String privilegeName) throws CSException
+	{
+
+		Session session = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		List groups = null;
+		
+		if (StringUtilities.isBlank(objectId)) {
+			throw new CSException("Object Id can't be null!");
+		}
+		if (StringUtilities.isBlank(privilegeName)) {
+			throw new CSException("Privilege can't be null!");
+		}
+		if (attributeName != null && (attributeName.trim()).equals(""))
+			throw new CSException("Attribute can't be null!");
+		try 
+		{
+
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			connection = session.connection();
+			String application_id = this.application.getApplicationId().toString();
+			String sql = null;
+			if (null == attributeName)
+				sql = Queries.getQueryForAccessibleGroups(objectId, privilegeName, application_id);
+			else
+				sql = Queries.getQueryForAccessibleGroupsWithAttribute(objectId, attributeName, privilegeName, application_id);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			if (resultSet.next())
+			{
+				if (null == groups)
+					groups = new ArrayList();
+				String groupId = resultSet.getString(1);
+				Group group = (Group) this.getObjectByPrimaryKey(session, Group.class, new Long(groupId));
+				groups.add(group);
+			}
+			resultSet.close();
+			statement.close();
+		}
+		catch (Exception e) {
+			throw new CSException("Attribute can't be null!");
+		}
+		
+		return groups;
+	}
 
 	private boolean checkPermissionForUser(String userName, String objectId,
 			String privilegeName) throws CSException {
@@ -4055,6 +4108,5 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		return result;
 	}
-
 
 }

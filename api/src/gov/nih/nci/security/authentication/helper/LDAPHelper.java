@@ -95,6 +95,9 @@ package gov.nih.nci.security.authentication.helper;
  */
 
 
+import gov.nih.nci.security.authentication.principal.EmailIdPrincipal;
+import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
+import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
 import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSException;
 
@@ -103,10 +106,13 @@ import java.util.Hashtable;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import javax.security.auth.Subject;
 
 import org.apache.log4j.Logger;
 
@@ -138,14 +144,15 @@ public class LDAPHelper {
 	 * point
 	 * @param userID the user entered user name provided by the calling application
 	 * @param password the user entered password provided by the calling application
+	 * @param subject it is the JAAS Subject which is used for 
 	 * @return TRUE if the authentication was sucessful using the provided user
 	 * credentials and FALSE if the authentication fails
 	 * @throws CSException
 	 */
-	public static boolean authenticate(Hashtable connectionProperties, String userID, char[] password) throws CSException {
+	public static boolean authenticate(Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSException {
 		Hashtable environment = new Hashtable();
 		setLDAPEnvironment(environment, connectionProperties);
-		return ldapAuthenticateUser(environment, connectionProperties, userID, new String(password));
+		return ldapAuthenticateUser(environment, connectionProperties, userID, new String(password), subject);
 	}
 
 	/**
@@ -154,15 +161,14 @@ public class LDAPHelper {
 	 * @param environment This
 	 * @param connectionProperties
 	 */
-	private static void setLDAPEnvironment(Hashtable environment,
-			Hashtable connectionProperties) {
+	private static void setLDAPEnvironment(Hashtable environment, Hashtable connectionProperties) {
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 
 		environment.clear();
 		environment.put(Context.INITIAL_CONTEXT_FACTORY, Constants.INITIAL_CONTEXT);
 		environment.put(Context.PROVIDER_URL, connectionProperties.get(Constants.LDAP_HOST));
 		environment.put(Context.SECURITY_AUTHENTICATION, "simple");
-		//if (((String)connectionProperties.get(Constants.LDAP_HOST)).contains("ldaps"))
+		//if (((String)connectionProperties.get(Constants.LDAP_HOST)).contains("ldaps")) // removed to make it JDK 1.4 compatible
 		if (((String)connectionProperties.get(Constants.LDAP_HOST)).regionMatches(true, 0, "ldaps", 0, "ldaps".length()))
 			environment.put(Context.SECURITY_PROTOCOL, "ssl");
 		if (connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME)!= null && ((String)connectionProperties.get(Constants.LDAP_ADMIN_USER_NAME)).length() != 0)
@@ -186,8 +192,7 @@ public class LDAPHelper {
 	 * @return The Fully Distinguished User Name obtained from the LDAP for the passed user name
 	 * @throws CSException
 	 */
-	private static String getFullyDistinguishedName(Hashtable environment,
-			Hashtable connectionProperties, String userName) throws CSException {
+	private static String getFullyDistinguishedName(Hashtable environment, Hashtable connectionProperties, String userName) throws CSException {
 		String[] attributeIDs = { (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) }; //{"dn"} ;
 		String searchFilter = "(" + (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + ")";
 
@@ -226,7 +231,7 @@ public class LDAPHelper {
 	 *         false for failed authentication
 	 * @throws CSException
 	 */
-	private static boolean ldapAuthenticateUser(Hashtable environment, Hashtable connectionProperties, String userName, String password) throws CSException
+	private static boolean ldapAuthenticateUser(Hashtable environment, Hashtable connectionProperties, String userName, String password, Subject subject) throws CSException
 	{
 		String fullyDistinguishedName = getFullyDistinguishedName(environment, connectionProperties, userName);//connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + "," + connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE);
 
@@ -239,11 +244,52 @@ public class LDAPHelper {
 		try {
 			environment.put(Context.SECURITY_PRINCIPAL, fullyDistinguishedName);
 			environment.put(Context.SECURITY_CREDENTIALS, password);
-			DirContext initialDircontext = new InitialDirContext(environment);
-			if (log.isDebugEnabled())
-				log.debug("Authentication||"+userName+"|ldapAuthenticateUser|Success| Login Successful for User " + userName + "|");
+			DirContext initialDircontext = new InitialDirContext(environment);			
+			if (   ((String)connectionProperties.get(Constants.USER_FIRST_NAME) != null && !((String)connectionProperties.get(Constants.USER_FIRST_NAME)).trim().equals(""))
+				&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) != null 	&& !((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
+				&& ((String)connectionProperties.get(Constants.USER_EMAIL_ID) != null 	&& !((String)connectionProperties.get(Constants.USER_EMAIL_ID)).trim().equals("")))
+			{
+				try
+				{
+					Attributes attributes = initialDircontext.getAttributes(fullyDistinguishedName);
+					
+					Attribute firstName = attributes.get((String)connectionProperties.get(Constants.USER_FIRST_NAME));
+					if (null != firstName)
+						subject.getPrincipals().add(new FirstNamePrincipal((String)firstName.get()));
+					else
+						throw new CSException("User Attribute First Name not found");
+					
+					Attribute lastName = attributes.get((String)connectionProperties.get(Constants.USER_LAST_NAME));
+					if (null != lastName)
+						subject.getPrincipals().add(new LastNamePrincipal((String)lastName.get()));
+					else
+						throw new CSException("User Attribute Last Name not found");
+					
+					Attribute emailId = attributes.get((String)connectionProperties.get(Constants.USER_EMAIL_ID));
+					if (null != lastName)
+						subject.getPrincipals().add(new EmailIdPrincipal((String)emailId.get()));
+					else
+						throw new CSException("User Attribute Email Id not found");
+				}
+				catch (Exception e)
+				{
+					throw new CSException("Login Failed : Unable to Retrieve User Attributes, Check LDAP Parameters");					
+				}
+			}
+			else if (  ((String)connectionProperties.get(Constants.USER_FIRST_NAME) == null || ((String)connectionProperties.get(Constants.USER_FIRST_NAME)).trim().equals(""))
+					&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) == null 	|| ((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
+					&& ((String)connectionProperties.get(Constants.USER_EMAIL_ID) == null 	|| ((String)connectionProperties.get(Constants.USER_EMAIL_ID)).trim().equals("")))
+			{
+				// do nothing;
+			}
+			else
+			{
+				throw new CSException("Login Failed : Improper Configuration, Unable to Retrieve User Attributes");
+			}
 			initialDircontext.close();
 			setLDAPEnvironment(environment, connectionProperties);
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userName+"|ldapAuthenticateUser|Success| Login Successful for User " + userName + "|");
 			return true;
 		} catch (Exception ne) {
 			if (log.isDebugEnabled())

@@ -101,6 +101,8 @@ import gov.nih.nci.security.exceptions.CSException;
 import java.util.Map;
 import java.util.Hashtable;
 
+import javax.security.auth.Subject;
+
 /**
  *
  * This class is the implementation of the LoginModule interface and is used to 
@@ -122,9 +124,9 @@ public class RDBMSLoginModule extends CSMLoginModule
 	 * credentials and FALSE if the authentication fails
 	 * @throws CSException
 	 */
-	protected boolean validate(Map options, String user, char[] password) throws CSException
+	protected boolean validate(Map options, String user, char[] password, Subject subject) throws CSException
 	{
-		return RDBMSHelper.authenticate (new Hashtable(options), user, password);
+		return RDBMSHelper.authenticate (new Hashtable(options), user, password, subject);
 	}
 	
 }

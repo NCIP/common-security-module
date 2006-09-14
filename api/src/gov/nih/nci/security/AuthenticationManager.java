@@ -157,6 +157,36 @@ public interface AuthenticationManager {
 	public boolean login(String userName, String password) throws CSException;
 
 	/**
+	 * This method is primarily provided to be used by the <code>CSM - caGrid Integration Module</code> to authenticate the 
+	 * user using the credentials and once authenticated it retrieve all the attributes for that user from the <code>Credential Provider</code>.
+	 * In order for the proper execution of this method following parameters need to be configured in the JAAS login configuration file for the corresponding
+	 * application's login module
+	 * <blockquote>
+	 * <pre>
+	 * 		a 
+	 * 		b
+	 * 		c
+	 * </pre>
+	 * </blockquote>
+	 * <p>
+	 * Accepts the user credentials from the calling application and authenticates 
+	 * the same for the application. Once authenticated it formulates the If the client application wants to use the default implementation, then JAAS is used to authenticate
+	 * the user against the registered credential providers. However if the client application wants to use
+	 * its custom implementation then the corresponding login method is invoked and the result of authentication is returned.
+	 * Also before calling the <code>login</code> method the <code>initialize</code> method should be invoked setting the Application Context/Name
+	 *
+	 * @param userName The user-entered id provided by the calling application. 
+	 * It should be the unique qualifier which can identify a particular user of the application
+	 * @param password The user-entered password provided by the calling application.
+	 * It should be provided in a non-encrypted format as simple {@link String} object.
+	 * @return {@link Subject} if the authentication was sucessful a populated Java Subject object is returned containing the
+	 * attributes needed by <code>CSM - caGrid Integration Module</code> to generate <code>SAML</code> file to be sent to <code>Dorian</code>
+	 * @throws CSException
+	 */
+	public Subject authenticate(String userName, String password) throws CSException;
+
+	
+	/**
 	 * Initializes the class and sets the passed Application Context/Name within the instance of the implemented class. This method
 	 * should be immediately invoked after creating instantiating the class.
 	 * @param applicationContextName The name or context of the calling application. 

@@ -197,7 +197,7 @@ public abstract class CSMLoginModule implements LoginModule
 
 		try {
 			//now validate user
-			if (validate(options, userID, password))
+			if (validate(options, userID, password, subject))
 			{
 				loginSuccessful = true;
 			}
@@ -266,6 +266,6 @@ public abstract class CSMLoginModule implements LoginModule
 	 * 		   	credentials and FALSE if the authentication fails
 	 * @throws CSException if the login has failed for any reasons
 	 */
-	protected abstract boolean validate(Map options, String user, char[] password) throws CSException;
+	protected abstract boolean validate(Map options, String user, char[] password, Subject subject) throws CSException;
 
 }
