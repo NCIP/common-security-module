@@ -12,7 +12,7 @@
 <!--
 // Anzen Comments(Added By Vijay)  -  Check Value Null values for all fileds Code Start
 	function chkVal(){
-				if ( (document.UserForm.userLoginName.value == null || document.UserForm.userLoginName.value == "") &&
+	/*			if ( (document.UserForm.userLoginName.value == null || document.UserForm.userLoginName.value == "") &&
 	   			 (document.UserForm.userFirstName.value == null || document.UserForm.userFirstName.value == "") &&
 			   	 (document.UserForm.userLastName.value == null  || document.UserForm.userLastName.value == "") &&
 			   	 (document.UserForm.userOrganization.value == null || document.UserForm.userOrganization.value == "") &&
@@ -23,6 +23,7 @@
 		     	return false;
 
 			}
+		*/
             return true;
 	  	}
 
@@ -146,13 +147,14 @@
 								<tr>
 									
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-									<td><html:button property="action" onclick="window.close();">Exit</html:button></td>
+									
                                       
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:button property="action" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:button></td>
+											<td><html:submit style="actionButton" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:submit></td>
 										</logic:equal>
                                       
 										<td><html:reset style="actionButton">Reset</html:reset></td>
+										<td><html:button property="action" onclick="window.close();">Exit</html:button></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">

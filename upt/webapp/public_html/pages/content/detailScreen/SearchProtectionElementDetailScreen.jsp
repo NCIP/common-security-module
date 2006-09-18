@@ -8,10 +8,10 @@
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-<script>
-<!--
+<script><!--
+
 	function chkVal(){
-				if ( (document.ProtectionElementForm.protectionElementName.value == null || document.ProtectionElementForm.protectionElementName.value == "") &&
+	/*			if ( (document.ProtectionElementForm.protectionElementName.value == null || document.ProtectionElementForm.protectionElementName.value == "") &&
 			   	 (document.ProtectionElementForm.protectionElementType.value == null || document.ProtectionElementForm.protectionElementType.value == "") &&
 			   	 (document.ProtectionElementForm.protectionElementObjectId.value == null || document.ProtectionElementForm.protectionElementObjectId.value == "") &&
 			   	 (document.ProtectionElementForm.protectionElementAttribute.value == null || document.ProtectionElementForm.protectionElementAttribute.value == "") )
@@ -22,6 +22,7 @@
 			}else{
 			//	alert("Vijay Test");
 			}
+		*/
             return true;
 	  }
 	  	
@@ -41,8 +42,8 @@
 	  		document.ProtectionElementForm.submit();
 	  	}
  	}
-// -->
-</script>
+// 
+--></script>
 <bean:define id="submitValue" value="error" />
 <logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
@@ -167,13 +168,15 @@
 								<tr>
 									
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-									<td><html:button property="action" onclick="window.close();">Exit</html:button></td>
+
                                       
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:button property="action" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:button></td>
+											<td><html:submit style="actionButton" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:submit></td>
+											
 										</logic:equal>
                                       
 										<td><html:reset style="actionButton">Reset</html:reset></td>
+										<td><html:button property="action" onclick="window.close();">Exit</html:button></td>										
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
