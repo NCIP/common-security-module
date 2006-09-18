@@ -483,7 +483,8 @@ public class CommonDBAction extends DispatchAction
 			}
 			
 			if(session.getAttribute(DisplayConstants.SEARCH_RESULT)!=null){
-				session.setAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT, session.getAttribute(DisplayConstants.SEARCH_RESULT) );
+				if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT)==null)
+					session.setAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT, session.getAttribute(DisplayConstants.SEARCH_RESULT) );
 			}
 			session.setAttribute(DisplayConstants.SEARCH_RESULT, searchResult);
 		}
