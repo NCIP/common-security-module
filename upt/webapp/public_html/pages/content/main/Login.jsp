@@ -41,12 +41,13 @@
 								This tool combined with the CSM allows for fine-grain security
 								control, and will eventually provide other features such as
 								single sign-on. The UPT is divided into six major sections:
-								Groups, Privileges, Protection Groups, Roles, and Users. From
-								these sections you may perform basic functions such as modify,
-								delete, or create, and you may also manage associations between
+								Users, Groups, Protection Groups, Protection Elements,
+								Roles and Privileges. From these sections you may perform 
+								basic functions such as modify,	delete, or create, 
+								and you may also manage associations between
 								the objects. For example you may assign Privileges to a Role.
 								Please begin by logging in, then select one of the menu options
-								or follow our Recommended Workflow. Enjoy.</td>
+								or follow our Recommended Workflow.</td>
 							</tr>
 						</table>
 						<!-- welcome ends --></td>

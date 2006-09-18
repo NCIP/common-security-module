@@ -12,6 +12,7 @@
 <!--
 	function chkVal(){
 				if ( (document.ProtectionElementForm.protectionElementName.value == null || document.ProtectionElementForm.protectionElementName.value == "") &&
+			   	 (document.ProtectionElementForm.protectionElementType.value == null || document.ProtectionElementForm.protectionElementType.value == "") &&
 			   	 (document.ProtectionElementForm.protectionElementObjectId.value == null || document.ProtectionElementForm.protectionElementObjectId.value == "") &&
 			   	 (document.ProtectionElementForm.protectionElementAttribute.value == null || document.ProtectionElementForm.protectionElementAttribute.value == "") )
 		    {
@@ -89,7 +90,7 @@
 									<td class="formMessage" colspan="3">Enter the details to add a new Protection Element. 
 									The <b>Protection Element Name, Protection Element Object Id</b> and <b>Protection Element Attribute Name</b> uniquely identifies the Protection Element. 
 									<b>Protection Element Name</b> and <b>Protection Element Object Id</b> are required fields. 
-									The <b>Protection Element Description</b> is a brief summary about the Protection Element.</td>
+									The <b>Protection Element Description</b> is a brief summary about the Protection Element and the <b>Protection Element Type</b> describes the type of the Protection Element.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">* indicates a required field</td>
@@ -97,7 +98,7 @@
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing Protection Element by entering the <b>Protection Element Name, Protection Element Object Id</b> or <b>Protection Element Attribute Name</b>.</td>
+									<td class="formMessage" colspan="3">Search for an existing Protection Element by entering the <b>Protection Element Name, Protection Element Type, Protection Element Object Id</b> or <b>Protection Element Attribute Name</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -109,7 +110,7 @@
 									<td class="formMessage" colspan="3">Update the details of the displayed Protection Element. 
 									The <b>Protection Element Name, Protection Element Object Id</b> and <b>Protection Element Attribute Name</b> uniquely identifies the Protection Element. 
 									<b>Protection Element Name</b> and <b>Protection Element Object Id</b> are required fields. 
-									The <b>Protection Element Description</b> is a brief summary about the Protection Element. The <b>Update Date</b> indicates the date when this Privilege's Details were last updated.</td>
+									The <b>Protection Element Description</b> is a brief summary about the Protection Element and the <b>Protection Element Type</b> describes the type of the Protection Element. The <b>Update Date</b> indicates the date when this Privilege's Details were last updated.</td>
 								</tr>							
 							</logic:notEqual>
 						</tr>
