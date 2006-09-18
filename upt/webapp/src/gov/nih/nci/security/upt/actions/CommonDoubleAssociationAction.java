@@ -217,7 +217,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET, associatedProtectionGroupRoleContexts);
 			else
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Group and Roles Found"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Group or Roles found"));			
 				saveErrors( request,errors );
 				if (logDoubleAssociation.isDebugEnabled())
 					logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -262,7 +262,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET, associatedProtectionElementPrivilegesContexts);
 			else
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Element and Privileges Found"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Element or Privileges found"));			
 				saveErrors( request,errors );
 				if (logDoubleAssociation.isDebugEnabled())
 					logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
