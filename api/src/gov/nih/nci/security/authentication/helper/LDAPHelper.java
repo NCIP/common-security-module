@@ -98,6 +98,7 @@ package gov.nih.nci.security.authentication.helper;
 import gov.nih.nci.security.authentication.principal.EmailIdPrincipal;
 import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
+import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSException;
 
@@ -106,6 +107,7 @@ import java.util.Hashtable;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
@@ -241,7 +243,8 @@ public class LDAPHelper {
 			return false;
 		}
 
-		try {
+		try 
+		{
 			environment.put(Context.SECURITY_PRINCIPAL, fullyDistinguishedName);
 			environment.put(Context.SECURITY_CREDENTIALS, password);
 			DirContext initialDircontext = new InitialDirContext(environment);			
@@ -249,32 +252,28 @@ public class LDAPHelper {
 				&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) != null 	&& !((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
 				&& ((String)connectionProperties.get(Constants.USER_EMAIL_ID) != null 	&& !((String)connectionProperties.get(Constants.USER_EMAIL_ID)).trim().equals("")))
 			{
-				try
-				{
-					Attributes attributes = initialDircontext.getAttributes(fullyDistinguishedName);
-					
-					Attribute firstName = attributes.get((String)connectionProperties.get(Constants.USER_FIRST_NAME));
-					if (null != firstName)
-						subject.getPrincipals().add(new FirstNamePrincipal((String)firstName.get()));
-					else
-						throw new CSException("User Attribute First Name not found");
-					
-					Attribute lastName = attributes.get((String)connectionProperties.get(Constants.USER_LAST_NAME));
-					if (null != lastName)
-						subject.getPrincipals().add(new LastNamePrincipal((String)lastName.get()));
-					else
-						throw new CSException("User Attribute Last Name not found");
-					
-					Attribute emailId = attributes.get((String)connectionProperties.get(Constants.USER_EMAIL_ID));
-					if (null != lastName)
-						subject.getPrincipals().add(new EmailIdPrincipal((String)emailId.get()));
-					else
-						throw new CSException("User Attribute Email Id not found");
-				}
-				catch (Exception e)
-				{
-					throw new CSException("Login Failed : Unable to Retrieve User Attributes, Check LDAP Parameters");					
-				}
+				Attributes attributes = initialDircontext.getAttributes(fullyDistinguishedName);
+				
+				Attribute firstName = attributes.get((String)connectionProperties.get(Constants.USER_FIRST_NAME));
+				if (null != firstName)
+					subject.getPrincipals().add(new FirstNamePrincipal((String)firstName.get()));
+				else
+					throw new CSException("User Attribute First Name not found");
+				
+				Attribute lastName = attributes.get((String)connectionProperties.get(Constants.USER_LAST_NAME));
+				if (null != lastName)
+					subject.getPrincipals().add(new LastNamePrincipal((String)lastName.get()));
+				else
+					throw new CSException("User Attribute Last Name not found");
+				
+				Attribute emailId = attributes.get((String)connectionProperties.get(Constants.USER_EMAIL_ID));
+				if (null != emailId)
+					subject.getPrincipals().add(new EmailIdPrincipal((String)emailId.get()));
+				else
+					throw new CSException("User Attribute Email Id not found");
+				
+				subject.getPrincipals().add(new LoginIdPrincipal(userName));
+
 			}
 			else if (  ((String)connectionProperties.get(Constants.USER_FIRST_NAME) == null || ((String)connectionProperties.get(Constants.USER_FIRST_NAME)).trim().equals(""))
 					&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) == null 	|| ((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
@@ -291,7 +290,7 @@ public class LDAPHelper {
 			if (log.isDebugEnabled())
 				log.debug("Authentication||"+userName+"|ldapAuthenticateUser|Success| Login Successful for User " + userName + "|");
 			return true;
-		} catch (Exception ne) {
+		} catch (NamingException ne) {
 			if (log.isDebugEnabled())
 				log.debug("Authentication||"+userName+"|ldapAuthenticateUser|Failure| Login Failed for User " + userName + "|" + ne.getMessage());
 			throw new CSException("Login Failed : User Credentials Incorrect", ne);

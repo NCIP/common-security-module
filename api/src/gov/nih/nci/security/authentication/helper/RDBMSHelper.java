@@ -99,6 +99,7 @@ import gov.nih.nci.security.authentication.principal.EmailIdPrincipal;
 import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.util.StringUtilities;
 
@@ -180,15 +181,17 @@ public class RDBMSHelper {
 		ResultSet resultSet = null;
 		boolean loginOK = false;
 		
-		String userNameColumn = (String)connectionProperties.get("USER_NAME_COLUMN");
-		String passwordColumn = (String)connectionProperties.get("PASSWORD_COLUMN");
-		String firstNameColumn = (String)connectionProperties.get("FIRST_NAME_COLUMN");
-		String lastNameColumn = (String)connectionProperties.get("LAST_NAME_COLUMN");
-		String emailIdColumn = (String)connectionProperties.get("EMAIL_ID_COLUMN");
+		String tableName = (String)connectionProperties.get(Constants.TABLE_NAME);
+		
+		String userNameColumn = (String)connectionProperties.get(Constants.USER_LOGIN_ID);
+		String passwordColumn = (String)connectionProperties.get(Constants.USER_PASSWORD);
+		String lastNameColumn = (String)connectionProperties.get(Constants.USER_LAST_NAME);
+		String firstNameColumn = (String)connectionProperties.get(Constants.USER_FIRST_NAME);
+		String emailIdColumn = (String)connectionProperties.get(Constants.USER_EMAIL_ID);
 		
 		String query = new String();
 		
-		query = "SELECT" + userNameColumn + ", " + firstNameColumn + ", " + lastNameColumn + ", " + emailIdColumn + " WHERE " + userNameColumn + " = ? " + "AND " + passwordColumn + " = ?";
+		query = "SELECT " + userNameColumn + ", " + firstNameColumn + ", " + lastNameColumn + ", " + emailIdColumn + " FROM " + tableName + " WHERE " + userNameColumn + " = ? " + "AND " + passwordColumn + " = ?";
 		
 		try
 		{

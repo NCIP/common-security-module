@@ -110,9 +110,13 @@ public class Constants
 	public static final String LDAP_ADMIN_USER_NAME = "ldapAdminUserName";
 	public static final String LDAP_ADMIN_PASSWORD = "ldapAdminPassword";
 	
+	public static final String USER_LOGIN_ID = "USER_LOGIN_ID";
+	public static final String USER_PASSWORD = "USER_PASSWORD";	
 	public static final String USER_FIRST_NAME = "USER_FIRST_NAME";
 	public static final String USER_LAST_NAME = "USER_LAST_NAME";	
 	public static final String USER_EMAIL_ID = "USER_EMAIL_ID";
+	
+	public static final String TABLE_NAME = "TABLE_NAME";
 	
 	public static final String CSM_EXECUTE_PRIVILEGE = "EXECUTE";
 	public static final String CSM_ACCESS_PRIVILEGE = "ACCESS";
