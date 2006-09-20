@@ -14,7 +14,7 @@
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-<% int cntResObj=1; //Anzen Comment(Added By Vijay) - Count the number of objects to display%>
+
 <script>
 <!--
    	function setAndSubmit(target)
@@ -191,17 +191,7 @@
 								<!-- action buttons end --></td>
 							</tr>
 						</logic:present>
-						<% //Check for 100 users and display error if exceeds
-						if (cntResObj>=100){ %>								
-						<tr>
-							<td>
-							Warning, the result is incomplete because the maximal number of items that can 
-							be returned has been exceeded.
-							</td>
-						</tr>
-						<%} 
 						
-						%>
 					</table>
 					</td>
 				</tr>
