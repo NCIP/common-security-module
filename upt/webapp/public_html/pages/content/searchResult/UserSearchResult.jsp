@@ -171,7 +171,7 @@
 													name="searchResultObject" property="emailId" />&nbsp;</td>
 												</tr>
 										<%}%>
-										<% cntResObj=cntResObj+1; %>
+										
 									</logic:iterate>
 								</table>
 								</td>
