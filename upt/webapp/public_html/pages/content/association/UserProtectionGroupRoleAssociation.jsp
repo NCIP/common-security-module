@@ -33,7 +33,7 @@
 		
 		<tr>
 			<td>
-			<h2>User, Protection Group and Roles</h2>
+			<h2>Associated Protection Groups and Roles</h2>
 			</td>
 		</tr>
 		<tr>
@@ -66,8 +66,10 @@
 						</tr>
 						<tr><td><br></td></tr>
 						<tr>
-							<td class="formMessage" colspan="3">Select the <b>Protection Group</b> association which to be removed for
-							 the selected <b>User</b> or whose <b>Roles</b> Association needs to be updated.</td>
+							<td class="formMessage" colspan="3">
+							To modify the <b>Role(s)</b> associated with a protection group, select the desired <b>Protection Group</b> 
+							then click the Associated Roles button. To remove a <b>Protection Group</b>/<b>Role</b> association from this <b>User</b>, select
+							the desired <b>Protection Group</b> and click the Remove PG & Roles button.</td>
 						</tr>
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
