@@ -176,7 +176,7 @@ public class DisplayConstants
 	public static byte ONE = 1;
 	public static byte ZERO = 0;
 
-
+	public static final String DISPLAY_DATE_FORMAT = "(MM/DD/YYYY)";
 
 	
 }
