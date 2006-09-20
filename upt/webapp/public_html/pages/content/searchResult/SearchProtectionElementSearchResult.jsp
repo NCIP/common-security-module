@@ -65,6 +65,8 @@
 				if(!keySearch(window.opener.document.ProtectionGroupForm.associatedIds.options, document.ProtectionElementForm.protectionElementId[i].value))
 				{
 					var optLen = window.opener.document.ProtectionGroupForm.associatedIds.options.length++;
+
+					
 				
 					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].text = document.ProtectionElementForm.protectionElementName[i].value;
 					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].value = document.ProtectionElementForm.protectionElementId[i].value;
@@ -131,9 +133,9 @@
 		{
 			oddRow = "false";%>
 										<tr class="dataRowLight">
-											<td class="dataCellNumerical" width="10%"><html:radio
-												style="formFieldSized" property="protectionElementId"
-												value="<%=searchResultObject.getProtectionElementId().toString()%>" /></td>
+											<td class="dataCellNumerical" width="10%">
+											<html:checkbox property="protectionElementId" style="formFieldSized" value="<%=searchResultObject.getProtectionElementId().toString()%>"></html:checkbox>
+											</td>
 											<td class="dataCellText" width="20%" ><html:hidden	name="protElementName" property="protectionElementName"
 												value="<%=searchResultObject.getProtectionElementName().toString()%>" /><bean:write
 												name="searchResultObject" property="protectionElementName" />&nbsp;</td>
@@ -152,9 +154,9 @@
 		{
 			oddRow = "true";%>
 										<tr class="dataRowDark">
-											<td class="dataCellNumerical" width="10%"><html:radio
-												style="formFieldSized" property="protectionElementId"
-												value="<%=searchResultObject.getProtectionElementId().toString()%>" /></td>
+											<td class="dataCellNumerical" width="10%">
+											<html:checkbox property="protectionElementId" style="formFieldSized" value="<%=searchResultObject.getProtectionElementId().toString()%>"></html:checkbox>
+											</td>
 											<td class="dataCellText" width="20%"><html:hidden	name="protElementName" property="protectionElementName"
 												value="<%=searchResultObject.getProtectionElementName().toString()%>" /><bean:write
 												name="searchResultObject" property="protectionElementName" />&nbsp;</td>

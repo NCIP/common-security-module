@@ -134,9 +134,9 @@
 										id="searchResultObject" type="User" length="100">
 										<%if (oddRow.equals("true")) {oddRow = "false";%>
 											<tr class="dataRowLight">
-												<td class="dataCellNumerical" width="10%"><html:radio
-													style="formFieldSized" property="userId"
-													value="<%=searchResultObject.getUserId().toString()%>"/></td>
+												<td class="dataCellNumerical" width="10%">
+
+												<html:checkbox property="userId" style="formFieldSized" value="<%=searchResultObject.getUserId().toString()%>"></html:checkbox></td>
 											<td class="dataCellText" width="15%"><html:hidden
 												name="logName" property="lgName"
 												value="<%=searchResultObject.getLoginName().toString()%>" /><bean:write
@@ -154,9 +154,9 @@
 											</tr>
 										<%} else {oddRow = "true";%>
 											<tr class="dataRowDark">
-												<td class="dataCellNumerical" width="10%"><html:radio
-													style="formFieldSized" property="userId"
-													value="<%=searchResultObject.getUserId().toString()%>" /></td>
+											<td class="dataCellNumerical" width="10%">
+											<html:checkbox property="userId" style="formFieldSized" value="<%=searchResultObject.getUserId().toString()%>"></html:checkbox>
+											</td>
 											<td class="dataCellText" width="15%"><html:hidden
 												name="logName" property="lgName"
 												value="<%=searchResultObject.getLoginName().toString()%>" /><bean:write
