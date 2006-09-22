@@ -166,13 +166,10 @@
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-
-                                      
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:submit></td>
-											
+											<td>
+											<html:button property="action" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:button></td>
 										</logic:equal>
                                       
 										<td><html:reset style="actionButton">Reset</html:reset></td>
@@ -182,9 +179,7 @@
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
-										
 									</logic:notEqual>
-
 								</tr>
 							</table>
 							</td><!-- action buttons end -->

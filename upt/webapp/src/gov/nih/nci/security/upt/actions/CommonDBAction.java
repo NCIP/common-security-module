@@ -1,8 +1,7 @@
 /*
  * Created on Dec 3, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
  */
 package gov.nih.nci.security.upt.actions;
 
@@ -124,8 +123,7 @@ import org.apache.struts.actions.DispatchAction;
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
  */
 public class CommonDBAction extends DispatchAction
 {
@@ -148,6 +146,7 @@ public class CommonDBAction extends DispatchAction
 		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
+		session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -174,7 +173,9 @@ public class CommonDBAction extends DispatchAction
 
 		session.setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.ADD);
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
-
+		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
+		session.setAttribute(DisplayConstants.CREATE_WORKFLOW,DisplayConstants.CREATE_WORKFLOW);
+		
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|loadAdd|Success|Loading the Add Page||");
@@ -252,11 +253,17 @@ public class CommonDBAction extends DispatchAction
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
 		
-		
-		if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
-			session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));
-			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
+		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){
+			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
+			session.removeAttribute(DisplayConstants.SEARCH_RESULT);
+			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));
+		}else{
+			if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
+				session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));
+				session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
+			}	
 		}
+		
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -483,8 +490,14 @@ public class CommonDBAction extends DispatchAction
 			}
 			
 			if(session.getAttribute(DisplayConstants.SEARCH_RESULT)!=null){
-				if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT)==null)
-					session.setAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT, session.getAttribute(DisplayConstants.SEARCH_RESULT) );
+				
+				String str = (String) session.getAttribute(DisplayConstants.CREATE_WORKFLOW);
+				if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)==null){
+						if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT)==null){
+							
+							session.setAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT, session.getAttribute(DisplayConstants.SEARCH_RESULT) );
+						}
+				}
 			}
 			session.setAttribute(DisplayConstants.SEARCH_RESULT, searchResult);
 		}

@@ -120,7 +120,9 @@ public class DisplayConstants
 	public static final String CURRENT_TABLE_ID = "CURRENT_TABLE_ID";
 	public static final String CURRENT_FORM = "CURRENT_FORM";
 	public static final String CURRENT_ACTION = "CURRENT_ACTION";
-
+	
+	public static final String CREATE_WORKFLOW = "CREATE_WORKFLOW";
+	
 	public static final String MESSAGE_ID = "messageId";
 	public static final String ERROR_ID = "errorId";	
 	

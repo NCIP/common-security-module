@@ -48,11 +48,7 @@
 					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].value = document.ProtectionElementForm.protectionElementId.value;
 
 				}
-				else
-				{ 
-					alert("Protection Element already exists");
-					
-				}
+				
 			}
   		}
 
@@ -71,10 +67,7 @@
 					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].text = document.ProtectionElementForm.protectionElementName[i].value;
 					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].value = document.ProtectionElementForm.protectionElementId[i].value;
 				}
-				else
-				{ 
-					alert("Protection Element already exists");					
-				}
+				
 			}
 		}
 	    
