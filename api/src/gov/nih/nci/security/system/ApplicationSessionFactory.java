@@ -95,6 +95,7 @@ package gov.nih.nci.security.system;
  */
 
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.util.StringUtilities;
 
@@ -102,10 +103,13 @@ import java.util.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import java.io.*;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 
 
 /**
@@ -118,45 +122,9 @@ import org.jdom.input.SAXBuilder;
  */
 public class ApplicationSessionFactory {
 
-	private static Hashtable appSessionFactories;
-	  
-	/**
-	 * This method will read a system wide configuration file
-	 * called ApplicationSecurityConfig.xml and initilaize the
-	 * session factories as per the application context names
-	 */
-	static{
-		appSessionFactories = new Hashtable();
-		/**
-		 * Read all the applicationContext entries in
-		 * the file and iterate through them.
-		 *   for(int i=0;i<numberOfEntries;i++){
-		 *   build session factory here
-		 *   appSessionFactories.put(applicationContextName,sf);
-		 * }
-		 */
-		
-		Document configDocument = getConfigDocument();
-		Element securityConfig = configDocument.getRootElement();
-		Element applicationList = securityConfig.getChild("application-list");
-		List applications = applicationList.getChildren("application");
-		 Iterator appIterator  = applications.iterator();
-		 while(appIterator.hasNext()){
-		 	Element application = (Element)appIterator.next();
-		 	Element contextName = application.getChild("context-name");
-		 	String contextNameValue = contextName.getText().trim();
-		 	Element authorization = application.getChild("authorization");
-		 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");
-		 	String hibernateFileName = hibernateConfigFile.getText().trim();
-		 	if(!StringUtilities.isBlank(hibernateFileName))
-		 	{
-			 	SessionFactory sf = initSessionFactory(hibernateFileName);
-			 	appSessionFactories.put(contextNameValue,sf);
-		 	}
-		 }
-	}
-	
-	public static SessionFactory getSessionFactory(String applicationContextName) throws CSException{
+	private static Hashtable appSessionFactories = new Hashtable();
+	  	
+	public static SessionFactory getSessionFactory(String applicationContextName) throws CSConfigurationException{
 		SessionFactory sf = null;
 		
 		 sf = (SessionFactory)appSessionFactories.get(applicationContextName);
@@ -165,25 +133,45 @@ public class ApplicationSessionFactory {
 		 }
 		
 		 if(sf==null){
-		 	throw new CSException("Could not initialize session factory");
+		 	throw new CSConfigurationException("Could not initialize session factory");
 		 }
 		return sf;
 	}
 	
-	private static Document getConfigDocument(){
+	private static Document getConfigDocument() throws CSConfigurationException{
 		Document configDoc = null;
-		try {
-			String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
-            SAXBuilder builder = new SAXBuilder();
-            configDoc = builder.build(new File(configFilePath));
-            return configDoc;
-        } catch(JDOMException e) {
-            e.printStackTrace();
-        } catch(NullPointerException e) {
-            e.printStackTrace();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+		String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
+		if (StringUtilities.isBlank(configFilePath))
+		{
+			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
+		}
+        SAXBuilder builder = new SAXBuilder();
+        
+    	EntityResolver entityResolver = new EntityResolver()
+    	{
+    	    public InputSource resolveEntity(String publicId, String systemId) 
+    	    {
+    	        if ( StringUtilities.isBlank(publicId))
+    	        {
+    	            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("ApplicationSecurityConfig.dtd");
+    	            return new InputSource( inputStream );
+    	        }
+    	        return null;
+    	    }
+    	};
+        try
+		{
+			builder.setEntityResolver(entityResolver);
+        	configDoc = builder.build(new File(configFilePath));
+		}
+		catch (JDOMException e)
+		{
+			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+		}
+		catch (IOException e)
+		{
+			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+		}
         return configDoc;
 	}
 	
@@ -200,7 +188,7 @@ public class ApplicationSessionFactory {
 		return sf;
 	}
 	
-	private static SessionFactory getFromHotInitialization(String applicationContextName){
+	private static SessionFactory getFromHotInitialization(String applicationContextName) throws CSConfigurationException{
 		
 		SessionFactory sf = null;
 		Document configDocument = getConfigDocument();

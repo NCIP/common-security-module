@@ -1,10 +1,4 @@
-/*
- * Created on Oct 22, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
-package gov.nih.nci.security.authentication.loginmodules;
+package gov.nih.nci.security.exceptions;
 
 /**
  *
@@ -95,42 +89,41 @@ package gov.nih.nci.security.authentication.loginmodules;
  */
 
 
-import gov.nih.nci.security.authentication.helper.RDBMSHelper;
-import gov.nih.nci.security.exceptions.CSConfigurationException;
-import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
-import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
-
-import java.util.Map;
-import java.util.Hashtable;
-
-import javax.security.auth.Subject;
-
 /**
- *
- * This class is the implementation of the LoginModule interface and is used to 
- * connect to RDBMS to authenticate the user using the passed credentials. The
- * class is initialized and invoked by the JAAS based on the configuration 
- * settings.
- * 
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
+ *
+ * TODO To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Style - Code Templates
  */
-public class RDBMSLoginModule extends CSMLoginModule
+public class CSInputException extends CSException
 {
-
 	/**
-	 * This is an internal method which invokes the helper method from the
-	 * RDBMSHelper class. It returns TRUE is the authentication is sucessful.
-	 * @param user the user entered user name provided by the calling application
-	 * @param password the user entered password provided by the calling application
-	 * @return TRUE if the authentication was sucessful using the provided user 
-	 * credentials and FALSE if the authentication fails
-	 * @throws CSInternalConfigurationException 
-	 * @throws CSInternalInsufficientAttributesException 
+	 * 
 	 */
-	protected boolean validate(Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
-	{
-		return RDBMSHelper.authenticate (new Hashtable(options), user, password, subject);
+	public CSInputException() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	
+	/**
+	 * @param message
+	 */
+	public CSInputException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public CSInputException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+	/**
+	 * @param cause
+	 */
+	public CSInputException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
 }

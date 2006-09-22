@@ -95,7 +95,10 @@ package gov.nih.nci.security;
  */
 
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSInputException;
+import gov.nih.nci.security.exceptions.CSLoginException;
 
 /**
  * This class provides the single common interface for the entire Common Security Module.
@@ -137,8 +140,11 @@ public class CommonSecurityManager
 	 * @return <code>TRUE</code> if the authentication was sucessful using the provided user 
 	 * 		   	credentials and <code>FALSE</code> if the authentication fails.
 	 * @throws CSException
+	 * @throws CSConfigurationException 
+	 * @throws CSInputException 
+	 * @throws CSLoginException 
 	 */
-	public boolean login (String applicationContextName, String userName, String password) throws CSException
+	public boolean login (String applicationContextName, String userName, String password) throws CSException, CSConfigurationException, CSLoginException, CSInputException
 	{
 		AuthenticationManager authenticationManager = SecurityServiceProvider.getAuthenticationManager(applicationContextName);
 		return authenticationManager.login(userName,password);

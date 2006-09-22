@@ -100,7 +100,8 @@ import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.constants.Constants;
-import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
+import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.sql.Connection;
@@ -149,15 +150,15 @@ public class RDBMSHelper {
 	 * @param subject 
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * 		   	credentials and FALSE if the authentication fails
-	 * @throws CSException
+	 * @throws CSInternalConfigurationException 
+	 * @throws CSInternalInsufficientAttributesException 
 	 */
-	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSException
+	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
 	{		
 		
 		Connection connection = getConnection (connectionProperties);
 		if (connection == null)
 		{
-			System.out.println("Unable to connect to the database");
 			return false;
 		}
 		
@@ -174,7 +175,7 @@ public class RDBMSHelper {
 	}
 
 
-	private static boolean authenticateAndObtainSubject(Connection connection, Hashtable connectionProperties, String userID, String password, Subject subject) throws CSException
+	private static boolean authenticateAndObtainSubject(Connection connection, Hashtable connectionProperties, String userID, String password, Subject subject) throws CSInternalInsufficientAttributesException, CSInternalConfigurationException
 	{
 
 		PreparedStatement statement = null;
@@ -201,7 +202,7 @@ public class RDBMSHelper {
 		}
 		catch (SQLException e)
 		{
-			throw new CSException("Unable to generate query statement to validate user credentials", e);
+			throw new CSInternalConfigurationException("Unable to generate query statement to validate user credentials");
 		}
 		
 		try
@@ -210,7 +211,7 @@ public class RDBMSHelper {
 		}
 		catch (SQLException e)
 		{
-			throw new CSException("Unable to execute the query to validate user credentials", e);			
+			throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");			
 		}
 		if (resultSet != null)
 		{
@@ -222,17 +223,17 @@ public class RDBMSHelper {
 					if (!StringUtilities.isBlank(firstName))
 						subject.getPrincipals().add(new FirstNamePrincipal(firstName));
 					else
-						throw new CSException("User Attribute First Name not found");
+						throw new CSInternalInsufficientAttributesException("User Attribute First Name not found");
 					String lastName = resultSet.getString(lastNameColumn);
 					if (!StringUtilities.isBlank(lastName))
 						subject.getPrincipals().add(new LastNamePrincipal(lastName));
 					else
-						throw new CSException("User Attribute Last Name not found");
+						throw new CSInternalInsufficientAttributesException("User Attribute Last Name not found");
 					String emailId = resultSet.getString(emailIdColumn);
 					if (!StringUtilities.isBlank(emailId))
 						subject.getPrincipals().add(new EmailIdPrincipal(emailId));
 					else
-						throw new CSException("User Attribute Email Id not found");
+						throw new CSInternalInsufficientAttributesException("User Attribute Email Id not found");
 					
 					subject.getPrincipals().add(new LoginIdPrincipal(userID));
 					
@@ -242,7 +243,7 @@ public class RDBMSHelper {
 			}
 			catch (SQLException e)
 			{
-				throw new CSException("Unable to execute the query to validate user credentials", e);				
+				throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");				
 			}
 		}
 		try
@@ -282,9 +283,10 @@ public class RDBMSHelper {
 	 * 			application
 	 * @return TRUE if the querying is successful and the user record is 
 	 * 			retrieved using the provided credentials
+	 * @throws CSInternalConfigurationException 
 	 * 
 	 */
-	private static boolean executeQuery(Connection connection, String query, String userID, String password)
+	private static boolean executeQuery(Connection connection, String query, String userID, String password) throws CSInternalConfigurationException
 	{
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -308,6 +310,7 @@ public class RDBMSHelper {
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");				
 		}
 		finally
 		{
@@ -343,10 +346,10 @@ public class RDBMSHelper {
 	 * 			database
 	 * @return a connection to the database obtained using the properties 
 	 * 			provided
-	 * @throws CSException Throws exception in case of error connecting to the database
+	 * @throws CSInternalConfigurationException 
 	 * 
 	 */
-	private static Connection getConnection (Hashtable connectionProperties) throws CSException
+	private static Connection getConnection (Hashtable connectionProperties) throws CSInternalConfigurationException
 	{
 		if (connectionProperties == null)
 			return null;
@@ -367,7 +370,7 @@ public class RDBMSHelper {
 		{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConnection|Failure| Error Loading Driver for Authentication Database|"+ e.getMessage());			
-			throw new CSException ("Unable to Load Driver for Authentication Database", e);
+			throw new CSInternalConfigurationException ("Unable to Load Driver for Authentication Database");
 		}
 
 		// Get the connection to the database
@@ -379,7 +382,7 @@ public class RDBMSHelper {
 		{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConnection|Failure| Error Obtaining Connection for Authentication Database|"+ e.getMessage());
-			throw new CSException ("Unable to obtain connection for Authentication Database", e);
+			throw new CSInternalConfigurationException ("Unable to obtain connection for Authentication Database");
 		}
 		if (log.isDebugEnabled())
 			log.debug("Authentication|||getConnection|Success| Success in Obtaining Connection for Authentication Database|");

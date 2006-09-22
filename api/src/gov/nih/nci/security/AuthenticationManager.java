@@ -93,7 +93,11 @@ package gov.nih.nci.security;
  */
 
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSInputException;
+import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
+import gov.nih.nci.security.exceptions.CSLoginException;
 
 import javax.security.auth.Subject;
 
@@ -153,8 +157,11 @@ public interface AuthenticationManager {
 	 * @return <code>TRUE</code> if the authentication was sucessful using the provided user 
 	 * 		   	credentials and <code>FALSE</code> if the authentication fails.
 	 * @throws CSException
+	 * @throws CSInputException 
+	 * @throws CSLoginException 
+	 * @throws CSConfigurationException 
 	 */
-	public boolean login(String userName, String password) throws CSException;
+	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException;
 
 	/**
 	 * This method is primarily provided to be used by the <code>CSM - caGrid Integration Module</code> to authenticate the 
@@ -182,8 +189,12 @@ public interface AuthenticationManager {
 	 * @return {@link Subject} if the authentication was sucessful a populated Java Subject object is returned containing the
 	 * attributes needed by <code>CSM - caGrid Integration Module</code> to generate <code>SAML</code> file to be sent to <code>Dorian</code>
 	 * @throws CSException
+	 * @throws CSLoginException 
+	 * @throws CSInputException 
+	 * @throws CSConfigurationException 
+	 * @throws CSInsufficientAttributesException 
 	 */
-	public Subject authenticate(String userName, String password) throws CSException;
+	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException;
 
 	
 	/**

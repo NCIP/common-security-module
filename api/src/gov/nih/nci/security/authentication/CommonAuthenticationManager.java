@@ -100,7 +100,13 @@ package gov.nih.nci.security.authentication;
 import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.authentication.callback.CSMCallbackHandler;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSInputException;
+import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
+import gov.nih.nci.security.exceptions.CSLoginException;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
+import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -139,12 +145,25 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 * The login Method then uses the registered {@link LoginModule} for the given Application Context/Name in the JAAS policy file
 	 * and authenticate the user credentails. There can be more than one {@link LoginModule} class registered for the application.
 	 * @throws CSException
+	 * @throws CSInputException 
+	 * @throws CSLoginException 
+	 * @throws CSConfigurationException 
 	 * 
 	 * @see gov.nih.nci.security.AuthenticationManager#login(java.lang.String, java.lang.String)
 	 */
-	public boolean login(String userName, String password) throws CSException
+	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException
 	{
-		return this.login(userName, password, null);
+		boolean result = false;
+		try
+		{
+			result = this.login(userName, password, null);
+		}
+		catch (CSInsufficientAttributesException e)
+		{
+			// Should never occur
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	/**
@@ -155,10 +174,14 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 * The login Method then uses the registered {@link LoginModule} for the given Application Context/Name in the JAAS policy file
 	 * and authenticate the user credentails. There can be more than one {@link LoginModule} class registered for the application.
 	 * @throws CSException
+	 * @throws CSLoginException 
+	 * @throws CSInputException 
+	 * @throws CSConfigurationException 
+	 * @throws CSInsufficientAttributesException 
 	 * 
 	 * @see gov.nih.nci.security.AuthenticationManager#authenticate(java.lang.String, java.lang.String)
 	 */
-	public Subject authenticate(String userName, String password) throws CSException
+	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException
 	{
 		Subject subject = new Subject(); 
 		this.login(userName, password, subject);
@@ -167,15 +190,15 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	
 	
 	
-	private boolean login(String userName, String password, Subject subject) throws CSException
+	private boolean login(String userName, String password, Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException
 	{
 		if (null == userName || userName.trim().length() == 0)
 		{
-			throw new CSException("User Name cannot be blank");
+			throw new CSInputException("User Name cannot be blank");
 		}
 		if (null == password || password.trim().length() == 0)
 		{
-			throw new CSException("Password cannot be blank");
+			throw new CSInputException("Password cannot be blank");
 		}
 		UserInfoHelper.setUserInfo(userName, null);
 		boolean loginSuccessful = false;
@@ -185,7 +208,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			if (lockoutManager.isUserLockedOut(userName))
 			{
 				auditLog.info("Allowed Attempts Reached ! User " + userName + " is locked out !");				
-				throw new CSException ("Allowed Attempts Reached ! User Name is locked out !");
+				throw new CSLoginException ("Allowed Attempts Reached ! User Name is locked out !");
 			}
 			CSMCallbackHandler csmCallbackHandler = new CSMCallbackHandler(userName, password);
 			if (null == subject)
@@ -198,19 +221,34 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is "+loginSuccessful+" for user "+userName+"|");
 			auditLog.info("Successful Login attempt for user "+ userName);
 		}
+
+		catch (CSInternalInsufficientAttributesException csiiae)
+		{
+			loginSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csiiae.getMessage());
+			throw new CSInsufficientAttributesException(csiiae.getMessage());
+		}
+		catch (CSInternalConfigurationException csice)
+		{
+			loginSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csice.getMessage());
+			throw new CSConfigurationException(csice.getMessage());
+		}
 		catch (LoginException le)
 		{
 			loginSuccessful = false;
 			if (log.isDebugEnabled())
-				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is not successful for user "+userName+"|" + le.getMessage());			
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Authentication is not successful for user "+userName+"|" + le.getMessage());			
 			boolean isUserLockedOut = lockoutManager.setFailedAttempt(userName);
 			if (isUserLockedOut)
 			{
 				auditLog.info("Allowed Attempts Reached ! User " + userName + " is locked out !");				
-				throw new CSException ("Allowed Attempts Reached ! User Name is locked out !");			
+				throw new CSLoginException ("Allowed Attempts Reached ! User Name is locked out !");			
 			}
 			auditLog.info("Unsuccessful Login attempt for user "+ userName);
-			throw new CSException (le.getMessage(), le);
+			throw new CSLoginException (le.getMessage(), le);
 		}
 		return loginSuccessful;
 	}

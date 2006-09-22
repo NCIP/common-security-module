@@ -3,6 +3,7 @@ package test.gov.nih.nci.security.authorization.domainobjects;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElementPrivilegeContext;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
@@ -34,7 +35,15 @@ public class TestBMSIntegrationTask extends TestCase
 		{
 			e.printStackTrace();
 		}
-		authorizationDAO = new AuthorizationDAOImpl(sf, "vjtest");
+		try
+		{
+			authorizationDAO = new AuthorizationDAOImpl(sf, "vjtest");
+		}
+		catch (CSConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

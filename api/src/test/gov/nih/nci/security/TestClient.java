@@ -113,6 +113,7 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.dao.UserSearchCriteria;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.junk.RandomIntGenerator;
 import gov.nih.nci.security.util.ObjectSetUtil;
@@ -151,15 +152,15 @@ public class TestClient {
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}
-			String log4jConfigFile = ApplicationProperties.getInstance().getConfigFile();
-			if (log4jConfigFile.toUpperCase().endsWith(".XML"))
-			{
-				DOMConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
-			}
-			else
-			{
-				PropertyConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
-			}
+//			String log4jConfigFile = ApplicationProperties.getInstance().getConfigFile();
+//			if (log4jConfigFile.toUpperCase().endsWith(".XML"))
+//			{
+//				DOMConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
+//			}
+//			else
+//			{
+//				PropertyConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
+//			}
 			
 	}
 	
@@ -530,7 +531,7 @@ public class TestClient {
 		try{
 
 				User user = new User();
-				user.setLoginName("vinaykumar" + Math.random());
+				user.setLoginName("vinaykumar" + 1 );//Math.random());
 				user.setFirstName("User_first_name_");
 				user.setLastName("User_last_name_");
 				user.setDepartment("NCI_");
@@ -953,7 +954,15 @@ public class TestClient {
 	public void testAuthenticationManager()
 	{
 		try {
-			am1 =  SecurityServiceProvider.getAuthenticationManager("security");
+			try
+			{
+				am1 =  SecurityServiceProvider.getAuthenticationManager("security");
+			}
+			catch (CSConfigurationException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (CSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -962,7 +971,15 @@ public class TestClient {
 	public void testAuthorizationManager()
 	{
 		try {
-			am = SecurityServiceProvider.getAuthorizationManager("security");
+			try
+			{
+				am = SecurityServiceProvider.getAuthorizationManager("security");
+			}
+			catch (CSConfigurationException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (CSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -972,7 +989,7 @@ public class TestClient {
 		
 	public static void main(String[] args) {
 
-//		TestClient ts = new TestClient();
+		TestClient ts = new TestClient();
 //<<<<<<< TestClient.java
 ////		ts.testAuthorizationManager();
 ////		am.setAuditUserInfo("Steve", "JHDFG15312FHFCGSEDD4156453241GVDGD");
@@ -989,7 +1006,9 @@ public class TestClient {
 ////		ts.getPrivilegeMap4();
 //=======
 //=======
-//		//ts.testUserCreate();
+		ts.testUserCreate();
+		ts.testUserCreate();
+		
 //		ts.testRoleCreate();
 //>>>>>>> 1.57
 //		//ts.getPrivilegeMap1();

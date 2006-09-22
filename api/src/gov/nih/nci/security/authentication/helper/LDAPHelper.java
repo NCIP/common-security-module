@@ -100,7 +100,9 @@ import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.constants.Constants;
-import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
+import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
+import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
 import java.security.Security;
 import java.util.Hashtable;
@@ -149,9 +151,11 @@ public class LDAPHelper {
 	 * @param subject it is the JAAS Subject which is used for 
 	 * @return TRUE if the authentication was sucessful using the provided user
 	 * credentials and FALSE if the authentication fails
-	 * @throws CSException
+	 * @throws CSInternalConfigurationException 
+	 * @throws CSInternalLoginException 
+	 * @throws CSInternalInsufficientAttributesException 
 	 */
-	public static boolean authenticate(Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSException {
+	public static boolean authenticate(Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException {
 		Hashtable environment = new Hashtable();
 		setLDAPEnvironment(environment, connectionProperties);
 		return ldapAuthenticateUser(environment, connectionProperties, userID, new String(password), subject);
@@ -192,34 +196,66 @@ public class LDAPHelper {
 	 * @param connectionProperties The LDAP url and search base used to point to LDAP
 	 * @param userName The user name which is to be authenticated
 	 * @return The Fully Distinguished User Name obtained from the LDAP for the passed user name
-	 * @throws CSException
+	 * @throws CSInternalLoginException 
+	 * @throws CSInternalConfigurationException 
 	 */
-	private static String getFullyDistinguishedName(Hashtable environment, Hashtable connectionProperties, String userName) throws CSException {
+	private static String getFullyDistinguishedName(Hashtable environment, Hashtable connectionProperties, String userName) throws CSInternalLoginException, CSInternalConfigurationException {
 		String[] attributeIDs = { (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) }; //{"dn"} ;
 		String searchFilter = "(" + (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + ")";
 
-		try {
-			DirContext dirContext = new InitialDirContext(environment);
+		DirContext dirContext = null;
+		try
+		{
+			dirContext = new InitialDirContext(environment);
+		}
+		catch (NamingException e1)
+		{
+			if (log.isDebugEnabled())
+			log.debug("Authentication||"+userName+"|getFullyDistinguishedName|Failure| Error connecting to the Directory Server for " + userName +"|"+ e1.getMessage());
+			throw new CSInternalConfigurationException("Error occured in connecting to the directory server");
+		}
 
-			SearchControls searchControls = new SearchControls();
-			searchControls.setReturningAttributes(attributeIDs);
-			searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+		SearchControls searchControls = new SearchControls();
+		searchControls.setReturningAttributes(attributeIDs);
+		searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
-			String fullyDistinguishedName = null;
-			NamingEnumeration searchEnum = dirContext.search((String) connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE), searchFilter, searchControls);
+		String fullyDistinguishedName = null;
+		NamingEnumeration searchEnum = null;
+		try
+		{
+			searchEnum = dirContext.search((String) connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE), searchFilter, searchControls);
+		}
+		catch (NamingException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userName+"|getFullyDistinguishedName|Failure| Error obtaining the Distinguished name for " + userName +"|"+ e.getMessage());			
+			throw new CSInternalLoginException( "User Name doesnot exists");
+		}
+		try
+		{
 			dirContext.close();
+		}
+		catch (NamingException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userName+"|getFullyDistinguishedName|Failure| Error in closing the directory context for " + userName +"|"+ e.getMessage());			
+		}
 
+		try
+		{
 			while (searchEnum.hasMore()) {
 				SearchResult searchResult = (SearchResult) searchEnum.next();
 				fullyDistinguishedName = searchResult.getName()	+ "," + (String) connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE);
 				if (log.isDebugEnabled())
 					log.debug("Authentication||"+userName+"|getFullyDistinguishedName|Success| Obtained the Distinguished Name |" + fullyDistinguishedName);			
 				return fullyDistinguishedName;
-			}
-		} catch (Exception ex) {
+				}
+		}
+		catch (NamingException e)
+		{
 			if (log.isDebugEnabled())
-				log.debug("Authentication||"+userName+"|getFullyDistinguishedName|Failure| Error obtaining the Distinguished name for " + userName +"|"+ ex.getMessage());			
-			throw new CSException( "User Name doesnot exists" ,ex);
+				log.debug("Authentication||"+userName+"|getFullyDistinguishedName|Failure| Error obtaining the Distinguished name for " + userName +"|"+ e.getMessage());			
+			throw new CSInternalLoginException( "User Name doesnot exists");
 		}
 		return null;
 	}
@@ -231,9 +267,12 @@ public class LDAPHelper {
 	 * @param passwd the password of the user
 	 * @return true for successful authentication <br>
 	 *         false for failed authentication
-	 * @throws CSException
+	 * @throws CSInternalConfigurationException 
+	 * @throws CSInternalLoginException 
+	 * @throws CSInternalInsufficientAttributesException 
+	 * @throws CSInternalConfigurationException 
 	 */
-	private static boolean ldapAuthenticateUser(Hashtable environment, Hashtable connectionProperties, String userName, String password, Subject subject) throws CSException
+	private static boolean ldapAuthenticateUser(Hashtable environment, Hashtable connectionProperties, String userName, String password, Subject subject) throws CSInternalLoginException, CSInternalInsufficientAttributesException, CSInternalConfigurationException
 	{
 		String fullyDistinguishedName = getFullyDistinguishedName(environment, connectionProperties, userName);//connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + "," + connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE);
 
@@ -258,19 +297,19 @@ public class LDAPHelper {
 				if (null != firstName)
 					subject.getPrincipals().add(new FirstNamePrincipal((String)firstName.get()));
 				else
-					throw new CSException("User Attribute First Name not found");
+					throw new CSInternalInsufficientAttributesException("User Attribute First Name not found");
 				
 				Attribute lastName = attributes.get((String)connectionProperties.get(Constants.USER_LAST_NAME));
 				if (null != lastName)
 					subject.getPrincipals().add(new LastNamePrincipal((String)lastName.get()));
 				else
-					throw new CSException("User Attribute Last Name not found");
+					throw new CSInternalInsufficientAttributesException("User Attribute Last Name not found");
 				
 				Attribute emailId = attributes.get((String)connectionProperties.get(Constants.USER_EMAIL_ID));
 				if (null != emailId)
 					subject.getPrincipals().add(new EmailIdPrincipal((String)emailId.get()));
 				else
-					throw new CSException("User Attribute Email Id not found");
+					throw new CSInternalInsufficientAttributesException("User Attribute Email Id not found");
 				
 				subject.getPrincipals().add(new LoginIdPrincipal(userName));
 
@@ -283,7 +322,7 @@ public class LDAPHelper {
 			}
 			else
 			{
-				throw new CSException("Login Failed : Improper Configuration, Unable to Retrieve User Attributes");
+				throw new CSInternalConfigurationException("Login Failed : Improper Configuration, Unable to Retrieve User Attributes");
 			}
 			initialDircontext.close();
 			setLDAPEnvironment(environment, connectionProperties);
@@ -293,7 +332,7 @@ public class LDAPHelper {
 		} catch (NamingException ne) {
 			if (log.isDebugEnabled())
 				log.debug("Authentication||"+userName+"|ldapAuthenticateUser|Failure| Login Failed for User " + userName + "|" + ne.getMessage());
-			throw new CSException("Login Failed : User Credentials Incorrect", ne);
+			throw new CSInternalLoginException("Login Failed : User Credentials Incorrect");
 		}
 	}
 }

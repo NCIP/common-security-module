@@ -97,18 +97,23 @@ package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
-
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 
 /**
  * This factory class instantiate and returns the appropriate implementation of the {@link AuthenticationManager}
@@ -179,14 +184,15 @@ public class AuthenticationManagerFactory
 	 * @return An instance of the class implementating the AuthenticationManager interface. This could the client custom
 	 * implementation or the default provided Authentication Manager
 	 * @throws CSException If there are any errors in obtaining the correct instance of the {@link AuthenticationManager}
+	 * @throws CSConfigurationException If there are any configuration errors during obtaining the {@link AuthenticationManager}
 	 */	
-	public static AuthenticationManager getAuthenticationManager(String applicationContextName) throws CSException
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName) throws CSException, CSConfigurationException
 	{
 				
-		Document configDoc = getConfigDocument();
-		
 		AuthenticationManager authenticationManager = null;
-		String applicationManagerClassName = getAuthenticationManagerClass(applicationContextName);
+		String applicationManagerClassName;
+		
+		applicationManagerClassName = getAuthenticationManagerClass(applicationContextName);
 		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))
 		{
 			if (log.isDebugEnabled())
@@ -207,8 +213,7 @@ public class AuthenticationManagerFactory
 			{
 				if (log.isDebugEnabled())
 					log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Failure| Error initializing Custom Authentication Manager "+applicationManagerClassName+"|" + exception.getMessage() );
-				exception.printStackTrace();
-				throw new CSException("Cannot initialize AuthenticationManager for the given application context", exception);
+				throw new CSConfigurationException("Error in loading the configured AuthenticationManager for the Application", exception);
 			}
 			
 		}
@@ -217,32 +222,57 @@ public class AuthenticationManagerFactory
 	
 	
 	
-	private static Document getConfigDocument() throws CSException{
+	private static Document getConfigDocument() throws CSException, CSConfigurationException{
 		Document configDoc = null;
-		try {
-			String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
-            SAXBuilder builder = new SAXBuilder();
-            configDoc = builder.build(new File(configFilePath));
-        } catch(Exception e) {
+		String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
+		if (StringUtilities.isBlank(configFilePath))
+		{
 			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |" + e.getMessage() );
-			}
+				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |");				
+			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
+		}
+        SAXBuilder builder = new SAXBuilder();
+        
+    	EntityResolver entityResolver = new EntityResolver()
+    	{
+    	    public InputSource resolveEntity(String publicId, String systemId) 
+    	    {
+    	        if ( StringUtilities.isBlank(publicId))
+    	        {
+    	            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("ApplicationSecurityConfig.dtd");
+    	            return new InputSource( inputStream );
+    	        }
+    	        return null;
+    	    }
+    	};
+        try
+		{
+			builder.setEntityResolver(entityResolver);
+        	configDoc = builder.build(new File(configFilePath));
+		}
+		catch (JDOMException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |");				
+			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+		}
+		catch (IOException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |");				
+			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+		}
         return configDoc;
 	}
 
-	private static String getAuthenticationManagerClass(String applicationContextName) throws CSException{
+	private static String getAuthenticationManagerClass(String applicationContextName) throws CSException,CSConfigurationException{
 		String authenticationProviderClassName = null;
 		String lockoutTime = null;
 		String allowedLoginTime = null;
 		String allowedAttempts = null;
 		Document configDocument;
-		try {
-			configDocument = getConfigDocument();
-		} catch (CSException cse) {
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getAuthenticationManagerClass|Failure| Error reading the Config File |" + cse.getMessage() );
-			throw new CSException("Error reading the Application Security Config File", cse);			
-		}
+
+		configDocument = getConfigDocument();
 		Element securityConfig = configDocument.getRootElement();
 		Element applicationList = securityConfig.getChild("application-list");
 		List applications = applicationList.getChildren("application");

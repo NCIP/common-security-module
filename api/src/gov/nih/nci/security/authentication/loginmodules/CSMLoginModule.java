@@ -95,7 +95,12 @@ package gov.nih.nci.security.authentication.loginmodules;
  */
 
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSLoginException;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
+import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
+import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
 import java.util.Map;
 
@@ -153,9 +158,10 @@ public abstract class CSMLoginModule implements LoginModule
 	 * CallbackHandler. It uses helper class to perform the actual authentication 
 	 * operations and access the user record. This method returns a true if
 	 * the user authentication was sucessful else it throws a Login Exception.
+	 * @throws LoginException 
 	 * @see javax.security.auth.spi.LoginModule#login()
 	 */
-	public boolean login() throws LoginException
+	public boolean login() throws LoginException, CSInternalLoginException, CSInternalConfigurationException
 	{
 		if (callbackHandler == null)
 		{
@@ -215,11 +221,6 @@ public abstract class CSMLoginModule implements LoginModule
 				if (log.isDebugEnabled())
 					log.debug("Authentication|||login|Failure| Invalid Login Credentails |"+ fle.getMessage() );
 				throw new LoginException("Invalid Login Credentails");
-
-		} catch (CSException cse) {
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||login|Failure| Error in Logging action |" + cse.getMessage() );
-			throw new LoginException("Error in login action" + cse.getMessage());
 		} 
 		if (log.isDebugEnabled())
 			log.debug("Authentication|||login|Success| Authentication is "+loginSuccessful+"|");
@@ -265,7 +266,11 @@ public abstract class CSMLoginModule implements LoginModule
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * 		   	credentials and FALSE if the authentication fails
 	 * @throws CSException if the login has failed for any reasons
+	 * @throws CSLoginException 
+	 * @throws CSInternalConfigurationException 
+	 * @throws CSInternalLoginException 
+	 * @throws CSInternalInsufficientAttributesException 
 	 */
-	protected abstract boolean validate(Map options, String user, char[] password, Subject subject) throws CSException;
+	protected abstract boolean validate(Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 
 }

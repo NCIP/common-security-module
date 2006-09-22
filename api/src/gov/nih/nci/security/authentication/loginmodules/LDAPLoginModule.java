@@ -97,6 +97,10 @@ package gov.nih.nci.security.authentication.loginmodules;
 
 import gov.nih.nci.security.authentication.helper.LDAPHelper;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSLoginException;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
+import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
+import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -121,9 +125,11 @@ public class LDAPLoginModule extends CSMLoginModule
 	 * @param password the user entered password provided by the calling application
 	 * @return TRUE if the authentication was sucessful using the provided user 
 	 * credentials and FALSE if the authentication fails
-	 * @throws CSException
+	 * @throws CSInternalConfigurationException 
+	 * @throws CSInternalLoginException 
+	 * @throws CSInternalInsufficientAttributesException 
 	 */
-	protected boolean validate (Map options, String user, char[] password, Subject subject) throws CSException
+	protected boolean validate (Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException
 	{
 		return LDAPHelper.authenticate (new Hashtable(options), user, password, subject);
 	}

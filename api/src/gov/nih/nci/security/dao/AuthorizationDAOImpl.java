@@ -106,6 +106,7 @@ import gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionG
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.hibernate.ProtectionGroupProtectionElement;
 import gov.nih.nci.security.dao.hibernate.UserGroup;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -134,12 +135,14 @@ import javax.security.auth.Subject;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.PropertyValueException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.ConstraintViolationException;
 
 import org.apache.log4j.Logger;
 
@@ -169,31 +172,33 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	
 	private HashMap localCache = new HashMap();
 
-	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) {
+	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) throws CSConfigurationException {
 		setHibernateSessionFactory(sf);
-		try {
-			Application app = this.getApplicationByName(applicationContextName);
-			if (app == null) {
-				if (log.isDebugEnabled())
-					log
-							.debug("Authorization|"
-									+ applicationContextName
-									+ "||AuthorizationDAOImpl|Failure|No Application found for the Context Name|");
-				throw new Exception(
-						"Unable to retrieve Application with this Context Name");
-			}
-			this.setApplication(app);
-
-		} catch (Exception ex) {
+		Application app;
+		try
+		{
+			app = this.getApplicationByName(applicationContextName);
+		}
+		catch (CSObjectNotFoundException e)
+		{
 			if (log.isDebugEnabled())
 				log
 						.debug("Authorization|"
 								+ applicationContextName
-								+ "||AuthorizationDAOImpl|Failure|Cannot instantiate AuthorizationDAOImpl|"
-								+ ex.getMessage());
-			throw new RuntimeException(
-					"Unable to Instantiate the AuthorizationDAOImpl");
+								+ "||AuthorizationDAOImpl|Failure|No Application found for the Context Name|");
+			throw new CSConfigurationException(
+					"Unable to retrieve Application with this Context Name");
 		}
+		if (app == null) {
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|"
+								+ applicationContextName
+								+ "||AuthorizationDAOImpl|Failure|No Application found for the Context Name|");
+			throw new CSConfigurationException(
+					"Unable to retrieve Application with this Context Name");
+		}
+		this.setApplication(app);
 		if (log.isDebugEnabled())
 			log
 					.debug("Authorization|"
@@ -3218,7 +3223,36 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s.update(obj);
 			t.commit();
 			auditLog.info("Updating the " + obj.getClass().getName().substring(obj.getClass().getName().lastIndexOf(".")+1) + " Object ");
-		} catch (Exception ex) {
+		} 
+		catch (PropertyValueException pve)
+		{
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + pve.getMessage());
+			throw new CSTransactionException(
+					"An error occured in updating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "A null value was passed for a required attribute " + pve.getMessage().substring(pve.getMessage().indexOf(":")), pve);
+		}
+		catch (ConstraintViolationException cve)
+		{
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + cve.getMessage());
+			throw new CSTransactionException(
+					"An error occured in updating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "Duplicate entry was found in the database for the entered data" , cve);
+		}
+		catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();
@@ -3268,7 +3302,36 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s.save(obj);
 			t.commit();
 			auditLog.info("Creating the " + obj.getClass().getName().substring(obj.getClass().getName().lastIndexOf(".")+1) + " Object ");			
-		} catch (Exception ex) {
+		} 
+		catch (PropertyValueException pve)
+		{
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + pve.getMessage());
+			throw new CSTransactionException(
+					"An error occured in creating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "A null value was passed for a required attribute " + pve.getMessage().substring(pve.getMessage().indexOf(":")), pve);
+		}
+		catch (ConstraintViolationException cve)
+		{
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + cve.getMessage());
+			throw new CSTransactionException(
+					"An error occured in creating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "Duplicate entry was found in the database for the entered data" , cve);
+		}		
+		catch (Exception ex) {
 			log.error(ex);
 			try {
 				t.rollback();

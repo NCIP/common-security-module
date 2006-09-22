@@ -104,6 +104,7 @@ import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -156,21 +157,17 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	/**
 	 * Constructor for UserProvisioningManagerImpl.
 	 * @param applicationContextName String
-	 * @throws Exception
+	 * @throws CSConfigurationException
 	 */
-	public UserProvisioningManagerImpl(String applicationContextName) throws Exception{
+	public UserProvisioningManagerImpl(String applicationContextName) throws CSConfigurationException{
 		/**
 		 *  Ultimately we have to use ApplicationSessionFactory class
 		 *  to get appropriate sessionFcatory for a application.
 		 */
-		try{
 		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		}catch(Exception ex){
-			throw ex;
-		}
 
 	}
 
@@ -179,9 +176,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param applicationContextName String
 	 * @param userOrGroupName 
 	 * @param isUserName 
-	 * @throws Exception
+	 * @throws CSConfigurationException
 	 */
-	public UserProvisioningManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName) throws Exception{
+	public UserProvisioningManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException{
 		/**
 		 *  Ultimately we have to use ApplicationSessionFactory class
 		 *  to get appropriate sessionFcatory for a application.
@@ -191,7 +188,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		}catch(Exception ex){
+		}catch(CSConfigurationException ex){
 			throw ex;
 		}
 
@@ -996,12 +993,16 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#removeApplication(String)
 	 */
 	public void removeApplication(String applicationId) throws CSTransactionException{
-	        try{
-			Application app = this.getApplicationById(applicationId);
-			authorizationDAO.removeObject(app);
-	        }catch(Exception ex){
-	        	throw new CSTransactionException("Could not remove application",ex);
-	        }
+	        Application app;
+			try
+			{
+				app = this.getApplicationById(applicationId);
+				authorizationDAO.removeObject(app);
+			}
+			catch (CSObjectNotFoundException e)
+			{
+				throw new CSTransactionException("Error in Removing the Application", e);
+			}
 			
 	}
 	/**

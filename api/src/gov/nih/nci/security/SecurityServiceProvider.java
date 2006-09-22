@@ -90,6 +90,7 @@ package gov.nih.nci.security;
 
 import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.authentication.AuthenticationManagerFactory;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 
 import gov.nih.nci.security.UserProvisioningManager;
@@ -117,21 +118,17 @@ public class SecurityServiceProvider {
 	 * This method will provides the default implementation of the {@link UserProvisioningManager}. This Manager
 	 * is used only by the User Provisioning Tool and is not available for the applications to use at runtime. The 
 	 * methods exposed 
-	 * @param contextName
+	 * @param contextName The name of the Application for which the {@link UserProvisioningManager} is obtained
 	 * @return The implementation of the {@link UserProvisioningManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link UserProvisioningManager} could not be obtained
+	 * @throws CSConfigurationException 
 	 */
-	public static UserProvisioningManager getUserProvisioningManager(String contextName) throws CSException{
+	public static UserProvisioningManager getUserProvisioningManager(String contextName) throws CSException, CSConfigurationException{
 		
 		UserProvisioningManager userProvisioningManager = null;
-		try{
-			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName);		
-			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
-		}catch(Exception ex)
-		{
-			throw new CSException("Could  not initialize Manager",ex);
-		}
+		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName);		
+		userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		return userProvisioningManager;
 	}
 
@@ -149,8 +146,9 @@ public class SecurityServiceProvider {
 	 * @return The implementation of the {@link AuthorizationManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link AuthorizationManager} could not be obtained
+	 * @throws CSConfigurationException 
 	 */
-	public static AuthorizationManager getAuthorizationManager(String applicationContextName)throws CSException{
+	public static AuthorizationManager getAuthorizationManager(String applicationContextName)throws CSException, CSConfigurationException{
 		
 		return AuthorizationManagerFactory.getAuthorizationManager(applicationContextName);
 	}
@@ -169,10 +167,11 @@ public class SecurityServiceProvider {
 	 * @return The implementation of the {@link AuthenticationManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link AuthenticationManager} could not be obtained
+	 * @throws CSConfigurationException 
 	 */
-	public static AuthenticationManager getAuthenticationManager(String applicationContextName) throws CSException
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName) throws CSException, CSConfigurationException
 	{
-		return AuthenticationManagerFactory.getAuthenticationManager(applicationContextName);		
+		return AuthenticationManagerFactory.getAuthenticationManager(applicationContextName);
 	}
 	
 	/**
@@ -191,8 +190,9 @@ public class SecurityServiceProvider {
 	 * @return The implementation of the {@link AuthorizationManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link AuthorizationManager} could not be obtained
+	 * @throws CSConfigurationException 
 	 */
-	public static AuthorizationManager getAuthorizationManager(String applicationContextName, String userOrGroupName, boolean isUserName)throws CSException
+	public static AuthorizationManager getAuthorizationManager(String applicationContextName, String userOrGroupName, boolean isUserName)throws CSException, CSConfigurationException
 	{
 		return AuthorizationManagerFactory.getAuthorizationManager(applicationContextName, userOrGroupName, isUserName);
 	}
@@ -201,23 +201,19 @@ public class SecurityServiceProvider {
 	 * This method will provides the default implementation of the {@link UserProvisioningManager}. This Manager
 	 * is used only by the User Provisioning Tool and is not available for the applications to use at runtime. The 
 	 * methods exposed 
-	 * @param contextName
+	 * @param contextName The name of the Application for which the {@link UserProvisioningManager} is obtained
 	 * @param userOrGroupName 
 	 * @param isUserName 
 	 * @return The implementation of the {@link UserProvisioningManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link UserProvisioningManager} could not be obtained
+	 * @throws CSConfigurationException 
 	 */
-	public static UserProvisioningManager getUserProvisioningManager(String contextName, String userOrGroupName, boolean isUserName) throws CSException{
+	public static UserProvisioningManager getUserProvisioningManager(String contextName, String userOrGroupName, boolean isUserName) throws CSException, CSConfigurationException{
 		
 		UserProvisioningManager userProvisioningManager = null;
-		try{
-			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, userOrGroupName, isUserName);		
-			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
-		}catch(Exception ex)
-		{
-			throw new CSException("Could  not initialize Manager",ex);
-		}
+		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, userOrGroupName, isUserName);		
+		userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		return userProvisioningManager;
 	}
 
