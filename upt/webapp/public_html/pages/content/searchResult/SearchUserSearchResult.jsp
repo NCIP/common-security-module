@@ -51,10 +51,7 @@
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
 				}
-				else
-				{ 
-					alert("User already exists");
-				}
+				
 			}
   		}
   	
@@ -70,11 +67,7 @@
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
 					window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
 				}
-				else
-				{ 
-					alert("User already exists");
-					break;
-				}
+				
 			}
 		}
 		
