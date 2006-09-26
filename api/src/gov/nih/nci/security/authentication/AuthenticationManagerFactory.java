@@ -103,17 +103,23 @@ import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * This factory class instantiate and returns the appropriate implementation of the {@link AuthenticationManager}
@@ -231,37 +237,65 @@ public class AuthenticationManagerFactory
 				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |");				
 			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
 		}
-        SAXBuilder builder = new SAXBuilder();
-        
-    	EntityResolver entityResolver = new EntityResolver()
-    	{
-    	    public InputSource resolveEntity(String publicId, String systemId) 
-    	    {
-    	        if ( StringUtilities.isBlank(publicId))
-    	        {
-    	            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("ApplicationSecurityConfig.dtd");
-    	            return new InputSource( inputStream );
-    	        }
-    	        return null;
-    	    }
-    	};
+        SAXBuilder builder = new SAXBuilder();        
         try
 		{
-			builder.setEntityResolver(entityResolver);
         	configDoc = builder.build(new File(configFilePath));
 		}
 		catch (JDOMException e)
 		{
 			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |");				
+				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Config File |" + e.getMessage());
 			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
 		}
 		catch (IOException e)
 		{
 			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |");				
+				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |" + e.getMessage());				
 			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
 		}
+
+		URL url = ClassLoader.getSystemClassLoader().getResource("ApplicationSecurityConfig.xsd");
+        
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        
+        Source schemaFile = new StreamSource(new File(url.getPath()));
+        Schema schema = null;
+
+        try
+		{
+			schema = factory.newSchema(schemaFile);
+		}
+		catch (SAXException se)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Schema File |" + se.getMessage());
+			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xsd file");
+		}
+    
+        // create a Validator instance, which can be used to validate an instance document
+        Validator validator = schema.newValidator();
+    
+        // validate the DOM tree
+        Source fileSource = new StreamSource(new File(configFilePath));
+        
+        try 
+        {
+			validator.validate(fileSource);
+        } 
+		catch (SAXException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Config File |" + e.getMessage());
+			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+		}
+		catch (IOException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |" + e.getMessage());				
+			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+		}
+		
         return configDoc;
 	}
 
