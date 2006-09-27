@@ -97,6 +97,7 @@ package gov.nih.nci.security.system;
 
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.util.FileLoader;
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.util.*;
@@ -104,12 +105,20 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import java.io.*;
 
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -145,23 +154,9 @@ public class ApplicationSessionFactory {
 		{
 			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
 		}
-        SAXBuilder builder = new SAXBuilder();
-        
-    	EntityResolver entityResolver = new EntityResolver()
-    	{
-    	    public InputSource resolveEntity(String publicId, String systemId) 
-    	    {
-    	        if ( StringUtilities.isBlank(publicId))
-    	        {
-    	            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("ApplicationSecurityConfig.dtd");
-    	            return new InputSource( inputStream );
-    	        }
-    	        return null;
-    	    }
-    	};
+        SAXBuilder builder = new SAXBuilder();        
         try
 		{
-			builder.setEntityResolver(entityResolver);
         	configDoc = builder.build(new File(configFilePath));
 		}
 		catch (JDOMException e)
@@ -172,10 +167,46 @@ public class ApplicationSessionFactory {
 		{
 			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
 		}
+
+		InputStream in = FileLoader.getInstance().getFileAsStream("ApplicationSecurityConfig.xsd");
+		
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        
+        Source schemaFile = new StreamSource(in);
+        Schema schema = null;
+
+        try
+		{
+			schema = factory.newSchema(schemaFile);
+		}
+		catch (SAXException se)
+		{
+			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xsd file");
+		}
+    
+        // create a Validator instance, which can be used to validate an instance document
+        Validator validator = schema.newValidator();
+    
+        // validate the DOM tree
+        Source fileSource = new StreamSource(new File(configFilePath));
+        
+        try 
+        {
+			validator.validate(fileSource);
+        } 
+		catch (SAXException e)
+		{
+			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+		}
+		catch (IOException e)
+		{
+			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+		}
+		
         return configDoc;
 	}
 	
-	private static SessionFactory initSessionFactory(String fileName){
+	private static SessionFactory initSessionFactory(String fileName) throws CSConfigurationException{
 		SessionFactory sf = null;
 		try{
 
@@ -183,7 +214,7 @@ public class ApplicationSessionFactory {
 			sf = new Configuration().configure(f).buildSessionFactory();
 			 
 		}catch(Exception ex){
-			ex.printStackTrace();
+			throw new CSConfigurationException("Error in obtaining Hibernate Session Factory");
 		}
 		return sf;
 	}
@@ -208,6 +239,10 @@ public class ApplicationSessionFactory {
 			 	{
 				 	sf = initSessionFactory(hibernateFileName);
 				 	appSessionFactories.put(contextNameValue,sf);
+			 	}
+			 	else
+			 	{
+			 		throw new CSConfigurationException("Hibernate Configuration Filename not found");
 			 	}
 			 	break;
 			}

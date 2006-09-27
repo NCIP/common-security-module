@@ -99,10 +99,12 @@ import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.util.FileLoader;
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -255,11 +257,11 @@ public class AuthenticationManagerFactory
 			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
 		}
 
-		URL url = ClassLoader.getSystemClassLoader().getResource("ApplicationSecurityConfig.xsd");
-        
+		InputStream in = FileLoader.getInstance().getFileAsStream("ApplicationSecurityConfig.xsd");
+		
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         
-        Source schemaFile = new StreamSource(new File(url.getPath()));
+        Source schemaFile = new StreamSource(in);
         Schema schema = null;
 
         try

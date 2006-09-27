@@ -41,7 +41,8 @@
 			</fileset>
 		</copy>
 		<!---<copy file="${src}/hibernate.properties" todir="${build}" />-->
-		<copy file="${resources}/ObjectStateLoggerConfig.xml" todir="${build}" />		
+		<copy file="${resources}/ObjectStateLoggerConfig.xml" todir="${build}" />
+		<copy file="${src}/ApplicationSecurityConfig.xsd" todir="${build}" />
 	</target>
 
 	<target name="dist" depends="compile" description="generate the distribution">

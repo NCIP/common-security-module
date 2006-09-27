@@ -183,15 +183,10 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		 *  Ultimately we have to use ApplicationSessionFactory class
 		 *  to get appropriate sessionFcatory for a application.
 		 */
-		try{
 		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		}catch(CSConfigurationException ex){
-			throw ex;
-		}
-
 	}	
 	
 	
