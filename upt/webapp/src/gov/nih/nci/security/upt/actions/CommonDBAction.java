@@ -223,10 +223,20 @@ public class CommonDBAction extends DispatchAction
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
 		
-		// VNP: Added this to handle Original search results for popup searches.
-		if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
+		
+		
+		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){
+			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
+			session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
-		}
+			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));
+		}else{
+				if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
+					session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));
+					session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
+				}	
+			}
+			
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -255,7 +265,7 @@ public class CommonDBAction extends DispatchAction
 		
 		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){
 			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
-			session.removeAttribute(DisplayConstants.SEARCH_RESULT);
+			//session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));
 		}else{
 			if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
