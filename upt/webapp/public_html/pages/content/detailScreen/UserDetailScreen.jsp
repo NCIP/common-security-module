@@ -136,7 +136,7 @@
 										<td class="formLabel"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:notEqual>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
-										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
+										<td class="formField"><html:text  style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" readonly="<%=formElement.getPropertyReadonly()%>"/></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.PASSWORD%>">
 										<td class="formField"><html:password style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
