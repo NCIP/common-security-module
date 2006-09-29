@@ -54,7 +54,7 @@
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table summary="" cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-							<html:form action="/Login">
+							<html:form action="/Login"  focus="loginId">
 								<!-- login begins -->
 								<tr>
 									<td valign="top">
