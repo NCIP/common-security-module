@@ -135,9 +135,10 @@ public class DefaultExceptionHandler extends ExceptionHandler {
 		HttpSession session = request.getSession();
 		String errMsg = getErrorMsg(ex);
 		log.error( errMsg, ex );
-		session.setAttribute( DisplayConstants.ERROR_DETAILS, errMsg );
+		if (!session.isNew())
+			session.setAttribute( DisplayConstants.ERROR_DETAILS, errMsg );
 		if (log.isDebugEnabled())
-			if (session != null)
+			if (!session.isNew())
 				log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+"|"+formInstance.getClass().getName()+"|execute|Failure|System Exception occurred||"+ex.getMessage());
 			else
 				log.debug("|||execute|Failure|System Exception occurred||"+ex.getMessage());				

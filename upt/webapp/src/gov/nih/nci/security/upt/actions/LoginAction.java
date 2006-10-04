@@ -100,12 +100,14 @@ import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -120,6 +122,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 /**
@@ -161,7 +164,7 @@ public class LoginAction extends Action
 		}
 		catch (Exception ex)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, ex.getMessage()));			
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -303,8 +306,22 @@ public class LoginAction extends Action
 		Document configDocument = null;
 		String uptContextNameValue = null;
 		String configFilePath = System.getProperty(DisplayConstants.CONFIG_FILE_PATH_PROPERTY_NAME);
+		if (null == configFilePath || configFilePath.trim().equals(""))
+			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
+		
 		SAXBuilder builder = new SAXBuilder();
-		configDocument = builder.build(new File(configFilePath));
+		try
+		{
+			configDocument = builder.build(new File(configFilePath));
+		}
+		catch (JDOMException e)
+		{
+			throw new CSConfigurationException("Error in parsing the Application Security Config file");
+		}
+		catch (IOException e)
+		{
+			throw new CSConfigurationException("Error in reading the Application Security Config file");
+		}
 		if (configDocument != null)
 		{
 			Element securityConfig = configDocument.getRootElement();
