@@ -3368,7 +3368,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log
 						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + pve.getMessage());
 			throw new CSTransactionException(
-					"An error occured in updating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "A null value was passed for a required attribute " + pve.getMessage().substring(pve.getMessage().indexOf(":")), pve);
+					"An error occured in updating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + ".\n" + " A null value was passed for a required attribute " + pve.getMessage().substring(pve.getMessage().indexOf(":")), pve);
 		}
 		catch (ConstraintViolationException cve)
 		{
@@ -3382,7 +3382,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log
 						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + cve.getMessage());
 			throw new CSTransactionException(
-					"An error occured in updating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "Duplicate entry was found in the database for the entered data" , cve);
+					"An error occured in updating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + ".\n" + " Duplicate entry was found in the database for the entered data" , cve);
 		}
 		catch (Exception ex) {
 			log.error(ex);
@@ -3449,7 +3449,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log
 						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + pve.getMessage());
 			throw new CSTransactionException(
-					"An error occured in creating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "A null value was passed for a required attribute " + pve.getMessage().substring(pve.getMessage().indexOf(":")), pve);
+					"An error occured in creating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + ".\n" + " A null value was passed for a required attribute " + pve.getMessage().substring(pve.getMessage().indexOf(":")), pve);
 		}
 		catch (ConstraintViolationException cve)
 		{
@@ -3463,7 +3463,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log
 						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + cve.getMessage());
 			throw new CSTransactionException(
-					"An error occured in creating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + "\n" + "Duplicate entry was found in the database for the entered data" , cve);
+					"An error occured in creating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + ".\n" + " Duplicate entry was found in the database for the entered data" , cve);
 		}		
 		catch (Exception ex) {
 			log.error(ex);
