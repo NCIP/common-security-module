@@ -5,7 +5,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
+<%@ page import='gov.nih.nci.security.upt.viewobjects.*'%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
 <script>
@@ -46,7 +46,7 @@
 </logic:notEqual>
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="UserForm" action="/UserDBOperation">
+	<html:form styleId="UserForm" action="/UserDBOperation"  focus="userLoginName">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">

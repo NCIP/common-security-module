@@ -46,7 +46,7 @@
 </logic:notEqual>
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="ApplicationForm" action="/ApplicationDBOperation">
+	<html:form styleId="ApplicationForm" action="/ApplicationDBOperation" focus="applicationName">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">
@@ -178,8 +178,9 @@
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
-						</tr>
 						</logic:present>
+						</tr>
+						
 					</table>
 					</td>
 				</tr>

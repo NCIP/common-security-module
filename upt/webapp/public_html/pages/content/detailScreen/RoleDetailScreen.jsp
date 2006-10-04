@@ -46,7 +46,7 @@
 </logic:notEqual>
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="RoleForm" action="/RoleDBOperation">
+	<html:form styleId="RoleForm" action="/RoleDBOperation"  focus="roleName">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">
