@@ -99,7 +99,7 @@ import java.security.Principal;
  * @version 1.0
  * created 03-Dec-2004 1:17:49 AM
  */
-public class Group implements Principal {
+public class Group implements Principal, Comparable {
 
 	/**
 	 * This is the collection of ProtectionGroupRoleContext objects indicating the
@@ -279,4 +279,11 @@ public class Group implements Principal {
 		return "";
 	}
 
+	public int compareTo(Object object) {
+		if(object instanceof Group){
+			Group a = (Group) object;	
+			return this.getGroupName().compareToIgnoreCase(a.getGroupName()); 
+		}
+		return 0;
+	}
 }

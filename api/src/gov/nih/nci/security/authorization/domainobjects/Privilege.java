@@ -96,7 +96,7 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class Privilege {
+public class Privilege implements Comparable {
 
 	
 
@@ -202,6 +202,15 @@ public class Privilege {
 		}else{
 		return false;
 		}
+	}
+
+	public int compareTo(Object object) {
+
+		if(object instanceof Privilege){
+			Privilege obj = (Privilege) object;	
+			return this.getName().compareToIgnoreCase(obj.getName()); 
+		}
+		return 0;
 	}
 
 }

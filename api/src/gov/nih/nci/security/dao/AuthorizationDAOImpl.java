@@ -122,6 +122,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -1556,6 +1557,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			result = criteria.list();
+			Collections.sort(result);
+			
+					
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -1632,7 +1636,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			result = criteria.list();
-
+			Collections.sort(result);
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			if (log.isDebugEnabled())
@@ -2604,6 +2609,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 					new Long(roleId));
 			result = role.getPrivileges();
+			
+			List list = new ArrayList();
+			Iterator toSortIterator = result.iterator();
+			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
+			Collections.sort(list);
+			result.clear();
+			result.addAll(list);
+			
 			log.debug("The result size is: " + result.size());
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
@@ -3530,6 +3543,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}	
 			}
 			
+			List list = new ArrayList();
+			Iterator toSortIterator = groups.iterator();
+			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
+			Collections.sort(list);
+			groups.clear();
+			groups.addAll(list);
 			
 			log.debug("The result size:" + groups.size());
 
@@ -3570,6 +3589,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
 			result = protectionGroup.getProtectionElements();
+			
+			List list = new ArrayList();
+			Iterator toSortIterator = result.iterator();
+			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
+			Collections.sort(list);
+			result.clear();
+			result.addAll(list);
+			
 			log.debug("The result size is: " + result.size());
 
 		} catch (Exception ex) {
@@ -3610,6 +3637,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getObjectByPrimaryKey(s, ProtectionElement.class,
 							new Long(protectionElementId));
 			result = protectionElement.getProtectionGroups();
+			
+			List list = new ArrayList();
+			Iterator toSortIterator = result.iterator();
+			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
+			Collections.sort(list);
+			result.clear();
+			result.addAll(list);
+			
 			log.debug("The result size:" + result.size());
 
 		} catch (Exception ex) {
@@ -4052,6 +4087,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							new Long(protectionElementId));
 
 			result = protectionElement.getOwners();
+			
+			List list = new ArrayList();
+			Iterator toSortIterator = result.iterator();
+			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
+			Collections.sort(list);
+			result.clear();
+			result.addAll(list);
+			
 			log.debug("The result size is: " + result.size());
 
 		} catch (Exception ex) {
@@ -4297,6 +4340,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				ObjectPrivilegeMap opm = new ObjectPrivilegeMap(pe, privs);
 				result.add(opm);
 			}
+			
+			Collections.sort(result);
 
 			pstmt.close();
 			

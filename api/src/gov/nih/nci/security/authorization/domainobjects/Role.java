@@ -101,7 +101,7 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:51 AM
  */
-public class Role {
+public class Role implements Comparable {
 
 	/**
 	 * This is the name of the role. This can be any user friendly name to address
@@ -272,4 +272,13 @@ public class Role {
 		}
 	}
 
+	public int compareTo(Object object) {
+
+		if(object instanceof Role){
+			Role obj = (Role) object;	
+			return this.getName().compareToIgnoreCase(obj.getName()); 
+		}
+		return 0;
+	}
+	
 }

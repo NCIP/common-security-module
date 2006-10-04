@@ -101,7 +101,7 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionElement {
+public class ProtectionElement implements Comparable {
 
 	/**
 	 * It is the unique id by which it is identified in an application.
@@ -347,7 +347,14 @@ public class ProtectionElement {
 		}
 	}
 
-	
+	public int compareTo(Object object) {
+
+		if(object instanceof ProtectionElement){
+			ProtectionElement obj = (ProtectionElement) object;	
+			return this.getProtectionElementName().compareToIgnoreCase(obj.getProtectionElementName()); 
+		}
+		return 0;
+	}
 
 
 }

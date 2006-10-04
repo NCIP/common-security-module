@@ -99,7 +99,7 @@ import java.util.Date;
  * created 17-Nov-2004 3:19:57 PM
  * @version 1.0
  */
-public class Application extends ApplicationContext {
+public class Application extends ApplicationContext implements Comparable {
 
 	/**
 	 * The collection of protection elements which belong to this application
@@ -241,6 +241,14 @@ public class Application extends ApplicationContext {
 		}else{
 		return false;
 		}
+	}
+
+	public int compareTo(Object object) {
+		if(object instanceof Application){
+			Application a = (Application) object;	
+			return this.getApplicationName().compareToIgnoreCase(a.getApplicationName()); 
+		}
+		return 0;
 	}
 
 }

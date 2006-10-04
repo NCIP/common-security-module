@@ -102,7 +102,7 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionGroup {
+public class ProtectionGroup implements Comparable {
 
 	/**
 	 * It is the unique id by which it is identified in an application. 
@@ -317,4 +317,14 @@ public class ProtectionGroup {
 		}
 	}
 
+	public int compareTo(Object object) {
+
+		if(object instanceof ProtectionGroup){
+			ProtectionGroup obj = (ProtectionGroup) object;	
+			return this.getProtectionGroupName().compareToIgnoreCase(obj.getProtectionGroupName()); 
+		}
+		return 0;
+	}
+	
+	
 }

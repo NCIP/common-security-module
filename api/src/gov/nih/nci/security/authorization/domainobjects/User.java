@@ -100,7 +100,7 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:51 AM
  */
-public class User implements Principal {
+public class User implements Principal, Comparable {
 
 	/**
 	 * This a collection of protectionGroupRoleContext objects. It indicates as to
@@ -466,4 +466,13 @@ public class User implements Principal {
 		return this.loginName;
 	}
 
+	public int compareTo(Object object) {
+
+		if(object instanceof User){
+			User obj = (User) object;	
+			return this.getLoginName().compareToIgnoreCase(obj.getLoginName()); 
+		}
+		return 0;
+	}
+	
 }
