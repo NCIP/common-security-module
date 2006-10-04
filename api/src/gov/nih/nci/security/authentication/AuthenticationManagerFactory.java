@@ -248,13 +248,13 @@ public class AuthenticationManagerFactory
 		{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Config File |" + e.getMessage());
-			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in parsing the Application Security Config file");
 		}
 		catch (IOException e)
 		{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |" + e.getMessage());				
-			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in reading the Application Security Config file");
 		}
 
 		InputStream in = FileLoader.getInstance().getFileAsStream("ApplicationSecurityConfig.xsd");
@@ -272,7 +272,7 @@ public class AuthenticationManagerFactory
 		{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Schema File |" + se.getMessage());
-			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xsd file");
+			throw new CSConfigurationException("Error in parsing the Application Security Config schema file");
 		}
     
         // create a Validator instance, which can be used to validate an instance document
@@ -289,13 +289,13 @@ public class AuthenticationManagerFactory
 		{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Config File |" + e.getMessage());
-			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in parsing the Application Security Config file");
 		}
 		catch (IOException e)
 		{
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |" + e.getMessage());				
-			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in reading the Application Security Config file");
 		}
 		
         return configDoc;

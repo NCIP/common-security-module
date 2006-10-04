@@ -161,11 +161,11 @@ public class ApplicationSessionFactory {
 		}
 		catch (JDOMException e)
 		{
-			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in parsing the Application Security Config file");
 		}
 		catch (IOException e)
 		{
-			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in reading the Application Security Config file");
 		}
 
 		InputStream in = FileLoader.getInstance().getFileAsStream("ApplicationSecurityConfig.xsd");
@@ -181,7 +181,7 @@ public class ApplicationSessionFactory {
 		}
 		catch (SAXException se)
 		{
-			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xsd file");
+			throw new CSConfigurationException("Error in parsing the Application Security Config schema file");
 		}
     
         // create a Validator instance, which can be used to validate an instance document
@@ -196,11 +196,11 @@ public class ApplicationSessionFactory {
         } 
 		catch (SAXException e)
 		{
-			throw new CSConfigurationException("Error in parsing the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in parsing the Application Security Config file");
 		}
 		catch (IOException e)
 		{
-			throw new CSConfigurationException("Error in reading the ApplicationSecurityConfig.xml file");
+			throw new CSConfigurationException("Error in reading the Application Security Config file");
 		}
 		
         return configDoc;
@@ -208,14 +208,12 @@ public class ApplicationSessionFactory {
 	
 	private static SessionFactory initSessionFactory(String fileName) throws CSConfigurationException{
 		SessionFactory sf = null;
-		try{
-
-			File f = new File(fileName);
-			sf = new Configuration().configure(f).buildSessionFactory();
-			 
-		}catch(Exception ex){
-			throw new CSConfigurationException("Error in obtaining Hibernate Session Factory");
-		}
+		
+		File f = new File(fileName);
+		if (!f.exists())
+			throw new CSConfigurationException("Error in reading the Hibernate Configuration File");
+		sf = new Configuration().configure(f).buildSessionFactory();
+		
 		return sf;
 	}
 	
