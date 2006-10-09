@@ -153,6 +153,13 @@ public class QAGridAuthenticationTest extends TestCase
 		}
 		assertNotNull(subject);
 		assertEquals(4,subject.getPrincipals().size());
+		Set set = subject.getPrincipals();
+		Iterator iterator = set.iterator();
+		while (iterator.hasNext())
+		{
+			BasePrincipal principal = (BasePrincipal)iterator.next();
+			System.out.println("Values in the Principals are : " + principal.getName());
+		}
 	}
 
 	/*
