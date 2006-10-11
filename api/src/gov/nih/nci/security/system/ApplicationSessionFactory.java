@@ -1,9 +1,3 @@
-/*
- * Created on Dec 30, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.system;
 
 /**
@@ -96,29 +90,13 @@ package gov.nih.nci.security.system;
 
 
 import gov.nih.nci.security.exceptions.CSConfigurationException;
-import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.util.FileLoader;
-import gov.nih.nci.security.util.StringUtilities;
 
-import java.util.*;
+import java.io.File;
+import java.util.Hashtable;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import java.io.*;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -131,14 +109,14 @@ import org.xml.sax.SAXException;
  */
 public class ApplicationSessionFactory {
 
-	private static Hashtable appSessionFactories = new Hashtable();
+	public static Hashtable appSessionFactories = new Hashtable();
 	  	
 	public static SessionFactory getSessionFactory(String applicationContextName) throws CSConfigurationException{
 		SessionFactory sf = null;
 		
 		 sf = (SessionFactory)appSessionFactories.get(applicationContextName);
 		 if(sf==null){
-		 	sf = getFromHotInitialization(applicationContextName);
+		 	sf = ApplicationSecurityConfigurationParser.getApplicationSessionFactoryFromHotInitialization(applicationContextName);
 		 }
 		
 		 if(sf==null){
@@ -147,66 +125,7 @@ public class ApplicationSessionFactory {
 		return sf;
 	}
 	
-	private static Document getConfigDocument() throws CSConfigurationException{
-		Document configDoc = null;
-		String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
-		if (StringUtilities.isBlank(configFilePath))
-		{
-			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
-		}
-        SAXBuilder builder = new SAXBuilder();        
-        try
-		{
-        	configDoc = builder.build(new File(configFilePath));
-		}
-		catch (JDOMException e)
-		{
-			throw new CSConfigurationException("Error in parsing the Application Security Config file");
-		}
-		catch (IOException e)
-		{
-			throw new CSConfigurationException("Error in reading the Application Security Config file");
-		}
-
-		InputStream in = FileLoader.getInstance().getFileAsStream("ApplicationSecurityConfig.xsd");
-		
-        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        
-        Source schemaFile = new StreamSource(in);
-        Schema schema = null;
-
-        try
-		{
-			schema = factory.newSchema(schemaFile);
-		}
-		catch (SAXException se)
-		{
-			throw new CSConfigurationException("Error in parsing the Application Security Config schema file");
-		}
-    
-        // create a Validator instance, which can be used to validate an instance document
-        Validator validator = schema.newValidator();
-    
-        // validate the DOM tree
-        Source fileSource = new StreamSource(new File(configFilePath));
-        
-        try 
-        {
-			validator.validate(fileSource);
-        } 
-		catch (SAXException e)
-		{
-			throw new CSConfigurationException("Error in parsing the Application Security Config file");
-		}
-		catch (IOException e)
-		{
-			throw new CSConfigurationException("Error in reading the Application Security Config file");
-		}
-		
-        return configDoc;
-	}
-	
-	private static SessionFactory initSessionFactory(String fileName) throws CSConfigurationException{
+	public static SessionFactory initSessionFactory(String fileName) throws CSConfigurationException{
 		SessionFactory sf = null;
 		
 		File f = new File(fileName);
@@ -217,34 +136,5 @@ public class ApplicationSessionFactory {
 		return sf;
 	}
 	
-	private static SessionFactory getFromHotInitialization(String applicationContextName) throws CSConfigurationException{
-		
-		SessionFactory sf = null;
-		Document configDocument = getConfigDocument();
-		Element securityConfig = configDocument.getRootElement();
-		Element applicationList = securityConfig.getChild("application-list");
-		List applications = applicationList.getChildren("application");
-		Iterator appIterator  = applications.iterator();
-		while(appIterator.hasNext()){
-		 	Element application = (Element)appIterator.next();
-		 	Element contextName = application.getChild("context-name");
-		 	String contextNameValue = contextName.getText().trim();
-			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
-			 	Element authorization = application.getChild("authorization");
-			 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");
-			 	String hibernateFileName = hibernateConfigFile.getText().trim();
-			 	if(!StringUtilities.isBlank(hibernateFileName))
-			 	{
-				 	sf = initSessionFactory(hibernateFileName);
-				 	appSessionFactories.put(contextNameValue,sf);
-			 	}
-			 	else
-			 	{
-			 		throw new CSConfigurationException("Hibernate Configuration Filename not found");
-			 	}
-			 	break;
-			}
-		 }
-		return sf;
-	}
+	
 }

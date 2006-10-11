@@ -1,9 +1,3 @@
-/*
- * Created on Nov 11, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.authentication;
 
 /**
@@ -99,6 +93,7 @@ import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
 import gov.nih.nci.security.util.FileLoader;
 import gov.nih.nci.security.util.StringUtilities;
 
@@ -106,8 +101,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -118,10 +111,10 @@ import javax.xml.validation.Validator;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.xml.sax.SAXException;
+
 
 /**
  * This factory class instantiate and returns the appropriate implementation of the {@link AuthenticationManager}
@@ -200,7 +193,7 @@ public class AuthenticationManagerFactory
 		AuthenticationManager authenticationManager = null;
 		String applicationManagerClassName;
 		
-		applicationManagerClassName = getAuthenticationManagerClass(applicationContextName);
+		applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthenticationManagerClass(applicationContextName);
 		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))
 		{
 			if (log.isDebugEnabled())
@@ -230,120 +223,5 @@ public class AuthenticationManagerFactory
 	
 	
 	
-	private static Document getConfigDocument() throws CSException, CSConfigurationException{
-		Document configDoc = null;
-		String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
-		if (StringUtilities.isBlank(configFilePath))
-		{
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |");				
-			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
-		}
-        SAXBuilder builder = new SAXBuilder();        
-        try
-		{
-        	configDoc = builder.build(new File(configFilePath));
-		}
-		catch (JDOMException e)
-		{
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Config File |" + e.getMessage());
-			throw new CSConfigurationException("Error in parsing the Application Security Config file");
-		}
-		catch (IOException e)
-		{
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |" + e.getMessage());				
-			throw new CSConfigurationException("Error in reading the Application Security Config file");
-		}
-
-		InputStream in = FileLoader.getInstance().getFileAsStream("ApplicationSecurityConfig.xsd");
-		
-        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        
-        Source schemaFile = new StreamSource(in);
-        Schema schema = null;
-
-        try
-		{
-			schema = factory.newSchema(schemaFile);
-		}
-		catch (SAXException se)
-		{
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Schema File |" + se.getMessage());
-			throw new CSConfigurationException("Error in parsing the Application Security Config schema file");
-		}
-    
-        // create a Validator instance, which can be used to validate an instance document
-        Validator validator = schema.newValidator();
-    
-        // validate the DOM tree
-        Source fileSource = new StreamSource(new File(configFilePath));
-        
-        try 
-        {
-			validator.validate(fileSource);
-        } 
-		catch (SAXException e)
-		{
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error parsing the Config File |" + e.getMessage());
-			throw new CSConfigurationException("Error in parsing the Application Security Config file");
-		}
-		catch (IOException e)
-		{
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConfigDocument|Failure| Error reading the Config File |" + e.getMessage());				
-			throw new CSConfigurationException("Error in reading the Application Security Config file");
-		}
-		
-        return configDoc;
-	}
-
-	private static String getAuthenticationManagerClass(String applicationContextName) throws CSException,CSConfigurationException{
-		String authenticationProviderClassName = null;
-		String lockoutTime = null;
-		String allowedLoginTime = null;
-		String allowedAttempts = null;
-		Document configDocument;
-
-		configDocument = getConfigDocument();
-		Element securityConfig = configDocument.getRootElement();
-		Element applicationList = securityConfig.getChild("application-list");
-		List applications = applicationList.getChildren("application");
-		 Iterator appIterator  = applications.iterator();
-		 while(appIterator.hasNext()){
-		 	Element application = (Element)appIterator.next();
-		 	Element contextName = application.getChild("context-name");
-		 	String contextNameValue = contextName.getText().trim();
-			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
-				Element authentication = application.getChild("authentication");
-
-				Element authenticationProviderClass = authentication.getChild("authentication-provider-class");
-				authenticationProviderClassName = authenticationProviderClass.getText().trim();
-
-				Element lockoutTimeElement = authentication.getChild("lockout-time");
-				if (lockoutTimeElement != null)
-					lockoutTime = lockoutTimeElement.getText().trim();
-				else
-					lockoutTime = "0";
-				Element allowedLoginTimeElement = authentication.getChild("allowed-login-time");
-				if (allowedLoginTimeElement != null)
-					allowedLoginTime = allowedLoginTimeElement.getText().trim();
-				else
-					allowedLoginTime = "0";
-				Element allowedAttemptsElement = authentication.getChild("allowed-attempts");
-				if (allowedAttemptsElement != null)
-					allowedAttempts = allowedAttemptsElement.getText().trim();
-				else
-					allowedAttempts = "0";
-
-				LockoutManager.initialize(lockoutTime,allowedLoginTime,allowedAttempts);
-			}
-		 }
-			if (log.isDebugEnabled())
-				log.debug("Authentication|||getAuthenticationManagerClass|Success| Read the authentication Class Name " );
-		 return authenticationProviderClassName;
-	}
+	
 }

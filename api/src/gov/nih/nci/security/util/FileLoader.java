@@ -70,9 +70,9 @@ public class FileLoader
 		if (name.startsWith("/"))
 			name = name.substring(1);
 
-		if (name.endsWith(SUFFIX))
+		/*if (name.endsWith(SUFFIX))
 			name = name.substring(0, name.length() - SUFFIX.length());
-
+*/
 		InputStream in = null;
 		try
 		{
@@ -88,10 +88,10 @@ public class FileLoader
 			}
 			else
 			{
-				name = name.replace('.', '/');
+				//name = name.replace('.', '/');
 
-				if (!name.endsWith(SUFFIX))
-					name = name.concat(SUFFIX);
+			/*	if (!name.endsWith(SUFFIX))
+					name = name.concat(SUFFIX);*/
 
 				// returns null on lookup failures:
 				in = loader.getResourceAsStream(name);
@@ -119,6 +119,10 @@ public class FileLoader
 
 		return in;
 	}
+	
+	
+	
+	
 
 	public URL getFileAsURL(String name, ClassLoader loader) throws IllegalArgumentException
 	{
@@ -186,6 +190,30 @@ public class FileLoader
 	public InputStream getFileAsStream(final String name)
 	{
 		return getFileAsStream(name, Thread.currentThread().getContextClassLoader());
+	}
+	
+	/**
+	 * A convenience overload of {@link #loadPropertyFile(String, ClassLoader)}
+	 * that uses the current thread's context classloader.
+	 * 
+
+	 * @return InputStream
+	 */
+	public InputStream getApplicationSecurityConfigXMLAsStream()
+	{
+		return getFileAsStream("ApplicationSecurityConfig.xml", Thread.currentThread().getContextClassLoader());
+	}
+	
+	/**
+	 * A convenience overload of {@link #loadPropertyFile(String, ClassLoader)}
+	 * that uses the current thread's context classloader.
+	 * 
+
+	 * @return InputStream
+	 */
+	public InputStream getApplicationSecurityConfigSchemaAsStream()
+	{
+		return getFileAsStream("ApplicationSecurityConfig.xsd", Thread.currentThread().getContextClassLoader());
 	}
 
 	/**
