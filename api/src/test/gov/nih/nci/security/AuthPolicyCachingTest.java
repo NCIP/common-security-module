@@ -50,7 +50,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}		
 	}
 
@@ -74,7 +74,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 	
@@ -90,7 +90,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 	
@@ -106,7 +106,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 
@@ -123,7 +123,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 	
@@ -140,7 +140,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 
@@ -156,7 +156,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 
@@ -175,7 +175,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}	
 	
@@ -191,7 +191,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 	
@@ -207,7 +207,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 
@@ -224,7 +224,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 	
@@ -241,7 +241,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 
@@ -257,7 +257,7 @@ public class AuthPolicyCachingTest extends TestCase
 		}
 		catch (CSException e)
 		{
-			throw new RuntimeException("Error in creating the Authorization Manager");
+			e.printStackTrace();
 		}
 	}
 	
