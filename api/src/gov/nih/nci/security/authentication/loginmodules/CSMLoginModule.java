@@ -214,13 +214,13 @@ public abstract class CSMLoginModule implements LoginModule
 				userID 			= null;
 				password 		= null;
 				
-				throw new FailedLoginException("Invalid Login Credentails");
+				throw new FailedLoginException("Invalid Login Credentials");
 			}
 		} catch (FailedLoginException fle) {
 			if (log.isDebugEnabled())
 				if (log.isDebugEnabled())
-					log.debug("Authentication|||login|Failure| Invalid Login Credentails |"+ fle.getMessage() );
-				throw new LoginException("Invalid Login Credentails");
+					log.debug("Authentication|||login|Failure| Invalid Login Credentials |"+ fle.getMessage() );
+				throw new LoginException("Invalid Login Credentials");
 		} 
 		if (log.isDebugEnabled())
 			log.debug("Authentication|||login|Success| Authentication is "+loginSuccessful+"|");
