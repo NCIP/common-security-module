@@ -110,7 +110,9 @@ import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.util.StringEncrypter;
 import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -163,6 +165,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	private SessionFactory sf = null;
 
 	private Application application = null;
+	
+	private boolean isEncryptionEnabled  = false;
 
 	private String typeOfAccess = "MIXED";
 	private static final String SEPERATOR = "#@#";
@@ -473,6 +477,70 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		auditLog.info("Assigning User " + userId + " to Groups");		
 	}
 
+	public void assignUsersToGroup(String groupId, String[] userIds)
+	throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+		
+			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
+					new Long(groupId));
+			
+			HashSet newUsers = new HashSet();
+			for (int k = 0; k < userIds.length; k++) {
+				User user = (User) this.getObjectByPrimaryKey(User.class,
+						userIds[k]);
+				if (user != null) {
+					newUsers.add(user);
+				}
+			}
+		
+			group.setUsers(newUsers);
+			t = s.beginTransaction();
+			s.update(group);
+			t.commit();
+			s.flush();
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||assignUsersToGroup|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||assignUsersToGroup|Failure|Error occurred in assigning Users "
+								+ StringUtilities.stringArrayToString(userIds)
+								+ " to Group " + groupId + "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in assigning Users to Group\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||assignUsersToGroup|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||assignUsersToGroup|Success|Successful in assigning Users "
+							+ StringUtilities.stringArrayToString(userIds)
+							+ " to Group " + groupId + "|");
+		auditLog.info("Assigning Group " + groupId + " to Users");		
+	}
+
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1904,6 +1972,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				user = (User) list.get(0);
 			}
 			
+			try {
+				user = (User)performEncrytionDecryption(user, false);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
+			
+			
+			
 		
 
 		} catch (Exception ex) {
@@ -1929,6 +2005,64 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ loginName + "|");
 		return user;
 	}
+	
+	
+	public Set getUsers(String groupId) throws CSObjectNotFoundException {
+		Session s = null;
+		Set users = new HashSet();
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+
+			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
+					new Long(groupId));
+			users = group.getUsers();
+			
+			List list = new ArrayList();
+			Iterator toSortIterator = users.iterator();
+			while(toSortIterator.hasNext()){
+				User user = (User) toSortIterator.next();
+				try {
+					user = (User)performEncrytionDecryption(user, false);
+				} catch (EncryptionException e) {
+					throw new CSObjectNotFoundException(e);
+				}
+				list.add(user); 
+				
+			}
+			Collections.sort(list);
+			users.clear();
+			users.addAll(list);
+			
+			log.debug("The result size:" + users.size());
+
+		} catch (Exception ex) {
+			log.error(ex);
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||getUsers|Failure|Error in obtaining Users for Group Id "
+								+ groupId + "|" + ex.getMessage());
+			throw new CSObjectNotFoundException(
+					"An error occurred while obtaining Associated Users for the Group\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||getUsers|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||getUsers|Success|Successful in obtaining Users for Group Id "
+							+ groupId + "|");
+		return users;
+
+	}
+
+	
 
 	private Group getGroup(String groupName) {
 		Session s = null;
@@ -2808,6 +2942,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSObjectNotFoundException("The primary key can't be null");
 		}
 		Object obj = s.load(objectType, primaryKey);
+		
+		try {
+			obj = performEncrytionDecryption(obj, false);
+		} catch (EncryptionException e) {
+			throw new CSObjectNotFoundException(e);
+		}
+		
 
 		if (obj == null) {
 			log
@@ -2834,6 +2975,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			oj = getObjectByPrimaryKey(s, objectType, new Long(primaryKey));
+			
+			try {
+				oj = performEncrytionDecryption(oj, false);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
 
 		} catch (Exception ex) {
 			log
@@ -3364,6 +3511,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
+			
+			try {
+				obj = performEncrytionDecryption(obj, true);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
+			
+			
 			s.update(obj);
 			t.commit();
 			s.flush();
@@ -3435,6 +3590,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 
+	
+
 	public Application getApplication() {
 		return this.application;
 	}
@@ -3443,6 +3600,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		try {
+			
+			try {
+				obj = performEncrytionDecryption(obj, true);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
+			
+			
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			s.save(obj);
@@ -4369,4 +4534,27 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 
+	public void setEncryptionEnabled(boolean isEncryptionEnabled) {
+		this.isEncryptionEnabled = isEncryptionEnabled;
+		
+	}
+
+	private Object performEncrytionDecryption(Object obj, boolean encrypt) throws EncryptionException {
+		
+		if(obj instanceof User){
+			User user = (User)obj;
+			
+			if(this.isEncryptionEnabled && user.getPassword().trim().length()>0){
+				StringEncrypter stringEncrypter = new StringEncrypter();
+				if(encrypt){
+					user.setPassword(stringEncrypter.encrypt(user.getPassword()));
+				}else{
+					user.setPassword(stringEncrypter.decrypt(user.getPassword()));
+				}
+			}
+			return user;
+		}
+		return obj;		
+	}
+	
 }

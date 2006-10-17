@@ -1,7 +1,3 @@
-/*
- * Created on Nov 11, 2004
- *
- */
 package gov.nih.nci.security;
 
 /**
@@ -252,4 +248,16 @@ public interface AuthenticationManager {
 	 */
 	public void logout(String userName) throws CSException;
 
+	
+	/**
+	 * This method is used to indicate if encryption is enabled or not for user passwords
+	 * stored in the database. 
+	 * 
+	 * if enabled ( true ) then the user passwords will be encrypted when persisting and 
+	 * decrypted after retrieving them from the database
+	 *  
+	 * @param isEncryptionEnabled boolean value 
+	 */
+	public void setEncryptionEnabled(boolean isEncryptionEnabled);
+	
 }

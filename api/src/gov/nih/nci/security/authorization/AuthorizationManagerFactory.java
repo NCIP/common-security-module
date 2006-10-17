@@ -90,32 +90,18 @@ package gov.nih.nci.security.authorization;
 
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
-import gov.nih.nci.security.util.FileLoader;
-import gov.nih.nci.security.util.StringUtilities;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.xml.sax.SAXException;
-
-
+import org.jdom.Element;
 
 
 
@@ -171,6 +157,8 @@ public class AuthorizationManagerFactory {
 				log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Common Authorization Manager|");
 			authorizationManager = (AuthorizationManager)SecurityServiceProvider.getUserProvisioningManager(applicationContextName);
 			authorizationManager.initialize(applicationContextName);
+			authorizationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName,Constants.AUTHORIZATION));
+
 		}
 		else
 		{
@@ -178,6 +166,8 @@ public class AuthorizationManagerFactory {
 			{
 				authorizationManager = (AuthorizationManager)(Class.forName(applicationManagerClassName)).newInstance();
 				authorizationManager.initialize(applicationContextName);
+				authorizationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName,Constants.AUTHORIZATION));
+
 				if (log.isDebugEnabled())
 					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Custom Authorization Manager "+applicationManagerClassName+"|" );
 			}
@@ -236,6 +226,8 @@ public class AuthorizationManagerFactory {
 				log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Common Authorization Manager|");
 			authorizationManager = (AuthorizationManager)SecurityServiceProvider.getUserProvisioningManager(applicationContextName, userOrGroupName, isUserName);
 			authorizationManager.initialize(applicationContextName);
+			authorizationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName,"authorization"));
+
 		}
 		else
 		{
@@ -243,6 +235,8 @@ public class AuthorizationManagerFactory {
 			{
 				authorizationManager = (AuthorizationManager)(Class.forName(applicationManagerClassName)).newInstance();
 				authorizationManager.initialize(applicationContextName);
+				authorizationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName,"authorization"));
+
 				if (log.isDebugEnabled())
 					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Custom Authorization Manager "+applicationManagerClassName+"|" );
 			}
@@ -259,6 +253,38 @@ public class AuthorizationManagerFactory {
 
 		
 	}	
+	
+	
+	
+	private static boolean isEncryptionEnabled(String applicationContextName) throws CSException, CSConfigurationException{
+		boolean isEncryptionEnabled = false;
+		Document configDocument;
+		
+		configDocument = ApplicationSecurityConfigurationParser.getConfigDocument();
+		Element securityConfig = configDocument.getRootElement();
+		Element applicationList = securityConfig.getChild("application-list");
+		List applications = applicationList.getChildren("application");
+		 Iterator appIterator  = applications.iterator();
+		 while(appIterator.hasNext()){
+		 	Element application = (Element)appIterator.next();
+		 	Element contextName = application.getChild("context-name");
+		 	String contextNameValue = contextName.getText().trim();
+			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
+				Element authorization = application.getChild("authorization");
+				Element encryptionEnabled = authorization.getChild("encryption-enabled");
+				if(encryptionEnabled!=null){
+					String encryptionValue= encryptionEnabled.getText().trim();
+					if("true".equalsIgnoreCase(encryptionValue)){
+						isEncryptionEnabled = true;
+					}					
+				}
+				
+			}
+		 }
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getAuthorizationManagerClass|Success| Read the authorization Class Name " );
+		 return isEncryptionEnabled;
+	}
 	
 	
 }

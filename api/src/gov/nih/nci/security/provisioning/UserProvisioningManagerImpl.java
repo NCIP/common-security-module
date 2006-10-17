@@ -99,6 +99,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
@@ -108,6 +109,7 @@ import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
 
 import java.security.Principal;
@@ -145,6 +147,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 */
 	private ApplicationContext applicationContext;
 	
+	/**
+	 * Is Encryption enabled for the givent application
+	 * peristence.
+	 */
+	private boolean isEncryptionEnabled;
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.UserProvisioningManager#addUserToGroup(java.lang.String, java.lang.String)
 	 */
@@ -167,8 +175,14 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
+		
 		authorizationDAO = (AuthorizationDAO)(adi);
-
+		try {
+			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
+		} catch (CSException e) {
+			throw new CSConfigurationException(e);
+			
+		}
 	}
 
 	/**
@@ -187,6 +201,12 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
+		try {
+			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
+		} catch (CSException e) {
+			throw new CSConfigurationException(e);
+			
+		}
 	}	
 	
 	
@@ -664,6 +684,18 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void assignGroupsToUser(String userId,String[] groupIds)throws CSTransactionException{
         authorizationDAO.assignGroupsToUser(userId,groupIds);
 	}
+	
+	/**
+	 * @param userId
+	 * 
+	 * @param groupIds String[]
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignGroupsToUser(String, String[])
+	 */
+	public void assignUsersToGroup(String groupId,String[] userIds)throws CSTransactionException{
+        authorizationDAO.assignUsersToGroup(groupId,userIds);
+	}
+	
 
 	/**
 	 * @param groupId
@@ -878,6 +910,19 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public User getUserById(String userId) throws CSObjectNotFoundException{
 		return (User)authorizationDAO.getObjectByPrimaryKey(User.class,userId);
 	}
+
+	/**
+	 * Method getUsers.
+	 * @param groupId String
+	 * @return Set
+	 * @throws CSObjectNotFoundException
+	 * @see gov.nih.nci.security.UserProvisioningManager#getUsers(String)
+	 */
+	public Set getUsers(String groupId) throws CSObjectNotFoundException{
+		return authorizationDAO.getUsers(groupId);
+	}
+
+	
 	
 	/**
 	 * Method modifyUser.
@@ -1106,6 +1151,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void setAuditUserInfo(String userName, String sessionId)
 	{
 		UserInfoHelper.setUserInfo(userName, sessionId);
+	}
+
+	public void setEncryptionEnabled(boolean isEncryptionEnabled) {
+		this.isEncryptionEnabled = isEncryptionEnabled;
+		
 	}
 
 

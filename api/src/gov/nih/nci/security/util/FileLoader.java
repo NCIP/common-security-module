@@ -199,9 +199,9 @@ public class FileLoader
 
 	 * @return InputStream
 	 */
-	public InputStream getApplicationSecurityConfigXMLAsStream()
+	public InputStream getApplicationSecurityConfigXMLAsStream(String xmlDocumentPath)
 	{
-		return getFileAsStream("ApplicationSecurityConfig.xml", Thread.currentThread().getContextClassLoader());
+		return getFileAsStream(xmlDocumentPath, Thread.currentThread().getContextClassLoader());
 	}
 	
 	/**

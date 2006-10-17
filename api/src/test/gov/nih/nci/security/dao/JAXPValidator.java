@@ -67,7 +67,7 @@ public class JAXPValidator {
 		//String SchemaUrl = argv[0];
 		//String XmlDocumentUrl = argv[1];
 		JAXPValidator validator = new JAXPValidator();
-		validator.validateSchema("C:/dev/workspace/csm_api/src/ApplicationSecurityConfig.xsd", "C:/dev/workspace/csm_api/src/DeleteMeApplicationSecurityConfig.xml");
+		validator.validateSchema("C:/workspace/csm_api/src/ApplicationSecurityConfig.xsd", "C:/workspace/csm_api/src/ApplicationSecurityConfig.xml");
 		//validator.validateSchema(SchemaUrl, XmlDocumentUrl);
 	}
 }

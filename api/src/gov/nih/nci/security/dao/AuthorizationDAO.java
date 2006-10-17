@@ -124,6 +124,8 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public User getUser(String loginName);
+	
+	public Set getUsers(String groupId) throws CSObjectNotFoundException;
 
 	public ApplicationContext getApplicationContext();
 	
@@ -147,6 +149,11 @@ public interface AuthorizationDAO {
 	 * @see gov.nih.nci.security.UserProvisioningManager#assignUserToGroup(java.lang.String, java.lang.String)
 	 */
 	public void assignUserToGroup(String userId,String groupName)throws CSTransactionException;
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignUsersToGroup(java.lang.String, java.lang.String[])
+	 */
+	public void assignUsersToGroup(String groupId, String[] userIds) throws CSTransactionException;;
 
 	/**
 	 * @param protectionElementObjectId
@@ -416,5 +423,8 @@ public interface AuthorizationDAO {
 
 	public List getAccessibleGroups(String objectId, String attributeName, String privilegeName) throws CSException;
 
+	public void setEncryptionEnabled(boolean isEncryptionEnabled) ;
+	
+	
 }
 

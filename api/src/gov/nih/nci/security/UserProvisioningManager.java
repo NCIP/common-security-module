@@ -264,6 +264,16 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public void assignGroupsToUser(String userId,String[] groupIds)throws CSTransactionException;
 	
 	/**
+	 * Assigns multiple Users to a single Group.
+	 * The same method should be called for de-assigning or modifying the association
+	 * @param groupId the Group to which the Users are to be assigned
+	 * @param userIds The Users which are to be assigned to the Group
+	 * @throws CSTransactionException If there are any errors in the Assignment
+	 */
+	public void assignUsersToGroup(String groupId,String[] userIds)throws CSTransactionException;
+	
+	
+	/**
 	 * Assigns a User to a Group
 	 *
 	 * @param userName the User Name to which the Group will be assigned
@@ -458,6 +468,16 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @throws CSObjectNotFoundException if the User object is not found for the given id
 	 */
 	public User getUserById(String userId) throws CSObjectNotFoundException;
+	
+	/**
+	 * Returns the Assigned Users for a particular Group. The Group is obtained from the Group Id passed
+	 * @param groupId The id of the Group object whose associated Users are to be obtained
+	 * 
+	 * @return Set The list of the associated Users for the Group
+	 * @throws CSObjectNotFoundException if the Group object is not found for the given id
+	 */
+	public Set getUsers(String groupId) throws CSObjectNotFoundException;
+		
 	
 	/**
 	 * Modifies an entry for an existing User in the database based on the data passed

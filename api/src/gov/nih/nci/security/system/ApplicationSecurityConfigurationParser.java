@@ -1,6 +1,8 @@
 package gov.nih.nci.security.system;
 
+import gov.nih.nci.security.authentication.AuthenticationManagerFactory;
 import gov.nih.nci.security.authentication.LockoutManager;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.util.FileLoader;
@@ -55,14 +57,17 @@ public class ApplicationSecurityConfigurationParser {
 		ApplicationSecurityConfigurationParser.validateXMLwithSchema(configFilePath);
 		
 	    return configDoc;
+	    
+	    
 	}
 
-	public static void validateXMLwithSchema(String XmlDocument) throws CSConfigurationException{
+	public static void validateXMLwithSchema(String xmlDocument) throws CSConfigurationException{
 		try {
 			
-			
+			String configFilePath = System.getProperty("gov.nih.nci.security.configFile");
 			InputStream inputStreamXSD = FileLoader.getInstance().getApplicationSecurityConfigSchemaAsStream();
-			InputStream inputStreamXML = FileLoader.getInstance().getApplicationSecurityConfigXMLAsStream();
+			//InputStream inputStreamXML = FileLoader.getInstance().getApplicationSecurityConfigXMLAsStream(xmlDocument);
+			
 			
 	    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	    	dbf.setNamespaceAware(true);
@@ -80,7 +85,7 @@ public class ApplicationSecurityConfigurationParser {
 				throw new CSConfigurationException("Error in parsing the Application Security Config file");
 			}
 	    	try {
-				Document doc = (Document) db.parse(inputStreamXML);
+				Document doc = (Document) db.parse(configFilePath);
 			} catch (SAXException e) {
 				throw new CSConfigurationException("Error in parsing the Application Security Config file");
 			} catch (IOException e) {
@@ -190,6 +195,41 @@ public class ApplicationSecurityConfigurationParser {
 			}
 		 }
 		return sf;
+	}
+
+	public static boolean isEncryptionEnabled(String applicationContextName, String contextType) throws CSException,CSConfigurationException{
+		boolean isEncryptionEnabled = false;
+		
+		org.jdom.Document configDocument;
+	
+		configDocument = getConfigDocument();
+		Element securityConfig = configDocument.getRootElement();
+		Element applicationList = securityConfig.getChild("application-list");
+		List applications = applicationList.getChildren("application");
+		 Iterator appIterator  = applications.iterator();
+		 while(appIterator.hasNext()){
+		 	Element application = (Element)appIterator.next();
+		 	Element contextName = application.getChild("context-name");
+		 	String contextNameValue = contextName.getText().trim();
+			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
+				if(contextType.equalsIgnoreCase(Constants.AUTHENTICATION) 
+						|| Constants.AUTHORIZATION.equalsIgnoreCase(Constants.AUTHORIZATION)){
+					Element authentication = application.getChild(contextType); // authentication or authorization.
+		
+					Element encryptionEnabled = authentication.getChild("encryption-enabled");
+					if(encryptionEnabled!=null){
+						String temp = encryptionEnabled.getText().trim();
+						if("true".equalsIgnoreCase(temp)){
+							isEncryptionEnabled = true; 
+						}
+						
+					}
+				}
+			}
+		 }
+			if (AuthenticationManagerFactory.log.isDebugEnabled())
+				AuthenticationManagerFactory.log.debug("Authentication|||getAuthenticationManagerClass|Success| Read the authentication Class Name " );
+		 return isEncryptionEnabled;
 	}
 	
 }

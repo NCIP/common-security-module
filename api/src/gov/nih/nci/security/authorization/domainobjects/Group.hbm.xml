@@ -56,6 +56,11 @@
     >
         <column name="APPLICATION_ID" />
     </many-to-one>
+    
+    <set name="users" lazy="true" table="CSM_USER_GROUP">
+           <key column="group_id"/>
+           <many-to-many column="user_id" class="gov.nih.nci.security.authorization.domainobjects.User"/>
+     </set>
 
 </class>
 </hibernate-mapping>

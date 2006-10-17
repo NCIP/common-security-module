@@ -483,5 +483,16 @@ public interface AuthorizationManager {
 	 */
 	public void setAuditUserInfo(String userName, String sessionId);
 	
+
+	/**
+	 * This method is used to indicate if encryption is enabled or not for user passwords
+	 * stored in the database. 
+	 *  
+	 * @param isEncryptionEnabled boolean value 
+	 */
+	public void setEncryptionEnabled(boolean isEncryptionEnabled);
+
+	
+	
 }
 

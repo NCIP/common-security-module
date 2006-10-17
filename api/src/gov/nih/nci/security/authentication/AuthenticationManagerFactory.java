@@ -91,6 +91,7 @@ package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
@@ -110,7 +111,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.log4j.Logger;
-import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.xml.sax.SAXException;
@@ -158,7 +158,7 @@ import org.xml.sax.SAXException;
 public class AuthenticationManagerFactory 
 {
 	
-	private static final Logger log = Logger.getLogger(AuthenticationManagerFactory.class);
+	public static final Logger log = Logger.getLogger(AuthenticationManagerFactory.class);
 	/**
 	 * This methods instantiate an implementation of the {@link AuthenticationManager} and returns it to the calling method.
 	 * It reads the config file using the Application Context/Name provided as parameter. If an entry is found,
@@ -200,6 +200,8 @@ public class AuthenticationManagerFactory
 				log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Success|Initializing Common Authentication Manager|");
 			authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
 			authenticationManager.initialize(applicationContextName);
+			
+			authenticationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHENTICATION));
 		}
 		else
 		{
@@ -207,6 +209,7 @@ public class AuthenticationManagerFactory
 			{
 				authenticationManager = (AuthenticationManager)(Class.forName(applicationManagerClassName)).newInstance();
 				authenticationManager.initialize(applicationContextName);
+				authenticationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHENTICATION));
 				if (log.isDebugEnabled())
 					log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Success|Initializing Custom Authentication Manager "+applicationManagerClassName+"|" );
 			}
@@ -220,8 +223,5 @@ public class AuthenticationManagerFactory
 		}
 		return authenticationManager;
 	}
-	
-	
-	
 	
 }

@@ -1,5 +1,3 @@
-// SearchCriteriaTest.java
-
 package test.gov.nih.nci.security.dao;
 
 /**
@@ -107,7 +105,7 @@ import junit.framework.TestSuite;
  * 
  * @author Vinay Kumar
  
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * 
  * @see gov.nih.nci.security.dao.SearchCriteria
  * 

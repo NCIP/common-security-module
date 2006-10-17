@@ -126,4 +126,9 @@ public class Constants
 	public static final String CSM_DELETE_PRIVILEGE = "DELETE";
 	public static final String CSM_CREATE_PRIVILEGE = "CREATE";
 
+	
+	public static final String AUTHENTICATION 	= "authentication";
+	public static final String AUTHORIZATION 	= "authorization";
+	
+	
 }

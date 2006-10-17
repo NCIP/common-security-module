@@ -4,13 +4,9 @@ import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSException;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-import com.mysql.jdbc.AssertionFailedException;
-
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 public class AuthenicationManagerTest extends TestCase {
@@ -18,6 +14,7 @@ public class AuthenicationManagerTest extends TestCase {
 	Properties props = null;
 	private static AuthenticationManager authenticationManagerOpenLdap = null;
 	private static AuthenticationManager authenticationManagerEDirectory = null;
+	private static AuthenticationManager authenticationManagerCLM = null;
 
 	
 	public static void main(String[] args) {
@@ -69,6 +66,21 @@ public class AuthenicationManagerTest extends TestCase {
 			}
 		}
 		return authenticationManagerEDirectory;
+	}
+	
+	private AuthenticationManager getAuthenticationManagerCLM(){
+		if (authenticationManagerCLM == null )
+		{
+			try
+			{
+				authenticationManagerCLM = SecurityServiceProvider.getAuthenticationManager("CLM");
+			}
+			catch (CSException e)
+			{
+				fail();
+			}
+		}
+		return authenticationManagerCLM;
 	}
 
 	protected void tearDown() throws Exception {
@@ -161,6 +173,23 @@ public class AuthenicationManagerTest extends TestCase {
 		}
 		assertEquals(false, isValid);
 	}	
+	
+	public void testLoginWithEncryptedPassword1() {
+		
+		boolean isValid = false;
+		try
+		{
+			getAuthenticationManagerCLM();
+			isValid = this.authenticationManagerCLM.login( "clmuser", "clmuser" ); //encrypted = 97w7AXzA/84=
+		}
+		catch(CSException cse)
+		{
+			isValid = false;
+		}
+		assertEquals(true, isValid);
+	}
+	
+	
 	
 	
 }
