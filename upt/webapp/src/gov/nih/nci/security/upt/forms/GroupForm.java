@@ -100,10 +100,12 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.authorization.domainobjects.Role;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.RoleSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.dao.UserSearchCriteria;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
@@ -136,6 +138,8 @@ public class GroupForm extends ValidatorForm implements BaseDoubleAssociationFor
 	private String groupDescription;
 	private String groupUpdateDate;
 
+	private String[] associatedIds;
+		
 	private String[] roleAssociatedIds;
 	private String[] protectionGroupAssociatedIds;
 	private String protectionGroupAssociatedId;
@@ -190,12 +194,17 @@ public class GroupForm extends ValidatorForm implements BaseDoubleAssociationFor
 	public void setGroupUpdateDate(String groupUpdateDate) {
 		this.groupUpdateDate = groupUpdateDate;
 	}
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#getAssociatedIds()
+	/**
+	 * @return Returns the associatedIds.
 	 */
 	public String[] getAssociatedIds() {
-		// TODO Auto-generated method stub
-		return null;
+		return associatedIds;
+	}
+	/**
+	 * @param associatedIds The associatedIds to set.
+	 */
+	public void setAssociatedIds(String[] associatedIds) {
+		this.associatedIds = associatedIds;
 	}
 	/**
 	 * @return Returns the protectionGroupAssociatedId.
@@ -371,14 +380,28 @@ public class GroupForm extends ValidatorForm implements BaseDoubleAssociationFor
 
 	public void buildAssociationObject(HttpServletRequest request) throws Exception 
 	{
-		// do nothing
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+		Collection associatedUsers= (Collection)userProvisioningManager.getUsers(this.groupId);
+		User user = new User();
+		SearchCriteria searchCriteria = new UserSearchCriteria(user);
+		Collection totalUsers = (Collection)userProvisioningManager.getObjects(searchCriteria);
+
+		Collection availableUsers = ObjectSetUtil.minus(totalUsers,associatedUsers);
+		
+		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedUsers);
+		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableUsers);
 		
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
 	public void setAssociationObject(HttpServletRequest request) throws Exception {
-		// do nothing
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		if (this.associatedIds == null)
+			this.associatedIds = new String[0];
+		userProvisioningManager.assignUsersToGroup(this.groupId, this.associatedIds);
+	
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildDoubleAssociationObject(javax.servlet.http.HttpServletRequest)

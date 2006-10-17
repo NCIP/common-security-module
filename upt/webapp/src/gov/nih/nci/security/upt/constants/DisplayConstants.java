@@ -138,7 +138,10 @@ public class DisplayConstants
 	
 	public static final String REQUIRED = "REQUIRED";
 	public static final String NOT_REQUIRED = "NOT_REQUIRED";
-		
+	public static final String READONLY = "READONLY";
+	public static final String NOT_READONLY = "NOT_READONLY";
+	
+	
 	public static final String HOME_ID = "Home";
 	public static final String ADMIN_HOME_ID = "AdminHome";
 	public static final String PRIVILEGE_ID = "Privilege";
@@ -160,7 +163,7 @@ public class DisplayConstants
 
 	public static final boolean NOT_DISABLED = false;
 	public static final boolean DISABLED = true;
-	public static final boolean READONLY = true;
+
 
 	public static final String ERROR_DETAILS = "ERROR_DETAILS";
 	
