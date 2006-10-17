@@ -110,7 +110,7 @@ public class FormElement
 	private String propertyType;
 	private String propertyRequired;
 	private boolean propertyDisabled;
-	private boolean propertyReadonly;
+	private String propertyReadonly;
 
 	
 	/**
@@ -129,11 +129,11 @@ public class FormElement
 		this.propertyType = propertyType;
 		this.propertyRequired = propertyRequired;
 		this.propertyDisabled = propertyDisabled;
-		this.propertyReadonly = false;
+		this.propertyReadonly = "NOT_READONLY";
 	}
 	
 	public FormElement(String propertyLabel, String propertyName,
-			String propertyValue, String propertyType, String propertyRequired, boolean propertyDisabled, boolean propertyReadonly) {
+			String propertyValue, String propertyType, String propertyRequired, boolean propertyDisabled, String propertyReadonly) {
 		super();
 		this.propertyLabel = propertyLabel;
 		this.propertyName = propertyName;
@@ -186,7 +186,7 @@ public class FormElement
 	/**
 	 * @return Returns the propertyReadonly.
 	 */
-	public boolean getPropertyReadonly()
+	public String getPropertyReadonly()
 	{
 		return propertyReadonly;
 	}
@@ -195,7 +195,7 @@ public class FormElement
 	/**
 	 * @param propertyReadonly The propertyReadonly to set.
 	 */
-	public void setPropertyReadonly(boolean propertyReadonly)
+	public void setPropertyReadonly(String propertyReadonly)
 	{
 		this.propertyReadonly = propertyReadonly;
 	}

@@ -133,7 +133,18 @@
 										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
-										<td class="formField"><html:text style="formFieldSized" size="10" maxlength="10" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /> <%=DisplayConstants.DISPLAY_DATE_FORMAT%></td>
+										<td class="formField">
+										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
+											<label><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+										</logic:equal>
+										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
+											<% if(formElement.getPropertyDisabled()){ %>
+												<label><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+											<% }else{ %>
+											<html:text  style="formFieldSized" size="10" maxlength="10" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
+											<% } %>											
+										</logic:notEqual>
+										</td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
 										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
@@ -172,6 +183,7 @@
 								</table>
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated Users</html:submit></td>									
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionElementPrivilegesAssociation');">Associated PE & Privileges</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">Associated PG & Roles</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
