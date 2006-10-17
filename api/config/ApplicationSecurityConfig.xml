@@ -21,6 +21,7 @@
 				<allowed-attempts>
 					3
 				</allowed-attempts>
+				<encryption-enabled>true</encryption-enabled>
             </authentication>
             <authorization>
                 <authorization-provider-class>
@@ -30,8 +31,36 @@
                     <!-- Fully qualified file path -->
                     c:/securityconfig/csmupt.hibernate.cfg.xml
                 </hibernate-config-file>
+				<encryption-enabled>false</encryption-enabled>                
             </authorization>
         </application>
+        <application>
+            <context-name>CLM</context-name>
+            <authentication>
+                <authentication-provider-class>
+                    <!-- Fully qualified class name-->
+                </authentication-provider-class>
+				<lockout-time>
+					60000
+				</lockout-time>
+				<allowed-login-time>
+					60000
+				</allowed-login-time>
+				<allowed-attempts>
+					3
+				</allowed-attempts>
+				<encryption-enabled>true</encryption-enabled>
+            </authentication>
+            <authorization>
+                <authorization-provider-class>
+                </authorization-provider-class>
+                <hibernate-config-file>
+                    c:/securityconfig/csmupt.hibernate.cfg.xml
+                </hibernate-config-file>
+                <encryption-enabled>false</encryption-enabled>
+            </authorization>
+        </application>
+       
         <application>
             <context-name>
                 EDirectory
@@ -49,6 +78,7 @@
 				<allowed-attempts>
 					3
 				</allowed-attempts>
+				<encryption-enabled>false</encryption-enabled>
             </authentication>
             <authorization>
                 <authorization-provider-class>
@@ -58,8 +88,10 @@
                     <!-- Fully qualified file path -->
                     c:/securityconfig/csmupt.hibernate.cfg.xml
                 </hibernate-config-file>
+                <encryption-enabled>false</encryption-enabled>
             </authorization>
-        </application>        <application>
+        </application>
+        <application>
             <context-name>
                 OpenLDAP
             </context-name>
@@ -76,6 +108,7 @@
 				<allowed-attempts>
 					3
 				</allowed-attempts>
+				<encryption-enabled>false</encryption-enabled>
             </authentication>
             <authorization>
                 <authorization-provider-class>
@@ -85,6 +118,7 @@
                     <!-- Fully qualified file path -->
                     c:/securityconfig/csmupt.hibernate.cfg.xml
                 </hibernate-config-file>
+                <encryption-enabled>false</encryption-enabled>
             </authorization>
         </application>
     </application-list>
