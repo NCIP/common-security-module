@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE ObjectStateLoggerConfig [
 <!-- 
 	ObjectStateLoggerConfig DTD. This DTD is specified for the ObjectStateLoggerConfig.xml
 -->
@@ -53,53 +52,3 @@ Name of the Log4j Config file. Example: sample-log4j-config.xml
 	In this example, the composite attributes value of 'first+last' will used to store logs with ObjectID = 'first+last'.
 -->
 <!ELEMENT IdentifierAttribute (#PCDATA)>
-
-
-]>
-<ObjectStateLoggerConfig>
-	<ObjectStateLoggerName>CSM.Audit.Logging.Authorization</ObjectStateLoggerName>
-	<LoggerConfigurationFile>log4jConfig.xml</LoggerConfigurationFile>
-	<LogLevel>info</LogLevel>
-	<LoggingEnabled value="true" />
-	<ObjectStateLoggerMessageFormat type="string" />
-	<DomainObjectList>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.Application</ObjectName>
-			<IdentifierAttribute>applicationDescription</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.ApplicationContext</ObjectName>
-			<IdentifierAttribute>applicationName</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.Group</ObjectName>
-			<IdentifierAttribute>groupName</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.Privilege</ObjectName>
-			<IdentifierAttribute>name</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.ProtectionElement</ObjectName>
-			<IdentifierAttribute>protectionElementName</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.ProtectionGroup</ObjectName>
-			<IdentifierAttribute>protectionGroupName</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.Role</ObjectName>
-			<IdentifierAttribute>name</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.User</ObjectName>
-			<IdentifierAttribute>loginName</IdentifierAttribute>
-		</DomainObject>
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectonGroup</ObjectName>
-		</DomainObject>		
-		<DomainObject>
-			<ObjectName>gov.nih.nci.security.authorization.domainobjects.UserProtectionElement</ObjectName>
-		</DomainObject>
-	</DomainObjectList>
-</ObjectStateLoggerConfig>
