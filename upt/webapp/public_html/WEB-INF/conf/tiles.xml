@@ -153,6 +153,9 @@
 	<definition name="Tiles.User.Association.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/UserAssociation.jsp" />
 	</definition>
+	<definition name="Tiles.Group.Association.Screen" extends="Base">
+		<put name="Content" value="/pages/content/association/GroupAssociation.jsp" />
+	</definition>
 	<definition name="Tiles.User.DoubleAssociation.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/UserDoubleAssociation.jsp" />
 	</definition>

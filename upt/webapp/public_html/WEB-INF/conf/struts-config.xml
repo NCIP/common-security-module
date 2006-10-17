@@ -175,6 +175,8 @@
 			<forward name="DeleteSuccess" path="Tiles.Group.Home" />
 			<forward name="SearchSuccess" path="Tiles.Group.Search.Result" />
 			<forward name="SearchFailure" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadAssociationSuccess" path="Tiles.Group.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.Group.Detail.Screen" />
 			<forward name="LoadDoubleAssociationSuccess" path="Tiles.Group.DoubleAssociation.Screen" />
 			<forward name="LoadProtectionGroupAssociationSuccess" path="Tiles.Group.ProtectionGroupAssociation.Screen" />
 			<forward name="LoadProtectionGroupAssociationFailure" path="Tiles.Group.Detail.Screen" />
