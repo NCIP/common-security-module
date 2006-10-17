@@ -33,6 +33,7 @@
 				<xs:element ref="lockout-time" minOccurs="0"/>
 				<xs:element ref="allowed-login-time" minOccurs="0"/>
 				<xs:element ref="allowed-attempts" minOccurs="0"/>
+				<xs:element ref="encryption-enabled" minOccurs="0"/>				
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
@@ -40,11 +41,14 @@
 	<xs:element name="lockout-time" type="xs:string"/>
 	<xs:element name="allowed-attempts" type="xs:string"/>
 	<xs:element name="allowed-login-time" type="xs:string"/>
+	<xs:element name="encryption-enabled" type="xs:string"/>
+	
 	<xs:element name="authorization">
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="authorization-provider-class"/>
 				<xs:element ref="hibernate-config-file"/>
+				<xs:element ref="encryption-enabled" minOccurs="0"/>								
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
