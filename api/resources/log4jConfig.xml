@@ -32,9 +32,8 @@
 		<appender-ref ref="rollingLogFile" />
 	</root>
 -->
-	<appender name="JDBC_MySql" class="gov.nih.nci.logging.api.appender.jdbc.JDBCAppender">
+	<appender name="CLM_MYSQL_APPENDER" class="gov.nih.nci.logging.api.appender.jdbc.JDBCAppender">
 		<param name="application" value="csm" />
-		<param name="server" value="default" />
 		<param name="maxBufferSize" value="1" />
 		<param name="dbDriverClass" value="com.mysql.jdbc.Driver" />
 		<param name="dbUrl" value="jdbc:mysql://localhost:3306/log" />
@@ -46,10 +45,22 @@
 		</layout>
 	</appender>
 
-	<logger name="CSM.Audit.Logging.Authorization">
-		<level value="info" />
-		<appender-ref ref="JDBC_MySql" />
-	</logger>
+    <category name="CSM.Audit.Logging.Event.Authentication">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
+	<category name="CSM.Audit.Logging.Event.Authorization">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
+	<category name="CSM.Audit.Logging.ObjectState.Authorization">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
+	<category name="CSM.Audit.Logging.Authorization">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
 
 </log4j:configuration>
 
