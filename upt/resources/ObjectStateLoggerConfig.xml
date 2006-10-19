@@ -57,7 +57,7 @@ Name of the Log4j Config file. Example: sample-log4j-config.xml
 
 ]>
 <ObjectStateLoggerConfig>
-	<ObjectStateLoggerName>CSM.Audit.Logging.Authorization</ObjectStateLoggerName>
+	<ObjectStateLoggerName>CSM.Audit.Logging.ObjectState.Authorization</ObjectStateLoggerName>
 	<LoggerConfigurationFile>log4jConfig.xml</LoggerConfigurationFile>
 	<LogLevel>info</LogLevel>
 	<LoggingEnabled value="true" />
