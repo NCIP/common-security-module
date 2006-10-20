@@ -1505,54 +1505,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return test;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gov.nih.nci.security.dao.AuthorizationDAO#deAssignProtectionElements(java.lang.String[],
-	 *      java.lang.String)
-	 */
-	/**
-	 * @param protectionGroupName
-	 * @param protectionElementObjectId
-	 *  
-	 */
-	public void deAssignProtectionElements(String protectionGroupName,
-			String protectionElementObjectId) throws CSTransactionException {
-
-		try {
-			ProtectionGroup protectionGroup = this
-					.getProtectionGroup(protectionGroupName);
-
-			ProtectionElement protectionElement = this
-					.getProtectionElement(protectionElementObjectId);
-
-			String pgId = protectionGroup.getProtectionGroupId().toString();
-			String[] peIds = { protectionElement.getProtectionElementId()
-					.toString() };
-
-			this.removeProtectionElementsFromProtectionGroup(pgId, peIds);
-		} catch (Exception ex) {
-			if (log.isDebugEnabled()) {
-				log
-						.debug("Authorization|||deAssignProtectionElements|Failure|Error Occured in deassigning Protection Group "
-								+ protectionGroupName
-								+ " and Protection Element "
-								+ protectionElementObjectId
-								+ "|"
-								+ ex.getMessage());
-			}
-			throw new CSTransactionException(
-					"An error occured in deassigning Protection Element from Protection Group\n"
-							+ ex.getMessage(), ex);
-		}
-		if (log.isDebugEnabled())
-			log
-					.debug("Authorization|||deAssignProtectionElements|Success|Successful in deassigning Protection Group "
-							+ protectionGroupName
-							+ " and Protection Element "
-							+ protectionElementObjectId + "|");
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2197,30 +2150,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				roles.add(role);
 			}
 			
+			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+			criteria.add(Restrictions.eq("protectionGroup", pgroup));
+			criteria.add(Restrictions.eq("group", group));
+	
+			List list = criteria.list();
 			t = s.beginTransaction();
-
-			for (int i = 0; i < rolesId.length; i++) {
-				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
-
-				intersection.setGroup(group);
-				intersection.setProtectionGroup(pgroup);
-				/*Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
-						new Long(rolesId[i]));*/
-
-				Criteria criteria = s
-						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Restrictions.eq("protectionGroup", pgroup));
-				criteria.add(Restrictions.eq("group", group));
-				criteria.add(Restrictions.eq("role", (Role)roles.get(i)));
-
-				List list = criteria.list();
-
-				if (list.size() == 0) {
-					intersection.setRole((Role)roles.get(i));
-					intersection.setUpdateDate(new Date());
-					s.delete(intersection);
+			for(int k=0;k<list.size();k++){
+				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
+				Role r = ugrpg.getRole();
+				if(roles.contains(r)){
+					s.delete(ugrpg);	
 				}
-
 			}
 			
 			t.commit();
@@ -2443,36 +2384,26 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				roles.add(role);
 			}
 			
+			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+			criteria.add(Restrictions.eq("protectionGroup", pgroup));
+			criteria.add(Restrictions.eq("user", user));
+			List list = criteria.list();
+			
+			
 			t = s.beginTransaction();
-
-	
-
-			for (int i = 0; i < rolesId.length; i++) {
-				UserGroupRoleProtectionGroup intersection = new UserGroupRoleProtectionGroup();
-
-				intersection.setUser(user);
-				intersection.setProtectionGroup(pgroup);
-				/*Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
-						new Long(rolesId[i]));*/
-
-				Criteria criteria = s
-						.createCriteria(UserGroupRoleProtectionGroup.class);
-				criteria.add(Restrictions.eq("protectionGroup", pgroup));
-				criteria.add(Restrictions.eq("user", user));
-				criteria.add(Restrictions.eq("role", (Role)roles.get(i)));
-
-				List list = criteria.list();
-
-				if (list.size() == 0) {
-					intersection.setRole((Role)roles.get(i));
-					intersection.setUpdateDate(new Date());
-					s.delete(intersection);
-				}
-
+			
+			for(int k=0;k<list.size();k++){
+				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
+				Role r = ugrpg.getRole();
+				  if(roles.contains(r)){
+				  	s.delete(ugrpg);
+				  }
 			}
-
+			
+			
 			t.commit();
 			s.flush();
+
 			auditLog.info("Deassigning Roles From User " + user.getLoginName() + " for Protection Group " + pgroup.getProtectionGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
@@ -2856,6 +2787,100 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									.stringArrayToString(protectionElementIds)
 							+ " to Protection Group" + protectionGroupId + "|");
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#deAssignProtectionElements(java.lang.String[],
+	 *      java.lang.String)
+	 */
+	/**
+	 * @param protectionGroupName
+	 * @param protectionElementObjectId
+	 *  
+	 */
+	public void deAssignProtectionElements(String protectionGroupName,
+			String protectionElementObjectId)
+			throws CSTransactionException {
+
+		Session s = null;
+		Transaction t = null;
+		try {
+
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			t = s.beginTransaction();
+
+			if (StringUtilities.isBlank(protectionGroupName)) {
+				throw new CSTransactionException(
+						"The protectionGroupName can't be null");
+			}
+			if (StringUtilities.isBlank(protectionElementObjectId)) {
+				throw new CSTransactionException(
+						"The protectionElementObjectId can't be null");
+			}
+
+			ProtectionGroup protectionGroup = getProtectionGroup(protectionGroupName);
+			ProtectionElement protectionElement = getProtectionElement(
+					protectionElementObjectId, null);
+
+			Criteria criteria = s
+					.createCriteria(ProtectionGroupProtectionElement.class);
+			criteria.add(Restrictions.eq("protectionGroup", protectionGroup));
+			criteria.add(Restrictions.eq("protectionElement", protectionElement));
+
+			List list = criteria.list();
+
+			if (list.size() == 0) {
+				throw new CSTransactionException(
+				"Protection Element association to Protection Group does not exist!");
+				
+			} else {
+				ProtectionGroupProtectionElement pgpe = (ProtectionGroupProtectionElement) list.iterator().next();
+				s.delete(pgpe);
+			}
+
+			t.commit();
+			s.flush();
+			auditLog.info("Deassigning Protection Element with Object Id " + protectionElementObjectId + " from Protection Group" + protectionGroupName);
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||deAssignProtectionElements|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||deAssignProtectionElements|Failure|Error Occured in deassigning Protection Element with Object Id "
+								+ protectionElementObjectId
+								+ " from protection group name: "
+								+ protectionGroupName + "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in deassigning Protection Element from Protection Group\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||deAssignProtectionElements|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||deAssignProtectionElements|Success|Successful in deassigning Protection Element with Object Id "
+							+ protectionElementObjectId
+							+ " from protection group name: "
+							+ protectionGroupName + "|");
+	}
+
+
 
 	public void removeProtectionElementsFromProtectionGroup(
 			String protectionGroupId, String[] protectionElementIds)

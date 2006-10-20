@@ -19,6 +19,7 @@
 	function setAndSubmit(target)
 	{
 		document.GroupForm.operation.value=target;
+		document.GroupForm.submit();
 	}
     	
 	<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
@@ -467,7 +468,9 @@
 						<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
 						<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
 						</logic:present>
-						<td><html:button property="action" onclick="setAndSubmit('read');">Back</html:button>
+						
+						<td><input type="button" style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');" value="Back">
+
 						
 						</td>
 					</tr>

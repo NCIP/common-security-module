@@ -32,7 +32,7 @@ public class AuthPolicyCachingQATest extends TestCase
         Properties props = System.getProperties();
         URL url = this.getClass().getClassLoader().getSystemResource("ApplicationSecurityConfig.xml");
         String path = url.getPath();
-        props.setProperty("gov.nih.nci.security.configFile", path.substring(1,(path.length())));
+        props.setProperty("gov.nih.nci.security.configFile", "C:/securityconfig/ApplicationSecurityConfig.xml");
 
 		try
 		{
@@ -168,21 +168,21 @@ public class AuthPolicyCachingQATest extends TestCase
 	
 	public void testCheckPermissionStringStringString3() throws InterruptedException, CSException
 	{
-//		//Checks how CheckPermission() handles a user that is not in session
-//		boolean hasPermission = false;
-//		try 
-//		{	
-//			hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
-//		} catch (CSException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		assertEquals(true,hasPermission);
+		//Checks how CheckPermission() handles a user that is not in session
+		boolean hasPermission = false;
+		try 
+		{	
+			hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
+		} catch (CSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(true,hasPermission);
 		
 		//Test code!!!  Comment this code out as needed
-//		Thread.sleep(30000);  //Change or remove permissions in the database during this time
-//		hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
-//		assertEquals(false,hasPermission);
+		//Thread.sleep(30000);  //Change or remove permissions in the database during this time
+		hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
+		assertEquals(false,hasPermission);
 	}
 
 	////////////GROUP//////////

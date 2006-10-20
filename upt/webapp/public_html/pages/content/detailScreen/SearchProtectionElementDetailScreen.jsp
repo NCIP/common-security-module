@@ -180,7 +180,8 @@
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td>
-											<html:button property="action" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:button></td>
+											<html:submit property="actionButton" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:submit></td>
+											
 										</logic:equal>
                                       
 										<td><html:reset style="actionButton">Reset</html:reset></td>
