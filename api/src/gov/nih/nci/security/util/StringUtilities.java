@@ -153,4 +153,14 @@ public class StringUtilities {
         return sb.toString();    
    }
 
+    public static String initTrimmedString(String str) {
+		String temp = "";
+		if (str != null && str.length() > 0) {
+			temp = str.trim();
+		}
+		return temp;
+	}
+
+	
+    
 }
