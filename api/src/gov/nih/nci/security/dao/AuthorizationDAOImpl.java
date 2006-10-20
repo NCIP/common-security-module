@@ -1538,7 +1538,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				String str = (String) en.nextElement();
 				String fieldValue = (String) fieldValues.get(str);
 				String fieldValue_ = StringUtilities.replaceInString(
-						fieldValue, "*", "%");
+						fieldValue.trim(), "*", "%");
 				//int i = ((String) fieldValues.get(str)).indexOf("%");
 				int i = fieldValue_.indexOf("%");
 				if (i != -1) {
