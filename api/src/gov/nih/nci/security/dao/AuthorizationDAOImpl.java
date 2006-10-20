@@ -110,6 +110,7 @@ import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.util.ObjectUpdater;
 import gov.nih.nci.security.util.StringEncrypter;
 import gov.nih.nci.security.util.StringUtilities;
 import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
@@ -3542,6 +3543,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			} catch (EncryptionException e) {
 				throw new CSObjectNotFoundException(e);
 			}
+			try{
+				obj = ObjectUpdater.trimObjectsStringFieldValues(obj);
+			}catch(Exception e){
+				throw new CSObjectNotFoundException(e);
+			}
 			
 			
 			s.update(obj);
@@ -3632,6 +3638,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				throw new CSObjectNotFoundException(e);
 			}
 			
+			
+			try{
+				obj = ObjectUpdater.trimObjectsStringFieldValues(obj);
+			}catch(Exception e){
+				throw new CSObjectNotFoundException(e);
+			}
+			
+				
 			
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
