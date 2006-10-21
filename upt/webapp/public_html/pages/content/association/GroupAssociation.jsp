@@ -7,33 +7,58 @@
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+
     <script> 
     <!--
+    
+   		
+	    function closepopup()
+		{
+			newwin = window.open("about:blank", "UserSearchWin");
+			if(false == newwin.closed)
+			{
+				newwin.close();
+			}
+		}
+    
+    	function opennewwin()
+    	{
+    		newwin = window.open("about:blank", "UserSearchWin", "left=100,top=190,scrollbars=1,width=790,height=400");
+    		newwin.document.open();
+    		newwin.document.writeln('<form name="UserForm" method="post" action="/upt/SearchUserDBOperation.do" id="UserForm">');
+    		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
+    		newwin.document.writeln('</form>');
+    		newwin.document.close();
+   			newwin.document.UserForm.operation.value='loadSearch';
+    		newwin.document.UserForm.submit();
+    	}
+    	
+		//Anzen Comment(Added By Vijay) - Code End
+    	
     	function setAndSubmit(target)
     	{
-    		if (target == "read")
-    		{
-	    		document.GroupForm.operation.value=target;
-    		}
-    		else
-    		{		
-	    		var len = document.GroupForm.associatedIds.length;
-	    		for (i=0 ; i < len ; i++)
-	    		{
-	    			document.GroupForm.associatedIds[i].selected = true;
-	    		}
-	    		document.GroupForm.operation.value=target;
-	    		document.GroupForm.submit();
-			}
-	    }    	
-    	// selSwitch functions
+    			if (target == "read")
+    			{
+	    			document.GroupForm.operation.value=target;
+    			}
+    			else
+    			{		
+	    			var len = document.GroupForm.associatedIds.length;
+	    			for (i=0 ; i < len ; i++)
+	    			{
+	    				document.GroupForm.associatedIds[i].selected = true;
+	    			}
+	    			document.GroupForm.operation.value=target;
+	    			document.GroupForm.submit();
+				}
+	    }
 
 		function selSwitch(btn)
 		{
 		   var i= btnType = 0;
 		   var isavailableIds = doIt = false;
 		
-		   if (btn.value == "Assign" || btn.value == "Deassign") 
+		   if (btn.value == "Assign User" || btn.value == "Deassign User") 
 		      btnType = 1;
 		   else if (btn.value == "Assign All" || btn.value == "Deassign All") 
 		      btnType = 2;
@@ -76,14 +101,14 @@
 	      } // end with isavailableIds
 		}    // -->
     </script>
-
+<body onUnload="closepopup();">
 <table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 			<tr>
 				<td colspan="3">
-					<h2>Group and Users Association</h2>
+					<h2>Group And User Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="GroupForm" property="groupName" value="<%=DisplayConstants.BLANK%>">
@@ -112,86 +137,56 @@
 		  				</td>
 					</tr>
 					<tr>
-						<td class="formMessage" colspan="3">Assign or Deassign multiple <b>Users</b> 
+						<td  align="center" class="formMessage" colspan="3">Assign or Deassign multiple <b>Users</b> 
 						for the selected <b>Group</b>. To remove the complete association Deassign all the <b>Users</b>.</td>
 					</tr>
-					
-					<!-- large table starts -->
 					
 					<tr>
 					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
 					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
-					
-					<!-- cell begins-->
+					<td>
+					<form name="dummyForm">
+							<select name="availableIds"  style="width:0;" size="0">
+							<logic:iterate name="availableIds" id="user" type="User">
+							</logic:iterate>
+	                    	</select>
+					</form>
+					</td>
+					<!-- big table starts -->
 					<td width="100%">
 					<table width="100%">
 					<!-- ROW 1 begins -->
-					<tr>	
-					
-					<!-- first section -->
-					
-					
-					<td width="100%" valign="top">
-					<form name="dummyForm">
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
-						<tr>
+					<tr>
 
-							<td class="sidebarTitle" height="20">AVAILABLE USERS</td>
-						</tr>
-						<tr>
-						<td class="formField" align="center">
-							<select name="availableIds" multiple style="width:100%;" size="6">
-							<logic:iterate name="availableIds" id="user" type="User">
-								<option value="<bean:write name="user" property="userId" />"><bean:write name="user" property="loginName" /></option>
-							</logic:iterate>
-	                    	</select>
-	                    </td>
-						</tr>
-					</table>
-					</form>
+					<td width="0%" valign="top">
+					
 					</td>
-					
-					
+	
+					<!-- transition to ROW 2 -->
 					</tr>
-					<!-- end first, start second -->
+					<tr>							
+					
+					<td align="center" width="100%">
+					<table width="220">
 					<tr>
-					
-					<!-- extra code -->
-							<td align="center" width="100%">
-							<table width="220">
-							<tr>
-							<!-- -->
-					
-					
-					
 					<td align="center">
-						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
-					</td>
-					<td align="center">
-						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
+
+
+		
+					</table>	
 					</td>
 					
-					
-					<!-- extra code -->
-							</tr>
-							</table>
-							</td>
-							<!-- -->	
-					
-					
+					<!-- transition to ROW 3 -->
 					</tr>
-					<!-- end second, start third -->
-					<tr>
-					
-					
+					<tr>		
 					
 					<td width="100%" valign="top">
-					<html:form styleId="GroupForm" action = "<%="/GroupDBOperation"%>">
+					<html:form styleId="GroupForm" action = '<%="/GroupDBOperation"%>'>
 					<html:hidden property="operation" value="read"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
-							<td class="sidebarTitle" height="20">ASSIGNED USERS</td>
+							<td class="sidebarTitle" height="20">ASSIGNED ADMINISTRATORS</td>
 						</tr>
 						<tr>
 						<td class="formField" align="center">
@@ -207,25 +202,30 @@
 					
 					
 					</tr>
-					<!-- end third section -->
-					
+					<!-- finish up changes -->
+					<!-- add bottom row -->
 					
 					<tr>
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-
+						
+						<td align="center">
+							<input type="button" value="Assign User" onclick="closepopup();opennewwin();"></td>
+						<td align="center">
+							<input type="button" value="Deassign User" onclick="selSwitch(this);"></td>
 						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
+						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
 					</tr>
 				</table>
 				</td>				
 			</tr>
 					
-					
 					<!--close up big table-->
 					</table>
 					</td>
+					
+					
 					
 					</tr>
 				</table>
@@ -236,5 +236,5 @@
 		</td>
 	</tr>
 </table>
-
+</body>
 

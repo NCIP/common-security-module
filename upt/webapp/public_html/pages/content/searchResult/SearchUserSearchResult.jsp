@@ -38,38 +38,80 @@
 	{
 
   		var radioLen = document.UserForm.userId.length;
-
-  		if(radioLen == undefined)
+  		
+  		
+  		 var isgroupform = false;
+  		 var isapplicationform = false;
+  		for(var looop = 0; looop < window.opener.document.forms.length; looop++)
   		{
- 			if (document.UserForm.userId.checked) 
-			{		
-				if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId.value))
-				{
-			
-					var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;
-					
-					window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
-					window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
-				}
-				
-			}
-  		}
-  	
+  			if(window.opener.document.forms[looop].name == "ApplicationForm")	isapplicationform = true;
+  			
+  			if(window.opener.document.forms[looop].name == "GroupForm")
+  			{ isgroupform = true;
 
-		for (var i = 0; i <radioLen; i++) 
+  			}
+  			
+  		}
+  		
+		if(isapplicationform)
 		{
-			if (document.UserForm.userId[i].checked) 
-			{
-				if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId[i].value))
-				{
-					var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;
-					//alert(document.UserForm.userId[i].lgName.value);
-					window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
-					window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
+			
+	  		if(radioLen == undefined)
+	  		{
+	 			if (document.UserForm.userId.checked) 
+				{		
+					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId.value))
+					{
+						var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;	
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
+					}		
 				}
-				
+	  		}
+			for (var i = 0; i <radioLen; i++) 
+			{
+				if (document.UserForm.userId[i].checked) 
+				{
+					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId[i].value))
+					{
+						var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;
+
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
+					}
+				}
 			}
-		}
+		}		
+		if(isgroupform)
+		{
+		
+			if(radioLen == undefined)
+	  		{
+		  		
+	 			if (document.UserForm.userId.checked) 
+				{		
+					if(!keySearch(window.opener.document.GroupForm.associatedIds.options, document.UserForm.userId.value))
+					{
+						var optLen = window.opener.document.GroupForm.associatedIds.options.length++;	
+						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
+						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
+					}		
+				}
+	  		}
+			for (var i = 0; i <radioLen; i++) 
+			{
+				if (document.UserForm.userId[i].checked) 
+				{
+					if(!keySearch(window.opener.document.GroupForm.associatedIds.options, document.UserForm.userId[i].value))
+					{
+						var optLen = window.opener.document.GroupForm.associatedIds.options.length++;
+
+						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
+						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
+					}
+				}
+			}
+		}		
 		
 
 	      window.close();
@@ -181,27 +223,20 @@
 												var loc2 = "";
 												loc2 = window.opener.location + "";
 												var locIndex2 = loc2.indexOf("ApplicationDBOperation");
-												
 												if ( locIndex2 != -1	)
 												{
-													document.write('<td><input type="button" value="Assign Admin" style="width:92px;" onclick="selSwitch(this);"></td>');
+													document.write('<td><input type="button" value="Assign Admin" onclick="selSwitch(this);"></td>');
 												}
+												var locIndex2 = loc2.indexOf("GroupDBOperation");
+												if ( locIndex2 != -1	)
+												{
+													document.write('<td><input type="button" value="Assign User"  onclick="selSwitch(this);"></td>');
+												}
+												
 											}
 										</script>
 										
-										<script>
-						
-											if (!window.opener)
-											{
-												var loc1 = window.opener.location;
-												var locIndex1 = loc1.indexOf("ApplicationDBOperation");
-												if ( locIndex1 == -1 || locIndex1 =="" )
-												{
-													var read = 'read';
-													document.write('<td><html:submit style="actionButton" onclick="setAndSubmit(read);">View Details</html:submit></td>');
-												}
-											}
-										</script>
+										
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
 									</tr>
