@@ -130,5 +130,5 @@ public class Constants
 	public static final String AUTHENTICATION 	= "authentication";
 	public static final String AUTHORIZATION 	= "authorization";
 	
-	
+	public static final String FILE_NAME_SUFFIX = ".csm.new.hibernate.cfg.xml";
 }

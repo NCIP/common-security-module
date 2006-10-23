@@ -88,6 +88,10 @@ package gov.nih.nci.security;
  *
  */
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.HashMap;
+
 import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.authentication.AuthenticationManagerFactory;
 import gov.nih.nci.security.constants.Constants;
@@ -97,6 +101,7 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
+import gov.nih.nci.security.util.FileLoader;
 
 
 /**
@@ -129,8 +134,12 @@ public class SecurityServiceProvider {
 	public static UserProvisioningManager getUserProvisioningManager(String contextName) throws CSException, CSConfigurationException{
 		
 		UserProvisioningManager userProvisioningManager = null;
-		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName);		
-		userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
+		userProvisioningManager = getUserProvisioningManagerDirectly(contextName);
+		if (userProvisioningManager == null)
+		{
+			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName);		
+			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
+		}
 		userProvisioningManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(contextName, "authorization"));
 		return userProvisioningManager;
 	}
@@ -152,8 +161,12 @@ public class SecurityServiceProvider {
 	 * @throws CSConfigurationException 
 	 */
 	public static AuthorizationManager getAuthorizationManager(String applicationContextName)throws CSException, CSConfigurationException{
-		
-		return AuthorizationManagerFactory.getAuthorizationManager(applicationContextName);
+		AuthorizationManager authorizationManager = null;
+		authorizationManager = getAuthorizationManagerDirectly(applicationContextName);
+		if (authorizationManager != null)
+			return authorizationManager;
+		else		
+			return AuthorizationManagerFactory.getAuthorizationManager(applicationContextName);
 	}
 
 	/**
@@ -197,7 +210,12 @@ public class SecurityServiceProvider {
 	 */
 	public static AuthorizationManager getAuthorizationManager(String applicationContextName, String userOrGroupName, boolean isUserName)throws CSException, CSConfigurationException
 	{
-		return AuthorizationManagerFactory.getAuthorizationManager(applicationContextName, userOrGroupName, isUserName);
+		AuthorizationManager authorizationManager = null;
+		authorizationManager = getAuthorizationManagerDirectly(applicationContextName, userOrGroupName, isUserName);
+		if (authorizationManager != null)
+			return authorizationManager;
+		else
+			return AuthorizationManagerFactory.getAuthorizationManager(applicationContextName, userOrGroupName, isUserName);
 	}
 	
 	/**
@@ -215,11 +233,78 @@ public class SecurityServiceProvider {
 	public static UserProvisioningManager getUserProvisioningManager(String contextName, String userOrGroupName, boolean isUserName) throws CSException, CSConfigurationException{
 		
 		UserProvisioningManager userProvisioningManager = null;
-		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, userOrGroupName, isUserName);		
+		userProvisioningManager = getUserProvisioningManagerDirectly(contextName);
+		if (userProvisioningManager == null)
+		{
+			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, userOrGroupName, isUserName);		
+			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
+		}
+		userProvisioningManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(contextName, Constants.AUTHORIZATION));
+		return userProvisioningManager;
+	}
+
+	/**
+	 * This method will provides the default implementation of the {@link UserProvisioningManager}. This Manager
+	 * is used only by the User Provisioning Tool and is not available for the applications to use at runtime. The 
+	 * methods exposed 
+	 * @param contextName The name of the Application for which the {@link UserProvisioningManager} is obtained
+	 * @param connectionProperties 
+	 * @return The implementation of the {@link UserProvisioningManager} interface is returned based on the
+	 * configuration for the application
+	 * @throws CSException if an instance of {@link UserProvisioningManager} could not be obtained
+	 * @throws CSConfigurationException 
+	 */
+	public static UserProvisioningManager getUserProvisioningManager(String contextName, HashMap connectionProperties) throws CSException, CSConfigurationException{
+		
+		UserProvisioningManager userProvisioningManager = null;
+		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, connectionProperties);		
 		userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		userProvisioningManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(contextName, Constants.AUTHORIZATION));
 		return userProvisioningManager;
 	}
 
+	private static AuthorizationManager getAuthorizationManagerDirectly(String applicationContextName) throws CSConfigurationException
+	{
+		return (AuthorizationManager)getUserProvisioningManagerDirectly(applicationContextName);	
+	}
+
+	private static AuthorizationManager getAuthorizationManagerDirectly(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException
+	{
+		return (AuthorizationManager)getUserProvisioningManagerDirectly(applicationContextName, userOrGroupName, isUserName);	
+	}
+	
+	private static UserProvisioningManager getUserProvisioningManagerDirectly(String applicationContextName) throws CSConfigurationException
+	{
+		FileLoader fileLoader = FileLoader.getInstance();
+		URL url = null;
+		try
+		{
+			url = fileLoader.getFileAsURL(applicationContextName + Constants.FILE_NAME_SUFFIX);
+		}
+		catch (Exception e)
+		{
+			url = null;
+		}
+		if (url != null)
+			return new UserProvisioningManagerImpl(applicationContextName, url);
+		return null;
+	}
+
+	private static UserProvisioningManager getUserProvisioningManagerDirectly(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException
+	{
+		FileLoader fileLoader = FileLoader.getInstance();
+		URL url = null;
+		try
+		{
+			url = fileLoader.getFileAsURL(applicationContextName + Constants.FILE_NAME_SUFFIX);
+		}
+		catch (Exception e)
+		{
+			url = null;
+		}
+		if (url != null)
+			return new UserProvisioningManagerImpl(applicationContextName, userOrGroupName, isUserName, url);
+		return null;
+	}
 
 }

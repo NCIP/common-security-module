@@ -1274,7 +1274,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				sql = Queries.getQueryForAccessibleGroupsWithAttribute(objectId, attributeName, privilegeName, application_id);
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
-			if (resultSet.next())
+			while (resultSet.next())
 			{
 				if (null == groups)
 					groups = new ArrayList();
@@ -4593,7 +4593,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			return user;
 		}
+		
+		if(obj instanceof Application){
+			Application application = (Application)obj;
+			
+			if(this.isEncryptionEnabled && application.getDatabasePassword().trim().length()>0){
+				StringEncrypter stringEncrypter = new StringEncrypter();
+				if(encrypt){
+					application.setDatabasePassword(stringEncrypter.encrypt(application.getDatabasePassword()));
+				}else{
+					application.setDatabasePassword(stringEncrypter.decrypt(application.getDatabasePassword()));
+				}
+			}
+			return application;
+		}
+		
 		return obj;		
 	}
-	
 }

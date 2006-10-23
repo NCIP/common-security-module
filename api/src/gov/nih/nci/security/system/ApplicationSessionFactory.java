@@ -92,6 +92,9 @@ package gov.nih.nci.security.system;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 import org.hibernate.SessionFactory;
@@ -117,6 +120,7 @@ public class ApplicationSessionFactory {
 		 sf = (SessionFactory)appSessionFactories.get(applicationContextName);
 		 if(sf==null){
 		 	sf = ApplicationSecurityConfigurationParser.getApplicationSessionFactoryFromHotInitialization(applicationContextName);
+		 	appSessionFactories.put(applicationContextName, sf);
 		 }
 		
 		 if(sf==null){
@@ -136,5 +140,58 @@ public class ApplicationSessionFactory {
 		return sf;
 	}
 	
-	
+	public static SessionFactory getSessionFactory(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{
+		SessionFactory sessionFactory = null;
+
+		sessionFactory = (SessionFactory)appSessionFactories.get(applicationContextName);
+		if(sessionFactory == null)
+		{
+			try
+			{
+				Configuration configuration = new Configuration();
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Application.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Role.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/dao/hibernate/RolePrivilege.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/dao/hibernate/UserGroup.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.hbm.xml");     
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Group.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/User.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/ProtectionElement.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/UserProtectionElement.hbm.xml");
+				configuration.setProperty("hibernate.connection.url",(String)connectionProperties.get("hibernate.connection.url"));
+				configuration.setProperty("hibernate.connection.username",(String)connectionProperties.get("hibernate.connection.username"));
+				configuration.setProperty("hibernate.connection.password",(String)connectionProperties.get("hibernate.connection.password"));
+				configuration.setProperty("hibernate.dialect",(String)connectionProperties.get("hibernate.dialect"));
+				configuration.setProperty("hibernate.connection.driver_class",(String)connectionProperties.get("hibernate.connection.driver_class"));
+				configuration.setProperty("hibernate.cache.use_query_cache","false");
+				configuration.setProperty("hibernate.cache.use_second_level_cache","false");
+				sessionFactory = configuration.buildSessionFactory();
+			}
+			catch (Exception e) 
+			{
+				throw new CSConfigurationException("Error in initializing the hibernate session factory using the provided connection parameters",e);
+			}
+			appSessionFactories.put(applicationContextName, sessionFactory);
+		}
+		return sessionFactory;
+	}
+
+	public static SessionFactory getSessionFactory(String applicationContextName, URL url) throws CSConfigurationException
+	{
+		SessionFactory sf = null;
+		
+		sf = (SessionFactory)appSessionFactories.get(applicationContextName);
+		if(sf==null)
+		{
+			sf = new Configuration().configure(url).buildSessionFactory();
+			appSessionFactories.put(applicationContextName, sf);
+		}
+		if(sf==null){
+			throw new CSConfigurationException("Could not initialize session factory using the configuration file from the classpath");
+		}
+		return sf;
+	}
 }

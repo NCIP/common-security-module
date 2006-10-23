@@ -13,5 +13,10 @@
 		<property name="activeFlag" type="byte" column="ACTIVE_FLAG" not-null="true" length="1" />
 		<property name="declarativeFlag" type="byte" column="DECLARATIVE_FLAG" not-null="true" length="1" />
 		<property name="updateDate" type="java.sql.Date" column="UPDATE_DATE" not-null="true" length="10" />
+		<property name="databaseURL" type="java.lang.String" column="DATABASE_URL" length="100" />
+		<property name="databaseUserName" type="java.lang.String" column="DATABASE_USER_NAME" length="100" />
+		<property name="databasePassword" type="java.lang.String" column="DATABASE_PASSWORD" length="100" />
+		<property name="databaseDialect" type="java.lang.String" column="DATABASE_DIALECT" length="100" />
+		<property name="databaseDriver" type="java.lang.String" column="DATABASE_DRIVER" length="100" />
 	</class>
 </hibernate-mapping>

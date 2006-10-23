@@ -191,7 +191,7 @@ public class Queries {
 		stbr.append("csm_pg_pe pgpe,");
 		stbr.append("csm_user_group_role_pg ugrpg,");
 		stbr.append("csm_group g,");
-		stbr.append("csm_user_group ug,");
+//		stbr.append("csm_user_group ug,");
 		stbr.append("csm_role_privilege rp,");
 		stbr.append("csm_privilege p ");
 		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
@@ -217,7 +217,7 @@ public class Queries {
 		stbr.append("csm_protection_element pe, ");
 		stbr.append("csm_pg_pe pgpe, ");
 		stbr.append("csm_user_group_role_pg ugrpg, ");
-		stbr.append("csm_user_group ug, ");
+//		stbr.append("csm_user_group ug, ");
 		stbr.append("csm_role_privilege rp, ");
 		stbr.append("csm_privilege p ");
 		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
@@ -243,7 +243,7 @@ public class Queries {
 		stbr.append("csm_protection_element pe, ");
 		stbr.append("csm_pg_pe pgpe, ");
 		stbr.append("csm_user_group_role_pg ugrpg, ");
-		stbr.append("csm_user_group ug, ");
+//		stbr.append("csm_user_group ug, ");
 		stbr.append("csm_role_privilege rp, ");
 		stbr.append("csm_privilege p ");
 		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
@@ -271,7 +271,7 @@ public class Queries {
 		stbr.append("csm_pg_pe pgpe,");
 		stbr.append("csm_user_group_role_pg ugrpg,");
 		stbr.append("csm_group g,");
-		stbr.append("csm_user_group ug,");
+//		stbr.append("csm_user_group ug,");
 		stbr.append("csm_role_privilege rp,");
 		stbr.append("csm_privilege p ");
 		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");

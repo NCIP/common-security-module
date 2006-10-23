@@ -194,6 +194,8 @@ public class ApplicationSecurityConfigurationParser {
 			 	break;
 			}
 		 }
+		if (null == sf)
+			throw new CSConfigurationException("No Configuration found for the provided Application Name");
 		return sf;
 	}
 

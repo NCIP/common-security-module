@@ -89,6 +89,7 @@ package gov.nih.nci.security;
  */
 
 import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
+import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
@@ -493,6 +494,13 @@ public interface AuthorizationManager {
 	public void setEncryptionEnabled(boolean isEncryptionEnabled);
 
 	
+	/**
+	 * This method returns the Application Object for which the manager is obtained. This 
+	 * method uses the application Context name passed and retrieves the application object
+	 * from the database.
+	 * @return Application object for the application context name using which this manager was obtained.
+	 */
+	public Application getApplication();
 	
 }
 

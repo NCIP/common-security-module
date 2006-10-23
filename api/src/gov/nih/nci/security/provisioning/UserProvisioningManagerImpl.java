@@ -112,9 +112,12 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -185,6 +188,36 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		}
 	}
 
+	public UserProvisioningManagerImpl(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{
+		/**
+		 *  Ultimately we have to use ApplicationSessionFactory class
+		 *  to get appropriate sessionFcatory for a application.
+		 */
+		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, connectionProperties);
+		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
+		authorizationDAO = (AuthorizationDAO)(adi);
+		try {
+			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
+		} catch (CSException e) {
+			throw new CSConfigurationException(e);
+			
+		}
+	}
+	
+	public UserProvisioningManagerImpl(String applicationContextName, URL url) throws CSConfigurationException
+	{
+		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
+		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
+		authorizationDAO = (AuthorizationDAO)(adi);
+		try {
+			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
+		} catch (CSException e) {
+			throw new CSConfigurationException(e);
+			
+		}		
+	}
+
+	
 	/**
 	 * Constructor for UserProvisioningManagerImpl.
 	 * @param applicationContextName String
@@ -208,6 +241,24 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 			
 		}
 	}	
+	
+	public UserProvisioningManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName, URL url) throws CSConfigurationException{
+		/**
+		 *  Ultimately we have to use ApplicationSessionFactory class
+		 *  to get appropriate sessionFcatory for a application.
+		 */
+		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
+		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
+		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
+		authorizationDAO = (AuthorizationDAO)(adi);
+		try {
+			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
+		} catch (CSException e) {
+			throw new CSConfigurationException(e);
+			
+		}
+	}	
+
 	
 	
 	/**
@@ -1156,6 +1207,11 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void setEncryptionEnabled(boolean isEncryptionEnabled) {
 		this.isEncryptionEnabled = isEncryptionEnabled;
 		
+	}
+
+	public Application getApplication()
+	{
+		return authorizationDAO.getApplication();
 	}
 
 

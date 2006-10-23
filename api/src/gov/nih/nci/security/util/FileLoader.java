@@ -28,8 +28,6 @@ public class FileLoader
 
 	private static final boolean LOAD_AS_RESOURCE_BUNDLE = false;
 
-	private static final String SUFFIX = ".xsd";
-
 	private FileLoader()
 	{
 	} // this class is not extentible
@@ -70,9 +68,6 @@ public class FileLoader
 		if (name.startsWith("/"))
 			name = name.substring(1);
 
-		/*if (name.endsWith(SUFFIX))
-			name = name.substring(0, name.length() - SUFFIX.length());
-*/
 		InputStream in = null;
 		try
 		{
@@ -132,9 +127,6 @@ public class FileLoader
 		if (name.startsWith("/"))
 			name = name.substring(1);
 
-		if (name.endsWith(SUFFIX))
-			name = name.substring(0, name.length() - SUFFIX.length());
-
 		URL url = null;
 		try
 		{
@@ -149,10 +141,7 @@ public class FileLoader
 			}
 			else
 			{
-				name = name.replace('.', '/');
-
-				if (!name.endsWith(SUFFIX))
-					name = name.concat(SUFFIX);
+				//name = name.replace('.', '/');
 
 				// returns null on lookup failures:
 				url = loader.getResource(name);

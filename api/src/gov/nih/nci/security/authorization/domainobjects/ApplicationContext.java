@@ -127,8 +127,28 @@ public abstract class ApplicationContext {
 	/**
 	 * Indicate whether the application uses declarative security or not
 	 */
-	private byte declarativeFlag;
-
+	private byte declarativeFlag;	
+	/**
+	 * Indicates the URL of the database where the application's authorization schema is hosted.
+	 */
+	private String databaseURL;
+	/**
+	 * Indicates the user Name of the database where the application's authorization schema is hosted.
+	 */
+	private String databaseUserName;
+	/**
+	 * Indicates the password of the database where the application's authorization schema is hosted.
+	 */
+	private String databasePassword;
+	/**
+	 * Indicates the dialect of the database where the application's authorization schema is hosted.
+	 */
+	private String databaseDialect;	
+	/**
+	 * Indicate the driver for the database where the application's authorization schema is hosted.
+	 */
+	private String databaseDriver;	
+	
 	public ApplicationContext(){
 
 	}
@@ -240,6 +260,66 @@ public abstract class ApplicationContext {
 	 */
 	public void setDeclarativeFlag(byte newVal){
 		declarativeFlag = newVal;
+	}
+
+	
+	public String getDatabaseDialect()
+	{
+		return databaseDialect;
+	}
+
+	
+	public void setDatabaseDialect(String databaseDialect)
+	{
+		this.databaseDialect = databaseDialect;
+	}
+
+	
+	public String getDatabaseDriver()
+	{
+		return databaseDriver;
+	}
+
+	
+	public void setDatabaseDriver(String databaseDriver)
+	{
+		this.databaseDriver = databaseDriver;
+	}
+
+	
+	public String getDatabasePassword()
+	{
+		return databasePassword;
+	}
+
+	
+	public void setDatabasePassword(String databasePassword)
+	{
+		this.databasePassword = databasePassword;
+	}
+
+	
+	public String getDatabaseURL()
+	{
+		return databaseURL;
+	}
+
+	
+	public void setDatabaseURL(String databaseURL)
+	{
+		this.databaseURL = databaseURL;
+	}
+
+	
+	public String getDatabaseUserName()
+	{
+		return databaseUserName;
+	}
+
+	
+	public void setDatabaseUserName(String databaseUserName)
+	{
+		this.databaseUserName = databaseUserName;
 	}
 
 }
