@@ -107,6 +107,7 @@ import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 import gov.nih.nci.security.util.ObjectSetUtil;
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -115,6 +116,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessages;
@@ -134,6 +136,12 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	private String applicationDeclarativeFlag;
 	private String applicationActiveFlag;
 	private String applicationUpdateDate;
+	private String applicationDatabaseURL;
+	private String applicationDatabaseUserName;
+	private String applicationDatabasePassword;
+	private String applicationDatabaseConfirmPassword;
+	private String applicationDatabaseDialect;
+	private String applicationDatabaseDriver;
 	
 	private String[] associatedIds;
 	private Long associatedProtectionElementId;
@@ -210,7 +218,67 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	public void setApplicationUpdateDate(String applicationUpdateDate) {
 		this.applicationUpdateDate = applicationUpdateDate;
 	}
+
+	public String getApplicationDatabaseDialect()
+	{
+		return applicationDatabaseDialect;
+	}
 	
+	public void setApplicationDatabaseDialect(String applicationDatabaseDialect)
+	{
+		this.applicationDatabaseDialect = applicationDatabaseDialect;
+	}
+	
+	public String getApplicationDatabaseDriver()
+	{
+		return applicationDatabaseDriver;
+	}
+	
+	public void setApplicationDatabaseDriver(String applicationDatabaseDriver)
+	{
+		this.applicationDatabaseDriver = applicationDatabaseDriver;
+	}
+	
+	public String getApplicationDatabasePassword()
+	{
+		return applicationDatabasePassword;
+	}
+	
+	public void setApplicationDatabasePassword(String applicationDatabasePassword)
+	{
+		this.applicationDatabasePassword = applicationDatabasePassword;
+	}
+	
+	public String getApplicationDatabaseConfirmPassword()
+	{
+		return applicationDatabaseConfirmPassword;
+	}
+	
+	public void setApplicationDatabaseConfirmPassword(String applicationDatabaseConfirmPassword)
+	{
+		this.applicationDatabaseConfirmPassword = applicationDatabaseConfirmPassword;
+	}
+
+	public String getApplicationDatabaseURL()
+	{
+		return applicationDatabaseURL;
+	}
+	
+	public void setApplicationDatabaseURL(String applicationDatabaseURL)
+	{
+		this.applicationDatabaseURL = applicationDatabaseURL;
+	}
+	
+	public String getApplicationDatabaseUserName()
+	{
+		return applicationDatabaseUserName;
+	}
+	
+	public void setApplicationDatabaseUserName(String applicationDatabaseUserName)
+	{
+		this.applicationDatabaseUserName = applicationDatabaseUserName;
+	}
+
 	/**
 	 * @param associatedIds The associatedIds to set.
 	 */
@@ -242,6 +310,12 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		this.applicationDescription = "";
 		this.applicationDeclarativeFlag = DisplayConstants.YES;
 		this.applicationActiveFlag = DisplayConstants.YES;
+		this.applicationDatabaseURL = "";
+		this.applicationDatabaseUserName = "";
+		this.applicationDatabasePassword = "";
+		this.applicationDatabaseConfirmPassword = "";
+		this.applicationDatabaseDialect = "";
+		this.applicationDatabaseDriver = "";
 		this.applicationUpdateDate = "";
 		this.associatedIds = null;
 	}
@@ -252,9 +326,35 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		this.applicationDescription = "";
 		this.applicationDeclarativeFlag = DisplayConstants.YES;
 		this.applicationActiveFlag = DisplayConstants.YES;
+		this.applicationDatabaseURL = "";
+		this.applicationDatabaseUserName = "";
+		this.applicationDatabasePassword = "";
+		this.applicationDatabaseConfirmPassword = "";
+		this.applicationDatabaseDialect = "";
+		this.applicationDatabaseDriver = "";
 		this.associatedIds = null;		
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.apache.struts.action.ActionForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+	 */
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) 
+	{
+		ActionErrors errors = new ActionErrors();
+		errors = super.validate(mapping,request);
+		if (!this.applicationDatabasePassword.equals(this.applicationDatabaseConfirmPassword))
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Confirm Password does not match with Database Password"));
+		}
+		if (((StringUtilities.isBlank(applicationDatabaseURL) || StringUtilities.isBlank(applicationDatabaseUserName)
+				|| StringUtilities.isBlank(applicationDatabasePassword) || StringUtilities.isBlank(applicationDatabaseDialect) || StringUtilities.isBlank(applicationDatabaseDriver)))
+			&& (!StringUtilities.isBlank(applicationDatabaseURL) && !StringUtilities.isBlank(applicationDatabaseUserName)
+					&& !StringUtilities.isBlank(applicationDatabasePassword) && !StringUtilities.isBlank(applicationDatabaseDialect) && !StringUtilities.isBlank(applicationDatabaseDriver)))
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Either all or none database properties are allowed"));
+		}
+		return errors;
+	}
 
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
@@ -273,6 +373,12 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		formElementList.add(new FormElement("Application Description", "applicationDescription", getApplicationDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Declarative Flag", "applicationDeclarativeFlag", getApplicationDeclarativeFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Active Flag", "applicationActiveFlag", getApplicationActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database URL", "applicationDatabaseURL", getApplicationDatabaseURL(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database User Name", "applicationDatabaseUserName", getApplicationDatabaseUserName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Password", "applicationDatabasePassword", getApplicationDatabasePassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Confirm Password", "applicationDatabaseConfirmPassword", getApplicationDatabaseConfirmPassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Dialect", "applicationDatabaseDialect", getApplicationDatabaseDialect(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Driver", "applicationDatabaseDriver", getApplicationDatabaseDriver(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
 		return formElementList;
 	}
@@ -287,6 +393,12 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		formElementList.add(new FormElement("Application Description", "applicationDescription", getApplicationDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Declarative Flag", "applicationDeclarativeFlag", getApplicationDeclarativeFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Active Flag", "applicationActiveFlag", getApplicationActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database URL", "applicationDatabaseURL", getApplicationDatabaseURL(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database User Name", "applicationDatabaseUserName", getApplicationDatabaseUserName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Password", "applicationDatabasePassword", getApplicationDatabasePassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Confirm Password", "applicationDatabaseConfirmPassword", getApplicationDatabaseConfirmPassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Dialect", "applicationDatabaseDialect", getApplicationDatabaseDialect(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application Database Driver", "applicationDatabaseDriver", getApplicationDatabaseDriver(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Update Date", "applicationUpdateDate", getApplicationUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 		
 		return formElementList;
@@ -325,8 +437,14 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		if (application.getDeclarativeFlag() == DisplayConstants.ONE) this.applicationDeclarativeFlag = DisplayConstants.YES;
 			else this.applicationDeclarativeFlag = DisplayConstants.NO;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		this.applicationDatabaseURL = application.getDatabaseURL();
+		this.applicationDatabaseUserName = application.getDatabaseUserName();
+		this.applicationDatabasePassword = application.getDatabasePassword();
+		this.applicationDatabaseConfirmPassword = application.getDatabasePassword();
+		this.applicationDatabaseDialect = application.getDatabaseDialect();
+		this.applicationDatabaseDriver = application.getDatabaseDriver();
 		this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -353,10 +471,14 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			protectionElement = (ProtectionElement)list.get(0);
 			this.associatedProtectionElementId = protectionElement.getProtectionElementId();
 		}
-		
+
 		application.setApplicationName(this.applicationName);
 		application.setApplicationDescription(this.applicationDescription);
-
+		application.setDatabaseURL(this.applicationDatabaseURL);
+		application.setDatabaseUserName(this.applicationDatabaseUserName);
+		application.setDatabasePassword(this.applicationDatabasePassword);
+		application.setDatabaseDialect(this.applicationDatabaseDialect);
+		application.setDatabaseDriver(this.applicationDatabaseDriver);
 		protectionElement.setProtectionElementName(this.applicationName);
 		protectionElement.setObjectId(this.applicationName);
 		
@@ -441,6 +563,5 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			this.associatedIds = new String[0];
 		userProvisioningManager.assignOwners(this.associatedProtectionElementId.toString(), this.associatedIds);
 	}
-	
-	
+
 }

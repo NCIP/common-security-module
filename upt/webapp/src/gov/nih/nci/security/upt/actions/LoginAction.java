@@ -100,14 +100,17 @@ import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -144,32 +147,62 @@ public class LoginAction extends Action
 		UserProvisioningManager userProvisioningManager = null;
 		boolean loginSuccessful = false;
 		boolean hasPermission = false;
-		String uptContextName = null;
+		String uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
+		Application application = null;
 		
 		LoginForm loginForm = (LoginForm)form;
 		UserInfoHelper.setUserInfo(loginForm.getLoginId(), request.getSession().getId());
 		errors.clear();
+
 		try
 		{
-			uptContextName = getUPTContextName();
-			if (null == uptContextName || uptContextName.equalsIgnoreCase(""))
+			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
+			if (null == authorizationManager)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context using new configuration"));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
-							"||Login|Failure|Unable to read the UPT Context Name from Security Config File");
+							"||Login|Failure|Unable to instantiate Authorization Manager for UPT application using new configuration||");
 				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
-			}				
+			}
 		}
-		catch (Exception ex)
+		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, ex.getMessage()));			
-			saveErrors( request,errors );
-			if (log.isDebugEnabled())
-				log.debug("|"+loginForm.getLoginId()+
-						"||Login|Failure|Unable to read the UPT Context Name from Security Config File||");
-			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+//			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+//			saveErrors( request,errors );
+//			if (log.isDebugEnabled())
+//				log.debug("|"+loginForm.getLoginId()+
+//						"||Login|Failure|Unable to instantiate AuthorizationManager for UPT application|"+loginForm.toString()+"|"+cse.getMessage());
+//			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+			authorizationManager = null;
+		}
+
+		if (null == authorizationManager)
+		{
+
+			try
+			{
+				uptContextName = getUPTContextName();
+				if (null == uptContextName || uptContextName.equalsIgnoreCase(""))
+				{
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));			
+					saveErrors( request,errors );
+					if (log.isDebugEnabled())
+						log.debug("|"+loginForm.getLoginId()+
+								"||Login|Failure|Unable to read the UPT Context Name from Security Config File");
+					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+				}
+			}
+			catch (Exception ex)
+			{
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, ex.getMessage()));			
+				saveErrors( request,errors );
+				if (log.isDebugEnabled())
+					log.debug("|"+loginForm.getLoginId()+
+							"||Login|Failure|Unable to read the UPT Context Name from Security Config File||");
+				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+			}
 		}
 		try
 		{
@@ -229,7 +262,6 @@ public class LoginAction extends Action
 						"||Login|Failure|Unable to instantiate AuthorizationManager for UPT application|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
-		
 		try
 		{
 			hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
@@ -251,11 +283,25 @@ public class LoginAction extends Action
 				log.debug("|"+loginForm.getLoginId()+
 						"||Login|Failure|Error in checking permission|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			
-		}
-		
+		}		
 		try
 		{
-			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());
+			//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
+			application = authorizationManager.getApplication();
+			if (!StringUtilities.isBlank(application.getDatabaseURL()))
+			{
+				HashMap hashMap = new HashMap();
+				hashMap.put("hibernate.connection.url", application.getDatabaseURL());
+				hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
+				hashMap.put("hibernate.connection.password", application.getDatabasePassword());
+				hashMap.put("hibernate.dialect", application.getDatabaseDialect());
+				hashMap.put("hibernate.connection.driver", application.getDatabaseDriver());
+				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName(),hashMap);
+			}
+			else
+			{
+				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());				
+			}
 			if (null == userProvisioningManager)
 			{
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			
@@ -272,8 +318,8 @@ public class LoginAction extends Action
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
-						"||Login|Failure|Unable to instantiate AuthorizationManager for "+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+						"||Login|Failure|Unable to instantiate User Provisioning Manager for |"+loginForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			
 		}
 		
 		HttpSession session = request.getSession(true);		
