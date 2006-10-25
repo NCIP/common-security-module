@@ -7,20 +7,20 @@
 
     <session-factory>
         <!-- properties  -->
-<!--
-        <property name="connection.username">ncisecurity</property>
-        <property name="connection.url">jdbc:oracle:thin:@cbiodb2-d.nci.nih.gov:1521:cbdev</property>
-        <property name="dialect">net.sf.hibernate.dialect.OracleDialect</property>
-        <property name="connection.password">ncisecurity</property>
-        <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
--->
+
         <property name="connection.username">ncisecurity</property>
         <property name="connection.url">jdbc:mysql://cbiodev104.nci.nih.gov:3306/newAuthSchema</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.password">ncisecurity</property>
         <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
-        <property name="hibernate.cache.use_query_cache">false</property>
-        <property name="hibernate.cache.use_second_level_cache">false</property>        
+
+
+		<property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+
 
 <!--
         <property name="dialect">net.sf.hibernate.dialect.MySQLDialect</property>	
