@@ -287,7 +287,7 @@ public class LoginAction extends Action
 		try
 		{
 			//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
-			application = authorizationManager.getApplication();
+			application = authorizationManager.getApplication(loginForm.getApplicationContextName());
 			if (!StringUtilities.isBlank(application.getDatabaseURL()))
 			{
 				HashMap hashMap = new HashMap();
@@ -295,7 +295,7 @@ public class LoginAction extends Action
 				hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
 				hashMap.put("hibernate.connection.password", application.getDatabasePassword());
 				hashMap.put("hibernate.dialect", application.getDatabaseDialect());
-				hashMap.put("hibernate.connection.driver", application.getDatabaseDriver());
+				hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
 				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName(),hashMap);
 			}
 			else

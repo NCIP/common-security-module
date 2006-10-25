@@ -424,6 +424,8 @@ public interface AuthorizationDAO {
 	public List getAccessibleGroups(String objectId, String attributeName, String privilegeName) throws CSException;
 
 	public void setEncryptionEnabled(boolean isEncryptionEnabled) ;
+
+	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException;
 	
 	
 }

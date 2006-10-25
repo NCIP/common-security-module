@@ -4610,4 +4610,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		
 		return obj;		
 	}
+
+	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException
+	{
+		return getApplicationByName(applicationContextName);
+	}
 }

@@ -1209,9 +1209,9 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		
 	}
 
-	public Application getApplication()
+	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException
 	{
-		return authorizationDAO.getApplication();
+		return authorizationDAO.getApplication(applicationContextName);
 	}
 
 

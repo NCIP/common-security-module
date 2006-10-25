@@ -498,9 +498,11 @@ public interface AuthorizationManager {
 	 * This method returns the Application Object for which the manager is obtained. This 
 	 * method uses the application Context name passed and retrieves the application object
 	 * from the database.
+	 * @param applicationContextName the name of the application which is to be retrieved from the database.
 	 * @return Application object for the application context name using which this manager was obtained.
+	 * @throws CSObjectNotFoundException 
 	 */
-	public Application getApplication();
+	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException;
 	
 }
 

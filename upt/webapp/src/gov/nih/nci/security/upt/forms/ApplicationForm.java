@@ -346,12 +346,12 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		{
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Confirm Password does not match with Database Password"));
 		}
-		if (((StringUtilities.isBlank(applicationDatabaseURL) || StringUtilities.isBlank(applicationDatabaseUserName)
-				|| StringUtilities.isBlank(applicationDatabasePassword) || StringUtilities.isBlank(applicationDatabaseDialect) || StringUtilities.isBlank(applicationDatabaseDriver)))
-			&& (!StringUtilities.isBlank(applicationDatabaseURL) && !StringUtilities.isBlank(applicationDatabaseUserName)
-					&& !StringUtilities.isBlank(applicationDatabasePassword) && !StringUtilities.isBlank(applicationDatabaseDialect) && !StringUtilities.isBlank(applicationDatabaseDriver)))
+		if (!(((StringUtilities.isBlank(applicationDatabaseURL) && StringUtilities.isBlank(applicationDatabaseUserName)
+				&& StringUtilities.isBlank(applicationDatabasePassword) && StringUtilities.isBlank(applicationDatabaseDialect) && StringUtilities.isBlank(applicationDatabaseDriver)))
+			|| (!StringUtilities.isBlank(applicationDatabaseURL) && !StringUtilities.isBlank(applicationDatabaseUserName)
+					&& !StringUtilities.isBlank(applicationDatabasePassword) && !StringUtilities.isBlank(applicationDatabaseDialect) && !StringUtilities.isBlank(applicationDatabaseDriver))))
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Either all or none database properties are allowed"));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Either all or none of the database properties should be provided"));
 		}
 		return errors;
 	}
