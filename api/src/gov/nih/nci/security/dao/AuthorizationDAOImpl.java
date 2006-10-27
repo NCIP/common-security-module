@@ -134,6 +134,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.security.auth.Subject;
 
@@ -1578,8 +1579,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				criteria.add(Restrictions.eq("application", this.application));
 			}
 
-			result = criteria.list();
-			Collections.sort(result);
+			List list =  new ArrayList();
+ 			list = criteria.list();			
+			Collections.sort(list);
+			result.clear();
+			result.addAll(list);
+
 			
 					
 
@@ -4283,21 +4288,23 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		Session s = null;
 
-		Set result = new HashSet();
+		Set result = new TreeSet();
+		
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			ProtectionElement protectionElement = (ProtectionElement) this
 					.getObjectByPrimaryKey(s, ProtectionElement.class,
 							new Long(protectionElementId));
 
-			result = protectionElement.getOwners();
+			Set reresult = protectionElement.getOwners();
 			
 			List list = new ArrayList();
-			Iterator toSortIterator = result.iterator();
+			Iterator toSortIterator = reresult.iterator();
 			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
+			
 			Collections.sort(list);
-			result.clear();
 			result.addAll(list);
+			
 			
 			log.debug("The result size is: " + result.size());
 

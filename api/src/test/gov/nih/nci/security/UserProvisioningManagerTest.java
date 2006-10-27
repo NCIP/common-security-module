@@ -174,7 +174,7 @@ public class UserProvisioningManagerTest extends TestCase {
 		//---------------------------------------------------------------------------------------------------
 		//Still to be done
 		//---------------------------------------------------------------------------------------------------
-//		this.testGetOwners();										//Suggested by Kunal
+this.testGetOwners();										//Suggested by Kunal
 //		this.testSecureUpdate();									//NOT tested by UPT
 		/* 	Parameters for Secure Update()
 		 * 	userName - The user name of the User which is trying to update the object
@@ -1514,8 +1514,15 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getOwners(String)'
 	 */
 	
-	private void testGetOwners() {
-
+	public void testGetOwners() {
+		try {
+			Set set = userProvisioningManager.getOwners("455");
+			set.size();
+			
+		} catch (CSObjectNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
