@@ -284,7 +284,7 @@ public interface AuthorizationManager {
 	 * {@link ProtectionElement} is obtained using the object id and the attribute name both. 
 	 * The groupName is used to to obtain the Group object. Then the check
 	 * permission operation is performed to see if the Group has the required access or not.
-	 * @param groupName The user name of the user which is trying to perform the operation
+	 * @param groupName The group name which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
 	 * @param attributeName The attribute of the protection element on which the user wants to perform the operation
 	 * @param privilegeName The operation which the user wants to perform on the protection element
