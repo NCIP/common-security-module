@@ -42,6 +42,7 @@
   		
   		 var isgroupform = false;
   		 var isapplicationform = false;
+  		 var ischecked = false;
   		for(var looop = 0; looop < window.opener.document.forms.length; looop++)
   		{
   			if(window.opener.document.forms[looop].name == "ApplicationForm")	isapplicationform = true;
@@ -65,6 +66,7 @@
 						var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;	
 						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
 						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
+						ischecked = true;
 					}		
 				}
 	  		}
@@ -78,8 +80,11 @@
 
 						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
 						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
+						
 					}
+					ischecked = true;
 				}
+				
 			}
 		}		
 		if(isgroupform)
@@ -95,6 +100,7 @@
 						var optLen = window.opener.document.GroupForm.associatedIds.options.length++;	
 						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
 						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
+						ischecked = true;
 					}		
 				}
 	  		}
@@ -108,13 +114,17 @@
 
 						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
 						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
+
 					}
+					ischecked = true;
 				}
 			}
 		}		
 		
-
-	      window.close();
+		if(ischecked)
+		      window.close();
+		else
+			alert("Atleast one check box should be checked.");
 	}  
 		// -->
 </script>
