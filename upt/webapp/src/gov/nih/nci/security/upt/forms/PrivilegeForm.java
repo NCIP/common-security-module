@@ -100,6 +100,7 @@ import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.dao.PrivilegeSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
+import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 
@@ -204,9 +205,9 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	public ArrayList getDisplayFormElements()
 	{
 		ArrayList formElementList = new ArrayList();
-		formElementList.add(new FormElement("Privilege Name","privilegeName", getPrivilegeName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Privilege Description", "privilegeDescription", getPrivilegeDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Privilege Update Date", "privilegeUpdateDate", getPrivilegeUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
+		formElementList.add(new FormElement("Privilege Name","privilegeName", StringUtils.initString(getPrivilegeName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Privilege Description", "privilegeDescription", StringUtils.initString(getPrivilegeDescription()), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Privilege Update Date", "privilegeUpdateDate", StringUtils.initString(getPrivilegeUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 		return formElementList;
 	}
 	

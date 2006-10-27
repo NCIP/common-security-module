@@ -102,6 +102,7 @@ import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
+import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 import gov.nih.nci.security.util.ObjectSetUtil;
@@ -278,10 +279,10 @@ public class ProtectionGroupForm extends ValidatorForm implements BaseAssociatio
 	{
 		ArrayList formElementList = new ArrayList();
 
-		formElementList.add(new FormElement("Protection Group Name", "protectionGroupName", getProtectionGroupName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Protection Group Description", "protectionGroupDescription", getProtectionGroupDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Protection Group Large Count Flag", "protectionGroupLargeCountFlag", getProtectionGroupLargeCountFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Protection Group Update Date", "protectionGroupUpdateDate", getProtectionGroupUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
+		formElementList.add(new FormElement("Protection Group Name", "protectionGroupName", StringUtils.initString(getProtectionGroupName()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Group Description", "protectionGroupDescription", StringUtils.initString(getProtectionGroupDescription()), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Group Large Count Flag", "protectionGroupLargeCountFlag", StringUtils.initString(getProtectionGroupLargeCountFlag()), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Group Update Date", "protectionGroupUpdateDate", StringUtils.initString(getProtectionGroupUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 
 		return formElementList;
 	}

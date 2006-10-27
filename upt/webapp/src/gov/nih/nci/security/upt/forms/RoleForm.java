@@ -102,6 +102,7 @@ import gov.nih.nci.security.dao.PrivilegeSearchCriteria;
 import gov.nih.nci.security.dao.RoleSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
+import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 import gov.nih.nci.security.util.ObjectSetUtil;
@@ -227,10 +228,10 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	{
 		ArrayList formElementList = new ArrayList();
 
-		formElementList.add(new FormElement("Role Name", "roleName", getRoleName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Role Description", "roleDescription", getRoleDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Role Active Flag", "roleActiveFlag", getRoleActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Role Update Date", "roleUpdateDate", getRoleUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
+		formElementList.add(new FormElement("Role Name", "roleName", StringUtils.initString(getRoleName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Role Description", "roleDescription", StringUtils.initString(getRoleDescription()), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Role Active Flag", "roleActiveFlag", StringUtils.initString(getRoleActiveFlag()), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Role Update Date", "roleUpdateDate", StringUtils.initString(getRoleUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 
 		return formElementList;
 	}
