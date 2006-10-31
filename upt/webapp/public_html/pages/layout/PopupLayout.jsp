@@ -14,7 +14,6 @@
 <head>
    	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
    	<link rel="stylesheet" href="styles/styleSheet.css" type="text/css" />
-	<script language="JavaScript" src="scripts/bmsscript.js"></script>
 	<script language="JavaScript" src="scripts/script.js"></script>
 	<!-- Page Title begins -->
 	<title><tiles:get name="Title"/></title>

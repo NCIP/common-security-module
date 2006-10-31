@@ -18,7 +18,7 @@
 <!--
    	function setAndSubmit(target)
    	{
-  		document.UserForm.operation.value=target;
+  		document.SearchUserForm.operation.value=target;
  	}
  	
  	function keySearch(associatedIds, key)
@@ -37,7 +37,7 @@
  	 function selSwitch(btn)
 	{
 
-  		var radioLen = document.UserForm.userId.length;
+  		var radioLen = document.SearchUserForm.userId.length;
   		
   		
   		 var isgroupform = false;
@@ -59,27 +59,27 @@
 			
 	  		if(radioLen == undefined)
 	  		{
-	 			if (document.UserForm.userId.checked) 
+	 			if (document.SearchUserForm.userId.checked) 
 				{		
-					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId.value))
+					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.SearchUserForm.userId.value))
 					{
 						var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;	
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName.value;
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.SearchUserForm.userId.value;
 						ischecked = true;
 					}		
 				}
 	  		}
 			for (var i = 0; i <radioLen; i++) 
 			{
-				if (document.UserForm.userId[i].checked) 
+				if (document.SearchUserForm.userId[i].checked) 
 				{
-					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.UserForm.userId[i].value))
+					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.SearchUserForm.userId[i].value))
 					{
 						var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;
 
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName[i].value;
+						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.SearchUserForm.userId[i].value;
 						
 					}
 					ischecked = true;
@@ -93,27 +93,27 @@
 			if(radioLen == undefined)
 	  		{
 		  		
-	 			if (document.UserForm.userId.checked) 
+	 			if (document.SearchUserForm.userId.checked) 
 				{		
-					if(!keySearch(window.opener.document.GroupForm.associatedIds.options, document.UserForm.userId.value))
+					if(!keySearch(window.opener.document.GroupForm.associatedIds.options, document.SearchUserForm.userId.value))
 					{
 						var optLen = window.opener.document.GroupForm.associatedIds.options.length++;	
-						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.UserForm.lgName.value;
-						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.UserForm.userId.value;
+						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName.value;
+						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.SearchUserForm.userId.value;
 						ischecked = true;
 					}		
 				}
 	  		}
 			for (var i = 0; i <radioLen; i++) 
 			{
-				if (document.UserForm.userId[i].checked) 
+				if (document.SearchUserForm.userId[i].checked) 
 				{
-					if(!keySearch(window.opener.document.GroupForm.associatedIds.options, document.UserForm.userId[i].value))
+					if(!keySearch(window.opener.document.GroupForm.associatedIds.options, document.SearchUserForm.userId[i].value))
 					{
 						var optLen = window.opener.document.GroupForm.associatedIds.options.length++;
 
-						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.UserForm.lgName[i].value;
-						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.UserForm.userId[i].value;
+						window.opener.document.GroupForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName[i].value;
+						window.opener.document.GroupForm.associatedIds.options[optLen].value = document.SearchUserForm.userId[i].value;
 
 					}
 					ischecked = true;

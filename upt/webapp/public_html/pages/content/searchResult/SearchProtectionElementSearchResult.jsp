@@ -17,7 +17,7 @@
 <!--
    	function setAndSubmit(target)
    	{
-  		document.ProtectionElementForm.operation.value=target;
+  		document.SearchProtectionElementForm.operation.value=target;
  	}
  	function keySearch(associatedIds, key)
  	{
@@ -33,19 +33,19 @@
  	 function selSwitch(btn)
 	{
 
-  		var radioLen = document.ProtectionElementForm.protectionElementId.length;
+  		var radioLen = document.SearchProtectionElementForm.protectionElementId.length;
 	
   		if(radioLen == undefined)
   		{
   			
-  			if (document.ProtectionElementForm.protectionElementId.checked) 
+  			if (document.SearchProtectionElementForm.protectionElementId.checked) 
 			{
-				if(!keySearch(window.opener.document.ProtectionGroupForm.associatedIds.options, document.ProtectionElementForm.protectionElementId.value))
+				if(!keySearch(window.opener.document.ProtectionGroupForm.associatedIds.options, document.SearchProtectionElementForm.protectionElementId.value))
 				{					
 					var optLen = window.opener.document.ProtectionGroupForm.associatedIds.options.length++;
 					
-					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].text = document.ProtectionElementForm.protectionElementName.value;
-					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].value = document.ProtectionElementForm.protectionElementId.value;
+					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].text = document.SearchProtectionElementForm.protectionElementName.value;
+					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].value = document.SearchProtectionElementForm.protectionElementId.value;
 
 				}
 				
@@ -56,16 +56,16 @@
 
 		for (var i = 0; i <radioLen; i++) 
 		{
-			if (document.ProtectionElementForm.protectionElementId[i].checked) 
+			if (document.SearchProtectionElementForm.protectionElementId[i].checked) 
 			{
-				if(!keySearch(window.opener.document.ProtectionGroupForm.associatedIds.options, document.ProtectionElementForm.protectionElementId[i].value))
+				if(!keySearch(window.opener.document.ProtectionGroupForm.associatedIds.options, document.SearchProtectionElementForm.protectionElementId[i].value))
 				{
 					var optLen = window.opener.document.ProtectionGroupForm.associatedIds.options.length++;
 
 					
 				
-					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].text = document.ProtectionElementForm.protectionElementName[i].value;
-					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].value = document.ProtectionElementForm.protectionElementId[i].value;
+					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].text = document.SearchProtectionElementForm.protectionElementName[i].value;
+					window.opener.document.ProtectionGroupForm.associatedIds.options[optLen].value = document.SearchProtectionElementForm.protectionElementId[i].value;
 				}
 				
 			}
