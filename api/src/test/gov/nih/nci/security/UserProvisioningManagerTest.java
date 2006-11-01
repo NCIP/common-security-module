@@ -60,7 +60,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
-		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("TestApplication");
+		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("csmtestdatabase2");
 
 		//Initialize the userList - used to check the "get" functions
 		InitializeUserStringArray();
@@ -78,7 +78,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	}
 
 	public void testRun() throws CSException {
-		
+/*		
 		//Order of Execution
 		
 		//Create Objects
@@ -122,9 +122,9 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testAssignProtectionElementStringStringString();	//This works, but is not dynamic, only assigns 1st PE to 1st PG
 		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
 		this.testAssignToProtectionGroups();						//NOT tested by UPT  //Assigns all Protection Groups to all Protection Elements
-		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
-		//this.testDeAssignProtectionElements();  				//BUGGED - posted in GForge
 		//this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
+		this.testDeAssignProtectionElements();  				//BUGGED - posted in GForge
+		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
 		this.testAssignProtectionElementStringString();  		//Needs above line before can execute //NOT Tested by UPT
 		this.testRemoveAllAssignedProtectionElementsFromAllProtectionGroups();
 
@@ -165,16 +165,16 @@ public class UserProvisioningManagerTest extends TestCase {
 		//CHECK PERMISSIONS
 		this.testCheckPermissionStringStringStringString();			//NOT tested by UPT
 		this.testCheckPermissionStringStringString();				//NOT tested by UPT
+*/		
 		
-		
-//		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //Need to know how to assign group and role and PG
+		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //Need to know how to assign group and role and PG
 //		this.testGetPrivilegeMap();									//NOT tested by UPT  //Suggested by Kunal, but has dependency on others first
-		
+//		this.testGetOwners();										//Suggested by Kunal
 		
 		//---------------------------------------------------------------------------------------------------
 		//Still to be done
 		//---------------------------------------------------------------------------------------------------
-this.testGetOwners();										//Suggested by Kunal
+
 //		this.testSecureUpdate();									//NOT tested by UPT
 		/* 	Parameters for Secure Update()
 		 * 	userName - The user name of the User which is trying to update the object
@@ -393,7 +393,6 @@ this.testGetOwners();										//Suggested by Kunal
 	{
 		//This method adds all roles to all groups for each user
 		String[] tempRoleIDs = new String[NumberOfRolesToTest];
-		int tempNumberOfGroupsToTest = NumberOfGroupsToTest;
 		
 		for (int x=0; x<NumberOfRolesToTest; x++)
 		{
@@ -402,13 +401,10 @@ this.testGetOwners();										//Suggested by Kunal
 		
 		for (int x=0; x<NumberOfUsersToTest; x++)
 		{
-			for (int y=tempNumberOfGroupsToTest; y>0; y--)
+			for (int y=NumberOfGroupsToTest; y>0; y--)
 			{
 				userProvisioningManager.assignUserRoleToProtectionGroup(x+1+"", tempRoleIDs, y+"");
-			}
-			tempNumberOfGroupsToTest--;
-			if (tempNumberOfGroupsToTest == 0)
-				tempNumberOfGroupsToTest = NumberOfGroupsToTest;
+			}	
 		}
 		
 		
@@ -491,6 +487,7 @@ this.testGetOwners();										//Suggested by Kunal
 	
 	private void testRemoveUserRoleFromProtectionGroup() throws CSTransactionException 
 	{
+		//Removes all PGs and Roles from user 1
 		String[] tempRoleIDs = new String[NumberOfRolesToTest];
 		
 		for (int x=0; x<NumberOfRolesToTest; x++)
@@ -918,7 +915,7 @@ this.testGetOwners();										//Suggested by Kunal
 			tempRoleIDs[x] = x+1+"";
 		}
 		
-		userProvisioningManager.removeGroupRoleFromProtectionGroup("1", "1", tempRoleIDs);
+		userProvisioningManager.removeGroupRoleFromProtectionGroup("3", "3", tempRoleIDs);
 	}
 
 	/*
@@ -1514,9 +1511,9 @@ this.testGetOwners();										//Suggested by Kunal
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getOwners(String)'
 	 */
 	
-	public void testGetOwners() {
+	private void testGetOwners() {
 		try {
-			Set set = userProvisioningManager.getOwners("455");
+			Set set = userProvisioningManager.getOwners("1");
 			set.size();
 			
 		} catch (CSObjectNotFoundException e) {
