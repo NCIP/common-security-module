@@ -455,7 +455,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		formElementList.add(new FormElement("User Title", "userTitle", StringUtils.initString(getUserTitle()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
 		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", StringUtils.initString(getUserPhoneNumber()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));	
 		formElementList.add(new FormElement("User Password", "userPassword", StringUtils.initString(getUserPassword()), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", getUserPasswordConfirm(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", StringUtils.initString(getUserPasswordConfirm()), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Email Id", "userEmailId", StringUtils.initString(getUserEmailId()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
