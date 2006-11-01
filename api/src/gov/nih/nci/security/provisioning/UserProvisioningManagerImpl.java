@@ -805,7 +805,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#removeGroupRoleFromProtectionGroup(String, String, String[])
 	 */
 	public void removeGroupRoleFromProtectionGroup(String protectionGroupId, String groupId, String[] roleId) throws CSTransactionException{
-
+		authorizationDAO.removeGroupRoleFromProtectionGroup(protectionGroupId, groupId, roleId);
 	}
 
 	/**
