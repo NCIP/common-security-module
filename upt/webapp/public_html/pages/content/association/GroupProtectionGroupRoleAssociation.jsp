@@ -91,6 +91,7 @@
 									<logic:iterate name="<%=DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET%>" id="protectionGroupRoleContext" type="ProtectionGroupRoleContext">
 										<bean:define name="protectionGroupRoleContext" property="protectionGroup" id="protectionGroup" type="ProtectionGroup"/>
 										<bean:define name="protectionGroupRoleContext" property="roles" id="roles" type="Set" />
+									
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%"><html:radio
@@ -99,9 +100,20 @@
 												<td class="dataCellText" width="45%"><bean:write
 													name="protectionGroup" property="protectionGroupName" /></td>
 												<td class="dataCellText" width="45%">
-												<logic:iterate name="roles" id="role" type="Role">
-													<bean:write	name="role" property="name" />&nbsp;
-												</logic:iterate>
+												<%
+													Iterator iterator = roles.iterator();
+													int ii=1;
+													while(iterator.hasNext()){
+														Role role = (Role)iterator.next();
+														%><%=role.getName()%><%														
+														if(ii<roles.size()){
+														%>,&nbsp;<%
+														}else{
+															%><%=ii%><%														
+														}
+														ii++;
+													}
+												 %>
 												</td>
 											</tr>
 										<%}else{ oddRow = "true";%>
@@ -112,9 +124,21 @@
 												<td class="dataCellText" width="45%"><bean:write
 													name="protectionGroup" property="protectionGroupName" /></td>
 												<td class="dataCellText" width="45%">
-												<logic:iterate name="roles" id="role" type="Role">
-													<bean:write	name="role" property="name" />&nbsp;
-												</logic:iterate>
+												<%
+													Iterator iterator = roles.iterator();
+													int ii=1;
+													while(iterator.hasNext()){
+														Role role = (Role)iterator.next();
+														%><%=role.getName()%><%														
+														if(ii<roles.size()){
+														%>,&nbsp;<%
+														}else{
+															%><%=ii%><%														
+														}
+														ii++;
+													}
+												 %>
+												
 												</td>
 											</tr>
 										<%}%>

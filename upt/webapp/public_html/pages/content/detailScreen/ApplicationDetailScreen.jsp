@@ -163,6 +163,18 @@
 								</tr>
 							</logic:iterate>
 						<tr>
+							<td class="formMessage" colspan="3">
+								<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+									<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
+											# Required to fill out either all or none of the database related fields.
+									</logic:equal>
+								</logic:equal>
+							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+									# Required to fill out either all or none of the database related fields.
+							</logic:notEqual>
+							</td>
+						</tr>
+						<tr>
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>

@@ -99,7 +99,7 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionGroupRoleContext {
+public class ProtectionGroupRoleContext  implements Comparable {
 
 	/**
 	 * Collection of roles for this protection group
@@ -154,5 +154,23 @@ public class ProtectionGroupRoleContext {
 	public void setProtectionGroup(ProtectionGroup newVal){
 		protectionGroup = newVal;
 	}
+
+	public boolean equals(Object obj){
+	    ProtectionGroupRoleContext other = (ProtectionGroupRoleContext)obj;
+		if(this.getProtectionGroup().getProtectionGroupName().equals(other.getProtectionGroup().getProtectionGroupName())){
+			return true;
+		}else{
+		return false;
+		}
+	}
+
+	public int compareTo(Object object) {
+		if(object instanceof Application){
+			ProtectionGroupRoleContext a = (ProtectionGroupRoleContext) object;	
+			return this.getProtectionGroup().getProtectionGroupName().compareToIgnoreCase(a.getProtectionGroup().getProtectionGroupName());
+		}
+		return 0;
+	}
+
 
 }

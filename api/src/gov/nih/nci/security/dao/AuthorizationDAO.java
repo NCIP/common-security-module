@@ -284,8 +284,29 @@ public interface AuthorizationDAO {
 	 * @throws CSTransactionException
 	 */
 	public void setOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName)
-			throws CSTransactionException;;
+			throws CSTransactionException;
 	
+	
+	/**
+	 * @param loginName
+	 * @param protectionElementObjectId
+	 * @param protectionElementAttributeName
+	 * @throws CSTransactionException
+	 */
+	public void removeOwnerForProtectionElement(String loginName, String protectionElementObjectId, String protectionElementAttributeName)
+			throws CSTransactionException;
+			
+			
+	/**
+	 * @param protectionElementObjectId
+	 * @param userNames
+	 * @throws CSTransactionException
+	 */
+	public void removeOwnerForProtectionElement(String protectionElementObjectId,
+					String[] userNames) throws CSTransactionException;
+	
+	
+			
 	/**
 	 * @param userId
 	 * @param groupIds

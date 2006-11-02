@@ -192,7 +192,7 @@ public interface AuthorizationManager {
 	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	/**
-	 * Assigns Owners for a Protection Elements. It retrieves the Protection Element from the database for the passed Object Id
+	 * Assigns Owners for a Protection Element. It retrieves the Protection Element from the database for the passed Object Id
 	 * The retrieves the User object for the list of USer Names passed. It then associated the Users as owners to the 
 	 * Protection Element
 	 * @param protectionElementObjectId The Object Id of the Protection Element to which the Owners are to be assigned
@@ -202,6 +202,18 @@ public interface AuthorizationManager {
 	 */
 	public void setOwnerForProtectionElement(String protectionElementObjectId, String[] userNames)throws CSTransactionException;
 
+	/**
+	 * Deassigns Owners for a Protection Element. It retrieves the Protection Element from the database for the passed Object Id
+	 * The retrieves the User object for the list of USer Names passed. It then removes association of the Users as owners from the 
+	 * Protection Element
+	 * @param protectionElementObjectId The Object Id of the Protection Element to which the Owners are to be assigned
+	 * @param userNames The list of User names which are to be removed as owners from the Protection Element
+	 * @throws CSTransactionException If it isnt able to retrieve either the  Protection Element or Users 
+	 * for the given data or there are any errors in the actual assignment.
+	 */
+	public void removeOwnerForProtectionElement(String protectionElementObjectId, String[] userNames)throws CSTransactionException;
+	
+	
 	/**
 	 * Deassigns a ProtectionElement from the Protection Group. The Protection Element is first retrieved using the passed
 	 * Object Id from the database. Similarly the Protection Group is retrieved using the name passed.
@@ -383,6 +395,18 @@ public interface AuthorizationManager {
 	 * actual assignment of ownership
 	 */
 	public void setOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
+	
+	/**
+	 * The method removes the ownership of a given {@link ProtectionElement} to the given {@link User}. The Protection Element
+	 * is obtained using the object id and attribute name passed and the User is retrieved using the user name passed
+	 * @param userName The user name of the user who is to be removed as the owner of the protection element
+	 * @param protectionElementObjectId The object id of the protection element which is to be deassociated with the user
+	 * @param protectionElementAttributeName The attribute name of the protection element which is to be deassociated with the user
+	 * 
+	 * @throws CSTransactionException If there were issues in either obtaining the {@link ProtectionElement} or the {@link User} or in the
+	 * actual assignment of ownership
+	 */
+	public void removeOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName)throws CSTransactionException;
 
 	
 

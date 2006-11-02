@@ -1214,5 +1214,15 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		return authorizationDAO.getApplication(applicationContextName);
 	}
 
+	public void removeOwnerForProtectionElement(String protectionElementObjectId, String[] userNames) throws CSTransactionException
+	{
+		authorizationDAO.removeOwnerForProtectionElement(protectionElementObjectId,userNames);	
+	}
+
+	public void removeOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName) throws CSTransactionException 
+	{
+		authorizationDAO.removeOwnerForProtectionElement( userName, protectionElementObjectId, protectionElementAttributeName );
+	}
+
 
 }

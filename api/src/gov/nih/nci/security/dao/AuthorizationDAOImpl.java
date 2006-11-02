@@ -148,6 +148,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.GenericJDBCException;
 
 import org.apache.log4j.Logger;
 
@@ -194,7 +195,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								+ applicationContextName
 								+ "||AuthorizationDAOImpl|Failure|No Application found for the Context Name|");
 			throw new CSConfigurationException(
-					"Unable to retrieve Application with this Context Name");
+					"No Application found for the Context Name. "+e.getMessage());
 		}
 		if (app == null) {
 			if (log.isDebugEnabled())
@@ -3111,6 +3112,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			app = (Application) list.get(0);
 			log.debug("Found the Application");
 
+		} catch (GenericJDBCException eex) {
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|"
+								+ contextName
+								+ "||getApplicationByName|Failure|Error in obtaining database connection. Invalid database login credentials in the application hibernate configuration file");
+			throw new CSObjectNotFoundException(" Invalid database login credentials in the application hibernate configuration file.", eex);
+			
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log
@@ -4622,4 +4631,193 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	{
 		return getApplicationByName(applicationContextName);
 	}
+	
+	public void removeOwnerForProtectionElement(String loginName, String protectionElementObjectId, String protectionElementAttributeName)	throws CSTransactionException {
+
+		Session s = null;
+		Transaction t = null;
+		if (StringUtilities.isBlank(loginName)) {
+			throw new CSTransactionException("Login Name can't be null");
+		}
+		if (StringUtilities.isBlank(protectionElementObjectId)) {
+			throw new CSTransactionException("Object Id can't be null");
+		}
+		try {
+
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+			User user = getLightWeightUser(loginName);
+			
+			
+
+			
+			if (user == null) {
+				throw new CSTransactionException("No user found for this login name");
+			}
+			ProtectionElement pe = new ProtectionElement();
+			pe.setObjectId(protectionElementObjectId);
+			pe.setApplication(application);
+			if (protectionElementAttributeName != null && protectionElementAttributeName.length() > 0) {
+				pe.setAttribute(protectionElementAttributeName);
+			}			
+			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			List l = this.getObjects(s,sc);
+
+			if (l.size() == 0) {
+				throw new CSTransactionException("No Protection Element found for the given object id and attribute");
+			}
+			
+			ProtectionElement protectionElement = (ProtectionElement) l.get(0);
+
+			Set ownerList = protectionElement.getOwners();
+			if (ownerList == null || ownerList.size() == 0)
+			{
+				/*ownerList = new HashSet();
+				ownerList.add(user);*/
+			}
+			else
+			{
+				if (ownerList.contains(user))
+				{
+					ownerList.remove(user);
+				}
+			}
+			protectionElement.setOwners(ownerList);
+			t = s.beginTransaction();
+			s.save(protectionElement);
+			t.commit();
+			s.flush();
+			auditLog.info("Removing User " + loginName + " as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||removeOwnerForProtectionElement|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||removeOwnerForProtectionElement|Failure|Error removing owner for Protection Element object Name"
+								+ protectionElementObjectId
+								+ " and Attribute Id "
+								+ protectionElementAttributeName
+								+ " for user "
+								+ loginName + "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occured in removing owner for the Protection Element\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||removeOwnerForProtectionElement|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||setOwnerForProtectionElement|Success|Success in removing owner for Protection Element object Name"
+							+ protectionElementObjectId
+							+ " and Attribute Id "
+							+ protectionElementAttributeName
+							+ " for user "
+							+ loginName + "|");
+	}
+	
+	public void removeOwnerForProtectionElement(String protectionElementObjectId,
+			String[] userNames) throws CSTransactionException {
+
+		Session s = null;
+		Transaction t = null;
+		if (StringUtilities.isBlank(protectionElementObjectId)) {
+			throw new CSTransactionException("object Id can't be null!");
+		}
+		try {
+			
+
+			Set users = new HashSet();
+
+			for (int i = 0; i < userNames.length; i++) {
+				User user = this.getUser(userNames[i]);
+				if (user != null) {
+					users.add(user);
+				}
+			}
+			ProtectionElement pe = new ProtectionElement();
+			pe.setObjectId(protectionElementObjectId);
+			pe.setApplication(application);
+			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
+			List l = this.getObjects(sc);
+
+			ProtectionElement protectionElement = (ProtectionElement) l.get(0);
+
+			Set ownerList = protectionElement.getOwners();
+			if (ownerList != null && ownerList.size() > 0)
+			{
+				Iterator iterator = users.iterator();
+				while(iterator.hasNext()){
+					User user = (User)iterator.next();
+					if (ownerList.contains(user))
+					{
+						ownerList.remove(user);
+					}
+				}
+			}
+			
+			protectionElement.setOwners(ownerList);
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			t = s.beginTransaction();
+			s.update(protectionElement);
+			t.commit();
+			s.flush();
+			auditLog.info("Removing Users as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());		
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||removeOwnerForProtectionElement|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||removeOwnerForProtectionElement|Failure|Error removing owner for Protection Element object Name"
+								+ protectionElementObjectId
+								+ " for users "
+								+ StringUtilities
+										.stringArrayToString(userNames)
+								+ "|"
+								+ ex.getMessage());
+			throw new CSTransactionException(
+					"An error occured in removing multiple owners for the Protection Element\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||removeOwnerForProtectionElement|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||removeOwnerForProtectionElement|Success|Successful in removing owner for Protection Element object Name"
+							+ protectionElementObjectId
+							+ " for users "
+							+ StringUtilities.stringArrayToString(userNames)
+							+ "|");
+	}
+
+	
 }
