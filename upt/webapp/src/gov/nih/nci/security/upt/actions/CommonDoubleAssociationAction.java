@@ -96,13 +96,20 @@ package gov.nih.nci.security.upt.actions;
 
 
 import gov.nih.nci.logging.api.user.UserInfoHelper;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.util.ProtectionGroupRoleContextComparator;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -212,7 +219,18 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		try
 		{
-			Collection associatedProtectionGroupRoleContexts = baseDoubleAssociationForm.buildProtectionGroupAssociationObject(request);
+			
+			
+			Collection temp = baseDoubleAssociationForm.buildProtectionGroupAssociationObject(request);
+			
+			List associatedProtectionGroupRoleContexts = new ArrayList();
+			Iterator iterator = temp.iterator();
+			while(iterator.hasNext()){
+				associatedProtectionGroupRoleContexts.add(iterator.next());
+			}
+			Collections.sort(associatedProtectionGroupRoleContexts, new ProtectionGroupRoleContextComparator());
+			
+				
 			if (associatedProtectionGroupRoleContexts.size() != 0)
 				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET, associatedProtectionGroupRoleContexts);
 			else
@@ -242,6 +260,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));		
 	}
 	
+
 	public ActionForward loadProtectionElementPrivilegesAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
