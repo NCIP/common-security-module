@@ -161,7 +161,7 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testAssignOwners();									//TODO: make this more dynamic, only assigns one PE to each user
 		this.testSetOwnerForProtectionElementStringStringString();	//NOT tested by UPT  //Assigns users 2 to PE 2 //TODO: make more diverse
 		this.testCheckOwnership();									//NOT tested by UPT
-		
+
 		//CHECK PERMISSIONS
 		this.testCheckPermissionStringStringStringString();			//NOT tested by UPT
 		this.testCheckPermissionStringStringString();				//NOT tested by UPT
@@ -602,6 +602,9 @@ public class UserProvisioningManagerTest extends TestCase {
 		assertEquals("\nIncorrect permission from the checkPermission method with 4 strings for parameters", true, HasPermission);
 		
 		HasPermission = userProvisioningManager.checkPermission(UserStringArray[NumberOfUsersToTest-1][0], ProtectionElementStringArray[1][2], ProtectionElementStringArray[1][3], PrivilegeStringArray[0][0]);
+		assertEquals("\nIncorrect permission from the checkPermission method with 4 strings for parameters - user should not have permission", false, HasPermission);
+		
+		HasPermission = userProvisioningManager.checkPermission("asdfasdfasdfasdfasdfasdf", "asdfasdfasdfasdfasdfasdf", "asdfasdfasdfasdfasdfasdf", "asdfasdfasdfasdfasdfasdf");
 		assertEquals("\nIncorrect permission from the checkPermission method with 4 strings for parameters - user should not have permission", false, HasPermission);
 	}
 
