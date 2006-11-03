@@ -276,7 +276,15 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		try
 		{
-			Collection associatedProtectionElementPrivilegesContexts = baseDoubleAssociationForm.buildProtectionElementPrivilegesObject(request);
+			Collection temp = baseDoubleAssociationForm.buildProtectionElementPrivilegesObject(request);
+			
+			List associatedProtectionElementPrivilegesContexts = new ArrayList();
+			Iterator iterator = temp.iterator();
+			while(iterator.hasNext()){
+				associatedProtectionElementPrivilegesContexts.add(iterator.next());
+			}
+			Collections.sort(associatedProtectionElementPrivilegesContexts, new ProtectionGroupRoleContextComparator());
+			
 			if (associatedProtectionElementPrivilegesContexts != null && associatedProtectionElementPrivilegesContexts.size() != 0)
 				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET, associatedProtectionElementPrivilegesContexts);
 			else

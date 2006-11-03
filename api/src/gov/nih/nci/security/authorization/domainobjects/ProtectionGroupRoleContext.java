@@ -165,7 +165,7 @@ public class ProtectionGroupRoleContext  implements Comparable {
 	}
 
 	public int compareTo(Object object) {
-		if(object instanceof Application){
+		if(object instanceof ProtectionGroupRoleContext){
 			ProtectionGroupRoleContext a = (ProtectionGroupRoleContext) object;	
 			return this.getProtectionGroup().getProtectionGroupName().compareToIgnoreCase(a.getProtectionGroup().getProtectionGroupName());
 		}

@@ -94,7 +94,7 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionElementPrivilegeContext {
+public class ProtectionElementPrivilegeContext implements Comparable {
 
 	/**
 	 * Collection of privileges for this protection element
@@ -153,4 +153,22 @@ public class ProtectionElementPrivilegeContext {
 		protectionElement = newVal;
 	}
 
+	public boolean equals(Object obj){
+		ProtectionElementPrivilegeContext other = (ProtectionElementPrivilegeContext)obj;
+		if(this.getProtectionElement().getProtectionElementName().equals(other.getProtectionElement().getProtectionElementName())){
+			return true;
+		}else{
+		return false;
+		}
+	}
+
+	public int compareTo(Object object) {
+		if(object instanceof ProtectionElementPrivilegeContext){
+			ProtectionElementPrivilegeContext a = (ProtectionElementPrivilegeContext) object;	
+			return this.getProtectionElement().getProtectionElementName().compareToIgnoreCase(a.getProtectionElement().getProtectionElementName());
+		}
+		return 0;
+	}
+
+	
 }
