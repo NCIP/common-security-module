@@ -39,7 +39,7 @@
 	<xs:element name="authentication-provider-class" type="xs:string"/>
 	<xs:element name="lockout-time" type="xs:string"/>
 	<xs:element name="allowed-attempts" type="xs:string"/>
-	<xs:element name="allowed-login-time" type="xs:string"/
+	<xs:element name="allowed-login-time" type="xs:string"/>
 	
 	<xs:element name="authorization">
 		<xs:complexType>
