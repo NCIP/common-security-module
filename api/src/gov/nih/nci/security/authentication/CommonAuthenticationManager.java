@@ -101,8 +101,6 @@ import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
-import gov.nih.nci.security.util.StringEncrypter;
-import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -132,7 +130,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	private static final LockoutManager lockoutManager = LockoutManager.getInstance();
 	
 	private String applicationContextName = null;
-	private boolean isEncryptionEnabled = false;
+	
 	
 	/**
 	 * This method accepts the user credentials as parameter and uses the same to authenticate the user
@@ -198,14 +196,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			throw new CSInputException("Password cannot be blank");
 		}
 		
-		if(this.isEncryptionEnabled){
-			try {
-				StringEncrypter se = new StringEncrypter();
-				password = se.encrypt(password);
-			} catch (EncryptionException e) {
-				throw new CSLoginException(e);
-			}
-		}
+		
 		
 		
 		UserInfoHelper.setUserInfo(userName, null);
@@ -320,10 +311,6 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		auditLog.info("Successful log out for user "+ userName);			
 	}
 
-	public void setEncryptionEnabled(boolean isEncryptionEnabled) {
-		this.isEncryptionEnabled = isEncryptionEnabled;
-		
-	}
 	
 	
 
