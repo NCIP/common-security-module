@@ -23,7 +23,7 @@ public abstract class BasePrincipal implements Principal {
   public boolean equals(Object obj) {
     if(obj == null) return false;
     if(obj == this) return true;
-    if(!(obj instanceof BasePrincipal)) return false;
+    if(!(obj.getClass().isInstance(this))) return false;
     BasePrincipal another = (BasePrincipal) obj;
     return name.equals(another.getName());
   }
