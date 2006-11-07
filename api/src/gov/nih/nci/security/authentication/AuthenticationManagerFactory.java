@@ -173,9 +173,20 @@ public class AuthenticationManagerFactory
 	{
 				
 		AuthenticationManager authenticationManager = null;
-		String applicationManagerClassName;
-		
-		applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthenticationManagerClass(applicationContextName);
+		String applicationManagerClassName = null;
+		try
+		{
+			applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthenticationManagerClass(applicationContextName);
+		}
+		catch (CSException cse)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Error|Error in reading the Application Security Config file and trying to initialize the manager in new way|");
+			authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
+			authenticationManager.initialize(applicationContextName);
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Success|Initializing Common Authentication Manager in new way|");
+		}
 		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))
 		{
 			if (log.isDebugEnabled())
