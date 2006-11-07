@@ -166,8 +166,6 @@ public class ApplicationSessionFactory {
 				configuration.setProperty("hibernate.connection.password",(String)connectionProperties.get("hibernate.connection.password"));
 				configuration.setProperty("hibernate.dialect",(String)connectionProperties.get("hibernate.dialect"));
 				configuration.setProperty("hibernate.connection.driver_class",(String)connectionProperties.get("hibernate.connection.driver_class"));
-				configuration.setProperty("hibernate.cache.use_query_cache","false");
-				configuration.setProperty("hibernate.cache.use_second_level_cache","false");
 				sessionFactory = configuration.buildSessionFactory();
 			}
 			catch (Exception e) 
