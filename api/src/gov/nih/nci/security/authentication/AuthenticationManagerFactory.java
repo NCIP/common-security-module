@@ -91,7 +91,6 @@ package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
-import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
@@ -184,7 +183,6 @@ public class AuthenticationManagerFactory
 			authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
 			authenticationManager.initialize(applicationContextName);
 			
-			authenticationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHENTICATION));
 		}
 		else
 		{
@@ -192,7 +190,7 @@ public class AuthenticationManagerFactory
 			{
 				authenticationManager = (AuthenticationManager)(Class.forName(applicationManagerClassName)).newInstance();
 				authenticationManager.initialize(applicationContextName);
-				authenticationManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHENTICATION));
+
 				if (log.isDebugEnabled())
 					log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Success|Initializing Custom Authentication Manager "+applicationManagerClassName+"|" );
 			}

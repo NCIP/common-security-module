@@ -99,7 +99,6 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
-import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
@@ -109,10 +108,8 @@ import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
-import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.security.Principal;
 import java.util.Collection;
@@ -180,12 +177,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		
 		authorizationDAO = (AuthorizationDAO)(adi);
-		try {
-			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
-		} catch (CSException e) {
-			throw new CSConfigurationException(e);
-			
-		}
+		
 	}
 
 	public UserProvisioningManagerImpl(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{
@@ -196,12 +188,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, connectionProperties);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		try {
-			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
-		} catch (CSException e) {
-			throw new CSConfigurationException(e);
-			
-		}
+		
 	}
 	
 	public UserProvisioningManagerImpl(String applicationContextName, URL url) throws CSConfigurationException
@@ -209,12 +196,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		try {
-			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
-		} catch (CSException e) {
-			throw new CSConfigurationException(e);
-			
-		}		
+				
 	}
 
 	
@@ -234,12 +216,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		try {
-			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
-		} catch (CSException e) {
-			throw new CSConfigurationException(e);
-			
-		}
+		
 	}	
 	
 	public UserProvisioningManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName, URL url) throws CSConfigurationException{
@@ -251,12 +228,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		try {
-			authorizationDAO.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(applicationContextName, Constants.AUTHORIZATION));
-		} catch (CSException e) {
-			throw new CSConfigurationException(e);
-			
-		}
+		
 	}	
 
 	

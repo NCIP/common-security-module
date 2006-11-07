@@ -21,7 +21,7 @@
 				<allowed-attempts>
 					3
 				</allowed-attempts>
-				<encryption-enabled>true</encryption-enabled>
+				
             </authentication>
             <authorization>
                 <authorization-provider-class>
@@ -31,7 +31,6 @@
                     <!-- Fully qualified file path -->
                     c:/securityconfig/csmupt.hibernate.cfg.xml
                 </hibernate-config-file>
-				<encryption-enabled>false</encryption-enabled>                
             </authorization>
         </application>
         <application>
@@ -49,7 +48,7 @@
 				<allowed-attempts>
 					3
 				</allowed-attempts>
-				<encryption-enabled>true</encryption-enabled>
+				
             </authentication>
             <authorization>
                 <authorization-provider-class>
@@ -57,7 +56,6 @@
                 <hibernate-config-file>
                     c:/securityconfig/csmupt.hibernate.cfg.xml
                 </hibernate-config-file>
-                <encryption-enabled>false</encryption-enabled>
             </authorization>
         </application>
        
@@ -78,7 +76,6 @@
 				<allowed-attempts>
 					3
 				</allowed-attempts>
-				<encryption-enabled>false</encryption-enabled>
             </authentication>
             <authorization>
                 <authorization-provider-class>
@@ -88,7 +85,6 @@
                     <!-- Fully qualified file path -->
                     c:/securityconfig/csmupt.hibernate.cfg.xml
                 </hibernate-config-file>
-                <encryption-enabled>false</encryption-enabled>
             </authorization>
         </application>
         <application>
@@ -108,7 +104,6 @@
 				<allowed-attempts>
 					3
 				</allowed-attempts>
-				<encryption-enabled>false</encryption-enabled>
             </authentication>
             <authorization>
                 <authorization-provider-class>
@@ -118,7 +113,6 @@
                     <!-- Fully qualified file path -->
                     c:/securityconfig/csmupt.hibernate.cfg.xml
                 </hibernate-config-file>
-                <encryption-enabled>false</encryption-enabled>
             </authorization>
         </application>
     </application-list>

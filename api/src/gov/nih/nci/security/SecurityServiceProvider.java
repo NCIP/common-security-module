@@ -88,20 +88,16 @@ package gov.nih.nci.security;
  *
  */
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.HashMap;
-
-import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.authentication.AuthenticationManagerFactory;
+import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
-
-import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
-import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
 import gov.nih.nci.security.util.FileLoader;
+
+import java.net.URL;
+import java.util.HashMap;
 
 
 /**
@@ -140,7 +136,7 @@ public class SecurityServiceProvider {
 			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName);		
 			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		}
-		userProvisioningManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(contextName, "authorization"));
+		
 		return userProvisioningManager;
 	}
 
@@ -239,7 +235,7 @@ public class SecurityServiceProvider {
 			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, userOrGroupName, isUserName);		
 			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		}
-		userProvisioningManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(contextName, Constants.AUTHORIZATION));
+		
 		return userProvisioningManager;
 	}
 
@@ -259,7 +255,7 @@ public class SecurityServiceProvider {
 		UserProvisioningManager userProvisioningManager = null;
 		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, connectionProperties);		
 		userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
-		userProvisioningManager.setEncryptionEnabled(ApplicationSecurityConfigurationParser.isEncryptionEnabled(contextName, Constants.AUTHORIZATION));
+		
 		return userProvisioningManager;
 	}
 
