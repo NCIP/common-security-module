@@ -1,9 +1,3 @@
-/*
- * Created on Oct 22, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.authentication.helper;
 
 /**
@@ -102,7 +96,9 @@ import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
+import gov.nih.nci.security.util.StringEncrypter;
 import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -162,14 +158,28 @@ public class RDBMSHelper {
 			return false;
 		}
 		
+		String encryptedPassword= new String(password);
+		String encryptionEnabled = (String)connectionProperties.get(Constants.ENCRYPTION_ENABLED);
+		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
+			StringEncrypter se;
+			try {
+				se = new StringEncrypter();
+				encryptedPassword = se.encrypt(new String(password));
+			} catch (EncryptionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		encryptedPassword = StringUtilities.initTrimmedString(encryptedPassword);			
+		
 		String query = (String)connectionProperties.get("query");
 		if (!StringUtilities.isBlank(query))
 		{
-			return executeQuery(connection, query, userID, new String(password));
+			return executeQuery(connection, query, userID,encryptedPassword);
 		}
 		else
 		{
-			return authenticateAndObtainSubject(connection, connectionProperties, userID, new String(password), subject);
+			return authenticateAndObtainSubject(connection, connectionProperties, userID, encryptedPassword, subject);
 		}
 
 	}
