@@ -169,7 +169,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	private Application application = null;
 	
-	private boolean isEncryptionEnabled  = false;
+	private boolean isEncryptionEnabled  = true;
 
 	private String typeOfAccess = "MIXED";
 	private static final String SEPERATOR = "#@#";
@@ -4589,11 +4589,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 
-	public void setEncryptionEnabled(boolean isEncryptionEnabled) {
-		this.isEncryptionEnabled = isEncryptionEnabled;
-		
-	}
-
+	
 	private Object performEncrytionDecryption(Object obj, boolean encrypt) throws EncryptionException {
 		
 		if(obj instanceof User){
