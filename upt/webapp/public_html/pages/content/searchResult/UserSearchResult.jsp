@@ -14,9 +14,10 @@
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-
+<% int cntResObj=1; // - Count the number of objects to display %>
 <script>
 <!--
+	int cntResObj=1; 
    	function setAndSubmit(target)
    	{
   		document.UserForm.operation.value=target;
@@ -128,7 +129,7 @@
 											width="15%">User Email Id</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="User" length="100">
+										id="searchResultObject" type="User" length="200">
 										<%if (oddRow.equals("true")) {oddRow = "false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%"><html:radio
@@ -171,7 +172,7 @@
 													name="searchResultObject" property="emailId" />&nbsp;</td>
 												</tr>
 										<%}%>
-										
+										<% cntResObj=cntResObj+1; %>
 									</logic:iterate>
 								</table>
 								</td>
@@ -191,6 +192,17 @@
 								<!-- action buttons end --></td>
 							</tr>
 						</logic:present>
+						<% //Check for 100 users and display error if exceeds
+						if (cntResObj>=100){ %>								
+						<tr>
+							<td>
+							Warning, the result is incomplete because the maximum number of Users that can 
+							be displayed (200) has been exceeded.
+							</td>
+						</tr>
+						<%} 
+						
+						%>
 						
 					</table>
 					</td>

@@ -13,6 +13,7 @@
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+<% int cntResObj=1; // - Count the number of objects to display %>
 <script>
 <!--
    	function setAndSubmit(target)
@@ -101,6 +102,7 @@
 													name="searchResultObject" property="attribute" />&nbsp;</td>
 											</tr>
 										<%}%>
+										<% cntResObj=cntResObj+1; %>
 									</logic:iterate>
 								</table>
 								</td>
@@ -119,6 +121,17 @@
 								<!-- action buttons end --></td>
 							</tr>
 						</logic:present>
+						<% //Check for 100 users and display error if exceeds
+						if (cntResObj>=200){ %>								
+						<tr>
+							<td>
+							Warning, the result is incomplete because the maximum number of ProtectionElements that can 
+							be displayed (200) has been exceeded.
+							</td>
+						</tr>
+						<%} 
+						
+						%>
 					</table>
 					</td>
 				</tr>
