@@ -4599,7 +4599,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if(obj instanceof User){
 			User user = (User)obj;
 			
-			if(this.isEncryptionEnabled && user.getPassword().trim().length()>0){
+			if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(user.getPassword()).length()>0){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
 					user.setPassword(stringEncrypter.encrypt(user.getPassword().trim()));
@@ -4613,7 +4613,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if(obj instanceof Application){
 			Application application = (Application)obj;
 			
-			if(this.isEncryptionEnabled && application.getDatabasePassword().trim().length()>0){
+			if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(application.getDatabasePassword()).length()>0){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
 					application.setDatabasePassword(stringEncrypter.encrypt(application.getDatabasePassword().trim()));
