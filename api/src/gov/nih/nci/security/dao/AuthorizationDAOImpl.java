@@ -3008,11 +3008,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			oj = getObjectByPrimaryKey(s, objectType, new Long(primaryKey));
 			
-			try {
-				oj = performEncrytionDecryption(oj, false);
-			} catch (EncryptionException e) {
-				throw new CSObjectNotFoundException(e);
-			}
+			
 
 		} catch (Exception ex) {
 			log
@@ -4598,9 +4594,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if(this.isEncryptionEnabled && user.getPassword().trim().length()>0){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
-					user.setPassword(stringEncrypter.encrypt(user.getPassword()));
+					user.setPassword(stringEncrypter.encrypt(user.getPassword().trim()));
 				}else{
-					user.setPassword(stringEncrypter.decrypt(user.getPassword()));
+					user.setPassword(stringEncrypter.decrypt(user.getPassword().trim()));
 				}
 			}
 			return user;
@@ -4612,9 +4608,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if(this.isEncryptionEnabled && application.getDatabasePassword().trim().length()>0){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
-					application.setDatabasePassword(stringEncrypter.encrypt(application.getDatabasePassword()));
+					application.setDatabasePassword(stringEncrypter.encrypt(application.getDatabasePassword().trim()));
 				}else{
-					application.setDatabasePassword(stringEncrypter.decrypt(application.getDatabasePassword()));
+					application.setDatabasePassword(stringEncrypter.decrypt(application.getDatabasePassword().trim()));
 				}
 			}
 			return application;
