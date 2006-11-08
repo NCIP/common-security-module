@@ -91,6 +91,7 @@ package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
@@ -184,6 +185,7 @@ public class AuthenticationManagerFactory
 				log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Error|Error in reading the Application Security Config file and trying to initialize the manager in new way|");
 			authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
 			authenticationManager.initialize(applicationContextName);
+			LockoutManager.initialize(Constants.LOCKOUT_TIME, Constants.ALLOWED_LOGIN_TIME, Constants.ALLOWED_ATTEMPTS);
 			if (log.isDebugEnabled())
 				log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Success|Initializing Common Authentication Manager in new way|");
 		}
@@ -215,5 +217,30 @@ public class AuthenticationManagerFactory
 		}
 		return authenticationManager;
 	}
-	
+
+	/**
+	 * This methods instantiate the CSM provided implementation of the {@link AuthenticationManager} and returns it to 
+	 * the calling method. It also initializes the Lockout Manager with the provided parameter to maintain locking out
+	 * of the user. This method is provided to support the new Configuration framework introduced in CSM v3.2
+	 * 
+	 * @param applicationContextName The name or context of the calling application. This parameter is used to load the 
+	 * login modules from the jaas config file
+	 * NOTE: that the application name/context should be same as those configured in the jaas config files	 
+	 * @param lockoutTime the time in milliseconds that the user will be locked out after the configured number of 
+	 * unsuccessful login attempts has been reached
+	 * @param allowedLoginTime the time in milliseconds in which the configured number of unsuccessful login attempts 
+	 * must occur in order to lock the user out 
+	 * @param allowedAttempts the number of unsuccessful login attempts allowed before the use account is locked out
+	 * @return An instance of the CSM provided implementation of the AuthenticationManager interface. 
+	 * @throws CSException If there are any errors in obtaining the default instance of the {@link AuthenticationManager}
+	 * @throws CSConfigurationException If there are any configuration errors during obtaining the {@link AuthenticationManager}
+	 */	
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName, String lockoutTime, String allowedLoginTime, String allowedAttempts) throws CSException, CSConfigurationException
+	{		
+		AuthenticationManager authenticationManager = null;
+		authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
+		authenticationManager.initialize(applicationContextName);		
+		LockoutManager.initialize(lockoutTime, allowedLoginTime, allowedAttempts);
+		return authenticationManager;
+	}
 }

@@ -134,4 +134,9 @@ public class Constants
 	public static final String YES = "YES";
 	
 	public static final String ENCRYPTION_ENABLED = "encryption-enabled";
+	
+	public static final String LOCKOUT_TIME = "1800000";
+	public static final String ALLOWED_LOGIN_TIME = "60000";
+	public static final String ALLOWED_ATTEMPTS = "3";
+
 }

@@ -187,6 +187,28 @@ public class SecurityServiceProvider {
 	}
 	
 	/**
+	 * This methods instantiate the CSM provided implementation of the {@link AuthenticationManager} and returns it to 
+	 * the calling method. It also initializes the Lockout Manager with the provided parameter to maintain locking out
+	 * of the user. This method is provided to support the new Configuration framework introduced in CSM v3.2
+	 * 
+	 * @param applicationContextName The name or context of the calling application. This parameter is used to load the 
+	 * login modules from the jaas config file
+	 * NOTE: that the application name/context should be same as those configured in the jaas config files	 
+	 * @param lockoutTime the time in milliseconds that the user will be locked out after the configured number of 
+	 * unsuccessful login attempts has been reached
+	 * @param allowedLoginTime the time in milliseconds in which the configured number of unsuccessful login attempts 
+	 * must occur in order to lock the user out 
+	 * @param allowedAttempts the number of unsuccessful login attempts allowed before the use account is locked out
+	 * @return An instance of the CSM provided implementation of the AuthenticationManager interface. 
+	 * @throws CSException If there are any errors in obtaining the default instance of the {@link AuthenticationManager}
+	 * @throws CSConfigurationException If there are any configuration errors during obtaining the {@link AuthenticationManager}
+	 */	
+	public static AuthenticationManager getAuthenticationManager(String applicationContextName, String lockoutTime, String allowedLoginTime, String allowedAttempts) throws CSException, CSConfigurationException
+	{
+		return AuthenticationManagerFactory.getAuthenticationManager(applicationContextName,lockoutTime,allowedLoginTime,allowedAttempts);
+	}
+	
+	/**
 	 * Obtains an instance of {@link AuthorizationManager} implementation from the
 	 * {@link AuthorizationManagerFactory} class, for the Application Context/Name provide.
 	 * If an custom Authorization Manager Class is registered for the application then the

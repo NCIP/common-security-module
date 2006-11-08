@@ -13,7 +13,7 @@ public class LockoutManager
 	private static LockoutManager lockoutManager = null;
 	static Timer cleanupTimer = new Timer();
 
-	private long lockoutTime = 60000;
+	private long lockoutTime = 1800000;
 	private long allowedLoginTime;
 	private int allowedAttempts;
 	private boolean disableLockoutManager;
@@ -116,7 +116,7 @@ public class LockoutManager
 		if (null == lockoutManager)
 		{
 			// Initialize with the following defaults
-			lockoutManager = new LockoutManager("60000", "60000", "3");
+			lockoutManager = new LockoutManager("1800000", "60000", "3");
 		}
 		return lockoutManager;
 	}	
