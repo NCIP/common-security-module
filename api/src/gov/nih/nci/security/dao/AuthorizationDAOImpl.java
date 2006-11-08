@@ -3106,6 +3106,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						"No Application Found for the given Context Name");
 			}
 			app = (Application) list.get(0);
+			
+			//decrypt
+			try {
+				app = (Application) performEncrytionDecryption(app, false);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
+			
 			log.debug("Found the Application");
 
 		} catch (GenericJDBCException eex) {
