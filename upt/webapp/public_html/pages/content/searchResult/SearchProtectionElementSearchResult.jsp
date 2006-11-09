@@ -122,7 +122,7 @@
 											width="15%">Attribute</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="ProtectionElement">
+										id="searchResultObject" type="ProtectionElement" length="200">
 										<%if (oddRow.equals("true"))
 		{
 			oddRow = "false";%>
@@ -208,7 +208,7 @@
 								<!-- action buttons end --></td>
 							</tr>
 						</logic:present>
-						<% //Check for 100 users and display error if exceeds
+						<% //Check for 200 users and display error if exceeds
 						if (cntResObj>=200){ %>								
 						<tr>
 							<td>

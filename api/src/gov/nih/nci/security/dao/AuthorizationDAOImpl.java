@@ -439,6 +439,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			user.setGroups(newGroups);
+			try {
+				user = (User) performEncrytionDecryption(user, true);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
 			t = s.beginTransaction();
 			s.update(user);
 			t.commit();
@@ -495,6 +500,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			for (int k = 0; k < userIds.length; k++) {
 				User user = (User) this.getObjectByPrimaryKey(User.class,
 						userIds[k]);
+				try {
+					user = (User) performEncrytionDecryption(user, true);
+				} catch (EncryptionException e) {
+					throw new CSObjectNotFoundException(e);
+				}
+				
 				if (user != null) {
 					newUsers.add(user);
 				}
@@ -845,6 +856,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public void assignUserRoleToProtectionGroup(String userId,
 			String[] rolesId, String protectionGroupId)
 			throws CSTransactionException {
+		
 		Session s = null;
 		Transaction t = null;
 		ArrayList roles = new ArrayList();
@@ -863,6 +875,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
+			try {
+				user = (User) performEncrytionDecryption(user, true);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
 			
 			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
@@ -1968,6 +1985,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	
 	
 	public Set getUsers(String groupId) throws CSObjectNotFoundException {
+		//todo
 		Session s = null;
 		Set users = new HashSet();
 		try {
@@ -2249,6 +2267,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (groups.contains(group)) {
 				groups.remove(group);
 				user.setGroups(groups);
+				
+				try {
+					user = (User)performEncrytionDecryption(user, true);
+				} catch (EncryptionException e) {
+					throw new CSObjectNotFoundException(e);
+				}
+				
 				s.update(user);
 			}
 

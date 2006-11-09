@@ -68,7 +68,7 @@
 											width="15%">Attribute</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="ProtectionElement">
+										id="searchResultObject" type="ProtectionElement" length="200">
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%"><html:radio
