@@ -8,7 +8,7 @@
       <param name="application" value="csm" />
       <param name="maxBufferSize" value="1" />
       <param name="dbDriverClass" value="com.mysql.jdbc.Driver" />
-      <param name="dbUrl" value="jdbc:mysql://cbiovdev5004:3620/newauthschema" />
+      <param name="dbUrl" value="jdbc:mysql://cbiovdev5004.nci.nih.gov:3620/newauthschema" />
       <param name="dbUser" value="ncisecurity" />
       <param name="dbPwd" value="ncisecurity" />
 	  <param name="useFilter" value="true" />
@@ -56,7 +56,23 @@
        <level value="debug" />
        <appender-ref ref="JDBC_MySql" />
     </logger>
-
+    
+    <category name="CSM.Audit.Logging.Event.Authentication">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
+	<category name="CSM.Audit.Logging.Event.Authorization">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
+	<category name="CSM.Audit.Logging.ObjectState.Authorization">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
+	<category name="CSM.Audit.Logging.Authorization">
+			<level value="info" />
+			<appender-ref ref="CLM_MYSQL_APPENDER" />
+	</category>
 
 
 

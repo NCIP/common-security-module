@@ -362,6 +362,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			Group group = getGroup(groupName);
 			User user = getUser(userName);
+			try {
+				user = (User) performEncrytionDecryption(user, true);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
 			log.debug("The Group ID: " + group.getGroupId());
 			log.debug("The User ID: " + user.getUserId());
 			Set groups = getGroups("" + user.getUserId());
