@@ -1,9 +1,18 @@
+# 
+# The following entries creates a super admin application incase you decide 
+# to use this database to run UPT also. In that case you need to provide
+# the project login id and name for the super admin.
+# However in incase you are using this database just to host the application's
+# authorization schema, these enteries are not used and hence they can be left as 
+# it is.
+#
+
 insert into csm_application(APPLICATION_ID, APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 values (1, 'csmupt','UPT Super Admin Application',0,0,sysdate);
 select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
 
-insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,UPDATE_DATE)
-values (1, 'modik','Kunal','Modi',sysdate);
+insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
+values (1, '<<super_admin_login_id>>','<<super_admin_first_name>>','<<super_admin_last_name>>',"zJPWCwDeSgG8j2uyHEABIQ==",sysdate);
 select CSM_USER_USER_ID_SEQ.nextval from dual;
  
 insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
@@ -13,6 +22,19 @@ select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 insert into csm_user_pe(USER_PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
 values(1,1,1,sysdate);
 select CSM_USER_PE_USER_PROTECTIO_SEQ.nextval from dual;
+
+# 
+# The following entry is for your application. 
+# Replace <<application_context>> with your application's context name.
+#
+
+INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
+VALUES ('<<application_context_name>>','Application Description',0,0,sysdate);
+select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
+
+#
+# The following entries are Common Set of Privileges
+#
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
 VALUES(1,'CREATE','This privilege grants permission to a user to create an entity. This entity can be an object, a database entry, or a resource such as a network connection', sysdate);
