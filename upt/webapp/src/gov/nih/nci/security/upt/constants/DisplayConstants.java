@@ -184,6 +184,6 @@ public class DisplayConstants
 
 	public static final String DISPLAY_DATE_FORMAT = "(MM/DD/YYYY)";
 	
-	public static final String UPT_CONTEXT_NAME = "UPT";
+	public static final String UPT_CONTEXT_NAME = "csmupt";
 	
 }
