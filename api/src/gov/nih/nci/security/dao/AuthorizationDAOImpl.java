@@ -3761,10 +3761,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			while(groupIterator.hasNext()){
 				Group g = (Group)groupIterator.next();
 				if( g.getApplication().getApplicationId().intValue() != this.application.getApplicationId().intValue()){
-					groups.remove(g);
+					removedGroups.add(g);
 				}	
 			}
-			
+			groups.removeAll(removedGroups);
 			List list = new ArrayList();
 			Iterator toSortIterator = groups.iterator();
 			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
