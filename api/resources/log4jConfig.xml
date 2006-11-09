@@ -1,67 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="true">
-<!-- 
-	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value=":: [%d{ISO8601}] %-5p %c{1}.%M() %x - %m%n" />
-		</layout>
-	</appender>
-
-	<appender name="rollingLogFile" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="C:/security/logs/security-api.log" />
-		<param name="MaxFileSize" value="5MB" />
-		<param name="MaxBackupIndex" value="3" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%d{ISO8601}][%-5p][%c{1}.%M()%L]-%m%n" />
-		</layout>
-	</appender>
-
-	<category name="gov.nih.nci.security">
-		<priority value="debug" />
-	</category>
-
-	<category name="test.gov.nih.nci.security">
-		<priority value="debug" />
-	</category>
 
 
-	<root>
-		<priority value="debug" />
-		<appender-ref ref="rollingLogFile" />
-	</root>
--->
-	<appender name="CLM_MYSQL_APPENDER" class="gov.nih.nci.logging.api.appender.jdbc.JDBCAppender">
-		<param name="application" value="csm" />
-		<param name="maxBufferSize" value="1" />
-		<param name="dbDriverClass" value="com.mysql.jdbc.Driver" />
-		<param name="dbUrl" value="jdbc:mysql://localhost:3306/log" />
-		<param name="dbUser" value="root" />
-		<param name="dbPwd" value="love" />
-		<param name="useFilter" value="true" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value=":: [%d{ISO8601}] %-5p %c{1}.%M() %x - %m%n" />
-		</layout>
-	</appender>
+<!DOCTYPE log4j:configuration SYSTEM ".\log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <appender name="CLM_APPENDER" class="gov.nih.nci.logging.api.appender.jdbc.JDBCAppender">
+      <param name="application" value="csm" />
+      <param name="maxBufferSize" value="1" />
+      <param name="dbDriverClass" value="org.gjt.mm.mysql.Driver" />
+      <param name="dbUrl" value="jdbc:mysql://<<SERVER_NAME>>:<<PORT>>/<<CSM_SCHEMA_NAME>>" />
+      <param name="dbUser" value="<<DB_USER>>" />
+      <param name="dbPwd" value="<<PASSWORD>>" />
+	  <param name="useFilter" value="true" />
+      <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern"
+                       value=":: [%d{ISO8601}] %-5p %c{1}.%M() %x - %m%n" />
+      </layout>
+    </appender>
 
     <category name="CSM.Audit.Logging.Event.Authentication">
 			<level value="info" />
-			<appender-ref ref="CLM_MYSQL_APPENDER" />
+			<appender-ref ref="CLM_APPENDER" />
 	</category>
 	<category name="CSM.Audit.Logging.Event.Authorization">
 			<level value="info" />
-			<appender-ref ref="CLM_MYSQL_APPENDER" />
+			<appender-ref ref="CLM_APPENDER" />
 	</category>
 	<category name="CSM.Audit.Logging.ObjectState.Authorization">
 			<level value="info" />
-			<appender-ref ref="CLM_MYSQL_APPENDER" />
+			<appender-ref ref="CLM_APPENDER" />
 	</category>
 	<category name="CSM.Audit.Logging.Authorization">
 			<level value="info" />
-			<appender-ref ref="CLM_MYSQL_APPENDER" />
+			<appender-ref ref="CLM_APPENDER" />
 	</category>
 
+
+
 </log4j:configuration>
-
-
