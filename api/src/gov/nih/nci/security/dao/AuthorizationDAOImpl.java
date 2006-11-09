@@ -1074,7 +1074,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					+ "|" + ex.getMessage(), ex);
 		} finally {
 			try {
-				cn.close();
+				
 				s.close();
 				rs.close();
 				stmt.close();
@@ -1181,7 +1181,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				session.close();
 				resultSet.close();
 				statement.close();
-				connection.close();
+				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
@@ -1243,7 +1243,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				session.close();
 				resultSet.close();
 				statement.close();
-				connection.close();
+				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
@@ -1304,7 +1304,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			resultSet.close();
 			statement.close();
-			connection.close();
+			
 		}
 		catch (Exception e) {
 			throw new CSException("Attribute can't be null!");
@@ -1363,7 +1363,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				cn.close();
+				
 				s.close();
 				rs.close();
 				stmt.close();
@@ -1436,7 +1436,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				cn.close();
+				
 				s.close();
 				rs.close();
 				stmt.close();
@@ -1503,7 +1503,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				cn.close();
+				
 				s.close();
 				rs.close();
 				stmt.close();
@@ -2128,7 +2128,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				
 				s.close();
-				cn.close();
+				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -2369,7 +2369,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		} finally {
 			try {
 				
-				cn.close();
+				
 				s.close();
 
 			} catch (Exception ex2) {
@@ -3236,7 +3236,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				cn.close();
+				
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3344,7 +3344,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		}finally {
 			try {
-				cn.close();
+				
 				s.close();
 				
 			} catch (Exception ex2) {
@@ -3477,7 +3477,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				stmt.close();
 				rs.close();
-				cn.close();
+				
 			} catch (Exception ex2) {
 			}
 
@@ -3557,7 +3557,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				stmt.close();
 				rs.close();
-				cn.close();
+				
 			} catch (Exception ex2) {
 			}
 
@@ -4108,7 +4108,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				
 				stmt.close();
 				rs.close();
-				cn.close();
+				
 			} catch (Exception ex2) {
 				ex2.printStackTrace();
 			}
@@ -4482,7 +4482,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				rs.close();
 				stmt.close();
-				cn.close();
+				
 
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -4606,7 +4606,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				s.close();
 				rs.close();
 				pstmt.close();
-				cn.close();
+				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log

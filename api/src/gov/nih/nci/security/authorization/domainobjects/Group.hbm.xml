@@ -31,7 +31,7 @@
         name="groupName"
         type="java.lang.String"
         column="GROUP_NAME"
-        length="100"
+        length="255"
     />
     <property
         name="groupDesc"
