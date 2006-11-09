@@ -57,6 +57,7 @@
 			<fileset dir="${resources}">
 			</fileset>
 		</copy>
+		<delete quiet="true" file="${dist}/ObjectStateLoggerConfig.xml"/>
 	</target>
 
 	<target name="distupt" depends="dist" description="propogates the distribution to upt project">
