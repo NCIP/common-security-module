@@ -46,7 +46,7 @@
 	</target>
 
 	<target name="dist" depends="compile" description="generate the distribution">
-		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<!-- Put everything in ${build} into the csmapi.jar file -->
 		<jar jarfile="${dist}/csmapi.jar" basedir="${build}" />
 		<copy todir="${dist}">
 			<fileset dir="${lib}">
