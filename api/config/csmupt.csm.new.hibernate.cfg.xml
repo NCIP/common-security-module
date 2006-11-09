@@ -11,7 +11,7 @@
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
         <property name="hibernate.show_sql">false</property>
         <property name="connection.datasource">java:/csmupt</property>
-        <property name="hibernate.transaction.factory_class">org.sf.hibernate.transaction.JTATransactionFactory</property>
+        <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
         <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml"/>
