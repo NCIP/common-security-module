@@ -32,6 +32,11 @@ INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 VALUES ('<<application_context_name>>','Application Description',0,0,sysdate);
 select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
 
+insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+values(1, '<<application_context_name>>','<<application_context_name>> Admin Application','<<application_context_name>>',1,sysdate);
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
+
+
 #
 # The following entries are Common Set of Privileges
 #
