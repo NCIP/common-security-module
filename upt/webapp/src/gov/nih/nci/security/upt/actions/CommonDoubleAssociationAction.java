@@ -1,9 +1,3 @@
-/*
- * Created on Dec 3, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.upt.actions;
 
 /**
@@ -102,6 +96,7 @@ import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.util.ProtectionElementPrivilegesContextComparator;
 import gov.nih.nci.security.util.ProtectionGroupRoleContextComparator;
 
 import java.util.ArrayList;
@@ -283,7 +278,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 			while(iterator.hasNext()){
 				associatedProtectionElementPrivilegesContexts.add(iterator.next());
 			}
-			Collections.sort(associatedProtectionElementPrivilegesContexts, new ProtectionGroupRoleContextComparator());
+			Collections.sort(associatedProtectionElementPrivilegesContexts, new ProtectionElementPrivilegesContextComparator());
 			
 			if (associatedProtectionElementPrivilegesContexts != null && associatedProtectionElementPrivilegesContexts.size() != 0)
 				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET, associatedProtectionElementPrivilegesContexts);
