@@ -1,9 +1,3 @@
-/*
- * Created on Dec 20, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.upt.actions;
 
 /**
@@ -139,7 +133,7 @@ public class LogoutAction extends Action
 		
 		try
 		{
-			uptContextName = getUPTContextName();
+			uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 			AuthenticationManager authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);
 			authenticationManager.logout(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId());
 		}
