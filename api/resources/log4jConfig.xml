@@ -8,7 +8,7 @@
       <param name="application" value="csm" />
       <param name="maxBufferSize" value="1" />
       <param name="dbDriverClass" value="org.gjt.mm.mysql.Driver" />
-      <param name="dbUrl" value="jdbc:mysql://<<SERVER_NAME>>:<<PORT>>/<<CSM_SCHEMA_NAME>>" />
+      <param name="dbUrl" value="jdbc:mysql://<<SERVER_NAME>>:<<PORT>>/<<CLM_SCHEMA_NAME>>" />
       <param name="dbUser" value="<<DB_USER>>" />
       <param name="dbPwd" value="<<PASSWORD>>" />
 	  <param name="useFilter" value="true" />
