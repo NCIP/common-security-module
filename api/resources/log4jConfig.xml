@@ -30,11 +30,6 @@
 			<level value="info" />
 			<appender-ref ref="CLM_APPENDER" />
 	</category>
-	<category name="CSM.Audit.Logging.Authorization">
-			<level value="info" />
-			<appender-ref ref="CLM_APPENDER" />
-	</category>
-
 
 
 </log4j:configuration>
