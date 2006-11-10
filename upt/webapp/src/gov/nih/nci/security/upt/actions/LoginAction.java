@@ -1,9 +1,3 @@
-/*
- * Created on Dec 20, 2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package gov.nih.nci.security.upt.actions;
 
 /**
