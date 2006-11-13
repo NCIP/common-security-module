@@ -108,8 +108,6 @@
 														%><%=role.getName()%><%														
 														if(ii<roles.size()){
 														%>,&nbsp;<%
-														}else{
-															%><%=ii%><%														
 														}
 														ii++;
 													}
@@ -132,8 +130,6 @@
 														%><%=role.getName()%><%														
 														if(ii<roles.size()){
 														%>,&nbsp;<%
-														}else{
-															%><%=ii%><%														
 														}
 														ii++;
 													}
