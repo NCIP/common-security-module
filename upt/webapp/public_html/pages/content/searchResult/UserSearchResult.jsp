@@ -17,7 +17,7 @@
 <% int cntResObj=1; // - Count the number of objects to display %>
 <script>
 <!--
-	int cntResObj=1; 
+	cntResObj=1; 
    	function setAndSubmit(target)
    	{
   		document.UserForm.operation.value=target;
