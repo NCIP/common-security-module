@@ -89,7 +89,7 @@ public class PasswordEncrypter {
 			Connection connection = getConnection();
 	        Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	        
-	        ResultSet resultSet = stmt.executeQuery("SELECT * FROM "+DATABASE_TABLE_NAME);
+	        ResultSet resultSet = stmt.executeQuery("SELECT "+DATABASE_TABLE_NAME+".* FROM "+DATABASE_TABLE_NAME);
 
 	        String userPassword = null;
 	        String encryptedUserPassword = null;
@@ -149,7 +149,7 @@ public class PasswordEncrypter {
 		    try {
 		        DatabaseMetaData dmd = connection.getMetaData();
 		        if (dmd.supportsResultSetConcurrency(
-		            ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+		            ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
 		            // Updatable result sets are supported
 		        } else {
 		            // Updatable result sets are not supported
