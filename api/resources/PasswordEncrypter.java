@@ -22,6 +22,18 @@ import java.sql.Statement;
  * 	- Database Connection parameters.
  *  - csmapi.jar in classpath. 
  *	
+ *
+ * Database Drivers Information
+ * For an Oracle database, download and installation instructions are available at: 
+ *   http://otn.oracle.com/software/content.html
+ * For a MySQL database, download and installation instructions are available at: 
+ *   http://mmMySQL.sourceforge.net
+ * For a SQL Server database, there are many JDBC drivers available. Here are some: 
+ *   NetDirect:  http://www.j-netdirect.com
+ *   DataDirect: http://www.datadirect-technologies.com
+ *   FreeTDS:    http://www.freetds.org
+ *
+ *
  * 
  * @author parmarv
  *
@@ -44,7 +56,11 @@ public class PasswordEncrypter {
 	static String DATABASE_USERNAME = "root";	
 	// Database Password
 	static String DATABASE_PASSWORD = "admin";	
-	// The database Driver.
+	/* The database Driver. 
+	*	Examples : MySQL = org.gjt.mm.mysql.Driver 
+	*	Oracle = oracle.jdbc.driver.OracleDriver 
+	*	SQLServer = com.jnetdirect.jsql.JSQLDriver // NetDirect JDBC driver
+	*/
 	static String DATABASE_DRIVER = "org.gjt.mm.mysql.Driver"; 
 	// The name of the table whose field is to be encrypted.
 	static String DATABASE_TABLE_NAME = "csm_user"; 
