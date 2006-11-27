@@ -217,7 +217,7 @@ function MM_swapImage() { //v3.0
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')"><a
+					><a
 					class="mainMenuLink"
 					href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')">LOG OUT</a>
 				<!-- link 8 ends -->
