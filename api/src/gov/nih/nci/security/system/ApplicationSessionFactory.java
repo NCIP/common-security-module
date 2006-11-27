@@ -166,6 +166,12 @@ public class ApplicationSessionFactory {
 				configuration.setProperty("hibernate.connection.password",(String)connectionProperties.get("hibernate.connection.password"));
 				configuration.setProperty("hibernate.dialect",(String)connectionProperties.get("hibernate.dialect"));
 				configuration.setProperty("hibernate.connection.driver_class",(String)connectionProperties.get("hibernate.connection.driver_class"));
+				configuration.setProperty("hibernate.c3p0.min_size","5");
+				configuration.setProperty("hibernate.c3p0.max_size","20");
+				configuration.setProperty("hibernate.c3p0.timeout","300");
+				configuration.setProperty("hibernate.c3p0.max_statements","50");
+				configuration.setProperty("hibernate.c3p0.idle_test_period","3000");
+				
 				sessionFactory = configuration.buildSessionFactory();
 			}
 			catch (Exception e) 
