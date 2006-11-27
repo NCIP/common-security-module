@@ -3435,6 +3435,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set privileges = null;
 		Privilege privilege = null;
 		
+		List peList = new ArrayList();
+		List privList = new ArrayList();
+		
 		boolean firstTime = true;
 		ProtectionElementPrivilegeContext protectionElementPrivilegeContext = null;
 		
@@ -3449,9 +3452,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			rs = stmt.executeQuery(sql);
 
-			while (rs.next()) {
-				currPEId = rs.getString(1);
-				currPrivilegeId = rs.getString(2);
+			while(rs.next()){
+				peList.add(rs.getString(1));
+				privList.add(rs.getString(2));
+				
+			}
+			
+			Iterator currPEIdIterator = peList.iterator();
+			Iterator currPrivilegeIdIterator = privList.iterator();
+			
+			while(currPEIdIterator.hasNext()){
+				
+				currPEId = (String)currPEIdIterator.next();
+				currPrivilegeId = (String)currPrivilegeIdIterator.next();
 				
 				if (!currPEId.equals(prevPEId))
 				{
@@ -3474,6 +3487,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}
 				privileges.add(privilege);
 			}
+			
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			if (log.isDebugEnabled())
@@ -3514,6 +3529,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		String currPrivilegeId = null;
 		Set privileges = null;
 		Privilege privilege = null;
+		
+		List peList = new ArrayList();
+		List privList = new ArrayList();
 
 		boolean firstTime = true;
 		ProtectionElementPrivilegeContext protectionElementPrivilegeContext = null;
@@ -3528,10 +3546,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug("SQL is : " + sql);
 
 			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+				peList.add(rs.getString(1));
+				privList.add(rs.getString(2));
+				
+			}
+			
+			Iterator currPEIdIterator = peList.iterator();
+			Iterator currPrivilegeIdIterator = privList.iterator();
+			
+			while(currPEIdIterator.hasNext()){
+				
+				currPEId = (String)currPEIdIterator.next();
+				currPrivilegeId = (String)currPrivilegeIdIterator.next();
 
-			while (rs.next()) {
-				currPEId = rs.getString(1);
-				currPrivilegeId = rs.getString(2);
 				
 				if (!currPEId.equals(prevPEId))
 				{
