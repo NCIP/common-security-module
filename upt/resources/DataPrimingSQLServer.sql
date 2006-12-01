@@ -1,11 +1,11 @@
-# 
-# The following entries creates a super admin application incase you decide 
-# to use this database to run UPT also. In that case you need to provide
-# the project login id and name for the super admin.
-# However in incase you are using this database just to host the application's
-# authorization schema, these enteries are not used and hence they can be left as 
-# it is.
-#
+-- 
+-- The following entries creates a super admin application incase you decide 
+-- to use this database to run UPT also. In that case you need to provide
+-- the project login id and name for the super admin.
+-- However in incase you are using this database just to host the application's
+-- authorization schema, these enteries are not used and hence they can be left as 
+-- it is.
+--
 
 insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 values ("csmupt","CSM UPT Super Admin Application",0,0,GETDATE());
@@ -19,21 +19,21 @@ values("csmupt","UPT Super Admin Application","csmupt",1,GETDATE());
 insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
 values(1,1,GETDATE());
 
-# 
-# The following entry is for your application. 
-# Replace <<application_context>> with your application name.
-#
+-- 
+-- The following entry is for your application. 
+-- Replace <<application_context>> with your application name.
+--
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-VALUES ("<<application_context_name>>","Application Description",0,0,sysdate());
+VALUES ("<<application_context_name>>","Application Description",0,0,GETDATE());
 
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
 values("<<application_context_name>>","<<application_context_name>> Admin Application","<<application_context_name>>",1,GETDATE());
 
 
-#
-# The following entries are Common Set of Privileges
-#
+--
+-- The following entries are Common Set of Privileges
+--
 
 
 INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
