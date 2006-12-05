@@ -108,7 +108,12 @@
 										<td class="sidebarTitle" height="20">WHAT'S NEW</td>
 									</tr>
 									<tr>
-										<td class="sidebarContent">CSM v3.2.1 is now available for the caCORE 3.0 release!</td>
+										<td class="sidebarContent">
+											<li>New fields for supplying database connection information for an application (configuration files are no longer necessary!)
+											<li>New Protection Element Type field will help you organize your Protection Elements
+											<li>Users can now be associated to groups
+											<li>Passwords are now encrypted in the database
+										</td>
 									</tr>
 								</table>
 								</td>
@@ -124,7 +129,11 @@
 										<td class="sidebarTitle" height="20">DID YOU KNOW?</td>
 									</tr>
 									<tr>
-										<td class="sidebarContent" valign="top">You can use CSM for all of your authentication and authorization needs.</td>
+										<td class="sidebarContent" valign="top">
+										<li>You can organize your Protection Elements with the new Protection Element Type field. 
+										<li>A user's Login ID can no longer be edited once it has been created.
+										
+										</td>
 									</tr>
 								</table>
 								</td>
