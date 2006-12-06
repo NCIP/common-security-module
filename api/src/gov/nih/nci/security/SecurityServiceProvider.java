@@ -109,10 +109,16 @@ import java.util.HashMap;
  */
 public class SecurityServiceProvider {
 
+	/**
+	 * Default Constructor. Doest Nothing.
+	 */
 	public SecurityServiceProvider(){
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
 	public void finalize() throws Throwable {
 
 	}
@@ -147,7 +153,11 @@ public class SecurityServiceProvider {
 	 * {@link AuthorizationManagerFactory} class will instantiate the same and return it.
 	 * If no configuration is found then the default {@link UserProvisioningManagerImpl} class
 	 * is instantiated and returned. This manager should be used by the Client Applications which
-	 * needs to use the Authorization service provided by Common Security Module
+	 * needs to use the Authorization service provided by Common Security Module. With CSM v3.2 this method would
+	 * first try to obtain the AuthorizationManager directly by trying to looking a <code>Hibernate Config File</code> by the 
+	 * name <code>[applicationContextName].csm.new.hibernate.cfg.xml</code> in the classpath. If it can find it then it directly uses 
+	 * it to connect to the CSM Database else if follows the old way of trying to look up the <code>ApplicationSecurityConfig.xml</code> file
+	 * and obtain path to the Hibernate file from there.
 	 * 
 	 * @param applicationContextName The name or context of the calling application. This parameter is used to retrieve
 	 * the implementation class for that Application from the property file if it is configured.
@@ -171,8 +181,10 @@ public class SecurityServiceProvider {
 	 * If an custom Authentication Manager Class is registered for the application then the
 	 * {@link AuthenticationManagerFactory} class will instantiate the same and return it.
 	 * If no configuration is found then the default {@link gov.nih.nci.security.authentication.CommonAuthenticationManager} class
-	 * is instantiated and returned.This manager should be used by the Client Applications which
-	 * needs to use the Authentication service provided by Common Security Module
+	 * is instantiated and returned. There is no need to configure the <code>ApplicationSecurityConfig</code> file if the default implementation is 
+	 * to be used. Application would neeed to directly configure the JAAS LoginModules. 
+	 * 
+	 * This manager should be used by the Client Applications which needs to use the Authentication service provided by Common Security Module
 	 * 
 	 * @param applicationContextName The name or context of the calling application. This parameter is used to retrieve
 	 * the implementation class for that Application from the property file if it is configured.
@@ -189,7 +201,10 @@ public class SecurityServiceProvider {
 	/**
 	 * This methods instantiate the CSM provided implementation of the {@link AuthenticationManager} and returns it to 
 	 * the calling method. It also initializes the Lockout Manager with the provided parameter to maintain locking out
-	 * of the user. This method is provided to support the new Configuration framework introduced in CSM v3.2
+	 * of the user. This method is provided to support the new Configuration framework introduced in CSM v3.2. 
+	 * 
+	 * There is no need to configure the <code>ApplicationSecurityConfig</code> file if the default implementation is 
+	 * to be used. Application would neeed to directly configure the JAAS LoginModules. 
 	 * 
 	 * @param applicationContextName The name or context of the calling application. This parameter is used to load the 
 	 * login modules from the jaas config file
@@ -214,17 +229,25 @@ public class SecurityServiceProvider {
 	 * If an custom Authorization Manager Class is registered for the application then the
 	 * {@link AuthorizationManagerFactory} class will instantiate the same and return it.
 	 * If no configuration is found then the default {@link UserProvisioningManagerImpl} class
-	 * is instantiated and returned. This manager should be used by the Client Applications which
-	 * needs to use the Authorization service provided by Common Security Module
+	 * is instantiated. After instantiation, using the User Name or the Group Name passed it load the AuthorizationPolicy by invoking the 
+	 * {@link UserProvisioningManager#getProtectionElementPrivilegeContextForUser(String)} or the {{@link UserProvisioningManager#getProtectionElementPrivilegeContextForGroup(String)}}
+	 * method. This AuthorizationPolicy is cached internally and is used in the <code>checkPermission</code> methods to avoid a database trip.
+	 * 
+	 * With CSM v3.2 this method would first try to obtain the AuthorizationManager directly by trying to looking a <code>Hibernate Config File</code> by the 
+	 * name <code>[applicationContextName].csm.new.hibernate.cfg.xml</code> in the classpath. If it can find it then it directly uses 
+	 * it to connect to the CSM Database else if follows the old way of trying to look up the <code>ApplicationSecurityConfig.xml</code> file
+	 * and obtain path to the Hibernate file from there.
+	 * 
+	 * This manager should be used by the Client Applications which needs to use the Authorization service provided by Common Security Module
 	 * 
 	 * @param applicationContextName The name or context of the calling application. This parameter is used to retrieve
 	 * the implementation class for that Application from the property file if it is configured.
-	 * @param userOrGroupName 
-	 * @param isUserName 
+	 * @param userOrGroupName Either the User name or the Group name for which the authorization policy is to be cached
+	 * @param isUserName to indicate whether the passed name is user name or the group name. <code>True</code> indicates user name
 	 * @return The implementation of the {@link AuthorizationManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link AuthorizationManager} could not be obtained
-	 * @throws CSConfigurationException 
+	 * @throws CSConfigurationException if there is any configuration exception in creation of the {@link AuthorizationManager}.
 	 */
 	public static AuthorizationManager getAuthorizationManager(String applicationContextName, String userOrGroupName, boolean isUserName)throws CSException, CSConfigurationException
 	{
@@ -237,16 +260,27 @@ public class SecurityServiceProvider {
 	}
 	
 	/**
-	 * This method will provides the default implementation of the {@link UserProvisioningManager}. This Manager
-	 * is used only by the User Provisioning Tool and is not available for the applications to use at runtime. The 
-	 * methods exposed 
-	 * @param contextName The name of the Application for which the {@link UserProvisioningManager} is obtained
-	 * @param userOrGroupName 
-	 * @param isUserName 
+	 * Obtains an instantiate an instance of the {@link UserProvisioningManager} implementation. After instantiation, using the User Name or the Group Name passed it load the AuthorizationPolicy by invoking the 
+	 * {@link UserProvisioningManager#getProtectionElementPrivilegeContextForUser(String)} or the {{@link UserProvisioningManager#getProtectionElementPrivilegeContextForGroup(String)}}
+	 * method. This AuthorizationPolicy is cached internally and is used in the <code>checkPermission</code> methods to avoid a database trip.
+	 * 
+	 * With CSM v3.2 this method would first try to obtain the UserProvisionManager implementation directly by trying to looking a <code>Hibernate Config File</code> by the 
+	 * name <code>[applicationContextName].csm.new.hibernate.cfg.xml</code> in the classpath. If it can find it then it directly uses 
+	 * it to connect to the CSM Database else if follows the old way of trying to look up the <code>ApplicationSecurityConfig.xml</code> file
+	 * and obtain path to the Hibernate file from there.
+	 * 
+	 * This manager should be used primarily by the <code>User Provisioning Tool</code> of the CSM however client applications needed advance features can
+	 * use this manager as well.
+	 * 
+	 * This manager should be used by the Client Applications which needs to use the Authorization service provided by Common Security Module
+	 * @param contextName The name or context of the calling application. This parameter is used to retrieve
+	 * the implementation class for that Application from the property file if it is configured.
+	 * @param userOrGroupName Either the User name or the Group name for which the authorization policy is to be cached
+	 * @param isUserName to indicate whether the passed name is user name or the group name. <code>True</code> indicates user name
 	 * @return The implementation of the {@link UserProvisioningManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link UserProvisioningManager} could not be obtained
-	 * @throws CSConfigurationException 
+	 * @throws CSConfigurationException if there is any configuration exception in creation of the {@link UserProvisioningManager}.
 	 */
 	public static UserProvisioningManager getUserProvisioningManager(String contextName, String userOrGroupName, boolean isUserName) throws CSException, CSConfigurationException{
 		
@@ -262,15 +296,31 @@ public class SecurityServiceProvider {
 	}
 
 	/**
-	 * This method will provides the default implementation of the {@link UserProvisioningManager}. This Manager
-	 * is used only by the User Provisioning Tool and is not available for the applications to use at runtime. The 
-	 * methods exposed 
+	 * This method will provides the default implementation of the {@link UserProvisioningManager}. This method accepts a (@link HashMap) containing
+	 * the database parameters needed to connect to the underlying CSM Authorization Database. The the HashMap should contain the following keys with their 
+	 * appropriate values.
+	 * <p>
+	 * <blockquote>
+	 * 
+	 * <pre>
+	 *      hibernate.connection.url - The url of the CSM Authorization database
+	 *      hibernate.connection.username - The username for the database
+	 *      hibernate.connection.password - The password for the database
+	 *      hibernate.dialect - The hibernate dialect to be used based on the database eg. MySQL, Oracle
+	 *      hibernate.connection.driver_class - The driver class to be used to connect to the database.
+	 * </pre>
+	 * 
+	 * </blockquote>
+	 * <p>
+	 * 
+	 * Using the above supplied values, a in memory hibernate file is formed which is used to establish a session with the underlying CSM Database
+	 * 
 	 * @param contextName The name of the Application for which the {@link UserProvisioningManager} is obtained
-	 * @param connectionProperties 
+	 * @param connectionProperties HashMap containing the database connection parameters used to connect to the CSM Database
 	 * @return The implementation of the {@link UserProvisioningManager} interface is returned based on the
 	 * configuration for the application
 	 * @throws CSException if an instance of {@link UserProvisioningManager} could not be obtained
-	 * @throws CSConfigurationException 
+	 * @throws CSConfigurationException if there is any configuration exception in creation of the {@link UserProvisioningManager}.
 	 */
 	public static UserProvisioningManager getUserProvisioningManager(String contextName, HashMap connectionProperties) throws CSException, CSConfigurationException{
 		

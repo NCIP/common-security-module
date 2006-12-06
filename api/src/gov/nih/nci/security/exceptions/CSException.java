@@ -96,37 +96,42 @@ package gov.nih.nci.security.exceptions;
 
 
 /**
+ * This {@link Exception} Class is the base exception that is thrown by the all the methods of the <code>CSM APIs</code>.
+ * The client application can opt to catch all the detailed exceptions which are thrown by the methods or if they can catch this
+ * {@link CSException} class to catch all the underlying exception generally.
+ *  
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSException extends Exception
 {
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public CSException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
+	 * This constructor creates the {@link Exception} classed with the passed message
+	 * @param message the error message describing the exception
 	 */
 	public CSException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed with the passed message and also stores the 
+	 * actual {@link Throwable} object which caused the error
+	 * @param message the error message describing the exception
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed the actual {@link Throwable} object which caused the error
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSException(Throwable cause) {
 		super(cause);

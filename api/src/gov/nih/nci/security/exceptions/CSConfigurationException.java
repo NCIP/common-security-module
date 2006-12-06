@@ -90,37 +90,43 @@ package gov.nih.nci.security.exceptions;
 
 
 /**
+ * This {@link Exception} Class is thrown by the <code>CSM APIs</code> whenever there is an
+ * error in operations due to some configuration settings being incorrect. This could be missing files 
+ * or missing entries withing the files. It could also represent error in connecting to the underlying 
+ * databases or credential providers due to network error or actual configuration error.
+ *  
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSConfigurationException extends CSException
 {
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public CSConfigurationException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
+	 * This constructor creates the {@link Exception} classed with the passed message
+	 * @param message the error message describing the exception
 	 */
 	public CSConfigurationException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed with the passed message and also stores the 
+	 * actual {@link Throwable} object which caused the error
+	 * @param message the error message describing the exception
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSConfigurationException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed the actual {@link Throwable} object which caused the error
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSConfigurationException(Throwable cause) {
 		super(cause);

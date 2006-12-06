@@ -157,15 +157,17 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 * @param rolesId The ids of the roles which are to be assigned to the user for a Protection Group
 	 * @param protectionGroupId The id of the protection Group which needs to be assigned to the group and roles
 	 * 
-	 * @throws CSTransactionException
+	 * @throws CSTransactionException If there is any exception in assigning user role to the protection group
 	 */
 	public void assignUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId)throws CSTransactionException;
 
 	/**
-	 * @param protectionGroupId String
-	 * @param userId String
-	 * @param rolesId String[]
-	 * @throws CSTransactionException
+	 * Removes the User and multiple Role from the Assigned ProtectionGroup
+	 * 
+	 * @param protectionGroupId String the id of the Protection Group from which the user Role is to be removed
+	 * @param userId String The id of the user which is to be deassigned
+	 * @param rolesId String[] List of the role ids which are to be removed from Protection Group
+	 * @throws CSTransactionException If there is any exception in assigning user role to the protection group
 	 */
 	public void removeUserRoleFromProtectionGroup(String protectionGroupId, String userId, String[] rolesId)throws CSTransactionException;
 
@@ -284,10 +286,11 @@ public interface UserProvisioningManager extends AuthorizationManager {
 
 
 	/**
-	 * @param groupId
-	 * @param userId
+	 * Removes the User from the Group to which it is assigned
+	 * @param groupId the group id of the group to which the user belongs
+	 * @param userId the user id of the user which is to be removed
 	 * 
-	 * @throws CSTransactionException
+	 * @throws CSTransactionException If there are any error in removal operation
 	 */
 	public void removeUserFromGroup(String groupId, String userId)throws CSTransactionException;
 

@@ -112,6 +112,8 @@ import gov.nih.nci.security.exceptions.CSLoginException;
  * Based on whether the application wants to use the default implementation of the Authentication 
  * Manager provided or its custom Authentication Manager the corresponding class object is obtained.
  * 
+ * @deprecated This class will be removed in next iteration of caCORE/CSM
+ * 
  * @author Kunal Modi (Ekagra Software Technologies)
  *
  */

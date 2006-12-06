@@ -89,6 +89,8 @@ package gov.nih.nci.security;
  */
 
 
+import java.security.Principal;
+
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSInputException;
@@ -105,8 +107,8 @@ import javax.security.auth.Subject;
  * authentication manager should follow to be able to fit in the Common Security
  * Framework. It defines the methods which are required for the purpose of
  * authenticating a user against the configured credential providers. This
- * interface by default is implemented by the {@link gov.nih.nci.security.authentication.CommonAuthenticationManager}. If the client application wants to use its own
- * Authentication Class, then it should implement the
+ * interface by default is implemented by the {@link gov.nih.nci.security.authentication.CommonAuthenticationManager}. 
+ * If the client application wants to use its own Authentication Class, then it should implement the
  * <code>AuthenticationManager</code> interface. Also an entry should be configured
  * in the <code>ApplicationServiceConfig</code> file against the Application
  * Context Name regsitering the class, which it wants to use, as shown below
@@ -131,6 +133,9 @@ import javax.security.auth.Subject;
  * </blockquote>
  * <p>
  * 
+ * If you want to use the default implementation provided by CSM, then with version 3.2 you dont need to specify 
+ * an entry in the <code>ApplicationSecurityConfig</code> file.
+ * 
  * If the client application wants to use just the authentication service then it can
  * obtain the implementation of the <code>AuthenticationManager</code> interface from the 
  * {@link SecurityServiceProvider} class.
@@ -152,31 +157,24 @@ public interface AuthenticationManager {
 	 * It should be provided in a non-encrypted format as simple {@link String} object.
 	 * @return <code>TRUE</code> if the authentication was sucessful using the provided user 
 	 * 		   	credentials and <code>FALSE</code> if the authentication fails.
-	 * @throws CSException
-	 * @throws CSInputException 
-	 * @throws CSLoginException 
-	 * @throws CSConfigurationException 
+	 * @throws CSException is a high level exception encompassing all other exception
+	 * @throws CSLoginException is thrown when the credentials are invalid or other errors occur during validation
+	 * @throws CSInputException is thrown occurs when the provided input is incorrect
+	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
 	 */
 	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException;
 
 	/**
 	 * This method is primarily provided to be used by the <code>CSM - caGrid Integration Module</code> to authenticate the 
 	 * user using the credentials and once authenticated it retrieve all the attributes for that user from the <code>Credential Provider</code>.
-	 * In order for the proper execution of this method following parameters need to be configured in the JAAS login configuration file for the corresponding
-	 * application's login module
-	 * <blockquote>
-	 * <pre>
-	 * 		a 
-	 * 		b
-	 * 		c
-	 * </pre>
-	 * </blockquote>
-	 * <p>
-	 * Accepts the user credentials from the calling application and authenticates 
-	 * the same for the application. Once authenticated it formulates the If the client application wants to use the default implementation, then JAAS is used to authenticate
-	 * the user against the registered credential providers. However if the client application wants to use
-	 * its custom implementation then the corresponding login method is invoked and the result of authentication is returned.
-	 * Also before calling the <code>login</code> method the <code>initialize</code> method should be invoked setting the Application Context/Name
+	 * In order for the proper execution of this method additional parameters need to be configured in the JAAS login configuration file for the corresponding
+	 * application's login module. These parameters point to the attributes in the <code>Credential Provider</code> which will be retrieved and returned back to 
+	 * the calling application.
+	 * Accepts the user credentials from the calling application and authenticates them against the credential provider configured
+	 * for the application. Once authenticated, it uses the parameters mentioned above to retrieve the attribute values from the Credential Provider.
+	 * These attribute values are stored inside a <code>JAAS</code> {@link Subject} as {@link Principal} and returned.
+	 * 
+	 * Also before calling the <code>authenticate</code> method the <code>initialize</code> method should be invoked setting the Application Context/Name
 	 *
 	 * @param userName The user-entered id provided by the calling application. 
 	 * It should be the unique qualifier which can identify a particular user of the application
@@ -184,11 +182,12 @@ public interface AuthenticationManager {
 	 * It should be provided in a non-encrypted format as simple {@link String} object.
 	 * @return {@link Subject} if the authentication was sucessful a populated Java Subject object is returned containing the
 	 * attributes needed by <code>CSM - caGrid Integration Module</code> to generate <code>SAML</code> file to be sent to <code>Dorian</code>
-	 * @throws CSException
-	 * @throws CSLoginException 
-	 * @throws CSInputException 
-	 * @throws CSConfigurationException 
-	 * @throws CSInsufficientAttributesException 
+	 * @throws CSException is a high level exception encompassing all other exception
+	 * @throws CSLoginException is thrown when the credentials are invalid or other errors occur during validation
+	 * @throws CSInputException is thrown occurs when the provided input is incorrect
+	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
+	 * @throws CSInsufficientAttributesException is thrown when the attributes required to form the {@link Subject} are not present in the credential provider. Since the  {@link Subject} 
+	 * 			should contain all the valid {@link Principal} for the grid component to be able to generate a <code>SAML</code> from it.
 	 */
 	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException;
 
@@ -214,7 +213,7 @@ public interface AuthenticationManager {
 
 	/**
 	 * Returns the Application Context/Name which is stored within the class
-	 * @return the Application Context/Name 
+	 * @return the Application Context/Name the name of the application for which the AuthenticationManager is obtained
 	 */
 	public String getApplicationContextName();
 

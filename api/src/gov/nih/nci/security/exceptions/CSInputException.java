@@ -90,37 +90,42 @@ package gov.nih.nci.security.exceptions;
 
 
 /**
+ * This {@link Exception} Class thrown by the the methods of the <code>CSM APIs</code> whenever there is an issue 
+ * with the input parameters to the method. This error could occur when the input parameter is null or blank or not meeting
+ * the criteria
+ *  
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSInputException extends CSException
 {
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public CSInputException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
+	 * This constructor creates the {@link Exception} classed with the passed message
+	 * @param message the error message describing the exception
 	 */
 	public CSInputException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed with the passed message and also stores the 
+	 * actual {@link Throwable} object which caused the error
+	 * @param message the error message describing the exception
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSInputException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed the actual {@link Throwable} object which caused the error
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSInputException(Throwable cause) {
 		super(cause);

@@ -1,5 +1,9 @@
 package gov.nih.nci.security.exceptions;
 
+import java.security.Principal;
+
+import javax.security.auth.Subject;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -90,37 +94,43 @@ package gov.nih.nci.security.exceptions;
 
 
 /**
+ * This {@link Exception} Class is thrown by the <code>CSM APIs</code> whenever there is an
+ * error retrieving the attributes from the credential providers which form the {@link Principal} 
+ * of the <code>JAAS</code> {@link Subject}. This error could be due to configuration error describing the 
+ * attributes or due to the attribute not having the required value in the credential provider.
+ *  
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSInsufficientAttributesException extends CSException
 {
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public CSInsufficientAttributesException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
+	 * This constructor creates the {@link Exception} classed with the passed message
+	 * @param message the error message describing the exception
 	 */
 	public CSInsufficientAttributesException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed with the passed message and also stores the 
+	 * actual {@link Throwable} object which caused the error
+	 * @param message the error message describing the exception
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSInsufficientAttributesException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed the actual {@link Throwable} object which caused the error
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSInsufficientAttributesException(Throwable cause) {
 		super(cause);

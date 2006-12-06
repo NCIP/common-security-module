@@ -266,7 +266,9 @@ public interface AuthorizationManager {
 	 * The method checks the permission for a {@link User} for a given {@link ProtectionElement}. The 
 	 * {@link ProtectionElement} is obtained using the object id and the attribute name both. 
 	 * The userName is used to to obtain the User object. Then the check
-	 * permission operation is performed to see if the user has the required access or not.
+	 * permission operation is performed to see if the user has the required access or not. If caching is enabled 
+	 * for the user then the permissions are validated against the internal stored cache else the query is 
+	 * fired against the database to check the permissions
 	 * @param userName The user name of the user which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
 	 * @param attributeName The attribute of the protection element on which the user wants to perform the operation
@@ -281,7 +283,9 @@ public interface AuthorizationManager {
 	 * The method checks the permission for a {@link User} for a given {@link ProtectionElement}. The 
 	 * {@link ProtectionElement} is obtained using the object id only. 
 	 * The userName is used to to obtain the User object. Then the check
-	 * permission operation is performed to see if the user has the required access or not.
+	 * permission operation is performed to see if the user has the required access or not. If caching is enabled 
+	 * for the user then the permissions are validated against the internal stored cache else the query is 
+	 * fired against the database to check the permissions
 	 * @param userName The user name of the user which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
 	 * @param privilegeName The operation which the user wants to perform on the protection element
@@ -295,7 +299,9 @@ public interface AuthorizationManager {
 	 * The method checks the permission for a {@link Group} for a given {@link ProtectionElement}. The 
 	 * {@link ProtectionElement} is obtained using the object id and the attribute name both. 
 	 * The groupName is used to to obtain the Group object. Then the check
-	 * permission operation is performed to see if the Group has the required access or not.
+	 * permission operation is performed to see if the Group has the required access or not. If caching is enabled 
+	 * for the group then the permissions are validated against the internal stored cache else the query is 
+	 * fired against the database to check the permissions
 	 * @param groupName The group name which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
 	 * @param attributeName The attribute of the protection element on which the user wants to perform the operation
@@ -310,7 +316,9 @@ public interface AuthorizationManager {
 	 * The method checks the permission for a {@link Group} for a given {@link ProtectionElement}. The 
 	 * {@link ProtectionElement} is obtained using the object id only. 
 	 * The userName is used to to obtain the Group object. Then the check
-	 * permission operation is performed to see if the group has the required access or not.
+	 * permission operation is performed to see if the group has the required access or not. If caching is enabled 
+	 * for the group then the permissions are validated against the internal stored cache else the query is 
+	 * fired against the database to check the permissions
 	 * @param groupName The group name which is trying to perform the operation
 	 * @param objectId The object id of the protection element on which the user wants to perform the operation
 	 * @param privilegeName The operation which the user wants to perform on the protection element

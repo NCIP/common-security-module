@@ -96,38 +96,42 @@ package gov.nih.nci.security.exceptions;
 
 
 /**
+ * This {@link Exception} Class is thrown by the <code>CSM APIs</code> whenever it is unable to retrieve 
+ * the data from the underlying CSM database for the query criteria provided by the user.
+ *  
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSObjectNotFoundException extends CSException
 {
 
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public CSObjectNotFoundException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
+	 * This constructor creates the {@link Exception} classed with the passed message
+	 * @param message the error message describing the exception
 	 */
 	public CSObjectNotFoundException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed with the passed message and also stores the 
+	 * actual {@link Throwable} object which caused the error
+	 * @param message the error message describing the exception
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSObjectNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed the actual {@link Throwable} object which caused the error
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSObjectNotFoundException(Throwable cause) {
 		super(cause);

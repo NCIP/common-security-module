@@ -96,38 +96,43 @@ package gov.nih.nci.security.exceptions;
 
 
 /**
+ * This {@link Exception} is thrown by the <code>CSM APIs</code> whenever an error during and of the
+ * create, update, delete, assign or deassign operations. The error could be due to constraints voilation like
+ * unique key voilation or missing required data voilation.
+ * 
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSTransactionException extends CSException
 {
 
 	/**
-	 * 
+	 * Default Constructor
 	 */
 	public CSTransactionException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
+	 * This constructor creates the {@link Exception} classed with the passed message
+	 * @param message the error message describing the exception
 	 */
 	public CSTransactionException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param message
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed with the passed message and also stores the 
+	 * actual {@link Throwable} object which caused the error
+	 * @param message the error message describing the exception
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSTransactionException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * @param cause
+	 * This constructor creates the {@link Exception} classed the actual {@link Throwable} object which caused the error
+	 * @param cause the actual exception which occured and caused this exception
 	 */
 	public CSTransactionException(Throwable cause) {
 		super(cause);
