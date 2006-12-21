@@ -78,9 +78,9 @@ public class UserProvisioningManagerTest extends TestCase {
 	}
 
 	public void testRun() throws CSException {
-/*		
-		//Order of Execution
 		
+		//Order of Execution
+/*		
 		//Create Objects
 		this.testCreateApplication();
 		this.testCreateUser();
@@ -165,12 +165,12 @@ public class UserProvisioningManagerTest extends TestCase {
 		//CHECK PERMISSIONS
 		this.testCheckPermissionStringStringStringString();			//NOT tested by UPT
 		this.testCheckPermissionStringStringString();				//NOT tested by UPT
-*/		
 		
-		this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //Need to know how to assign group and role and PG
+		
+		//this.testRemoveGroupRoleFromProtectionGroup();				//NOT tested by UPT  //Need to know how to assign group and role and PG
 //		this.testGetPrivilegeMap();									//NOT tested by UPT  //Suggested by Kunal, but has dependency on others first
 //		this.testGetOwners();										//Suggested by Kunal
-		
+*/		
 		//---------------------------------------------------------------------------------------------------
 		//Still to be done
 		//---------------------------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ public class UserProvisioningManagerTest extends TestCase {
 //		this.testRemoveApplication();
 		
 		// UNIMPLEMENTED CODE
-		//testRemoveProtectionElementsFromProtectionGroup();  	// Unimplemented
+		testRemoveProtectionElementsFromProtectionGroup();  	// Unimplemented
 		//testAddUserToGroup();  								// Unimplemented
 		//this.testGetApplicationContext();						// Unimplemented 
 		
@@ -1079,15 +1079,15 @@ public class UserProvisioningManagerTest extends TestCase {
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.removeProtectionElementsFromProtectionGroup(String, String[])'
 	 */
 	  //This method is unimplemented
-	private void testRemoveProtectionElementsFromProtectionGroup() throws CSTransactionException 
+	private void testRemoveProtectionElementsFromProtectionGroup() throws CSTransactionException, CSObjectNotFoundException 
 	{
 		String[] tempString = new String[NumberOfProtectionElementsToTest];
 		for (int x=0; x < NumberOfProtectionElementsToTest; x++)
 		{
-			tempString[x] = "" + x;
+			tempString[x] = "" + x + 1;
 		}
-		
 		userProvisioningManager.removeProtectionElementsFromProtectionGroup("1", tempString);
+		
 	}
 
 	/*
