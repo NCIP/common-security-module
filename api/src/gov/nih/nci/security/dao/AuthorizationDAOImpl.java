@@ -2266,9 +2266,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
 			
-			t = s.beginTransaction();
 			
+			t = s.beginTransaction();
 			Set groups = user.getGroups();
+			
 			if (groups.contains(group)) {
 				groups.remove(group);
 				user.setGroups(groups);
@@ -2280,10 +2281,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}
 				
 				s.update(user);
+				t.commit();
 			}
+			
 
-			t.commit();
-			s.flush();
+			
+			s.flush(); 
 			auditLog.info("Deassigning User " + user.getLoginName() + " from Group " + group.getGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
@@ -2413,6 +2416,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 			new Long(userId));
+			//encrypt password for User.
+			this.performEncrytionDecryption(user,true);
 			
 			ArrayList roles = new ArrayList();
 			for (int i = 0; i < rolesId.length; i++) {
@@ -2420,6 +2425,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						new Long(rolesId[i]));
 				roles.add(role);
 			}
+			
 			
 			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
@@ -2840,7 +2846,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String protectionElementObjectId)
 			throws CSTransactionException {
 
-		Session s = null;
+ 		Session s = null;
 		Transaction t = null;
 		try {
 
@@ -2859,11 +2865,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ProtectionGroup protectionGroup = getProtectionGroup(protectionGroupName);
 			ProtectionElement protectionElement = getProtectionElement(
 					protectionElementObjectId, null);
+			
+			ProtectionGroup newPG = new ProtectionGroup();
+			newPG.setProtectionGroupId(protectionGroup.getProtectionGroupId());
+			ProtectionElement newPE = new ProtectionElement();
+			newPE.setProtectionElementId(protectionElement.getProtectionElementId());
 
 			Criteria criteria = s
 					.createCriteria(ProtectionGroupProtectionElement.class);
-			criteria.add(Restrictions.eq("protectionGroup", protectionGroup));
-			criteria.add(Restrictions.eq("protectionElement", protectionElement));
+			criteria.add(Restrictions.eq("protectionGroup", newPG));
+			criteria.add(Restrictions.eq("protectionElement", newPE));
 
 			List list = criteria.list();
 
@@ -2935,17 +2946,24 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							protectionGroupId));
 
 			for (int i = 0; i < protectionElementIds.length; i++) {
-				ProtectionGroupProtectionElement intersection = new ProtectionGroupProtectionElement();
+				
 				ProtectionElement protectionElement = (ProtectionElement) this
 						.getObjectByPrimaryKey(s, ProtectionElement.class,
 								new Long(protectionElementIds[i]));
 
 			
-				intersection.setProtectionGroup(protectionGroup);
-				intersection.setProtectionElement(protectionElement);
-				intersection.setUpdateDate(new Date());
-				pgpes.add(intersection);
-				//this.removeObject(intersection);
+				
+				Criteria criteria = s.createCriteria(ProtectionGroupProtectionElement.class);
+				criteria.add(Restrictions.eq("protectionGroup", protectionGroup));
+				criteria.add(Restrictions.eq("protectionElement", protectionElement));
+				List list = criteria.list();
+				if (list !=null && !list.isEmpty()) {
+					Iterator it = list.iterator();
+					while(it.hasNext()) pgpes.add(it.next()); 
+					
+				} else {
+					throw new CSTransactionException("This association does not exist!");
+				}
 
 			}
 			t = s.beginTransaction();
@@ -4624,7 +4642,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				result.add(opm);
 			}
 			
-			Collections.sort(result);
+			//Collections.sort(result);
 
 			pstmt.close();
 			
