@@ -155,8 +155,8 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testGetPrivileges();  			
 		
 		this.testAssignUserRoleToProtectionGroup();					//NOT tested by UPT
-//Method works. Uncomment to test.		this.testRemoveUserRoleFromProtectionGroup();				//NOT tested by UPT
-//Method works. Uncomment to test.		this.testAssignParentProtectionGroup();						//NOT tested by UPT
+		this.testRemoveUserRoleFromProtectionGroup();				//NOT tested by UPT
+		this.testAssignParentProtectionGroup();						//NOT tested by UPT
 		
 		//this.testSetOwnerForProtectionElementStringStringArray();	//NOT tested by UPT  //Needs work
 		this.testAssignOwners();									//TODO: make this more dynamic, only assigns one PE to each user
@@ -164,32 +164,32 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 			  	
 		
-//Method works. Uncomment to test.		this.testCheckOwnership();									//NOT tested by UPT
-//Method works. Uncomment to test.		this.testGetOwners();										//Suggested by Kunal
+		this.testCheckOwnership();									//NOT tested by UPT
+		this.testGetOwners();										//Suggested by Kunal
  
 		
-//Method works. Uncomment to test.		this.testGetPrivilegeMap();	//NOT tested by UPT  
+		this.testGetPrivilegeMap();	//NOT tested by UPT  
 		
-//Method works. Uncomment to test.		this.testRemoveProtectionElementsFromProtectionGroup(); 
+		this.testRemoveProtectionElementsFromProtectionGroup(); 
 		this.testAssignGroupRoleToProtectionGroup();
-//Method works. Uncomment to test.		this.testGetProtectionElementPrivilegeContextForUser();
-//Method works. Uncomment to test.		this.testGetProtectionElementPrivilegeContextForGroup();  // Requires this.testAssignGroupRoleToProtectionGroup()
+		this.testGetProtectionElementPrivilegeContextForUser();
+		this.testGetProtectionElementPrivilegeContextForGroup();  // Requires this.testAssignGroupRoleToProtectionGroup()
 
-//Method works. Uncomment to test.		this.testGetProtectionGroupRoleContextForGroup();
-//Method works. Uncomment to test.		this.testGetProtectionGroupRoleContextForUser();
-//Method works. Uncomment to test.		this.testRemoveGroupFromProtectionGroup();
-//Method works. Uncomment to test.		this.testRemoveUserFromProtectionGroup();
+		this.testGetProtectionGroupRoleContextForGroup();
+		this.testGetProtectionGroupRoleContextForUser();
+		this.testRemoveGroupFromProtectionGroup();
+		this.testRemoveUserFromProtectionGroup();
 
-//Method works. Uncomment to test.		this.testRemoveGroupRoleFromProtectionGroup(); Works. Uncomment!!
+		this.testRemoveGroupRoleFromProtectionGroup(); 
     	
 		//DELETE EVERYTHING
-//Method works. Uncomment to test.		this.testRemoveGroup();
-//Method works. Uncomment to test.		this.testRemovePrivilege();
-//Method works. Uncomment to test.		this.testRemoveRole();
-//Method works. Uncomment to test.		this.testRemoveProtectionElement();
-//Method works. Uncomment to test.		this.testRemoveProtectionGroup();
-//Method works. Uncomment to test.		this.testRemoveUser();
-//Method works. Uncomment to test.    	this.testRemoveApplication();
+		this.testRemoveGroup();
+		this.testRemovePrivilege();
+		this.testRemoveRole();
+		this.testRemoveProtectionElement();
+		this.testRemoveProtectionGroup();
+		this.testRemoveUser();
+    	this.testRemoveApplication();
 
 		
 		//---------------------------------------------------------------------------------------------------
