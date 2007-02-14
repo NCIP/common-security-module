@@ -393,7 +393,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	public ProtectionGroup getProtectionGroupById(String protectionGroupId) throws CSObjectNotFoundException;
 	
 	/**
-	 * Assigns multiple Protection Element to a single Protection Group. This method is to be used if u want to group
+	 * Assigns multiple Protection Element to a single Protection Group. This method is to be used if you want to group
 	 * multiple Protection Element to a Protection Group.
 	 * The same method should be called for de-assigning or modifying the association
 	 * @param protectionGroupId the Protection Group to which the protection elements are to be assigned
@@ -402,13 +402,18 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	 */
 	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
 	
+		
 	/**
-	 * Method removeProtectionElementsFromProtectionGroup.
-	 * @param protectionGroupId String
-	 * @param protectionLementIds String[]
-	 * @throws CSTransactionException
+	 * Removes/ Deassigns multiple Protection Element from a single Protection Group. This method is to be used if you want to group
+	 * multiple Protection Element from a Protection Group.
+	 * The same method should be called for de-assigning or modifying the association
+	 * @param protectionGroupId the Protection Group to which the protection elements are to be assigned
+	 * @param protectionElementIds The Protection Elements which are to be deassigned to the Protection Group
+	 * @throws CSTransactionException If there are any errors in the Deassignment
 	 */
-	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId,String[] protectionLementIds) throws CSTransactionException;
+	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId, String[] protectionElementIds) throws CSTransactionException;
+	
+		
 	
 	/**
 	 * Returns the ProtectionGroupRoleContext object containing the list of associated protection groups with their roles
@@ -572,7 +577,7 @@ public interface UserProvisioningManager extends AuthorizationManager {
 	
 
 	/**
-	 * Assigns multiple Owners (User) to a single Protection Element. This method is to be used if u want to group
+	 * Assigns multiple Owners (User) to a single Protection Element. This method is to be used if you want to group
 	 * multiple Owners to a Protection Element.
 	 * The same method should be called for de-assigning or modifying the association
 	 * @param protectionElementId the Protection Element to which the Owners(User) are to be assigned
