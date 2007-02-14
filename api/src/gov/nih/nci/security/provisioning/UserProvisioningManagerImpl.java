@@ -381,6 +381,20 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void deAssignProtectionElements(String protectionGroupName,String protectionElementObjectId)throws CSTransactionException{
 		authorizationDAO.deAssignProtectionElements(protectionGroupName,protectionElementObjectId);
 	}
+	
+	
+	/**
+	 * @param protectionGroupId
+	 * @param protectionElementIds
+	 * 
+	 * @throws CSTransactionException
+	 * 
+	 */
+	public void removeProtectionElementsFromProtectionGroup(String protectionGroupId, String[] protectionElementIds) throws CSTransactionException {
+		authorizationDAO.removeProtectionElementsFromProtectionGroup(protectionGroupId, protectionElementIds);
+	}
+	
+	
 
 
 	/**
