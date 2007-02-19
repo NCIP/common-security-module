@@ -60,7 +60,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
-		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("csmupt");
+		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("security");
 
 		//Initialize the userList - used to check the "get" functions
 		InitializeUserStringArray();
@@ -155,7 +155,7 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testGetPrivileges();  			
 		
 		this.testAssignUserRoleToProtectionGroup();					//NOT tested by UPT
-		this.testRemoveUserRoleFromProtectionGroup();				//NOT tested by UPT
+		
 		this.testAssignParentProtectionGroup();						//NOT tested by UPT
 		
 		//this.testSetOwnerForProtectionElementStringStringArray();	//NOT tested by UPT  //Needs work
@@ -170,7 +170,6 @@ public class UserProvisioningManagerTest extends TestCase {
 		
 		this.testGetPrivilegeMap();	//NOT tested by UPT  
 		
-		this.testRemoveProtectionElementsFromProtectionGroup(); 
 		this.testAssignGroupRoleToProtectionGroup();
 		this.testGetProtectionElementPrivilegeContextForUser();
 		this.testGetProtectionElementPrivilegeContextForGroup();  // Requires this.testAssignGroupRoleToProtectionGroup()
@@ -179,7 +178,8 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testGetProtectionGroupRoleContextForUser();
 		this.testRemoveGroupFromProtectionGroup();
 		this.testRemoveUserFromProtectionGroup();
-
+		this.testRemoveProtectionElementsFromProtectionGroup();
+		this.testRemoveUserRoleFromProtectionGroup();				//NOT tested by UPT
 		this.testRemoveGroupRoleFromProtectionGroup(); 
     	
 		//DELETE EVERYTHING
@@ -896,8 +896,10 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testAssignGroupRoleToProtectionGroup() throws CSTransactionException 
 	{
-		String[]ArrayOfRoles = {"1", "2", "3"};
-		userProvisioningManager.assignGroupRoleToProtectionGroup("1", "1", ArrayOfRoles); //PGID, GID, RoleID array of strings
+		String[]ArrayOfRoles = {"1", "2", "3","4","5"};
+		for(int i=0; i < NumberOfProtectionGroupsToTest; i++){
+			userProvisioningManager.assignGroupRoleToProtectionGroup(String.valueOf(i+1), "1", ArrayOfRoles); //PGID, GID, RoleID array of strings
+		}
 	}
 
 	/*
@@ -1161,7 +1163,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testGetProtectionElementPrivilegeContextForUser() {
 		try {
-			Set set = userProvisioningManager.getProtectionElementPrivilegeContextForUser("1");
+			Set set = userProvisioningManager.getProtectionElementPrivilegeContextForUser("3");
 			if(set==null || set.isEmpty()) fail("Unable to obtain  Protection Element Privilege Context for User.");
 		} catch (CSObjectNotFoundException e) {
 			e.printStackTrace();
@@ -1567,9 +1569,10 @@ public class UserProvisioningManagerTest extends TestCase {
 		{
 			tempUserIDs[x] = x+1+"";
 		}
+	
 		
-		userProvisioningManager.assignOwners("1", tempUserIDs);
-	}
+		userProvisioningManager.assignOwners("2", tempUserIDs);
+	} 
 
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.userProvisioningManager.getOwners(String)'
@@ -1577,7 +1580,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	private void testGetOwners() {
 		try {
-			Set set = userProvisioningManager.getOwners("1");
+			Set set = userProvisioningManager.getOwners("2");
 			set.size();
 			
 		} catch (CSObjectNotFoundException e) {
