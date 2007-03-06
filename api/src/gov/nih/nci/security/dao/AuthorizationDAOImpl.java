@@ -152,8 +152,10 @@ import org.hibernate.exception.GenericJDBCException;
 
 import org.apache.log4j.Logger;
 
+
 /**
- * @version 1.0 created 03-Dec-2004 1:17:47 AM
+ * @author parmarv
+ *
  */
 public class AuthorizationDAOImpl implements AuthorizationDAO {
 
@@ -1022,11 +1024,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String attributeName, String privilegeName) throws CSException {
 
 		ResultSet rs = null;
-		Statement stmt = null;
+		PreparedStatement preparedStatement = null;
 		boolean test = false;
 		Session s = null;
 
-		Connection cn = null;
+		Connection connection = null;
 		if (StringUtilities.isBlank(userName)) {
 			throw new CSException("user name can't be null!");
 		}
@@ -1050,26 +1052,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 			
 
-			String application_id = this.application.getApplicationId()
-					.toString();
-
-			String sql = Queries.getQueryForUserAndGroupForAttribute(userName,
-					objectId, attributeName, privilegeName, application_id);
-
-			log.debug(sql);
-
-			stmt = cn.createStatement();
-			rs = stmt.executeQuery(sql);
+			
+			preparedStatement = Queries.getQueryForUserAndGroupForAttribute(userName,
+					objectId, attributeName, privilegeName, this.application.getApplicationId().intValue(), connection);
+			
+			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
 
-			stmt.close();
+			preparedStatement.close();
 
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
@@ -1082,7 +1079,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				
 				s.close();
 				rs.close();
-				stmt.close();
+				preparedStatement.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -1141,7 +1138,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		boolean hasAccess = false;
 
 		Session session = null;
-		Statement statement = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Connection connection = null;
 		
@@ -1163,16 +1160,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = session.connection();
-			String application_id = this.application.getApplicationId().toString();
-			String sql = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, attributeName, privilegeName, application_id);
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(sql);
+			
+			preparedStatement = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, attributeName, privilegeName, this.application.getApplicationId().intValue(),connection);
+			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next())
 			{
 				hasAccess = true;
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 
 		} catch (Exception ex)
 		{
@@ -1185,7 +1181,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 				session.close();
 				resultSet.close();
-				statement.close();
+				preparedStatement.close();
 				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -1203,7 +1199,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		boolean hasAccess = false;
 
 		Session session = null;
-		Statement statement = null;
+		PreparedStatement preparedStatement= null;
 		ResultSet resultSet = null;
 		Connection connection = null;
 		
@@ -1225,16 +1221,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = session.connection();
-			String application_id = this.application.getApplicationId().toString();
-			String sql = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, privilegeName, application_id);
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(sql);
+			
+			preparedStatement= Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
+			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next())
 			{
 				hasAccess = true;
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 
 		} catch (Exception ex)
 		{
@@ -1247,7 +1242,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 				session.close();
 				resultSet.close();
-				statement.close();
+				preparedStatement.close();
 				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -1271,7 +1266,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	{
 
 		Session session = null;
-		Statement statement = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Connection connection = null;
 		List groupIds = new ArrayList();
@@ -1290,14 +1285,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = session.connection();
-			String application_id = this.application.getApplicationId().toString();
-			String sql = null;
+			
+			
 			if (null == attributeName)
-				sql = Queries.getQueryForAccessibleGroups(objectId, privilegeName, application_id);
+				preparedStatement = Queries.getQueryForAccessibleGroups(objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
 			else
-				sql = Queries.getQueryForAccessibleGroupsWithAttribute(objectId, attributeName, privilegeName, application_id);
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(sql);
+				preparedStatement = Queries.getQueryForAccessibleGroupsWithAttribute(objectId, attributeName, privilegeName, this.application.getApplicationId().intValue(),connection);
+			
+			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next())
 			{
 				if (null == groups)
@@ -1308,7 +1303,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				//groups.add(group);
 			}
 			resultSet.close();
-			statement.close();
+			preparedStatement.close();
 			
 		}
 		catch (Exception e) {
@@ -1328,9 +1323,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String privilegeName) throws CSException {
 		boolean test = false;
 		Session s = null;
-		Statement stmt = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		Connection cn = null;
+		Connection connection = null;
 		if (userName == null || objectId == null || privilegeName == null) {
 			return false;
 		}
@@ -1338,19 +1333,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 
-			String application_id = this.application.getApplicationId()
-					.toString();
-			String sql = Queries.getQueryForCheckPermissionForUser(userName,
-					objectId, privilegeName, application_id);
-			stmt = cn.createStatement();
-			rs = stmt.executeQuery(sql);
+			
+
+			preparedStatement = Queries.getQueryForCheckPermissionForUser(userName,	objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
+			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
-			stmt.close();
+			preparedStatement.close();
 
 		} catch (Exception ex) {
 			log.error(ex);
@@ -1371,7 +1364,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				
 				s.close();
 				rs.close();
-				stmt.close();
+				preparedStatement.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -1395,9 +1388,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		log.debug("Method:checkPermissionForUserAndGroup()");
 		boolean test = false;
 		Session s = null;
-		Statement stmt = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		Connection cn = null;
+		Connection connection = null;
 
 		if (userName == null || objectId == null || privilegeName == null) {
 			return false;
@@ -1407,23 +1400,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 
-			String application_id = this.application.getApplicationId()
-					.toString();
-			String sql = Queries.getQueryForCheckPermissionForUserAndGroup(
-					userName, objectId, privilegeName, application_id);
+			
 
-			log.debug("The User/Group query is: " + sql);
-
-			stmt = cn.createStatement();
-
-			rs = stmt.executeQuery(sql);
+			preparedStatement = Queries.getQueryForCheckPermissionForUserAndGroup(userName, objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
+			//log.debug("The User/Group query is: " + sql);
+			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
-			stmt.close();
+			preparedStatement.close();
 
 		} catch (Exception ex) {
 			log.error(ex);
@@ -1444,7 +1432,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				
 				s.close();
 				rs.close();
-				stmt.close();
+				preparedStatement.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -1467,9 +1455,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String privilegeName) throws CSException {
 		boolean test = false;
 		Session s = null;
-		Statement stmt = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		Connection cn = null;
+		Connection connection = null;
 		try {
 
 			if (privilegeName == null) {
@@ -1477,19 +1465,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
-			String application_id = this.application.getApplicationId()
-					.toString();
-			String sql = Queries.getQueryForCheckPermissionForGroup(userName,
-					objectId, privilegeName, application_id);
-			stmt = cn.createStatement();
-
-			rs = stmt.executeQuery(sql);
+			connection = s.connection();
+			
+			preparedStatement= Queries.getQueryForCheckPermissionForGroup(userName,
+					objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
+			
+			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
-			stmt.close();
+			preparedStatement.close();
 			
 
 		} catch (Exception ex) {
@@ -1511,7 +1497,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				
 				s.close();
 				rs.close();
-				stmt.close();
+				preparedStatement.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -2091,15 +2077,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String groupId) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		Connection cn = null;
+		Connection connection = null;
 
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
-			cn = s.connection();
+			connection = s.connection();
 			String sql = "delete from csm_user_group_role_pg where protection_group_id=? and group_id=?";
-			PreparedStatement pstmt = cn.prepareStatement(sql);
+			PreparedStatement pstmt = connection.prepareStatement(sql);
 			Long pg_id = new Long(protectionGroupId);
 			Long g_id = new Long(groupId);
 			pstmt.setLong(1, pg_id.longValue());
@@ -2336,15 +2322,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String userId) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		Connection cn = null;
+		Connection connection = null;
 
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
-			cn = s.connection();
+			connection = s.connection();
 			String sql = "delete from csm_user_group_role_pg where protection_group_id=? and user_id=?";
-			PreparedStatement pstmt = cn.prepareStatement(sql);
+			PreparedStatement pstmt = connection.prepareStatement(sql);
 			Long pg_id = new Long(protectionGroupId);
 			Long u_id = new Long(userId);
 			pstmt.setLong(1, pg_id.longValue());
@@ -3223,31 +3209,33 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set result = new HashSet();
 		Session s = null;
 
-		Connection cn = null;
+		Connection connection = null;
 		ArrayList pgIds = new ArrayList();
 		try {
 			
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("SELECT distinct ugrp.protection_group_id "); 
 			stbr.append("FROM csm_user_group_role_pg  ugrp , csm_protection_group pg ");
 			stbr.append("where ugrp.protection_group_id  = pg.protection_group_id and  ");
-			stbr.append("ugrp.user_id = " + userId);
-			stbr.append(" and pg.application_id = "+ this.application.getApplicationId().toString());
+			stbr.append("ugrp.user_id = ?");
+			stbr.append(" and pg.application_id = ?");
 			
-			String sql = stbr.toString();
-			Statement stmt = cn.createStatement();
-
-			ResultSet rs = stmt.executeQuery(sql);
+			PreparedStatement preparedStatement = connection.prepareStatement(stbr.toString());;
+			int i=1;			
+			preparedStatement.setInt(i++,new Integer(userId).intValue());
+			preparedStatement.setInt(i++,this.application.getApplicationId().intValue());
+			
+			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				String pg_id = rs.getString(1);
 				pgIds.add(pg_id);
 			}
 			rs.close();
-			stmt.close();
+			preparedStatement.close();
 			
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
@@ -3259,7 +3247,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3331,32 +3319,35 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set result = new HashSet();
 		
 		Session s = null;
-		Connection cn = null;
+		Connection connection = null;
 		ArrayList pgIds = new ArrayList();
 		try {
 			
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append("SELECT distinct ugrp.protection_group_id "); 
 			stbr.append("FROM csm_user_group_role_pg  ugrp , csm_group g ");
 			stbr.append("where ugrp.group_id  = g.group_id and  ");
-			stbr.append("ugrp.group_id = " + groupId);
-			stbr.append(" and g.application_id = "+ this.application.getApplicationId().toString());
+			stbr.append("ugrp.group_id = ?");
+			stbr.append(" and g.application_id = ?");
 
-			String sql = stbr.toString();
-			Statement stmt = cn.createStatement();
+			PreparedStatement preparedStatement = connection.prepareStatement(stbr.toString());;
+			int i=1;			
+			preparedStatement.setInt(i++,new Integer(groupId).intValue());
+			preparedStatement.setInt(i++,this.application.getApplicationId().intValue());
+			
+			ResultSet rs = preparedStatement.executeQuery();
 
-			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				String pg_id = rs.getString(1);
 				pgIds.add(pg_id);
 			}
 			rs.close();
-			stmt.close();
+			preparedStatement.close();
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log
@@ -3442,8 +3433,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set protectionElementPrivilegeContextSet = new HashSet();
 
 		Session s = null;
-		Connection cn = null;
-		Statement stmt = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		
 		String currPEId = null;
@@ -3462,13 +3453,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			cn = s.connection();
-			stmt = cn.createStatement();
+			connection = s.connection();
+			
+			preparedStatement= Queries.getQueryforUserPEPrivilegeMap(userId, this.application.getApplicationId().intValue(),connection);
 
-			String sql = Queries.getQueryforUserPEPrivilegeMap(userId, this.application.getApplicationId().toString());
-			log.debug("SQL is : " + sql);
-
-			rs = stmt.executeQuery(sql);
+			rs = preparedStatement.executeQuery();
 
 			while(rs.next()){
 				peList.add(rs.getString(1));
@@ -3513,7 +3502,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log.debug("Authorization|||getProtectionElementPrivilegeContextForUser|Failure|Error in Obtaining the PE Privileges Map|" + ex.getMessage());
 		} finally {
 			try {
-				stmt.close();
+				preparedStatement.close();
 				rs.close();
 				
 			} catch (Exception ex2) {
@@ -3537,8 +3526,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set protectionElementPrivilegeContextSet = new HashSet();
 
 		Session s = null;
-		Connection cn = null;
-		Statement stmt = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		
 		String currPEId = null;
@@ -3557,13 +3546,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			cn = s.connection();
-			stmt = cn.createStatement();
+			connection = s.connection();
 
-			String sql = Queries.getQueryforGroupPEPrivilegeMap(groupId, this.application.getApplicationId().toString());
-			log.debug("SQL is : " + sql);
-
-			rs = stmt.executeQuery(sql);
+			preparedStatement = Queries.getQueryforGroupPEPrivilegeMap(groupId, this.application.getApplicationId().intValue(),connection);
+			
+			rs = preparedStatement.executeQuery();
 			
 			while(rs.next()){
 				peList.add(rs.getString(1));
@@ -3607,7 +3594,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log.debug("Authorization|||getProtectionElementPrivilegeContextForGroup|Failure|Error in Obtaining the PE Privileges Map|" + ex.getMessage());
 		} finally {
 			try {
-				stmt.close();
+				preparedStatement.close();
 				rs.close();
 				
 			} catch (Exception ex2) {
@@ -4125,22 +4112,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Hashtable accessMap = new Hashtable();
 		Session s = null;
 
-		Connection cn = null;
-		Statement stmt = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 
-			String application_id = this.application.getApplicationId().toString();
-			String sql = Queries.getQueryForObjectMap(loginName,objectTypeName,privilegeName,application_id);
-			log.debug("SQL is : " + sql);
-			stmt = cn.createStatement();
-
-			rs = stmt.executeQuery(sql);
+			
+			preparedStatement= Queries.getQueryForObjectMap(loginName,objectTypeName,privilegeName,this.application.getApplicationId().intValue(),connection);
+			
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				String att = rs.getString("attribute");
@@ -4158,7 +4143,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		} finally {
 			try {
 				
-				stmt.close();
+				preparedStatement.close();
 				rs.close();
 				
 			} catch (Exception ex2) {
@@ -4492,31 +4477,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			String protectionElementObjectId) {
 		boolean test = false;
 		Session s = null;
-		Statement stmt = null;
-		Connection cn = null;
+		PreparedStatement preparedStatement = null;
+		Connection connection = null;
 		ResultSet rs = null;
 
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
 			stbr
 					.append("Select  user_protection_element_id from"
 							+ " csm_user_pe upe, csm_user u, csm_protection_element pe"
-							+ " where pe.object_id = '"
-							+ protectionElementObjectId
-							+ "' and u.login_name ='"
-							+ userName
-							+ "' and upe.protection_element_id=pe.protection_element_id"
+							+ " where pe.object_id = ?  and u.login_name = ?" 
+							+ " and upe.protection_element_id=pe.protection_element_id"
 							+ " and upe.user_id = u.user_id");
 
-			String sql = stbr.toString();
-			stmt = cn.createStatement();
-			log.debug("The owner sql: " + sql);
-			rs = stmt.executeQuery(sql);
+			preparedStatement = connection.prepareStatement(stbr.toString());;
+			int i=1;			
+			preparedStatement.setString(i++,protectionElementObjectId);
+			preparedStatement.setString(i++,userName);
+			
+			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				test = true;
 			}
@@ -4533,7 +4517,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		} finally {
 			try {
 				rs.close();
-				stmt.close();
+				preparedStatement.close();
 				
 
 			} catch (Exception ex2) {
@@ -4566,7 +4550,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		boolean test = false;
 		Session s = null;
 
-		Connection cn = null;
+		Connection connection = null;
 
 		if (StringUtilities.isBlank(userName)) {
 			throw new CSException("userName can't be null!");
@@ -4583,7 +4567,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
-			cn = s.connection();
+			connection = s.connection();
 			
 
 			StringBuffer stbr = new StringBuffer();
@@ -4612,7 +4596,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr.append(" and rp.privilege_id = p.privilege_id");
 
 			String sql = stbr.toString();
-			pstmt = cn.prepareStatement(sql);
+			pstmt = connection.prepareStatement(sql);
 
 			Iterator it = pEs.iterator();
 			while (it.hasNext()) {

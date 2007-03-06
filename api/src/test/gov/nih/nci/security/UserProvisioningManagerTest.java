@@ -20,7 +20,9 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -80,6 +82,17 @@ public class UserProvisioningManagerTest extends TestCase {
 	public void testRun() throws CSException {
 		
 		//Order of Execution
+		//
+		
+		java.text.SimpleDateFormat dateTimeFormat = new java.text.SimpleDateFormat("MM/dd/yyyy , h:mm:ss a");
+		
+		
+		Date startDateTime = new Date(System.currentTimeMillis());
+		Calendar startCal = Calendar.getInstance();  
+		startCal.setTime(startDateTime);
+		System.out.println("Start : "+dateTimeFormat.format(startCal.getTime()));
+		
+		
 		
 		//Create Objects
 		this.testCreateApplication();
@@ -191,7 +204,11 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testRemoveUser();
     	this.testRemoveApplication();
 
-		
+    	Date endDateTime = new Date(System.currentTimeMillis());
+		Calendar endCal = Calendar.getInstance();  
+		endCal.setTime(endDateTime);
+		System.out.println("End : "+dateTimeFormat.format(endCal.getTime()));
+    	
 		//---------------------------------------------------------------------------------------------------
 		//Still to be done
 		//---------------------------------------------------------------------------------------------------
