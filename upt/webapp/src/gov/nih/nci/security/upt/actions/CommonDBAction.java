@@ -1,8 +1,3 @@
-/*
- * Created on Dec 3, 2004
- *
- * 
- */
 package gov.nih.nci.security.upt.actions;
 
 /**
@@ -104,6 +99,7 @@ import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.BaseDBForm;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.util.JDBCHelper;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 
 import javax.servlet.http.HttpServletRequest;
@@ -528,5 +524,60 @@ public class CommonDBAction extends DispatchAction
 		return (mapping.findForward(ForwardConstants.SEARCH_SUCCESS));	
 	}
 
+	public ActionForward testConnection(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
+		HttpSession session = request.getSession();
+		BaseDBForm baseDBForm = (BaseDBForm)form;
+	
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
+			if (logDB.isDebugEnabled())
+				logDB.debug("||"+baseDBForm.getFormName()+"|Test Connection|Failure|No Session or User Object Forwarding to the Login Page||");
+			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		}
+		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
+		try
+		{
+			errors = form.validate(mapping, request);
+			if(!errors.isEmpty()) 
+			{
+				saveErrors(request,errors);
+				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+				if (logDB.isDebugEnabled())
+					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+						"|"+baseDBForm.getFormName()+"|Test Connection|Failure|Error testing Aplication Database Connection"
+						+form.toString()+"|");
+				return mapping.getInputForward();
+			}			
+			
+			// Test JDBC Database Connection Properties.
+			String message = JDBCHelper.testConnectionHibernate(baseDBForm);
+							
+			//
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, message));
+			saveMessages( request, messages );
+		}
+		catch (CSException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			saveErrors( request,errors );
+			if (logDB.isDebugEnabled())
+				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+					"|"+baseDBForm.getFormName()+"|Test Connection|Failure|Error Testing Application Database Connection."
+					+form.toString()+"|"+ cse.getMessage());
+		}
+		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+
+		if (logDB.isDebugEnabled())
+			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+				"|"+baseDBForm.getFormName()+"|Test Connection|Success|Testing Application Database connection."
+				+form.toString()+"|");
+		return (mapping.findForward(ForwardConstants.UPDATE_SUCCESS));
+	}
+
+	
+	
 	
 }
