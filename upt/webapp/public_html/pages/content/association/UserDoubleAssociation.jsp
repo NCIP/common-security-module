@@ -476,7 +476,7 @@
 						<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
 						</logic:present>
 						<td><html:submit style="actionButton"
-							onclick="setAndSubmit('read');">Back</html:submit></td>
+							onclick="setAndSubmit('loadProtectionGroupAssociation');">Back</html:submit></td>
 					</tr>
 				</table>
 				</td>
