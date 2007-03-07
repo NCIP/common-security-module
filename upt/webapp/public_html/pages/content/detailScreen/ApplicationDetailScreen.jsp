@@ -190,6 +190,7 @@
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+										<td><html:submit style="actionButton" onclick="setAndSubmit('testConnection');">Test Connection</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated Admins</html:submit></td>
