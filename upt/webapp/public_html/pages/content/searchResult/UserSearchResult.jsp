@@ -193,7 +193,7 @@
 							</tr>
 						</logic:present>
 						<% //Check for 100 users and display error if exceeds
-						if (cntResObj>=100){ %>								
+						if (cntResObj>=200){ %>								
 						<tr>
 							<td>
 							Warning, the result is incomplete because the maximum number of Users that can 
