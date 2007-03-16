@@ -105,10 +105,9 @@ public class LockoutManager
 
 	public static void initialize(String lockoutTime, String allowedLoginTime, String allowedAttempts)
 	{
-		if (null == lockoutManager)
-		{
+		
 			lockoutManager = new LockoutManager(lockoutTime, allowedLoginTime, allowedAttempts);
-		}
+		
 	}
 	
 	public static LockoutManager getInstance()
