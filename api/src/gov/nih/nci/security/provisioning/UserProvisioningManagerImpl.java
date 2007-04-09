@@ -470,6 +470,13 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	public void initialize(String applicationContextName){
         
 	}
+	
+	public void initialize(String applicationContextName, URL url)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 	/**
 	 * @param roleId

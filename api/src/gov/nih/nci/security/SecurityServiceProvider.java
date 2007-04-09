@@ -331,9 +331,29 @@ public class SecurityServiceProvider {
 		return userProvisioningManager;
 	}
 
-	private static AuthorizationManager getAuthorizationManagerDirectly(String applicationContextName) throws CSConfigurationException
+	private static AuthorizationManager getAuthorizationManagerDirectly(String applicationContextName) throws CSConfigurationException, CSException
 	{
-		return (AuthorizationManager)getUserProvisioningManagerDirectly(applicationContextName);	
+		// BEGIN - Customization for caGrid Requirements
+		FileLoader fileLoader = FileLoader.getInstance();
+		URL url = null;
+		AuthorizationManager authorizationManager = null;
+		try
+		{
+			url = fileLoader.getFileAsURL(Constants.APPLICATION_SECURITY_CONFIG_FILE);
+		}
+		catch (Exception e)
+		{
+			url = null;
+		}
+		if (url != null)
+		{
+			authorizationManager = AuthorizationManagerFactory.getAuthorizationManager(applicationContextName, url);
+		}
+		if (authorizationManager != null)
+			return authorizationManager;
+		else
+		// END - Customization for caGrid Requirements
+			return (AuthorizationManager)getUserProvisioningManagerDirectly(applicationContextName);	
 	}
 
 	private static AuthorizationManager getAuthorizationManagerDirectly(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException
@@ -341,7 +361,7 @@ public class SecurityServiceProvider {
 		return (AuthorizationManager)getUserProvisioningManagerDirectly(applicationContextName, userOrGroupName, isUserName);	
 	}
 	
-	private static UserProvisioningManager getUserProvisioningManagerDirectly(String applicationContextName) throws CSConfigurationException
+	private static UserProvisioningManager getUserProvisioningManagerDirectly(String applicationContextName) throws CSConfigurationException, CSException
 	{
 		FileLoader fileLoader = FileLoader.getInstance();
 		URL url = null;

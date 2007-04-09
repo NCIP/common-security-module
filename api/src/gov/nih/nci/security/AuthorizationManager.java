@@ -103,6 +103,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 
+import java.net.URL;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -425,6 +426,14 @@ public interface AuthorizationManager {
 	 */
 	public void initialize(String applicationContextName);
 
+	/**
+	 * Accepts the applicationContextName and the URL to the hibernate configuration file to initialize the AuthorizationManager
+	 * @param applicationContextName The name of the application Context which is used to instantiate this Authorization Manager
+	 * 
+	 */
+	public void initialize(String applicationContextName, URL url);
+
+	
 	/**
 	 * This methods return a List of all the {@link ProtectionGroup} for the current application.
 	 * @return List List of all the Protection Groups for the current application

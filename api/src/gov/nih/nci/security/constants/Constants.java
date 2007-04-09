@@ -131,6 +131,7 @@ public class Constants
 	public static final String AUTHORIZATION 	= "authorization";
 	
 	public static final String FILE_NAME_SUFFIX = ".csm.new.hibernate.cfg.xml";
+	public static final String APPLICATION_SECURITY_CONFIG_FILE = "ApplicationSecurityConfig.xml";
 	public static final String YES = "YES";
 	
 	public static final String ENCRYPTION_ENABLED = "encryption-enabled";

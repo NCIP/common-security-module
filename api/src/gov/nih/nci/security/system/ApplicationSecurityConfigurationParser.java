@@ -9,6 +9,7 @@ import gov.nih.nci.security.util.StringUtilities;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
@@ -59,6 +60,60 @@ public class ApplicationSecurityConfigurationParser {
 	    
 	}
 
+	public static org.jdom.Document getConfigDocument(URL url) throws CSConfigurationException{
+		org.jdom.Document configDoc = null;
+	    SAXBuilder builder = new SAXBuilder();        
+	    try
+		{
+	    	configDoc = builder.build(new File(url.getPath()));
+		}
+		catch (JDOMException e)
+		{
+			throw new CSConfigurationException("Error in parsing the Application Security Config file");
+		}
+		catch (IOException e)
+		{
+			throw new CSConfigurationException("Error in reading the Application Security Config file");
+		}
+		
+		ApplicationSecurityConfigurationParser.validateXMLwithSchema(url);
+		
+	    return configDoc;
+	    
+	    
+	}
+	
+	
+	public static void validateXMLwithSchema(URL url) throws CSConfigurationException{
+		try {
+			InputStream inputStreamXSD = FileLoader.getInstance().getApplicationSecurityConfigSchemaAsStream();
+			
+	    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	    	dbf.setNamespaceAware(true);
+	    	dbf.setValidating(true);
+	    	dbf.setAttribute(
+	    		  "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
+	    		  "http://www.w3.org/2001/XMLSchema");
+	    	dbf.setAttribute(
+	    		  "http://java.sun.com/xml/jaxp/properties/schemaSource", inputStreamXSD);
+	    	DocumentBuilder db = null;
+			try {
+				db = dbf.newDocumentBuilder();
+			} catch (ParserConfigurationException e) {
+				throw new CSConfigurationException("Error in parsing the Application Security Config file");
+			}
+	    	try {
+				Document doc = (Document) db.parse(url.getPath());
+			} catch (SAXException e) {
+				throw new CSConfigurationException("Error in parsing the Application Security Config file");
+			} catch (IOException e) {
+				throw new CSConfigurationException("Error in parsing the Application Security Config file");
+			}
+	        } catch(DOMException de) {
+	        	throw new CSConfigurationException("Error in parsing the Application Security Config file");
+	        }
+	}
+
 	public static void validateXMLwithSchema(String xmlDocument) throws CSConfigurationException{
 		try {
 			
@@ -94,6 +149,7 @@ public class ApplicationSecurityConfigurationParser {
 	        }
 	}
 
+	
 	public static String getAuthorizationManagerClass(String applicationContextName) throws CSException, CSConfigurationException{
 		String authorizationProviderClassName = null;
 		org.jdom.Document configDocument;
@@ -118,6 +174,30 @@ public class ApplicationSecurityConfigurationParser {
 		 return authorizationProviderClassName;
 	}
 
+	public static String getAuthorizationManagerClass(String applicationContextName, URL url) throws CSException, CSConfigurationException{
+		String authorizationProviderClassName = null;
+		org.jdom.Document configDocument;
+		
+		configDocument = getConfigDocument(url);
+		Element securityConfig = configDocument.getRootElement();
+		Element applicationList = securityConfig.getChild("application-list");
+		List applications = applicationList.getChildren("application");
+		 Iterator appIterator  = applications.iterator();
+		 while(appIterator.hasNext()){
+		 	Element application = (Element)appIterator.next();
+		 	Element contextName = application.getChild("context-name");
+		 	String contextNameValue = contextName.getText().trim();
+			if(contextNameValue.equalsIgnoreCase(applicationContextName)){
+				Element authorization = application.getChild("authorization");
+				Element authorizationProviderClass = authorization.getChild("authorization-provider-class");
+				authorizationProviderClassName = authorizationProviderClass.getText().trim();
+			}
+		 }
+			if (ApplicationSecurityConfigurationParser.log.isDebugEnabled())
+				ApplicationSecurityConfigurationParser.log.debug("Authorization|||getAuthorizationManagerClass|Success| Read the authorization Class Name " );
+		 return authorizationProviderClassName;
+	}
+	
 	public static String getAuthenticationManagerClass(String applicationContextName) throws CSException,CSConfigurationException{
 		String authenticationProviderClassName = null;
 		String lockoutTime = null;

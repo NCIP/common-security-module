@@ -43,7 +43,7 @@ public class AuthenicationManagerTest extends TestCase {
 		{
 			try
 			{
-				authenticationManagerOpenLdap = SecurityServiceProvider.getAuthenticationManager("OpenLDAP");
+				authenticationManagerOpenLdap = SecurityServiceProvider.getAuthenticationManager("sdk");
 			}
 			catch (CSException e)
 			{
@@ -53,35 +53,7 @@ public class AuthenicationManagerTest extends TestCase {
 		return authenticationManagerOpenLdap;
 	}
 	
-	private AuthenticationManager getAuthenticationManagerEDirectory(){
-		if (authenticationManagerEDirectory == null )
-		{
-			try
-			{
-				authenticationManagerEDirectory = SecurityServiceProvider.getAuthenticationManager("EDirectory");
-			}
-			catch (CSException e)
-			{
-				fail();
-			}
-		}
-		return authenticationManagerEDirectory;
-	}
-	
-	private AuthenticationManager getAuthenticationManagerCLM(){
-		if (authenticationManagerCLM == null )
-		{
-			try
-			{
-				authenticationManagerCLM = SecurityServiceProvider.getAuthenticationManager("CLM");
-			}
-			catch (CSException e)
-			{
-				fail();
-			}
-		}
-		return authenticationManagerCLM;
-	}
+
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
@@ -95,7 +67,7 @@ public class AuthenicationManagerTest extends TestCase {
 		boolean isValid = false;		
 		try
 		{
-			isValid = getAuthenticationManagerOpenLDAP().login( "csmuser1", "CSMt3st!" );
+			isValid = getAuthenticationManagerOpenLDAP().login( "User1", "User1" );
 		}
 		catch(CSException cse)
 		{
@@ -104,92 +76,6 @@ public class AuthenicationManagerTest extends TestCase {
 		assertEquals(true, isValid);
 	}
 
-	public void testLoginOpenLDAP2() {
-		
-		boolean isValid = false;
-		try
-		{
-			isValid = getAuthenticationManagerOpenLDAP().login( "csmuser", "CSMt3st!" );
-		}
-		catch(CSException cse)
-		{
-			isValid = false;
-		}
-		assertEquals(false, isValid);
-	}
-	
-	public void testLoginOpenLDAP3() {
-		
-		boolean isValid = false;
-		try
-		{
-			isValid = getAuthenticationManagerOpenLDAP().login( "csmuser1", "CSMt3st" );
-		}
-		catch(CSException cse)
-		{
-			isValid = false;
-		}
-		assertEquals(false, isValid);
-	}	
-	
-	public void testLoginEDirectory1() {
-		
-		boolean isValid = false;
-		try
-		{
-			isValid = getAuthenticationManagerEDirectory().login( "NCICB_Test", "CSMt3st!" );
-		}
-		catch(CSException cse)
-		{
-			isValid = false;
-		}
-		assertEquals(true, isValid);
-	}
-	
-	public void testLoginEDirectory2() {
-		
-		boolean isValid = false;
-		try
-		{
-			isValid = getAuthenticationManagerEDirectory().login( "NCICB_Test1", "CSMt3st!" );
-		}
-		catch(CSException cse)
-		{
-			isValid = false;
-		}
-		assertEquals(false, isValid);
-	}
-	
-	public void testLoginEDirectory3() {
-		
-		boolean isValid = false;
-		try
-		{
-			isValid = getAuthenticationManagerEDirectory().login( "NCICB_Test", "CSMt3st" );
-		}
-		catch(CSException cse)
-		{
-			isValid = false;
-		}
-		assertEquals(false, isValid);
-	}	
-	
-	public void testLoginWithEncryptedPassword1() {
-		
-		boolean isValid = false;
-		try
-		{
-			getAuthenticationManagerCLM();
-			isValid = this.authenticationManagerCLM.login( "clmuser", "clmuser" ); //encrypted = 97w7AXzA/84=
-		}
-		catch(CSException cse)
-		{
-			isValid = false;
-		}
-		assertEquals(true, isValid);
-	}
-	
-	
 	
 	
 }
