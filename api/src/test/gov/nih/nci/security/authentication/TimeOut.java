@@ -1,15 +1,12 @@
 package test.gov.nih.nci.security.authentication;
 
+import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.SecurityServiceProvider;
+
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
-import gov.nih.nci.security.AuthenticationManager;
-import gov.nih.nci.security.SecurityServiceProvider;
-import gov.nih.nci.security.exceptions.CSConfigurationException;
-import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.exceptions.CSInputException;
-import gov.nih.nci.security.exceptions.CSLoginException;
 import junit.framework.TestCase;
 
 /**
@@ -21,6 +18,7 @@ import junit.framework.TestCase;
 public class TimeOut extends TestCase {
 	
 	// CHANGE Allowed number of Attempts here.
+	int testNumberOfTimes = 5;
 	Integer allowedAttemptss = new Integer(3);
 	Integer lockoutTime = new Integer("5000");
 	Integer allowedLoginTime = new Integer("3000");;
@@ -31,7 +29,11 @@ public class TimeOut extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.out.println(System.currentTimeMillis());
+		System.out.println("Allowed Attempts 	:"+allowedAttemptss.intValue());
+		System.out.println("lockoutTime 		:"+lockoutTime.intValue());
+		System.out.println("allowedLoginTime 	:"+allowedLoginTime.intValue());
+		System.out.println();
+		System.out.println("Looping this Test "+5+" times.");
 		URL url = this.getClass().getClassLoader().getSystemResource("login.config");
 		String path = url.getPath();		
 		System.setProperty("java.security.auth.login.config", path);		
@@ -45,54 +47,47 @@ public class TimeOut extends TestCase {
 
 	public void testTimeOut()
 	{
-		int i = 0;
 		
-		for(i =0 ; i<allowedAttemptss.intValue();i++){
+		boolean swtchNow = false;
+		boolean resetCount = false;
+		int j = 1;
+		for(int i =1; i<testNumberOfTimes*allowedAttemptss.intValue();i++){
 			try {
 				authenticationManager.login("abc1", "xyz");
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				System.out.println(getCurrentTime()+" Attempt = "+i+" "+e1.getMessage());
+				System.out.println(getCurrentTime()+" Attempt = "+j+++" "+e1.getMessage());
+				if(e1.getMessage().startsWith("Allowed")){
+					if(resetCount){
+						resetCount = false;
+						j=1;
+					}else{
+						resetCount = true;
+					}
+					if(swtchNow ){
+					
+					}else{
+						swtchNow = true;
+					}
+				}else{
+					swtchNow = false;
+				
+				}
+				
 			}
+			if(swtchNow){
+				try {
+					System.out.print("Sleeping for :"+(lockoutTime.intValue()+allowedLoginTime.intValue())+" milliseconds.");
+					Thread.sleep(lockoutTime.intValue()+allowedLoginTime.intValue());
+					System.out.println(" .... Done");
+					
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		}		
-	
-		try {
-			Thread.sleep(lockoutTime.intValue()+allowedLoginTime.intValue());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		for(; i<allowedAttemptss.intValue()+3;i++){
-			try {
-				Thread.sleep(lockoutTime.intValue());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			try {
-				authenticationManager.login("abc1", "xyz");
-			} catch (Exception e) {
-				System.out.println(getCurrentTime()+" Attempt = "+i+" "+e.getMessage());
-			}
-		}
-		
-		try {
-			Thread.sleep(lockoutTime.intValue());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		for(; i<allowedAttemptss.intValue()+8;i++){
-	
-			try {
-				authenticationManager.login("abc1", "xyz");
-			} catch (Exception e) {
-				System.out.println(getCurrentTime()+" Attempt = "+i+" "+e.getMessage());
-			}
-		}
-		
-		
-		
-		
-		
+			
 	}
 	
 	public String getCurrentTime(){
