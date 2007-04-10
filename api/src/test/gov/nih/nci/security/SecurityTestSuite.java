@@ -93,6 +93,7 @@ package test.gov.nih.nci.security;
 import java.util.Properties;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
@@ -108,7 +109,7 @@ public class SecurityTestSuite {
 			
 	}
 	public static void main(String[] args) {
-		junit.textui.TestRunner.run(SecurityTestSuite.class);
+		junit.textui.TestRunner.run((Class<? extends TestCase>) SecurityTestSuite.class);
 	}
 
 	public static Test suite() {
