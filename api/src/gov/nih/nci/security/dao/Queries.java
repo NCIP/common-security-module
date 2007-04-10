@@ -530,7 +530,7 @@ public class Queries {
 	{
 		StringBuffer stbr = new StringBuffer();
 
-		stbr.append("SELECT DISTINCT pe.protection_element_id pe_id, p.privilege_id p_id");
+		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_privilege p,");
@@ -551,7 +551,7 @@ public class Queries {
 		stbr.append("            AND ug.group_id = ugrpg.group_id");
 		stbr.append("            AND ug.user_id = ?");
 		stbr.append(" UNION ALL ");
-		stbr.append("SELECT DISTINCT pe.protection_element_id pe_id, p.privilege_id p_id");
+		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_privilege p,");
@@ -569,7 +569,7 @@ public class Queries {
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ugrpg.user_id = ?");
 		stbr.append(" UNION ALL ");
-		stbr.append("SELECT DISTINCT upe.protection_element_id pe_id, 0 p_id");
+		stbr.append("SELECT DISTINCT upe.protection_element_id as pe_id, 0 as p_id");
 		stbr.append("      FROM csm_user_pe upe, csm_protection_element cpe");
 		stbr.append("      WHERE cpe.protection_element_id = upe.protection_element_id ");
 		stbr.append("      and upe.user_id = ?");
@@ -595,7 +595,7 @@ public class Queries {
 	{
 		StringBuffer stbr = new StringBuffer();
 
-		stbr.append("SELECT DISTINCT pe.protection_element_id pe_id, p.privilege_id p_id");
+		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_privilege p,");
