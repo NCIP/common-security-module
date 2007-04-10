@@ -93,7 +93,7 @@ import gov.nih.nci.security.authorization.AuthorizationManagerFactory;
 import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
+import gov.nih.nci.security.provisioning.AuthorizationManagerImpl;
 import gov.nih.nci.security.util.FileLoader;
 
 import java.net.URL;
@@ -139,7 +139,7 @@ public class SecurityServiceProvider {
 		userProvisioningManager = getUserProvisioningManagerDirectly(contextName);
 		if (userProvisioningManager == null)
 		{
-			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName);		
+			AuthorizationManagerImpl userProvisioningManagerImpl = new AuthorizationManagerImpl(contextName);		
 			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		}
 		
@@ -151,7 +151,7 @@ public class SecurityServiceProvider {
 	 * {@link AuthorizationManagerFactory} class, for the Application Context/Name provide.
 	 * If an custom Authorization Manager Class is registered for the application then the
 	 * {@link AuthorizationManagerFactory} class will instantiate the same and return it.
-	 * If no configuration is found then the default {@link UserProvisioningManagerImpl} class
+	 * If no configuration is found then the default {@link AuthorizationManagerImpl} class
 	 * is instantiated and returned. This manager should be used by the Client Applications which
 	 * needs to use the Authorization service provided by Common Security Module. With CSM v3.2 this method would
 	 * first try to obtain the AuthorizationManager directly by trying to looking a <code>Hibernate Config File</code> by the 
@@ -228,7 +228,7 @@ public class SecurityServiceProvider {
 	 * {@link AuthorizationManagerFactory} class, for the Application Context/Name provide.
 	 * If an custom Authorization Manager Class is registered for the application then the
 	 * {@link AuthorizationManagerFactory} class will instantiate the same and return it.
-	 * If no configuration is found then the default {@link UserProvisioningManagerImpl} class
+	 * If no configuration is found then the default {@link AuthorizationManagerImpl} class
 	 * is instantiated. After instantiation, using the User Name or the Group Name passed it load the AuthorizationPolicy by invoking the 
 	 * {@link UserProvisioningManager#getProtectionElementPrivilegeContextForUser(String)} or the {{@link UserProvisioningManager#getProtectionElementPrivilegeContextForGroup(String)}}
 	 * method. This AuthorizationPolicy is cached internally and is used in the <code>checkPermission</code> methods to avoid a database trip.
@@ -288,7 +288,7 @@ public class SecurityServiceProvider {
 		userProvisioningManager = getUserProvisioningManagerDirectly(contextName);
 		if (userProvisioningManager == null)
 		{
-			UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, userOrGroupName, isUserName);		
+			AuthorizationManagerImpl userProvisioningManagerImpl = new AuthorizationManagerImpl(contextName, userOrGroupName, isUserName);		
 			userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		}
 		
@@ -325,7 +325,7 @@ public class SecurityServiceProvider {
 	public static UserProvisioningManager getUserProvisioningManager(String contextName, HashMap connectionProperties) throws CSException, CSConfigurationException{
 		
 		UserProvisioningManager userProvisioningManager = null;
-		UserProvisioningManagerImpl userProvisioningManagerImpl = new UserProvisioningManagerImpl(contextName, connectionProperties);		
+		AuthorizationManagerImpl userProvisioningManagerImpl = new AuthorizationManagerImpl(contextName, connectionProperties);		
 		userProvisioningManager = (UserProvisioningManager)userProvisioningManagerImpl;
 		
 		return userProvisioningManager;
@@ -354,7 +354,7 @@ public class SecurityServiceProvider {
 			url = null;
 		}
 		if (url != null)
-			return new UserProvisioningManagerImpl(applicationContextName, url);
+			return new AuthorizationManagerImpl(applicationContextName, url);
 		return null;
 	}
 
@@ -371,7 +371,7 @@ public class SecurityServiceProvider {
 			url = null;
 		}
 		if (url != null)
-			return new UserProvisioningManagerImpl(applicationContextName, userOrGroupName, isUserName, url);
+			return new AuthorizationManagerImpl(applicationContextName, userOrGroupName, isUserName, url);
 		return null;
 	}
 

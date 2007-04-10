@@ -132,7 +132,7 @@ import org.hibernate.SessionFactory;
  * @version 1.0
  * @author modik
  */
-public class UserProvisioningManagerImpl implements UserProvisioningManager {
+public class AuthorizationManagerImpl implements UserProvisioningManager {
 
 
 	/**
@@ -167,7 +167,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param applicationContextName String
 	 * @throws CSConfigurationException
 	 */
-	public UserProvisioningManagerImpl(String applicationContextName) throws CSConfigurationException{
+	public AuthorizationManagerImpl(String applicationContextName) throws CSConfigurationException{
 		/**
 		 *  Ultimately we have to use ApplicationSessionFactory class
 		 *  to get appropriate sessionFcatory for a application.
@@ -180,7 +180,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		
 	}
 
-	public UserProvisioningManagerImpl(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{
+	public AuthorizationManagerImpl(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{
 		/**
 		 *  Ultimately we have to use ApplicationSessionFactory class
 		 *  to get appropriate sessionFcatory for a application.
@@ -191,7 +191,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		
 	}
 	
-	public UserProvisioningManagerImpl(String applicationContextName, URL url) throws CSConfigurationException
+	public AuthorizationManagerImpl(String applicationContextName, URL url) throws CSConfigurationException
 	{
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
@@ -207,7 +207,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 	 * @param isUserName 
 	 * @throws CSConfigurationException
 	 */
-	public UserProvisioningManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException{
+	public AuthorizationManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException{
 		/**
 		 *  Ultimately we have to use ApplicationSessionFactory class
 		 *  to get appropriate sessionFcatory for a application.
@@ -219,7 +219,7 @@ public class UserProvisioningManagerImpl implements UserProvisioningManager {
 		
 	}	
 	
-	public UserProvisioningManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName, URL url) throws CSConfigurationException{
+	public AuthorizationManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName, URL url) throws CSConfigurationException{
 		/**
 		 *  Ultimately we have to use ApplicationSessionFactory class
 		 *  to get appropriate sessionFcatory for a application.

@@ -92,7 +92,7 @@ import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.provisioning.UserProvisioningManagerImpl;
+import gov.nih.nci.security.provisioning.AuthorizationManagerImpl;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
 
 import org.apache.log4j.Logger;
@@ -116,7 +116,7 @@ public class AuthorizationManagerFactory {
 	 * This methods instantiate an implementation of the {@link AuthorizationManager} and returns it to the calling method.
 	 * It reads the config file using the Application Context/Name provided as parameter. If an entry is found,
 	 * it retrieves the name of the class and instantiate an object of the same and returns it to the calling method.
-	 * However if the entry is not found, then the default {@link UserProvisioningManagerImpl} Class is instantiated and 
+	 * However if the entry is not found, then the default {@link AuthorizationManagerImpl} Class is instantiated and 
 	 * returned to the calling method
 	 *
 	 * The path for the application config file should be configured in the system properties file as shown below
@@ -181,7 +181,7 @@ public class AuthorizationManagerFactory {
 	 * This methods instantiate an implementation of the {@link AuthorizationManager} and returns it to the calling method.
 	 * It reads the config file using the Application Context/Name provided as parameter. If an entry is found,
 	 * it retrieves the name of the class and instantiate an object of the same and returns it to the calling method.
-	 * However if the entry is not found, then the default {@link UserProvisioningManagerImpl} Class is instantiated and 
+	 * However if the entry is not found, then the default {@link AuthorizationManagerImpl} Class is instantiated and 
 	 * returned to the calling method
 	 *
 	 * The path for the application config file should be configured in the system properties file as shown below
