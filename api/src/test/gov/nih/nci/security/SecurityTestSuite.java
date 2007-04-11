@@ -108,9 +108,7 @@ public class SecurityTestSuite {
 			p.setProperty("gov.nih.nci.security.configFile","c:/securityConfig/ApplicationSecurityConfig.xml");
 			
 	}
-	public static void main(String[] args) {
-		junit.textui.TestRunner.run((Class<? extends TestCase>) SecurityTestSuite.class);
-	}
+	
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for gov.nih.nci.security");
