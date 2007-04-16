@@ -88,12 +88,16 @@ package gov.nih.nci.security.authorization;
  *
  */
 
+import java.net.URL;
+
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.provisioning.AuthorizationManagerImpl;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
+import gov.nih.nci.security.util.FileLoader;
 
 import org.apache.log4j.Logger;
 
@@ -245,6 +249,88 @@ public class AuthorizationManagerFactory {
 	}	
 	
 	
+	/**
+	 * This methods instantiate an implementation of the {@link AuthorizationManager} and returns it to the calling method.
+	 * It reads the config file using the Application Context/Name provided as parameter. If an entry is found,
+	 * it retrieves the name of the class and instantiate an object of the same and returns it to the calling method.
+	 * However if the entry is not found, then the default {@link UserProvisioningManagerImpl} Class is instantiated and 
+	 * returned to the calling method
+	 *
+	 * The path for the application config file should be configured in the system properties file as shown below
+	 * <p>
+	 * <blockquote>
+	 * 
+	 * <pre>
+	 * e.g. gov.nih.nci.security.configFile=/foo/bar/ApplicationSecurityConfig.xml
+	 * </pre>
+	 * 
+	 * </blockquote>
+	 * <p>
+	 * Where <code>gov.nih.nci.security.configFile</code> is the property name and <code>/foo/bar/ApplicationSecurityConfig.xml</code> is the fully
+	 * qualified file path. This configuration file contains which implementation of Authorization Manager is to be used
+	 * 
+	 * @param applicationContextName The name or context of the calling application. This parameter is used to retrieve
+	 * the implementation class for that Application from the property file if it is configured.
+	 * NOTE: that the application name/context should be same as those configured in the configuration/property files	 
+	 * @return An instance of the class implementating the AuthorizationManager interface. This could the client custom
+	 * implementation or the default provided Authorization Manager
+	 * @throws CSException If there are any errors in obtaining the correct instance of the {@link AuthorizationManager}
+	 * @throws CSConfigurationException 
+	 */	
+
+	public static AuthorizationManager getAuthorizationManager(String applicationContextName, URL url) throws CSException, CSConfigurationException{
+
+		AuthorizationManager authorizationManager = null;
+		String applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthorizationManagerClass(applicationContextName, url);
+		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Common Authorization Manager|");
+			authorizationManager = (AuthorizationManager)SecurityServiceProvider.getUserProvisioningManager(applicationContextName);
+			authorizationManager.initialize(applicationContextName);
+
+		}
+		else
+		{
+			try
+			{
+				authorizationManager = (AuthorizationManager)(Class.forName(applicationManagerClassName)).newInstance();
+				try
+				{
+					FileLoader fileLoader = FileLoader.getInstance();
+					url = fileLoader.getFileAsURL(applicationContextName + Constants.FILE_NAME_SUFFIX);
+				}
+				catch (Exception e)
+				{
+					url = null;
+				}
+				if (url != null)
+				{
+					if (log.isDebugEnabled())
+						log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Custom Authorization Manager "+applicationManagerClassName+"|" );
+					authorizationManager.initialize(applicationContextName,url);
+				}
+				else
+				{
+					if (log.isDebugEnabled())
+						log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Custom Authorization Manager with Hibernate File"+applicationManagerClassName+"|" );
+					authorizationManager.initialize(applicationContextName);
+				}
+				return authorizationManager;
+			}
+			catch (Exception exception)
+			{
+				if (log.isDebugEnabled())
+					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Failure| Error initializing Custom Authorization Manager "+applicationManagerClassName+"|" + exception.getMessage() );
+				exception.printStackTrace();
+				throw new CSConfigurationException("Error in loading the configured AuthorizationManager for the Application", exception);
+			}
+			
+		}
+		return authorizationManager;
+
+		
+	}	
 	
 	
 	
