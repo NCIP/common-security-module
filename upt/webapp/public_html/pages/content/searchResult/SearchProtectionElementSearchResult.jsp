@@ -208,17 +208,7 @@
 								<!-- action buttons end --></td>
 							</tr>
 						</logic:present>
-						<% //Check for 200 users and display error if exceeds
-						if (cntResObj>=200){ %>								
-						<tr>
-							<td>
-							Warning, the result is incomplete because the maximum number of ProtectionElements that can 
-							be displayed (200) has been exceeded.
-							</td>
-						</tr>
-						<%} 
 						
-						%>
 					</table>
 					</td>
 				</tr>
