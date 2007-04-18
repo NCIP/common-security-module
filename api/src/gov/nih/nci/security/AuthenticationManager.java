@@ -193,6 +193,35 @@ public interface AuthenticationManager {
 
 	
 	/**
+	 * This method is primarily provided to authenticate the user using the X509 digitial certificate ({@link X509Certificate}) as credentials and once authenticated it retrieves all 
+	 * {@link Principal} from validated {@link X509Certificate} and adds them to the users {@link Subject}.
+	 * 
+	 * In order for the proper execution of this method additional parameters need to be configured in the JAAS login configuration file for the corresponding
+	 * application's login module. These parameters point to Java Key Store, type of Key Store and comma separated list of trusted certificates. 
+	 * 
+	 * Accepts the user credentials from the calling application and authenticates them against the credential provider configured
+	 * for the application. Once authenticated, it adds all the validated certificate(s)  the {@link Principal} to the {@link Subject} that can be used
+	 * by the calling application for authorization.
+	 * 
+	 * 
+	 * Also before calling the <code>authenticate</code> method the <code>initialize</code> method should be invoked setting the Application Context/Name
+	 *
+	 * @param subject The {@link Subject} is provided by the calling application. The Subject is required to include Digital Certificate and/or 
+	 *               the subjects alias(es) with which certificate(s) are available in the configured keystore.
+	 *
+	 * @return boolean. Returns true if the authentication was sucessful. 
+	 *  
+	 * @throws CSException is a high level exception encompassing all other exception
+	 * @throws CSLoginException is thrown when the credentials are invalid or other errors occur during validation
+	 * @throws CSInputException is thrown occurs when the provided input is incorrect
+	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
+	 * @throws CSInsufficientAttributesException is thrown when the {@link Subject} does not have the required public principals. Since the  {@link Subject} 
+	 * 			should contain all the valid {@link Principal} for validating the certificate against the keystore.
+	 */
+	public boolean authenticate(Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException;
+
+	
+	/**
 	 * Initializes the class and sets the passed Application Context/Name within the instance of the implemented class. This method
 	 * should be immediately invoked after creating instantiating the class.
 	 * @param applicationContextName The name or context of the calling application. 
@@ -241,7 +270,7 @@ public interface AuthenticationManager {
 	/**
 	 * This method is currently added just as a temporary place holder. It doesnt perform any
 	 * real logout fuctionality. In current release all it does is generate a log message for user
-	 * lockout action
+	 * logout action
 	 * @param userName The name of the user whose login session needs to be terminated
 	 * @throws CSException Explains the error in logging the user out.
 	 */
