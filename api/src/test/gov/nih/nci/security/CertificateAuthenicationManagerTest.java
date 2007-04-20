@@ -103,10 +103,10 @@ public class CertificateAuthenicationManagerTest extends TestCase {
 		boolean isValid = false;		
 		try
 		{
-			Subject subject = getSubjectWithLoginIdPrincipal();
+			Subject subject = getSubjectWithCertificate();
 			isValid = authenticationManagerX509.authenticate(subject);
 		}
-		catch(CSException cse)
+		catch(Exception e)
 		{
 			isValid = false;
 		}
