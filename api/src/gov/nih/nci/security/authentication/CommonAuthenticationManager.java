@@ -110,6 +110,8 @@ import javax.security.auth.spi.LoginModule;
 
 import org.apache.log4j.Logger;
 
+
+
 /**
  * This is the default implmentation of the {@link AuthenticationManager} interface.
  * It provides methods to perform the authentication using the  provided user credentials.
@@ -179,8 +181,34 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException
 	{
 		Subject subject = new Subject(); 
-		this.login(userName, password, subject);
+		this.login(userName, password, subject);	
 		return subject;
+	}
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthenticationManager#authenticate(javax.security.auth.Subject)
+	 */
+	public boolean authenticate(Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException {
+		 LoginContext ctx = null;
+		 
+		if (null == subject)
+		{
+			throw new CSInputException("Subject cannot be blank");
+		}
+		//TODO Check if subject - username or Cerfiticate is available. Atleast one should be available.
+	    try {
+   	
+			ctx = new LoginContext( "gov.nih.nci.security.authentication.loginmodules.X509LoginModule", subject );
+			ctx.login();
+		} catch (LoginException e) {
+			
+			if (log.isDebugEnabled())
+				log.debug("Authentication||login|Failure.");
+			throw new CSLoginException(e.getMessage());
+		}
+	        
+		subject.setReadOnly();    
+		return true;
 	}
 	
 	
@@ -310,6 +338,8 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		UserInfoHelper.setUserInfo(userName, null);
 		auditLog.info("Successful log out for user "+ userName);			
 	}
+
+	
 
 	
 	
