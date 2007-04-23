@@ -13,7 +13,7 @@
 	
 	INSERT INTO CSM_USER(
              LOGIN_NAME, FIRST_NAME, LAST_NAME, PASSWORD,UPDATE_DATE)
-    VALUES ( 'parmarv', '<<super_admin_first_name>>', '<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',current_date);
+    VALUES ( '<<super_admin_login_name>>', '<<super_admin_first_name>>', '<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',current_date);
 	
 	INSERT INTO CSM_PROTECTION_ELEMENT(
              PROTECTION_ELEMENT_NAME, PROTECTION_ELEMENT_DESCRIPTION, OBJECT_ID, APPLICATION_ID,UPDATE_DATE)
