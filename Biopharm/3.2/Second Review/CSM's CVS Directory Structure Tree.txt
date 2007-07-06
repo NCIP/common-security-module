@@ -1,0 +1,2213 @@
+Folder PATH listing for volume Local Disk
+Volume serial number is 0006FE80 6074:CCFB
+C:\CVSROOT\SECURITY
+|   .classpath
+|   .mymetadata
+|   .project
+|   CSM's CVS Directory Structure.txt
+|   try2.txt
+|   
++---.settings
+|       com.genuitec.jboss.ide.eclipse.xdoclet.run.prefs
+|       
++---api
+|   |   .cvsignore
+|   |   
+|   +---config
+|   |       ApplicationSecurityConfig.xml
+|   |       csmupt.csm.new.hibernate.cfg.xml
+|   |       csmupt.hibernate.cfg.xml
+|   |       hibernate.properties
+|   |       login.config
+|   |       ObjectStateLoggerConfig.xml
+|   |       sample_log4j_config.xml
+|   |       security.csm.new.hibernate.cfg.xml
+|   |       
+|   +---lib
+|   |       antlr-2.7.6rc1.jar
+|   |       asm.jar
+|   |       c3p0-0.8.5.2.jar
+|   |       cglib-2.1.3.jar
+|   |       clm.jar
+|   |       clmwebapp.jar
+|   |       commons-collections-2.1.1.jar
+|   |       commons-dbcp-1.2.1.jar
+|   |       commons-lang-1.0.1.jar
+|   |       commons-logging-1.0.4.jar
+|   |       dom4j-1.6.1.jar
+|   |       ehcache-1.1.jar
+|   |       hibernate3.jar
+|   |       jdom.jar
+|   |       jta.jar
+|   |       jtds-1.2.jar
+|   |       junit-3.8.1.jar
+|   |       log4j-1.2.9.jar
+|   |       mysql-connector-java-3.1.11-bin.jar
+|   |       ojdbc14.jar
+|   |       xercesImpl.jar
+|   |       xml-apis.jar
+|   |       
+|   +---resources
+|   |       ApplicationSecurityConfig.xml
+|   |       AuthSchemaMySQL.sql
+|   |       AuthSchemaOracle.sql
+|   |       AuthSchemaSQLServer.sql
+|   |       DataPrimingMySQL.sql
+|   |       DataPrimingOracle.sql
+|   |       DataPrimingSQLServer.sql
+|   |       hibernate.cfg.xml
+|   |       log4jConfig.xml
+|   |       MigrationScript3.2MySQL.sql
+|   |       MigrationScript3.2Oracle.sql
+|   |       mysql-ds.xml
+|   |       ObjectStateLoggerConfig.xml
+|   |       oracle-ds.xml
+|   |       PasswordEncrypter.java
+|   |       sqlserver-ds.xml
+|   |       
+|   +---script
+|   |       build.xml
+|   |       
+|   \---src
+|       |   ApplicationSecurityConfig.xsd
+|       |   
+|       +---gov
+|       |   \---nih
+|       |       \---nci
+|       |           \---security
+|       |               |   AuthenticationManager.java
+|       |               |   AuthorizationManager.java
+|       |               |   CommonSecurityManager.java
+|       |               |   SecurityServiceProvider.java
+|       |               |   UserProvisioningManager.java
+|       |               |   
+|       |               +---authentication
+|       |               |   |   AuthenticationManagerFactory.java
+|       |               |   |   CommonAuthenticationManager.java
+|       |               |   |   LockoutManager.java
+|       |               |   |   
+|       |               |   +---callback
+|       |               |   |       CSMCallbackHandler.java
+|       |               |   |       
+|       |               |   +---helper
+|       |               |   |       LDAPHelper.java
+|       |               |   |       RDBMSHelper.java
+|       |               |   |       
+|       |               |   +---loginmodules
+|       |               |   |       CSMLoginModule.java
+|       |               |   |       LDAPLoginModule.java
+|       |               |   |       RDBMSLoginModule.java
+|       |               |   |       
+|       |               |   \---principal
+|       |               |           BasePrincipal.java
+|       |               |           EmailIdPrincipal.java
+|       |               |           FirstNamePrincipal.java
+|       |               |           LastNamePrincipal.java
+|       |               |           LoginIdPrincipal.java
+|       |               |           
+|       |               +---authorization
+|       |               |   |   AuthorizationManagerFactory.java
+|       |               |   |   ObjectAccessMap.java
+|       |               |   |   ObjectPrivilegeMap.java
+|       |               |   |   
+|       |               |   +---domainobjects
+|       |               |   |       Application.hbm.xml
+|       |               |   |       Application.java
+|       |               |   |       ApplicationContext.java
+|       |               |   |       Group.hbm.xml
+|       |               |   |       Group.java
+|       |               |   |       GroupRoleContext.java
+|       |               |   |       Privilege.hbm.xml
+|       |               |   |       Privilege.java
+|       |               |   |       ProtectionElement.hbm.xml
+|       |               |   |       ProtectionElement.java
+|       |               |   |       ProtectionElementPrivilegeContext.java
+|       |               |   |       ProtectionGroup.hbm.xml
+|       |               |   |       ProtectionGroup.java
+|       |               |   |       ProtectionGroupRoleContext.java
+|       |               |   |       Role.hbm.xml
+|       |               |   |       Role.java
+|       |               |   |       User.hbm.xml
+|       |               |   |       User.java
+|       |               |   |       UserGroupRoleProtectionGroup.hbm.xml
+|       |               |   |       UserGroupRoleProtectionGroup.java
+|       |               |   |       UserProtectionElement.hbm.xml
+|       |               |   |       UserProtectionElement.java
+|       |               |   |       UserRoleContext.java
+|       |               |   |       
+|       |               |   \---jaas
+|       |               |           AccessPermission.java
+|       |               |           AuthPermissionCollection.java
+|       |               |           AuthPolicy.java
+|       |               |           PermissionAdapter.java
+|       |               |           PermissionAdapterFactory.java
+|       |               |           PermissionRoleDBAdapter.java
+|       |               |           
+|       |               +---constants
+|       |               |       Constants.java
+|       |               |       
+|       |               +---dao
+|       |               |   |   ApplicationSearchCriteria.java
+|       |               |   |   AuthorizationDAO.java
+|       |               |   |   AuthorizationDAOImpl.java
+|       |               |   |   AuthorizationDAOSessionFactory.java
+|       |               |   |   GroupSearchCriteria.java
+|       |               |   |   PrivilegeSearchCriteria.java
+|       |               |   |   ProtectionElementSearchCriteria.java
+|       |               |   |   ProtectionGroupSearchCriteria.java
+|       |               |   |   Queries.java
+|       |               |   |   RoleSearchCriteria.java
+|       |               |   |   SearchCriteria.java
+|       |               |   |   UserSearchCriteria.java
+|       |               |   |   
+|       |               |   \---hibernate
+|       |               |           HibernateSessionFactory.java
+|       |               |           ProtectionGroupProtectionElement.hbm.xml
+|       |               |           ProtectionGroupProtectionElement.java
+|       |               |           RolePrivilege.hbm.xml
+|       |               |           RolePrivilege.java
+|       |               |           UserGroup.hbm.xml
+|       |               |           UserGroup.java
+|       |               |           
+|       |               +---exceptions
+|       |               |   |   CSConfigurationException.java
+|       |               |   |   CSDataAccessException.java
+|       |               |   |   CSException.java
+|       |               |   |   CSInputException.java
+|       |               |   |   CSInsufficientAttributesException.java
+|       |               |   |   CSLoginException.java
+|       |               |   |   CSObjectNotFoundException.java
+|       |               |   |   CSSecurityException.java
+|       |               |   |   CSTransactionException.java
+|       |               |   |   
+|       |               |   \---internal
+|       |               |           CSInternalConfigurationException.java
+|       |               |           CSInternalInsufficientAttributesException.java
+|       |               |           CSInternalLoginException.java
+|       |               |           
+|       |               +---junk
+|       |               |       RandomIntGenerator.java
+|       |               |       
+|       |               +---provisioning
+|       |               |       UserProvisioningManagerImpl.java
+|       |               |       
+|       |               +---system
+|       |               |       ApplicationSecurityConfigurationParser.java
+|       |               |       ApplicationSessionFactory.java
+|       |               |       
+|       |               \---util
+|       |                       FileLoader.java
+|       |                       ObjectSetUtil.java
+|       |                       ObjectUpdater.java
+|       |                       ProtectionElementPrivilegesContextComparator.java
+|       |                       ProtectionGroupRoleContextComparator.java
+|       |                       StringEncrypter.java
+|       |                       StringUtilities.java
+|       |                       
+|       \---test
+|           \---gov
+|               \---nih
+|                   \---nci
+|                       \---security
+|                           |   AuthenicationManagerTest.java
+|                           |   AuthPolicyCachingQATest.java
+|                           |   AuthPolicyCachingTest.java
+|                           |   GridAuthenticationTest.java
+|                           |   GridAuthorizationTest.java
+|                           |   NewConfigruationTest.java
+|                           |   QAGridAuthenticationTest.java
+|                           |   RegressionTest.java
+|                           |   SecurityTestSuite.java
+|                           |   TempTest.java
+|                           |   TestClient.java
+|                           |   UserProvisioningManagerTest.java
+|                           |   
+|                           +---authentication
+|                           |       TimeOut.java
+|                           |       
+|                           +---authorization
+|                           |   \---domainobjects
+|                           |           ApplicationContextTest.java
+|                           |           ApplicationTest.java
+|                           |           GroupRoleContextTest.java
+|                           |           PrivilegeTest.java
+|                           |           ProtectionElementTest.java
+|                           |           ProtectionGroupRoleContextTest.java
+|                           |           ProtectionGroupTest.java
+|                           |           RoleTest.java
+|                           |           TestBMSIntegrationTask.java
+|                           |           UserRoleContextTest.java
+|                           |           UserTest.java
+|                           |           
+|                           \---dao
+|                                   AuthorizationDAOImplTest.java
+|                                   JAXPValidator.java
+|                                   SearchCriteriaTest.java
+|                                   
++---Biopharm
+|   |   Biopharm.zip
+|   |   Code Review Inspection Record.doc
+|   |   CSM-Ekagra.doc
+|   |   CSM3.0_notes.txt
+|   |   CSM_3.0_ReportedDefects.pdf
+|   |   CSM_Gap_Analysis_Report_1.0.doc
+|   |   CSM_Guide_ApplicationDevelopers.pdf
+|   |   CSM_Questions_20050725_EC.doc
+|   |   CSM_Questions_20050726_EC.doc
+|   |   CSM_Reference_Implemenation_Guide.pdf
+|   |   CSM_test_case_3.0.xls
+|   |   NCICBSecurity.EAP
+|   |   NCICBSecurityService.mpp
+|   |   NCICB_Common_Security_Vision.doc
+|   |   NCICB_Common_Security_Vision_v3 01.doc
+|   |   NCICB_Security_ SAD.doc
+|   |   Peer Review Preparation Form.doc
+|   |   Peer Review Summary Form.doc
+|   |   PeerReviewPlan.doc
+|   |   RiskList.doc
+|   |   UPT.EAP
+|   |   UPT_User_Guide.pdf
+|   |   UseCase.RTF
+|   |   
+|   +---3.1 Docs
+|   |   |   3.1 Test Summary.doc
+|   |   |   caCORE3.1_notes.txt
+|   |   |   caCORE3.1_Tech_Guide.pdf
+|   |   |   CSM 3.1 Baseline Task Plan.mpp
+|   |   |   CSM_TestPlan_3.1.doc
+|   |   |   CSM_test_case_3.1.xls
+|   |   |   CSM_Traceability_Matrix.xls
+|   |   |   Ekagra - CSM Organization.ppt
+|   |   |   NCICB_Common_Security_Vision_v3.1.doc
+|   |   |   RiskList_v3.1.doc
+|   |   |   UPT_User_Guide.pdf
+|   |   |   
+|   |   +---Code Reviews
+|   |   |       Audit and Logging Code Review Form.doc
+|   |   |       CSM Adapter caCoreSDK Code Merge.doc
+|   |   |       Hibernate and JDK 1.5 Code Review Form APIs.doc
+|   |   |       
+|   |   +---Monthly Status Report
+|   |   |       Status_01312006.doc
+|   |   |       Status_02282006.doc
+|   |   |       Status_03312006.doc
+|   |   |       Status_04302006.doc
+|   |   |       Status_10312005.doc
+|   |   |       Status_11302005.doc
+|   |   |       Status_12312005.doc
+|   |   |       ~$atus_02282006.doc
+|   |   |       
+|   |   +---Resumes
+|   |   |       Kunal Modi.doc
+|   |   |       Orlando Roebuck.doc
+|   |   |       Steve Hunter.doc
+|   |   |       
+|   |   +---SOPs
+|   |   |       Configuration Management - SOP.doc
+|   |   |       Ekagra PM - SOP.doc
+|   |   |       Ekagra SDLC - SOP.doc
+|   |   |       Electronic Signature - SOP.doc
+|   |   |       Peer Reviews - SOP.doc
+|   |   |       Quality Assurance - SOP.doc
+|   |   |       Requirements Management - SOP.doc
+|   |   |       Testing - SOP.doc
+|   |   |       
+|   |   \---Use Cases
+|   |           CSM_CLM_UseCases.doc
+|   |           CSM_SDK_Integration_UseCases.doc
+|   |           
+|   +---Requested_Documents_72605
+|   |       Copen_Resume.doc
+|   |       CSM Peer Review - 3.0.1 Test Cases.doc
+|   |       CSM Peer Review - Activity Diagram.doc
+|   |       CSM Peer Review - Authentication Guide.doc
+|   |       CSM Peer Review - CSM Enabled Writeable APIs (SDK).doc
+|   |       CSM Peer Review - EA Model.doc
+|   |       CSM Peer Review - Guide for Application Dev1.doc
+|   |       CSM Peer Review - Reference Implementation.doc
+|   |       CSM Peer Review - RI Guide and App.doc
+|   |       CSM Peer Review - SDK EA Model.doc
+|   |       CSM Peer Review - Security API Guide.doc
+|   |       CSM Peer Review - sql  code.doc
+|   |       CSM Peer Review - Standard Privileges.doc
+|   |       CSM Peer Review - UPT Deployment Guide.doc
+|   |       CSM Peer Review - UPT review 2.doc
+|   |       CSM Peer Review - UPT User Guide.doc
+|   |       CSM_test_case_3.0.1.xls
+|   |       CVS_diagram.doc
+|   |       NCICB_CommonSecurityFramework_Supplementary.doc
+|   |       Peer Review Preparation Form.doc
+|   |       Requested_Documents_72605.zip
+|   |       RiskList.doc
+|   |       Security EA.rtf
+|   |       Status Report_Copen_05-13.doc
+|   |       status_01312005.doc
+|   |       status_02282005.doc
+|   |       status_03312005.doc
+|   |       status_04302005.doc
+|   |       Status_05312005.doc
+|   |       Status_06302005.doc
+|   |       TestTrack_1.pdf
+|   |       TestTrack_2.pdf
+|   |       UPT_EA_1.rtf
+|   |       UPT_EA_2.rtf
+|   |       
+|   \---Requested_Documents_72705
+|           Kunal Resume.doc
+|           Project Organization-BioPharm.ppt
+|           Requested_Documents_72705.zip
+|           Vinay Resume.doc
+|           
++---caBIG
+|   \---SIG
+|           Best Practices For Ant.doc
+|           Best Practices For JUnit.doc
+|           Best Practices For UML.doc
+|           SOP For Ant.doc
+|           SOP For deploying CSM.doc
+|           SOP For JUnit.doc
+|           SOP For Nightly build script.doc
+|           
++---csm-sdk
+|   +---cacorefiles
+|   |       cacore30.war
+|   |       client.zip
+|   |       
+|   +---public_html
+|   |   +---META-INF
+|   |   |       MANIFEST.MF
+|   |   |       
+|   |   \---WEB-INF
+|   |       |   applicationContext.xml
+|   |       |   httpinvoker-servlet.xml
+|   |       |   web.xml
+|   |       |   
+|   |       \---lib
+|   |               activation.jar
+|   |               activemq-1.0.jar
+|   |               aopalliance.jar
+|   |               axis.jar
+|   |               cacore-classes.jar
+|   |               cglib-full-2.0.2.jar
+|   |               commons-attributes-api.jar
+|   |               commons-collections-3.0.jar
+|   |               commons-dbcp.jar
+|   |               commons-discovery.jar
+|   |               commons-fileupload-1.0.jar
+|   |               commons-httpclient.jar
+|   |               commons-logging.jar
+|   |               commons-pool.jar
+|   |               concurrent-1.3.4.jar
+|   |               cos.jar
+|   |               cosnaming.jar
+|   |               csmapi.jar
+|   |               dom4j-1.4.jar
+|   |               ehcache-1.1.jar
+|   |               ejb.jar
+|   |               geronimo-spec-j2ee-1.0-M1.jar
+|   |               hessian-2.1.12.jar
+|   |               hibernate2.jar
+|   |               hibernate3.jar
+|   |               ibatis-debug.jar
+|   |               itext-1.02b.jar
+|   |               jaxrpc.jar
+|   |               jboss-client.jar
+|   |               jdom.jar
+|   |               jms.jar
+|   |               jstl.jar
+|   |               jta.jar
+|   |               log4j-1.2.8.jar
+|   |               mail.jar
+|   |               mysql-connector-java-3.0.8-stable-bin.jar
+|   |               odmg-3.0.jar
+|   |               ojdbc14.jar
+|   |               pdfbox-0.6.5.jar
+|   |               pg74.213.jdbc3.jar
+|   |               poi-2.5.1.jar
+|   |               providerutil.jar
+|   |               quartz.jar
+|   |               saaj.jar
+|   |               sdk-asp.jar
+|   |               servlet-api.jar
+|   |               spring-richclient.jar
+|   |               spring.jar
+|   |               standard.jar
+|   |               struts-1.2.4.jar
+|   |               uuid-key-generator.jar
+|   |               velocity-1.4.jar
+|   |               wsdl4j.jar
+|   |               xerces-2.4.0.jar
+|   |               xml-apis.jar
+|   |               
+|   +---scripts
+|   |       build.xml
+|   |       dummyFile.txt
+|   |       Firstbuild.xml
+|   |       sdkBuild.xml
+|   |       SecondBuild.xml
+|   |       ThirdBuild.xml
+|   |       
+|   \---src
+|       |   SDKApplicationConfiguration.xml
+|       |   
+|       +---com
+|       |   \---prototype
+|       |       +---application
+|       |       |   +---dataobjects
+|       |       |   |       Person.java
+|       |       |   |       
+|       |       |   +---persistence
+|       |       |   |       DAOInterface.java
+|       |       |   |       PersistenceException.java
+|       |       |   |       PersistenceManager.java
+|       |       |   |       PersistenceManagerImpl.java
+|       |       |   |       TestClient.java
+|       |       |   |       
+|       |       |   \---remote
+|       |       |           RemoteObject.java
+|       |       |           RemoteService.java
+|       |       |           RemoteServiceImpl.java
+|       |       |           
+|       |       \---remoting
+|       |           \---SpringHttp
+|       |               |   HelloWorld.java
+|       |               |   SimpleHelloWorld.java
+|       |               |   
+|       |               +---conf
+|       |               |       helloWorld.xml
+|       |               |       persistenceManager.xml
+|       |               |       remoteService.xml
+|       |               |       
+|       |               \---http
+|       |                   |   HelloWorldClient.java
+|       |                   |   PersistenceManagerClient.java
+|       |                   |   
+|       |                   \---client
+|       |                           ApplicationClient.java
+|       |                           AuthenticationManager.java
+|       |                           ClientSession.java
+|       |                           ClientSessionHolder.java
+|       |                           RemotePersistenceManagerClient.java
+|       |                           ServiceBroker.java
+|       |                           
+|       +---gov
+|       |   \---nih
+|       |       \---nci
+|       |           +---sdk
+|       |           |   +---codegen
+|       |           |   |   |   CodeFormatter.java
+|       |           |   |   |   CodeGenUtils.java
+|       |           |   |   |   MethodSignature.java
+|       |           |   |   |   RemoteClientServerGenerator.java
+|       |           |   |   |   StringUtilities.java
+|       |           |   |   |   
+|       |           |   |   +---clientlayer
+|       |           |   |   |       ApplicationServiceClientImpl_Creator.java
+|       |           |   |   |       ApplicationServiceProvider_Generator.java
+|       |           |   |   |       ClientLayerGenerator.java
+|       |           |   |   |       ClientSessionGenerator.java
+|       |           |   |   |       
+|       |           |   |   +---remoting
+|       |           |   |   |       RemoteServiceGenerator.java
+|       |           |   |   |       
+|       |           |   |   +---serverLayer
+|       |           |   |   |       ApplicationServiceServerImpl_Generator.java
+|       |           |   |   |       RemoteApplicationServiceImpl_Generator.java
+|       |           |   |   |       
+|       |           |   |   \---web
+|       |           |   |           WebConfigGenerator.java
+|       |           |   |           
+|       |           |   +---common
+|       |           |   |       ApplicationException.java
+|       |           |   |       
+|       |           |   \---server
+|       |           |       \---management
+|       |           |               ApplicationConfiguration.java
+|       |           |               ApplicationSessionFactory.java
+|       |           |               HibernateDAO.java
+|       |           |               SdkDAO.java
+|       |           |               SDKListProxy.java
+|       |           |               SecurityEnabler.java
+|       |           |               SessionManager.java
+|       |           |               SessionMonitor.java
+|       |           |               UserSession.java
+|       |           |               
+|       |           \---system
+|       |               \---applicationservice
+|       |                       SDKApplicationService.java
+|       |                       SDKApplicationServiceImpl.java
+|       |                       
+|       \---test
+|           \---gov
+|               \---nih
+|                   \---nci
+|                       \---sdk
+|                           \---codegen
+|                                   TestApplicationService.java
+|                                   TestCodeGenerator.java
+|                                   WritableApplicationService.java
+|                                   
++---docs
+|   +---CSM v3.2
+|   |   +---Developement
+|   |   |   +---Design
+|   |   |   |       CSM.EAP
+|   |   |   |       CSM_Query_Optimisation_Design_3.2.doc
+|   |   |   |       General_Design_CSM_v3.2.doc
+|   |   |   |       NCICBDomainObjects.EAP
+|   |   |   |       Performance_Design_CSM_v3.2.doc
+|   |   |   |       
+|   |   |   +---Guides
+|   |   |   |       CLM_API_BuildRequest.doc
+|   |   |   |       CLM_Guide_ApplicationDevelopers.doc
+|   |   |   |       CLM_LLT_DatabaseDeploymentRequest.doc
+|   |   |   |       CLM_LLT_DeploymentGuide_NCICB.doc
+|   |   |   |       CLM_LLT_DeploymentRequest.doc
+|   |   |   |       CSM_API_BuildRequest.doc
+|   |   |   |       CSM_Guide_ApplicationDevelopers.doc
+|   |   |   |       CSM_Migration_Procedure_3.2.doc
+|   |   |   |       CSM_UPT_DatabaseDeploymentRequest.doc
+|   |   |   |       CSM_UPT_DeploymentGuide_NCICB.doc
+|   |   |   |       CSM_UPT_DeploymentRequest.doc
+|   |   |   |       CSM_WS_Guide_ApplicationDevelopers.doc
+|   |   |   |       LLT_User Guide.doc
+|   |   |   |       UPT_User_Guide.doc
+|   |   |   |       
+|   |   |   +---Release
+|   |   |   |       CLM_API_Javadocs_3.2.zip
+|   |   |   |       CLM_API_rel_3.2.zip
+|   |   |   |       CLM_API_SRC_rel_3.2.zip
+|   |   |   |       CLM_LLT_rel_3.2.zip
+|   |   |   |       CLM_LLT_SRC_rel_3.2.zip
+|   |   |   |       CSM_API_Javadocs_3.2.zip
+|   |   |   |       CSM_API_rel_3.2.zip
+|   |   |   |       CSM_API_SRC_rel_3.2.zip
+|   |   |   |       CSM_Migration_Procedure_3.2.pdf
+|   |   |   |       CSM_RI_rel_3.0.1.zip
+|   |   |   |       CSM_RI_SRC_rel_3.0.1.zip
+|   |   |   |       CSM_UPT_rel_3.2.zip
+|   |   |   |       CSM_UPT_SRC_rel_3.2.zip
+|   |   |   |       CSM_WS_Guide_ApplicationDevelopers.pdf
+|   |   |   |       CSM_WS_rel_3.2.zip
+|   |   |   |       CSM_WS_SRC_rel_3.2.zip
+|   |   |   |       LLT_User_Guide.pdf
+|   |   |   |       UPT_User_Guide.pdf
+|   |   |   |       
+|   |   |   \---Requirements
+|   |   |           Cumulative Requirements_CSM_v3.2.doc
+|   |   |           Scope_Vision_CSM_v3 2.doc
+|   |   |           Scope_Vision_CSM_v3.2.doc
+|   |   |           
+|   |   +---Management
+|   |   |   |   Project Plan_CSM_v3.2.mpp
+|   |   |   |   Risk List_CSM_v3.2.doc
+|   |   |   |   
+|   |   |   \---Monthly Status Reports
+|   |   |           Status_01312007.doc
+|   |   |           Status_04302006.doc
+|   |   |           Status_05312006.doc
+|   |   |           Status_06302006.doc
+|   |   |           Status_07312006.doc
+|   |   |           Status_08312006.doc
+|   |   |           Status_09302006.doc
+|   |   |           Status_10312006.doc
+|   |   |           Status_11302006.doc
+|   |   |           Status_12312006.doc
+|   |   |           
+|   |   +---QA
+|   |   |   |   Requirement Testability_CSM_v3.2.xls
+|   |   |   |   Test Cases_CSM_3.2.xls
+|   |   |   |   Test Plan_CSM_v3.2.doc
+|   |   |   |   Test Summary Report_CSM_v3.2.doc
+|   |   |   |   Test Summary Report_Iteration1_CSM_v3.2.xls
+|   |   |   |   Traceability Matrix_CSM_v3.2.xls
+|   |   |   |   UPT Full Regression Test_CSM_v3.2.xls
+|   |   |   |   
+|   |   |   \---Archived Tests
+|   |   |           07-27-06_UPT Brush Test_CSM_v3.2.xls
+|   |   |           08-23-06_UPT Brush Test_CSM_v3.2.xls
+|   |   |           Test Cases_CSM_3.2 - as of 09-19-06.xls
+|   |   |           
+|   |   \---Reviews
+|   |       +---Code Reviews
+|   |       |       AuthPolicy Caching Code Review.doc
+|   |       |       BMS Integration code review.doc
+|   |       |       CSM Webservices Code Review Form.doc
+|   |       |       Exception Handling Code Review.doc
+|   |       |       OpenLDAP Code Review.doc
+|   |       |       Protection Element Type code review.doc
+|   |       |       Secure LLT Using CSM.doc
+|   |       |       
+|   |       \---Document Reviews
+|   |               Review of 3.2 CLM Design.doc
+|   |               Review of 3.2 CLM Object Model.doc
+|   |               Review of 3.2 CSM Exception Handling Design.doc
+|   |               Review of 3.2 Performance Design Matrix 07-03-2006.doc
+|   |               Review of 3.2 Scope Document 05-31-2006_CSM_v3.2.doc
+|   |               Review of 3.2 Scope Document 07-28-2006_CSM_v3.2.doc
+|   |               Review of 3.2 Testability Matrix 06-22-2006.doc
+|   |               Review of CSM API Use Cases 06-26-06_CSM_v3.2.doc
+|   |               Review of Design Document 07-28-2006_CSM_v3.2.doc
+|   |               Review of new 3.2 API Use Cases 06-16-2006_CSM_v3.2.doc
+|   |               Review of Test Plan_CSM_v3.2.doc
+|   |               Test Plan_CSM_v3 2.doc
+|   |               
+|   +---CSM v4.0
+|   |   +---Developement
+|   |   |   +---Design
+|   |   |   |       CSM_SDK_caGrid_Integration_Design.doc
+|   |   |   |       
+|   |   |   +---Guides
+|   |   |   |       To Be Deleted.txt
+|   |   |   |       
+|   |   |   \---Requirements
+|   |   |           CSM 4.0 Requirements_LOE.xls
+|   |   |           Scope_Vision_CSM_v4.0.doc
+|   |   |           
+|   |   \---Management
+|   |       |   CSM 4 0.mpp
+|   |       |   
+|   |       +---Monthly Status Reports
+|   |       |       CSM_CLM_Status_01312007.doc
+|   |       |       CSM_CLM_Status_02282007.doc
+|   |       |       
+|   |       \---Reviews
+|   |           +---Code Reviews
+|   |           |       Regression Testing Code Review.doc
+|   |           |       
+|   |           \---Document Reviews
+|   |                   Review of 3.2 CSM Guide For Application Developers.doc
+|   |                   
+|   +---Design
+|   |   |   CSM_Audit_Logging_Design_3.1.doc
+|   |   |   CSM_Design_Document_3.0.1.doc
+|   |   |   CSM_Enabled_SDK_Design_Document_3.0.1.doc
+|   |   |   CSM_Object_Instance_Level_Security_Design_3.1.doc
+|   |   |   CSM_SDK_Audit_Logging.doc
+|   |   |   CSM_SDK_Design_3.1.doc
+|   |   |   CSM_SDK_Integration_Design_1.1.doc
+|   |   |   CSM_Standard_Privileges.doc
+|   |   |   NCICB_CommonSecurityFramework_Supplementary.doc
+|   |   |   NCICB_Security_ SAD.doc
+|   |   |   ObjectInstanceLevel.doc
+|   |   |   Proposed caCORE SDK Architecture.doc
+|   |   |   SAD_diagram.doc
+|   |   |   
+|   |   +---Database
+|   |   |       AuthSchemaMySQL.sql
+|   |   |       AuthSchemaOracle.sql
+|   |   |       CSMDomainObjects.xmi
+|   |   |       datamodel.sql
+|   |   |       SemConn_Security30Report-2.xls
+|   |   |       
+|   |   +---EA Model
+|   |   |       CLM.eap
+|   |   |       CSM_RI.EAP
+|   |   |       CSM_SDK.EAP
+|   |   |       NCICBDomainObjects.EAP
+|   |   |       NCICBSecurity.EAP
+|   |   |       UPT.EAP
+|   |   |       
+|   |   \---XMI
+|   |           Annotated_CSMDomainObjects.xmi
+|   |           CSM.EAP
+|   |           CSMDomainObjects.v1.xmi
+|   |           CSMDomainObjects.xmi
+|   |           EVSReport_fixed_CSMDomainObjects.v1.csv
+|   |           fixed_CSMDomainObjects.xmi
+|   |           
+|   +---Guides
+|   |       CLM_Guide_ApplicationDevelopers.doc
+|   |       CSM_Enabled_SDK_Guide_ApplicationDevelopers.doc
+|   |       CSM_Guide_ApplicationDevelopers.doc
+|   |       CSM_Guide_ApplicationDevelopers.pdf
+|   |       CSM_Migration_Procedure.doc
+|   |       CSM_Migration_Procedure.pdf
+|   |       CSM_Reference_Implementation_Guide.doc
+|   |       CSM_Reference_Implementation_Guide.pdf
+|   |       UPT_DeploymentGuide_NCICB.doc
+|   |       UPT_User_Guide.doc
+|   |       UPT_User_Guide.pdf
+|   |       
+|   +---Images
+|   |       CSM_FINAL.gif
+|   |       CSM_FINAL.psd
+|   |       
+|   +---Misc
+|   |       CSM3.0.1_notes.txt
+|   |       CSMSDK_notes.txt
+|   |       Prototype.doc
+|   |       prototype_java_doc.zip
+|   |       UML Modeling Process Checklist (Draft -10082004)V4.doc
+|   |       
+|   +---PeerReview
+|   |   |   Code Review Form.doc
+|   |   |   Code Review Inspection Record.doc
+|   |   |   Deliverable Review Form.doc
+|   |   |   Document Review Form.doc
+|   |   |   Ekagra NCI Peer Review Plan.doc
+|   |   |   Peer Review Preparation Form.doc
+|   |   |   Peer Review Summary Form.doc
+|   |   |   PeerReviewPlan.doc
+|   |   |   Sign-Off Form.doc
+|   |   |   Team Peer Review Summary Form.doc
+|   |   |   WeeklyReportTemplate.xls
+|   |   |   
+|   |   +---ClientPeerReviewSummaryForms
+|   |   |       CSM Client Review - CSM Overview March03.doc
+|   |   |       CSM Client Review - Standard Privileges.doc
+|   |   |       CSM Client Review - SWG Discussion and CSM Overview May1205.doc
+|   |   |       CSM Client Review - UPT Jan27.doc
+|   |   |       
+|   |   +---Code Review
+|   |   |       Audit and Logging Code Review Form.doc
+|   |   |       CSM Adapter caCoreSDK Code Merge.doc
+|   |   |       Hibernate and JDK 1.5 Code Review Form APIs.doc
+|   |   |       
+|   |   +---Document Review Folder
+|   |   |       Review of 3.2 Scope Document 05-31-2006.doc
+|   |   |       Review of CLM Guide for Application Developers 03-01-2006.doc
+|   |   |       Review of CSM Candidate Requirements for 3.2 04-26-2006.doc
+|   |   |       Review of CSM Guide for Application Developers 03-01-2006.doc
+|   |   |       Review of SDK Programmers Guide 03-06-2006.doc
+|   |   |       Review of UPT Users Guide 03-20-2006.doc
+|   |   |       
+|   |   +---Individual_Review_Forms_and_Markups
+|   |   |       CSM Audit and Logging Use Cases_10_17_05.rtf
+|   |   |       CSM Authorization Caching Use Cases_km_cg_10_17_05.rtf
+|   |   |       CSM Task Plan 3.1_km_ec_10_17_05.rtf
+|   |   |       CSM, SDK Integration Use Cases_km_cg_10_17_05.rtf
+|   |   |       CSM_Cumulative_Requirements_km_cg_10_17_05.rtf
+|   |   |       CSM_SDK_Audit_Logging_ec_09_22_05.doc
+|   |   |       CSM_SDK_Audit_Logging_ec_09_22_05.rtf
+|   |   |       CSM_SDK_Audit_Logging_km_09_29_05.rtf
+|   |   |       CSM_SDK_Design_3.1_ec_09_29_05.doc
+|   |   |       CSM_SDK_Design_3.1_ec_09_29_05.rtf
+|   |   |       CSM_SDK_Integration_Design_3.1_cg_ec_10_17_05.rtf
+|   |   |       CSM_Traceability_Matrix_km_cg_10_17_05.rtf
+|   |   |       NCICB_Common_Security_Vision_v3.1_km_cg_10_17_05.rtf
+|   |   |       ObjectInstanceLevel_ec_09_28_05.doc
+|   |   |       ObjectInstanceLevel_ec_09_28_05.rtf
+|   |   |       
+|   |   +---PeerReviewSummaryForms
+|   |   |       caMatch Peer Review - Eligibility Criteria Mappings  and Matching Rules.doc
+|   |   |       caMatch Peer Review - Technical Guide complete.doc
+|   |   |       caMatch Peer Review - Technical Guide.doc
+|   |   |       CSM Peer Review - 3.0.1 Test Cases.doc
+|   |   |       CSM Peer Review - Activity Diagram.doc
+|   |   |       CSM Peer Review - Authentication Guide.doc
+|   |   |       CSM Peer Review - BootCamp_&_caBIG Architecture_Presentations.doc
+|   |   |       CSM Peer Review - Candidate Functional Requirements.doc
+|   |   |       CSM Peer Review - CSM Enabled Writeable APIs (SDK).doc
+|   |   |       CSM Peer Review - EA Model.doc
+|   |   |       CSM Peer Review - Guide for Application Dev1.doc
+|   |   |       CSM Peer Review - Reference Implementation.doc
+|   |   |       CSM Peer Review - RI Guide and App.doc
+|   |   |       CSM Peer Review - SDK EA Model.doc
+|   |   |       CSM Peer Review - Security API Guide.doc
+|   |   |       CSM Peer Review - sql  code.doc
+|   |   |       CSM Peer Review - Standard Privileges.doc
+|   |   |       CSM Peer Review - UPT Deployment Guide.doc
+|   |   |       CSM Peer Review - UPT review 2.doc
+|   |   |       CSM Peer Review - UPT User Guide.doc
+|   |   |       
+|   |   \---PeerReviewWeeklyCompilations
+|   |           PeerReviewWeek_1-17.xls
+|   |           PeerReviewWeek_1-24.xls
+|   |           PeerReviewWeek_1-31.xls
+|   |           PeerReviewWeek_2-14.xls
+|   |           PeerReviewWeek_2-21.xls
+|   |           PeerReviewWeek_2-28.xls
+|   |           PeerReviewWeek_3-07.xls
+|   |           PeerReviewWeek_3-14.xls
+|   |           PeerReviewWeek_3-21.xls
+|   |           PeerReviewWeek_3-28.xls
+|   |           PeerReviewWeek_4-04.xls
+|   |           PeerReviewWeek_4-11.xls
+|   |           PeerReviewWeek_5-09.xls
+|   |           PeerReviewWeek_5-16.xls
+|   |           PeerReviewWeek_5-23.xls
+|   |           PeerReviewWeek_5-30.xls
+|   |           PeerReviewWeek_6-06.xls
+|   |           PeerReviewWeek_6-20.xls
+|   |           PeerReviewWeek_6-27.xls
+|   |           PeerReviewWeek_7-04.xls
+|   |           PeerReviewWeek_7-11.xls
+|   |           PeerReviewWeek_7-18.xls
+|   |           PeerReviewWeek_7-25.xls
+|   |           PeerReviewWeek_8-08.xls
+|   |           PeerReviewWeek_8-15.xls
+|   |           PeerReviewWeek_8-22.xls
+|   |           PeerReviewWeek_8-29.xls
+|   |           PeerReviewWeek_9-05.xls
+|   |           PeerReviewWeek_9-12.xls
+|   |           PeerReviewWeek_9-19.xls
+|   |           WeeklyReportTemplate.xls
+|   |           
+|   +---Presentations
+|   |       caCORE_API_Bootcamp_CSM_FINAL.ppt
+|   |       caCORE_API_Bootcamp_CSM_v1.ppt
+|   |       caCore_presentation.ppt
+|   |       caTISSUE_presentation.ppt
+|   |       CLM_LLT_32_Presentation.ppt
+|   |       CSM-SDK_Adapter_Presentation_FINAL.ppt
+|   |       CSM-SDK_caBIG_v1.ppt
+|   |       CSM_Gen_Pres.ppt
+|   |       CSM_Installation_Presentation.ppt
+|   |       CSM_Presentation.ppt
+|   |       CSM_Presentation_for_AppSupport.ppt
+|   |       CSM_Presentation_for_CRIX.ppt
+|   |       CSM_UPT_32_Presentation.ppt
+|   |       CSM_UPT_Presentation.ppt
+|   |       Handout - CSM-SDK_Adapter_Installation.doc
+|   |       Handout - CSM-SDK_Adapter_Installation_FINAL.doc
+|   |       NCICB Security Framework.ppt
+|   |       SDK_Bootcamp_CSM_FINAL.ppt
+|   |       SDK_Bootcamp_CSM_v1.ppt
+|   |       Security.ppt
+|   |       SecurityWorkingGroup-Kickoff-06-28-2004.ppt
+|   |       Security_working_group_presentation.ppt
+|   |       Security_working_group_presentation_final.ppt
+|   |       SWG_05122005.ppt
+|   |       SWG_10282004.ppt
+|   |       
+|   +---ProjectMgt
+|   |   +---ActionItems
+|   |   |       04_22_05_point_release_activities.xls
+|   |   |       06_06_05_Status_Meeting_Notes.doc
+|   |   |       07_25_05_Status_Meeting_Notes.doc
+|   |   |       08_22_05_Pres_Ques&Sugg.doc
+|   |   |       09_07_05_Status_Meeting_Notes.doc
+|   |   |       ACTION_ITEM_LIST.xls
+|   |   |       
+|   |   +---ProjectPlans
+|   |   |       CSM 3.1 Baseline Task Plan.mpp
+|   |   |       CSM 3.1.mpp
+|   |   |       CSM 3.2.mpp
+|   |   |       CSM Post Release.mpp
+|   |   |       NCICBSecurityService.mpp
+|   |   |       NCICBSecurityService_phase3.mpp
+|   |   |       NCICBSecurity_3_0_1.mpp
+|   |   |       
+|   |   +---Reports
+|   |   |   \---StatusReports
+|   |   |       +---Monthly
+|   |   |       |       status_01312005.doc
+|   |   |       |       Status_01312006.doc
+|   |   |       |       status_02282005.doc
+|   |   |       |       Status_02282006.doc
+|   |   |       |       status_03312005.doc
+|   |   |       |       Status_03312006.doc
+|   |   |       |       status_04302005.doc
+|   |   |       |       Status_04302006.doc
+|   |   |       |       Status_05312005.doc
+|   |   |       |       Status_05312006.doc
+|   |   |       |       Status_06302005.doc
+|   |   |       |       Status_07312005.doc
+|   |   |       |       Status_08312005.doc
+|   |   |       |       Status_09302005.doc
+|   |   |       |       Status_10312005.doc
+|   |   |       |       Status_11302005.doc
+|   |   |       |       Status_12312005.doc
+|   |   |       |       
+|   |   |       \---Weekly
+|   |   |               status_April_18_to_April_22_2005.doc
+|   |   |               status_April_23_to_April_27_2005.doc
+|   |   |               status_May_02_to_May_06_2005.doc
+|   |   |               status_May_09_to_May_11_2005.doc
+|   |   |               
+|   |   +---RiskMgt
+|   |   |       RiskList.doc
+|   |   |       RiskList_v3 2.doc
+|   |   |       RiskList_v3.1.doc
+|   |   |       RiskList_v3.2.doc
+|   |   |       
+|   |   \---SOPs
+|   |           Configuration Management - SOP.doc
+|   |           Ekagra PM - SOP.doc
+|   |           Ekagra SDLC - SOP.doc
+|   |           Electronic Signature - SOP.doc
+|   |           Peer Reviews - SOP.doc
+|   |           Quality Assurance - SOP.doc
+|   |           Requirements Management - SOP.doc
+|   |           Testing - SOP.doc
+|   |           
+|   +---Requirements
+|   |   |   CSM_Cumulative_Requirements.doc
+|   |   |   CSM_Traceability_Matrix.xls
+|   |   |   UPT Regression Tests.xls.xls
+|   |   |   
+|   |   \---Scope_Vision
+|   |           CSM_Candidate_Requirements.doc
+|   |           CSM_Next Phase Requirements.doc
+|   |           NCICB_Common_Security_Cand_Req_3.1.doc
+|   |           NCICB_Common_Security_Cand_Req_3.2.doc
+|   |           NCICB_Common_Security_Enabled_SDK_1.0.3.doc
+|   |           NCICB_Common_Security_Func_Requirements_3.1.doc
+|   |           NCICB_Common_Security_Vision.doc
+|   |           NCICB_Common_Security_Vision_pointRelease.doc
+|   |           NCICB_Common_Security_Vision_v3 01.doc
+|   |           NCICB_Common_Security_Vision_v3.1.doc
+|   |           Scope_Vision.doc
+|   |           
+|   +---Templates
+|   |       architecture_spec_template_ncicb.doc
+|   |       caCORE_releasenotes_sample.txt
+|   |       Code Review Form - enhanced.doc
+|   |       Code Review Form.doc
+|   |       design_document_ncicb.doc
+|   |       Document Review Form.doc
+|   |       Ekagra_Document.dot
+|   |       Implementation Specification Template_ncicb1.doc
+|   |       NCICB_users_manual_template_w_logos.doc
+|   |       Standard Test Plan Template1.doc
+|   |       test_case_template_final.xls
+|   |       
+|   \---TestPlans
+|       |   3.1 Test Summary.doc
+|       |   CSM_Enabled_SDK_test_case_3.0.1.xls
+|       |   CSM_Enabled_SDK_test_record.xls
+|       |   CSM_TestPlan.doc
+|       |   CSM_TestPlan_3.1.doc
+|       |   CSM_test_case_3.0.1.xls
+|       |   CSM_test_case_3.0.xls
+|       |   CSM_test_case_3.1.xls
+|       |   Test.txt
+|       |   Testing moving files in CVS.txt
+|       |   TestingMoveAgain.txt
+|       |   
+|       +---Archives
+|       |       Error_Tracking_v1_01_21_05.xls
+|       |       Error_Tracking_v1_01_24_05.xls
+|       |       Error_Tracking_v1_01_24_05_v2.xls
+|       |       Error_Tracking_v1_01_25_05.xls
+|       |       Error_Tracking_v1_01_26_05.xls
+|       |       Error_Tracking_v1_01_27_05.xls
+|       |       Error_Tracking_v1_01_27_05_v2.xls
+|       |       Error_Tracking_v1_01_28_05_v1.xls
+|       |       Error_Tracking_v1_02_02_05_v1.xls
+|       |       Error_Tracking_v1_02_03_05_v1.xls
+|       |       Error_Tracking_v1_02_03_05_v2.xls
+|       |       RI_Error_Tracking_03_22_v1.xls
+|       |       testtrack_4_5_RIopen.pdf
+|       |       UPT_KnownIssues_2_03_v1.xls
+|       |       UPT_KnownIssues_2_03_v2.xls
+|       |       UPT_Test_Checklist_03_15_05_v1.xls
+|       |       UPT_Test_Checklist_03_24_05_v1.xls
+|       |       UPT_Test_Checklist_03_25_05_v1.xls
+|       |       UPT_Test_Checklist_03_28_05_v1.xls
+|       |       
+|       +---Reports
+|       |       CSM_Detail_Report_Open_6_24_05.pdf
+|       |       CSM_List_Report_Open_6_24_05.pdf
+|       |       testnotes_706.txt
+|       |       testnotes_707.txt
+|       |       
+|       \---TestRecords
+|               CSM_Hibernate_Test_Report.doc
+|               CSM_test_case_Hibernate_Migration.xls
+|               Testing moving files in CVS.txt
+|               TestingMoveAgain.txt
+|               
++---LicenseTag
+|   |   .classpath
+|   |   .project
+|   |   
+|   \---src
+|       \---com
+|           \---ekagra
+|               \---license
+|                       JavaFileFilter.java
+|                       LicenseTagInsertor.java
+|                       StringUtils.java
+|                       
++---logging
+|   +---LogMsgLocator
+|   |   |   local.properties
+|   |   |   
+|   |   +---docs
+|   |   |       Advanced_JDBC_Logging.doc
+|   |   |       JDBCAppender.vsd
+|   |   |       
+|   |   +---script
+|   |   |       build.xml
+|   |   |       
+|   |   +---src
+|   |   |   +---gov
+|   |   |   |   \---nih
+|   |   |   |       \---nci
+|   |   |   |           \---logging
+|   |   |   |               |   Constants.java
+|   |   |   |               |   Password.java
+|   |   |   |               |   
+|   |   |   |               +---dao
+|   |   |   |               |       JdbcConnectionHandler.java
+|   |   |   |               |       Login.java
+|   |   |   |               |       LoginDaoJdbc.java
+|   |   |   |               |       Summary.java
+|   |   |   |               |       SummaryDaoJdbc.java
+|   |   |   |               |       SummaryDaoJdbcTest.java
+|   |   |   |               |       
+|   |   |   |               +---struts
+|   |   |   |               |   |   DefaultExceptionHandler.java
+|   |   |   |               |   |   LoginAction.java
+|   |   |   |               |   |   LoginForm.java
+|   |   |   |               |   |   LoginValidator.java
+|   |   |   |               |   |   QueryAction.java
+|   |   |   |               |   |   QueryForm.java
+|   |   |   |               |   |   
+|   |   |   |               |   \---tags
+|   |   |   |               |           ApplicationListOptionTag.java
+|   |   |   |               |           ServerListOptionTag.java
+|   |   |   |               |           
+|   |   |   |               \---util
+|   |   |   |                       Utils.java
+|   |   |   |                       
+|   |   |   \---resources
+|   |   |           application.properties
+|   |   |           connection.properties
+|   |   |           
+|   |   \---webapp
+|   |       |   footer.htm
+|   |       |   header.htm
+|   |       |   index.jsp
+|   |       |   layout.jsp
+|   |       |   locator404.htm
+|   |       |   locator500.htm
+|   |       |   queryMenu.jsp
+|   |       |   sign-on.jsp
+|   |       |   summaryResults.jsp
+|   |       |   welcomeBody.htm
+|   |       |   
+|   |       +---images
+|   |       |       grants_gov.gif
+|   |       |       Reset-Query.jpg
+|   |       |       ResetQuery.gif
+|   |       |       shim.gif
+|   |       |       Submit-Query.jpg
+|   |       |       SubmitQuery.gif
+|   |       |       TL_LogOut.jpg
+|   |       |       TL_Reset.gif
+|   |       |       TL_Reset.jpg
+|   |       |       TL_Submit.jpg
+|   |       |       viewdetails.jpg
+|   |       |       
+|   |       +---style
+|   |       |       translocator.css
+|   |       |       
+|   |       \---WEB-INF
+|   |           |   c-rt.tld
+|   |           |   c.tld
+|   |           |   fmt-rt.tld
+|   |           |   fmt.tld
+|   |           |   server-list.tld
+|   |           |   sql-rt.tld
+|   |           |   sql.tld
+|   |           |   struts-bean-el.tld
+|   |           |   struts-bean.tld
+|   |           |   struts-config.xml
+|   |           |   struts-html-el.tld
+|   |           |   struts-html.tld
+|   |           |   struts-logic-el.tld
+|   |           |   struts-logic.tld
+|   |           |   struts-nested.tld
+|   |           |   struts-template.tld
+|   |           |   struts-tiles.tld
+|   |           |   tiles-defs.xml
+|   |           |   validation.xml
+|   |           |   validator-rules.xml
+|   |           |   web.xml
+|   |           |   x-rt.tld
+|   |           |   x.tld
+|   |           |   
+|   |           \---lib
+|   |                   commons-beanutils.jar
+|   |                   commons-collections.jar
+|   |                   commons-digester.jar
+|   |                   commons-fileupload.jar
+|   |                   commons-lang.jar
+|   |                   commons-logging.jar
+|   |                   commons-validator.jar
+|   |                   jakarta-oro.jar
+|   |                   jstl.jar
+|   |                   junit.jar
+|   |                   log4j-1.2.8.jar
+|   |                   mysql-connector-java-3.0.11-stable-bin.jar
+|   |                   standard.jar
+|   |                   struts-el.jar
+|   |                   struts-legacy.jar
+|   |                   struts.jar
+|   |                   
+|   \---PersistentAppender
+|       |   local.properties
+|       |   
+|       +---build
+|       |   +---classes
+|       |   |   \---gov
+|       |   |       \---grants
+|       |   |           \---appender
+|       |   |                   Constants.class
+|       |   |                   Constants.java
+|       |   |                   FilterList
+|       |   |                   gg_test_jdbcLog.xml
+|       |   |                   JDBCAppender.class
+|       |   |                   JDBCAppender.java
+|       |   |                   JDBCAppenderFilter.class
+|       |   |                   JDBCAppenderFilter.java
+|       |   |                   JDBCAppenderTest.class
+|       |   |                   JDBCAppenderTest.java
+|       |   |                   JDBCExecutor.class
+|       |   |                   JDBCExecutor.java
+|       |   |                   Utils.class
+|       |   |                   Utils.java
+|       |   |                   
+|       |   \---jar
+|       |           jdbcAppender.jar
+|       |           
+|       +---lib
+|       |       classes12.zip
+|       |       junit.jar
+|       |       log4j-1.2.8.jar
+|       |       mysql.jar
+|       |       
+|       +---scripts
+|       |       build.xml
+|       |       log4jConfig.xml
+|       |       mysql_log_table.sql
+|       |       oral_log_table.sql
+|       |       
+|       \---src
+|           \---gov
+|               \---nih
+|                   \---nci
+|                       \---logging
+|                               Constants.java
+|                               FilterList
+|                               JDBCAppender.java
+|                               JDBCAppenderFilter.java
+|                               JDBCAppenderTest.java
+|                               JDBCExecutor.java
+|                               sample_log4j_config.xml
+|                               Utils.java
+|                               
++---phase1
+|   |   readme.txt
+|   |   securityFW.jar
+|   |   
+|   +---conf
+|   |       LDAP.properties
+|   |       log4j.properties
+|   |       securityDb.properties
+|   |       securityFWCommon.properties
+|   |       
+|   +---Design
+|   |       PhaseOneAPI.mdl
+|   |       
+|   +---doc
+|   |   \---html
+|   |       |   allclasses-frame.html
+|   |       |   allclasses-noframe.html
+|   |       |   constant-values.html
+|   |       |   deprecated-list.html
+|   |       |   help-doc.html
+|   |       |   index-all.html
+|   |       |   index.html
+|   |       |   overview-frame.html
+|   |       |   overview-summary.html
+|   |       |   overview-tree.html
+|   |       |   package-list
+|   |       |   packages.html
+|   |       |   serialized-form.html
+|   |       |   stylesheet.css
+|   |       |   
+|   |       \---gov
+|   |           \---nih
+|   |               \---nci
+|   |                   \---securityFW
+|   |                       |   AuthenticationDAItf.html
+|   |                       |   AuthorizationDAItf.html
+|   |                       |   LdapAuthenticationDAObj.html
+|   |                       |   package-frame.html
+|   |                       |   package-summary.html
+|   |                       |   package-tree.html
+|   |                       |   RdbmsAuthenticationDAObj.html
+|   |                       |   RdbmsAuthorizationDAObj.html
+|   |                       |   Role.html
+|   |                       |   SecurityAdminService.html
+|   |                       |   SecurityObjFactory.html
+|   |                       |   SecurityServiceItf.html
+|   |                       |   SecurityServiceObj.html
+|   |                       |   
+|   |                       \---db
+|   |                               JDBCConnection2.html
+|   |                               JDBCConnectionImpl2.html
+|   |                               JDBCParms.html
+|   |                               LDAPConnection.html
+|   |                               package-frame.html
+|   |                               package-summary.html
+|   |                               package-tree.html
+|   |                               PoolException.html
+|   |                               
+|   +---scripts
+|   |   |   createSeq.sql
+|   |   |   desktop.ini
+|   |   |   LOG_APPLICATION_CHANGES.sql
+|   |   |   LOG_APP_PRIVILEGE_CHANGES.sql
+|   |   |   LOG_APP_PROTECT_ELEMENT_CHANGES.sql
+|   |   |   LOG_APP_PROTECT_GROUP_CHANGES.sql
+|   |   |   LOG_PRIVILEGE_CHANGES.sql
+|   |   |   LOG_PROTECTION_ELEMENT_CHANGES.sql
+|   |   |   LOG_PROTECTION_GROUP_CHANGES.sql
+|   |   |   LOG_PROTECTION_GROUP_TYPE_CHANGES.sql
+|   |   |   LOG_PROTECTION_TYPE_CHANGES.sql
+|   |   |   LOG_PROTECT_GROUP_ELEMENT_CHANGES.sql
+|   |   |   LOG_ROLE_CHANGES.sql
+|   |   |   LOG_ROLE_PRIVILEGE_CHANGES.sql
+|   |   |   LOG_USER_CHANGES.sql
+|   |   |   LOG_USER_ROLE_PROTECT_APP_CHANGES.sql
+|   |   |   ProtectionElmTblTriggers.sql
+|   |   |   triggers.sql
+|   |   |   
+|   |   +---Folder Settings
+|   |   |       Folder.htt
+|   |   |       
+|   |   \---keep
+|   |           LOG_APPLICATION_CHANGES.sql
+|   |           LOG_PRIVILEGE_CHANGES.sql
+|   |           LOG_PROTECTION_ELEMENT_CHANGES.sql
+|   |           LOG_PROTECTION_GROUP_CHANGES.sql
+|   |           LOG_PROTECTION_GROUP_TYPE_CHANGES.sql
+|   |           LOG_PROTECTION_TYPE_CHANGES.sql
+|   |           LOG_ROLE_CHANGES.sql
+|   |           LOG_USER_CHANGES.sql
+|   |           ProtectionElmTblTriggers.sql
+|   |           triggers.sql
+|   |           
+|   +---securityJarDemo
+|   |       compile.bat
+|   |       log4j-1.2.5.jar
+|   |       oracle.jar
+|   |       run.bat
+|   |       securityFW.jar
+|   |       SecurityFW.log
+|   |       SecurityJarDemo.class
+|   |       SecurityJarDemo.java
+|   |       
+|   \---src
+|       \---gov
+|           \---nih
+|               \---nci
+|                   \---securityFW
+|                       |   AuthenticationDAItf.java
+|                       |   AuthorizationDAItf.java
+|                       |   LdapAuthenticationDAObj.java
+|                       |   RdbmsAuthenticationDAObj.java
+|                       |   RdbmsAuthorizationDAObj.java
+|                       |   Role.java
+|                       |   SecurityAdminService.java
+|                       |   SecurityObjFactory.java
+|                       |   SecurityServiceItf.java
+|                       |   SecurityServiceObj.java
+|                       |   
+|                       \---db
+|                               JDBCConnection2.java
+|                               JDBCConnectionImpl2.java
+|                               JDBCParms.java
+|                               LDAPConnection.java
+|                               PoolException.java
+|                               
++---public_html
+|   +---META-INF
+|   |       MANIFEST.MF
+|   |       
+|   \---WEB-INF
+|       |   applicationContext.xml
+|       |   httpinvoker-servlet.xml
+|       |   Lib.zip
+|       |   web.xml
+|       |   
+|       \---lib
+|               activation.jar
+|               activemq-1.0.jar
+|               aopalliance.jar
+|               axis.jar
+|               cglib-full-2.0.2.jar
+|               commons-attributes-api.jar
+|               commons-collections-3.0.jar
+|               commons-dbcp.jar
+|               commons-discovery.jar
+|               commons-fileupload-1.0.jar
+|               commons-httpclient.jar
+|               commons-logging.jar
+|               commons-pool.jar
+|               concurrent-1.3.4.jar
+|               cos.jar
+|               cosnaming.jar
+|               csmapi.jar
+|               dom4j-1.4.jar
+|               ejb.jar
+|               geronimo-spec-j2ee-1.0-M1.jar
+|               hessian-2.1.12.jar
+|               hibernate2.jar
+|               ibatis-debug.jar
+|               itext-1.02b.jar
+|               jaxrpc.jar
+|               jboss-client.jar
+|               jdom.jar
+|               jms.jar
+|               jstl.jar
+|               jta.jar
+|               log4j-1.2.8.jar
+|               mail.jar
+|               mysql-connector-java-3.0.8-stable-bin.jar
+|               odmg-3.0.jar
+|               ojdbc14.jar
+|               pdfbox-0.6.5.jar
+|               pg74.213.jdbc3.jar
+|               poi-2.5.1.jar
+|               providerutil.jar
+|               quartz.jar
+|               saaj.jar
+|               servlet-api.jar
+|               spring-richclient.jar
+|               spring.jar
+|               standard.jar
+|               struts-1.2.4.jar
+|               uuid-key-generator.jar
+|               velocity-1.4.jar
+|               wsdl4j.jar
+|               
++---Release
+|   |   CSM3.0_license.txt
+|   |   CSM3.0_notes.txt
+|   |   CSM_3.0_API_Javadocs.zip
+|   |   CSM_API_rel_3.0.zip
+|   |   CSM_API_SRC_rel_3.0.zip
+|   |   CSM_Guide_ApplicationDevelopers.pdf
+|   |   CSM_logo.gif
+|   |   CSM_Reference_Implementation_Guide.doc
+|   |   CSM_Reference_Implementation_Guide.pdf
+|   |   CSM_RI_rel_3.0.zip
+|   |   CSM_RI_SRC_rel_3.0.zip
+|   |   CSM_UPT_rel_3.0.zip
+|   |   CSM_UPT_SRC_rel_3.0.zip
+|   |   upt.war
+|   |   UPT_User_Guide.pdf
+|   |   
+|   +---Release 3.0.1
+|   |       caCORE3.0.1_notes.txt
+|   |       csmsdk.zip
+|   |       CSM_3.0.1_API_Javadocs.zip
+|   |       CSM_API_rel_3.0.1.zip
+|   |       CSM_API_SRC_rel_3.0.1.zip
+|   |       CSM_Guide_ApplicationDevelopers.pdf
+|   |       CSM_Migration_Procedure.pdf
+|   |       CSM_RI_rel_3.0.1.zip
+|   |       CSM_RI_SRC_rel_3.0.1.zip
+|   |       CSM_SDK_rel_1.0.3.1.zip
+|   |       CSM_SDK_SRC_rel_1.0.3.1.zip
+|   |       CSM_SDK_SRC_rel_1.0.3.zip
+|   |       CSM_UPT_rel_3.0.1.zip
+|   |       CSM_UPT_SRC_rel_3.0.1.zip
+|   |       UPT_User_Guide.pdf
+|   |       
+|   +---Release 3.0.1.1
+|   |       caCORE_CSM_3_0_1.1_notes.txt
+|   |       CSM_API_rel_3.0.1.1.zip
+|   |       CSM_API_SRC_rel_3.0.1.1.zip
+|   |       
+|   \---Release 3.2
+|           CLM_API_rel_3.2.zip
+|           CLM_API_SRC_rel_3.2.zip
+|           CLM_LLT_rel_3.2.zip
+|           CLM_LLT_SRC_rel_3.2.zip
+|           CSM_API_rel_3.2.zip
+|           CSM_API_SRC_rel_3.2.zip
+|           CSM_API_SRC_rel_3.2.zip.zip
+|           CSM_RI_rel_3.0.1.zip
+|           CSM_UPT_rel_3.2.zip
+|           CSM_UPT_SRC_rel_3.1.zip
+|           CSM_UPT_SRC_rel_3.2.zip
+|           CSM_WS_rel_3.2.zip
+|           
++---ri
+|   |   .classpath
+|   |   .mymetadata
+|   |   .project
+|   |   
+|   +---script
+|   |   |   build.xml
+|   |   |   
+|   |   \---sql
+|   |           DataModel.sql
+|   |           
+|   +---src
+|   |   |   hibernate.cfg.xml
+|   |   |   hibernate.properties
+|   |   |   
+|   |   +---gov
+|   |   |   \---nih
+|   |   |       \---nci
+|   |   |           \---security
+|   |   |               \---ri
+|   |   |                   +---dao
+|   |   |                   |       EmployeeDAO.java
+|   |   |                   |       ProjectDAO.java
+|   |   |                   |       SecurityRIDAO.java
+|   |   |                   |       
+|   |   |                   +---exception
+|   |   |                   |       UserNotAuthenticatedException.java
+|   |   |                   |       
+|   |   |                   +---struts
+|   |   |                   |   |   Constants.java
+|   |   |                   |   |   DefaultExceptionHandler.java
+|   |   |                   |   |   
+|   |   |                   |   +---actions
+|   |   |                   |   |       BaseAction.java
+|   |   |                   |   |       CreateEmployeeAction.java
+|   |   |                   |   |       CreateProjectAction.java
+|   |   |                   |   |       LoginAction.java
+|   |   |                   |   |       LogoutAction.java
+|   |   |                   |   |       SearchEmployeeAction.java
+|   |   |                   |   |       SecureAction.java
+|   |   |                   |   |       UpdateEmployeeAction.java
+|   |   |                   |   |       ViewCreateEmployeeAction.java
+|   |   |                   |   |       ViewCreateProjectAction.java
+|   |   |                   |   |       ViewEmployeeAction.java
+|   |   |                   |   |       
+|   |   |                   |   \---forms
+|   |   |                   |           LoginForm.java
+|   |   |                   |           
+|   |   |                   +---util
+|   |   |                   |       Groups.java
+|   |   |                   |       Log4jInit.java
+|   |   |                   |       Permissions.java
+|   |   |                   |       SecurityUtils.java
+|   |   |                   |       
+|   |   |                   \---valueObject
+|   |   |                           Employee.hbm.xml
+|   |   |                           Employee.java
+|   |   |                           EmployeeProject.hbm.xml
+|   |   |                           EmployeeProject.java
+|   |   |                           Project.hbm.xml
+|   |   |                           Project.java
+|   |   |                           
+|   |   \---resources
+|   |           application.properties
+|   |           ApplicationSecurityConfig.xml
+|   |           csm_hibernate.cfg.xml
+|   |           login-config.xml
+|   |           properties-service.xml
+|   |           
+|   \---webapp
+|       +---pages
+|       |   |   createemployee.jsp
+|       |   |   createProject.jsp
+|       |   |   custom404.htm
+|       |   |   custom500.jsp
+|       |   |   employeeDetail.jsp
+|       |   |   employeeRecord.jsp
+|       |   |   employeesearchresults.jsp
+|       |   |   header.jsp
+|       |   |   imports.jsp
+|       |   |   index.jsp
+|       |   |   layout.jsp
+|       |   |   Login.jsp
+|       |   |   script.js
+|       |   |   searchemployee.jsp
+|       |   |   ShowErrorDetail.jsp
+|       |   |   styleSheet.css
+|       |   |   welcome.jsp
+|       |   |   
+|       |   +---header
+|       |   |       header.jsp
+|       |   |       header1.jsp
+|       |   |       header2.jsp
+|       |   |       header3.jsp
+|       |   |       
+|       |   +---images
+|       |   |       bannerHome.gif
+|       |   |       bannerHomeNew.gif
+|       |   |       beachball.gif
+|       |   |       Boss.gif
+|       |   |       boss_use.gif
+|       |   |       catbert_use.gif
+|       |   |       CSM_FINAL.gif
+|       |   |       dilbert.gif
+|       |   |       dilbert_use.gif
+|       |   |       Emp.gif
+|       |   |       header.gif
+|       |   |       header1.gif
+|       |   |       header2.gif
+|       |   |       header3.gif
+|       |   |       HR.gif
+|       |   |       login_close.gif
+|       |   |       logout.gif
+|       |   |       notepad.gif
+|       |   |       robot_error.gif
+|       |   |       rocket.gif
+|       |   |       
+|       |   \---menu
+|       |           leftnav.jsp
+|       |           leftnav_createemployee.jsp
+|       |           leftnav_createproject.jsp
+|       |           leftnav_home.jsp
+|       |           leftnav_searchemployee.jsp
+|       |           leftnav_searchproject.jsp
+|       |           notepad.jsp
+|       |           
+|       \---WEB-INF
+|           |   c-rt.tld
+|           |   c.tld
+|           |   fmt-rt.tld
+|           |   fmt.tld
+|           |   log4j.dtd
+|           |   log4jConfig.xml
+|           |   sql-rt.tld
+|           |   sql.tld
+|           |   struts-bean-el.tld
+|           |   struts-bean.tld
+|           |   struts-config.xml
+|           |   struts-html-el.tld
+|           |   struts-html.tld
+|           |   struts-logic-el.tld
+|           |   struts-logic.tld
+|           |   struts-nested.tld
+|           |   struts-template.tld
+|           |   struts-tiles.tld
+|           |   tiles-defs.xml
+|           |   validation.xml
+|           |   validator-rules.xml
+|           |   web.xml
+|           |   x-rt.tld
+|           |   x.tld
+|           |   
+|           \---lib
+|                   ant-optional-1.5.3.jar
+|                   cglib-full-2.0.2.jar
+|                   commons-beanutils.jar
+|                   commons-collections.jar
+|                   commons-dbcp-1.2.1.jar
+|                   commons-digester.jar
+|                   commons-fileupload.jar
+|                   commons-lang.jar
+|                   commons-logging.jar
+|                   commons-pool-1.2.jar
+|                   commons-validator.jar
+|                   csmapi.jar
+|                   dom4j-1.4.jar
+|                   ehcache-0.9.jar
+|                   hibernate2.1.7c.jar
+|                   hibernate3.jar
+|                   jaas.jar
+|                   jakarta-oro.jar
+|                   jcs-1.0-dev.jar
+|                   jdom.jar
+|                   jta.jar
+|                   junit-3.8.1.jar
+|                   junit.jar
+|                   log4j-1.2.8.jar
+|                   mysql-connector-java-3.0.11-stable-bin.jar
+|                   mysql-connector-java-3.1.11-bin.jar
+|                   odmg-3.0.jar
+|                   servlet-api.jar
+|                   standard.jar
+|                   struts-el.jar
+|                   struts-legacy.jar
+|                   struts.jar
+|                   xalan-2.4.0.jar
+|                   xerces-2.4.0.jar
+|                   xml-apis.jar
+|                   
++---script
+|       build.xml
+|       
++---sdkPrototype
+|   |   .classpath
+|   |   .project
+|   |   
+|   \---src
+|       |   hibernate.cfg.xml
+|       |   hibernate.properties
+|       |   
+|       \---gov
+|           \---nih
+|               \---nci
+|                   \---sdk
+|                       \---prototype
+|                           +---dao
+|                           |       ApplicationSessionFactory.java
+|                           |       HibernateDAO.java
+|                           |       
+|                           +---domainobjects
+|                           |       Account.hbm.xml
+|                           |       Account.java
+|                           |       Customer.hbm.xml
+|                           |       Customer.java
+|                           |       Item.hbm.xml
+|                           |       Item.java
+|                           |       Order.hbm.xml
+|                           |       Order.java
+|                           |       
+|                           +---server
+|                           |       SDKApplicationServiceServerImpl.java
+|                           |       
+|                           \---service
+|                                   SDKApplicationService.java
+|                                   
++---sdkTestClient
+|   |   .cvsignore
+|   |   
+|   +---lib
+|   |       commons-logging-1.0.4.jar
+|   |       jdom.jar
+|   |       sdkApplicationService.jar
+|   |       sdkClient.jar
+|   |       sdkCommonException.jar
+|   |       sdkdomainobjects.jar
+|   |       spring-richclient.jar
+|   |       spring.jar
+|   |       
+|   \---src
+|       |   remoteService.xml
+|       |   
+|       \---gov
+|           \---nih
+|               \---nci
+|                   \---test
+|                       \---TestClient
+|                               TestClient.java
+|                               
++---securityws
+|   |   .classpath
+|   |   .project
+|   |   
+|   +---config
+|   |       ApplicationSecurityConfig.xml
+|   |       login.config
+|   |       
+|   +---resources
+|   |   |   deploy.wsdd
+|   |   |   SecurityService.wsdl
+|   |   |   undeploy.wsdd
+|   |   |   
+|   |   \---csmapi
+|   |           ApplicationSecurityConfig.xml
+|   |           AuthorizationSchema.sql
+|   |           AuthSchemaMySQL.sql
+|   |           AuthSchemaOracle.sql
+|   |           AuthSchemaPrimingMySQL.sql
+|   |           AuthSchemaPrimingOracle.sql
+|   |           AuthSchemaPrimingSQLServer.sql
+|   |           AuthSchemaSQLServer.sql
+|   |           deploy.wsdd
+|   |           hibernate.cfg.xml
+|   |           log4jConfig.xml
+|   |           mysql-ds.xml
+|   |           mysql_log_table.sql
+|   |           ObjectStateLoggerConfig.xml
+|   |           oracle-ds.xml
+|   |           sqlserver-ds.xml
+|   |           undeploy.wsdd
+|   |           
+|   +---script
+|   |       build.xml
+|   |       
+|   +---src
+|   |   |   security-ws-spring-config.xml
+|   |   |   
+|   |   +---gov
+|   |   |   \---nih
+|   |   |       \---nci
+|   |   |           \---security
+|   |   |               \---ws
+|   |   |                   |   SecurityServiceSoapBindingImpl.java
+|   |   |                   |   SecurityServiceSoapBindingStub.java
+|   |   |                   |   SecurityService_PortType.java
+|   |   |                   |   SecurityService_Service.java
+|   |   |                   |   SecurityService_ServiceLocator.java
+|   |   |                   |   
+|   |   |                   +---authentication
+|   |   |                   |       LoginRequest.java
+|   |   |                   |       LoginResponse.java
+|   |   |                   |       
+|   |   |                   +---authorization
+|   |   |                   |       CheckPermissionRequest.java
+|   |   |                   |       CheckPermissionResponse.java
+|   |   |                   |       
+|   |   |                   +---cache
+|   |   |                   |       CacheManager.java
+|   |   |                   |       
+|   |   |                   +---common
+|   |   |                   |       ErrorCodes.java
+|   |   |                   |       ErrorDetails.java
+|   |   |                   |       
+|   |   |                   +---factory
+|   |   |                   |       WebServiceRequestHandlerFactory.java
+|   |   |                   |       
+|   |   |                   +---handler
+|   |   |                   |   |   WebServiceRequestHandler.java
+|   |   |                   |   |   WebServiceRequestProcessor.java
+|   |   |                   |   |   WebServicesErrorHandler.java
+|   |   |                   |   |   
+|   |   |                   |   +---authentication
+|   |   |                   |   |       AuthenticationWebServiceRequestHandler.java
+|   |   |                   |   |       
+|   |   |                   |   \---authorization
+|   |   |                   |           AuthorizationWebServiceRequestHandler.java
+|   |   |                   |           
+|   |   |                   \---utils
+|   |   |                           StringUtils.java
+|   |   |                           WebServiceConstants.java
+|   |   |                           
+|   |   \---test
+|   |       \---gov
+|   |           \---nih
+|   |               \---nci
+|   |                   \---security
+|   |                           SecurityService_ServiceTestCase.java
+|   |                           
+|   \---WebRoot
+|       |   EchoHeaders.jws
+|       |   fingerprint.jsp
+|       |   happyaxis.jsp
+|       |   i18nLib.jsp
+|       |   index.html
+|       |   index.jsp
+|       |   SOAPMonitorApplet.java
+|       |   StockQuoteService.jws
+|       |   
+|       +---META-INF
+|       |       MANIFEST.MF
+|       |       
+|       \---WEB-INF
+|           |   server-config.wsdd
+|           |   users.lst
+|           |   web.xml
+|           |   
+|           \---lib
+|                   activation.jar
+|                   asm.jar
+|                   axis-ant.jar
+|                   axis.jar
+|                   cglib-2.1.3.jar
+|                   clm.jar
+|                   clmwebapp.jar
+|                   commons-collections-2.1.1.jar
+|                   commons-dbcp-1.2.1.jar
+|                   commons-discovery-0.2.jar
+|                   commons-lang-1.0.1.jar
+|                   commons-logging-1.0.4.jar
+|                   csmapi.jar
+|                   ehcache-1.1.jar
+|                   hibernate3.jar
+|                   jaxrpc.jar
+|                   jdom.jar
+|                   junit-3.8.1.jar
+|                   log4j-1.2.8.jar
+|                   log4j.properties
+|                   mail.jar
+|                   mysql-connector-java-3.1.11-bin.jar
+|                   ojdbc14.jar
+|                   saaj.jar
+|                   spring.jar
+|                   wsdl4j-1.5.1.jar
+|                   
++---src
+|   |   SDKApplicationConfiguration.xml
+|   |   
+|   +---com
+|   |   \---prototype
+|   |       +---application
+|   |       |   +---dataobjects
+|   |       |   |       Person.java
+|   |       |   |       
+|   |       |   +---persistence
+|   |       |   |       DAOInterface.java
+|   |       |   |       PersistenceException.java
+|   |       |   |       PersistenceManager.java
+|   |       |   |       PersistenceManagerImpl.java
+|   |       |   |       TestClient.java
+|   |       |   |       
+|   |       |   \---remote
+|   |       |           RemoteObject.java
+|   |       |           RemoteService.java
+|   |       |           RemoteServiceImpl.java
+|   |       |           
+|   |       \---remoting
+|   |           \---SpringHttp
+|   |               |   HelloWorld.java
+|   |               |   SimpleHelloWorld.java
+|   |               |   
+|   |               +---conf
+|   |               |       helloWorld.xml
+|   |               |       persistenceManager.xml
+|   |               |       remoteService.xml
+|   |               |       
+|   |               \---http
+|   |                   |   HelloWorldClient.java
+|   |                   |   PersistenceManagerClient.java
+|   |                   |   
+|   |                   \---client
+|   |                           ApplicationClient.java
+|   |                           AuthenticationManager.java
+|   |                           ClientSession.java
+|   |                           ClientSessionHolder.java
+|   |                           RemotePersistenceManagerClient.java
+|   |                           ServiceBroker.java
+|   |                           
+|   +---gov
+|   |   \---nih
+|   |       \---nci
+|   |           \---sdk
+|   |               +---codegen
+|   |               |   |   CodeFormatter.java
+|   |               |   |   CodeGenUtils.java
+|   |               |   |   MethodSignature.java
+|   |               |   |   RemoteClientServerGenerator.java
+|   |               |   |   StringUtilities.java
+|   |               |   |   
+|   |               |   +---clientlayer
+|   |               |   |       ApplicationServiceClientImpl_Creator.java
+|   |               |   |       ApplicationServiceProvider_Generator.java
+|   |               |   |       ClientLayerGenerator.java
+|   |               |   |       ClientSessionGenerator.java
+|   |               |   |       
+|   |               |   +---remoting
+|   |               |   |       RemoteServiceGenerator.java
+|   |               |   |       
+|   |               |   +---serverLayer
+|   |               |   |       ApplicationServiceServerImpl_Generator.java
+|   |               |   |       RemoteApplicationServiceImpl_Generator.java
+|   |               |   |       
+|   |               |   \---web
+|   |               |           WebConfigGenerator.java
+|   |               |           
+|   |               +---common
+|   |               |       ApplicationException.java
+|   |               |       
+|   |               \---server
+|   |                   \---management
+|   |                           ApplicationConfiguration.java
+|   |                           ApplicationSessionFactory.java
+|   |                           HibernateDAO.java
+|   |                           SecurityEnabler.java
+|   |                           SessionManager.java
+|   |                           SessionMonitor.java
+|   |                           UserSession.java
+|   |                           
+|   \---test
+|       \---gov
+|           \---nih
+|               \---nci
+|                   \---sdk
+|                       \---codegen
+|                               TestApplicationService.java
+|                               TestCodeGenerator.java
+|                               
++---TestCSM
+|   |   .classpath
+|   |   .project
+|   |   
+|   \---src
+|       |   hibernate.properties
+|       |   
+|       \---com
+|           \---ekagra
+|               \---test
+|                       CsmFilter.java
+|                       DataBaseHandler.java
+|                       LoggingSessionFactory.java
+|                       LogWriter.java
+|                       RandomIntGenerator.java
+|                       SessionCalls.java
+|                       TestRunner.java
+|                       UserSession.java
+|                       
+\---upt
+    |   build.xml
+    |   
+    +---otherlib
+    |       servlet.jar
+    |       
+    +---resources
+    |       ApplicationSecurityConfig.xml
+    |       AuthSchemaMySQL.sql
+    |       AuthSchemaOracle.sql
+    |       AuthSchemaSQLServer.sql
+    |       DataPrimingMySQL.sql
+    |       DataPrimingOracle.sql
+    |       DataPrimingSQLServer.sql
+    |       hibernate.cfg.xml
+    |       log4j.dtd
+    |       log4jConfig.xml
+    |       mysql-ds.xml
+    |       oracle-ds.xml
+    |       sqlserver-ds.xml
+    |       
+    \---webapp
+        +---public_html
+        |   |   index.jsp
+        |   |   
+        |   +---images
+        |   |       appLogo.gif
+        |   |       assign.gif
+        |   |       assoc.gif
+        |   |       associate.gif
+        |   |       association.gif
+        |   |       association2.gif
+        |   |       assoc_block2.gif
+        |   |       bannerHome.gif
+        |   |       contentTitleRepeat.gif
+        |   |       corner1.gif
+        |   |       corner2.gif
+        |   |       corner3.gif
+        |   |       corner4.gif
+        |   |       corner5.gif
+        |   |       corner6.gif
+        |   |       create.gif
+        |   |       dotted_line1.gif
+        |   |       dotted_line2.gif
+        |   |       elbow.gif
+        |   |       footer_firstgov.gif
+        |   |       footer_hhs.gif
+        |   |       footer_nci.gif
+        |   |       footer_nih.gif
+        |   |       ftrMenuSeparator.gif
+        |   |       ftrMenuSeparatorSolid.gif
+        |   |       groups.gif
+        |   |       groups2.gif
+        |   |       hdrCaArray.gif
+        |   |       horizontal_line.gif
+        |   |       horizontal_line_12.gif
+        |   |       imageHolder.gif
+        |   |       logotype.gif
+        |   |       mainMenuSeparator.gif
+        |   |       privileges.gif
+        |   |       privileges2.gif
+        |   |       protectionelements.gif
+        |   |       protectionelements2.gif
+        |   |       protectiongroups.gif
+        |   |       protectiongroups2.gif
+        |   |       roles.gif
+        |   |       roles2.gif
+        |   |       shim.gif
+        |   |       subMenuArrow.gif
+        |   |       tagline.gif
+        |   |       ToBeRemoved.txt
+        |   |       Users.gif
+        |   |       Users2.gif
+        |   |       vertical_line.gif
+        |   |       
+        |   +---META-INF
+        |   |       MANIFEST.MF
+        |   |       
+        |   +---pages
+        |   |   +---content
+        |   |   |   +---association
+        |   |   |   |       ApplicationAssociation.jsp
+        |   |   |   |       GroupAssociation.jsp
+        |   |   |   |       GroupDoubleAssociation.jsp
+        |   |   |   |       GroupProtectionElementPrivilegesAssociation.jsp
+        |   |   |   |       GroupProtectionGroupRoleAssociation.jsp
+        |   |   |   |       ProtectionElementAssociation.jsp
+        |   |   |   |       ProtectionGroupAssociation.jsp
+        |   |   |   |       ProtectionGroupParentAssociation.jsp
+        |   |   |   |       RoleAssociation.jsp
+        |   |   |   |       UserAssociation.jsp
+        |   |   |   |       UserDoubleAssociation.jsp
+        |   |   |   |       UserProtectionElementPrivilegesAssociation.jsp
+        |   |   |   |       UserProtectionGroupRoleAssociation.jsp
+        |   |   |   |       
+        |   |   |   +---detailScreen
+        |   |   |   |       ApplicationDetailScreen.jsp
+        |   |   |   |       GroupDetailScreen.jsp
+        |   |   |   |       PrivilegeDetailScreen.jsp
+        |   |   |   |       ProtectionElementDetailScreen.jsp
+        |   |   |   |       ProtectionGroupDetailScreen.jsp
+        |   |   |   |       RoleDetailScreen.jsp
+        |   |   |   |       SearchProtectionElementDetailScreen.jsp
+        |   |   |   |       SearchUserDetailScreen.jsp
+        |   |   |   |       UserDetailScreen.jsp
+        |   |   |   |       
+        |   |   |   +---footer
+        |   |   |   |       Accessibility.jsp
+        |   |   |   |       ApplicationSupport.jsp
+        |   |   |   |       ContactUs.jsp
+        |   |   |   |       Disclaimer.jsp
+        |   |   |   |       Privacy.jsp
+        |   |   |   |       
+        |   |   |   +---home
+        |   |   |   |       ApplicationHome.jsp
+        |   |   |   |       GroupHome.jsp
+        |   |   |   |       MainHome.jsp
+        |   |   |   |       PrivilegeHome.jsp
+        |   |   |   |       ProtectionElementHome.jsp
+        |   |   |   |       ProtectionGroupHome.jsp
+        |   |   |   |       RoleHome.jsp
+        |   |   |   |       SuperAdminHome.jsp
+        |   |   |   |       UserHome.jsp
+        |   |   |   |       
+        |   |   |   +---main
+        |   |   |   |       Error404.html
+        |   |   |   |       Error500.jsp
+        |   |   |   |       ErrorDetails.jsp
+        |   |   |   |       Login.jsp
+        |   |   |   |       
+        |   |   |   \---searchResult
+        |   |   |           ApplicationSearchResult.jsp
+        |   |   |           GroupSearchResult.jsp
+        |   |   |           PrivilegeSearchResult.jsp
+        |   |   |           ProtectionElementSearchResult.jsp
+        |   |   |           ProtectionGroupSearchResult.jsp
+        |   |   |           RoleSearchResult.jsp
+        |   |   |           SearchProtectionElementSearchResult.jsp
+        |   |   |           SearchUserSearchResult.jsp
+        |   |   |           UserSearchResult.jsp
+        |   |   |           
+        |   |   +---footer
+        |   |   |       AppFooter.jsp
+        |   |   |       OrgFooter.jsp
+        |   |   |       
+        |   |   +---header
+        |   |   |       AppHeader.jsp
+        |   |   |       OrgHeader.jsp
+        |   |   |       
+        |   |   +---layout
+        |   |   |       BaseLayout.jsp
+        |   |   |       PopupLayout.jsp
+        |   |   |       
+        |   |   \---menu
+        |   |           MainMenu.jsp
+        |   |           SuperAdminMenu.jsp
+        |   |           
+        |   +---scripts
+        |   |       script.js
+        |   |       
+        |   +---styles
+        |   |       styleSheet.css
+        |   |       
+        |   \---WEB-INF
+        |       |   .cvsignore
+        |       |   web.xml
+        |       |   
+        |       +---conf
+        |       |       .struts-config.mex
+        |       |       struts-config.xml
+        |       |       tiles.xml
+        |       |       validation.xml
+        |       |       validator-rules.xml
+        |       |       
+        |       +---dtd
+        |       |       struts-config_1_1.dtd
+        |       |       tiles-config_1_1.dtd
+        |       |       web-app_2_3.dtd
+        |       |       
+        |       +---lib
+        |       |       antlr-2.7.6rc1.jar
+        |       |       asm.jar
+        |       |       c3p0-0.8.5.2.jar
+        |       |       cglib-2.1.3.jar
+        |       |       clm.jar
+        |       |       clmwebapp.jar
+        |       |       commons-beanutils.jar
+        |       |       commons-collections-2.1.1.jar
+        |       |       commons-dbcp-1.2.1.jar
+        |       |       commons-digester.jar
+        |       |       commons-fileupload.jar
+        |       |       commons-lang-1.0.1.jar
+        |       |       commons-logging-1.0.4.jar
+        |       |       commons-validator.jar
+        |       |       csmapi.jar
+        |       |       dom.jar
+        |       |       dom4j-1.6.jar
+        |       |       ehcache-1.1.jar
+        |       |       hibernate3.jar
+        |       |       jaas.jar
+        |       |       jakarta-oro.jar
+        |       |       jdbc2_0-stdext.jar
+        |       |       jdom.jar
+        |       |       jstl.jar
+        |       |       jta.jar
+        |       |       jtds-1.2.jar
+        |       |       junit-3.8.1.jar
+        |       |       log4j-1.2.9.jar
+        |       |       mail.jar
+        |       |       mysql-connector-java-3.1.11-bin.jar
+        |       |       ojdbc14.jar
+        |       |       standard.jar
+        |       |       struts-legacy.jar
+        |       |       struts.jar
+        |       |       
+        |       \---tld
+        |               c-rt.tld
+        |               c.tld
+        |               fmt-rt.tld
+        |               fmt.tld
+        |               sql-rt.tld
+        |               sql.tld
+        |               struts-bean.tld
+        |               struts-html.tld
+        |               struts-logic.tld
+        |               struts-nested.tld
+        |               struts-template.tld
+        |               struts-tiles.tld
+        |               x-rt.tld
+        |               x.tld
+        |               
+        \---src
+            |   csmupt.csm.new.hibernate.cfg.xml
+            |   
+            \---gov
+                \---nih
+                    \---nci
+                        \---security
+                            \---upt
+                                +---actions
+                                |       CommonAssociationAction.java
+                                |       CommonDBAction.java
+                                |       CommonDoubleAssociationAction.java
+                                |       HomeAction.java
+                                |       LoginAction.java
+                                |       LogoutAction.java
+                                |       MenuSelectionAction.java
+                                |       ProtectionElementAction.java
+                                |       ProtectionGroupAction.java
+                                |       
+                                +---constants
+                                |       DisplayConstants.java
+                                |       ForwardConstants.java
+                                |       
+                                +---exceptionHandler
+                                |       DefaultExceptionHandler.java
+                                |       
+                                +---forms
+                                |       ApplicationForm.java
+                                |       BaseAssociationForm.java
+                                |       BaseDBForm.java
+                                |       BaseDoubleAssociationForm.java
+                                |       GroupForm.java
+                                |       LoginForm.java
+                                |       MenuForm.java
+                                |       PrivilegeForm.java
+                                |       ProtectionElementForm.java
+                                |       ProtectionGroupForm.java
+                                |       RoleForm.java
+                                |       SearchProtectionElementForm.java
+                                |       SearchUserForm.java
+                                |       UserForm.java
+                                |       
+                                +---logoninfo
+                                |       LogonInfoManager.java
+                                |       
+                                +---resources
+                                |       ApplicationResources.properties
+                                |       
+                                +---util
+                                |       JDBCHelper.java
+                                |       StringUtils.java
+                                |       
+                                \---viewobjects
+                                        FormElement.java
+                                        SearchResult.java
+                                        

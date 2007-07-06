@@ -1,0 +1,298 @@
+================================================================
+                            7.0 CSM
+================================================================
+
+
+----------------------------------------------------------------
+    7.1 Release History
+----------------------------------------------------------------
+
+    CSM API 3.2
+
+    -- 22 December 2006    
+
+    CSM API 3.1
+
+    --  27 March 2006
+
+    CSM SDK ADAPTER 1.0.3.1
+
+    --  30 August 2005
+
+    CSM 3.0.1 / CSM SDK ADAPTER 1.0.3
+
+    --  22 July 2005
+
+    CSM 3.0
+
+    --  31 March 2005
+
+----------------------------------------------------------------
+    7.2 Features
+----------------------------------------------------------------
+
+    CSM provides a flexible, comprehensive solution to common
+    security objectives. Development teams can use CSM services
+    rather than creating their own independent security
+    methodology. It consists of the following components:
+
+    1.  CSM APIs
+    2.  User Provisioning Tool (UPT)
+
+    +---------------------------------------+
+    |CSM APIs                               |
+    +---------------------------------------+
+
+    --  This CSM v3.2 release provides the following new
+	features:
+
+	--  Improved deployment of CSM and integration with
+	    other Applications. The new deployment is backward
+	    compatible with CSM 3.1 and before releases.  The
+	    improvement is done by removing the need for  
+	    ApplicationSecurityConfig.xml file and other
+	    Hibernate CFG files.
+	--  Exposed Core Authentication and the Authorization
+	    Services as a Web Service. 
+	--  Provided Authorization Policy Caching for
+	    Performance Enhancements of the CSM APIs
+	    checkPermission methods. 
+	--  JDK 1.4 Backward Compatibility
+	--  Migration to Hibernate 3.1.13
+	--  CSM API now supports OpenLDAP as Credential Provider
+	    and also supports SQL Server and 4.1.19 version of
+	    MySQL.
+	--  The exception handling of CSM APIs is improved
+	    to be more specific and user friendly.
+	--  Added a new "Type" attribute to Protection Element.
+	    There is often a large number of Protection Element
+	    objects stored within a given application context. 
+	    In order to ease the searching of these protection 
+	    elements they need to be grouped by a common 
+	    attribute based on their type.
+	--  Passwords are encrypted before storing in database.
+	--  CSM-caGrid Integration - CSM API now return
+	    attributes from the credential provider to form the
+	    JAAS Subject which is passed to the caGRID component
+	    to formulate the SAML needed by Dorian.
+	--  Group Based Check Permissions - New checkPermission
+	    methods are introduced in parallel to the existing
+	    ones. These methods take in a groupName instead 
+	    of user name and determine whether the group of 
+	    users has permission to perform a particular 
+	    operation on a particular resource or not. 
+
+    +---------------------------------------+
+    |User Provisioning Tool (UPT)           |
+    +---------------------------------------+
+
+    --  This UPT v3.2 release provides the following new
+	features:
+
+	--  Alphabetized search results. The search result 
+	    returned by the CSM APIs will be alphabetized 
+	    to allow ease of navigation and selections to 
+	    the admin on both the search result screens as
+	    well as the association screens of the UPT.
+   	--  All screens with editable fields load by providing
+	    focus on the first available editable field. This is 
+	    available for all screens including search screens 
+	    as well as create/update screens.
+	--  Ability to associate Users to a Group.
+	--  Intermediate search screens are now provided on the 
+	    Association Screens to filter and reduce the list 
+	    of available entities.
+	--  Login Name of a User is non editable once created.
+	--  Other minor UI and usability improvements.
+
+    +---------------------------------------+
+    |CSM Enabled, Writeable APIs (for SDK)  |
+    +---------------------------------------+
+
+    --  In this release the CSM SDK Security features have been
+	merged into the HTTP and the Web Service interfaces 
+        along with the existing JAVA API the caCORE SDK.
+
+----------------------------------------------------------------
+    7.3 Bugs Fixed Since Last Release
+----------------------------------------------------------------
+
+    +---------------------------------------+
+    |CSM APIs                               |
+    +---------------------------------------+
+
+    --  Fixed the bug to save the role active flag and the
+	application active flag.
+
+    --  Fixed the bug where certain thrown exceptions may
+	display hibernate-specific error messages.
+
+    --  Fixed the bug by using latest c3po where the connection 
+	pool provided by hibernate (c3po connection pool) shows 
+	inconsistent behavior in different environments.
+
+    --  Fixed the bug where the declarative flag for application 			
+	was not saving.
+
+    +---------------------------------------+
+    |UPT                                    |
+    +---------------------------------------+
+
+    --  UPT now correctly displays the role active flag and the
+	application active flag based on the value in the
+	database.
+
+    --  Fixed the bug wherein the Protection Element and User
+	section, when adding object details, if you press enter
+	you'll be taken back to the object's home page.
+
+    --  Fixed the bug where the child protection group couldn't
+	be de-assigned.
+
+    --  Fixed the defect where adding a parent protection group
+	to a user did not add the protection elements of the
+	child protection group.
+
+----------------------------------------------------------------
+    7.4 Known Issues
+----------------------------------------------------------------
+
+    +---------------------------------------+
+    |CSM APIs                               |
+    +---------------------------------------+
+
+    --  The getSubject method of Authentication Manager has not
+        been implemented.
+
+    +---------------------------------------+
+    |UPT Tool                               |
+    +---------------------------------------+
+
+    --	If ApplicationSecurityConfig.xml is not used then any 
+        locked out users remain locked out until the container 
+        is rebooted 
+
+    --	Incorrect initial focus on the user search and create
+	pages to second field on the page.
+
+
+================================================================
+                            8.0 CLM
+================================================================
+
+
+----------------------------------------------------------------
+    8.1 Release History
+----------------------------------------------------------------
+
+    CLM API 3.2
+
+    --  22 December 2006
+
+    CLM API 3.1
+
+    --  27 March 2006
+
+----------------------------------------------------------------
+    8.2 Features
+----------------------------------------------------------------
+
+    CLM is a powerful set of auditing and logging tools
+    implemented in a flexible and comprehensive solution.
+    It consists of the following components:
+
+    1.  CLM APIs
+    2.  Log Locator Tool (LLT)
+
+    +---------------------------------------+
+    |CLM APIs                               |
+    +---------------------------------------+
+
+    --  This CLM APIs release provides the following services:
+
+	--  Event Logging - This feature provides a log4j-based
+	    solution allowing users to log events. Since this
+	    feature provides the ability to propagate and store
+	    user information, it can be used for anything from
+	    auditing a user to detecting security breaches
+	--  Automated Object State Logging - This tool provides
+	    an automated, hibernate based, object state logging
+	    mechanism used to log the changes to an object’s
+	    state
+	--  Asynchronous Logging to database - This feature
+	    provides a log4j based JDBC appender that can log
+	    the messages to the database asynchronously.
+	    Asynchronous logging increases performance for
+	    applications that generate a high volume of log
+	    messages
+	--  Query APIs - This new feature provides the interface
+	    to query the log messages programmatically. The
+	    Query APIs allows specifying a SearchCriteria and
+	    methods to retrieve the results in various ways.
+	    Refer the JavaDocs for details. The web-based log
+	    locator tool uses Query APIs to retrieve the logs.
+	    Ability to obtain the search results in XML Format.
+
+    +---------------------------------------+
+    |Log Locator Tool (LLT)                 |
+    +---------------------------------------+
+
+    --  Web-based Log Locator tool - This tool is a web-based
+	application that displays, searches, and filters log
+	messages. The interface can be used to retrieve logs
+	based on a timestamp, user ID, log level, etc.
+
+    --  Utilizes CSM for Authentication and Authorization to 
+        restrict users based on Organizations, ObjectName,
+	user and application names.
+
+    --  Retrieves Log Messages based Objects Identifier 
+	Attributes.
+
+----------------------------------------------------------------
+    8.3 Bugs Fixed Since Last Release
+----------------------------------------------------------------
+
+    +---------------------------------------+
+    |CLM APIs                               |
+    +---------------------------------------+
+
+    --  Query API's are created to query the generated log 
+	messages.
+
+    --  Ability to obtain the search results in XML Format.
+
+    +---------------------------------------+
+    |Log Locator Tool (LLT)                 |
+    +---------------------------------------+
+
+    --  Uses the Standard NCI Templates for UI Look and Feel.
+
+    --  Distinguishes between Event and Object State log
+	messages.
+
+    --  Limits view based on Organization, Object ID, Object
+	Name
+
+    --	Displays sorted search results in chronologically 
+        descending order.
+
+----------------------------------------------------------------
+    8.4 Known Issues
+----------------------------------------------------------------
+
+    +---------------------------------------+
+    |CLM APIs                               |
+    +---------------------------------------+
+
+    --  The logging of previous state during update is dependent
+	on Hibernate's flushing mechanism. Hence in certain
+	scenarios the previous state for attributes would not
+	appear.
+
+    --  The CLM APIs currently log only the attribute of the
+	parent object being modified or created. It cannot log
+	the changes to the child objects or to the association
+	between child objects and the parent object.
+
+
