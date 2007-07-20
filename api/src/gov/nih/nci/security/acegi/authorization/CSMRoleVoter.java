@@ -81,11 +81,12 @@ public class CSMRoleVoter implements AccessDecisionVoter {
 
                 // Attempt to find a matching granted authority
                 for (int i = 0; i < authentication.getAuthorities().length; i++) {
-                    if (attribute.getAttribute().equals(authentication.getAuthorities()[i].getAuthority())) {
-                        return ACCESS_GRANTED;
+                    if ((attribute.getAttribute().equals(authentication.getAuthorities()[i].getAuthority()))) {
+                        result = ACCESS_GRANTED;
                     }
                 }
             }
+            if (result == ACCESS_DENIED) return result;
         }
 
         return result;

@@ -1,14 +1,19 @@
 package gov.nih.nci.security.acegi;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+
 import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.AuthorizationServiceException;
 import org.acegisecurity.ConfigAttribute;
 import org.acegisecurity.ConfigAttributeDefinition;
+import org.acegisecurity.ConfigAttributeEditor;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.commons.logging.Log;
@@ -143,7 +148,24 @@ public class CSMAfterInvocationProvider implements AfterInvocationProvider,
 		return securityMap;
 	}
 
-	public void setSecurityMap(Map<String, Collection<String>> securityMap) {
-		this.securityMap = securityMap;
+	public void setSecurityMap(Method method, Map<String, Collection<String>> securityMap) {
+		HashMap hashMap = new HashMap();
+		Set keySet = securityMap.keySet();
+		Iterator iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			Collection collection = new ArrayList();
+			String className = (String)iterator.next();
+			Collection authorities = (Collection) securityMap.get(className);
+			Iterator authoritiesIterator = authorities.iterator();
+			while(authoritiesIterator.hasNext()){
+				String privilege = (String)authoritiesIterator.next();
+				String authority = className + "_" + privilege;
+				collection.add(authority);		
+			}
+			hashMap.put(className,collection);			
+		}
+		
+		
+		this.securityMap = hashMap;
 	}
 }

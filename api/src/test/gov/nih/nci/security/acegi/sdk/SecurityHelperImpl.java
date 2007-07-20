@@ -40,20 +40,16 @@ public class SecurityHelperImpl implements SecurityHelper {
 	 */
 	public  Map<String, Collection<String>> getPreMethodInvocationSecurityMap(MethodInvocation mi) {
 
-		String methodName = mi.getMethod().getDeclaringClass().getName() + "."
-				+ mi.getMethod().getName();
 		Map<String, Collection<String>> aMap = new HashMap<String, Collection<String>>();
 
 		Collection<String> col = new ArrayList<String>();
 
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Gene_READ");
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Gene_WRITE");
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Taxon_READ");
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Taxon_WRITE");
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Chromosome_READ");
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Chromosome_WRITE");
+		col.add("READ");
+		col.add("WRITE");
 
-		aMap.put(methodName, col);
+//		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Gene", col);
+		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Taxon", col);
+		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Chromosome", col);
 
 		return aMap;
 	}
@@ -75,19 +71,16 @@ public class SecurityHelperImpl implements SecurityHelper {
 	 */
 	public  Map<String, Collection<String>> getPostMethodInvocationSecurityMap(MethodInvocation mi) {
 
-		Map<String, Collection<String>> aMap = new HashMap<String, Collection<String>>();		
-		Collection<String> col = null;
-		
-		col = new ArrayList<String>();
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Gene_READ");
-		//col.add("test.gov.nih.nci.security.acegi.sdk.domain.Gene_WRITE");
+		Map<String, Collection<String>> aMap = new HashMap<String, Collection<String>>();
+
+		Collection<String> col = new ArrayList<String>();
+
+		col.add("READ");
+		col.add("WRITE");
+
 		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Gene", col);
-		
-		col=null;
-		col = new ArrayList<String>();
-		col.add("test.gov.nih.nci.security.acegi.sdk.domain.Taxon_READ");
-		//col.add("test.gov.nih.nci.security.acegi.sdk.domain.Taxon_WRITE");
 		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Taxon", col);
+		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Chromosome", col);
 
 		return aMap;
 	}

@@ -13,6 +13,7 @@ import org.acegisecurity.ConfigAttribute;
 import org.acegisecurity.ConfigAttributeDefinition;
 import org.acegisecurity.ConfigAttributeEditor;
 import org.acegisecurity.intercept.method.AbstractMethodDefinitionSource;
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -57,7 +58,7 @@ public class CSMMethodDefinitionSource extends
 	 * 4. Add the method to the Map
 	 * 
 	 */ 
-	public void buildMethodMap(){
+	public void buildMethodMap(Method method){
 
 		nameMap = new HashMap();
 		methodMap = new HashMap();
@@ -67,27 +68,26 @@ public class CSMMethodDefinitionSource extends
 		ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
 		Set keySet = securityMap.keySet();
 		Iterator iterator = keySet.iterator();
+		StringBuffer rolesStr = new StringBuffer();
 		while(iterator.hasNext()){
-			String methodName = (String)iterator.next();
-			Collection authorities = (Collection) securityMap.get(methodName);
-			
-			StringBuffer rolesStr = new StringBuffer();
-			
+			String className = (String)iterator.next();
+			Collection authorities = (Collection) securityMap.get(className);
 			Iterator authoritiesIterator = authorities.iterator();
 			while(authoritiesIterator.hasNext()){
-				String authority = (String)authoritiesIterator.next();
+				String privilege = (String)authoritiesIterator.next();
+				String authority = className + "_" + privilege;
 				rolesStr.append(authority).append(",");
 			}
 			
-			// System.out.println(rolesStr.toString().substring(0,rolesStr.length()-1));
-			configAttrEditor.setAsText(rolesStr.toString().substring(0,rolesStr.length()-1));
-			ConfigAttributeDefinition attr =
-			(ConfigAttributeDefinition)configAttrEditor.getValue();
-			
-			// Register name and attribute
-			addSecureMethod(methodName, attr);
-			
 		}
+
+		// System.out.println(rolesStr.toString().substring(0,rolesStr.length()-1));
+		configAttrEditor.setAsText(rolesStr.toString().substring(0,rolesStr.length()-1));
+		ConfigAttributeDefinition attr =(ConfigAttributeDefinition)configAttrEditor.getValue();
+		
+		// Register name and attribute
+		addSecureMethod(method.getDeclaringClass(), method.getName(), attr);
+
 		
 		// put it into cache
 		this.methodMapCache.putMethodMapInCache(METHOD_MAP ,this.methodMap);
@@ -193,10 +193,10 @@ public class CSMMethodDefinitionSource extends
 		}
 	}
 
-	private void checkMethodMap() {
+	private void checkMethodMap(Method method) {
 
 		if (this.methodMapCache.getMethodMapFromCache(METHOD_MAP) == null) {
-			buildMethodMap();
+			buildMethodMap(method);
 		}
 	}
 
@@ -204,7 +204,7 @@ public class CSMMethodDefinitionSource extends
 
 		ConfigAttributeDefinition definition = new ConfigAttributeDefinition();
 
-		checkMethodMap();
+		checkMethodMap(method);
 
 		// Add attributes explictly defined for this method invocation
 		ConfigAttributeDefinition directlyAssigned = (ConfigAttributeDefinition) this.methodMapCache
