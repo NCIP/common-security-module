@@ -47,7 +47,7 @@ public class SecurityHelperImpl implements SecurityHelper {
 		col.add("READ");
 		col.add("WRITE");
 
-//		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Gene", col);
+		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Gene", col);
 		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Taxon", col);
 		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Chromosome", col);
 
