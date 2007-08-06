@@ -11,7 +11,7 @@ import org.acegisecurity.userdetails.UserDetails;
  *
  */
 public class CSMUserDetails implements UserDetails {
-	private CSMGrantedAuthority[] authorities = null;
+	private GrantedAuthority[] authorities = null;
 
 	private String password = null;
 
@@ -19,7 +19,7 @@ public class CSMUserDetails implements UserDetails {
 
 	private String additionalData = null;
 
-	public CSMUserDetails(CSMGrantedAuthority[] authorities, String password,
+	public CSMUserDetails(GrantedAuthority[] authorities, String password,
 			String username, String additionalData) {
 		super();
 		this.authorities = authorities;

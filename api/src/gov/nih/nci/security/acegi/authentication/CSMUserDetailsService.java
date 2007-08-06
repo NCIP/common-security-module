@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.GrantedAuthorityImpl;
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UserDetailsService;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
@@ -60,8 +62,10 @@ public class CSMUserDetailsService implements UserDetailsService {
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 			authorizationManagerInstance().getUser(username);
 		
+		if (csmUser == null)
+			throw new UsernameNotFoundException("Unable to find user by the given user name");
 		// Get All GrantedAuthorities from CSM.
-		CSMGrantedAuthority[] grantedAuthorities = getAuthorityCollection(csmUser.getUserId().toString()); 
+		GrantedAuthority[] grantedAuthorities = getAuthorityCollection(csmUser.getUserId().toString()); 
 				
 		UserDetails userDetails = new CSMUserDetails(grantedAuthorities, csmUser.getPassword(),csmUser
 						.getLoginName(), "Additional Data");
@@ -69,7 +73,7 @@ public class CSMUserDetailsService implements UserDetailsService {
 		return userDetails;
 	}
 
-	private CSMGrantedAuthority[] getAuthorityCollection(String csmUserId) {
+	private GrantedAuthority[] getAuthorityCollection(String csmUserId) {
 
 		Set pePrivContextSet = null;
 		try {
@@ -79,7 +83,7 @@ public class CSMUserDetailsService implements UserDetailsService {
 			
 		}
 		
-		Collection<CSMGrantedAuthority> authorityCollection = new ArrayList<CSMGrantedAuthority>();
+		Collection<GrantedAuthority> authorityCollection = new ArrayList<GrantedAuthority>();
 		
 		Iterator iter = pePrivContextSet.iterator();
 		while(iter.hasNext()){
@@ -89,15 +93,15 @@ public class CSMUserDetailsService implements UserDetailsService {
 			Iterator ite = privSet.iterator();
 			while(ite.hasNext()){
 				Privilege priv = (Privilege)ite.next();
-				authorityCollection.add(new CSMGrantedAuthority(peName+"_"+priv.getName().toUpperCase()));
+				authorityCollection.add(new GrantedAuthorityImpl(peName+"_"+priv.getName().toUpperCase()));
 			}
 			
 		}
 		
-		CSMGrantedAuthority[] grantedAuthorities = new CSMGrantedAuthority[authorityCollection.size()];
+		GrantedAuthority[] grantedAuthorities = new GrantedAuthorityImpl[authorityCollection.size()];
 		Iterator it = authorityCollection.iterator();
 		for(int i=0;i<authorityCollection.size();i++){
-			grantedAuthorities[i]=(CSMGrantedAuthority) it.next();
+			grantedAuthorities[i]=(GrantedAuthority) it.next();
 		}
 		 
 		return grantedAuthorities;
