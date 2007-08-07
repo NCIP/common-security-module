@@ -1,5 +1,7 @@
 package gov.nih.nci.security.acegi;
 
+import gov.nih.nci.security.acegi.external.SecurityHelper;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +18,7 @@ import org.acegisecurity.ConfigAttributeDefinition;
 import org.acegisecurity.ConfigAttributeEditor;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,6 +35,8 @@ public class CSMAfterInvocationProvider implements AfterInvocationProvider,
 		InitializingBean {
 	
 	private Map<String,Collection<String>> securityMap;
+	private MethodInvocation methodInvocation;
+	private SecurityHelper securityHelper;
 
 	protected static final Log logger = LogFactory
 			.getLog(CSMAfterInvocationProvider.class);
@@ -43,6 +48,8 @@ public class CSMAfterInvocationProvider implements AfterInvocationProvider,
         Object returnedObject) throws AccessDeniedException {
         Iterator iter = config.getConfigAttributes();
 
+        
+      securityMap =  securityHelper.getPostMethodInvocationSecurityMap(methodInvocation, returnedObject);
      
         while (iter.hasNext()) {
         	
@@ -74,52 +81,42 @@ public class CSMAfterInvocationProvider implements AfterInvocationProvider,
                 }
 
                 
-                // Get GrantedAuthorities from Authentication Object.
+                // Get GrantedAuthorities from Authentication Object and Match them with the SecurityMap
                 GrantedAuthority[] authorities = authentication.getAuthorities();
                 Collection<String> grantedAuthoritiesStringCollection = new ArrayList<String>();
                 for(int i=0;i<authorities.length;i++){
                 	grantedAuthoritiesStringCollection.add(authorities[i].getAuthority());
                 }
                 
-                Collection toRemoveFromResultsCollection = new ArrayList();
-                Iterator collectionIter = resultsCollection.iterator();
-                while (collectionIter.hasNext()) {
-
-                	Object domainObject = collectionIter.next();
-                    String domainObjectName = domainObject.getClass().getName();
-                    boolean hasPermission = false;
-                    if (domainObject == null) {
-                        hasPermission = true;
-                    } else {
-                    	
-                    	// Check if domainObjectName is allowed.
-                    	if(securityMap.containsKey(domainObjectName)){
-                    		Collection<String> allowedAuthorities = securityMap.get(domainObjectName);
-                    		
-                    		Iterator itt = allowedAuthorities.iterator();
-                    		while(itt.hasNext()){
-                    			// Check if each AllowedAuthority (String) is present in GrantedAuthorities
-                    			String temp = (String) itt.next();
-                    			if(!grantedAuthoritiesStringCollection.contains(temp)){
-                    				hasPermission = false;
-                    				break;
-                    			}
-                    			hasPermission = true;
-                    		}                    		
-                    	}
-                    
-                    	if (!hasPermission) {
-                    		toRemoveFromResultsCollection.add(domainObject);
-                        
-
-                            if (logger.isDebugEnabled()) {
-                                logger.debug("User is NOT authorised for : " + domainObject.getClass().getName());
-                            }
-                            
-                        }
-                    }
+                
+                Collection securityRolesCollection = new ArrayList();
+                Set keySet = securityMap.keySet();
+        		Iterator iterator = keySet.iterator();
+        		while(iterator.hasNext()){
+        			String className = (String)iterator.next();
+        			Collection classname = (Collection) securityMap.get(className);
+        			Iterator authoritiesIterator = classname.iterator();
+        			while(authoritiesIterator.hasNext()){
+        				String privilege = (String)authoritiesIterator.next();
+        				String authority = className + "_" + privilege;
+        				securityRolesCollection.add(authority);		
+        			}			
+        		}
+        		
+        		boolean accessDenied = false;
+        		
+                Iterator securityRolesCollectionIterator = securityRolesCollection.iterator();
+                while(securityRolesCollectionIterator.hasNext()){
+                	String string = (String) securityRolesCollectionIterator.next();
+                	if(!grantedAuthoritiesStringCollection.contains(string)){
+                		accessDenied = true;
+                	}
                 }
-                resultsCollection.removeAll(toRemoveFromResultsCollection);
+                
+                if(accessDenied){
+                	throw new AccessDeniedException("User does not have access to some or all of returned object.");
+                }
+                
                 return resultsCollection;
             }
         }
@@ -167,5 +164,21 @@ public class CSMAfterInvocationProvider implements AfterInvocationProvider,
 		
 		
 		this.securityMap = hashMap;
+	}
+
+	public MethodInvocation getMethodInvocation() {
+		return methodInvocation;
+	}
+
+	public void setMethodInvocation(MethodInvocation methodInvocation) {
+		this.methodInvocation = methodInvocation;
+	}
+
+	public SecurityHelper getSecurityHelper() {
+		return securityHelper;
+	}
+
+	public void setSecurityHelper(SecurityHelper securityHelper) {
+		this.securityHelper = securityHelper;
 	}
 }

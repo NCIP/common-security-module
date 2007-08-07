@@ -69,7 +69,7 @@ public class SecurityHelperImpl implements SecurityHelper {
 	 * @param MethodInvocation
 	 * @return Map<String,Collection<String>>
 	 */
-	public  Map<String, Collection<String>> getPostMethodInvocationSecurityMap(MethodInvocation mi) {
+	public  Map<String, Collection<String>> getPostMethodInvocationSecurityMap(MethodInvocation mi, Object returnedObject) {
 
 		Map<String, Collection<String>> aMap = new HashMap<String, Collection<String>>();
 

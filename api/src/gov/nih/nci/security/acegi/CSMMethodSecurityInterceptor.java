@@ -39,7 +39,7 @@ import org.aopalliance.intercept.MethodInvocation;
  *  <P>Refer to {@link AbstractSecurityInterceptor} for details on the workflow.</p>
  *
  * @author parmarv
- * @version $Id: CSMMethodSecurityInterceptor.java,v 1.2 2007-07-20 20:55:31 modik Exp $
+ * @version $Id: CSMMethodSecurityInterceptor.java,v 1.3 2007-08-07 15:58:23 parmarv Exp $
  */
 public class CSMMethodSecurityInterceptor extends AbstractSecurityInterceptor implements MethodInterceptor {
 
@@ -100,8 +100,8 @@ public class CSMMethodSecurityInterceptor extends AbstractSecurityInterceptor im
         	
         	CSMAfterInvocationProviderManager csmAfterInvocationProviderManager = (CSMAfterInvocationProviderManager) this.getAfterInvocationManager();
         	CSMAfterInvocationProvider cip = (CSMAfterInvocationProvider) csmAfterInvocationProviderManager.getProviders().get(0);
-        	//securityHelper.setMethodInvocation(mi);
-        	cip.setSecurityMap(mi.getMethod(), securityHelper.getPostMethodInvocationSecurityMap(mi));
+        	cip.setSecurityHelper(securityHelper);
+        	cip.setMethodInvocation(mi);
         	        	
             result = super.afterInvocation(token, result);
         }
