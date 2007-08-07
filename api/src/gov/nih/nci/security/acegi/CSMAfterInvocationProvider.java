@@ -64,22 +64,6 @@ public class CSMAfterInvocationProvider implements AfterInvocationProvider,
                     return null;
                 }
 
-                Collection resultsCollection ;
-                if (returnedObject instanceof Collection) {
-                    resultsCollection = (Collection) returnedObject;
-                
-                } else if (returnedObject.getClass().isArray()) {
-                    Object[] array = (Object[]) returnedObject;
-                    resultsCollection = new ArrayList();
-                    for(int i=0;i<array.length;i++){
-                    	resultsCollection.add(array[i]);
-                    }
-                } else {
-                    throw new AuthorizationServiceException(
-                        "A Collection or an array (or null) was required as the returnedObject, but the returnedObject was: "
-                        + returnedObject);
-                }
-
                 
                 // Get GrantedAuthorities from Authentication Object and Match them with the SecurityMap
                 GrantedAuthority[] authorities = authentication.getAuthorities();
@@ -117,7 +101,7 @@ public class CSMAfterInvocationProvider implements AfterInvocationProvider,
                 	throw new AccessDeniedException("User does not have access to some or all of returned object.");
                 }
                 
-                return resultsCollection;
+                return returnedObject;
             }
         }
         return returnedObject;
