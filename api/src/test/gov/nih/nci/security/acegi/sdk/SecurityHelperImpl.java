@@ -21,6 +21,8 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public class SecurityHelperImpl implements SecurityHelper {
 	
+	public static int count = 0;
+	
 	public SecurityHelperImpl(){
 		
 	}
@@ -40,17 +42,23 @@ public class SecurityHelperImpl implements SecurityHelper {
 	 */
 	public  Map<String, Collection<String>> getPreMethodInvocationSecurityMap(MethodInvocation mi) {
 
+		
+		
 		Map<String, Collection<String>> aMap = new HashMap<String, Collection<String>>();
 
 		Collection<String> col = new ArrayList<String>();
 
 		col.add("READ");
 		col.add("WRITE");
-
+		if(count==0){
+			aMap.put("*", col);
+		}
 		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Gene", col);
 		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Taxon", col);
 		aMap.put("test.gov.nih.nci.security.acegi.sdk.domain.Chromosome", col);
 
+		
+		count++;
 		return aMap;
 	}
 
