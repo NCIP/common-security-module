@@ -9,11 +9,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.acegisecurity.ConfigAttribute;
 import org.acegisecurity.ConfigAttributeDefinition;
 import org.acegisecurity.ConfigAttributeEditor;
 import org.acegisecurity.intercept.method.AbstractMethodDefinitionSource;
-import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -67,31 +67,34 @@ public class CSMMethodDefinitionSource extends
 		
 		ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();
 		Set keySet = securityMap.keySet();
-		Iterator iterator = keySet.iterator();
-		StringBuffer rolesStr = new StringBuffer();
-		while(iterator.hasNext()){
-			String className = (String)iterator.next();
-			Collection authorities = (Collection) securityMap.get(className);
-			Iterator authoritiesIterator = authorities.iterator();
-			while(authoritiesIterator.hasNext()){
-				String privilege = (String)authoritiesIterator.next();
-				String authority = className + "_" + privilege;
-				rolesStr.append(authority).append(",");
-			}
-			
-		}
-
-		// System.out.println(rolesStr.toString().substring(0,rolesStr.length()-1));
-		configAttrEditor.setAsText(rolesStr.toString().substring(0,rolesStr.length()-1));
-		ConfigAttributeDefinition attr =(ConfigAttributeDefinition)configAttrEditor.getValue();
 		
-		// Register name and attribute
-		addSecureMethod(method.getDeclaringClass(), method.getName(), attr);
+		if(keySet.contains("*")){
+			//This Method Call is not secured
+		}else{
+			Iterator iterator = keySet.iterator();
+			StringBuffer rolesStr = new StringBuffer();
+			while(iterator.hasNext()){
+				String className = (String)iterator.next();
+				Collection authorities = (Collection) securityMap.get(className);
+				Iterator authoritiesIterator = authorities.iterator();
+				while(authoritiesIterator.hasNext()){
+					String privilege = (String)authoritiesIterator.next();
+					String authority = className + "_" + privilege;
+					rolesStr.append(authority).append(",");
+				}
+			}
 
+			// System.out.println(rolesStr.toString().substring(0,rolesStr.length()-1));
+			configAttrEditor.setAsText(rolesStr.toString().substring(0,rolesStr.length()-1));
+			ConfigAttributeDefinition attr =(ConfigAttributeDefinition)configAttrEditor.getValue();
+			
+			// Register name and attribute
+			addSecureMethod(method.getDeclaringClass(), method.getName(), attr);
+		}
 		
 		// put it into cache
 		this.methodMapCache.putMethodMapInCache(METHOD_MAP ,this.methodMap);
-
+		
 	}
 
 	public Iterator getConfigAttributeDefinitions() {
