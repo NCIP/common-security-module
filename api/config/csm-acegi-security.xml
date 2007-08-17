@@ -64,7 +64,7 @@
     </property>
   </bean>
 
-  <bean id='authenticationProvider' class='org.acegisecurity.providers.dao.DaoAuthenticationProvider'>
+  <bean id='authenticationProvider' class='gov.nih.nci.security.acegi.authentication.CSMAuthenticationProvider'>
     <property name='userDetailsService' ref='userDetailsService'/>
   </bean>
 

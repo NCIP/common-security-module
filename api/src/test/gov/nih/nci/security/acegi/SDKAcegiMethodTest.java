@@ -1,6 +1,8 @@
 package test.gov.nih.nci.security.acegi;
  
+import java.net.URL;
 import java.util.Collection;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -32,7 +34,8 @@ import test.gov.nih.nci.security.acegi.sdk.ApplicationService;
  */
 public class SDKAcegiMethodTest extends TestCase {
 
-    // Read the Spring configuration file. 
+	Properties props = null;
+	// Read the Spring configuration file. 
     private static ApplicationContext ctx = new ClassPathXmlApplicationContext("csm-acegi-security.xml");
 
     private static void createSecureContext(final ApplicationContext ctx, final String username, final String password) {
@@ -41,7 +44,18 @@ public class SDKAcegiMethodTest extends TestCase {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    // Clear the security context after each test.
+    protected void setUp() throws Exception {
+    	URL url = null;
+		String path = null;
+		super.setUp();
+		
+		props = System.getProperties();
+		url = this.getClass().getClassLoader().getSystemResource("login.config");
+		path = url.getPath();		
+		props.setProperty("java.security.auth.login.config", path);
+	}
+    
+
     /**
      * 
      */

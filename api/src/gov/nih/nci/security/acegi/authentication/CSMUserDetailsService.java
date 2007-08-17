@@ -1,5 +1,6 @@
 package gov.nih.nci.security.acegi.authentication;
 
+import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
@@ -34,7 +35,8 @@ public class CSMUserDetailsService implements UserDetailsService {
 	private String csmApplicationContext;
 	
 	
-	protected AuthorizationManager authorizationManager;	
+	protected AuthorizationManager authorizationManager;
+	protected AuthenticationManager authenticationManager;
 	
 	public AuthorizationManager authorizationManagerInstance(){
 		if(this.authorizationManager!=null){
@@ -53,12 +55,32 @@ public class CSMUserDetailsService implements UserDetailsService {
 			return this.authorizationManager;
 		}
 	}
+	
+	public AuthenticationManager authenticationManagerInstance(){
+		if(this.authenticationManager!=null){
+			return this.authenticationManager;
+		}else{
+			try {
+				this.authenticationManager = SecurityServiceProvider
+						.getAuthenticationManager(this.csmApplicationContext);
+			} catch (CSConfigurationException e) {
+				e.printStackTrace();
+				throw new DataRetrievalFailureException(e.getMessage());
+			} catch (CSException e) {
+				e.printStackTrace();
+				throw new DataAccessResourceFailureException(e.getMessage());
+			}
+			return this.authenticationManager;
+		}
+	}
 
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 
 		
-
+		//	Make sure AuthenticationManager Instance is available.
+		authenticationManagerInstance();
+		
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 			authorizationManagerInstance().getUser(username);
 		
