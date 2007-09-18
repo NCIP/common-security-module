@@ -109,8 +109,10 @@ public interface ForwardConstants
 	
 	public static final String LOAD_HOME_SUCCESS = "LoadHomeSuccess";
 	public static final String LOAD_ADD_SUCCESS="LoadAddSuccess";
+	public static final String LOAD_UPLOAD_SUCCESS="LoadUploadSuccess";
 	public static final String LOAD_SEARCH_SUCCESS="LoadSearchSuccess";
 	public static final String LOAD_SEARCH_RESULT_SUCCESS="LoadSearchResultSuccess";	
+	public static final String UPLOAD_SUCCESS="UploadSuccess";
 	public static final String CREATE_SUCCESS="CreateSuccess";
 	public static final String READ_SUCCESS="ReadSuccess";
 	public static final String UPDATE_SUCCESS="UpdateSuccess";
@@ -135,7 +137,9 @@ public interface ForwardConstants
 
 	
 	public static final String READ_FAILURE = "ReadFailure";
+	public static final String UPLOAD_FAILURE = "UploadFailure";
 	public static final String SEARCH_FAILURE = "SearchFailure";
+	public static final String LOAD_ADD_FAILURE = "LoadAddFailure";
 	public static final String LOAD_PROTECTIONGROUPASSOCIATION_FAILURE = "LoadProtectionGroupAssociationFailure";
 	public static final String LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_FAILURE = "LoadProtectionElementPrivilegesAssociationFailure";
 
@@ -154,6 +158,7 @@ public interface ForwardConstants
 	public static final String PROTECTION_GROUP_HOME_PAGE="ProtectionGroupHomePage";
 	public static final String PROTECTION_ELEMENT_HOME_PAGE="ProtectionElementHomePage";
 	public static final String APPLICATION_HOME_PAGE="ApplicationHomePage";
+	public static final String INSTANCE_LEVEL_HOME_PAGE="InstanceLevelHomePage";
 	
 	public static final String DETAILS_PAGE="DetailsPage";
 

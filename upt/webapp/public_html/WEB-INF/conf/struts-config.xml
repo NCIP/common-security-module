@@ -25,6 +25,8 @@
 			type="gov.nih.nci.security.upt.forms.SearchUserForm" />
 		<form-bean name="SearchProtectionElementForm"
 			type="gov.nih.nci.security.upt.forms.SearchProtectionElementForm" />			
+		<form-bean name="InstanceLevelForm"
+			type="gov.nih.nci.security.upt.forms.InstanceLevelForm" />			
 
 	</form-beans>
 	<global-exceptions>
@@ -89,6 +91,7 @@
 			<forward name="PrivilegeHomePage" path="Tiles.Privilege.Home" />
 			<forward name="ProtectionGroupHomePage" path="Tiles.ProtectionGroup.Home" />
 			<forward name="ProtectionElementHomePage" path="Tiles.ProtectionElement.Home" />
+			<forward name="InstanceLevelHomePage" path="Tiles.InstanceLevel.Home" />
 			<forward name="HomePage" path="Tiles.Home.Page" />
 			<forward name="AdminHomePage" path="Tiles.SuperAdmin.Home.Page" />			
 			<forward name="LogoutAction" path="/Logout.do" />
@@ -284,7 +287,32 @@
 			<forward name="LoadAssociationSuccess" path="Tiles.Application.Association.Screen" />
 			<forward name="SetAssociationSuccess" path="Tiles.Application.Detail.Screen" />
 			<forward name="SearchFailure" path="Tiles.Application.Detail.Screen" />
-		</action>		
+		</action>
+		
+		<action path="/InstanceLevelOperation" 
+			type="gov.nih.nci.security.upt.actions.InstanceLevelAction"
+			name="InstanceLevelForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"
+			input="Tiles.InstanceLevel.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.InstanceLevel.Home" />
+			<forward name="LoadUploadSuccess" path="Tiles.InstanceLevel.Upload.Screen" />
+			<forward name="LoadAddSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="LoadAddFailure" path="Tiles.InstanceLevel.Home" />
+			<forward name="LoadSearchSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.InstanceLevel.Search.Result" />
+			<forward name="UploadSuccess" path="Tiles.InstanceLevel.Home" />
+			<forward name="UploadFailure" path="Tiles.InstanceLevel.Upload.Screen" />
+			<forward name="CreateSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.InstanceLevel.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.InstanceLevel.Home" />
+			<forward name="SearchSuccess" path="Tiles.InstanceLevel.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.InstanceLevel.Detail.Screen" />
+		</action>
+
 	</action-mappings>
 
 	<controller bufferSize="4096" debug="0" />

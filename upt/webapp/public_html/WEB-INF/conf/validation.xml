@@ -336,8 +336,26 @@
   				<var-value>${customDate}</var-value>
   			</var>
   		</field>
-	
     </form>
+    <form name="InstanceLevelForm">
+ 		<field property="className" depends="required">
+  			<arg0 key="InstanceLevelForm.className.displayLabel"/>
+  		</field>
+ 		<field property="filterChain" depends="required">
+  			<arg0 key="InstanceLevelForm.filterChain.displayLabel"/>
+  		</field>
+ 		<field property="targetClassName" depends="required">
+  			<arg0 key="InstanceLevelForm.targetClassName.displayLabel"/>
+  		</field>
+ 		<field property="targetClassAttributeName" depends="required">
+  			<arg0 key="InstanceLevelForm.targetClassAttributeName.displayLabel"/>
+  		</field>
+ 		<field property="targetClassAttributeType" depends="required">
+  			<arg0 key="InstanceLevelForm.targetClassAttributeType.displayLabel"/>
+  		</field>
+    </form>
+    
+    
    </formset>
    
 </form-validation>

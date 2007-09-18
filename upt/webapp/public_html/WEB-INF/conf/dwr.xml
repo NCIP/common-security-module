@@ -1,0 +1,11 @@
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+  <allow>
+    <create creator="new" javascript="InstanceLevelHelper">
+      <param name="class" value="gov.nih.nci.security.upt.util.HibernateHelper"/>
+      <include method="getAssociatedClasses"/>
+      <include method="getAssociatedAttributes"/>
+    </create>
+  </allow>
+</dwr>

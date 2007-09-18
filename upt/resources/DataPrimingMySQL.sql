@@ -21,7 +21,7 @@ values(1,1,sysdate());
 
 # 
 # The following entry is for your application. 
-# Replace <<application_context>> with your application name.
+# Replace <<application_context_name>> with your application name.
 #
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)

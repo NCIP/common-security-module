@@ -132,6 +132,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	private String protectionElementDescription;
 	private String protectionElementObjectId;
 	private String protectionElementAttribute;
+	private String protectionElementValue;
 	private String protectionElementType;
 	private String protectionElementUpdateDate;
 	
@@ -251,6 +252,21 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.ownershipAssociatedIds = ownershipAssociatedIds;
 	}
 	
+	/**
+	 * @return Returns the protectionElementValue.
+	 */
+	public String getProtectionElementValue()
+	{
+		return protectionElementValue;
+	}
+	
+	/**
+	 * @param protectionElementValue The protectionElementValue to set.
+	 */
+	public void setProtectionElementValue(String protectionElementValue)
+	{
+		this.protectionElementValue = protectionElementValue;
+	}
 	
 	public void resetForm()
 	{
@@ -260,6 +276,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.protectionElementType = "";
 		this.protectionElementObjectId = "";
 		this.protectionElementAttribute = "";
+		this.protectionElementValue = "";
 		this.protectionElementUpdateDate = "";
 		this.associatedIds = null;
 		this.ownershipAssociatedIds = null;
@@ -272,6 +289,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.protectionElementType = "";
 		this.protectionElementObjectId = "";
 		this.protectionElementAttribute = "";
+		this.protectionElementValue = "";
 		this.associatedIds = null;
 		this.ownershipAssociatedIds = null;
 	}
@@ -285,6 +303,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", getProtectionElementType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Element Value", "protectionElementValue", getProtectionElementValue(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
 		return formElementList;
 	}
@@ -298,6 +317,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", StringUtils.initString(getProtectionElementType()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", StringUtils.initString(getProtectionElementObjectId()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", StringUtils.initString(getProtectionElementAttribute()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Element Value", "protectionElementValue", StringUtils.initString(getProtectionElementValue()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Update Date", "protectionElementUpdateDate", StringUtils.initString(getProtectionElementUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 
 		return formElementList;
@@ -311,6 +331,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", getProtectionElementType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Protection Element Value", "protectionElementValue", getProtectionElementValue(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
 		return formElementList;
 	}
@@ -340,6 +361,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.protectionElementType = protectionElement.getProtectionElementType();
 		this.protectionElementObjectId = protectionElement.getObjectId();
 		this.protectionElementAttribute = protectionElement.getAttribute();
+		this.protectionElementValue = protectionElement.getValue();
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		this.protectionElementUpdateDate = simpleDateFormat.format(protectionElement.getUpdateDate());
@@ -367,6 +389,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		protectionElement.setProtectionElementType(this.protectionElementType);
 		protectionElement.setObjectId(this.protectionElementObjectId);
 		protectionElement.setAttribute(this.protectionElementAttribute);
+		protectionElement.setValue(this.protectionElementValue);
 		
 		
 		if ((this.protectionElementId == null) || ((this.protectionElementId).equalsIgnoreCase("")))
@@ -410,6 +433,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 			protectionElement.setObjectId(this.protectionElementObjectId);
 		if (this.protectionElementAttribute != null && !(this.protectionElementAttribute.trim().equalsIgnoreCase("")))
 			protectionElement.setAttribute(this.protectionElementAttribute);
+		if (this.protectionElementValue != null && !(this.protectionElementValue.trim().equalsIgnoreCase("")))
+			protectionElement.setValue(this.protectionElementValue);
 		
 		SearchCriteria searchCriteria = new ProtectionElementSearchCriteria(protectionElement);
 		List list = userProvisioningManager.getObjects(searchCriteria);

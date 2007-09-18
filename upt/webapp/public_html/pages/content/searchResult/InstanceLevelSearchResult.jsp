@@ -18,7 +18,7 @@
 <!--
    	function setAndSubmit(target)
    	{
-  		document.ProtectionElementForm.operation.value=target;
+  		document.InstanceLevelForm.operation.value=target;
  	}
 // -->
 </script>
@@ -26,12 +26,12 @@
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
-		<html:form styleId="ProtectionElementForm"
-	action="<%="/ProtectionElementDBOperation"%>">
+		<html:form styleId="InstanceLevelForm"
+	action="<%="/InstanceLevelOperation"%>">
 	<html:hidden property="operation" value="read" />
 		<tr>
 			<td>
-			<h2>Protection Element</h2>
+			<h2>Filter Clause</h2>
 			</td>
 		</tr>
 		<tr>
@@ -57,49 +57,37 @@
 										<th class="dataTableHeader" scope="col" align="center"
 											width="10%">Select</th>
 										<th class="dataTableHeader" scope="col" align="center"
-											width="20%">Protection Element Name</th>
+											width="30%">Class Name</th>
 										<th class="dataTableHeader" scope="col" align="center"
-											width="15%">Protection Element Type</th>
+											width="30%">Filter Chain</th>
 										<th class="dataTableHeader" scope="col" align="center"
-											width="20%">Object Id</th>
-										<th class="dataTableHeader" scope="col" align="center"
-											width="15%">Attribute</th>
-										<th class="dataTableHeader" scope="col" align="center"
-											width="20%">Value</th>
+											width="20%">Target Attribute Name</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="ProtectionElement" length="200">
+										id="searchResultObject" type="FilterClause" length="200">
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%"><html:radio
-													style="formFieldSized" property="protectionElementId"
-													value="<%=searchResultObject.getProtectionElementId().toString()%>" /></td>
+													style="formFieldSized" property="id"
+													value="<%=searchResultObject.getId().toString()%>" /></td>
+												<td class="dataCellText" width="30%"><bean:write
+													name="searchResultObject" property="className" />&nbsp;</td>
+												<td class="dataCellText" width="30%"><bean:write
+													name="searchResultObject" property="filterChain" />&nbsp;</td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="protectionElementName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="protectionElementType" />&nbsp;</td>
-												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="objectId" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="attribute" />&nbsp;</td>
-												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="value" />&nbsp;</td>
+													name="searchResultObject" property="targetClassAttributeName" />&nbsp;</td>
 											</tr>
 										<%}else{ oddRow = "true";%>
 											<tr class="dataRowDark">
 												<td class="dataCellNumerical" width="10%"><html:radio
-													style="formFieldSized" property="protectionElementId"
-													value="<%=searchResultObject.getProtectionElementId().toString()%>" /></td>
+													style="formFieldSized" property="id"
+													value="<%=searchResultObject.getId().toString()%>" /></td>
+												<td class="dataCellText" width="30%"><bean:write
+													name="searchResultObject" property="className" />&nbsp;</td>
+												<td class="dataCellText" width="30%"><bean:write
+													name="searchResultObject" property="filterChain" />&nbsp;</td>
 												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="protectionElementName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="protectionElementType" />&nbsp;</td>
-												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="objectId" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="attribute" />&nbsp;</td>
-												<td class="dataCellText" width="20%"><bean:write
-													name="searchResultObject" property="value" />&nbsp;</td>
+													name="searchResultObject" property="targetClassAttributeName" />&nbsp;</td>
 											</tr>
 										<%}%>
 										<% cntResObj=cntResObj+1; %>

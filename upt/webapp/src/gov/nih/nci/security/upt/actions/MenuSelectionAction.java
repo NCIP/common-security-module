@@ -161,6 +161,8 @@ public class MenuSelectionAction extends Action
 			return (mapping.findForward(ForwardConstants.PROTECTION_ELEMENT_HOME_PAGE));
 		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.APPLICATION_ID))
 			return (mapping.findForward(ForwardConstants.APPLICATION_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID))
+			return (mapping.findForward(ForwardConstants.INSTANCE_LEVEL_HOME_PAGE));
 		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.LOGOUT_ID))
 			return (mapping.findForward(ForwardConstants.LOGOUT_ACTION));
 		else

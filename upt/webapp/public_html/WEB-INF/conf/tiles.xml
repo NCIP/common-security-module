@@ -52,6 +52,11 @@
 	<definition name="Tiles.500.Error.DetailsPage" extends="Base">
 		<put name="Content" value="/pages/content/main/ErrorDetails.jsp" />
 	</definition>
+
+	<!-- Upload Page -->
+	<definition name="Tiles.InstanceLevel.Upload.Screen" extends="Base">
+		<put name="Content" value="/pages/content/upload/InstanceLevelUploadScreen.jsp" />
+	</definition>
 	
 	<!-- Home Pages -->
 	<definition name="Tiles.Home.Page" extends="Base">
@@ -81,6 +86,9 @@
 	<definition name="Tiles.ProtectionElement.Home" extends="Base">
 		<put name="Content" value="/pages/content/home/ProtectionElementHome.jsp" />
 	</definition>
+	<definition name="Tiles.InstanceLevel.Home" extends="Base">
+		<put name="Content" value="/pages/content/home/InstanceLevelHome.jsp" />
+	</definition>
 
 	<!-- Detail Screens -->
 	<definition name="Tiles.Role.Detail.Screen" extends="Base">
@@ -98,11 +106,9 @@
 	<definition name="Tiles.User.Detail.Screen" extends="Base">
 		<put name="Content" value="/pages/content/detailScreen/UserDetailScreen.jsp" />
 	</definition>
-	
 	<definition name="Tiles.SearchUser.Detail.Screen" extends="Popup">
 		<put name="Content" value="/pages/content/detailScreen/SearchUserDetailScreen.jsp" />
 	</definition>
-	
 	<definition name="Tiles.ProtectionGroup.Detail.Screen" extends="Base">
 		<put name="Content" value="/pages/content/detailScreen/ProtectionGroupDetailScreen.jsp" />
 	</definition>
@@ -111,7 +117,10 @@
 	</definition>
 	<definition name="Tiles.SearchProtectionElement.Detail.Screen" extends="Popup">
 		<put name="Content" value="/pages/content/detailScreen/SearchProtectionElementDetailScreen.jsp" />
-	</definition>	
+	</definition>
+	<definition name="Tiles.InstanceLevel.Detail.Screen" extends="Base">
+		<put name="Content" value="/pages/content/detailScreen/InstanceLevelDetailScreen.jsp" />
+	</definition>		
 	
 	<!-- Search Result Pages -->
 	<definition name="Tiles.Privilege.Search.Result" extends="Base">
@@ -138,10 +147,12 @@
 	<definition name="Tiles.User.Search.Result" extends="Base">
 		<put name="Content" value="/pages/content/searchResult/UserSearchResult.jsp" />
 	</definition>
-
 	<definition name="Tiles.SearchUser.Search.Result" extends="Popup">
 		<put name="Content" value="/pages/content/searchResult/SearchUserSearchResult.jsp" />
 	</definition>	
+	<definition name="Tiles.InstanceLevel.Search.Result" extends="Base">
+		<put name="Content" value="/pages/content/searchResult/InstanceLevelSearchResult.jsp" />
+	</definition>
 	
 	<!-- Association Pages -->
 	<definition name="Tiles.Role.Association.Screen" extends="Base">

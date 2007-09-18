@@ -12,7 +12,7 @@ values (1, 'csmupt','UPT Super Admin Application',0,0,sysdate);
 select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
 
 insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (1, '<<super_admin_login_id>>','<<super_admin_first_name>>','<<super_admin_last_name>>',"zJPWCwDeSgG8j2uyHEABIQ==",sysdate);
+values (1, '<<super_admin_login_id>>','<<super_admin_first_name>>','<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',sysdate);
 select CSM_USER_USER_ID_SEQ.nextval from dual;
  
 insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
@@ -28,12 +28,12 @@ select CSM_USER_PE_USER_PROTECTIO_SEQ.nextval from dual;
 # Replace <<application_context>> with your application's context name.
 #
 
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-VALUES ('<<application_context_name>>','Application Description',0,0,sysdate);
+INSERT INTO csm_application(APPLICATION_ID,APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
+VALUES (2, '<<application_context_name>>','Application Description',0,0,sysdate);
 select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
 
 insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values(1, '<<application_context_name>>','<<application_context_name>> Admin Application','<<application_context_name>>',1,sysdate);
+values(2, '<<application_context_name>>','<<application_context_name>> Admin Application','<<application_context_name>>',1,sysdate);
 select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
 
@@ -46,19 +46,19 @@ VALUES(1,'CREATE','This privilege grants permission to a user to create an entit
 SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual;
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
-VALUES(2,'ACCESS','This privilege allows a user to access a particular resource.  Examples of resources include a network connection, database connection, socket, module of the application, or even the application itself', sysdate);
+VALUES(2,'ACCESS','This privilege allows a user to access a particular resource.  Eg. network connection, database connection, socket, module of the application, or even the application itself', sysdate);
 SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual;
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
-VALUES(3,'READ','This privilege permits the user to read data from a file, URL, socket, database, or an object. This can be used at an entity level signifying that the user is allowed to read data about a particular entry which can be object or database row, etc', sysdate);
+VALUES(3,'READ','This privilege permits the user to read data from a file, URL, socket, database, or an object. This can be used at an entity level signifying that the user is allowed to read a data row or object', sysdate);
 SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual;
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
-VALUES(4,'WRITE','This privilege allows a user to write data to a file, URL, socket, database, or object. This can also be used at an entity level signifying that the user is allowed to write data about a particular entity which may include an object, database row, etc', sysdate);
+VALUES(4,'WRITE','This privilege allows a user to write data to a file, URL, socket, database, or object. At an entity level it signified if user is allowed to write a data database row or object', sysdate);
 SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual;
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
-VALUES(5,'UPDATE','This privilege grants permission at an entity level and signifies that the user is allowed to update and modify data for a particular entity.  Entities may include an object, an attribute of the object, a database row, etc', sysdate);
+VALUES(5,'UPDATE','This privilege grants permission At an entity level it signified if user is allowed to update and modify data for a particular entity.', sysdate);
 SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual;
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)

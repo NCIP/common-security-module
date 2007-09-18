@@ -107,6 +107,7 @@ public class DisplayConstants
 	public static String USER_PROVISIONING_MANAGER = "USER_PROVISIONING_MANAGER";
 	
 	public static final String INPUT_TEXTAREA = "INPUT_TEXTAREA";
+	public static final String INPUT_COMBOBOX = "INPUT_COMBOBOX";
 	public static final String INPUT_CHECKBOX = "INPUT_CHECKBOX";
 	public static final String INPUT_BOX = "INPUT_BOX";
 	public static final String INPUT_DATE = "INPUT_DATE";
@@ -120,6 +121,8 @@ public class DisplayConstants
 	public static final String CURRENT_TABLE_ID = "CURRENT_TABLE_ID";
 	public static final String CURRENT_FORM = "CURRENT_FORM";
 	public static final String CURRENT_ACTION = "CURRENT_ACTION";
+	public static final String HIBERNATE_SESSIONFACTORY = "HIBERNATE_SESSIONFACTORY";
+	public static final String JAR_FILE_LIST = "JAR_FILE_LIST";
 	
 	public static final String CREATE_WORKFLOW = "CREATE_WORKFLOW";
 	
@@ -128,6 +131,7 @@ public class DisplayConstants
 	
 	public static final String LOGIN_OBJECT = "LOGIN_OBJECT";
 
+	public static final String UPLOAD = "UPLOAD";
 	public static final String ADD = "ADD";
 	public static final String SEARCH = "SEARCH";
 
@@ -152,6 +156,7 @@ public class DisplayConstants
 	public static final String PROTECTION_ELEMENT_ID = "ProtectionElement";
 	public static final String APPLICATION_ID = "Application";
 	public static final String LOGOUT_ID = "Logout";
+	public static final String INSTANCE_LEVEL_ID = "InstanceLevel";
 	
 	public static final String HOME_NAME = "Home";
 	public static final String PRIVILEGE_NAME = "Privilege";
@@ -160,6 +165,8 @@ public class DisplayConstants
 	public static final String USER_NAME = "User";
 	public static final String PROTECTION_GROUP_NAME = "Protection Group";
 	public static final String PROTECTION_ELEMENT_NAME = "Protection Element";
+	public static final String INSTANCE_LEVEL = "Instance Level";
+	
 
 	public static final boolean NOT_DISABLED = false;
 	public static final boolean DISABLED = true;

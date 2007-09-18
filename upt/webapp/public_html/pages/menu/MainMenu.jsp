@@ -172,7 +172,8 @@ function MM_swapImage() { //v3.0
 				<%}%>
 				<!-- link 2 ends -->
 				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>				<!-- link 5 begins -->
+					/>
+				<!-- link 5 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID)){%>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
@@ -212,7 +213,25 @@ function MM_swapImage() { //v3.0
 				<!-- link 6 ends -->
 				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
-
+				<!-- link 7 begins -->
+				<%if (tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID)){%>
+				<td height="16" class="mainMenuItemOver"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
+					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')"><a
+					class="mainMenuLink"
+					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">INSTANCE LEVEL</a>
+				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID)){%>
+				<td height="16" class="mainMenuItem"
+					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
+					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')"><a
+					class="mainMenuLink"
+					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">INSTANCE LEVEL</a>
+				<%}%>
+				<!-- link 7 ends -->
+				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"
+					/>
 				<!-- link 8 begins -->
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"

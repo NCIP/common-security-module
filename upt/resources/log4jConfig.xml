@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
+
 <!DOCTYPE log4j:configuration SYSTEM ".\log4j.dtd">
 
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
@@ -6,9 +8,9 @@
       <param name="application" value="csm" />
       <param name="maxBufferSize" value="1" />
       <param name="dbDriverClass" value="org.gjt.mm.mysql.Driver" />
-      <param name="dbUrl" value="jdbc:mysql://<<SERVER_NAME>>:<<PORT>>/<<CSM_SCHEMA_NAME>>" />
+      <param name="dbUrl" value="jdbc:mysql://<<SERVER_NAME>>:<<PORT>>/<<CLM_SCHEMA_NAME>>" />
       <param name="dbUser" value="<<DB_USER>>" />
-      <param name="dbPwd" value="<<DB_PASSWORD>>" />
+      <param name="dbPwd" value="<<PASSWORD>>" />
 	  <param name="useFilter" value="true" />
       <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern"
@@ -28,11 +30,6 @@
 			<level value="info" />
 			<appender-ref ref="CLM_APPENDER" />
 	</category>
-	<category name="CSM.Audit.Logging.Authorization">
-			<level value="info" />
-			<appender-ref ref="CLM_APPENDER" />
-	</category>
-
 
 
 </log4j:configuration>
