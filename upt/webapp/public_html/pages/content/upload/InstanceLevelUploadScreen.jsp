@@ -60,8 +60,8 @@
 									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" property="uploadedFile1" value="" /></td>
 								</tr>
 								<tr>
-									<td class="formRequiredNotice" width="5">*</td>
-									<td class="formRequiredLabel2"><label>Application Jar File</label></td>
+									<td class="formRequiredNotice" width="5">&nbsp;</td>
+									<td class="formLabel"><label>Application Jar File</label></td>
 									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" property="uploadedFile2" value="" /></td>
 								</tr>
 								<tr>									

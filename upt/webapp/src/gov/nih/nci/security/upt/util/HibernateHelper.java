@@ -2,7 +2,9 @@ package gov.nih.nci.security.upt.util;
 
 import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
+import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.util.FileLoader;
 
 import java.io.ByteArrayInputStream;
@@ -88,10 +90,14 @@ public class HibernateHelper
 		return list;
 	}
 	
-	public static HashMap getAssociatedClasses(String className)
+	public static HashMap getAssociatedClasses(String className) throws CSException
 	{
 		boolean isParentClass = false;
 		HttpSession session = WebContextFactory.get().getHttpServletRequest().getSession();
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) 
+		{
+			throw new CSException("Session Expired - Please Relogin!");
+		}
 		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY); 
 		HashMap map = new HashMap();
 		if (!(className.contains(" - ")))
@@ -117,13 +123,20 @@ public class HibernateHelper
 		{
 			map.put(className, className  + " - self");
 		}
+		if (map.size() == 0)
+			throw new CSException("No associated Classes Found!");
+		
 		return map;
 	}
 
-	public static HashMap getAssociatedAttributes(String className)
+	public static HashMap getAssociatedAttributes(String className) throws CSException
 	{
 		className = className.substring(0, className.indexOf(" - "));
 		HttpSession session = WebContextFactory.get().getHttpServletRequest().getSession();
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) 
+		{
+			throw new CSException("Session Expired - Please Relogin!");
+		}
 		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY); 
 		HashMap map = new HashMap();
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(className);
@@ -136,6 +149,9 @@ public class HibernateHelper
 				map.put((type.getReturnedClass()).getName(),properties[i]);
 			}
 		}
+		if (map.size() == 0)
+			throw new CSException("No associated Classes Found!");
+		
 		return map;
 	}
 	
