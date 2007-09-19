@@ -313,7 +313,7 @@
 									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 										
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-										<td><button class="actionButton" onclick="setAndSubmit('create');">Add</button></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('create');">Add</html:submit></td>
 										</logic:equal>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('search');">Search</html:submit></td>
