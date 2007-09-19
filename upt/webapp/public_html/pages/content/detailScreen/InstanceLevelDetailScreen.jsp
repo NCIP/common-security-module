@@ -11,126 +11,138 @@
 
 <script type='text/javascript' src='/upt/dwr/interface/InstanceLevelHelper.js'></script>
 <script type='text/javascript' src='/upt/dwr/engine.js'></script>
-<script src='dwr/util.js'></script> 
-
+<script type='text/javascript' src='dwr/util.js'></script> 
+ 
 <script>
 <!--
-
-   	function setAndSubmit(target)
-   	{
-   		if (target == "delete")
-   		{
-   			if (confirm("Are you sure you want to delete the record?"))
-   			{
-   				document.InstanceLevelForm.operation.value=target;
-				document.InstanceLevelForm.submit();
-			}
-		}
-		if (target == "create")
-		{
-			var tbl = document.getElementById('childClassTable');
-			var rowCount = tbl.rows.length;			
-			var variableName;
-			var className;
-			for (var i = 1; i <= rowCount; i++)
-			{
-				var selectElement = document.getElementById('filterChainElement' + (i));
-				var vName = selectElement[selectElement.selectedIndex].value;
-				var cName = selectElement[selectElement.selectedIndex].innerHTML;
-				if (i==1)
-				{
-					variableName = vName;
-					className = cName;
-				}
-				else
-				{
-					variableName = variableName + ', ' + vName;
-					className = cName;
-				}
-			}
-			document.InstanceLevelForm.filterChain.value = variableName;
-			document.InstanceLevelForm.targetClassName.value = className;
-			
-			var attributeSelectElement = document.getElementById('targetClassAttributeNameList');
-			var attributeClass = attributeSelectElement[attributeSelectElement.selectedIndex].value;
-			var attributeName = attributeSelectElement[attributeSelectElement.selectedIndex].innerHTML;
-			document.InstanceLevelForm.targetClassAttributeName.value = attributeName;
-			document.InstanceLevelForm.targetClassAttributeType.value = attributeClass;
-	  	}
-	  	document.InstanceLevelForm.operation.value=target;
- 	}
- 	
- 	function addRow()
- 	{
-		var tbl = document.getElementById('childClassTable');
-		var lastRow = tbl.rows.length;
-		var selectElement = document.getElementById('filterChainElement' + (lastRow));
-		var className = selectElement[selectElement.selectedIndex].innerHTML;
-		InstanceLevelHelper.getAssociatedClasses(className, addRowsData);
- 	}
- 	
- 	function addRowsData(map)
- 	{
-		var tbl = document.getElementById('childClassTable');
-		var lastRow = tbl.rows.length;
-		var iteration = lastRow + 1;
-		var row = tbl.insertRow(lastRow);
-		var cell = row.insertCell(0);
-		cell.marginTop
-		var sel = document.createElement('select');
-		sel.name = 'filterChainElement' + iteration;
-		sel.id = 'filterChainElement' + iteration;
-		dwr.util.addOptions (sel,map);
-		cell.appendChild(sel);
- 	}
- 	
- 	
- 	function removeRow()
- 	{
-		var tbl = document.getElementById('childClassTable');
-		var lastRow = tbl.rows.length;
-		if (lastRow > 1) tbl.deleteRow(lastRow - 1);
- 	}
- 	
- 	function loadFirstChildList()
- 	{
-		var className = eval('document.InstanceLevelForm.className').value;
-		InstanceLevelHelper.getAssociatedClasses(className, loadFirstChildListData);
- 	}
- 	
- 	function loadFirstChildListData(map)
- 	{
- 		dwr.util.useLoadingMessage();
-		var tbl = document.getElementById('childClassTable');
-		var lastRow = tbl.rows.length;
-		for (var i = lastRow; i > 2; i++)
-		{
-			tbl.deleteRow(lastRow-1);
-		}
-		var sel = document.getElementById('filterChainElement1');
-		dwr.util.removeAllOptions(sel);
-		dwr.util.addOptions (sel,map);
- 	}
-
- 	function loadAssociatedAttribute()
- 	{
-		var tbl = document.getElementById('childClassTable');
-		var lastRow = tbl.rows.length;
-		var selectElement = document.getElementById('filterChainElement' + (lastRow));
-		var className = selectElement[selectElement.selectedIndex].innerHTML;
-		InstanceLevelHelper.getAssociatedAttributes(className, loadAssociatedAttributeData);
- 	}
- 	
-	function loadAssociatedAttributeData(map)
- 	{
-		var sel = document.getElementById('targetClassAttributeNameList');
-		dwr.util.removeAllOptions(sel);
-		dwr.util.addOptions (sel,map);
- 	}
- 	
-
+ 
+      function displayErrorMessage(errorMessage)
+      {
+        alert(errorMessage);
+      }
+      
+      function setAndSubmit(target)
+      {
+            if (target == "delete")
+            {
+                  if (confirm("Are you sure you want to delete the record?"))
+                  {
+                        document.InstanceLevelForm.operation.value=target;
+                        document.InstanceLevelForm.submit();
+                  }
+            }
+            if (target == "create")
+            {
+                  var tbl = document.getElementById('childClassTable');
+                  var rowCount = tbl.rows.length;                 
+                  var variableName;
+                  var className;
+                  for (var i = 1; i <= rowCount; i++)
+                  {
+                        var selectElement = document.getElementById('filterChainElement' + (i));
+                        var vName = selectElement[selectElement.selectedIndex].value;
+                        var cName = selectElement[selectElement.selectedIndex].innerHTML;
+                        if (i==1)
+                        {
+                              variableName = vName;
+                              className = cName;
+                        }
+                        else
+                        {
+                              variableName = variableName + ', ' + vName;
+                              className = cName;
+                        }
+                  }
+                  document.InstanceLevelForm.filterChain.value = variableName;
+                  document.InstanceLevelForm.targetClassName.value = className;
+                  
+                  var attributeSelectElement = document.getElementById('targetClassAttributeNameList');
+                  var attributeClass = attributeSelectElement[attributeSelectElement.selectedIndex].value;
+                  var attributeName = attributeSelectElement[attributeSelectElement.selectedIndex].innerHTML;
+                  document.InstanceLevelForm.targetClassAttributeName.value = attributeName;
+                  document.InstanceLevelForm.targetClassAttributeType.value = attributeClass;
+            }
+            document.InstanceLevelForm.operation.value=target;
+      }
+      
+      function addRow()
+      {
+            dwr.engine.setErrorHandler(displayErrorMessage);
+            var tbl = document.getElementById('childClassTable');
+            var lastRow = tbl.rows.length;
+            var selectElement = document.getElementById('filterChainElement' + (lastRow));
+            var className = selectElement[selectElement.selectedIndex].innerHTML;
+            dwr.engine.setErrorHandler(displayErrorMessage);
+            InstanceLevelHelper.getAssociatedClasses(className, addRowsData);
+      }
+      
+      function addRowsData(map)
+      {
+            var tbl = document.getElementById('childClassTable');
+            var lastRow = tbl.rows.length;
+            var iteration = lastRow + 1;
+            var row = tbl.insertRow(lastRow);
+            var cell = row.insertCell(0);
+            cell.marginTop
+            var sel = document.createElement('select');
+            sel.name = 'filterChainElement' + iteration;
+            sel.id = 'filterChainElement' + iteration;
+            dwr.util.addOptions (sel,map);
+            cell.appendChild(sel);
+      }
+      
+      
+      function removeRow()
+      {
+            var tbl = document.getElementById('childClassTable');
+            var lastRow = tbl.rows.length;
+            if (lastRow > 1) tbl.deleteRow(lastRow - 1);
+      }
+      
+      function loadFirstChildList()
+      {
+            var className = eval('document.InstanceLevelForm.className').value;
+            dwr.engine.setErrorHandler(displayErrorMessage);
+            InstanceLevelHelper.getAssociatedClasses(className, loadFirstChildListData);
+      }
+      
+      function loadFirstChildListData(map)
+      {
+            dwr.util.useLoadingMessage();
+            var tbl = document.getElementById('childClassTable');
+            var lastRow = tbl.rows.length;
+            for (var i = lastRow; i > 1; i--)
+            {
+                  tbl.deleteRow(i-1);
+            }
+            var sel = document.getElementById('filterChainElement1');
+            dwr.util.removeAllOptions(sel);
+            dwr.util.addOptions (sel,map);
+      }
+ 
+      function loadAssociatedAttribute()
+      {
+            var tbl = document.getElementById('childClassTable');
+            var lastRow = tbl.rows.length;
+            var selectElement = document.getElementById('filterChainElement' + (lastRow));
+            var className = selectElement[selectElement.selectedIndex].innerHTML;
+            dwr.engine.setErrorHandler(displayErrorMessage);
+            InstanceLevelHelper.getAssociatedAttributes(className, loadAssociatedAttributeData);
+      }
+      
+      function loadAssociatedAttributeData(map)
+      {
+            var sel = document.getElementById('targetClassAttributeNameList');
+            dwr.util.removeAllOptions(sel);
+            dwr.util.addOptions (sel,map);
+      }
+      
+ 
 // -->
 </script>
+
+
+
 <bean:define id="submitValue" value="error" />
 <logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">

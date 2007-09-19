@@ -92,13 +92,21 @@ public class HibernateHelper
 	
 	public static HashMap getAssociatedClasses(String className) throws CSException
 	{
+		
+	
+	
 		boolean isParentClass = false;
 		HttpSession session = WebContextFactory.get().getHttpServletRequest().getSession();
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) 
 		{
 			throw new CSException("Session Expired - Please Relogin!");
 		}
-		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY); 
+		
+		if(className.contains(" - self")){
+			throw new CSException("No Associations allowed for direct security filter clause.");
+		}
+		
+		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY);
 		HashMap map = new HashMap();
 		if (!(className.contains(" - ")))
 		{
@@ -115,8 +123,12 @@ public class HibernateHelper
 			Type type = classMetadata.getPropertyType(properties[i]);
 			if (type instanceof AssociationType)
 			{
+				try{
 				AssociationType associationType = (AssociationType)type;
 				map.put(properties[i],associationType.getAssociatedEntityName((SessionFactoryImplementor) sessionFactory) + " - " + properties[i]);
+				}catch(Exception e){
+					throw new CSException("Hibernate Error: "+e.getMessage());
+				}
 			}
 		}
 		if (isParentClass)
