@@ -91,6 +91,7 @@ package gov.nih.nci.security;
 import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
+import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
@@ -1027,6 +1028,51 @@ public interface AuthorizationManager {
 	public Set getOwners(String protectionElementId) throws CSObjectNotFoundException;
 
 	
+	/**
+	 * This method returns the list of attributes of provided class name which are associated ot the user for the passed privilege. 
+	 * These attributes are stored as Protection Elements in the CSM Schema with the object id holding the class name and 
+	 * the attribute 
+	 * the name of the attribute
+	 * @param userName the user for which the attribute map is to be retrieved
+	 * @param className the class whose attributes are to be obtained
+	 * @param privilegeName the operation for which the list of the attributes which the user can access is to be obtained.
+	 * @return list of attributes of the provided class name on which the user has access else an empty list
+	 */
+	public List getAttributeMap(String userName, String className, String privilegeName);
+	
+	
+	/**
+	 * This method accepts a new filter clause and persists it in to the underlying database
+	 * @param filterClause the filter clause which is to be persisted in the database. On successful creation
+	 *        the id attribute will be populated with the database assigned primary key
+	 * @throws CSTransactionException is thrown if there is an error in creating the Filter Clause
+	 */
+	public void createFilterClause(FilterClause filterClause) throws CSTransactionException;
+	
+	
+	/**
+	 * Returns the {@link FilterClause} Object for the passed Filter Clause Id
+	 * @param filterClauseId The id of the Filter Clause which is to be retrieved
+	 * @return The Filter Clause Ojbect from the database for the passed Filter Clause id
+	 * @throws CSObjectNotFoundException if the Filter Clause Object is not found for the given id
+	 */
+	public FilterClause getFilterClauseById(String filterClauseId) throws CSObjectNotFoundException;
+	
+	
+	/**
+	 * This method modifies the data of an existing {@link FilterClause} object into the database
+	 * @param filterClause The Filter Clause object containing the updated values which are to be persisted in the database 
+	 * @throws CSTransactionException if there is any error in updation of the passed Filter Clause object
+	 */
+	public void modifyFilterClause(FilterClause filterClause) throws CSTransactionException;
+	
+	
+	/**
+	 * This removed the Filter Clause object from the database for the passed id.
+	 * @param filterClauseId the id of the Filter Clause object which is to be removed from the database 
+	 * @throws CSTransactionException if there is any error in the deletion of the Filter CLause Ojbect
+	 */
+	public void removeFilterClause(String filterClauseId) throws CSTransactionException;
 	
 }
 

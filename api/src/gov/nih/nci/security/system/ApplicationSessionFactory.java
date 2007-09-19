@@ -151,6 +151,7 @@ public class ApplicationSessionFactory {
 				Configuration configuration = new Configuration();
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Application.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/FilterClause.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Role.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/dao/hibernate/RolePrivilege.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/dao/hibernate/UserGroup.hbm.xml");

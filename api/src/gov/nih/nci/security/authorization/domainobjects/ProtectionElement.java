@@ -126,6 +126,12 @@ public class ProtectionElement implements Comparable {
 	 */
 	private String attribute;
 	/**
+	 * Stores the values in case the protectio element is used for the purpose of Instance Level Security. 
+	 * It is the value of the attribute of the class name stored as the object id of the PE.
+	 */
+	private String value;
+
+	/**
 	 * A brief descrition of the protection element
 	 */
 	private String protectionElementDescription;
@@ -354,6 +360,18 @@ public class ProtectionElement implements Comparable {
 			return this.getProtectionElementName().compareToIgnoreCase(obj.getProtectionElementName()); 
 		}
 		return 0;
+	}
+
+	
+	public String getValue()
+	{
+		return value;
+	}
+
+	
+	public void setValue(String value)
+	{
+		this.value = value;
 	}
 
 

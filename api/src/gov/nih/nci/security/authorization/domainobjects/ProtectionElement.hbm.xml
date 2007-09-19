@@ -61,7 +61,13 @@
         length="100"
     >
     </property>
-    
+    <property
+        name="value"
+        type="java.lang.String"
+        column="ATTRIBUTE_VALUE"
+        length="100"
+    >
+    </property>    
     <property
         name="protectionElementType"
         type="java.lang.String"

@@ -92,6 +92,7 @@ import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
+import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
@@ -175,9 +176,16 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
-		
 		authorizationDAO = (AuthorizationDAO)(adi);
-		
+		try
+		{
+			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);
+		}
+		catch (CSObjectNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public AuthorizationManagerImpl(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{
@@ -188,7 +196,15 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, connectionProperties);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		
+		try
+		{
+			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);
+		}
+		catch (CSObjectNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public AuthorizationManagerImpl(String applicationContextName, URL url) throws CSConfigurationException
@@ -196,7 +212,15 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-				
+		try
+		{
+			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);
+		}
+		catch (CSObjectNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -216,7 +240,15 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		
+		try
+		{
+			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);
+		}
+		catch (CSObjectNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}	
 	
 	public AuthorizationManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName, URL url) throws CSConfigurationException{
@@ -228,7 +260,15 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	
 		authorizationDAO = (AuthorizationDAO)(adi);
-		
+		try
+		{
+			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);
+		}
+		catch (CSObjectNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}	
 
 	
@@ -1190,25 +1230,86 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		UserInfoHelper.setUserInfo(userName, sessionId);
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#setEncryptionEnabled(boolean)
+	 */
 	public void setEncryptionEnabled(boolean isEncryptionEnabled) {
 		this.isEncryptionEnabled = isEncryptionEnabled;
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#getApplication(java.lang.String)
+	 */
 	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException
 	{
 		return authorizationDAO.getApplication(applicationContextName);
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#removeOwnerForProtectionElement(java.lang.String, java.lang.String[])
+	 */
 	public void removeOwnerForProtectionElement(String protectionElementObjectId, String[] userNames) throws CSTransactionException
 	{
 		authorizationDAO.removeOwnerForProtectionElement(protectionElementObjectId,userNames);	
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#removeOwnerForProtectionElement(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public void removeOwnerForProtectionElement(String userName, String protectionElementObjectId, String protectionElementAttributeName) throws CSTransactionException 
 	{
 		authorizationDAO.removeOwnerForProtectionElement( userName, protectionElementObjectId, protectionElementAttributeName );
 	}
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#getAttributeMap(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public List getAttributeMap(String userName, String className, String privilegeName)
+	{
+		return authorizationDAO.getAttributeMap(userName, className, privilegeName);
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#createFilterClause(gov.nih.nci.security.authorization.domainobjects.FilterClause)
+	 */
+	public void createFilterClause(FilterClause filterClause) throws CSTransactionException
+	{
+		filterClause.setApplication(authorizationDAO.getApplication());
+		filterClause.setUpdateDate(new Date());
+		authorizationDAO.createObject(filterClause);
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#getFilterClauseById(java.lang.String)
+	 */
+	public FilterClause getFilterClauseById(String filterClauseId) throws CSObjectNotFoundException
+	{
+		return (FilterClause)authorizationDAO.getObjectByPrimaryKey(FilterClause.class,filterClauseId);
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#modifyFilterClause(gov.nih.nci.security.authorization.domainobjects.FilterClause)
+	 */
+	public void modifyFilterClause(FilterClause filterClause) throws CSTransactionException
+	{
+		filterClause.setUpdateDate(new Date());
+		authorizationDAO.modifyObject(filterClause);
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#removeFilterClause(java.lang.String)
+	 */
+	public void removeFilterClause(String filterClauseId) throws CSTransactionException
+	{
+		FilterClause filterClause;
+		try
+		{
+			filterClause = this.getFilterClauseById(filterClauseId);
+		}
+		catch (CSObjectNotFoundException e){
+			throw new CSTransactionException("Failed to find this Filter Clause with filterClauseId : "+ filterClauseId, e);		}
+		authorizationDAO.removeObject(filterClause);
+	}
 
 }

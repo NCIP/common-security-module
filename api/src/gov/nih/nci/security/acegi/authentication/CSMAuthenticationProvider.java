@@ -71,6 +71,7 @@ public class CSMAuthenticationProvider extends AbstractUserDetailsAuthentication
 
     protected void doAfterPropertiesSet() throws Exception {
         Assert.notNull(this.userDetailsService, "A UserDetailsService must be set");
+        Assert.notNull(this.userDetailsService.authorizationManagerInstance(),"Unable to initialize Authorization Manager");
     }
 
    

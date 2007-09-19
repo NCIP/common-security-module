@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+    
+<hibernate-mapping default-lazy="false">
+
+<class 
+    name="gov.nih.nci.security.authorization.domainobjects.FilterClause" 
+    table="CSM_FILTER_CLAUSE"
+>
+
+    <id
+        name="id"
+        type="java.lang.Long"
+        column="FILTER_CLAUSE_ID"
+        unsaved-value="0"
+    >
+        <generator class="native">
+		 <param name="sequence">CSM_FILTER_CLAUSE_FILTE_ID_SEQ</param>
+	 </generator>
+    </id>
+
+    <property
+        name="className"
+        type="java.lang.String"
+        column="CLASS_NAME"
+        not-null="true"
+        length="100"
+    />
+    <property
+        name="filterChain"
+        type="java.lang.String"
+        column="FILTER_CHAIN"
+        not-null="true"
+        length="2000"
+    />
+    <property
+        name="targetClassName"
+        type="java.lang.String"
+        column="TARGET_CLASS_NAME"
+        not-null="true"
+        length="100"
+    />
+    <property
+        name="targetClassAttributeName"
+        type="java.lang.String"
+        column="TARGET_CLASS_ATTRIBUTE_NAME"
+        not-null="true"
+        length="100"
+    />
+    <property
+        name="targetClassAttributeType"
+        type="java.lang.String"
+        column="TARGET_CLASS_ATTRIBUTE_TYPE"
+        not-null="true"
+        length="100"
+    />
+    <property
+        name="targetClassAlias"
+        type="java.lang.String"
+        column="TARGET_CLASS_ALIAS"
+        length="100"
+    />
+    <property
+        name="targetClassAttributeAlias"
+        type="java.lang.String"
+        column="TARGET_CLASS_ATTRIBUTE_ALIAS"
+        length="100"
+    />
+    <property
+        name="generatedSQL"
+        type="java.lang.String"
+        column="GENERATED_SQL"
+        not-null="true"
+        length="4000"
+    />
+    <property
+        name="updateDate"
+        type="java.sql.Date"
+        column="UPDATE_DATE"
+        length="10"
+    />
+
+    <!-- Associations -->
+    <many-to-one
+        name="application"
+        class="gov.nih.nci.security.authorization.domainobjects.Application"
+        not-null="true"
+    >
+        <column name="APPLICATION_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>
+
