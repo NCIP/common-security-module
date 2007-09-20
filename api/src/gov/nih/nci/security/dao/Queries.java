@@ -160,9 +160,11 @@ public class Queries {
 		sqlBfr.append(getStaticStringForUserAndGroupForAttribute2());
 		sqlBfr.append(stbr.toString());
 		
-		int i=1;
+		
 		  PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());
-		  pstmt.setString(i++,objectId );
+		  /*
+		   * int i=1;
+		     pstmt.setString(i++,objectId );
 		  pstmt.setString(i++,loginName);
 		  pstmt.setString(i++,privilegeName);
 		  pstmt.setInt(i++,application_id);
@@ -172,7 +174,7 @@ public class Queries {
 		  pstmt.setString(i++,loginName);
 		  pstmt.setString(i++,privilegeName);
 		  pstmt.setInt(i++,application_id);
-		  pstmt.setInt(i++,application_id);
+		  pstmt.setInt(i++,application_id);*/
 		  
 		  return pstmt;
 		
