@@ -128,6 +128,9 @@ public class ProtectionElementSearchCriteria extends SearchCriteria{
 		 if(pe.getAttribute()!=null){
 		 	ht.put("attribute",pe.getAttribute());
 		 }
+		 if(pe.getValue()!=null){
+			 	ht.put("value",pe.getValue());
+			 }
 		 if(ht.size()==0){
 		 	ht.put("protectionElementName","%");
 		 }

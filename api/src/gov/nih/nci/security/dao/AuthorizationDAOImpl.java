@@ -4880,5 +4880,57 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ "|");
 	}
 
+	public List getAttributeMap(String userName, String className, String privilegeName)
+	{
+		List attributeList = new ArrayList();
+		ResultSet resultSet = null;
+		
+		Session session = HibernateSessionFactoryHelper.getAuditSession(sf);
+		Connection connection = session.connection();
+		
+		PreparedStatement preparedStatement = null;
+		
+		try
+		{
+			preparedStatement = Queries.getQueryforUserAttributeMap(userName, className, privilegeName, this.application.getApplicationId().intValue(),connection);
+			resultSet = preparedStatement.executeQuery();
+
+			while(resultSet.next())
+			{
+				attributeList.add(resultSet.getString(1));				
+			}
+		} 
+		catch (Exception ex) 
+		{
+			ex.printStackTrace();
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||getAttributeMap|Failure|Error in Obtaining the Attribute Map|" + ex.getMessage());
+		} 
+		finally 
+		{
+			try 
+			{
+				preparedStatement.close();
+				resultSet.close();
+			} 
+			catch (Exception ex2) 
+			{
+			}
+			try 
+			{
+				session.close();
+			} 
+			catch (Exception ex2) 
+			{
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||getAttributeMap|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||getAttributeMap|Success|Successful in Obtaining the Attribute Map|");
+		return attributeList; 		
+	}
+
 	
 }

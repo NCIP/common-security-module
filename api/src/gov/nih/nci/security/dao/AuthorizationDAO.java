@@ -445,7 +445,8 @@ public interface AuthorizationDAO {
 	public List getAccessibleGroups(String objectId, String attributeName, String privilegeName) throws CSException;
 
 	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException;
-	
-	
+
+	public List getAttributeMap(String userName, String className, String privilegeName);
+
 }
 
