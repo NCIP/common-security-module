@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,6 +20,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.exception.GenericJDBCException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.hibernate.exception.SQLGrammarException;
+import org.hibernate.mapping.PersistentClass;
+import org.hibernate.mapping.RootClass;
 
 import com.mysql.jdbc.CommunicationsException;
 
@@ -114,6 +117,72 @@ public class JDBCHelper {
 
 	}
 
+	
+	
+	/**
+	 * This method uses Hibernates SessionFactory to get a Session and using Hibernates Criteria does a sample query 
+	 * to connection and obtain results as part of testing for successful connection.
+	 * 
+	 * Based on the kind of exceptions this method throws CSException with appropriate message.
+	 * @param appForm -
+	 *            The ApplicationForm with application database parameters to
+	 *            test connection for.
+	 * @return String - The message indicating that connection and a SQL query
+	 *         was successful
+	 * @throws CSException -
+	 *             The exception message indicates which kind of application
+	 *             database parameters are invalid.
+	 */
+	public static String testConnectionHibernate(Configuration configuration) throws CSException {
+		
+		
+		SessionFactory sf = null;
+		try {
+			
+			sf = configuration.buildSessionFactory();
+			
+			Session session = sf.openSession();
+			
+			Connection conn = session.connection();
+			
+			Statement stmt = conn.createStatement();
+			stmt.execute("select count(*) from csm_application");
+			ResultSet rs = stmt.getResultSet();
+			
+			rs.close();
+			stmt.close();
+			conn.close();
+			
+			session.close();
+			return DisplayConstants.APPLICATION_DATABASE_CONNECTION_SUCCESSFUL;
+		
+		} catch(Throwable t){
+			// Depending on the cause of the exception obtain message and throw a CSException.
+			if(t instanceof SQLGrammarException){
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getCause().getMessage());
+			}
+			if(t instanceof JDBCConnectionException){
+				if(t.getCause() instanceof CommunicationsException){
+					throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_SERVER_PORT);
+				}
+				if(t.getCause() instanceof SQLException){
+					throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL);
+				}
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
+			}
+			if(t instanceof GenericJDBCException){
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS+"<BR>");
+			}
+			if(t instanceof HibernateException){
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
+			}
+			
+			throw new CSException(
+					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS);
+		}
+
+	}
+	
 	/**
 	 * testConnection method accepts
 	 * 
@@ -168,5 +237,8 @@ public class JDBCHelper {
 
 		return message;
 	}
+	
+	
+	
 
 }

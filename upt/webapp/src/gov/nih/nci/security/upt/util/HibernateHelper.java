@@ -4,7 +4,6 @@ import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
-import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.util.FileLoader;
 
 import java.io.ByteArrayInputStream;
@@ -53,12 +52,14 @@ public class HibernateHelper
 		try
 		{
 			Configuration configuration = new Configuration().configure(url);
+			JDBCHelper.testConnectionHibernate(configuration);
 			sessionFactory = configuration.buildSessionFactory();
 		}
 		catch (Exception exception)
 		{
-			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File");
+			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+"<BR>"+exception.getMessage());
 		}
+		
 		if (null == sessionFactory)
 			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File");
 		else

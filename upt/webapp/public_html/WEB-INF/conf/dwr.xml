@@ -7,5 +7,11 @@
       <include method="getAssociatedClasses"/>
       <include method="getAssociatedAttributes"/>
     </create>
+    <convert match="gov.nih.nci.security.exceptions.CSException" converter="exception">
+    	<param name='include' value='message,lineNumber'/>
+    </convert>
+    <convert match="java.lang.StackTraceElement" converter="bean"/>
+    
   </allow>
+  
 </dwr>
