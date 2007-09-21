@@ -647,7 +647,7 @@ public class Queries {
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ugrpg.user_id = u.user_id");
-		stbr.append("            AND pe.attribute !=''");
+		stbr.append("            AND (pe.attribute is not null or pe.attribute <> '')");
 		stbr.append("            AND pe.object_id=?");
 		stbr.append("            AND u.login_name=?");
 		stbr.append("            AND p.privilege_name=?");

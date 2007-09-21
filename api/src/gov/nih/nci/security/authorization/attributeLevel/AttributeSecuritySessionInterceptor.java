@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.userdetails.UserDetails;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
@@ -21,20 +22,19 @@ public class AttributeSecuritySessionInterceptor extends EmptyInterceptor
 	@Override
 	public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types)
 	{
-		Object object = ThreadVariable.get();
 		String userName = null;
-		if (object instanceof UserDetails)
+		userName = SecurityContextHolder.getContext().getAuthentication().getName();
+		if (null == userName)
 		{
-			UserDetails userDetails = (UserDetails) object;
-			userName = userDetails.getUsername();
-		}
-		else if (object instanceof UserInfo)
-		{
-			userName = ((UserInfo)object).getUsername();
-		}
-		else
-		{
-			userName = (String)object;
+			Object object = ThreadVariable.get();
+			if (object instanceof UserInfo)
+			{
+				userName = ((UserInfo)object).getUsername();
+			}
+			else
+			{
+				userName = (String)object;
+			}
 		}
 		List attributeList = UserClassAttributeMapCache.getAttributeMap(userName, entity.getClass().getName());
 		if (attributeList == null)
