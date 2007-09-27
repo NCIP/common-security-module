@@ -1310,11 +1310,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSException("Attribute can't be null!");
 		} finally {
 			try {
-				
-				session.close();
-				resultSet.close();
-				connection.close();
-				preparedStatement.close();
+				if(resultSet!=null) resultSet.close();
+				if(connection!=null) connection.close();
+				if(preparedStatement!=null) preparedStatement.close();
+				if(session!=null) session.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
