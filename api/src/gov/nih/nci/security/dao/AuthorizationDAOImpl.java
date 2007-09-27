@@ -1308,6 +1308,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		catch (Exception e) {
 			throw new CSException("Attribute can't be null!");
+		} finally {
+			try {
+				
+				session.close();
+				resultSet.close();
+				connection.close();
+				preparedStatement.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||getAccessibleGroups||Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
 		}
 		
 		
