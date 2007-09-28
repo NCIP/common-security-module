@@ -53,6 +53,7 @@ public class HibernateHelper
 		{
 			Configuration configuration = new Configuration().configure(url);
 			JDBCHelper.testConnectionHibernate(configuration);
+			
 			sessionFactory = configuration.buildSessionFactory();
 		}
 		catch (Exception exception)

@@ -137,23 +137,21 @@ public class JDBCHelper {
 		
 		
 		SessionFactory sf = null;
+		
+		ResultSet rs = null;
+		Statement stmt=null;
+		Connection conn = null;
+		Session session = null;
 		try {
 			
 			sf = configuration.buildSessionFactory();
 			
-			Session session = sf.openSession();
-			
-			Connection conn = session.connection();
-			
-			Statement stmt = conn.createStatement();
+			session = sf.openSession();
+			conn = session.connection();
+			stmt = conn.createStatement();
 			stmt.execute("select count(*) from csm_application");
-			ResultSet rs = stmt.getResultSet();
+			rs = stmt.getResultSet();
 			
-			rs.close();
-			stmt.close();
-			conn.close();
-			
-			session.close();
 			return DisplayConstants.APPLICATION_DATABASE_CONNECTION_SUCCESSFUL;
 		
 		} catch(Throwable t){
@@ -179,6 +177,15 @@ public class JDBCHelper {
 			
 			throw new CSException(
 					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS);
+		}finally{
+			try{
+				sf.close();
+				rs.close();
+				stmt.close();
+				conn.close();
+				session.close();
+			}catch(Exception e){}
+
 		}
 
 	}
