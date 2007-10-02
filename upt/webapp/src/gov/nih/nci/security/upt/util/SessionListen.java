@@ -25,28 +25,7 @@ public class SessionListen implements HttpSessionListener {
 	  try{
 		    HttpSession session = se.getSession();
 		    
-		    SessionFactory sf = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY);
-		    if(sf!=null){
-		    	sf.close();
-		    	sf = null;
-		    }
-		   
-		    Vector<String> v = new Vector<String>();
-		    URLClassLoader sysloader = (URLClassLoader)Thread.currentThread().getContextClassLoader();
-		 	ClassLoaderUtil.releaseLoader(sysloader,v);
-		    
-		    File fileArray[] = (File[]) session.getAttribute(DisplayConstants.HIBERNATE_CONFIG_FILE_JAR);
-		    if(fileArray!=null){
-		       
-			    for(int i=0; i<fileArray.length;i++){
-			    	if(fileArray[i].exists()){
-			    		fileArray[i].delete();
-			    		fileArray[i] = null;
-			    	}
-					
-				}
-		    }
-    
+		    ClassPathLoader.releaseJarsFromClassPath(session);
     
 		    session.invalidate();
     

@@ -1,11 +1,17 @@
 package gov.nih.nci.security.upt.util;
 
+import gov.nih.nci.security.upt.constants.DisplayConstants;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Vector;
+
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.SessionFactory;
 
 public class ClassPathLoader {
 
@@ -37,11 +43,30 @@ public class ClassPathLoader {
 
 	}
 	
-	public static void releaseJarsFromClassPath(Vector<String> v ){
+	public static void releaseJarsFromClassPath(HttpSession session){
 		
+		SessionFactory sf = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY);
+	    if(sf!=null){
+	    	sf.close();
+	    	sf = null;
+	    }
+	   
+	    Vector<String> v = new Vector<String>();
 	    URLClassLoader sysloader = (URLClassLoader)Thread.currentThread().getContextClassLoader();
-	    
 	 	ClassLoaderUtil.releaseLoader(sysloader,v);
+	    
+	    File fileArray[] = (File[]) session.getAttribute(DisplayConstants.HIBERNATE_CONFIG_FILE_JAR);
+	    if(fileArray!=null){
+	       
+		    for(int i=0; i<fileArray.length;i++){
+		    	
+		    	if(fileArray[i]!=null && fileArray[i].exists()){
+		    		fileArray[i].delete();
+		    		fileArray[i] = null;
+		    	}
+				
+			}
+	    }
 		
 	}
 

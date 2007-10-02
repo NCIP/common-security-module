@@ -31,6 +31,7 @@ import org.directwebremoting.WebContextFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cache.CacheException;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
@@ -44,7 +45,7 @@ import org.hibernate.type.Type;
 public class HibernateHelper
 {
 
-	public static SessionFactory loadSessionFactory (String fileName) throws CSConfigurationException
+	public static SessionFactory loadSessionFactory (String fileName, HttpSession sess) throws CSConfigurationException
 	{
 		FileLoader fileLoader = FileLoader.getInstance();
 		URL url = fileLoader.getFileAsURL(fileName);
@@ -55,6 +56,12 @@ public class HibernateHelper
 			JDBCHelper.testConnectionHibernate(configuration);
 			
 			sessionFactory = configuration.buildSessionFactory();
+		}
+		catch (CacheException e)
+		{
+			
+			ClassPathLoader.releaseJarsFromClassPath(sess);
+			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+"<BR>"+e.getMessage());
 		}
 		catch (Exception exception)
 		{

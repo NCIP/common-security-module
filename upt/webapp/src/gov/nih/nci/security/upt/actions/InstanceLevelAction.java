@@ -303,6 +303,7 @@ public class InstanceLevelAction extends DispatchAction
 		ActionMessages messages = new ActionMessages();
 		
 		HttpSession session = request.getSession();
+			
 		InstanceLevelForm instanceLevelForm = (InstanceLevelForm)form;
 		
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
@@ -319,6 +320,10 @@ public class InstanceLevelAction extends DispatchAction
 		
 		formFileList[0] = instanceLevelForm.getUploadedFile1();
 		formFileList[1] = instanceLevelForm.getUploadedFile2();
+		
+		
+		//Remove previuosly uploaded jars from ClassPathLoader.
+		ClassPathLoader.releaseJarsFromClassPath(session);
 		
 		List fileList = new ArrayList();
 		for (int i = 0 ; i < 2 ; i ++)
@@ -398,7 +403,7 @@ public class InstanceLevelAction extends DispatchAction
 		
 		try
 		{
-			SessionFactory sessionFactory = HibernateHelper.loadSessionFactory(hibernateFileName);
+			SessionFactory sessionFactory = HibernateHelper.loadSessionFactory(hibernateFileName, session);
 			
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+

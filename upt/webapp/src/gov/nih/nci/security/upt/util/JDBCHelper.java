@@ -1,12 +1,16 @@
 package gov.nih.nci.security.upt.util;
 
+import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
+import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.upt.constants.DisplayConstants;
+import gov.nih.nci.security.upt.forms.ApplicationForm;
+import gov.nih.nci.security.upt.forms.BaseDBForm;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -14,27 +18,15 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cache.CacheException;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.exception.GenericJDBCException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.hibernate.exception.SQLGrammarException;
-import org.hibernate.mapping.PersistentClass;
-import org.hibernate.mapping.RootClass;
 
 import com.mysql.jdbc.CommunicationsException;
-
-import gov.nih.nci.logging.api.domain.LogMessage;
-import gov.nih.nci.security.SecurityServiceProvider;
-import gov.nih.nci.security.authorization.domainobjects.Application;
-import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
-import gov.nih.nci.security.exceptions.CSConfigurationException;
-import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.system.ApplicationSessionFactory;
-import gov.nih.nci.security.upt.constants.DisplayConstants;
-import gov.nih.nci.security.upt.forms.ApplicationForm;
-import gov.nih.nci.security.upt.forms.BaseDBForm;
 
 /**
  * JDBC Helper class is created to test the database connection parameters
@@ -170,6 +162,10 @@ public class JDBCHelper {
 			}
 			if(t instanceof GenericJDBCException){
 				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS+"<BR>");
+			}
+			if(t instanceof CacheException){
+				throw new CacheException("Please Try Again.\n ");
+				
 			}
 			if(t instanceof HibernateException){
 				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
