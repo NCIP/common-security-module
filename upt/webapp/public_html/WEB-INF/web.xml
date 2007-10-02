@@ -5,6 +5,10 @@
 
 	<display-name>NCI Security Admin Application</display-name>
 	<description>NCI Security Admin Application</description>
+	<listener>
+	  <listener-class>gov.nih.nci.security.upt.util.SessionListen</listener-class>
+	</listener>
+
 
    <servlet>
       <servlet-name>action</servlet-name>
