@@ -42,10 +42,12 @@
 								<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 								<tr>
 									<tr>
-										<td class="formMessage" colspan="3">Enter the details to add a new Role. 
-										The <b>Upload File</b> is the path of the file containing the domain objects, hibernate mapping file and complete hibernate configuration file. 
-										The uploaded file should be a valid Java Archive (jar) File.
-										The <b>File Name</b> is the fully qualified file name of the hibernate configuration file in the uploaded jar file.</td>
+										<td class="formMessage" colspan="3">Enter the path's of the Application Jar files containing the Hibernate Files and the Domain Object. Also you provide 
+										the name of the Hibernate configuration File to be used. 
+										The <b>Application Jar File</b> is the path of the file containing the domain objects, hibernate mapping file and complete hibernate configuration file. 
+										The uploaded file should be a valid Java Archive (jar) File. <b>NOTE:</b> For an SDK generated system, you can upload the second Application Jar File 
+										using the second upload field. This is optional for applications which have their Hibernate Files and Domain Objects packaged into a single Jar File. 
+										The <b>Hibernate Configuration File Name</b> is the fully qualified file name of the hibernate configuration file in the uploaded jar file.</td>
 									</tr>
 									<tr>
 										<td class="formMessage" colspan="3">* indicates a required field</td>

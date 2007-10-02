@@ -38,14 +38,12 @@
 
 					<h3>Instance Level Home</h3>
 
-					<p>This is the InstanceLevel section of the User Provisioning Tool. A InstanceLevel
-					is simply a collection of application Privileges. By combining
-					Privileges into a InstanceLevel, it becomes easier to associate Users and
-					Groups with rights to a particular data set. <br>
-					In the User or Group portion of the UPT, you may assign InstanceLevels to Users. In this section you may create new InstanceLevels, modify existing
-					InstanceLevel details, and assign or deassign Privileges to the InstanceLevel. Please
-					begin by selecting either <b>Create a New InstanceLevel</b> or <b>Select an Existing
-					InstanceLevel</b>.</p>
+					<p>This is the InstanceLevel section of the User Provisioning Tool. Instance Level
+					is a feature provided by CSM to allow filtering of the instance of data directly at the database level by creating filter criteria's and
+					linking them with allowed values from CSM tables.<br>
+					In this section you may create upload an application jar file containing the Hibernate file and the Domain Objects, Create a new
+					Filter Clause or Search for exisiting filter clauses. Please
+					begin by selecting either <b>Upload the Jar File</b>, <b>Add New Security Filter</b> or <b>Select an Existing Security Filter</b>.</p>
 					</td>
 				</tr>
 				<tr>
@@ -87,7 +85,7 @@
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an
 									Existing Security Filter</a><br>
-									Enter the object name to find the Instance Level Security Filter for it.</td>
+									Enter the Class Name to find the Instance Level Security Filter for it.</td>
 								</tr>
 							</table>
 							</td>
