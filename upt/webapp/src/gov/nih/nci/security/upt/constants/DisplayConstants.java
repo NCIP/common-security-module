@@ -123,6 +123,8 @@ public class DisplayConstants
 	public static final String CURRENT_ACTION = "CURRENT_ACTION";
 	public static final String HIBERNATE_SESSIONFACTORY = "HIBERNATE_SESSIONFACTORY";
 	public static final String JAR_FILE_LIST = "JAR_FILE_LIST";
+	public static final String HIBERNATE_CONFIG_FILE_JAR = "HIBERNATE_CONFIG_FILE_JAR";
+	
 	
 	public static final String CREATE_WORKFLOW = "CREATE_WORKFLOW";
 	

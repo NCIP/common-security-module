@@ -153,6 +153,7 @@ public class InstanceLevelAction extends DispatchAction
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 		session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
+		
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -168,6 +169,7 @@ public class InstanceLevelAction extends DispatchAction
 		ActionMessages messages = new ActionMessages();
 		
 		HttpSession session = request.getSession();
+		
 		InstanceLevelForm instanceLevelForm = (InstanceLevelForm)form;
 		
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
@@ -312,6 +314,9 @@ public class InstanceLevelAction extends DispatchAction
 		//errors = form.validate(mapping, request);
 		FormFile formFileList[] = new FormFile[2];
 		
+		File fileArray[] = new File[2];
+		int fileArrayCount = 0;
+		
 		formFileList[0] = instanceLevelForm.getUploadedFile1();
 		formFileList[1] = instanceLevelForm.getUploadedFile2();
 		
@@ -354,6 +359,9 @@ public class InstanceLevelAction extends DispatchAction
 						fileOutputStream.write(fileData);
 						ClassPathLoader.addFile(tempFile);
 						fileList.add(tempFile.getPath());
+						
+						fileArray[fileArrayCount++] = tempFile;
+						
 					}
 					catch (IOException e)
 					{
@@ -386,10 +394,12 @@ public class InstanceLevelAction extends DispatchAction
 				}
 			}
 		}
-		String hibernateFileName = instanceLevelForm.getHibernateFileName();	
+		String hibernateFileName = instanceLevelForm.getHibernateFileName();
+		
 		try
 		{
 			SessionFactory sessionFactory = HibernateHelper.loadSessionFactory(hibernateFileName);
+			
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+instanceLevelForm.getFormName()+"|create|Success|Obtaining a Session Factory from the Uploaded Jar ||");		
@@ -405,6 +415,7 @@ public class InstanceLevelAction extends DispatchAction
 			}
 			session.setAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY, sessionFactory);
 			session.setAttribute(DisplayConstants.JAR_FILE_LIST, fileList);
+			session.setAttribute(DisplayConstants.HIBERNATE_CONFIG_FILE_JAR,fileArray);
 		}
 		catch (CSConfigurationException e)
 		{
@@ -437,6 +448,9 @@ public class InstanceLevelAction extends DispatchAction
 	}
 
 	
+	
+
+
 	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
