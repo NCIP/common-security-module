@@ -61,7 +61,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
+		//System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
 		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("security");
 
 		//Initialize the userList - used to check the "get" functions
@@ -196,14 +196,15 @@ public class UserProvisioningManagerTest extends TestCase {
 		this.testRemoveGroupRoleFromProtectionGroup(); 
     	
 		//DELETE EVERYTHING
-		this.testRemoveGroup();
+		/*
+		  this.testRemoveGroup();
 		this.testRemovePrivilege();
 		this.testRemoveRole();
 		this.testRemoveProtectionElement();
 		this.testRemoveProtectionGroup();
 		this.testRemoveUser();
     	this.testRemoveApplication();
-
+*/
     	Date endDateTime = new Date(System.currentTimeMillis());
 		Calendar endCal = Calendar.getInstance();  
 		endCal.setTime(endDateTime);
