@@ -21,11 +21,12 @@
 			}
 		}
     
-    	function opennewwin()
+    	function opennewwin(appContext)
     	{
+    	
     		newwin = window.open("about:blank", "UserSearchWin", "left=100,top=190,scrollbars=1,width=790,height=400");
     		newwin.document.open();
-    		newwin.document.writeln('<form name="UserForm" method="post" action="/upt/SearchUserDBOperation.do" id="UserForm">');
+    		newwin.document.writeln('<form name="UserForm" method="post" action="/'+appContext+'/SearchUserDBOperation.do" id="UserForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
     		newwin.document.writeln('</form>');
     		newwin.document.close();
@@ -211,7 +212,20 @@
 					<tr>
 						
 						<td align="center">
-							<input type="button" value="Assign User" onclick="closepopup();opennewwin();"></td>
+						<script>
+							var tempURL = window.location+"";			
+
+
+							var url_array= tempURL.split("/");
+							var contextTemp = url_array[3]+"";
+							var temp = contextTemp.toLowerCase();
+
+							document.write('<input type="button" value="Assign User" onclick="closepopup();opennewwin(contextTemp);">');
+						
+						</script>
+							</td>
+						
+						
 						<td align="center">
 							<input type="button" value="Deassign User" onclick="selSwitch(this);"></td>
 						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>

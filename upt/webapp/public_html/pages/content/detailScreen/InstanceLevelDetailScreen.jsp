@@ -9,8 +9,8 @@
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
 
-<script type='text/javascript' src='/upt/dwr/interface/InstanceLevelHelper.js'></script>
-<script type='text/javascript' src='/upt/dwr/engine.js'></script>
+<script type='text/javascript' src='dwr/interface/InstanceLevelHelper.js'></script>
+<script type='text/javascript' src='dwr/engine.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script> 
  
 <script>
