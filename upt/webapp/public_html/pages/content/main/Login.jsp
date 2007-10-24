@@ -105,14 +105,13 @@
 								<table summary="" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSectionLogin">
 									<tr>
-										<td class="sidebarTitle" height="20">WHAT'S NEW</td>
+										<td class="sidebarTitle" height="20">WHAT'S NEW IN 4.0</td>
 									</tr>
 									<tr>
 										<td class="sidebarContent">
-											<li>New fields for supplying database connection information for an application (configuration files are no longer necessary!)
-											<li>New Protection Element Type field will help you organize your Protection Elements
-											<li>Users can now be associated to groups
-											<li>Passwords are now encrypted in the database
+											<li>You can now provision Instance Level Security by creating new security filters
+											<li>Protection Element now has a new "Value" field to store value of object attributes.
+											<li>Test button provided for newly entered database connection parameters to avoid errors
 										</td>
 									</tr>
 								</table>
