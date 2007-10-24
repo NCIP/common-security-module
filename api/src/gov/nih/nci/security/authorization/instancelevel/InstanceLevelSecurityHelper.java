@@ -24,6 +24,14 @@ import org.hibernate.type.Type;
 public class InstanceLevelSecurityHelper
 {
 	
+	/**
+	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
+	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
+	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.
+	 * It then adds the filter to the persistent class by setting the filtering query.
+	 * @param authorizationManager The CSM AuthorizationManager instance for this application
+	 * @param configuration The Hibernate Configuration initialized for this application
+	 */
 	public static void addFilters( AuthorizationManager authorizationManager, Configuration configuration)
 	{
 		FilterClause searchFilterClause = new FilterClause();
@@ -45,6 +53,14 @@ public class InstanceLevelSecurityHelper
 		}
 	}
 
+	/**
+	 * This method initializes the filter that are already added to the Sessionfactory. This method first obtains the list of all the 
+	 * defined filters from the SessionFactory in the passes Session object. It then just iterates through the filter list and sets 
+	 * the user name and the application name parameter. It  retrieves the Application Name from the 
+	 * @param userName The name of the logged in user which is invoking the query
+	 * @param session The Hibernate Session initialized to execute this query
+	 * @param authorizationManager The CSM AuthorizationManager instance for this application
+	 */
 	public static void initializeFilters (String userName, Session session, AuthorizationManager authorizationManager)
 	{
 		SessionFactory sessionFactory = session.getSessionFactory();

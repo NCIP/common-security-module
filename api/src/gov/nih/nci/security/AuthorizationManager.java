@@ -1068,7 +1068,7 @@ public interface AuthorizationManager {
 	
 	
 	/**
-	 * This removed the Filter Clause object from the database for the passed id.
+	 * This method removes the Filter Clause object from the database for the passed id.
 	 * @param filterClauseId the id of the Filter Clause object which is to be removed from the database 
 	 * @throws CSTransactionException if there is any error in the deletion of the Filter CLause Ojbect
 	 */
