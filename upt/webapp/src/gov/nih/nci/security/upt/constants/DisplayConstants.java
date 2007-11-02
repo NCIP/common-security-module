@@ -195,6 +195,7 @@ public class DisplayConstants
 	
 	public static final String UPT_CONTEXT_NAME = "csmupt";
 	
+	public static final String LOGIN_EXCEPTION_MESSAGE = "Invalid Login Credentials";
 	
 	public static final String APPLICATION_DATABASE_CONNECTION_SUCCESSFUL = "Application Database information is valid. Test connection succesful.";
 	public static final String APPLICATION_DATABASE_CONNECTION_FAILED = "Application Database information is not valid. Correct and test connection.";
