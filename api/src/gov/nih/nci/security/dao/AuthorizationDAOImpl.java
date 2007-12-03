@@ -2280,10 +2280,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}
 				
 				s.update(user);
+				
+				t.commit();
+				s.flush();
+			}else{
+				t.rollback();
 			}
 
-			t.commit();
-			s.flush();
+			//t.commit();
+			//s.flush();
 			auditLog.info("Deassigning User " + user.getLoginName() + " from Group " + group.getGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
