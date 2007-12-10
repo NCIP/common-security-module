@@ -2264,10 +2264,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
 			
-			
 			t = s.beginTransaction();
-			Set groups = user.getGroups();
 			
+			Set groups = user.getGroups();
 			if (groups.contains(group)) {
 				groups.remove(group);
 				user.setGroups(groups);
@@ -2279,12 +2278,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}
 				
 				s.update(user);
+				
 				t.commit();
+				s.flush();
+			}else{
+				t.rollback();
 			}
-			
 
-			
-			s.flush(); 
+			//t.commit();
+			//s.flush();
 			auditLog.info("Deassigning User " + user.getLoginName() + " from Group " + group.getGroupName());
 		} catch (Exception ex) {
 			log.error(ex);
