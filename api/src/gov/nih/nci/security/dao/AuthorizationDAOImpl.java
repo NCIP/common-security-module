@@ -363,7 +363,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			Group group = getGroup(groupName);
+			if (group==null) {
+				throw new CSTransactionException("Group does not exist.");
+			}
+
 			User user = getUser(userName);
+			if (user==null) {
+				throw new CSTransactionException("User does not exist.");
+			}
+
+
 			try {
 				user = (User) performEncrytionDecryption(user, true);
 			} catch (EncryptionException e) {
@@ -380,7 +389,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				Iterator i = groups.iterator();
 				while (i.hasNext()) {
 					Group temp = (Group) i.next();
-					if (group.getName().equals(temp.getName())) {
+					if (group.getGroupName().equals(temp.getGroupName())) {
 						hasGroupAlready = true;
 						break;
 					}
@@ -2264,7 +2273,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
 			
-			t = s.beginTransaction();
+			
 			
 			Set groups = user.getGroups();
 			if (groups.contains(group)) {
@@ -2276,13 +2285,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				} catch (EncryptionException e) {
 					throw new CSObjectNotFoundException(e);
 				}
+			
 				
+				t = s.beginTransaction();
 				s.update(user);
 				
 				t.commit();
 				s.flush();
 			}else{
-				t.rollback();
+				//t.rollback();
 			}
 
 			//t.commit();
