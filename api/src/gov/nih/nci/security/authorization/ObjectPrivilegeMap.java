@@ -100,7 +100,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
  *  This class represents the privileges for a protection Element for a user.
  * @author kumarvi
  */
-public class ObjectPrivilegeMap {
+public class ObjectPrivilegeMap implements Comparable {
 	
 	private ProtectionElement pe;
 	private Collection privileges;
@@ -125,4 +125,25 @@ public class ObjectPrivilegeMap {
     public Collection getPrivileges(){
     	return privileges;
     }
+	
+    public int compareTo(Object o) {
+		if(o instanceof ObjectPrivilegeMap){
+			ObjectPrivilegeMap opm = (ObjectPrivilegeMap) o;	
+			return this.getProtectionElement().getProtectionElementName().compareToIgnoreCase(opm.getProtectionElement().getProtectionElementName()); 
+		}
+		return 0;
+	}
+	
+	public boolean equals(Object obj){
+		ObjectPrivilegeMap other = (ObjectPrivilegeMap)obj;
+		if(this.getProtectionElement()==null  || other.getProtectionElement()==null){
+			return false;
+		}
+		if(this.getProtectionElement().getProtectionElementId().toString().equals(other.getProtectionElement().getProtectionElementId().toString())){
+			return true;
+		}else{
+			return false;	
+		}
+		
+	}
 }
