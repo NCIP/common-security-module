@@ -4646,7 +4646,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 				s.close();
 				rs.close();
-				pstmt.close();
+				if(pstmt!=null)
+					pstmt.close();
 				
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
