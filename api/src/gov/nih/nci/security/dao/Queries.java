@@ -436,7 +436,39 @@ public class Queries {
 	{
 		StringBuffer stbr = new StringBuffer();
 
-		stbr.append("SELECT DISTINCT pe.protection_element_id pe_id, p.privilege_id p_id");
+		
+		stbr.append("SELECT DISTINCT pgpe.protection_element_id AS pe_id, rp.privilege_id AS p_id");
+		stbr.append("           FROM csm_protection_group pg,");
+		stbr.append("                csm_pg_pe pgpe,");
+		stbr.append("                csm_role_privilege rp,");
+		stbr.append("                csm_user_group_role_pg ugrpg");
+		stbr.append("          WHERE pgpe.protection_group_id = pg.protection_group_id");
+		stbr.append("            AND (   pg.parent_protection_group_id = ugrpg.protection_group_id");
+		stbr.append("                 OR pg.protection_group_id = ugrpg.protection_group_id");
+		stbr.append("                )");
+		stbr.append("            AND ugrpg.role_id = rp.role_id");
+		stbr.append("            AND pg.application_id = "+application_id);
+		stbr.append("            AND (   ugrpg.user_id = ").append(user_id);
+		stbr.append("                 OR ugrpg.GROUP_ID IN (SELECT ug.GROUP_ID");
+		stbr.append("                                         FROM csm_user_group ug");
+		stbr.append("                                        WHERE ug.user_id = ").append(user_id);
+		stbr.append("             )   )");
+		stbr.append("UNION ALL");
+		stbr.append(" SELECT DISTINCT upe.protection_element_id AS pe_id, 0 AS p_id");
+		stbr.append("           FROM csm_user_pe upe, csm_protection_element cpe");
+		stbr.append("          WHERE cpe.protection_element_id = upe.protection_element_id");
+		stbr.append("            AND upe.user_id = ").append(user_id);
+		stbr.append("            AND cpe.application_id = "+application_id);
+		stbr.append("       ORDER BY pe_id, p_id");
+
+
+
+		
+		
+
+		
+		
+		/*stbr.append("SELECT DISTINCT pe.protection_element_id pe_id, p.privilege_id p_id");
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_privilege p,");
@@ -480,7 +512,7 @@ public class Queries {
 		stbr.append("      WHERE cpe.protection_element_id = upe.protection_element_id ");
 		stbr.append("      and upe.user_id = ").append(user_id);
 		stbr.append("      and cpe.application_id = ").append(application_id);
-		stbr.append(" ORDER BY pe_id, p_id");
+		stbr.append(" ORDER BY pe_id, p_id");*/
 		
 		return stbr.toString();
 		
