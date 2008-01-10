@@ -132,6 +132,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -3428,23 +3429,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElementPrivilegeContextForUser(java.lang.String)
 	 */
 	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException {
-		Set protectionElementPrivilegeContextSet = new HashSet();
-
+		Set protectionElementPrivilegeContextSet = new LinkedHashSet();
+		
+//vnp
 		Session s = null;
 		Connection cn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		
-		String currPEId = null;
-		String prevPEId = null;
-
-		String currPrivilegeId = null;
-		Set privileges = null;
-		Privilege privilege = null;
-		
-		List peList = new ArrayList();
-		List privList = new ArrayList();
-		
+	
 		boolean firstTime = true;
 		ProtectionElementPrivilegeContext protectionElementPrivilegeContext = null;
 		
@@ -3459,41 +3451,67 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			rs = stmt.executeQuery(sql);
 
+			
+			ArrayList<Privilege> tempPrivilegeList = new ArrayList();
+			HashMap hashMapPEPrivs =new HashMap();
+			boolean first = true;
+			String currentPrivilegeId,currentPrivilegeName,currentPEId,currentPEName,currentPEObjectId,previousPEId = null;
 			while(rs.next()){
-				peList.add(rs.getString(1));
-				privList.add(rs.getString(2));
-				
-			}
-			
-			Iterator currPEIdIterator = peList.iterator();
-			Iterator currPrivilegeIdIterator = privList.iterator();
-			
-			while(currPEIdIterator.hasNext()){
-				
-				currPEId = (String)currPEIdIterator.next();
-				currPrivilegeId = (String)currPrivilegeIdIterator.next();
-				
-				if (!currPEId.equals(prevPEId))
+				currentPrivilegeId=rs.getString(2);
+				currentPrivilegeName=rs.getString(3);
+				Privilege currentPrivilege = new Privilege();
+				if (currentPrivilegeId.equals("0"))
 				{
-					protectionElementPrivilegeContext = new ProtectionElementPrivilegeContext();
-					protectionElementPrivilegeContextSet.add(protectionElementPrivilegeContext);
-					ProtectionElement protectionElement = (ProtectionElement) this.getObjectByPrimaryKey(s, ProtectionElement.class, new Long(currPEId));
-					protectionElementPrivilegeContext.setProtectionElement(protectionElement);
-					privileges = new HashSet();
-					protectionElementPrivilegeContext.setPrivileges(privileges);
-					prevPEId = currPEId;
-				}
-				if (currPrivilegeId.equals("0"))
-				{
-					privilege = new Privilege();
-					privilege.setName("OWNER");
+					currentPrivilege= new Privilege();
+					currentPrivilege.setName("OWNER");
 				}
 				else
 				{
-					privilege = (Privilege)this.getObjectByPrimaryKey(s, Privilege.class, new Long(currPrivilegeId));
+					currentPrivilege.setId(Long.valueOf(currentPrivilegeId));
+					currentPrivilege.setName(currentPrivilegeName);
 				}
-				privileges.add(privilege);
+				
+				currentPEId = rs.getString(1);
+				currentPEName = rs.getString(4);
+				currentPEObjectId = rs.getString(5);
+				if(currentPEId.equals(previousPEId)){
+					tempPrivilegeList.add(currentPrivilege);
+				}else{
+					if(first){
+						first = false;
+						tempPrivilegeList.add(currentPrivilege);
+					}
+					else{
+						tempPrivilegeList = new ArrayList();
+						tempPrivilegeList.add(currentPrivilege);
+					}
+					ProtectionElement pe = new ProtectionElement();
+					pe.setProtectionElementId(Long.valueOf(currentPEId));
+					pe.setProtectionElementName(currentPEId);
+					pe.setObjectId(currentPEObjectId);
+					hashMapPEPrivs.put(pe,tempPrivilegeList);
+				}
+				previousPEId=currentPEId;
 			}
+			
+			Iterator keySetIterator = hashMapPEPrivs.keySet().iterator();
+			while(keySetIterator.hasNext()){
+				ProtectionElement tempCurrentPE= (ProtectionElement)keySetIterator.next();
+				protectionElementPrivilegeContext = new ProtectionElementPrivilegeContext();
+				protectionElementPrivilegeContextSet.add(protectionElementPrivilegeContext);
+				
+				protectionElementPrivilegeContext.setProtectionElement(tempCurrentPE);
+				tempPrivilegeList = (ArrayList<Privilege>)hashMapPEPrivs.get(tempCurrentPE);
+				//convert get Privilege from PrivId.
+				Set tempPrivileges = new HashSet() ;
+				Iterator tempPrivilegeListIterator= tempPrivilegeList.iterator();
+				while(tempPrivilegeListIterator.hasNext()){
+					Privilege tempPriv =(Privilege) tempPrivilegeListIterator.next();
+					tempPrivileges.add(tempPriv);
+				}
+				protectionElementPrivilegeContext.setPrivileges(tempPrivileges);
+			}
+			
 			
 			
 		} catch (Exception ex) {
