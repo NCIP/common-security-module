@@ -155,6 +155,7 @@ public class ProtectionElementPrivilegeContext implements Comparable {
 
 	public boolean equals(Object obj){
 		ProtectionElementPrivilegeContext other = (ProtectionElementPrivilegeContext)obj;
+		if(this.getProtectionElement()==null ||  other==null) return false;
 		if(this.getProtectionElement().getProtectionElementName().equals(other.getProtectionElement().getProtectionElementName())){
 			return true;
 		}else{
