@@ -3431,7 +3431,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException {
 		Set protectionElementPrivilegeContextSet = new LinkedHashSet();
 		
-//vnp
+
 		Session s = null;
 		Connection cn = null;
 		Statement stmt = null;
