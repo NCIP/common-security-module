@@ -3487,7 +3487,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					}
 					ProtectionElement pe = new ProtectionElement();
 					pe.setProtectionElementId(Long.valueOf(currentPEId));
-					pe.setProtectionElementName(currentPEId);
+					pe.setProtectionElementName(currentPEName);
 					pe.setObjectId(currentPEObjectId);
 					hashMapPEPrivs.put(pe,tempPrivilegeList);
 				}
