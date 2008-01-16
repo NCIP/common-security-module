@@ -3455,7 +3455,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ArrayList<Privilege> tempPrivilegeList = new ArrayList();
 			HashMap hashMapPEPrivs =new HashMap();
 			boolean first = true;
-			String currentPrivilegeId,currentPrivilegeName,currentPEId,currentPEName,currentPEObjectId,previousPEId = null;
+			String currentPrivilegeId,currentPrivilegeName,currentPEId,currentPEName = null;
+			String currentPEObjectId,currentPEType,currentPEAttri,currentPEAppId,currentPEDesc = null;
+			Date currentPEUpdateDate = null;
+			String previousPEId = null;
 			while(rs.next()){
 				currentPrivilegeId=rs.getString(2);
 				currentPrivilegeName=rs.getString(3);
@@ -3471,9 +3474,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					currentPrivilege.setName(currentPrivilegeName);
 				}
 				
-				currentPEId = rs.getString(1);
-				currentPEName = rs.getString(4);
-				currentPEObjectId = rs.getString(5);
+				currentPEId = rs.getString("protection_element_id");
+				currentPEName = rs.getString("protection_element_name");
+				currentPEDesc = rs.getString("protection_element_description");
+				currentPEObjectId = rs.getString("object_id");
+				currentPEType = rs.getString("protection_element_type");
+				currentPEAttri= rs.getString("attribute");
+				currentPEUpdateDate= rs.getDate("update_date");
+				currentPEAppId =rs.getString("application_id");
 				if(currentPEId.equals(previousPEId)){
 					tempPrivilegeList.add(currentPrivilege);
 				}else{
@@ -3488,7 +3496,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					ProtectionElement pe = new ProtectionElement();
 					pe.setProtectionElementId(Long.valueOf(currentPEId));
 					pe.setProtectionElementName(currentPEName);
+					pe.setProtectionElementDescription(currentPEDesc);
 					pe.setObjectId(currentPEObjectId);
+					pe.setProtectionElementType(currentPEType);
+					pe.setAttribute(currentPEAttri);
+					pe.setUpdateDate(currentPEUpdateDate);
+					
 					hashMapPEPrivs.put(pe,tempPrivilegeList);
 				}
 				previousPEId=currentPEId;
