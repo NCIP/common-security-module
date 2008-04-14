@@ -665,5 +665,106 @@ public class Queries {
 		
 	}
 
+	protected static PreparedStatement getQueryforGroupAttributeMap(String groupName, String className, String privilegeName, int application_id, Connection cn) throws SQLException
+	{
+		
+		StringBuffer stbr = new StringBuffer();
+
+		stbr.append("SELECT DISTINCT pe.attribute");
+		stbr.append("      FROM  csm_protection_element pe,");
+		stbr.append("            csm_protection_group pg,");
+		stbr.append("            csm_privilege p,");
+		stbr.append("            csm_group g,");
+		stbr.append("            csm_pg_pe pgpe,");
+		stbr.append("            csm_role r,");
+		stbr.append("            csm_role_privilege rp,");
+		stbr.append("            csm_user_group_role_pg ugrpg");
+		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
+		stbr.append("            AND ugrpg.role_id = rp.role_id");
+		stbr.append("            AND rp.privilege_id = p.privilege_id");
+		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("            AND ugrpg.group_id = g.group_id");
+		stbr.append("            AND (pe.attribute is not null or pe.attribute <> '')");
+		stbr.append("            AND pe.object_id=?");
+		stbr.append("            AND g.group_name =?");
+		stbr.append("            AND p.privilege_name=?");
+		stbr.append("            AND pe.application_id=?");
+		
+
+		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		int i=1;
+		pstmt.setString(i++,className);
+		pstmt.setString(i++,groupName);
+		pstmt.setString(i++,privilegeName);
+		pstmt.setInt(i++,application_id);
+		
+		return pstmt;
+		
+	}
+
+	/*
+	protected static PreparedStatement getQueryforGroupsAttributeMap(String[] groupNames, String className, String privilegeName, int application_id, Connection cn) throws SQLException
+	{
+		//TODO Today
+		
+		StringBuffer stbr = new StringBuffer();
+
+		stbr.append("SELECT DISTINCT pe.attribute");
+		stbr.append("      FROM  csm_protection_element pe,");
+		stbr.append("            csm_protection_group pg,");
+		stbr.append("            csm_privilege p,");
+		stbr.append("            csm_group g,");
+		stbr.append("            csm_pg_pe pgpe,");
+		stbr.append("            csm_role r,");
+		stbr.append("            csm_role_privilege rp,");
+		stbr.append("            csm_user_group_role_pg ugrpg");
+		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
+		stbr.append("            AND ugrpg.role_id = rp.role_id");
+		stbr.append("            AND rp.privilege_id = p.privilege_id");
+		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("            AND ugrpg.group_id = g.group_id");
+		stbr.append("            AND (pe.attribute is not null or pe.attribute <> '')");
+		stbr.append("            AND pe.object_id=?");
+		stbr.append("            AND g.group_name ");
+		int count = 0;
+		if(groupNames.length>0){
+			if(groupNames.length==1){
+				stbr.append(" = '"+groupNames[count]+"' ");
+			}else{
+				stbr.append(" IN (");
+				if(count==0){
+					for(;count<groupNames.length;count++){
+						stbr.append(" ? ");
+						if(groupNames.length-count == 1){
+							stbr.append(" )");
+						}else{
+							stbr.append(" ,");
+						}
+					}
+				}
+			}
+		}
+		stbr.append("            AND p.privilege_name=?");
+		stbr.append("            AND pe.application_id=?");
+		
+
+		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		int i=1;
+		pstmt.setString(i++,className);
+		count = 0;
+		for(;count<groupNames.length;count++){
+			pstmt.setString(i++,groupNames[count]);
+		}
+		
+		pstmt.setString(i++,privilegeName);
+		pstmt.setInt(i++,application_id);
+		
+		return pstmt;
+		
+	}*/
+
+	
 	
 }

@@ -14,7 +14,9 @@ public class FilterClause implements Comparable
 	private String targetClassAttributeType;
 	private String targetClassAlias;
 	private String targetClassAttributeAlias;
-	private String generatedSQL;
+	//private String generatedSQL;
+	private String generatedSQLForUser;
+	private String generatedSQLForGroup;
 	private Application application;
 	private Date updateDate;
 	
@@ -48,7 +50,7 @@ public class FilterClause implements Comparable
 		this.filterChain = filterChain;
 	}
 	
-	public String getGeneratedSQL()
+	/*public String getGeneratedSQL()
 	{
 		return generatedSQL;
 	}
@@ -56,7 +58,7 @@ public class FilterClause implements Comparable
 	public void setGeneratedSQL(String generatedSQL)
 	{
 		this.generatedSQL = generatedSQL;
-	}
+	}*/
 	
 	public Long getId()
 	{
@@ -125,6 +127,7 @@ public class FilterClause implements Comparable
 	}
 
 	
+	
 	/**
 	 * @return Returns the updateDate.
 	 */
@@ -150,5 +153,23 @@ public class FilterClause implements Comparable
 		}
 		return 0;
 	}
+
+	public String getGeneratedSQLForGroup() {
+		return generatedSQLForGroup;
+	}
+
+	public void setGeneratedSQLForGroup(String generatedSQLForGroup) {
+		this.generatedSQLForGroup = generatedSQLForGroup;
+	}
+
+	public String getGeneratedSQLForUser() {
+		return generatedSQLForUser;
+	}
+
+	public void setGeneratedSQLForUser(String generatedSQLForUser) {
+		this.generatedSQLForUser = generatedSQLForUser;
+	}
+
+
 
 }

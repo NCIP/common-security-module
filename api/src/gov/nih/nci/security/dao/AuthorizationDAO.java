@@ -448,5 +448,7 @@ public interface AuthorizationDAO {
 
 	public List getAttributeMap(String userName, String className, String privilegeName);
 
+	public List getAttributeMapForGroup(String groupsName, String className, String privilegeName);
 }
+
 

@@ -1269,6 +1269,14 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	{
 		return authorizationDAO.getAttributeMap(userName, className, privilegeName);
 	}
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#getAttributeMap(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public List getAttributeMapForGroup(String groupName, String className, String privilegeName)
+	{
+		return authorizationDAO.getAttributeMapForGroup(groupName, className, privilegeName);
+	}
 
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthorizationManager#createFilterClause(gov.nih.nci.security.authorization.domainobjects.FilterClause)

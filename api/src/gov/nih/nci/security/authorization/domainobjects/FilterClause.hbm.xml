@@ -68,10 +68,24 @@
         column="TARGET_CLASS_ATTRIBUTE_ALIAS"
         length="100"
     />
-    <property
+    <!--<property
         name="generatedSQL"
         type="java.lang.String"
         column="GENERATED_SQL"
+        not-null="true"
+        length="4000"
+    />
+    --><property
+        name="generatedSQLForUser"
+        type="java.lang.String"
+        column="GENERATED_SQL_USER"
+        not-null="true"
+        length="4000"
+    />
+    <property
+        name="generatedSQLForGroup"
+        type="java.lang.String"
+        column="GENERATED_SQL_GROUP"
         not-null="true"
         length="4000"
     />

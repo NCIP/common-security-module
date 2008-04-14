@@ -1040,6 +1040,18 @@ public interface AuthorizationManager {
 	 */
 	public List getAttributeMap(String userName, String className, String privilegeName);
 	
+	/**
+	 * This method returns the list of attributes of provided class name which are associated to the group for the passed privilege. 
+	 * These attributes are stored as Protection Elements in the CSM Schema with the object id holding the class name and 
+	 * the attribute 
+	 * the name of the attribute
+	 * @param groupName the group name for which the attribute map is to be retrieved
+	 * @param className the class whose attributes are to be obtained
+	 * @param privilegeName the operation for which the list of the attributes which the user can access is to be obtained.
+	 * @return list of attributes of the provided class name on which the groups have access else an empty list
+	 */
+	public List getAttributeMapForGroup(String groupName, String className, String privilegeName);
+	
 	
 	/**
 	 * This method accepts a new filter clause and persists it in to the underlying database

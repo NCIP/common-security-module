@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+<session-factory>
+
+	<!-- Properties for the session factory -->
+	
+	<property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
+	<property name="connection.url">jdbc:mysql://localhost:3306/csm41</property>
+	<property name="connection.username">root</property>
+	<property name="connection.password">admin</property>
+	<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+	<!--
+	<property name="connection.driver_class">
+		oracle.jdbc.driver.OracleDriver
+	</property>
+	<property name="connection.url">
+		jdbc:oracle:thin:@cbiodb30.nci.nih.gov:1521:CBTEST
+	</property>
+
+		<property name="connection.username">ncisecurity</property>
+		<property name="connection.password">ncisecurity</property>
+		<property name="dialect">org.hibernate.dialect.OracleDialect</property>
+	-->
+	<!--<property name="connection.provider_class">
+		org.hibernate.connection.C3P0ConnectionProvider
+	</property>
+	<property name="c3p0.max_size">10</property>
+	<property name="c3p0.min_size">2</property>
+	<property name="c3p0.timeout">5000</property>
+	<property name="c3p0.max_statements">100</property>
+	<property name="c3p0.idle_test_period">3000</property>
+	<property name="c3p0.acquire_increment">2</property>
+	<property name="c3p0.validate">false</property>-->
+	<property name="hibernate.show_sql">false</property>
+
+	<property name="max_fetch_depth">1</property>
+	<property name="cglib.use_reflection_optimizer">false</property>
+	<property name="jdbc.batch_versioned_data">true</property>
+	<property name="jdbc.use_streams_for_binary">true</property>
+	<property name="cache.use_query_cache">false</property>
+	<property name="cache.provider_class">
+		org.hibernate.cache.EhCacheProvider
+	</property>
+
+	<!-- Mapped Resources -->
+
+	<mapping
+		resource="test/gov/nih/nci/security/instancelevel/domainobjects/Card.hbm.xml" />
+	<mapping
+		resource="test/gov/nih/nci/security/instancelevel/domainobjects/Deck.hbm.xml" />
+	<mapping
+		resource="test/gov/nih/nci/security/instancelevel/domainobjects/Suit.hbm.xml" />
+</session-factory>
+</hibernate-configuration>
+
+        
