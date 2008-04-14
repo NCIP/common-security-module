@@ -176,17 +176,21 @@ public class HibernateHelper
 		return map;
 	}
 	
-	public static String getGeneratedSQL(FilterClause filterClause, SessionFactory sessionFactory)
+	public static String getGeneratedSQL(FilterClause filterClause, SessionFactory sessionFactory, boolean isSecurityForGroup)
 	{
 		Session session = sessionFactory.openSession();
 		Criteria queryCriteria = createCriterias(filterClause,session);
 
-		String generatedSQL = generateSQL(filterClause, queryCriteria, session);
-		filterClause.setGeneratedSQL(generatedSQL);
+		String generatedSQL = generateSQL(filterClause, queryCriteria, session, isSecurityForGroup);
+		if(isSecurityForGroup)
+			filterClause.setGeneratedSQLForGroup(generatedSQL);
+		else
+			filterClause.setGeneratedSQLForUser(generatedSQL);
+		
 		return generatedSQL;
 	}
 	
-	private static String generateSQL(FilterClause filterClause, Criteria criteria, Session session)
+	private static String generateSQL(FilterClause filterClause, Criteria criteria, Session session, boolean isSecurityForGroup)
 	{
 		String capturedSQL = null;
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -213,7 +217,14 @@ public class HibernateHelper
 			e.printStackTrace();
 		}
 		logger.removeAppender(appender);
-		String filterSQL = modifySQL(filterClause, capturedSQL, session);
+		
+		String filterSQL;
+		if(isSecurityForGroup){
+			filterSQL = modifySQLForGroup(filterClause, capturedSQL, session);
+		}
+		else{
+			filterSQL = modifySQLForUser(filterClause, capturedSQL, session);
+		}
 		return filterSQL;
 	}
 	
@@ -279,7 +290,7 @@ public class HibernateHelper
 		return mainCriteria;
 	}
 	
-	private static String modifySQL (FilterClause filterClause, String generatedSQL, Session session)
+	private static String modifySQLForUser (FilterClause filterClause, String generatedSQL, Session session)
 	{
 		String targetClassName = null;
 		if (StringUtils.isBlank(filterClause.getTargetClassAlias()))
@@ -354,6 +365,110 @@ public class HibernateHelper
 		return query.toString();
 	}
 	
+	private static String modifySQLForGroup (FilterClause filterClause, String generatedSQL, Session session)
+	{
+		String targetClassName = null;
+		if (StringUtils.isBlank(filterClause.getTargetClassAlias()))
+			targetClassName = filterClause.getTargetClassName().substring(0,filterClause.getTargetClassName().indexOf(" - "));
+		else
+			targetClassName = filterClause.getTargetClassAlias();
+		String targetClassAttributeName = null;
+		if (StringUtils.isBlank(filterClause.getTargetClassAttributeAlias()))
+			targetClassAttributeName = filterClause.getTargetClassAttributeName();
+		else
+			targetClassAttributeName = filterClause.getTargetClassAttributeAlias();
+		
+		
+		String CSM_QUERY = "SELECT Distinct pe.attribute_value " +
+				"FROM CSM_PROTECTION_GROUP pg, " +
+				"	CSM_PROTECTION_ELEMENT pe, " +
+				"	CSM_PG_PE pgpe," +
+				"	CSM_USER_GROUP_ROLE_PG ugrpg, " +
+				"	CSM_GROUP g, " +
+				"	CSM_ROLE_PRIVILEGE rp, " +
+				"	CSM_ROLE r, " +
+				"	CSM_PRIVILEGE p " +
+				"WHERE ugrpg.role_id = r.role_id " +
+				"AND ugrpg.group_id = g.group_id " +
+				"AND ugrpg.protection_group_id = ANY " +
+				"( select pg1.protection_group_id from csm_protection_group pg1 " +
+				" where pg1.protection_group_id = pg.protection_group_id OR pg1.protection_group_id = " +
+				" (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)" +
+				" ) " +
+				"AND pg.protection_group_id = pgpe.protection_group_id " +
+				"AND pgpe.protection_element_id = pe.protection_element_id " +
+				"AND r.role_id = rp.role_id " +
+				"AND rp.privilege_id = p.privilege_id " +
+				"AND pe.object_id= '"+ targetClassName +"' " +
+				"AND p.privilege_name='READ' " +
+				"AND g.group_name IN (:GROUP_NAMES ) " +
+				"AND pe.application_id=:APPLICATION_ID";
+
+
+		
+		
+		/*String CSM_QUERY = " select pe.attribute_value from " +
+		"csm_protection_group pg, " +
+		"csm_protection_element pe, " +
+		"csm_pg_pe pgpe, " +
+		"csm_user_group_role_pg ugrpg, " +
+		"csm_user u, " +
+		"csm_role_privilege rp, " +
+		"csm_role r, " +
+		"csm_privilege p " +
+		"where ugrpg.role_id = r.role_id " +
+		"and ugrpg.user_id = u.user_id and " +
+		"ugrpg.protection_group_id = ANY " +
+		"(select pg1.protection_group_id " +
+		"from csm_protection_group pg1 " +
+		"where pg1.protection_group_id = pg.protection_group_id " +
+		"or pg1.protection_group_id = " +
+		"(select pg2.parent_protection_group_id " +
+		"from csm_protection_group pg2 " +
+		"where pg2.protection_group_id = pg.protection_group_id)) " +
+		"and pg.protection_group_id = pgpe.protection_group_id " +
+		"and pgpe.protection_element_id = pe.protection_element_id " +
+		"and r.role_id = rp.role_id " +
+		"and rp.privilege_id = p.privilege_id " +
+		"and pe.object_id= '" + targetClassName + "' " +
+		"and pe.attribute='" + targetClassAttributeName + "' " +
+		"and p.privilege_name='READ' "  +
+		"and u.login_name=:USER_NAME " +
+		"and pe.application_id=:APPLICATION_ID" ; */
+		
+		StringBuffer result = new StringBuffer();
+		String query = generatedSQL.substring(generatedSQL.indexOf('-')+1, generatedSQL.length());
+		query = query.trim();
+		query = query.substring(0,query.indexOf('?'));
+	    String delimiters = "+-*/(),. ";
+	    StringTokenizer st = new StringTokenizer(query, delimiters, true);
+	    while (st.hasMoreTokens()) {
+	        String w = st.nextToken();
+	        if (w.equals("this_")) {
+	            result = result.append("table_name_csm_");
+	        } else if (w.equals("y0_")) {
+	            result = result.append("");
+	        } else if (w.equals("as")) {
+	            result = result.append("");
+	        } else {
+	            result = result.append(w);
+	        }
+	    }
+	    System.out.println("The Query is : " + result.toString());
+	    SessionFactory sessionFactory = session.getSessionFactory();
+	    ClassMetadata classMetadata =sessionFactory.getClassMetadata(filterClause.getClassName());
+	    String columnName = null;
+	    if (classMetadata instanceof AbstractEntityPersister) 
+	    {
+	    	AbstractEntityPersister abstractEntityPersister = (AbstractEntityPersister) classMetadata;
+	    	String Id = abstractEntityPersister.getIdentifierPropertyName();
+	    	String[] columns = abstractEntityPersister.getPropertyColumnNames(Id);
+	    	columnName = columns[0];
+	    }
+	    query = columnName + " in (" +result.toString() + CSM_QUERY + "))";
+		return query.toString();
+	}
+	
 	private static Appender startSQLCapture(ByteArrayOutputStream byteArrayOutputStream)
 	{
 		Appender appender = new WriterAppender(new SimpleLayout(), byteArrayOutputStream);
@@ -380,7 +495,7 @@ public class HibernateHelper
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 		return null;

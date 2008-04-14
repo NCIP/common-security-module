@@ -41,6 +41,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	private String targetClassAlias;
 	private String targetClassAttributeAlias;
 	private String generatedSQL;
+	private String generatedSQLForUser;
+	private String generatedSQLForGroup;
 	private String updateDate;
 
 
@@ -279,6 +281,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassAlias = null;
 		this.targetClassAttributeAlias = null;
 		this.generatedSQL = null;
+		this.generatedSQLForGroup = null;
+		this.generatedSQLForUser = null;
 		this.updateDate = null;
 	}
 	
@@ -297,6 +301,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassAlias = null;
 		this.targetClassAttributeAlias = null;
 		this.generatedSQL = null;
+		this.generatedSQLForGroup = null;
+		this.generatedSQLForUser = null;
 	}
 	
 	
@@ -325,7 +331,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		formElementList.add(new FormElement("Target Class Attribute Type", "targetClassAttributeType", getTargetClassAttributeType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED, DisplayConstants.READONLY));
 		formElementList.add(new FormElement("Target Class Alias", "targetClassAlias", getTargetClassAlias(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED, DisplayConstants.READONLY));
 		formElementList.add(new FormElement("Target Class Attribute Alias", "targetClassAttributeAlias", getTargetClassAttributeAlias(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED, DisplayConstants.READONLY));
-		formElementList.add(new FormElement("Generated SQL", "generatedSQL", getGeneratedSQL(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Generated SQL For Group", "generatedSQLForGroup", getGeneratedSQLForGroup(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Generated SQL For User", "generatedSQLForUser", getGeneratedSQLForUser(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Update Date", "updateDate", StringUtils.initString(getUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 		
 		return formElementList;
@@ -350,7 +357,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassAttributeType = filterClause.getTargetClassAttributeType();
 		this.targetClassAlias = filterClause.getTargetClassAlias();
 		this.targetClassAttributeAlias = filterClause.getTargetClassAttributeAlias();
-		this.generatedSQL = filterClause.getGeneratedSQL();
+		this.generatedSQLForGroup = filterClause.getGeneratedSQLForGroup();
+		this.generatedSQLForUser = filterClause.getGeneratedSQLForUser();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		this.updateDate = simpleDateFormat.format(filterClause.getUpdateDate());
 		
@@ -381,16 +389,19 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 
 		if ((this.id == null) || ((this.id).equalsIgnoreCase("")))
 		{
-			filterClause.setGeneratedSQL(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY)));
+			filterClause.setGeneratedSQLForGroup(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),true));
+			filterClause.setGeneratedSQLForUser(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),false));
 			userProvisioningManager.createFilterClause(filterClause);
 			this.id = filterClause.getId().toString();
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-			this.setGeneratedSQL(filterClause.getGeneratedSQL());
+			this.setGeneratedSQLForGroup(filterClause.getGeneratedSQLForGroup());
+			this.setGeneratedSQLForUser(filterClause.getGeneratedSQLForUser());
 			this.updateDate = simpleDateFormat.format(filterClause.getUpdateDate());
 		}
 		else
 		{
-			filterClause.setGeneratedSQL(this.generatedSQL);
+			filterClause.setGeneratedSQLForGroup(this.generatedSQLForGroup);
+			filterClause.setGeneratedSQLForUser(this.generatedSQLForUser);
 			userProvisioningManager.modifyFilterClause(filterClause);
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			this.updateDate = simpleDateFormat.format(filterClause.getUpdateDate());
@@ -429,6 +440,22 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		{
 			return id;
 		}
+	}
+
+	public String getGeneratedSQLForGroup() {
+		return generatedSQLForGroup;
+	}
+
+	public void setGeneratedSQLForGroup(String generatedSQLForGroup) {
+		this.generatedSQLForGroup = generatedSQLForGroup;
+	}
+
+	public String getGeneratedSQLForUser() {
+		return generatedSQLForUser;
+	}
+
+	public void setGeneratedSQLForUser(String generatedSQLForUser) {
+		this.generatedSQLForUser = generatedSQLForUser;
 	}
 
 }
