@@ -2,11 +2,11 @@ package gov.nih.nci.security.authorization.attributeLevel;
 
 import java.util.List;
 
-public class GroupClassAttributeMap{
+public class ClassAttributeMap{
 	
 	private String className;
 	private List attributes;
-	public GroupClassAttributeMap(String className){
+	public ClassAttributeMap(String className){
 		this.className=className;
 	}
 	public List getAttributes() {

@@ -1,14 +1,10 @@
 package gov.nih.nci.security.authorization.attributeLevel;
 
 import gov.nih.nci.logging.api.logger.util.ThreadVariable;
-import gov.nih.nci.logging.api.logger.util.ThreadVariableGroupInfos;
-import gov.nih.nci.logging.api.user.GroupInfo;
-import gov.nih.nci.logging.api.user.GroupInfos;
 import gov.nih.nci.logging.api.user.UserInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.acegisecurity.context.SecurityContextHolder;
@@ -27,19 +23,16 @@ public class AttributeSecuritySessionInterceptor extends EmptyInterceptor
 	{
 		
 
-		Object objectGroupInfos = ThreadVariableGroupInfos.get();
-		if(objectGroupInfos instanceof GroupInfos)
+		Object objectUserInfo = ThreadVariable.get();
+		String[] groupNames = null;
+		if (objectUserInfo instanceof UserInfo)
 		{
+			groupNames = ((UserInfo)objectUserInfo).getGroupNames();
 			
-			ArrayList groupInfoList = ((GroupInfos)objectGroupInfos).getGroupInfos();
-			Iterator it  = groupInfoList.iterator();
-			String[] groupNames = new String[groupInfoList.size()];
-			int count = 0;
-			while(it.hasNext()){
-				groupNames[count++] = ((GroupInfo)it.next()).getGroupName();
-			}
-
-			List attributeList = GroupsClassAttributeMapCache.getAttributeMap(groupNames, entity.getClass().getName());
+		}
+		if(groupNames!=null && groupNames.length>0 )
+		{
+			List attributeList = UserClassAttributeMapCache.getAttributeMapForGroup(groupNames, entity.getClass().getName());
 			if (attributeList == null)
 				attributeList = new ArrayList();
 			for (int i=0; i < propertyNames.length; i++)
@@ -60,7 +53,7 @@ public class AttributeSecuritySessionInterceptor extends EmptyInterceptor
 			}
 			if (null == userName)
 			{
-				Object objectUserInfo = ThreadVariable.get();
+				//Object objectUserInfo = ThreadVariable.get();
 				if (objectUserInfo instanceof UserInfo)
 				{
 					userName = ((UserInfo)objectUserInfo).getUsername();

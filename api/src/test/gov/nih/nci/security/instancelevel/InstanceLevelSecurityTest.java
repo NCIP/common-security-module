@@ -1,11 +1,9 @@
 package test.gov.nih.nci.security.instancelevel;
 
-import gov.nih.nci.logging.api.user.GroupInfosHelper;
 import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.authorization.attributeLevel.AttributeSecuritySessionInterceptor;
-import gov.nih.nci.security.authorization.attributeLevel.GroupsClassAttributeMapCache;
 import gov.nih.nci.security.authorization.attributeLevel.UserClassAttributeMapCache;
 import gov.nih.nci.security.authorization.instancelevel.InstanceLevelSecurityHelper;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
@@ -267,8 +265,8 @@ public class InstanceLevelSecurityTest extends TestCase {
 		Session session = null;
 		if(attributeLevelSecurityForGroups){
 				session = sf.openSession(new AttributeSecuritySessionInterceptor());
-				GroupInfosHelper.setGroupInfos(groupNames);
-				GroupsClassAttributeMapCache.setAttributeMap(groupNames, sf, authorizationManager);
+				UserInfoHelper.setGroupNames(groupNames);
+				UserClassAttributeMapCache.setAttributeMapForGroup(groupNames, sf, authorizationManager);
 		}
 		Criteria criteria = session.createCriteria(Card.class);
 		List results = criteria.list();
@@ -305,8 +303,8 @@ public class InstanceLevelSecurityTest extends TestCase {
 		if(instanceLevelSecurityForGroups || attributeLevelSecurityForGroups){
 			if (attributeLevelSecurityForGroups){
 				session = sf.openSession(new AttributeSecuritySessionInterceptor());
-				GroupInfosHelper.setGroupInfos(groupNames);
-				GroupsClassAttributeMapCache.setAttributeMap(groupNames,sf, authorizationManager);
+				UserInfoHelper.setGroupNames(groupNames);
+				UserClassAttributeMapCache.setAttributeMapForGroup(groupNames,sf, authorizationManager);
 			}
 			else{			
 				session = sf.openSession(); 
