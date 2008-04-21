@@ -32,6 +32,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.CacheException;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
@@ -52,7 +53,7 @@ public class HibernateHelper
 		SessionFactory sessionFactory = null;
 		try
 		{
-			Configuration configuration = new Configuration().configure(url);
+			AnnotationConfiguration configuration = new AnnotationConfiguration().configure(url);
 			JDBCHelper.testConnectionHibernate(configuration);
 			
 			sessionFactory = configuration.buildSessionFactory();

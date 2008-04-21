@@ -2,8 +2,14 @@ package test.gov.nih.nci.security.instancelevel.domainobjects;
 
 
 import java.io.Serializable;
-	/**
-	* 	**/
+
+import javax.persistence.*;
+
+
+
+
+@Entity
+@Table (name = "card")
 public class Card  implements Serializable
 {
 	/**
@@ -11,15 +17,21 @@ public class Card  implements Serializable
 	*/
 	private static final long serialVersionUID = 1234567890L;
 
-	
-		/**
-	* 	**/
+	@Id
 	private Integer id;
+	
+	@Column(name="IMAGE") 
+	private String image;
+	
+	@ManyToOne
+	@JoinColumn(name="suit_id", insertable=false,updatable=false)
+	private Suit suit;
+	
+	
 	/**
 	* Retreives the value of id attribute
 	* @return id
 	**/
-
 	public Integer getId(){
 		return id;
 	}
@@ -32,9 +44,7 @@ public class Card  implements Serializable
 		this.id = id;
 	}
 	
-		/**
-	* 	**/
-	private String image;
+
 	/**
 	* Retreives the value of image attribute
 	* @return image
@@ -71,12 +81,8 @@ public class Card  implements Serializable
 	public void setName(String Name){
 		this.Name = Name;
 	}
-	
-	/**
-	* An associated test.gov.nih.nci.security.instancelevel.domainobjects.Suit object
-	**/
-			
-	private Suit suit;
+
+
 	/**
 	* Retreives the value of suit attribue
 	* @return suit

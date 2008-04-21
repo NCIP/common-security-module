@@ -19,6 +19,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.CacheException;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
@@ -125,24 +126,23 @@ public class JDBCHelper {
 	 *             The exception message indicates which kind of application
 	 *             database parameters are invalid.
 	 */
-	public static String testConnectionHibernate(Configuration configuration) throws CSException {
+	public static String testConnectionHibernate(AnnotationConfiguration configuration) throws CSException {
 		
 		
 		SessionFactory sf = null;
-		
 		ResultSet rs = null;
 		Statement stmt=null;
 		Connection conn = null;
 		Session session = null;
 		try {
-			
 			sf = configuration.buildSessionFactory();
-			
 			session = sf.openSession();
 			conn = session.connection();
 			stmt = conn.createStatement();
 			stmt.execute("select count(*) from csm_application");
 			rs = stmt.getResultSet();
+
+			System.out.println(rs.getMetaData().getColumnCount());
 			
 			return DisplayConstants.APPLICATION_DATABASE_CONNECTION_SUCCESSFUL;
 		

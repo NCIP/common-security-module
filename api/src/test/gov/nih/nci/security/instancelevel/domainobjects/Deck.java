@@ -2,7 +2,18 @@ package test.gov.nih.nci.security.instancelevel.domainobjects;
 
 import java.util.Collection;
 import java.io.Serializable;
-	
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+
+@Entity
+@Table (name = "deck")
 public class Deck  implements Serializable
 {
 	/**
@@ -11,9 +22,13 @@ public class Deck  implements Serializable
 	private static final long serialVersionUID = 1234567890L;
 
 	
-		/**
-	* 	**/
+	@Id
 	private Integer id;
+	@Column(name="name")
+	private String name;
+	@OneToMany
+	@JoinColumn(name="DECK_ID",nullable=false)
+	private Collection<Suit> suitCollection;
 	/**
 	* Retreives the value of id attribute
 	* @return id
@@ -33,7 +48,7 @@ public class Deck  implements Serializable
 	
 		/**
 	* 	**/
-	private String name;
+
 	/**
 	* Retreives the value of name attribute
 	* @return name
@@ -55,7 +70,7 @@ public class Deck  implements Serializable
 	* An associated test.gov.nih.nci.security.instancelevel.domainobjectsSuit object's collection 
 	**/
 			
-	private Collection<Suit> suitCollection;
+
 	/**
 	* Retreives the value of suitCollection attribue
 	* @return suitCollection

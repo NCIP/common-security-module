@@ -1,9 +1,16 @@
 package test.gov.nih.nci.security.instancelevel.domainobjects;
 
 import java.util.Collection;
+import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
-	/**
-	* 	**/
+
+import javax.persistence.Id;
+	
+
+@Entity
+@Table (name = "suit")
 public class Suit  implements Serializable
 {
 	/**
@@ -11,10 +18,18 @@ public class Suit  implements Serializable
 	*/
 	private static final long serialVersionUID = 1234567890L;
 
-	
-		/**
-	* 	**/
+	@Id
 	private Integer id;
+	@Column(name="name")
+	private String name;
+	@OneToMany
+	@JoinColumn(name="suit_id",nullable=false)
+	private Collection<Card> cardCollection;
+	@ManyToOne
+	@JoinColumn(name="deck_id", insertable=false,updatable=false, nullable=false)
+	private Deck deck;
+	
+	
 	/**
 	* Retreives the value of id attribute
 	* @return id
@@ -34,7 +49,7 @@ public class Suit  implements Serializable
 	
 		/**
 	* 	**/
-	private String name;
+	
 	/**
 	* Retreives the value of name attribute
 	* @return name
@@ -56,7 +71,7 @@ public class Suit  implements Serializable
 	* An associated test.gov.nih.nci.security.instancelevel.domainobjects.Card object's collection 
 	**/
 			
-	private Collection<Card> cardCollection;
+	
 	/**
 	* Retreives the value of cardCollection attribue
 	* @return cardCollection
@@ -78,7 +93,7 @@ public class Suit  implements Serializable
 	* An associated test.gov.nih.nci.security.instancelevel.domainobjects.Deck object
 	**/
 			
-	private Deck deck;
+	
 	/**
 	* Retreives the value of deck attribue
 	* @return deck
