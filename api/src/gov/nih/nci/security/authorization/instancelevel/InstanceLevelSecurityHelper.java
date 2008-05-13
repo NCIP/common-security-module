@@ -58,6 +58,13 @@ public class InstanceLevelSecurityHelper
 		}
 	}
 	
+	/**
+	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
+	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
+	 * 
+	 * @param authorizationManager The CSM AuthorizationManager instance for this application
+	 * @param List<FilterDefinition> The Hibernate FilterDefinition List.
+	 */
 	public static List<FilterDefinition> getFiltersForGroups(AuthorizationManager authorizationManager)
 	{
 		List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>();
@@ -120,10 +127,10 @@ public class InstanceLevelSecurityHelper
 	/**
 	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
 	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
-	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.
-	 * It then adds the filter to the persistent class by setting the filtering query.
+	 * 
+	 * 
 	 * @param authorizationManager The CSM AuthorizationManager instance for this application
-	 * @param configuration The Hibernate Configuration initialized for this application
+	 * @param List<FilterDefinition> The Hibernate FilterDefinition List.
 	 */
 	public static List<FilterDefinition> getFiltersForUser(AuthorizationManager authorizationManager)
 	{
