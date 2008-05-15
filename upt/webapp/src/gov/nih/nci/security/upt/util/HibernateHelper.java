@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +34,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.CacheException;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.engine.SessionFactoryImplementor;
@@ -162,15 +162,23 @@ public class HibernateHelper
 		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY); 
 		HashMap map = new HashMap();
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(className);
-		String[] properties = classMetadata.getPropertyNames();
-		for (int i = 0 ; i < properties.length ; i++)
-		{
-			Type type = classMetadata.getPropertyType(properties[i]);
+		
+		List propertiesList = new ArrayList();
+		String[] properties1 = classMetadata.getPropertyNames();
+		for(int count = 0;count<properties1.length; count++){
+			propertiesList.add(new String(properties1[count]));
+		}
+		propertiesList.add(new String(classMetadata.getIdentifierPropertyName()));
+		Iterator propertiesIterator = propertiesList.iterator();
+		while(propertiesIterator.hasNext()){
+			String property = (String)propertiesIterator.next();
+			Type type = classMetadata.getPropertyType(property);
 			if (!(type instanceof AssociationType))
 			{
-				map.put((type.getReturnedClass()).getName(),properties[i]);
+				map.put((type.getReturnedClass()).getName(),property);
 			}
 		}
+		
 		if (map.size() == 0)
 			throw new CSException("No associated Classes Found!");
 		
@@ -248,9 +256,11 @@ public class HibernateHelper
 		Criteria targetCriteria = criteriaList.get(count);
 		String attributeName = filterClause.getTargetClassAttributeName();
 		Class attributeType = null;
+		Class IntegerType = null;
 		try
 		{
 			attributeType = Class.forName(filterClause.getTargetClassAttributeType());
+			IntegerType = Class.forName("java.lang.Integer");
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -261,7 +271,11 @@ public class HibernateHelper
 		
 		try
 		{
-			Array.set(valueArray, 0, attributeType.newInstance());
+			if(attributeType.equals(IntegerType)){
+				Array.set(valueArray, 0, new Integer(0));
+			}else{
+				Array.set(valueArray, 0, attributeType.newInstance());	
+			}
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
