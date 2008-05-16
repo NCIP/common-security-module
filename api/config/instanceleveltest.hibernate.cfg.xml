@@ -10,7 +10,9 @@
 	<property name="connection.username">root</property>
 	<property name="connection.password">admin</property>
 	<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-
+<!--
+ 	<property name="dialect">gov.nih.nci.security.dialect.CSMMySQLInnoDBDialect</property>
+-->
 	<!--
 	<property name="connection.driver_class">
 		oracle.jdbc.driver.OracleDriver
@@ -33,7 +35,7 @@
 	<property name="c3p0.idle_test_period">3000</property>
 	<property name="c3p0.acquire_increment">2</property>
 	<property name="c3p0.validate">false</property>-->
-	<property name="hibernate.show_sql">false</property>
+	<property name="hibernate.show_sql">true</property>
 
 	<property name="max_fetch_depth">1</property>
 	<property name="cglib.use_reflection_optimizer">false</property>
