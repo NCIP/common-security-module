@@ -5,9 +5,9 @@
 <hibernate-configuration>
     <session-factory>
         <!-- properties  -->
-        <property name="connection.datasource">java:/<<application_context_name>></property>
+        <property name="connection.datasource">java:/@application.context.name@</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="dialect">org.hibernate.dialect.<<database_dialect>></property>	
+        <property name="dialect">@database.dialect@</property>	
         <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 
