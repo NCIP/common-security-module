@@ -1,4 +1,4 @@
-<project name="CSMAPIProject" default="dist" basedir="./..">
+<project name="CSMAPIProject" default="dist" basedir=".">
 	<description>CSM API Project Build File</description>
 
 	<!-- set global properties for this build -->
