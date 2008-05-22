@@ -7,6 +7,7 @@
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="resources" location="resources" />
+	<property name="common.resources" location="../common/resources/jboss-conf" />
 	
 	
 
@@ -41,7 +42,7 @@
 			</fileset>
 		</copy>
 		<!---<copy file="${src}/hibernate.properties" todir="${build}" />-->
-		<copy file="${resources}/ObjectStateLoggerConfig.xml" todir="${build}" />
+		<copy file="${common.resources}/ObjectStateLoggerConfig.xml" todir="${build}" />
 		<copy file="${src}/ApplicationSecurityConfig.xsd" todir="${build}" />
 	</target>
 
@@ -54,8 +55,8 @@
 			</fileset>
 		</copy>
 		<copy todir="${dist}">
-			<fileset dir="${resources}">
-			</fileset>
+			<fileset dir="${resources}"/>
+			<fileset dir="${common.resources}"/>
 		</copy>
 		<delete quiet="true" file="${dist}/ObjectStateLoggerConfig.xml"/>
 	</target>
