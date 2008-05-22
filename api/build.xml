@@ -55,15 +55,15 @@
 			</fileset>
 		</copy>
 		<copy todir="${dist}">
-			<fileset dir="${resources}"/>
 			<fileset dir="${common.resources}"/>
+			<fileset dir="${resources}"/>
 		</copy>
 		<delete quiet="true" file="${dist}/ObjectStateLoggerConfig.xml"/>
 	</target>
 
 	<target name="distupt" depends="dist" description="propogates the distribution to upt project">
-		<property name="distupt" location="./../upt/upt/webapp/public_html/WEB-INF/lib" />
-		<property name="distuptresources" location="./../upt/upt/resources" />
+		<property name="distupt" location="../upt/webapp/public_html/WEB-INF/lib" />
+		<property name="distuptresources" location="../resources" />
 		<copy todir="${distupt}">
 			<fileset dir="${dist}">
 				<include name="csmapi.jar" />
@@ -75,7 +75,7 @@
 			</fileset>
 		</copy>
 	</target>
-	
+ <!-- Does this even work? directory does not exist -->	
 	<target name="distws" depends="dist" description="propogates the distribution to webservices project">
 		<property name="distws" location="./../webservices/WebRoot/WEB-INF/lib" />
 		<property name="distwsresources" location="./../webservices/resources" />
