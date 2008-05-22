@@ -42,12 +42,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Working directory passed to Ant tasks -->
 	<property name="securityws.base.dir" value="${basedir}/securityws"/>
 	<property name="csm.base.dir" value="${basedir}/api"/>
-	<property name="upt.base.dir" value="${basedir}"/>
+	<property name="upt.base.dir" value="${basedir}/upt"/>
 
 	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
-	<property name="upt.build.file" value="upt/build.xml"/>
-	<property name="csm.build.file" value="script/build.xml"/>
-	<property name="securityws.build.file" value="script/build.xml"/>
+	<property name="upt.build.file" value="build.xml"/>
+	<property name="csm.build.file" value="build.xml"/>
+	<property name="securityws.build.file" value="build.xml"/>
 	
 	<!-- The target name that should be called from the sub-project build file -->
 	<property name="securityws.build.target" value="all"/>
