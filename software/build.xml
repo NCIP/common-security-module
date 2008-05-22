@@ -3,11 +3,10 @@
 $Id: build.xml 4753 2008-05-15 18:24:16Z saksass $
 $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 -->
-<project name="generic-build" default="build-all" basedir="." 
-	xmlns:ivy="antlib:org.apache.ivy.ant"
-	>
+<project name="generic-build" default="build:all" basedir="." 
+	xmlns:ivy="antlib:org.apache.ivy.ant">
 	<description>
-		This file ...
+		Builds the CSM/UPT application.
 	</description>
 
 	<!-- Property file related properties and tasks -->
@@ -167,7 +166,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 
 	<!-- Wrapper build target, call appropriate builds for sub-projects -->
-	<target name="build-all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions"
+	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions"
 		depends="
 		clean,
 		init,
@@ -205,7 +204,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Produces all distributions: installer, upgrader and source -->
 	<target name="dist" description="Makes all distributions: installer, upgrader and source"
 		depends="
-		build-all,
+		build:all,
 		dist:installer,
 		dist:upgrader,
 		dist:src"
@@ -465,7 +464,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Install the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point installer to correct enviornment to install into -->
 	<target name="deploy:remote:install"
 		depends="
-		build-all,
+		build:all,
 		dist:installer,
 		deploy:remote:prep,
 		deploy:remote:install:copy,
@@ -487,7 +486,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Upgrades the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point upgrader to correct enviornment to upgrade -->
 	<target name="deploy:remote:upgrade"
 		depends="
-		build-all,
+		build:all,
 		dist:upgrader,
 		deploy:remote:prep,
 		deploy:remote:upgrade:copy,
