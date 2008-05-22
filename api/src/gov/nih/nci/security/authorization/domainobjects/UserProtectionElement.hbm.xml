@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+    
+<hibernate-mapping default-lazy="false">
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.authorization.domainobjects.UserProtectionElement" 
+    table="CSM_USER_PE"
+>
+
+    <id
+        name="userProtectionElementId"
+        type="java.lang.Long"
+        column="USER_PROTECTION_ELEMENT_ID"
+    >
+        <generator class="native">
+		 <param name="sequence">CSM_USER_PE_USER_PROTECTIO_SEQ</param>
+	 </generator>
+    </id>
+
+    <property
+        name="updateDate"
+        type="java.sql.Date"
+        column="UPDATE_DATE"
+        not-null="true"
+        length="10"
+    />
+
+    <!-- Associations -->
+  
+    <!-- bi-directional many-to-one association to ProtectionElement -->
+    <many-to-one
+        name="protectionElement"
+        class="gov.nih.nci.security.authorization.domainobjects.ProtectionElement"
+        not-null="true"
+    >
+        <column name="PROTECTION_ELEMENT_ID" />
+    </many-to-one>
+    <!-- bi-directional many-to-one association to User -->
+    <many-to-one
+        name="user"
+        class="gov.nih.nci.security.authorization.domainobjects.User"
+        not-null="true"
+    >
+        <column name="USER_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>

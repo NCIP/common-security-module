@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id$ -->
+<!-- ==================================================================== -->
+<!--  Datasource config for Oracle                                        -->
+<!-- ==================================================================== -->
+
+
+<datasources>
+   <local-tx-datasource>
+      <jndi-name><<application_context_name>></jndi-name>
+      <connection-url><<database_url>></connection-url>
+      <user-name><<database_user_id>></user-name>
+      <password><<database_user_password>></password>
+      <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+      <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+    </local-tx-datasource>
+</datasources>

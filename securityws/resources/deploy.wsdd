@@ -1,0 +1,82 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from SecurityService WSDL service -->
+
+  <service name="SecurityServiceSoapPort" provider="java:RPC" style="document" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://security.nci.nih.gov/ws"/>
+      <parameter name="wsdlServiceElement" value="SecurityService"/>
+      <parameter name="schemaQualified" value="http://security.nci.nih.gov/ws/common,http://security.nci.nih.gov/ws/authorization,http://security.nci.nih.gov/ws/authentication"/>
+      <parameter name="wsdlServicePort" value="SecurityServiceSoapPort"/>
+      <parameter name="className" value="gov.nih.nci.security.ws.SecurityServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="SecurityService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="login" qname="Login" returnQName="retNS:LoginResponse" xmlns:retNS="http://security.nci.nih.gov/ws/authentication" returnType="rtns:LoginResponse" xmlns:rtns="http://security.nci.nih.gov/ws/authentication" >
+        <parameter qname="pns:LoginRequest" xmlns:pns="http://security.nci.nih.gov/ws/authentication" type="tns:LoginRequest" xmlns:tns="http://security.nci.nih.gov/ws/authentication"/>
+        <fault name="LoginErrorMessage" qname="fns:ErrorDetails" xmlns:fns="http://security.nci.nih.gov/ws/common" class="gov.nih.nci.security.ws.common.ErrorDetails" type="tns:ErrorDetails" xmlns:tns="http://security.nci.nih.gov/ws/common"/>
+      </operation>
+      <operation name="checkPermission" qname="CheckPermission" returnQName="retNS:CheckPermissionResponse" xmlns:retNS="http://security.nci.nih.gov/ws/authorization" returnType="rtns:CheckPermissionResponse" xmlns:rtns="http://security.nci.nih.gov/ws/authorization" >
+        <parameter qname="pns:CheckPermissionRequest" xmlns:pns="http://security.nci.nih.gov/ws/authorization" type="tns:CheckPermissionRequest" xmlns:tns="http://security.nci.nih.gov/ws/authorization"/>
+        <fault name="CheckPermissionErrorMessage" qname="fns:ErrorDetails" xmlns:fns="http://security.nci.nih.gov/ws/common" class="gov.nih.nci.security.ws.common.ErrorDetails" type="tns:ErrorDetails" xmlns:tns="http://security.nci.nih.gov/ws/common"/>
+      </operation>
+      <parameter name="allowedMethods" value="checkPermission login"/>
+
+      <typeMapping
+        xmlns:ns="http://security.nci.nih.gov/ws/authentication"
+        qname="ns:LoginResponse"
+        type="java:gov.nih.nci.security.ws.authentication.LoginResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://security.nci.nih.gov/ws/authorization"
+        qname="ns:CheckPermissionResponse"
+        type="java:gov.nih.nci.security.ws.authorization.CheckPermissionResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://security.nci.nih.gov/ws/authentication"
+        qname="ns:LoginRequest"
+        type="java:gov.nih.nci.security.ws.authentication.LoginRequest"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://security.nci.nih.gov/ws/common"
+        qname="ns:ErrorCodes"
+        type="java:gov.nih.nci.security.ws.common.ErrorCodes"
+        serializer="org.apache.axis.encoding.ser.EnumSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.EnumDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://security.nci.nih.gov/ws/authorization"
+        qname="ns:CheckPermissionRequest"
+        type="java:gov.nih.nci.security.ws.authorization.CheckPermissionRequest"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://security.nci.nih.gov/ws/common"
+        qname="ns:ErrorDetails"
+        type="java:gov.nih.nci.security.ws.common.ErrorDetails"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

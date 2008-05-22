@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="test.gov.nih.nci.security.instancelevel.domainobjects">
+	<class name="Card" table="CARD" lazy="true" polymorphism="explicit">
+		<cache usage="read-write" />
+		<id name="id" type="integer" column="ID">
+			<generator class="assigned" />
+		</id>
+		<!-- Attributes mapping for the Card class -->
+		<property name="image" type="string" column="IMAGE"/>
+		<property name="name" type="string" column="NAME"/>
+		<!-- Associations mapping for the Card class -->
+		<many-to-one name="suit" class="test.gov.nih.nci.security.instancelevel.domainobjects.Suit" column="SUIT_ID" lazy="proxy" />
+	</class>
+</hibernate-mapping>

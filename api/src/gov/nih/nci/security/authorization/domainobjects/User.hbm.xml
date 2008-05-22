@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+    
+<hibernate-mapping default-lazy="false">
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.authorization.domainobjects.User" 
+    table="CSM_USER"
+>
+    
+
+    <id
+        name="userId"
+        type="java.lang.Long"
+        column="USER_ID"
+         unsaved-value="0"
+        >
+     <generator class="native">
+		 <param name="sequence">CSM_USER_USER_ID_SEQ</param>
+	 </generator>
+    </id>
+
+    <property
+        name="loginName"
+        type="java.lang.String"
+        column="LOGIN_NAME"
+        not-null="true"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="firstName"
+        type="java.lang.String"
+        column="FIRST_NAME"
+        not-null="true"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="lastName"
+        type="java.lang.String"
+        column="LAST_NAME"
+        not-null="true"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="organization"
+        type="java.lang.String"
+        column="ORGANIZATION"
+        length="100"
+    >
+           
+    </property>
+    <property
+        name="department"
+        type="java.lang.String"
+        column="DEPARTMENT"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="title"
+        type="java.lang.String"
+        column="TITLE"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="phoneNumber"
+        type="java.lang.String"
+        column="PHONE_NUMBER"
+        length="15"
+    >
+        
+    </property>
+    <property
+        name="password"
+        type="java.lang.String"
+        column="PASSWORD"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="emailId"
+        type="java.lang.String"
+        column="EMAIL_ID"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="startDate"
+        type="java.sql.Date"
+        column="START_DATE"
+        length="10"
+    >
+        
+    </property>
+    <property
+        name="endDate"
+        type="java.sql.Date"
+        column="END_DATE"
+        length="10"
+    >
+        
+    </property>
+    <property
+        name="updateDate"
+        type="java.sql.Date"
+        column="UPDATE_DATE"
+        not-null="true"
+        length="10"
+    >
+        
+    </property>
+    
+    <set name="groups" lazy="true" table="CSM_USER_GROUP">
+           <key column="user_id"/>
+           <many-to-many column="group_id" class="gov.nih.nci.security.authorization.domainobjects.Group"/>
+     </set>
+</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="test.gov.nih.nci.security.instancelevel.domainobjects">
+	<class name="Suit" table="SUIT" lazy="true" polymorphism="explicit">
+		<cache usage="read-write" />
+		<id name="id" type="integer" column="ID">
+			<generator class="assigned" />
+		</id>
+		<!-- Attributes mapping for the Suit class -->
+		<property name="name" type="string" column="NAME"/>
+		<!-- Associations mapping for the Suit class -->
+		<set name="cardCollection" lazy="true">
+			<cache usage="read-write" />
+			<key column="SUIT_ID" />
+			<one-to-many class="test.gov.nih.nci.security.instancelevel.domainobjects.Card"/>
+		</set>
+		<many-to-one name="deck" class="test.gov.nih.nci.security.instancelevel.domainobjects.Deck" column="DECK_ID" lazy="proxy" />
+	</class>
+</hibernate-mapping>

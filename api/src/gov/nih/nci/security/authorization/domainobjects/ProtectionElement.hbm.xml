@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+    
+<hibernate-mapping default-lazy="false">
+<!-- 
+    Created by the Middlegen Hibernate plugin 2.1
+
+    http://boss.bekk.no/boss/middlegen/
+    http://www.hibernate.org/
+-->
+
+<class 
+    name="gov.nih.nci.security.authorization.domainobjects.ProtectionElement" 
+    table="CSM_PROTECTION_ELEMENT"
+>
+    
+
+    <id
+        name="protectionElementId"
+        type="java.lang.Long"
+        column="PROTECTION_ELEMENT_ID"
+        unsaved-value="0"
+        >
+      <generator class="native">
+		 <param name="sequence">CSM_PROTECTIO_PROTECTION_E_SEQ</param>
+	 </generator>
+    </id>
+
+    <property
+        name="protectionElementName"
+        type="java.lang.String"
+        column="PROTECTION_ELEMENT_NAME"
+        not-null="true"
+        length="100"
+    >
+        
+    </property>
+    <property
+        name="protectionElementDescription"
+        type="java.lang.String"
+        column="PROTECTION_ELEMENT_DESCRIPTION"
+        length="200"
+    >
+        
+    </property>
+    <property
+        name="objectId"
+        type="java.lang.String"
+        column="OBJECT_ID"
+        not-null="true"
+        length="100"
+    >
+       
+    </property>
+    <property
+        name="attribute"
+        type="java.lang.String"
+        column="ATTRIBUTE"
+        length="100"
+    >
+    </property>
+    <property
+        name="value"
+        type="java.lang.String"
+        column="ATTRIBUTE_VALUE"
+        length="100"
+    >
+    </property>    
+    <property
+        name="protectionElementType"
+        type="java.lang.String"
+        column="PROTECTION_ELEMENT_TYPE"
+        length="100"
+    >
+    </property>
+    
+    <property
+        name="updateDate"
+        type="java.sql.Date"
+        column="UPDATE_DATE"
+        not-null="true"
+        length="10"
+    >
+        
+    </property>
+
+    <!-- Associations -->
+  
+    <!-- bi-directional one-to-many association to UserProtectionElement -->
+    
+    <!-- bi-directional many-to-one association to Application -->
+    <set name="protectionGroups" lazy="true" table="CSM_PG_PE">
+       <key column="protection_element_id"/>
+       <many-to-many 
+           column="protection_group_id" 
+           class="gov.nih.nci.security.authorization.domainobjects.ProtectionGroup"
+           
+        />
+     </set>
+     
+     <set name="owners" lazy="true" table="CSM_USER_PE">
+       <key column="protection_element_id"/>
+       <many-to-many 
+           column="user_id" 
+           class="gov.nih.nci.security.authorization.domainobjects.User"
+           
+        />
+     </set>
+     
+    <many-to-one
+        name="application"
+        class="gov.nih.nci.security.authorization.domainobjects.Application"
+        not-null="true"
+    >
+        
+        <column name="APPLICATION_ID" />
+    </many-to-one>
+
+</class>
+</hibernate-mapping>
