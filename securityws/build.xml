@@ -1,4 +1,4 @@
-<project name="Security Web Services Project" basedir="./.." default="all">
+<project name="Security Web Services Project" basedir="." default="all">
 	<description>Security Web Services Project Build File</description>
 
 	<target name="init" >
