@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+$Id: build.xml 4753 2008-05-15 18:24:16Z saksass $
+$HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
+-->
+<project name="generic-build" default="build-all" basedir="." 
+	xmlns:ivy="antlib:org.apache.ivy.ant"
+	>
+	<description>
+		This file ...
+	</description>
+
+	<!-- Property file related properties and tasks -->
+	<property name="project.name" value="generic"/>
+	<property environment="env" />
+	<!-- The project.properties stores properties that are shared between both build.xml and install.xml. Typically properties that are related to the distribution directories, or files. -->
+	<property file="project.properties" />
+	<property name="properties.file" value="${basedir}/install.properties"/>
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2"/>
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2"/>
+	<property file="${properties.file}" />
+	<!-- added for remote deployments since file is copied to root of install dir -->
+	<basename property="properties.file.name" file="${properties.file}"/>
+
+	<!-- Generic build time properties -->
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="resources.dir" value="${basedir}/resources" />
+	<property name="reports.dir" value="${basedir}/reports" />
+	<property name="temp.dir" value="${basedir}/temp" />
+	<property name="global.ivy.settings.file" location="ivysettings.xml" />
+
+	<!-- Used by dist:*:prep to copy resource files to distribution area -->
+	<property name="common.src.dir" value="${basedir}/${common.dist.relative.dir}" />
+
+	<!-- Used by dist:*:prep to determin list of files to use for incremental build process.
+		Directory and files must be in svn to work.
+	-->
+	<property name="db.src.dir" value="${basedir}/${db.dist.relative.dir}" />
+	<property name="db-incr.src.dir" value="${basedir}/${db-incr.dist.relative.dir}" />
+	
+	<!-- Properties that relate to how to call build targets from sub-projects-->
+	<!-- Working directory passed to Ant tasks -->
+	<property name="securityws.base.dir" value="${basedir}/securityws"/>
+	<property name="csm.base.dir" value="${basedir}/api"/>
+	<property name="upt.base.dir" value="${basedir}"/>
+
+	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
+	<property name="upt.build.file" value="upt/build.xml"/>
+	<property name="csm.build.file" value="script/build.xml"/>
+	<property name="securityws.build.file" value="script/build.xml"/>
+	
+	<!-- The target name that should be called from the sub-project build file -->
+	<property name="securityws.build.target" value="all"/>
+	<property name="csm.build.target" value="dist"/>
+	<property name="upt.build.target" value="all"/>
+    
+	<!-- Distribution Structure properties, used to copy files into the distribution area.
+       		Use project.propertie relative dir names becasue they are used by install also-->
+	<property name="target.dir" value="${basedir}/target" />
+	<property name="csm.target.dir" value="${target.dir}/${csm.dist.relative.dir}" />
+	<property name="securityws.target.dir" value="${target.dir}/${securityws.dist.relative.dir}" />
+	<property name="upt.target.dir" value="${target.dir}/${upt.dist.relative.dir}" />
+	<property name="tools.target.dir" value="${target.dir}/${tools.dist.relative.dir}" />
+	<property name="common.target.dir" value="${target.dir}/${common.dist.relative.dir}" />
+	<property name="db.target.dir" value="${target.dir}/${db.dist.relative.dir}" />
+	<property name="db-incr.target.dir" value="${target.dir}/${db-incr.dist.relative.dir}" />
+	<property name="jboss-conf.target.dir" value="${target.dir}/${jboss-conf.dist.relative.dir}" />
+
+	<!-- Where to write files retrieved by get, into the distribution area.  The file names come from project.properties  -->
+	<property name="jboss.dest.file" value="${tools.target.dir}/${jboss.binaries.file}"/>
+
+	<!-- Where the sub-projects should deploy thier artifacts.  This relative from thier *.base.dir above.  We need to use this because thier basedir is not the same as this project's basedir. -->
+	<property name="csm.target.dir" value="../${csm.target.dir}" />
+	<property name="upt.target.dir" value="${upt.target.dir}" />
+	<property name="securityws.target.dir" value="../${securityws.target.dir}" />
+
+	<!-- Properties related to creating the distribution -->
+	<property name="dist.dir" value="dist"/>
+	<property name="csm.install.name" value="csm_install" />
+	<property name="csm.upgrade.name" value="csm_ugprade" />
+	<property name="csm.version" value="3.1" />
+	<property name="csm.upgrade.zip.file" value="${csm.upgrade.name}${csm.version}.zip" />
+	<property name="csm.install.zip.file" value="${csm.install.name}${csm.version}.zip" />
+
+	<!-- Default install time targets passed by deploy targets to the installer, can be overridden by being set on the command line if different target is desitred.  -->
+	<property name="install.target" value="install"/>
+	<property name="upgrade.target" value="upgrade"/>
+
+	<!-- Paths -->
+	<path id="bda-utils.classpath">
+		<fileset dir="${bda-utils.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<!-- retrive ivy files then retrieve bda files and librarires -->
+	<mkdir dir="lib"/>
+	<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml"
+		target="retrieve-bda">
+		<property name="bda-utils.dir" value="${bda-utils.dir}"/>
+		<property name="lib.dir" value="${lib.dir}"/>
+	</ant>
+
+	<!-- Task definitions -->
+	<taskdef resource="simiantask.properties" classpathref="bda-utils.classpath" />
+	<taskdef uri="antlib:org.apache.ant.antunit" resource="org/apache/ant/antunit/antlib.xml">
+		<classpath>
+			<pathelement location="${bda-utils.dir}/antunit-1.0.jar" />
+		</classpath>
+	</taskdef>
+	<taskdef name="xmlconfig" classname="com.xmlconfig.anttask.XmlConfig" classpathref="bda-utils.classpath" />
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="bda-utils.classpath"/>
+	<taskdef name="for" classname="net.sf.antcontrib.logic.ForTask">
+		<classpath>
+			<pathelement location="${bda-utils.dir}/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>
+
+	<!-- Includes- include BDA marcos -->
+	<import file="${bda-utils.dir}/bda-build-utils-0.1.xml" />
+
+	<!-- Start logging --> 
+	<mkdir dir="${log.dir}" />
+	<tstamp>
+		<format property="install.time" pattern="yyyy-MM-dd-HH-mm" />
+	</tstamp>
+	<record name="${log.dir}/install-${install.time}.log" action="start"/>
+
+	<!-- Targets -->
+	<target name="diagnostics" description="diagnostics">
+		<echoproperties/>
+		<diagnostics/>
+	</target>
+
+	<target name="clean">
+		<mkdir dir="${target.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<delete>
+			<fileset dir="${target.dir}">
+				<exclude name="**/tools/*"/>
+			</fileset>
+		</delete>
+		<delete dir="${dist.dir}"/>
+		<delete dir="${temp.dir}"/>
+	</target>
+
+	<target name="init" >
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${target.dir}"/>
+		<mkdir dir="${csm.target.dir}"/>
+		<mkdir dir="${securityws.target.dir}"/>
+		<mkdir dir="${upt.target.dir}"/>
+		<mkdir dir="${common.target.dir}"/>
+		<mkdir dir="${tools.target.dir}"/>
+		<available file="${jboss.dest.file}" property="jboss.tools.exists"/>
+	</target>
+
+	<target name="ivy:clean" description="Clean">
+		<ivy:settings file="${global.ivy.settings.file}" />
+		<ivy:cleancache />
+		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml"
+			target="ivy-cleancache">
+			<property name="bda-utils.dir" value="${bda-utils.dir}"/>
+			<property name="lib.dir" value="${lib.dir}"/>
+		</ant>
+		
+	</target>
+
+	<!-- Wrapper build target, call appropriate builds for sub-projects -->
+	<target name="build-all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions"
+		depends="
+		clean,
+		init,
+		build:upt,
+		build:securityws"/>
+
+	<!-- Build generic-query-grid sub-project produces project level artifact -->
+	<target name="build:csm" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}"
+			target="${csm.build.target}"
+			dir="${csm.base.dir}" >
+			<!-- ignore this since it does not need to be in distribution
+			<property name="dist" value="${csm.target.dir}" />
+			-->
+		</ant>
+	</target>
+
+	<target name="build:upt" depends="init, build:csm">
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}"
+			target="${upt.build.target}"
+			dir="${upt.base.dir}" >
+			<property name="dist.home" value="${upt.target.dir}" />
+		</ant>
+	</target>
+
+	<target name="build:securityws" depends="init, build:csm">
+		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}"
+			target="${securityws.build.target}"
+			dir="${securityws.base.dir}" >
+			<property name="dist.home" value="${securityws.target.dir}" />
+		</ant>
+	</target>
+
+
+	<!-- Produces all distributions: installer, upgrader and source -->
+	<target name="dist" description="Makes all distributions: installer, upgrader and source"
+		depends="
+		build-all,
+		dist:installer,
+		dist:upgrader,
+		dist:src"
+	      	/>
+
+	<target name="dist:src">
+		<!-- Add tasks here to zip up src into a distribution, may require some additoinal properties for distribution name" -->
+	</target>
+
+	<!-- Wrapper target that downloads all required binaries from Common Tools Repository -->
+	<target name="dist:tools:retrieve" description="Downloads binary support tools form common tools repository"
+		depends="
+		init,
+		dist:tools:retrieve:jboss
+		" />
+
+	<!-- Downloads jboss from tools repository and compares checksum, based on properties set in project.properties -->
+	<target name="dist:tools:retrieve:jboss" unless="jboss.tools.exists">
+		<get src="${jboss.src.url}"
+			dest="${jboss.dest.file}"/>
+		<get src="${jboss.src.url}.MD5"
+			dest="${jboss.dest.file}.MD5"/>
+		<checksum file="${jboss.dest.file}" verifyProperty="jboss.cksum.ok"/>
+		<if>
+			<equals arg1="${jboss.cksum.ok}" arg2="true"/>
+			<then>
+				<echo message="Downloaded jboss sucessfully"/>
+			</then>
+			<else>
+				<fail message="Failed to download jboss file sucessfully."/>
+			</else>
+		</if>
+	</target>
+
+	<!-- Copies install time resources into distribution tree -->
+	<target name="dist:installer:prep" depends="dist:tools:retrieve">
+		<!-- added for incremental database build -->
+		<!-- Need to call database-build-filelist once for each type of database you support.
+			db-incr.* propertes are stored in project.properties because they are used in both
+			install.xml and build.xml
+		-->
+		<database-build-filelist 
+			sqlfiles.list.file="${target.dir}/${db-incr.mysql.list.file}"
+			build.properties.file="${target.dir}/${db-incr.mysql.conf.file}"
+			incr.sql.dir="${db-incr.src.dir}/mysql" />
+		<database-build-filelist 
+			sqlfiles.list.file="${target.dir}/${db-incr.oracle.list.file}"
+			build.properties.file="${target.dir}/${db-incr.oracle.conf.file}"
+			incr.sql.dir="${db-incr.src.dir}/oracle" />
+		<copy tofile="${target.dir}/db-integrate.xml" file="${bda-utils.dir}/resource/template-db-integrate.xml"/>
+
+		<!-- Copy install related xml and properties files -->
+		<copy todir="${target.dir}" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="install.xml" />
+				<include name="install.properties" />
+				<include name="*properties.template" />
+				<include name="project.properties" />
+			</fileset>
+		</copy> 
+		<!-- Set default target on install xml to install -->
+		<replaceregexp file="${target.dir}/install.xml" byline="true"
+			match="(.project.*default=.)\w+(.\s+.*)"
+			replace="\1upgrade\2"/>
+		<!-- Rename install.xml to build.xml so manual installs will not need to include the -f optoin on ant, simplifying the install proces. -->
+		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml"/>
+
+		<!-- Copy over BDA macrodefs and librarires -->
+		<copy todir="${target.dir}/bda-utils" overwrite="true">
+			<fileset dir="${bda-utils.dir}">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+
+		<!-- This  copies common files over, common files are currently resource files like
+			jboss configuration files and database scripts
+		-->
+		<copy todir="${common.target.dir}" overwrite="true">
+			<fileset dir="${common.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+		</copy> 
+	</target>
+
+	<!-- Creates the installer distribution used by automated or manual remote installations -->
+	<target name="dist:installer" depends="dist:installer:prep">
+		<delete file="${dist.dir}/${csm.install.zip.file}"/>
+		<zip destfile="${dist.dir}/${csm.install.zip.file}" basedir="${target.dir}"/>
+	</target>
+
+	<!-- Copies install time resources into distribution tree -->
+	<target name="dist:upgrader:prep">
+		<!-- Cleans up files copied by dist:*:prep targets to ensure only required files are present becaue this target is run after dist:installer:prep -->
+		<delete dir="${tools.target.dir}"/>
+		<delete>
+			<fileset dir="${target.dir}">
+				<include name="*.xml" />
+				<include name="*properties*" />
+			</fileset>
+		</delete>
+
+		<!-- added for incremental database build -->
+		<!-- Need to call database-build-filelist once for each type of database you support.
+			db-incr.* propertes are stored in project.properties because they are used in both
+			install.xml and build.xml
+		-->
+		<database-build-filelist 
+			sqlfiles.list.file="${target.dir}/${db-incr.mysql.list.file}"
+			build.properties.file="${target.dir}/${db-incr.mysql.conf.file}"
+			incr.sql.dir="${db-incr.src.dir}/mysql" />
+		<database-build-filelist 
+			sqlfiles.list.file="${target.dir}/${db-incr.oracle.list.file}"
+			build.properties.file="${target.dir}/${db-incr.oracle.conf.file}"
+			incr.sql.dir="${db-incr.src.dir}/oracle" />
+		<copy tofile="${target.dir}/db-integrate.xml" file="${bda-utils.dir}/resource/template-db-integrate.xml"/>
+
+		<!-- Copy install related xml and properties files -->
+		<copy todir="${target.dir}" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="install.xml" />
+				<include name="upgrade.properties" />
+				<include name="*properties.template" />
+				<include name="project.properties" />
+			</fileset>
+		</copy> 
+		<!-- Change default target of install.xml to upgrade -->
+		<replaceregexp file="${target.dir}/install.xml" byline="true"
+			match="(.project.*default=.)\w+(.\s+.*)"
+			replace="\1install\2"/>
+		<!-- Rename install.xml to build.xml to simply install but not having to provide -f option to ant command line -->
+		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml"/>
+
+		<!-- Copy BDA macrodefs and library files -->
+		<copy todir="${target.dir}/bda-utils" overwrite="true">
+			<fileset dir="${bda-utils.dir}">
+				<exclude name="**/*.zip"/>
+			</fileset>
+		</copy>
+
+		<!-- This  copies common files over, common files are currently resource files like
+			jboss configuration files and database scripts
+		-->
+		<copy todir="${common.target.dir}" overwrite="true">
+			<fileset dir="${common.src.dir}">
+				<include name="**/*"/>
+			</fileset>
+		</copy> 
+	</target>
+
+	<!-- Creates upgrader distribution -->
+	<target name="dist:upgrader" depends="dist:upgrader:prep">
+		<delete file="${dist.dir}/${csm.upgrade.zip.file}"/>
+		<zip destfile="${dist.dir}/${csm.upgrade.zip.file}" basedir="${target.dir}"/>
+
+	</target>
+
+
+	<!-- Installs the application locally. Requires a local instance of mysql. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from exec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. This target will use differnt properties based on linux (linux-install.properties) or windows (windows-install.properties) installs. It only supports using those properties files for now, so if you want to change install time properites edit these files. -->
+	<target name="deploy:local:install" depends="dist:installer:prep" description="Installs the application and required binaries on the local machine, used for developer desktops and ci environments" >
+		<!-- deploy:local fails about basedirectory in real strange place macrodefs:319, this should fix it -->
+		<mkdir dir="${target.dir}/lib"/>
+
+		<!-- Copies over all files so linux and windows properties are present -->
+		<copy todir="${target.dir}">
+			<fileset dir="${basedir}">
+				<include name="*.properties"/>
+			</fileset>
+		</copy>
+		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}">
+			<!-- use alternate properties file since default has replace values -->
+			<arg value="-Dproperties.file=linux-install.properties"/>
+			<!-- force reinstall of database and jboss without prompting -->
+			<arg value="-Dforce.reinstall=true"/>
+			<arg value="${install.target}"/>
+		</exec> 
+		<exec os="Windows XP, Windows 2000, Windows 2003"
+			executable="ant.bat" dir="${target.dir}">
+			<!-- use alternate properties file since default has replace values -->
+			<arg value="-Dproperties.file=windows-install.properties"/>
+			<!-- force reinstall of database and jboss without prompting -->
+			<arg value="-Dforce.reinstall=true"/>
+			<arg value="${install.target}"/>
+		</exec> 
+
+	</target>
+
+	<!-- Upgrades the application locally. Requires a local instance of mysql. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from exec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. This target will use differnt properties based on linux (linux-install.properties) or windows (windows-install.properties) upgrades. It only supports using those properties files for now, so if you want to change install time properites edit these files. -->
+	<target name="deploy:local:upgrade" depends="dist:upgrader:prep" description="Upgrades the application on the local machine, used for developer desktops and ci environments" >
+		<!-- deploy:local fails about basedirectory in real strange place macrodefs:319, this should fix it -->
+		<mkdir dir="${target.dir}/lib"/>
+
+		<!-- Copies over all files so linux and windows properties are present -->
+		<copy todir="${target.dir}">
+			<fileset dir="${basedir}">
+				<include name="*.properties"/>
+			</fileset>
+		</copy>
+
+		<!-- ci.server property is set at run time.  Since both the developer workstaton
+			and ci.server use the same install targets and we need to start the servers on
+			one  and not the other, this condition will remove the property from the
+			properties file.
+		-->
+		<if>
+			<isset property="ci.server"/>
+			<then>
+				<replaceregexp file="${target.dir}/linux-upgrade.properties" byline="true"
+					match="exclude.start.servers=true"
+					replace=""/>
+				<replaceregexp file="${target.dir}/windows-upgrade.properties" byline="true"
+					match="exclude.start.servers=true"
+					replace=""/>
+			</then>
+		</if>
+
+		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}">
+			<!-- use alternate properties file since default has replace values -->
+			<arg value="-Dproperties.file=linux-upgrade.properties"/>
+			<!-- force reinstall of database and jboss without prompting -->
+			<arg value="-Dforce.reinstall=true"/>
+			<arg value="-Dlocal.install=true"/>
+			<arg value="${upgrade.target}"/>
+		</exec> 
+		<exec os="Windows XP, Windows 2000, Windows 2003"
+			executable="ant.bat" dir="${target.dir}">
+			<!-- use alternate properties file since default has replace values -->
+			<arg value="-Dproperties.file=windows-upgrade.properties"/>
+			<!-- force reinstall of database and jboss without prompting -->
+			<arg value="-Dforce.reinstall=true"/>
+			<arg value="-Dlocal.install=true"/>
+			<arg value="${upgrade.target}"/>
+		</exec> 
+		<echo message="The server is not started as part of local deployment.  You will need to run $JBOSS_HOME/bin/run.bat (or run.sh if you are linux)."/>
+	</target>
+
+	<!-- Cleans remote deployment area and ensure required directorys are created -->
+	<target name="deploy:remote:prep">
+		<property name="ssh.prop.list" value="ssh.server.username,ssh.server.hostname,ssh.port,ssh.key.file,ssh.dir.temp"/>
+		<properties-exist properties.list="${ssh.prop.list}"/>
+		<!-- add call to bad directory checker once it is a separate macro on macrodefs.xml -->
+		<remote-ssh remotesshcommand="rm -rf ${ssh.dir.temp};mkdir -p ${ssh.dir.temp}" />
+		<!-- work around for issue where basedir is required but is not currently used -->
+		<remote-ssh remotesshcommand="mkdir -p ${ssh.dir.temp}/lib" />
+	</target>
+
+	<!-- Copies the distrbution to the remote system -->
+	<target name="deploy:remote:install:copy">
+		<remote-scp remoteScpFileToCopy="${target.dir}/${csm.install.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
+		<remote-scp remoteScpFileToCopy="${properties.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
+	</target>
+
+	<!-- Extracts the distribution on the remote system -->
+	<target name="deploy:remote:install:extract">
+		<remote-ssh remotesshcommand="cd ${ssh.dir.temp}; unzip -q ${csm.install.zip.file}" />
+	</target>
+
+	<!-- Install the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point installer to correct enviornment to install into -->
+	<target name="deploy:remote:install"
+		depends="
+		build-all,
+		dist:installer,
+		deploy:remote:prep,
+		deploy:remote:install:copy,
+		deploy:remote:install:extract
+		">
+		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.target}" />
+	</target>
+
+	<!-- Copies distribution to remote system -->
+	<target name="deploy:remote:upgrade:copy">
+		<remote-scp remoteScpFileToCopy="${target.dir}/${csm.upgrade.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
+		<remote-scp remoteScpFileToCopy="${properties.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
+	</target>
+	<!-- Extracts distribution on remote system -->
+	<target name="deploy:remote:upgrade:extract">
+		<remote-ssh remotesshcommand="cd ${ssh.dir.temp}; unzip -q ${csm.upgrade.zip.file}" />
+	</target>
+
+	<!-- Upgrades the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point upgrader to correct enviornment to upgrade -->
+	<target name="deploy:remote:upgrade"
+		depends="
+		build-all,
+		dist:upgrader,
+		deploy:remote:prep,
+		deploy:remote:upgrade:copy,
+		deploy:remote:upgrade:extract
+		">
+		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${upgrade.target}" />
+	</target>
+
+	<target name="usage" description="Explains how to use this build script">
+		<echo message="To run a remote upgrade type: ant deploy:remote:upgrade -Dproperties.file=[path to environment proeprty file]" />
+	</target>
+
+	<!-- Scorches checkout area and then checks out the generic project from svn. Serval propeties influence what is checked out.  Each of the properites have defaults, which will check out trunk.  This target uses the svn-co macro from bda -->
+	<target name="svn:co">
+		<property name="svn.project.base.url" value="http://gforge.nci.nih.gov/svnroot/generic"/>
+		<property name="svn.project.name" value="generic"/>
+		<property name="svn.tag" value="trunk"/>
+		<property name="svn.co.base.dir" value="${user.home}/tmp"/>
+
+		<svn-co
+			svn.project.base.url="${svn.project.base.url}"
+			svn.project.name="${svn.project.name}"
+			svn.tag="${svn.tag}"
+			svn.co.base.dir="${svn.co.base.dir}"
+			/>
+	</target>
+	<target name="report:grand" description="Generates grand graphs for build.xml files">
+		<report-grand
+			build.file.location="build.xml"
+			output.file.dir="."
+			output.file.name="generic-root-build.xml"
+			/>
+	</target>
+	<!-- Static Analysis  & testing targets 
+	<target name="static-analysis:simian" description="Performs code duplication analysis">
+		<simian>
+			<fileset dir="${basedir}/generic-services-commons/src" includes="**/*.java"/>
+			<fileset dir="${basedir}/generic-services-grid/src" includes="**/*.java"/>
+			<fileset dir="${basedir}/generic-web/src" includes="**/*.java"/>
+			<formatter type="xml" toFile="${reports.dir}/simian-log.xml"/>
+		</simian>
+		<xslt in="${reports.dir}/simian-log.xml" out="${reports.dir}/simian-log.html" style="${resources.dir}/simian.xsl" />
+	</target>
+	 mostly taken from ncia unit testing script
+	<target name="static-analysis:init">
+		<property name="src.test.dir" value="${basedir}/test" />
+		<property name="test.classes.dir" value="${basedir}/test-classes" />
+		<property name="instrumented.dir" value="${basedir}/instrumented" />
+		<property name="cobertura.ser.file" value="${instrumented.dir}/cobertura.ser" />
+		<property name="reports.dir" value="${common.dir}reports"/>
+		<property name="junit.reports.dir" value="${reports.dir}/junit"/>
+		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura"/>
+		<fail unless="classes.to.test.dir" message="must define classes.to.test.dir for unittesting.xml to work.  it's typically same as classes.dir in host build file"/>
+		<fail unless="common.dir" message="must define common.dir for unittesting.xml to work"/>
+		<path id="ivy.classpath">
+			<fileset dir="${common.dir}/lib">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<fail unless="lib.dir" message="must define lib.dir for unittesting.xml to work"/>
+		<path id="project.test.classpath">
+			<fileset dir="${lib.dir}/test">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<path id="project.test.pmd.classpath">
+			<fileset dir="${lib.dir}/test-pmd">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<echo>ci: ${ci.server}</echo>
+
+	</target>
+	<target name="ivy-test" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test" />
+	</target>
+	<target name="ivy-test-pmd" if="ci.server" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-pmd" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-pmd" />
+	</target>
+	<target name="post-clean-test" if="ci.server">
+		<delete dir="${instrumented.dir}" quiet="false" />
+		<delete dir="${test.classes.dir}" quiet="false" />
+	</target>
+	<target name="init-test" if="ci.server">
+		<mkdir dir="${test.classes.dir}" />
+		<mkdir dir="${instrumented.dir}" />
+		<mkdir dir="${junit.reports.dir}" />
+		<mkdir dir="${reports.dir}/javancss" />
+		<mkdir dir="${reports.dir}/checkstyle" />
+		<mkdir dir="${reports.dir}/pmd" />
+	</target>
+	
+	<target name="compile-test" if="ci.server" depends="-pre-clean, -init, ivy-test" description="Compiles the Java source code">
+		<javac srcdir="${src.test.dir}" destdir="${test.classes.dir}" debug="true">
+			<classpath refid="project.test.classpath" />
+			<classpath path="${classes.to.test.dir}" />
+		</javac>
+	</target>
+	<target name="test" if="ci.server" depends="compile-test, -cobertura-instrument" description="Runs all unit tests">
+		<junit printsummary="on" failureproperty="junit.failure" fork="true" forkmode="once" maxmemory="256m">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.ser.file}" />
+			<classpath location="${instrumented.dir}" />
+			<classpath location="${classes.to.test.dir}" />
+			<classpath location="${test.classes.dir}" />
+			<classpath refid="project.test.classpath" />
+			<formatter type="xml" />
+			perhaps break down by project name if there are collisions?
+			<batchtest todir="${junit.reports.dir}">
+				<fileset dir="${src.test.dir}">
+					
+					<include name="**/*Test.java" />
+					<include name="**/Test*.java" />
+					<exclude name="**/Abstract*Test.java" />
+					<exclude name="**/Test*Impl.java" />
+
+					<exclude name="**/*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		
+		<junitreport todir="${junit.reports.dir}">
+			<fileset dir="${junit.reports.dir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${junit.reports.dir}"/>
+		</junitreport>          
+				<fail if="junit.failure" message="There were JUnit failures" />
+		
+	</target>
+-->
+<!--
+	<target name="static-analysis:java-ncss" if="ci.server">
+		<taskdef name="javancss" classpathref="project.test.classpath" classname="javancss.JavancssAntTask" />
+		<javancss srcdir="${src.java.dir}"
+			includes="**/*.java"
+			generatereport="true"
+			outputfile="${reports.dir}/javancss/javancss_metrics_${ant.project.name}.xml"
+			ccnPerFuncMax="10"
+			format="xml"/>
+		<xslt taskname="javancss"
+			in="${reports.dir}/javancss/javancss_metrics_${ant.project.name}.xml"
+			out="${reports.dir}/javancss/javancss_report_${ant.project.name}.html"
+			style="../common/javancss/javancss2methodhtml.xsl"/>
+	</target>
+	<target name="static-analysis:pmd" if="ci.server" depends="ivy-test-pmd">
+		<taskdef name="pmd" 
+			classname="net.sourceforge.pmd.ant.PMDTask"
+			classpathref="project.test.pmd.classpath"/>
+		<pmd shortFilenames="true" 
+			rulesetfiles="${common.dir}/common/pmd/pmd-ruleset-basic.xml">
+			<formatter type="xml"
+				toFile="${reports.dir}/pmd/pmd_out_${ant.project.name}.xml" />
+			<fileset dir="${src.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+		</pmd>
+		<xslt taskname="pmd"
+			in="${reports.dir}/pmd/pmd_out_${ant.project.name}.xml"
+			out="${reports.dir}/pmd/pmd_report_${ant.project.name}.html"
+			style="../common/pmd/pmd-report.xslt"/>
+	</target>
+	<target name="static-analysis:checkstyle" if="ci.server">
+		<taskdef resource="checkstyletask.properties"
+			uri="antlib:com.puppycrawl.tools.checkstyle"
+			classpathref="project.test.classpath"/>
+		<cs:checkstyle config="../common/checkstyle/checkstyle_minimal.xml"
+			failOnViolation="false">
+			<formatter type="xml" 
+				tofile="${reports.dir}/checkstyle/checkstyle_${ant.project.name}.xml"/>
+			<fileset dir="${src.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+		</cs:checkstyle>
+		<xslt taskname="checkstyle"
+			in="${reports.dir}/checkstyle/checkstyle_${ant.project.name}.xml"
+			out="${reports.dir}/checkstyle/checkstyle_report_${ant.project.name}.html"
+			style="../common/checkstyle/checkstyle-simple.xsl"/>
+	</target>
+
+	<target name="static-analysis:cobertura:instrument" if="ci.server" description="Instruments Cobertura test classes">
+		wait to do this until ivy has populated the directory 
+		<taskdef classpathref="project.test.classpath" resource="tasks.properties" />
+		<cobertura-instrument todir="${instrumented.dir}" datafile="${cobertura.ser.file}">
+			<fileset dir="${classes.to.test.dir}">
+				<include name="gov/nih/nci/ncia/**" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+	<target name="static-analysis:cobertura:report" if="ci.server" depends="-cobertura-instrument" description="Creates Cobertura report">
+		<cobertura-report datafile="${cobertura.ser.file}" format="html" destdir="${cobertura.reports.dir}/${ant.project.name}">
+			<fileset dir="${src.java.dir}">
+				<include name="gov/nih/nci/ncia/**" />
+			</fileset>
+		</cobertura-report>
+	</target>
+	<target name="static-analysis:cobertura:check" if="ci.server" depends="-cobertura-report">
+		<cobertura-check failureproperty="cobertura.failure" datafile="${cobertura.ser.file}" haltonfailure="false" linerate="0" packagebranchrate="0" packagelinerate="0" totalbranchrate="25" totallinerate="30" />
+	</target>
+
+	-->
+	<!-- Static Analysis wrapper, calls all statict analysis targets -->
+	<!--<target name="static-analysis" description="Performs static analysis"
+		depends="
+		static-analysis:simian,
+		static-analysys:java-ncss
+		static-analysys:pmd,
+		static-analysys:checkstyle,
+		static-analysys:cobertura:instrument,
+		static-analysys:cobertura:report,
+		static-analysys:cobertura:check
+		"/>
+
+	-->
+</project>
