@@ -1,4 +1,4 @@
-<project name="CSMAPIProject" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csm-api" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<description>CSM API Project Build File</description>
 
 	<property name="common.dir" value="${basedir}/../" />
@@ -33,6 +33,7 @@
 		</fileset>
 		<fileset dir="${local.lib.dir}">
 			<include name="*.jar" />
+			<exclude name="hibernate-commons-annotations.jar" />
 		</fileset>
 	</path>
 
@@ -51,7 +52,11 @@
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="compile" />
 	</target>
 
-	<target name="-pre-clean" description="Performs all necessary clean-up before a build">
+	<target name="ivy-clean-cache" description="Cleans local Ivy cache">
+		<delete dir="${user.home}/.ivy-${ant.project.name}" />
+	</target>
+
+	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
 		<delete dir="${classes.dir}" quiet="false" />
 		<delete file="${target.dir}/${jar.name}" quiet="false" />
 		<delete dir="${lib.dir}" />
