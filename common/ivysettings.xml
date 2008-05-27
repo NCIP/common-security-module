@@ -1,0 +1,57 @@
+<ivysettings>
+	<property name="nci.ivy.repo" value="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo" />
+	<property name="csmupt.basedir" value="${ivy.settings.dir}/.." />
+
+	<settings defaultCache="${user.home}/.ivy2-${project.name}" defaultResolver="nci-chain" />
+
+	<caches useOrigin="true" />
+
+	<resolvers>
+		<ibiblio name="ibiblio" m2compatible="true" />
+
+		<!-- for messing with install task as starting point for ivy defs for third party libs
+			<filesystem name="internal" local="true">
+			<ivy pattern="c:/foo/[organisation]/[module]-[revision]/ivy.xml"/>
+			<artifact pattern="c:/foo/[organisation]/[module]-[revision]/[artifact]-[revision].[ext]"/>
+			</filesystem>
+		-->
+
+		<chain name="nci-chain">
+			<url name="ncicb-ivy-repo" m2compatible="false">
+				<ivy pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/ivy.xml" />
+				<artifact pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+			</url>
+
+			<!-- begin csmupt specific stuff -->
+			<filesystem name="api-resolver" local="true">
+				<artifact pattern="${csmupt.basedir}/target/csm/[module].[ext]" />
+				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
+			</filesystem>
+
+			<filesystem name="securityws-resolver" local="true">
+				<artifact pattern="${csmupt.basedir}/target/securityws/[module].[ext]" />
+				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
+			</filesystem>
+
+			<filesystem name="upt-resolver" local="true">
+				<artifact pattern="${csmupt.basedir}/csmupt-services-commons/lib/[module].[ext]" />
+				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
+			</filesystem>
+
+			<!-- end csmupt specific stuff -->
+
+		</chain>
+	</resolvers>
+
+	<!-- begin csmupt specific stuff -->
+	<modules>
+		<module organisation="ncicb" name="api" resolver="api-resolver" />
+
+		<module organisation="ncicb" name="securityws" resolver="securityws-resolver" />
+
+		<module organisation="ncicb" name="upt" resolver="upt-resolver" />
+
+	</modules>
+	<!-- end csmupt specific stuff -->
+
+</ivysettings>
