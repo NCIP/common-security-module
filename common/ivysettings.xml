@@ -2,7 +2,7 @@
 	<property name="nci.ivy.repo" value="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo" />
 	<property name="csmupt.basedir" value="${ivy.settings.dir}/.." />
 
-	<settings defaultCache="${user.home}/.ivy2-${project.name}" defaultResolver="nci-chain" />
+	<settings defaultCache="${user.home}/.ivy2-${ant.project.name}" defaultResolver="nci-chain" />
 
 	<caches useOrigin="true" />
 
@@ -43,15 +43,10 @@
 		</chain>
 	</resolvers>
 
-	<!-- begin csmupt specific stuff -->
 	<modules>
 		<module organisation="ncicb" name="api" resolver="api-resolver" />
-
 		<module organisation="ncicb" name="securityws" resolver="securityws-resolver" />
-
 		<module organisation="ncicb" name="upt" resolver="upt-resolver" />
-
 	</modules>
-	<!-- end csmupt specific stuff -->
 
 </ivysettings>
