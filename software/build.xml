@@ -530,7 +530,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		</simian>
 		<xslt in="${reports.dir}/simian-log.xml" out="${reports.dir}/simian-log.html" style="${resources.dir}/simian.xsl" />
 	</target>
-	 mostly taken from ncia unit testing script
+	 
 	<target name="static-analysis:init">
 		<property name="src.test.dir" value="${basedir}/test" />
 		<property name="test.classes.dir" value="${basedir}/test-classes" />
@@ -673,14 +673,14 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<taskdef classpathref="project.test.classpath" resource="tasks.properties" />
 		<cobertura-instrument todir="${instrumented.dir}" datafile="${cobertura.ser.file}">
 			<fileset dir="${classes.to.test.dir}">
-				<include name="gov/nih/nci/ncia/**" />
+				<include name="gov/nih/nci/security/**" />
 			</fileset>
 		</cobertura-instrument>
 	</target>
 	<target name="static-analysis:cobertura:report" if="ci.server" depends="-cobertura-instrument" description="Creates Cobertura report">
 		<cobertura-report datafile="${cobertura.ser.file}" format="html" destdir="${cobertura.reports.dir}/${ant.project.name}">
 			<fileset dir="${src.java.dir}">
-				<include name="gov/nih/nci/ncia/**" />
+				<include name="gov/nih/nci/security/**" />
 			</fileset>
 		</cobertura-report>
 	</target>
