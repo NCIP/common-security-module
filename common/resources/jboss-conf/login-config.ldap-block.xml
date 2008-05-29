@@ -1,4 +1,4 @@
-<application-policy name="NCIA">
+<application-policy name="csmupt">
 	<authentication>
 		<!--
 		<login-module code="gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag="required"> 
