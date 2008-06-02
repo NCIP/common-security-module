@@ -5,38 +5,7 @@
 	<classpathentry kind="src" path="software/api/config"/>
 	<classpathentry kind="src" path="software/upt/webapp/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="software/api/lib/acegi-security-1.0.3.jar" sourcepath="/AcegiSource"/>
-	<classpathentry kind="lib" path="software/api/lib/antlr-2.7.6rc1.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/aopalliance-1.0.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/asm.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/aspectjrt-1.2.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/c3p0-0.9.0.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/cglib-2.1.3.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/commons-collections-2.1.1.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/commons-dbcp-1.2.1.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/commons-lang-1.0.1.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/hibernate3.jar" sourcepath="C:/Documents and Settings/parmarv/Desktop/junk/hibernate-3.2"/>
-	<classpathentry kind="lib" path="software/api/lib/jdom.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/jta.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/jtds-1.2.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/junit-4.1.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/log4j-1.2.9.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/mysql-connector-java-3.1.11-bin.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/postgresql-8.2-504.jdbc3.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/spring-1.2.8.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/xerces-2.6.2.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/backport-util-concurrent.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/clm.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/clmwebapp.jar"/>
-	<classpathentry kind="lib" path="software/api/lib/ehcache-1.2.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/clm-4.0.jar"/>
 	<classpathentry kind="lib" path="software/securityws/WebRoot/WEB-INF/lib/activation.jar"/>
 	<classpathentry kind="lib" path="software/securityws/WebRoot/WEB-INF/lib/asm.jar"/>
 	<classpathentry kind="lib" path="software/securityws/WebRoot/WEB-INF/lib/axis.jar"/>
@@ -119,5 +88,15 @@
 	<classpathentry kind="lib" path="software/upt/webapp/public_html/WEB-INF/lib/xerces-2.6.2.jar"/>
 	<classpathentry kind="lib" path="software/upt/webapp/public_html/WEB-INF/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="software/upt/webapp/public_html/WEB-INF/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/acegi-security-1.0.3.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/commons-lang-1.0.1.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/ehcache-1.2.4.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/ejb3-persistence-1.0.1.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/hibernate-3.2.0.ga.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/hibernate-annotations-1.0.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/jdom-1.1.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/log4j-1.2.9.jar"/>
+	<classpathentry kind="lib" path="software/lib/api/compile/spring-1.2.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

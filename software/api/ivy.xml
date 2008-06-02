@@ -36,7 +36,7 @@
 		<dependency org="ncicb" name="clm" rev="4.0" conf="compile;runtime;" />
 		
 		<dependency org="javancss" name="javancss" rev="29.50" conf="test->runtime"/>
-		<dependency org="junit" name="junit" rev="3.8.1" conf="test->master"/>
+		<dependency org="junit" name="junit" rev="3.8.1" conf="compile;test"/>
 		<dependency org="cobertura" name="cobertura" rev="1.9" conf="test->runtime"/>
 		<dependency org="checkstyle" name="checkstyle" rev="4.4" conf="test->runtime"/>
 		<dependency org="pmd" name="pmd" rev="4.2.1" conf="test-pmd->runtime"/>
