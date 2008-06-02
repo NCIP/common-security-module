@@ -33,7 +33,11 @@
 		</fileset>
 		<fileset dir="${local.lib.dir}">
 			<include name="*.jar" />
-			<exclude name="hibernate-commons-annotations.jar" />
+			
+
+
+			
+
 		</fileset>
 	</path>
 
