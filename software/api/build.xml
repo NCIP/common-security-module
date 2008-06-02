@@ -33,17 +33,12 @@
 		</fileset>
 		<fileset dir="${local.lib.dir}">
 			<include name="*.jar" />
-			
-
-
-			
 
 		</fileset>
 	</path>
 
 	<!-- Task definitions -->
 	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="common.classpath" />
-
 
 	<!-- Targets -->
 
@@ -113,51 +108,12 @@
 		<delete quiet="true" file="${dist}/ObjectStateLoggerConfig.xml" />
 	</target>
 
-	<target name="distupt" depends="dist" description="propogates the distribution to upt project">
-		<property name="distupt" location="../upt/webapp/public_html/WEB-INF/lib" />
-		<property name="distuptresources" location="../resources" />
-		<copy todir="${distupt}">
-			<fileset dir="${dist}">
-				<include name="csmapi.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${distuptresources}">
-			<fileset dir="${dist}">
-				<exclude name="**/*.jar" />
-			</fileset>
-		</copy>
-	</target>
-
-	<!-- Does this even work? directory does not exist -->
-	<target name="distws" depends="dist" description="propogates the distribution to webservices project">
-		<property name="distws" location="./../webservices/WebRoot/WEB-INF/lib" />
-		<property name="distwsresources" location="./../webservices/resources" />
-		<property name="ws.src" location="./../webservices/src/gov/nih/nci/security/ws" />
-		<copy todir="${distws}">
-			<fileset dir="${dist}">
-				<include name="csmapi.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${distwsresources}/csmapi">
-			<fileset dir="${dist}">
-				<exclude name="**/*.jar" />
-				<exclude name="**/*.wsdd" />
-			</fileset>
-		</copy>
-		<copy todir="${distwsresources}">
-			<fileset dir="${ws.src}">
-				<include name="**/*.wsdd" />
-			</fileset>
-		</copy>
-	</target>
-
 	<target name="clean" description="perform the clean up">
 		<delete dir="${classes.dir}" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
 		<delete dir="${classes.dir}" quiet="false" />
-		<delete dir="${dist}" />
 	</target>
 
 	<target name="run" depends="dist, -post-clean" description="Default project target" />
