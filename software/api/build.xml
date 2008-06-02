@@ -157,7 +157,6 @@
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
 		<delete dir="${classes.dir}" quiet="false" />
-		<delete dir="${lib.dir}" />
 		<delete dir="${dist}" />
 	</target>
 
