@@ -520,18 +520,31 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			output.file.name="generic-root-build.xml"
 			/>
 	</target>
-	<!-- Static Analysis  & testing targets 
-	<target name="static-analysis:simian" description="Performs code duplication analysis">
-		<simian>
-			<fileset dir="${basedir}/generic-services-commons/src" includes="**/*.java"/>
-			<fileset dir="${basedir}/generic-services-grid/src" includes="**/*.java"/>
-			<fileset dir="${basedir}/generic-web/src" includes="**/*.java"/>
-			<formatter type="xml" toFile="${reports.dir}/simian-log.xml"/>
-		</simian>
-		<xslt in="${reports.dir}/simian-log.xml" out="${reports.dir}/simian-log.html" style="${resources.dir}/simian.xsl" />
-	</target>
-	 
+
+	<target name="static-analysis" description="Performs static analysis"
+		depends="
+		static-analysis:simian,
+		static-analysis:pmd
+		"/>
+	<!--
+		static-analysis:checkstyle,
+		static-analysis:java-ncss
+		static-analysis:cobertura:instrument,
+		static-analysis:cobertura:report,
+		static-analysis:cobertura:check
+		"/>
+	-->
+
 	<target name="static-analysis:init">
+		<property name="upt.java.dir" value="upt/webapp/src/gov"/>
+		<property name="csm.java.dir" value="api/src/gov"/>
+		<property name="securityws.java.dir" value="securityws/src/gov"/>
+		<property name="common.dir" value="common"/>
+		<property name="report.dir" value="reports"/>
+		<property name="report.simian.dir" value="${report.dir}/simian"/>
+		<property name="report.pmd.dir" value="${report.dir}/pmd"/>
+		<property name="report.checkstyle.dir" value="${report.dir}/checkstyle"/>
+
 		<property name="src.test.dir" value="${basedir}/test" />
 		<property name="test.classes.dir" value="${basedir}/test-classes" />
 		<property name="instrumented.dir" value="${basedir}/instrumented" />
@@ -539,8 +552,10 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="reports.dir" value="${common.dir}reports"/>
 		<property name="junit.reports.dir" value="${reports.dir}/junit"/>
 		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura"/>
+		<!--
 		<fail unless="classes.to.test.dir" message="must define classes.to.test.dir for unittesting.xml to work.  it's typically same as classes.dir in host build file"/>
 		<fail unless="common.dir" message="must define common.dir for unittesting.xml to work"/>
+		-->
 		<path id="ivy.classpath">
 			<fileset dir="${common.dir}/lib">
 				<include name="*.jar" />
@@ -558,8 +573,41 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</fileset>
 		</path>
 		<echo>ci: ${ci.server}</echo>
+		<mkdir dir="${report.dir}"/>
+		<mkdir dir="${report.simian.dir}"/>
+		<mkdir dir="${report.pmd.dir}"/>
+		<mkdir dir="${report.checkstyle.dir}"/>
 
 	</target>
+
+	<target name="static-analysis:simian" depends="static-analysis:init" description="Performs code duplication analysis">
+		<simian>
+			<fileset dir="${upt.java.dir}" includes="**/*.java"/>
+			<fileset dir="${securityws.java.dir}" includes="**/*.java"/>
+			<fileset dir="${csm.java.dir}" includes="**/*.java"/>
+			<formatter type="xml" toFile="${report.simian.dir}/simian-log.xml"/>
+		</simian>
+		<xslt in="${report.simian.dir}/simian-log.xml" out="${report.simian.dir}/simian-log.html" style="${common.dir}/simian/simian.xsl" />
+	</target>
+	 
+	<target name="static-analysis:pmd">
+		<taskdef name="pmd" 
+			classname="net.sourceforge.pmd.ant.PMDTask"
+			classpathref="bda-utils.classpath"/>
+		<pmd shortFilenames="true" 
+			rulesetfiles="${common.dir}/pmd/pmd-ruleset-basic.xml">
+			<formatter type="xml"
+				toFile="${report.pmd.dir}/pmd_out_${ant.project.name}.xml" />
+			<fileset dir="${upt.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+		</pmd>
+		<xslt taskname="pmd"
+			in="${report.pmd.dir}/pmd_out_${ant.project.name}.xml"
+			out="${report.pmd.dir}/pmd_report_${ant.project.name}.html"
+			style="${common.dir}/pmd/pmd-report.xslt"/>
+	</target>
+	<!-- Static Analysis  & testing targets 
 	<target name="ivy-test" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test" />
@@ -633,23 +681,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			out="${reports.dir}/javancss/javancss_report_${ant.project.name}.html"
 			style="../common/javancss/javancss2methodhtml.xsl"/>
 	</target>
-	<target name="static-analysis:pmd" if="ci.server" depends="ivy-test-pmd">
-		<taskdef name="pmd" 
-			classname="net.sourceforge.pmd.ant.PMDTask"
-			classpathref="project.test.pmd.classpath"/>
-		<pmd shortFilenames="true" 
-			rulesetfiles="${common.dir}/common/pmd/pmd-ruleset-basic.xml">
-			<formatter type="xml"
-				toFile="${reports.dir}/pmd/pmd_out_${ant.project.name}.xml" />
-			<fileset dir="${src.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-		</pmd>
-		<xslt taskname="pmd"
-			in="${reports.dir}/pmd/pmd_out_${ant.project.name}.xml"
-			out="${reports.dir}/pmd/pmd_report_${ant.project.name}.html"
-			style="../common/pmd/pmd-report.xslt"/>
-	</target>
 	<target name="static-analysis:checkstyle" if="ci.server">
 		<taskdef resource="checkstyletask.properties"
 			uri="antlib:com.puppycrawl.tools.checkstyle"
@@ -690,16 +721,5 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	-->
 	<!-- Static Analysis wrapper, calls all statict analysis targets -->
-	<!--<target name="static-analysis" description="Performs static analysis"
-		depends="
-		static-analysis:simian,
-		static-analysys:java-ncss
-		static-analysys:pmd,
-		static-analysys:checkstyle,
-		static-analysys:cobertura:instrument,
-		static-analysys:cobertura:report,
-		static-analysys:cobertura:check
-		"/>
 
-	-->
 </project>
