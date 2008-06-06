@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroupRoleContext.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroupRoleContext.java"
+>
+  <violation
+    line="158"
+    source="EqualsHashCodeCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Definition of 'equals()' without corresponding definition of 'hashCode()'."
+    severity-level="1"
+    popup-message="Definition of 'equals()' without corresponding definition of 'hashCode()'."
+  />
+  <line number='149'>	/**</line>
+  <line number='150'>	 * The protection group for which roles are assigned.</line>
+  <line number='151'>	 * @param newVal</line>
+  <line number='152'>	 * </line>
+  <line number='153'>	 */</line>
+  <line number='154'>	public void setProtectionGroup(ProtectionGroup newVal){</line>
+  <line number='155'>		protectionGroup = newVal;</line>
+  <line number='156'>	}</line>
+  <line number='157'></line>
+  <line number='158'>	public boolean equals(Object obj){</line>
+  <line number='159'>	    ProtectionGroupRoleContext other = (ProtectionGroupRoleContext)obj;</line>
+  <line number='160'>		if(this.getProtectionGroup().getProtectionGroupName().equals(other.getProtectionGroup().getProtectionGroupName())){</line>
+  <line number='161'>			return true;</line>
+  <line number='162'>		}else{</line>
+  <line number='163'>		return false;</line>
+  <line number='164'>		}</line>
+  <line number='165'>	}</line>
+  <line number='166'></line>
+  <line number='167'>	public int compareTo(Object object) {</line>
+  <line number='168'>		if(object instanceof ProtectionGroupRoleContext){</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+</file>

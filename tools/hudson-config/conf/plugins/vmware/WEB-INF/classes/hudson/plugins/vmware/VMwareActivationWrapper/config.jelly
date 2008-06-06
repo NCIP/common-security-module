@@ -1,0 +1,67 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:entry title="Virtual Machines">
+        <j:set var="url" value="${h.decompose(request)}"/>
+        <f:repeatable var="machine" varStatus="loopStatus" items="${instance.machines}" minimum="1">
+            <table width="100%">
+                <f:entry title="VMware Host">
+                    <select class="setting-input" name="vmware-activation.machine.host">
+                        <j:forEach var="i" items="${descriptor.hostNames}">
+                            <f:option selected="${i==machine.host}" value="${i}">${i}</f:option>
+                        </j:forEach>
+                    </select>
+                </f:entry>
+                <f:entry title="VMX Config File">
+                    <f:textbox name="vmware-activation.machine.vmxFilePath" value="${machine.vmxFilePath}"/>
+                </f:entry>
+                <f:entry title="Pre-build">
+                    <select class="setting-input" name="vmware-activation.machine.preBuild">
+                        <j:forEach var="i" items="${descriptor.powerUpModes}">
+                            <f:option selected="${i.toString()==machine.preBuild}" value="${i.toString()}">
+                                ${i.description}
+                            </f:option>
+                        </j:forEach>
+                    </select>
+                </f:entry>
+                <f:entry title="Post-build">
+                    <select class="setting-input" name="vmware-activation.machine.postBuild">
+                        <j:forEach var="i" items="${descriptor.powerDownModes}">
+                            <f:option selected="${i.toString()==machine.postBuild}" value="${i.toString()}">
+                                ${i.description}
+                            </f:option>
+                        </j:forEach>
+                    </select>
+                </f:entry>
+                <f:advanced>
+                    <f:entry title="Startup timeout">
+                        <f:textbox name="vmware-activation.machine.waitTimeout" value="${machine.waitTimeout}"/>
+                    </f:entry>
+                    <f:optionalBlock name="vmware-activation.machine.waitForFeedback"
+                                     title="Wait for VM to make a HTTP GET request at ${request.rootPath}${rootURL}/plugin/vmware/set?name=&lt;i&gt;xxx&lt;/i&gt;"
+                                     checked="${machine.waitForFeedback}">
+                        <f:entry title="name="
+                                 description="The value of the name query parameter in the HTTP get request.&lt;br&gt;
+                                     Configure the VM to report it's IP address by making a HTTP GET request of either
+                                     &lt;ul&gt;&lt;li&gt;
+                                     ${request.rootPath}${rootURL}/plugin/vmware/set?name=&lt;i&gt;xxx&lt;/i&gt;
+                                     &lt;/li&gt;&lt;/ul&gt;
+                                     or if the default IP address detection does not work (i.e. it's behind a proxy).
+                                     &lt;ul&gt;&lt;li&gt;
+                                     ${request.rootPath}${rootURL}/plugin/vmware/set?name=&lt;i&gt;xxx&lt;/i&gt;&amp;override=&lt;i&gt;aaa.bbb.ccc.ddd&lt;/i&gt;
+                                     &lt;/li&gt;&lt;/ul&gt;">
+                            <f:textbox name="vmware-activation.machine.feedbackKey" value="${machine.feedbackKey}"/>
+                        </f:entry>
+                        <f:entry title="wait timeout">
+                            <f:textbox name="vmware-activation.machine.feedbackTimeout"
+                                       value="${machine.feedbackTimeout}"/>
+                        </f:entry>
+
+                    </f:optionalBlock>
+                </f:advanced>
+            </table>
+            <div align="right">
+                <f:repeatableDeleteButton/>
+            </div>
+        </f:repeatable>
+    </f:entry>
+</j:jelly>

@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="4.4">
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonAssociationAction.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java">
+<error line="93" column="8" severity="error" message="Unused import - java.util.ArrayList." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="109" column="1" severity="error" message="Duplicate import to line 94 - org.apache.log4j.Logger." source="com.puppycrawl.tools.checkstyle.checks.imports.RedundantImportCheck"/>
+<error line="463" column="9" severity="error" message="Cyclomatic Complexity is 15 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java">
+<error line="93" column="8" severity="error" message="Unused import - gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="107" column="8" severity="error" message="Unused import - java.util.TreeSet." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="259" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/HomeAction.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java">
+<error line="134" column="1" severity="error" message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ActionError, ActionErrors, ActionMessage, ActionMessages, ArrayList, File, FileOutputStream, FormFile]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="134" column="1" severity="error" message="Class Fan-Out Complexity is 26 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+<error line="300" column="9" severity="error" message="Cyclomatic Complexity is 28 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="300" column="9" severity="error" message="NPath Complexity is 3,168 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="639" column="9" severity="error" message="Cyclomatic Complexity is 15 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java">
+<error line="131" column="1" severity="error" message="Class Fan-Out Complexity is 23 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+<error line="135" column="9" severity="error" message="Cyclomatic Complexity is 32 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="135" column="9" severity="error" message="NPath Complexity is 288,000 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/LogoutAction.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/MenuSelectionAction.java">
+<error line="124" column="9" severity="error" message="Cyclomatic Complexity is 16 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionElementAction.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionGroupAction.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/constants/DisplayConstants.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/constants/ForwardConstants.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/exceptionHandler/DefaultExceptionHandler.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java">
+<error line="132" column="1" severity="error" message="Class Data Abstraction Coupling is 12 (max allowed is 7) classes [ActionError, ActionErrors, Application, ApplicationSearchCriteria, ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="342" column="9" severity="error" message="Cyclomatic Complexity is 12 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="350" column="17" severity="error" message="Boolean expression complexity is 9 (max allowed is 5)." source="com.puppycrawl.tools.checkstyle.checks.metrics.BooleanExpressionComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/BaseAssociationForm.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/BaseDBForm.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/BaseDoubleAssociationForm.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/GroupForm.java">
+<error line="135" column="1" severity="error" message="Class Data Abstraction Coupling is 13 (max allowed is 7) classes [ArrayList, FormElement, Group, GroupSearchCriteria, HashSet, ProtectionGroup, ProtectionGroupSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="135" column="1" severity="error" message="Class Fan-Out Complexity is 23 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/LoginForm.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/MenuForm.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/PrivilegeForm.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java">
+<error line="128" column="1" severity="error" message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, SearchResult, SimpleDateFormat]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="423" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionGroupForm.java">
+<error line="128" column="1" severity="error" message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, SearchResult, SimpleDateFormat]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/RoleForm.java">
+<error line="128" column="1" severity="error" message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, Privilege, PrivilegeSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java">
+<error line="128" column="1" severity="error" message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, SearchResult, SimpleDateFormat]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java">
+<error line="135" column="1" severity="error" message="Class Data Abstraction Coupling is 13 (max allowed is 7) classes [ArrayList, FormElement, Group, GroupSearchCriteria, HashSet, ProtectionGroup, ProtectionGroupSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="135" column="1" severity="error" message="Class Fan-Out Complexity is 23 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+<error line="540" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java">
+<error line="136" column="1" severity="error" message="Class Data Abstraction Coupling is 15 (max allowed is 7) classes [ActionError, ActionErrors, ArrayList, FormElement, Group, GroupSearchCriteria, HashSet, ProtectionGroup, ProtectionGroupSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="136" column="1" severity="error" message="Class Fan-Out Complexity is 24 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+<error line="564" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/logoninfo/LogonInfoManager.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/ClassLoaderUtil.java">
+<error line="140" column="5" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/ClassPathLoader.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java">
+<error line="46" column="1" severity="error" message="Class Data Abstraction Coupling is 12 (max allowed is 7) classes [AnnotationConfiguration, ArrayList, ByteArrayInputStream, ByteArrayOutputStream, CSConfigurationException, CSException, DataInputStream, HashMap, LabelValueBean, SimpleLayout, StringTokenizer, WriterAppender]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="46" column="1" severity="error" message="Class Fan-Out Complexity is 37 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/JDBCHelper.java">
+<error line="39" column="1" severity="error" message="Class Fan-Out Complexity is 24 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/SessionListen.java">
+<error line="4" column="8" severity="error" message="Unused import - gov.nih.nci.security.upt.constants.DisplayConstants." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="6" column="8" severity="error" message="Unused import - java.io.File." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="7" column="8" severity="error" message="Unused import - java.net.URLClassLoader." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="8" column="8" severity="error" message="Unused import - java.util.Vector." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="14" column="8" severity="error" message="Unused import - org.hibernate.SessionFactory." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/StringUtils.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/viewobjects/FormElement.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/viewobjects/SearchResult.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/AuthenticationManager.java">
+<error line="92" column="8" severity="error" message="Unused import - java.security.Principal." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/AuthorizationManager.java">
+<error line="91" column="8" severity="error" message="Unused import - gov.nih.nci.security.authorization.ObjectPrivilegeMap." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="106" column="1" severity="error" message="Redundant import from the same package - gov.nih.nci.security.UserProvisioningManager." source="com.puppycrawl.tools.checkstyle.checks.imports.RedundantImportCheck"/>
+<error line="106" column="8" severity="error" message="Unused import - gov.nih.nci.security.UserProvisioningManager." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="107" column="1" severity="error" message="Redundant import from the same package - gov.nih.nci.security.SecurityServiceProvider." source="com.puppycrawl.tools.checkstyle.checks.imports.RedundantImportCheck"/>
+<error line="107" column="8" severity="error" message="Unused import - gov.nih.nci.security.SecurityServiceProvider." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="164" column="1" severity="error" message="Class Fan-Out Complexity is 21 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/CommonSecurityManager.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/SecurityServiceProvider.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/UserProvisioningManager.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/CSMAfterInvocationProvider.java">
+<error line="15" column="8" severity="error" message="Unused import - org.acegisecurity.AuthorizationServiceException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="18" column="8" severity="error" message="Unused import - org.acegisecurity.ConfigAttributeEditor." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="47" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/CSMAfterInvocationProviderManager.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/CSMMethodSecurityInterceptor.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authentication/CSMAuthenticationProvider.java">
+<error line="15" column="8" severity="error" message="Unused import - org.acegisecurity.providers.AuthenticationProvider." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="18" column="8" severity="error" message="Unused import - org.acegisecurity.providers.dao.SaltSource." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="19" column="8" severity="error" message="Unused import - org.acegisecurity.providers.encoding.PasswordEncoder." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="20" column="8" severity="error" message="Unused import - org.acegisecurity.providers.encoding.PlaintextPasswordEncoder." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="23" column="8" severity="error" message="Unused import - org.acegisecurity.userdetails.UserDetailsService." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="45" column="5" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authentication/CSMUserDetails.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authentication/CSMUserDetailsService.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java">
+<error line="145" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authorization/CSMRoleVoter.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authorization/EhCacheBasedMethodMapCache.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authorization/MethodMapCache.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/external/SecurityHelper.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/helper/Helper.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/AuthenticationManagerFactory.java">
+<error line="93" column="8" severity="error" message="Unused import - gov.nih.nci.security.SecurityServiceProvider." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/CommonAuthenticationManager.java">
+<error line="106" column="8" severity="error" message="Unused import - javax.security.auth.callback.CallbackHandler." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="109" column="8" severity="error" message="Unused import - javax.security.auth.spi.LoginModule." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="216" column="9" severity="error" message="Cyclomatic Complexity is 15 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/LockoutManager.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/callback/CSMCallbackHandler.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/helper/LDAPHelper.java">
+<error line="130" column="1" severity="error" message="Class Data Abstraction Coupling is 11 (max allowed is 7) classes [CSInternalConfigurationException, CSInternalInsufficientAttributesException, CSInternalLoginException, EmailIdPrincipal, FirstNamePrincipal, Hashtable, InitialDirContext, LastNamePrincipal, LoginIdPrincipal, SearchControls, com.sun.net.ssl.internal.ssl.Provider]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="202" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="275" column="9" severity="error" message="Cyclomatic Complexity is 21 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/helper/RDBMSHelper.java">
+<error line="188" column="9" severity="error" message="Cyclomatic Complexity is 15 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="188" column="9" severity="error" message="NPath Complexity is 880 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/CSMLoginModule.java">
+<error line="98" column="8" severity="error" message="Unused import - gov.nih.nci.security.exceptions.CSConfigurationException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="99" column="8" severity="error" message="Unused import - gov.nih.nci.security.exceptions.CSException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="100" column="8" severity="error" message="Unused import - gov.nih.nci.security.exceptions.CSLoginException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="164" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/LDAPLoginModule.java">
+<error line="99" column="8" severity="error" message="Unused import - gov.nih.nci.security.exceptions.CSException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="100" column="8" severity="error" message="Unused import - gov.nih.nci.security.exceptions.CSLoginException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/RDBMSLoginModule.java">
+<error line="99" column="8" severity="error" message="Unused import - gov.nih.nci.security.exceptions.CSConfigurationException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="100" column="8" severity="error" message="Unused import - gov.nih.nci.security.exceptions.CSException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/X509LoginModule.java">
+<error line="81" column="1" severity="error" message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [File, FileInputStream, Hashtable, KeyStoreException, LoginException, Principal, StringTokenizer, Vector]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="81" column="1" severity="error" message="Class Fan-Out Complexity is 28 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+<error line="170" column="9" severity="error" message="Cyclomatic Complexity is 12 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="314" column="9" severity="error" message="Cyclomatic Complexity is 35 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="314" column="9" severity="error" message="NPath Complexity is 13,020 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/principal/BasePrincipal.java">
+<error line="49" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/principal/EmailIdPrincipal.java">
+<error line="3" column="8" severity="error" message="Unused import - java.security.Principal." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="5" column="8" severity="error" message="Unused import - javax.security.auth.Subject." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/principal/FirstNamePrincipal.java">
+<error line="3" column="8" severity="error" message="Unused import - java.security.Principal." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="5" column="8" severity="error" message="Unused import - javax.security.auth.Subject." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/principal/LastNamePrincipal.java">
+<error line="3" column="8" severity="error" message="Unused import - java.security.Principal." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="5" column="8" severity="error" message="Unused import - javax.security.auth.Subject." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/principal/LoginIdPrincipal.java">
+<error line="3" column="8" severity="error" message="Unused import - java.security.Principal." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="5" column="8" severity="error" message="Unused import - javax.security.auth.Subject." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java">
+<error line="98" column="8" severity="error" message="Unused import - gov.nih.nci.security.provisioning.AuthorizationManagerImpl." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/ObjectAccessMap.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/ObjectPrivilegeMap.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java">
+<error line="21" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/ClassAttributeMap.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/UserClassAttributeMapCache.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Application.java">
+<error line="237" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/ApplicationContext.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Group.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/GroupRoleContext.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Privilege.java">
+<error line="198" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionElement.java">
+<error line="347" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionElementPrivilegeContext.java">
+<error line="156" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.java">
+<error line="311" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroupRoleContext.java">
+<error line="158" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Role.java">
+<error line="266" column="9" severity="error" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/User.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/UserProtectionElement.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/UserRoleContext.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/AccessPermission.java">
+<error line="93" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - java.util.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPermissionCollection.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java">
+<error line="92" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - java.security.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionAdapter.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionAdapterFactory.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java">
+<error line="95" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - java.security.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="98" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - java.sql.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/constants/Constants.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/ApplicationSearchCriteria.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAO.java">
+<error line="92" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java">
+<error line="125" column="8" severity="error" message="Unused import - java.sql.Statement." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="160" column="1" severity="error" message="Class Data Abstraction Coupling is 28 (max allowed is 7) classes [Application, ArrayList, CSConfigurationException, CSException, CSObjectNotFoundException, CSTransactionException, Date, Group, GroupSearchCriteria, HashMap, HashSet, Hashtable, ObjectAccessMap, ObjectPrivilegeMap, Principal, Privilege, ProtectionElement, ProtectionElementPrivilegeContext, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupProtectionElement, ProtectionGroupRoleContext, Role, StringEncrypter, TreeSet, User, UserGroup, UserGroupRoleProtectionGroup]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="160" column="1" severity="error" message="Class Fan-Out Complexity is 54 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+<error line="252" column="9" severity="error" message="Cyclomatic Complexity is 15 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="353" column="9" severity="error" message="Cyclomatic Complexity is 14 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="353" column="9" severity="error" message="NPath Complexity is 515 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="437" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="504" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="581" column="9" severity="error" message="Cyclomatic Complexity is 12 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="763" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="872" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="1032" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="1032" column="9" severity="error" message="NPath Complexity is 320 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="1145" column="9" severity="error" message="Cyclomatic Complexity is 12 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="1145" column="9" severity="error" message="NPath Complexity is 320 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="1206" column="9" severity="error" message="Cyclomatic Complexity is 12 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="1206" column="9" severity="error" message="NPath Complexity is 320 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="1274" column="9" severity="error" message="Cyclomatic Complexity is 16 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="1274" column="9" severity="error" message="NPath Complexity is 1,744 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="1558" column="9" severity="error" message="Cyclomatic Complexity is 12 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="1757" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="2165" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="2415" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="2543" column="9" severity="error" message="Cyclomatic Complexity is 17 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="2543" column="9" severity="error" message="NPath Complexity is 704 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="2647" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="2856" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="2944" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="3145" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="3232" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="3232" column="9" severity="error" message="NPath Complexity is 260 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="3342" column="9" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="3342" column="9" severity="error" message="NPath Complexity is 260 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="3457" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="3550" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="3640" column="9" severity="error" message="Cyclomatic Complexity is 18 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="3737" column="9" severity="error" message="Cyclomatic Complexity is 18 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="4193" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="4320" column="9" severity="error" message="Cyclomatic Complexity is 11 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="4570" column="9" severity="error" message="Cyclomatic Complexity is 12 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="4721" column="9" severity="error" message="Cyclomatic Complexity is 17 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="4721" column="9" severity="error" message="NPath Complexity is 704 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+<error line="4819" column="9" severity="error" message="Cyclomatic Complexity is 15 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="4819" column="9" severity="error" message="NPath Complexity is 208 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOSessionFactory.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/FilterClauseSearchCriteria.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/GroupSearchCriteria.java">
+<error line="99" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/PrivilegeSearchCriteria.java">
+<error line="99" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/ProtectionElementSearchCriteria.java">
+<error line="99" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/ProtectionGroupSearchCriteria.java">
+<error line="99" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/RoleSearchCriteria.java">
+<error line="94" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/SearchCriteria.java">
+<error line="92" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - java.util.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/UserSearchCriteria.java">
+<error line="99" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/HibernateSessionFactory.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.java">
+<error line="103" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/RolePrivilege.java">
+<error line="101" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/UserGroup.java">
+<error line="103" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dialect/CSMMySQLInnoDBDialect.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSConfigurationException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSDataAccessException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSInputException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSInsufficientAttributesException.java">
+<error line="3" column="8" severity="error" message="Unused import - java.security.Principal." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="5" column="8" severity="error" message="Unused import - javax.security.auth.Subject." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSLoginException.java">
+<error line="3" column="8" severity="error" message="Unused import - java.security.Principal." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="5" column="8" severity="error" message="Unused import - javax.security.auth.Subject." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSObjectNotFoundException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSSecurityException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/CSTransactionException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/internal/CSInternalConfigurationException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/internal/CSInternalInsufficientAttributesException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/exceptions/internal/CSInternalLoginException.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/junk/RandomIntGenerator.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java">
+<error line="136" column="1" severity="error" message="Class Data Abstraction Coupling is 11 (max allowed is 7) classes [AuthorizationDAOImpl, CSTransactionException, Date, Group, Privilege, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, Role, java.util.Date]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="136" column="1" severity="error" message="Class Fan-Out Complexity is 30 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSessionFactory.java">
+<error line="95" column="8" severity="error" message="Unused import - java.io.InputStream." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/FileLoader.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/ObjectSetUtil.java">
+<error line="98" severity="error" message="Using the &apos;.*&apos; form of import should be avoided - java.util.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/ObjectUpdater.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/ProtectionElementPrivilegesContextComparator.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/ProtectionGroupRoleContextComparator.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/StringEncrypter.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/StringUtilities.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingImpl.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java">
+<error line="10" column="1" severity="error" message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [java.util.Vector, javax.xml.namespace.QName, org.apache.axis.AxisFault, org.apache.axis.NoEndPointException, org.apache.axis.client.Service, org.apache.axis.description.FaultDesc, org.apache.axis.description.OperationDesc, org.apache.axis.description.ParameterDesc]." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassDataAbstractionCouplingCheck"/>
+<error line="10" column="1" severity="error" message="Class Fan-Out Complexity is 22 (max allowed is 20)." source="com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexityCheck"/>
+<error line="135" column="5" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+<error line="135" column="5" severity="error" message="NPath Complexity is 641 (max allowed is 200)." source="com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityService_PortType.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityService_Service.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityService_ServiceLocator.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java">
+<error line="90" column="5" severity="error" message="Cyclomatic Complexity is 17 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java">
+<error line="162" column="5" severity="error" message="Cyclomatic Complexity is 29 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionResponse.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/cache/CacheManager.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/common/ErrorCodes.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java">
+<error line="66" column="5" severity="error" message="Cyclomatic Complexity is 13 (max allowed is 10)." source="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/factory/WebServiceRequestHandlerFactory.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/handler/WebServiceRequestHandler.java">
+<error line="3" column="8" severity="error" message="Unused import - gov.nih.nci.security.ws.common.ErrorDetails." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/handler/WebServiceRequestProcessor.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/handler/WebServicesErrorHandler.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/handler/authentication/AuthenticationWebServiceRequestHandler.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/handler/authorization/AuthorizationWebServiceRequestHandler.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/utils/StringUtils.java">
+</file>
+<file name="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/utils/WebServiceConstants.java">
+</file>
+</checkstyle>

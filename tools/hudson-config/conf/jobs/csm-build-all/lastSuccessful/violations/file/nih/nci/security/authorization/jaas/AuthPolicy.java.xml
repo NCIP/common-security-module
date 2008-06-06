@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authorization/jaas/AuthPolicy.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authorization/jaas/AuthPolicy.java"
+>
+  <violation
+    line="131"
+    source="UselessOverridingMethod"
+    severity="Medium"
+    type="pmd"
+    message="Overriding method merely calls super"
+    severity-level="2"
+    popup-message="Overriding method merely calls super"
+  />
+  <violation
+    line="179"
+    source="UnusedFormalParameter"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused method parameters such as 'newPerms'."
+    severity-level="2"
+    popup-message="Avoid unused method parameters such as 'newPerms'."
+  />
+  <violation
+    line="179"
+    source="UnusedFormalParameter"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused method parameters such as 'perms'."
+    severity-level="2"
+    popup-message="Avoid unused method parameters such as 'perms'."
+  />
+  <violation
+    line="179"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'addToCollection(PermissionCollection,PermissionCollection)'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'addToCollection(PermissionCollection,PermissionCollection)'."
+  />
+  <type type='pmd' number='4' suppressed='0'/>
+</file>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/upt/forms/ProtectionGroupForm.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/upt/forms/ProtectionGroupForm.java"
+>
+  <violation
+    line="306"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="307"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="333"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="334"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="370"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="389"
+    source="StringInstantiation"
+    severity="Medium High"
+    type="pmd"
+    message="Avoid instantiating String objects; this is usually unnecessary."
+    severity-level="1"
+    popup-message="Avoid instantiating String objects; this is usually unnecessary."
+  />
+  <violation
+    line="422"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='7' suppressed='0'/>
+</file>

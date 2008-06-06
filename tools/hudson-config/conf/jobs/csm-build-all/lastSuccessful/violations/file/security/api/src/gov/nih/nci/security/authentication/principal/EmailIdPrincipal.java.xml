@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authentication/principal/EmailIdPrincipal.java"
+  last-modified="1212512036000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/principal/EmailIdPrincipal.java"
+>
+  <violation
+    line="3"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - java.security.Principal."
+    severity-level="1"
+    popup-message="Unused import - java.security.Principal."
+  />
+  <violation
+    line="5"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - javax.security.auth.Subject."
+    severity-level="1"
+    popup-message="Unused import - javax.security.auth.Subject."
+  />
+  <line number='1'>package gov.nih.nci.security.authentication.principal;</line>
+  <line number='2'></line>
+  <line number='3'>import java.security.Principal;</line>
+  <line number='4'></line>
+  <line number='5'>import javax.security.auth.Subject;</line>
+  <line number='6'></line>
+  <line number='7'></line>
+  <line number='8'>/**</line>
+  <line number='9'> * This class holds the Email Id of the user retrieved. It would be returned as part of the &lt;code&gt;JAAS&lt;/code&gt;</line>
+  <line number='10'> * {@link Subject} to the calling application</line>
+  <line number='11'> * </line>
+  <line number='12'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='13'> */</line>
+  <line number='14'>public class EmailIdPrincipal extends BasePrincipal</line>
+  <line number='15'>{</line>
+  <type type='checkstyle' number='2' suppressed='0'/>
+</file>

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java"
+>
+  <violation
+    line="93"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext."
+  />
+  <violation
+    line="107"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - java.util.TreeSet."
+    severity-level="1"
+    popup-message="Unused import - java.util.TreeSet."
+  />
+  <violation
+    line="259"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 11 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 11 (max allowed is 10)."
+  />
+  <violation
+    line="134"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line402'&gt;line 402&lt;/a&gt;, &lt;a href='#line360'&gt;line 360&lt;/a&gt;, &lt;a href='#line314'&gt;line 314&lt;/a&gt;, &lt;a href='#line261'&gt;line 261&lt;/a&gt;, &lt;a href='#line204'&gt;line 204&lt;/a&gt; and &lt;a href='#line167'&gt;line 167&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 402, line 360, line 314, line 261, line 204 and line 167."
+  />
+  <violation
+    line="167"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line402'&gt;line 402&lt;/a&gt;, &lt;a href='#line360'&gt;line 360&lt;/a&gt;, &lt;a href='#line314'&gt;line 314&lt;/a&gt;, &lt;a href='#line261'&gt;line 261&lt;/a&gt;, &lt;a href='#line204'&gt;line 204&lt;/a&gt; and &lt;a href='#line134'&gt;line 134&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 402, line 360, line 314, line 261, line 204 and line 134."
+  />
+  <violation
+    line="183"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line418'&gt;line 418&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 418."
+  />
+  <violation
+    line="184"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line419'&gt;line 419&lt;/a&gt; and &lt;a href='#line340'&gt;line 340&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 419 and line 340."
+  />
+  <violation
+    line="204"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line402'&gt;line 402&lt;/a&gt;, &lt;a href='#line360'&gt;line 360&lt;/a&gt;, &lt;a href='#line314'&gt;line 314&lt;/a&gt;, &lt;a href='#line261'&gt;line 261&lt;/a&gt;, &lt;a href='#line167'&gt;line 167&lt;/a&gt; and &lt;a href='#line134'&gt;line 134&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 402, line 360, line 314, line 261, line 167 and line 134."
+  />
+  <violation
+    line="261"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line402'&gt;line 402&lt;/a&gt;, &lt;a href='#line360'&gt;line 360&lt;/a&gt;, &lt;a href='#line314'&gt;line 314&lt;/a&gt;, &lt;a href='#line204'&gt;line 204&lt;/a&gt;, &lt;a href='#line167'&gt;line 167&lt;/a&gt; and &lt;a href='#line134'&gt;line 134&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 402, line 360, line 314, line 204, line 167 and line 134."
+  />
+  <violation
+    line="314"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line402'&gt;line 402&lt;/a&gt;, &lt;a href='#line360'&gt;line 360&lt;/a&gt;, &lt;a href='#line261'&gt;line 261&lt;/a&gt;, &lt;a href='#line204'&gt;line 204&lt;/a&gt;, &lt;a href='#line167'&gt;line 167&lt;/a&gt; and &lt;a href='#line134'&gt;line 134&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 402, line 360, line 261, line 204, line 167 and line 134."
+  />
+  <violation
+    line="340"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line419'&gt;line 419&lt;/a&gt; and &lt;a href='#line184'&gt;line 184&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 419 and line 184."
+  />
+  <violation
+    line="360"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line402'&gt;line 402&lt;/a&gt;, &lt;a href='#line314'&gt;line 314&lt;/a&gt;, &lt;a href='#line261'&gt;line 261&lt;/a&gt;, &lt;a href='#line204'&gt;line 204&lt;/a&gt;, &lt;a href='#line167'&gt;line 167&lt;/a&gt; and &lt;a href='#line134'&gt;line 134&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 402, line 314, line 261, line 204, line 167 and line 134."
+  />
+  <violation
+    line="402"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line360'&gt;line 360&lt;/a&gt;, &lt;a href='#line314'&gt;line 314&lt;/a&gt;, &lt;a href='#line261'&gt;line 261&lt;/a&gt;, &lt;a href='#line204'&gt;line 204&lt;/a&gt;, &lt;a href='#line167'&gt;line 167&lt;/a&gt; and &lt;a href='#line134'&gt;line 134&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 360, line 314, line 261, line 204, line 167 and line 134."
+  />
+  <violation
+    line="418"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line183'&gt;line 183&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 183."
+  />
+  <violation
+    line="419"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line340'&gt;line 340&lt;/a&gt; and &lt;a href='#line184'&gt;line 184&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 340 and line 184."
+  />
+  <line number='84'> *TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF</line>
+  <line number='85'> *THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</line>
+  <line number='86'> *</line>
+  <line number='87'> *&lt;!-- LICENSE_TEXT_END --&gt;</line>
+  <line number='88'> *</line>
+  <line number='89'> */</line>
+  <line number='90'></line>
+  <line number='91'></line>
+  <line number='92'>import gov.nih.nci.logging.api.user.UserInfoHelper;</line>
+  <line number='93'>import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;</line>
+  <line number='94'>import gov.nih.nci.security.exceptions.CSException;</line>
+  <line number='95'>import gov.nih.nci.security.upt.constants.DisplayConstants;</line>
+  <line number='96'>import gov.nih.nci.security.upt.constants.ForwardConstants;</line>
+  <line number='97'>import gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm;</line>
+  <line number='98'>import gov.nih.nci.security.upt.forms.LoginForm;</line>
+  <line number='99'>import gov.nih.nci.security.util.ProtectionElementPrivilegesContextComparator;</line>
+  <line number='100'>import gov.nih.nci.security.util.ProtectionGroupRoleContextComparator;</line>
+  <line number='101'></line>
+  <line number='102'>import java.util.ArrayList;</line>
+  <line number='103'>import java.util.Collection;</line>
+  <line number='104'>import java.util.Collections;</line>
+  <line number='105'>import java.util.Iterator;</line>
+  <line number='106'>import java.util.List;</line>
+  <line number='107'>import java.util.TreeSet;</line>
+  <line number='108'></line>
+  <line number='109'>import javax.servlet.http.HttpServletRequest;</line>
+  <line number='110'>import javax.servlet.http.HttpServletResponse;</line>
+  <line number='111'>import javax.servlet.http.HttpSession;</line>
+  <line number='112'></line>
+  <line number='113'>import org.apache.log4j.Category;</line>
+  <line number='114'>import org.apache.struts.action.ActionError;</line>
+  <line number='115'>import org.apache.struts.action.ActionErrors;</line>
+  <line number='116'>import org.apache.struts.action.ActionForm;</line>
+  <line number='117'>import org.apache.struts.action.ActionForward;</line>
+  <line number='125'> * TODO To change the template for this generated type comment go to</line>
+  <line number='126'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='127'> */</line>
+  <line number='128'>public class CommonDoubleAssociationAction extends CommonAssociationAction</line>
+  <line number='129'>{</line>
+  <line number='130'>	private static final Category logDoubleAssociation = Category.getInstance(CommonDoubleAssociationAction.class);	</line>
+  <line number='131'>	</line>
+  <line number='132'>	public ActionForward loadDoubleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='133'>	{</line>
+  <line number='134'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='135'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='136'>		</line>
+  <line number='137'>		HttpSession session = request.getSession();</line>
+  <line number='138'>		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;</line>
+  <line number='139'>		</line>
+  <line number='140'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='141'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='142'>				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadDoubleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='143'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='144'>		}</line>
+  <line number='158'>		if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='159'>			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='160'>				"|"+baseDoubleAssociationForm.getFormName()+"|loadDoubleAssociation|Success|Success in Loading Double Association for "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='161'>				+form.toString()+"|");</line>
+  <line number='162'>		return (mapping.findForward(ForwardConstants.LOAD_DOUBLEASSOCIATION_SUCCESS));</line>
+  <line number='163'>	}</line>
+  <line number='164'>	</line>
+  <line number='165'>	public ActionForward setDoubleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='166'>	{</line>
+  <line number='167'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='168'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='169'>		</line>
+  <line number='170'>		HttpSession session = request.getSession();</line>
+  <line number='171'>		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;</line>
+  <line number='172'>		</line>
+  <line number='173'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='174'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='175'>				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|setDoubleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='176'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='177'>		}</line>
+  <line number='178'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());</line>
+  <line number='179'>		try</line>
+  <line number='180'>		{</line>
+  <line number='181'>			baseDoubleAssociationForm.buildDisplayForm(request);</line>
+  <line number='182'>			baseDoubleAssociationForm.setDoubleAssociationObject(request);</line>
+  <line number='183'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Update Successful"));</line>
+  <line number='184'>			saveMessages( request, messages );</line>
+  <line number='185'>		}</line>
+  <line number='186'>		catch (CSException cse)</line>
+  <line number='187'>		{</line>
+  <line number='188'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));</line>
+  <line number='189'>			saveErrors( request,errors );</line>
+  <line number='190'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='191'>				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='192'>					"|"+baseDoubleAssociationForm.getFormName()+"|setDoubleAssociation|Failure|Error Setting Double Association for the "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='193'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='194'>		}</line>
+  <line number='195'>		if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='196'>			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='197'>				"|"+baseDoubleAssociationForm.getFormName()+"|setDoubleAssociation|Success|Success in Setting Double Association for "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='198'>				+form.toString()+"|");		</line>
+  <line number='199'>		return (mapping.findForward(ForwardConstants.SET_DOUBLEASSOCIATION_SUCCESS));</line>
+  <line number='200'>	}</line>
+  <line number='201'>	</line>
+  <line number='202'>	public ActionForward loadProtectionGroupAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='203'>	{</line>
+  <line number='204'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='205'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='206'>		</line>
+  <line number='207'>		HttpSession session = request.getSession();</line>
+  <line number='208'>		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;</line>
+  <line number='209'>		</line>
+  <line number='210'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='211'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='212'>				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadProtectionGroupAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='213'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='214'>		}</line>
+  <line number='250'>		}</line>
+  <line number='251'>		if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='252'>			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='253'>				"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionGroupAssociation|Success|Success in Loading Protection Group Association for "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='254'>				+form.toString()+"|");			</line>
+  <line number='255'>		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));		</line>
+  <line number='256'>	}</line>
+  <line number='257'>	</line>
+  <line number='258'></line>
+  <line number='259'>	public ActionForward loadProtectionElementPrivilegesAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='260'>	{</line>
+  <line number='261'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='262'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='263'>		</line>
+  <line number='264'>		HttpSession session = request.getSession();</line>
+  <line number='265'>		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;</line>
+  <line number='266'>		</line>
+  <line number='267'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='268'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='269'>				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='270'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='271'>		}</line>
+  <line number='305'>		if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='306'>			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='307'>				"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Success|Success in Loading Protection Element Privileges Association for "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='308'>				+form.toString()+"|");			</line>
+  <line number='309'>		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_SUCCESS));		</line>
+  <line number='310'>	}</line>
+  <line number='311'></line>
+  <line number='312'>	public ActionForward removeProtectionGroupAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='313'>	{</line>
+  <line number='314'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='315'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='316'>		</line>
+  <line number='317'>		HttpSession session = request.getSession();</line>
+  <line number='318'>		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;</line>
+  <line number='319'>		</line>
+  <line number='320'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='321'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='322'>				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|removeProtectionGroupAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='323'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='324'>		}</line>
+  <line number='331'>				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='332'>					"|"+baseDoubleAssociationForm.getFormName()+"|removeProtectionGroupAssociation|Failure|No Protection Group Id selected for "+baseDoubleAssociationForm.getFormName()+" object||");</line>
+  <line number='333'>			return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));</line>
+  <line number='334'>		}</line>
+  <line number='335'>		try</line>
+  <line number='336'>		{</line>
+  <line number='337'>			baseDoubleAssociationForm.buildDisplayForm(request);</line>
+  <line number='338'>			baseDoubleAssociationForm.removeProtectionGroupAssociation(request);</line>
+  <line number='339'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Protection Group Successfully removed"));</line>
+  <line number='340'>			saveMessages( request, messages );</line>
+  <line number='341'>		}</line>
+  <line number='342'>		catch (CSException cse)</line>
+  <line number='343'>		{</line>
+  <line number='344'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='345'>			saveErrors( request,errors );</line>
+  <line number='346'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='347'>				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='348'>					"|"+baseDoubleAssociationForm.getFormName()+"|removeProtectionGroupAssociation|Failure|Error Removing Protection Group Association for the "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='349'>					+form.toString()+"|"+ cse.getMessage());			</line>
+  <line number='350'>		}</line>
+  <line number='351'>		if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='352'>			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='353'>				"|"+baseDoubleAssociationForm.getFormName()+"|removeGroupAssociation|Success|Success in Removing Protection Group Association for "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='354'>				+form.toString()+"|");</line>
+  <line number='355'>		return (mapping.findForward(ForwardConstants.REMOVE_PROTECTIONGROUPASSOCIATION_SUCCESS));		</line>
+  <line number='356'>	}</line>
+  <line number='357'>	</line>
+  <line number='358'>	public ActionForward loadRoleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='359'>	{</line>
+  <line number='360'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='361'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='362'>		</line>
+  <line number='363'>		HttpSession session = request.getSession();</line>
+  <line number='364'>		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;</line>
+  <line number='365'>		</line>
+  <line number='366'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='367'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='368'>				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadRoleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='369'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='370'>		}</line>
+  <line number='393'>		if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='394'>			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='395'>				"|"+baseDoubleAssociationForm.getFormName()+"|loadRoleAssociation|Success|Success in Loading Role Association for "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='396'>				+form.toString()+"|");</line>
+  <line number='397'>		return (mapping.findForward(ForwardConstants.LOAD_ROLEASSOCIATION_SUCCESS));		</line>
+  <line number='398'>	}</line>
+  <line number='399'>	</line>
+  <line number='400'>	public ActionForward setRoleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='401'>	{</line>
+  <line number='402'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='403'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='404'>		</line>
+  <line number='405'>		HttpSession session = request.getSession();</line>
+  <line number='406'>		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;</line>
+  <line number='407'>		</line>
+  <line number='408'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='409'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='410'>				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|setRoleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='411'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='412'>		}</line>
+  <line number='413'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());</line>
+  <line number='414'>		try</line>
+  <line number='415'>		{</line>
+  <line number='416'>			baseDoubleAssociationForm.buildDisplayForm(request);</line>
+  <line number='417'>			baseDoubleAssociationForm.updateRoleAssociation(request);</line>
+  <line number='418'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Update Successful"));</line>
+  <line number='419'>			saveMessages( request, messages );</line>
+  <line number='420'>		}</line>
+  <line number='421'>		catch (CSException cse)</line>
+  <line number='422'>		{</line>
+  <line number='423'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='424'>			saveErrors( request,errors );</line>
+  <line number='425'>			if (logDoubleAssociation.isDebugEnabled())</line>
+  <line number='426'>				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='427'>					"|"+baseDoubleAssociationForm.getFormName()+"|setRoleAssociation|Failure|Error Setting Role Association for the "+baseDoubleAssociationForm.getFormName()+" object|"</line>
+  <line number='428'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='429'>		}</line>
+  <type type='checkstyle' number='3' suppressed='0'/>
+  <type type='simian' number='12' suppressed='0'/>
+</file>

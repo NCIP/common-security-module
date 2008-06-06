@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/ws/utils/StringUtils.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/ws/utils/StringUtils.java"
+>
+  <violation
+    line="14"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='1' suppressed='0'/>
+</file>

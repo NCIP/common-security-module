@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/util/ObjectUpdater.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/util/ObjectUpdater.java"
+>
+  <violation
+    line="20"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="58"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;ObjectUpdater|| Exception occured when updating object properties.&quot; appears 5 times in this file; the first occurrence is on line 58"
+    severity-level="2"
+    popup-message="The String literal &quot;ObjectUpdater|| Exception occured when updating object properties.&quot; appears 5 times in this file; the first occurrence is on line 58"
+  />
+  <type type='pmd' number='2' suppressed='0'/>
+</file>

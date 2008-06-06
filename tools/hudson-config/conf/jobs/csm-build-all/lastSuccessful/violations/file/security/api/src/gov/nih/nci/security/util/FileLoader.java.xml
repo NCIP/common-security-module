@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/util/FileLoader.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/FileLoader.java"
+>
+  <violation
+    line="72"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='#line131'&gt;line 131&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 131."
+  />
+  <violation
+    line="98"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 15 lines from &lt;a href='#line152'&gt;line 152&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 15 lines from line 152."
+  />
+  <violation
+    line="131"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line72'&gt;line 72&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 72."
+  />
+  <violation
+    line="152"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 15 lines from &lt;a href='#line98'&gt;line 98&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 15 lines from line 98."
+  />
+  <line number='63'>	public InputStream getFileAsStream(String name, ClassLoader loader) throws IllegalArgumentException</line>
+  <line number='64'>	{</line>
+  <line number='65'>		if (name == null)</line>
+  <line number='66'>			throw new IllegalArgumentException("null input: name");</line>
+  <line number='67'></line>
+  <line number='68'>		if (name.startsWith("/"))</line>
+  <line number='69'>			name = name.substring(1);</line>
+  <line number='70'></line>
+  <line number='71'>		InputStream in = null;</line>
+  <line number='72'>		try</line>
+  <line number='73'>		{</line>
+  <line number='74'>			if (loader == null)</line>
+  <line number='75'>				loader = ClassLoader.getSystemClassLoader();</line>
+  <line number='76'></line>
+  <line number='77'>			if (LOAD_AS_RESOURCE_BUNDLE)</line>
+  <line number='78'>			{</line>
+  <line number='79'>				name = name.replace('/', '.');</line>
+  <line number='80'></line>
+  <line number='81'>				// throws MissingResourceException on lookup failures:</line>
+  <line number='82'>				final ResourceBundle rb = ResourceBundle.getBundle(name, Locale.getDefault(), loader);</line>
+  <line number='89'>					name = name.concat(SUFFIX);*/</line>
+  <line number='90'></line>
+  <line number='91'>				// returns null on lookup failures:</line>
+  <line number='92'>				in = loader.getResourceAsStream(name);</line>
+  <line number='93'>				if (in != null)</line>
+  <line number='94'>				{</line>
+  <line number='95'></line>
+  <line number='96'>					// result = new Properties();</line>
+  <line number='97'>					// result.load(in); // can throw IOException</line>
+  <line number='98'>					THROW_ON_LOAD_FAILURE = false;</line>
+  <line number='99'>				}</line>
+  <line number='100'>			}</line>
+  <line number='101'>		}</line>
+  <line number='102'>		catch (Exception e)</line>
+  <line number='103'>		{</line>
+  <line number='104'>			e.printStackTrace();</line>
+  <line number='105'>		}</line>
+  <line number='106'>		finally</line>
+  <line number='107'>		{</line>
+  <line number='108'>		}</line>
+  <line number='122'>	public URL getFileAsURL(String name, ClassLoader loader) throws IllegalArgumentException</line>
+  <line number='123'>	{</line>
+  <line number='124'>		if (name == null)</line>
+  <line number='125'>			throw new IllegalArgumentException("null input: name");</line>
+  <line number='126'></line>
+  <line number='127'>		if (name.startsWith("/"))</line>
+  <line number='128'>			name = name.substring(1);</line>
+  <line number='129'></line>
+  <line number='130'>		URL url = null;</line>
+  <line number='131'>		try</line>
+  <line number='132'>		{</line>
+  <line number='133'>			if (loader == null)</line>
+  <line number='134'>				loader = ClassLoader.getSystemClassLoader();</line>
+  <line number='135'></line>
+  <line number='136'>			if (LOAD_AS_RESOURCE_BUNDLE)</line>
+  <line number='137'>			{</line>
+  <line number='138'>				name = name.replace('/', '.');</line>
+  <line number='139'>				// throws MissingResourceException on lookup failures:</line>
+  <line number='140'>				final ResourceBundle rb = ResourceBundle.getBundle(name, Locale.getDefault(), loader);</line>
+  <line number='141'>			}</line>
+  <line number='143'>			{</line>
+  <line number='144'>				//name = name.replace('.', '/');</line>
+  <line number='145'></line>
+  <line number='146'>				// returns null on lookup failures:</line>
+  <line number='147'>				url = loader.getResource(name);</line>
+  <line number='148'>				if (url != null)</line>
+  <line number='149'>				{</line>
+  <line number='150'>					// result = new Properties();</line>
+  <line number='151'>					// result.load(in); // can throw IOException</line>
+  <line number='152'>					THROW_ON_LOAD_FAILURE = false;</line>
+  <line number='153'>				}</line>
+  <line number='154'>			}</line>
+  <line number='155'>		}</line>
+  <line number='156'>		catch (Exception e)</line>
+  <line number='157'>		{</line>
+  <line number='158'>			e.printStackTrace();</line>
+  <line number='159'>		}</line>
+  <line number='160'>		finally</line>
+  <line number='161'>		{</line>
+  <line number='162'>		}</line>
+  <type type='simian' number='4' suppressed='0'/>
+</file>

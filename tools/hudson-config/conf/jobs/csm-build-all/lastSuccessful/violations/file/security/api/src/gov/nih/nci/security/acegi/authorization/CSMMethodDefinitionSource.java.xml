@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java"
+>
+  <violation
+    line="145"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 11 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 11 (max allowed is 10)."
+  />
+  <violation
+    line="77"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='../../CSMAfterInvocationProvider.java#line138'&gt;line 138 in CSMAfterInvocationProvider.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 138 in CSMAfterInvocationProvider.java."
+  />
+  <line number='68'>		ConfigAttributeEditor configAttrEditor = new ConfigAttributeEditor();</line>
+  <line number='69'>		Set keySet = securityMap.keySet();</line>
+  <line number='70'>		</line>
+  <line number='71'>		if(keySet.contains("*")){</line>
+  <line number='72'>			//This Method Call is not secured</line>
+  <line number='73'>		}else{</line>
+  <line number='74'>			Iterator iterator = keySet.iterator();</line>
+  <line number='75'>			StringBuffer rolesStr = new StringBuffer();</line>
+  <line number='76'>			while(iterator.hasNext()){</line>
+  <line number='77'>				String className = (String)iterator.next();</line>
+  <line number='78'>				Collection authorities = (Collection) securityMap.get(className);</line>
+  <line number='79'>				Iterator authoritiesIterator = authorities.iterator();</line>
+  <line number='80'>				while(authoritiesIterator.hasNext()){</line>
+  <line number='81'>					String privilege = (String)authoritiesIterator.next();</line>
+  <line number='82'>					String authority = className + "_" + privilege;</line>
+  <line number='83'>					rolesStr.append(authority).append(",");</line>
+  <line number='84'>				}</line>
+  <line number='85'>			}</line>
+  <line number='86'></line>
+  <line number='87'>			// System.out.println(rolesStr.toString().substring(0,rolesStr.length()-1));</line>
+  <line number='136'>			Class clazz = Class.forName(className, true, Thread.currentThread()</line>
+  <line number='137'>					.getContextClassLoader());</line>
+  <line number='138'>			addSecureMethod(clazz, methodName, attr);</line>
+  <line number='139'>		} catch (ClassNotFoundException ex) {</line>
+  <line number='140'>			throw new IllegalArgumentException("Class '" + className</line>
+  <line number='141'>					+ "' not found");</line>
+  <line number='142'>		}</line>
+  <line number='143'>	}</line>
+  <line number='144'></line>
+  <line number='145'>	private void addSecureMethod(Class clazz, String mappedName,</line>
+  <line number='146'>			ConfigAttributeDefinition attr) {</line>
+  <line number='147'>		String name = clazz.getName() + '.' + mappedName;</line>
+  <line number='148'></line>
+  <line number='149'>		if (logger.isDebugEnabled()) {</line>
+  <line number='150'>			logger.debug("Adding secure method [" + name</line>
+  <line number='151'>					+ "] with attributes [" + attr + "]");</line>
+  <line number='152'>		}</line>
+  <line number='153'></line>
+  <line number='154'>		Method[] methods = clazz.getDeclaredMethods();</line>
+  <line number='155'>		List matchingMethods = new ArrayList();</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='1' suppressed='0'/>
+</file>

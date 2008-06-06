@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java"
+>
+  <violation
+    line="21"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 13 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 13 (max allowed is 10)."
+  />
+  <violation
+    line="36"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line67'&gt;line 67&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 67."
+  />
+  <violation
+    line="67"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line36'&gt;line 36&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 36."
+  />
+  <line number='12'>import org.hibernate.type.Type;</line>
+  <line number='13'></line>
+  <line number='14'></line>
+  <line number='15'>public class AttributeSecuritySessionInterceptor extends EmptyInterceptor</line>
+  <line number='16'>{</line>
+  <line number='17'></line>
+  <line number='18'>	/* (non-Javadoc)</line>
+  <line number='19'>	 * @see org.hibernate.EmptyInterceptor#onLoad(java.lang.Object, java.io.Serializable, java.lang.Object[], java.lang.String[], org.hibernate.type.Type[])</line>
+  <line number='20'>	 */</line>
+  <line number='21'>	@Override</line>
+  <line number='22'>	public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types)</line>
+  <line number='23'>	{</line>
+  <line number='24'>		</line>
+  <line number='25'></line>
+  <line number='26'>		Object objectUserInfo = ThreadVariable.get();</line>
+  <line number='27'>		String[] groupNames = null;</line>
+  <line number='28'>		if (objectUserInfo instanceof UserInfo)</line>
+  <line number='29'>		{</line>
+  <line number='30'>			groupNames = ((UserInfo)objectUserInfo).getGroupNames();</line>
+  <line number='31'>			</line>
+  <line number='32'>		}</line>
+  <line number='33'>		if(groupNames!=null &amp;&amp; groupNames.length&gt;0 )</line>
+  <line number='34'>		{</line>
+  <line number='35'>			List attributeList = UserClassAttributeMapCache.getAttributeMapForGroup(groupNames, entity.getClass().getName());</line>
+  <line number='36'>			if (attributeList == null)</line>
+  <line number='37'>				attributeList = new ArrayList();</line>
+  <line number='38'>			for (int i=0; i &lt; propertyNames.length; i++)</line>
+  <line number='39'>			{</line>
+  <line number='40'>				if (!(attributeList.contains(propertyNames[i])))</line>
+  <line number='41'>				{</line>
+  <line number='42'>					state[i]=null;</line>
+  <line number='43'>				}</line>
+  <line number='44'>			}</line>
+  <line number='45'>			return super.onLoad(entity, id, state, propertyNames, types);</line>
+  <line number='46'>		}</line>
+  <line number='58'>				{</line>
+  <line number='59'>					userName = ((UserInfo)objectUserInfo).getUsername();</line>
+  <line number='60'>				}</line>
+  <line number='61'>				else</line>
+  <line number='62'>				{</line>
+  <line number='63'>					userName = (String)objectUserInfo;</line>
+  <line number='64'>				}</line>
+  <line number='65'>			}</line>
+  <line number='66'>			List attributeList = UserClassAttributeMapCache.getAttributeMap(userName, entity.getClass().getName());</line>
+  <line number='67'>			if (attributeList == null)</line>
+  <line number='68'>				attributeList = new ArrayList();</line>
+  <line number='69'>			for (int i=0; i &lt; propertyNames.length; i++)</line>
+  <line number='70'>			{</line>
+  <line number='71'>				if (!(attributeList.contains(propertyNames[i])))</line>
+  <line number='72'>				{</line>
+  <line number='73'>					state[i]=null;</line>
+  <line number='74'>				}</line>
+  <line number='75'>			}</line>
+  <line number='76'>			return super.onLoad(entity, id, state, propertyNames, types);		</line>
+  <line number='77'>		}</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

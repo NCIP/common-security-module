@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/acegi/CSMAfterInvocationProviderManager.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/acegi/CSMAfterInvocationProviderManager.java"
+>
+  <violation
+    line="93"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'attemptToCast'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'attemptToCast'."
+  />
+  <type type='pmd' number='1' suppressed='0'/>
+</file>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/system/ApplicationSecurityConfigurationParser.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/system/ApplicationSecurityConfigurationParser.java"
+>
+  <violation
+    line="49"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;Error in parsing the Application Security Config file&quot; appears 10 times in this file; the first occurrence is on line 49"
+    severity-level="2"
+    popup-message="The String literal &quot;Error in parsing the Application Security Config file&quot; appears 10 times in this file; the first occurrence is on line 49"
+  />
+  <violation
+    line="106"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'doc'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'doc'."
+  />
+  <violation
+    line="142"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'doc'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'doc'."
+  />
+  <violation
+    line="159"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;application-list&quot; appears 4 times in this file; the first occurrence is on line 159"
+    severity-level="2"
+    popup-message="The String literal &quot;application-list&quot; appears 4 times in this file; the first occurrence is on line 159"
+  />
+  <violation
+    line="160"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;application&quot; appears 4 times in this file; the first occurrence is on line 160"
+    severity-level="2"
+    popup-message="The String literal &quot;application&quot; appears 4 times in this file; the first occurrence is on line 160"
+  />
+  <violation
+    line="164"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;context-name&quot; appears 4 times in this file; the first occurrence is on line 164"
+    severity-level="2"
+    popup-message="The String literal &quot;context-name&quot; appears 4 times in this file; the first occurrence is on line 164"
+  />
+  <violation
+    line="172"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="196"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="226"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="228"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="231"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="233"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="236"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="238"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="243"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="276"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='16' suppressed='0'/>
+</file>

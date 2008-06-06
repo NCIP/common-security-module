@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/upt/actions/CommonDBAction.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/upt/actions/CommonDBAction.java"
+>
+  <violation
+    line="130"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'errors'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'errors'."
+  />
+  <violation
+    line="131"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'messages'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'messages'."
+  />
+  <violation
+    line="137"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="147"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="156"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'errors'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'errors'."
+  />
+  <violation
+    line="157"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'messages'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'messages'."
+  />
+  <violation
+    line="163"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="175"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="184"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'errors'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'errors'."
+  />
+  <violation
+    line="185"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'messages'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'messages'."
+  />
+  <violation
+    line="191"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="201"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="210"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'errors'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'errors'."
+  />
+  <violation
+    line="211"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'messages'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'messages'."
+  />
+  <violation
+    line="217"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="237"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="250"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'errors'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'errors'."
+  />
+  <violation
+    line="251"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'messages'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'messages'."
+  />
+  <violation
+    line="257"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="274"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="292"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="304"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="306"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; object|&quot; appears 13 times in this file; the first occurrence is on line 306"
+    severity-level="2"
+    popup-message="The String literal &quot; object|&quot; appears 13 times in this file; the first occurrence is on line 306"
+  />
+  <violation
+    line="318"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="324"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="335"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'messages'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'messages'."
+  />
+  <violation
+    line="341"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="349"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="362"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="369"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="386"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="398"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="412"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="419"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="435"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="450"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="456"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="472"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="485"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="500"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'str'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'str'."
+  />
+  <violation
+    line="502"
+    source="CollapsibleIfStatements"
+    severity="Medium"
+    type="pmd"
+    message="These nested if statements could be combined"
+    severity-level="2"
+    popup-message="These nested if statements could be combined"
+  />
+  <violation
+    line="514"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="520"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="536"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="548"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="566"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="573"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='47' suppressed='0'/>
+</file>

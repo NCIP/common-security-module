@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/util/StringEncrypter.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/StringEncrypter.java"
+>
+  <violation
+    line="60"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 28 lines from &lt;a href='#line104'&gt;line 104&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 28 lines from line 104."
+  />
+  <violation
+    line="104"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 28 lines from &lt;a href='#line60'&gt;line 60&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 28 lines from line 60."
+  />
+  <line number='51'>					"encryption key was less than 24 characters");</line>
+  <line number='52'>	}</line>
+  <line number='53'></line>
+  <line number='54'></line>
+  <line number='55'>	public synchronized String encrypt(String unencryptedString) throws EncryptionException {</line>
+  <line number='56'>		if (unencryptedString == null || unencryptedString.trim().length() == 0)</line>
+  <line number='57'>			throw new IllegalArgumentException(</line>
+  <line number='58'>					"unencrypted string was null or empty");</line>
+  <line number='59'></line>
+  <line number='60'>		Cipher ecipher;</line>
+  <line number='61'>		Cipher dcipher;</line>
+  <line number='62'>		try {</line>
+  <line number='63'>			byte[] keyAsBytes = getKey().getBytes(UNICODE_FORMAT);</line>
+  <line number='64'>			keySpec = new DESedeKeySpec(keyAsBytes);</line>
+  <line number='65'>			keyFactory = SecretKeyFactory.getInstance(DESEDE_ENCRYPTION_SCHEME);</line>
+  <line number='66'>			key = keyFactory.generateSecret(keySpec);</line>
+  <line number='67'>			ecipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);</line>
+  <line number='68'>			dcipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);</line>
+  <line number='69'>			ecipher.init(Cipher.ENCRYPT_MODE, key);</line>
+  <line number='70'>			AlgorithmParameters ap = ecipher.getParameters();</line>
+  <line number='95'>			throw new EncryptionException(e);</line>
+  <line number='96'>		}</line>
+  <line number='97'>	}</line>
+  <line number='98'></line>
+  <line number='99'>	public synchronized String decrypt(String encryptedString) throws EncryptionException {</line>
+  <line number='100'>		if (encryptedString == null || encryptedString.trim().length() &lt;= 0)</line>
+  <line number='101'>			throw new IllegalArgumentException(</line>
+  <line number='102'>					"encrypted string was null or empty");</line>
+  <line number='103'></line>
+  <line number='104'>		Cipher ecipher;</line>
+  <line number='105'>		Cipher dcipher;</line>
+  <line number='106'>		try {</line>
+  <line number='107'>			byte[] keyAsBytes = getKey().getBytes(UNICODE_FORMAT);</line>
+  <line number='108'>			keySpec = new DESedeKeySpec(keyAsBytes);</line>
+  <line number='109'>			keyFactory = SecretKeyFactory.getInstance(DESEDE_ENCRYPTION_SCHEME);</line>
+  <line number='110'>			key = keyFactory.generateSecret(keySpec);</line>
+  <line number='111'>			ecipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);</line>
+  <line number='112'>			dcipher = Cipher.getInstance(DESEDE_ENCRYPTION_SCHEME);</line>
+  <line number='113'>			ecipher.init(Cipher.ENCRYPT_MODE, key);</line>
+  <line number='114'>			AlgorithmParameters ap = ecipher.getParameters();</line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

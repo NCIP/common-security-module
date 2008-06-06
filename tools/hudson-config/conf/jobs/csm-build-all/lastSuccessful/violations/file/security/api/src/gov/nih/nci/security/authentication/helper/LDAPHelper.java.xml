@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authentication/helper/LDAPHelper.java"
+  last-modified="1212512036000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/helper/LDAPHelper.java"
+>
+  <violation
+    line="130"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 11 (max allowed is 7) classes [CSInternalConfigurationException, CSInternalInsufficientAttributesException, CSInternalLoginException, EmailIdPrincipal, FirstNamePrincipal, Hashtable, InitialDirContext, LastNamePrincipal, LoginIdPrincipal, SearchControls, com.sun.net.ssl.internal.ssl.Provider]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 11 (max allowed is 7) classes [CSInternalConfigurationException, CSInternalInsufficientAttributesException, CSInternalLoginException, EmailIdPrincipal, FirstNamePrincipal, Hashtable, InitialDirContext, LastNamePrincipal, LoginIdPrincipal, SearchControls, com.sun.net.ssl.internal.ssl.Provider]."
+  />
+  <violation
+    line="202"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 11 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 11 (max allowed is 10)."
+  />
+  <violation
+    line="275"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 21 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 21 (max allowed is 10)."
+  />
+  <line number='121'>import org.apache.log4j.Logger;</line>
+  <line number='122'></line>
+  <line number='123'>/**</line>
+  <line number='124'> * This is a helper class which is used to perform all LDAP operations like</line>
+  <line number='125'> * connecting to the LDAP server, executing the LDAP queries etc. This is a static class and</line>
+  <line number='126'> * provides a single helper method.</line>
+  <line number='127'> * </line>
+  <line number='128'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='129'> */</line>
+  <line number='130'>public class LDAPHelper {</line>
+  <line number='131'></line>
+  <line number='132'>	private static final Logger log = Logger.getLogger(LDAPHelper.class);</line>
+  <line number='133'>	</line>
+  <line number='134'>	/**</line>
+  <line number='135'>	 * Default Private Class Constructor</line>
+  <line number='136'>	 *  </line>
+  <line number='137'>	 */</line>
+  <line number='138'>	private LDAPHelper() {</line>
+  <line number='139'>	}</line>
+  <line number='140'></line>
+  <line number='193'>	 * Fully Distinguished User Name for the user id provided from the LDAP server</line>
+  <line number='194'>	 * </line>
+  <line number='195'>	 * @param environment The environment variables which are used to connect to LDAP</line>
+  <line number='196'>	 * @param connectionProperties The LDAP url and search base used to point to LDAP</line>
+  <line number='197'>	 * @param userName The user name which is to be authenticated</line>
+  <line number='198'>	 * @return The Fully Distinguished User Name obtained from the LDAP for the passed user name</line>
+  <line number='199'>	 * @throws CSInternalLoginException </line>
+  <line number='200'>	 * @throws CSInternalConfigurationException </line>
+  <line number='201'>	 */</line>
+  <line number='202'>	private static String getFullyDistinguishedName(Hashtable environment, Hashtable connectionProperties, String userName) throws CSInternalLoginException, CSInternalConfigurationException {</line>
+  <line number='203'>		String[] attributeIDs = { (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) }; //{"dn"} ;</line>
+  <line number='204'>		String searchFilter = "(" + (String) connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + ")";</line>
+  <line number='205'></line>
+  <line number='206'>		DirContext dirContext = null;</line>
+  <line number='207'>		try</line>
+  <line number='208'>		{</line>
+  <line number='209'>			dirContext = new InitialDirContext(environment);</line>
+  <line number='210'>		}</line>
+  <line number='211'>		catch (NamingException e1)</line>
+  <line number='212'>		{</line>
+  <line number='266'>	 * @param loginName the login name of the user</line>
+  <line number='267'>	 * @param passwd the password of the user</line>
+  <line number='268'>	 * @return true for successful authentication &lt;br&gt;</line>
+  <line number='269'>	 *         false for failed authentication</line>
+  <line number='270'>	 * @throws CSInternalConfigurationException </line>
+  <line number='271'>	 * @throws CSInternalLoginException </line>
+  <line number='272'>	 * @throws CSInternalInsufficientAttributesException </line>
+  <line number='273'>	 * @throws CSInternalConfigurationException </line>
+  <line number='274'>	 */</line>
+  <line number='275'>	private static boolean ldapAuthenticateUser(Hashtable environment, Hashtable connectionProperties, String userName, String password, Subject subject) throws CSInternalLoginException, CSInternalInsufficientAttributesException, CSInternalConfigurationException</line>
+  <line number='276'>	{</line>
+  <line number='277'>		String fullyDistinguishedName = getFullyDistinguishedName(environment, connectionProperties, userName);//connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + "," + connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE);</line>
+  <line number='278'></line>
+  <line number='279'>		if (null == fullyDistinguishedName) {</line>
+  <line number='280'>			if (log.isDebugEnabled())</line>
+  <line number='281'>				log.debug("Authentication||"+userName+"|ldapAuthenticateUser|Failure| Error obtaining the Distinguished Name|");</line>
+  <line number='282'>			return false;</line>
+  <line number='283'>		}</line>
+  <line number='284'></line>
+  <line number='285'>		try </line>
+  <type type='checkstyle' number='3' suppressed='0'/>
+</file>

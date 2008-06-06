@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonAssociationAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonAssociationAction.java"
+>
+  <violation
+    line="129"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line162'&gt;line 162&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 162."
+  />
+  <violation
+    line="162"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line129'&gt;line 129&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 129."
+  />
+  <line number='120'> * TODO To change the template for this generated type comment go to</line>
+  <line number='121'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='122'> */</line>
+  <line number='123'>public class CommonAssociationAction extends CommonDBAction</line>
+  <line number='124'>{</line>
+  <line number='125'>	private static final Logger logAssociation = Logger.getLogger(CommonAssociationAction.class);</line>
+  <line number='126'>	</line>
+  <line number='127'>	public ActionForward loadAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='128'>	{</line>
+  <line number='129'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='130'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='131'>		</line>
+  <line number='132'>		HttpSession session = request.getSession();</line>
+  <line number='133'>		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;</line>
+  <line number='134'>		</line>
+  <line number='135'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='136'>			if (logAssociation.isDebugEnabled())</line>
+  <line number='137'>				logAssociation.debug("||"+baseAssociationForm.getFormName()+"|loadAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='138'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='139'>		}</line>
+  <line number='153'>		if (logAssociation.isDebugEnabled())</line>
+  <line number='154'>			logAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='155'>				"|"+baseAssociationForm.getFormName()+"|loadAssociation|Success|Success in loading association for "+baseAssociationForm.getFormName()+" object|"</line>
+  <line number='156'>				+form.toString()+"|");		</line>
+  <line number='157'>		return (mapping.findForward(ForwardConstants.LOAD_ASSOCIATION_SUCCESS));</line>
+  <line number='158'>	}</line>
+  <line number='159'>	</line>
+  <line number='160'>	public ActionForward setAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='161'>	{</line>
+  <line number='162'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='163'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='164'>		</line>
+  <line number='165'>		HttpSession session = request.getSession();</line>
+  <line number='166'>		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;</line>
+  <line number='167'>		</line>
+  <line number='168'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='169'>			if (logAssociation.isDebugEnabled())</line>
+  <line number='170'>				logAssociation.debug("||"+baseAssociationForm.getFormName()+"|setAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='171'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='172'>		}</line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

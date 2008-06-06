@@ -1,0 +1,45 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <f:section title="VMware">
+        <f:entry title="Hosts"
+                help="${rootURL}/../plugin/vmware/help-globalConfig.html">
+            <f:repeatable var="host" varStatus="loopStatus" items="${descriptor.hosts}" minimum="1">
+                <table width="100%">
+                    <f:entry title="name">
+                        <input class="setting-input" type="text"
+                               name="vmware.host.name" value="${host.name}"/>
+                    </f:entry>
+
+                    <f:entry title="path to VMware VIX libraries" description="${status}">
+                        <input class="setting-input validated" name="vmware.host.vixLibraryPath"
+                               type="text" value="${h.ifThenElse(host==null,descriptor.findDefaultVixLibraryPath(),host.vixLibraryPath)}"
+                               checkUrl="'${rootURL}/plugin/vmware/vixLibraryCheck?value='+escape(this.value)"/>
+                    </f:entry>
+
+                    <f:entry title="hostname">
+                        <input class="setting-input" type="text"
+                               name="vmware.host.hostName" value="${host.hostName}"/>
+                    </f:entry>
+                    <f:entry title="username">
+                        <input class="setting-input" type="text"
+                               name="vmware.host.username" value="${host.username}"/>
+                    </f:entry>
+                    <f:entry title="password">
+                        <input class="setting-input" type="password"
+                               name="vmware.host.password" value="${host.password}"/>
+                    </f:entry>
+                    <f:advanced>
+                        <f:entry title="port">
+                            <input class="setting-input number" type="text"
+                                   name="vmware.host.portNumber" value="${h.ifThenElse(host==null,902,host.portNumber)}"/>
+                        </f:entry>
+                    </f:advanced>
+
+                </table>
+                <div align="right">
+                        <f:repeatableDeleteButton/>
+                </div>
+            </f:repeatable>
+        </f:entry>
+    </f:section>
+</j:jelly>

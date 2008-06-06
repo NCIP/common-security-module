@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: Ulli
+Build-Jdk: 1.5.0_11
+Extension-Name: pmd
+Implementation-Title: pmd
+Implementation-Version: 1.1
+Plugin-Class: hudson.plugins.pmd.PmdPlugin
+Short-Name: pmd
+Long-Name: Hudson PMD Plug-in
+Plugin-Version: 1.1
+Hudson-Version: 1.204
+

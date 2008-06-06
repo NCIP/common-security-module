@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authentication/loginmodules/X509LoginModule.java"
+  last-modified="1212512036000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/X509LoginModule.java"
+>
+  <violation
+    line="81"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [File, FileInputStream, Hashtable, KeyStoreException, LoginException, Principal, StringTokenizer, Vector]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [File, FileInputStream, Hashtable, KeyStoreException, LoginException, Principal, StringTokenizer, Vector]."
+  />
+  <violation
+    line="81"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 28 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 28 (max allowed is 20)."
+  />
+  <violation
+    line="170"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 12 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 12 (max allowed is 10)."
+  />
+  <violation
+    line="314"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 35 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 35 (max allowed is 10)."
+  />
+  <violation
+    line="314"
+    source="NPathComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="NPath Complexity is 13,020 (max allowed is 200)."
+    severity-level="1"
+    popup-message="NPath Complexity is 13,020 (max allowed is 200)."
+  />
+  <violation
+    line="430"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line465'&gt;line 465&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 465."
+  />
+  <violation
+    line="465"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line430'&gt;line 430&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 430."
+  />
+  <line number='72'> * &lt;/ul&gt;</line>
+  <line number='73'> * &lt;p&gt;</line>
+  <line number='74'> * By using this module with no configuration options, the default key store for</line>
+  <line number='75'> * the JVM will be used (typically JKS) and all the trusted certificates in that</line>
+  <line number='76'> * key store will be used. If at least one client certificate is found that is</line>
+  <line number='77'> * trusted, the login will succeed. If no client certificate is found that is</line>
+  <line number='78'> * trusted, the login will fail.</line>
+  <line number='79'> * </line>
+  <line number='80'> */</line>
+  <line number='81'>public final class X509LoginModule implements LoginModule {</line>
+  <line number='82'></line>
+  <line number='83'>	private static final Logger log = Logger.getLogger(X509LoginModule.class);</line>
+  <line number='84'></line>
+  <line number='85'>	/**</line>
+  <line number='86'>	 * The key store path (&lt;tt&gt;key-store-path&lt;/tt&gt;). If this option is not</line>
+  <line number='87'>	 * specified, the default key store is used namely,</line>
+  <line number='88'>	 * JAVA_HOME/lib/security/cacerts.</line>
+  <line number='89'>	 */</line>
+  <line number='90'>	public static final String KEY_STORE_PATH = "key-store-path";</line>
+  <line number='91'></line>
+  <line number='161'>	 *      3.b) Locate certificates from the keystore with the</line>
+  <line number='162'>	 *      principals as CN. </line>
+  <line number='163'>	 *      3.c) If certificate(s) available validate and add</line>
+  <line number='164'>	 *      the principals to Subject. </line>
+  <line number='165'>	 *      3.d) If no certificates available or none </line>
+  <line number='166'>	 *      validated then throw LoginException </line>
+  <line number='167'>	 *  4) Return true if validation was</line>
+  <line number='168'>	 *      succssful otherwise throw LoginException.</line>
+  <line number='169'>	 */</line>
+  <line number='170'>	public boolean login() throws LoginException {</line>
+  <line number='171'></line>
+  <line number='172'>		Set certs;</line>
+  <line number='173'>		Iterator iter;</line>
+  <line number='174'>		X509CRL crl;</line>
+  <line number='175'></line>
+  <line number='176'>		if (_subject == null)</line>
+  <line number='177'>			return false;</line>
+  <line number='178'></line>
+  <line number='179'>		// Attempt to locate a certificates for the subject</line>
+  <line number='180'>		certs = _subject.getPublicCredentials(X509Certificate.class);</line>
+  <line number='305'></line>
+  <line number='306'>			// Step 4: Get the subject of the certificate</line>
+  <line number='307'>			if (_subjectDN == null)</line>
+  <line number='308'>				_subjectDN = new Vector();</line>
+  <line number='309'>			_subjectDN.add(cert.getSubjectDN());</line>
+  <line number='310'>		}</line>
+  <line number='311'></line>
+  <line number='312'>	}</line>
+  <line number='313'></line>
+  <line number='314'>	public void initialize(Subject subject, CallbackHandler handler,</line>
+  <line number='315'>			Map sharedState, Map options) {</line>
+  <line number='316'>		_subject = subject;</line>
+  <line number='317'></line>
+  <line number='318'>		// </line>
+  <line number='319'>		synchronized (sharedState) {</line>
+  <line number='320'></line>
+  <line number='321'>			// Determine the key store to use. The key store is loaded only once</line>
+  <line number='322'>			// and placed in the shared state of the login module.</line>
+  <line number='323'>			String keyStoreName;</line>
+  <line number='324'>			String keyStorePath;</line>
+  <line number='421'>				if (_trusted == null) {</line>
+  <line number='422'>					_trusted = new Hashtable();</line>
+  <line number='423'>					token = new StringTokenizer(trusted, ", ");</line>
+  <line number='424'>					while (token.hasMoreTokens()) {</line>
+  <line number='425'>						String alias;</line>
+  <line number='426'>						Certificate cert;</line>
+  <line number='427'></line>
+  <line number='428'>						alias = token.nextToken();</line>
+  <line number='429'>						try {</line>
+  <line number='430'>							if (keyStore.isCertificateEntry(alias)) {</line>
+  <line number='431'>								cert = keyStore.getCertificate(alias);</line>
+  <line number='432'>								if (cert != null</line>
+  <line number='433'>										&amp;&amp; cert instanceof X509Certificate)</line>
+  <line number='434'>									_trusted.put(((X509Certificate) cert)</line>
+  <line number='435'>											.getIssuerDN(), cert);</line>
+  <line number='436'>							}</line>
+  <line number='437'>						} catch (KeyStoreException kse) {</line>
+  <line number='438'>							if (log.isDebugEnabled()) {</line>
+  <line number='439'>								log.debug(MODULE_NAME</line>
+  <line number='440'>										+ " error: error accessing key store "</line>
+  <line number='456'>					try {</line>
+  <line number='457'>						_trusted = new Hashtable();</line>
+  <line number='458'>						aliases = keyStore.aliases();</line>
+  <line number='459'>						while (aliases.hasMoreElements()) {</line>
+  <line number='460'>							String alias;</line>
+  <line number='461'>							Certificate cert;</line>
+  <line number='462'></line>
+  <line number='463'>							alias = (String) aliases.nextElement();</line>
+  <line number='464'>							</line>
+  <line number='465'>							if (keyStore.isCertificateEntry(alias)) {</line>
+  <line number='466'>								cert = keyStore.getCertificate(alias);</line>
+  <line number='467'>								if (cert != null</line>
+  <line number='468'>										&amp;&amp; cert instanceof X509Certificate)</line>
+  <line number='469'>									_trusted.put(((X509Certificate) cert)</line>
+  <line number='470'>											.getIssuerDN(), cert);</line>
+  <line number='471'>							}</line>
+  <line number='472'>						}</line>
+  <line number='473'>						sharedState.put("trusted-certs-" + keyStoreName</line>
+  <line number='474'>								+ "-all", _trusted);</line>
+  <line number='475'>					} catch (KeyStoreException kse) {</line>
+  <type type='checkstyle' number='5' suppressed='0'/>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

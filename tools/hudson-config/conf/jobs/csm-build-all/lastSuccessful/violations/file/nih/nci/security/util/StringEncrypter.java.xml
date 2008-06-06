@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/util/StringEncrypter.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/util/StringEncrypter.java"
+>
+  <violation
+    line="44"
+    source="UnusedFormalParameter"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused constructor parameters such as 'encryptionScheme'."
+    severity-level="2"
+    popup-message="Avoid unused constructor parameters such as 'encryptionScheme'."
+  />
+  <violation
+    line="47"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="49"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="56"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="56"
+    source="InefficientEmptyStringCheck"
+    severity="Medium"
+    type="pmd"
+    message="String.trim().length()==0 is an inefficient way to validate an empty String."
+    severity-level="2"
+    popup-message="String.trim().length()==0 is an inefficient way to validate an empty String."
+  />
+  <violation
+    line="100"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='6' suppressed='0'/>
+</file>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java"
+>
+  <violation
+    line="36"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='../../../../../../../../../../api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java#line10'&gt;line 10 in FilterClause.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 10 in FilterClause.java."
+  />
+  <violation
+    line="89"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 30 lines from &lt;a href='../../../../../../../../../../api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java#line33'&gt;line 33 in FilterClause.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 30 lines from line 33 in FilterClause.java."
+  />
+  <violation
+    line="197"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 48 lines from &lt;a href='../../../../../../../../../../api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java#line83'&gt;line 83 in FilterClause.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 48 lines from line 83 in FilterClause.java."
+  />
+  <violation
+    line="273"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='#line293'&gt;line 293&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 293."
+  />
+  <violation
+    line="293"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='#line273'&gt;line 273&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 273."
+  />
+  <violation
+    line="426"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../UserForm.java#line583'&gt;line 583 in UserForm.java&lt;/a&gt;, &lt;a href='../SearchUserForm.java#line559'&gt;line 559 in SearchUserForm.java&lt;/a&gt;, &lt;a href='../RoleForm.java#line341'&gt;line 341 in RoleForm.java&lt;/a&gt; and &lt;a href='../ProtectionGroupForm.java#line374'&gt;line 374 in ProtectionGroupForm.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 583 in UserForm.java, line 559 in SearchUserForm.java, line 341 in RoleForm.java and line 374 in ProtectionGroupForm.java."
+  />
+  <violation
+    line="445"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='../../../../../../../../../../api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java#line157'&gt;line 157 in FilterClause.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 157 in FilterClause.java."
+  />
+  <line number='27'>{</line>
+  <line number='28'></line>
+  <line number='29'>	private static final long serialVersionUID = 1L;</line>
+  <line number='30'></line>
+  <line number='31'>	private FormFile uploadedFile1;</line>
+  <line number='32'>	private FormFile uploadedFile2;</line>
+  <line number='33'>	private String hibernateFileName;</line>
+  <line number='34'></line>
+  <line number='35'>	private String id;</line>
+  <line number='36'>	private String className;</line>
+  <line number='37'>	private String filterChain;</line>
+  <line number='38'>	private String targetClassName;</line>
+  <line number='39'>	private String targetClassAttributeName;</line>
+  <line number='40'>	private String targetClassAttributeType;</line>
+  <line number='41'>	private String targetClassAlias;</line>
+  <line number='42'>	private String targetClassAttributeAlias;</line>
+  <line number='43'>	private String generatedSQL;</line>
+  <line number='44'>	private String generatedSQLForUser;</line>
+  <line number='45'>	private String generatedSQLForGroup;</line>
+  <line number='46'>	private String updateDate;</line>
+  <line number='80'>	public void setUploadedFile2(FormFile uploadedFile2)</line>
+  <line number='81'>	{</line>
+  <line number='82'>		this.uploadedFile2 = uploadedFile2;</line>
+  <line number='83'>	}</line>
+  <line number='84'>	</line>
+  <line number='85'>	</line>
+  <line number='86'>	/**</line>
+  <line number='87'>	 * @return Returns the className.</line>
+  <line number='88'>	 */</line>
+  <line number='89'>	public String getClassName()</line>
+  <line number='90'>	{</line>
+  <line number='91'>		return className;</line>
+  <line number='92'>	}</line>
+  <line number='93'></line>
+  <line number='94'>	</line>
+  <line number='95'>	/**</line>
+  <line number='96'>	 * @param className The className to set.</line>
+  <line number='97'>	 */</line>
+  <line number='98'>	public void setClassName(String className)</line>
+  <line number='99'>	{</line>
+  <line number='188'>	public void setTargetClassAttributeAlias(String targetClassAttributeAlias)</line>
+  <line number='189'>	{</line>
+  <line number='190'>		this.targetClassAttributeAlias = targetClassAttributeAlias;</line>
+  <line number='191'>	}</line>
+  <line number='192'></line>
+  <line number='193'>	</line>
+  <line number='194'>	/**</line>
+  <line number='195'>	 * @return Returns the targetClassAttributeName.</line>
+  <line number='196'>	 */</line>
+  <line number='197'>	public String getTargetClassAttributeName()</line>
+  <line number='198'>	{</line>
+  <line number='199'>		return targetClassAttributeName;</line>
+  <line number='200'>	}</line>
+  <line number='201'></line>
+  <line number='202'>	</line>
+  <line number='203'>	/**</line>
+  <line number='204'>	 * @param targetClassAttributeName The targetClassAttributeName to set.</line>
+  <line number='205'>	 */</line>
+  <line number='206'>	public void setTargetClassAttributeName(String targetClassAttributeName)</line>
+  <line number='207'>	{</line>
+  <line number='264'></line>
+  <line number='265'>	public String getFormName()</line>
+  <line number='266'>	{</line>
+  <line number='267'>		return DisplayConstants.INSTANCE_LEVEL_ID;</line>
+  <line number='268'>	}</line>
+  <line number='269'></line>
+  <line number='270'>	public void resetForm()</line>
+  <line number='271'>	{</line>
+  <line number='272'>		this.id = null;</line>
+  <line number='273'>		this.uploadedFile1 = null;</line>
+  <line number='274'>		this.uploadedFile2 = null;</line>
+  <line number='275'>		this.hibernateFileName = null;</line>
+  <line number='276'>		this.className = null;</line>
+  <line number='277'>		this.filterChain = null;</line>
+  <line number='278'>		this.targetClassName = null;</line>
+  <line number='279'>		this.targetClassAttributeName = null;</line>
+  <line number='280'>		this.targetClassAttributeType = null;</line>
+  <line number='281'>		this.targetClassAlias = null;</line>
+  <line number='282'>		this.targetClassAttributeAlias = null;</line>
+  <line number='283'>		this.generatedSQL = null;</line>
+  <line number='284'>		this.generatedSQLForGroup = null;</line>
+  <line number='285'>		this.generatedSQLForUser = null;</line>
+  <line number='286'>		this.updateDate = null;</line>
+  <line number='287'>	}</line>
+  <line number='288'>	</line>
+  <line number='289'>	</line>
+  <line number='290'>	</line>
+  <line number='291'>	public void reset(ActionMapping mapping, HttpServletRequest request)</line>
+  <line number='292'>	{</line>
+  <line number='293'>		this.uploadedFile1 = null;</line>
+  <line number='294'>		this.uploadedFile2 = null;</line>
+  <line number='295'>		this.hibernateFileName = null;</line>
+  <line number='296'>		this.className = null;</line>
+  <line number='297'>		this.filterChain = null;</line>
+  <line number='298'>		this.targetClassName = null;</line>
+  <line number='299'>		this.targetClassAttributeName = null;</line>
+  <line number='300'>		this.targetClassAttributeType = null;</line>
+  <line number='301'>		this.targetClassAlias = null;</line>
+  <line number='302'>		this.targetClassAttributeAlias = null;</line>
+  <line number='303'>		this.generatedSQL = null;</line>
+  <line number='417'></line>
+  <line number='418'>	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception</line>
+  <line number='419'>	{</line>
+  <line number='420'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='421'>		FilterClause filterClause = new FilterClause();</line>
+  <line number='422'>		if (this.className != null &amp;&amp; !(this.className.trim().equalsIgnoreCase("")))</line>
+  <line number='423'>			filterClause.setClassName(this.className);</line>
+  <line number='424'>		</line>
+  <line number='425'>		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(filterClause);</line>
+  <line number='426'>		List list = userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='427'>		SearchResult searchResult = new SearchResult();</line>
+  <line number='428'>		searchResult.setSearchResultMessage(searchCriteria.getMessage());</line>
+  <line number='429'>		searchResult.setSearchResultObjects(list);</line>
+  <line number='430'>		return searchResult;</line>
+  <line number='431'>	}</line>
+  <line number='432'></line>
+  <line number='433'>	public String getPrimaryId()</line>
+  <line number='434'>	{</line>
+  <line number='435'>		if (this.id == null)</line>
+  <line number='436'>		{</line>
+  <line number='437'>			return new String("");</line>
+  <line number='438'>		}</line>
+  <line number='439'>		else</line>
+  <line number='440'>		{</line>
+  <line number='441'>			return id;</line>
+  <line number='442'>		}</line>
+  <line number='443'>	}</line>
+  <line number='444'></line>
+  <line number='445'>	public String getGeneratedSQLForGroup() {</line>
+  <line number='446'>		return generatedSQLForGroup;</line>
+  <line number='447'>	}</line>
+  <line number='448'></line>
+  <line number='449'>	public void setGeneratedSQLForGroup(String generatedSQLForGroup) {</line>
+  <line number='450'>		this.generatedSQLForGroup = generatedSQLForGroup;</line>
+  <line number='451'>	}</line>
+  <line number='452'></line>
+  <line number='453'>	public String getGeneratedSQLForUser() {</line>
+  <line number='454'>		return generatedSQLForUser;</line>
+  <line number='455'>	}</line>
+  <type type='simian' number='7' suppressed='0'/>
+</file>

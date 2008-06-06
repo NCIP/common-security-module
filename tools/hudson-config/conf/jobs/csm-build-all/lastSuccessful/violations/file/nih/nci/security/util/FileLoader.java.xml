@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/util/FileLoader.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/util/FileLoader.java"
+>
+  <violation
+    line="65"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="68"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="74"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="82"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'rb'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'rb'."
+  />
+  <violation
+    line="106"
+    source="EmptyFinallyBlock"
+    severity="Medium"
+    type="pmd"
+    message="Avoid empty finally blocks"
+    severity-level="2"
+    popup-message="Avoid empty finally blocks"
+  />
+  <violation
+    line="124"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="127"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="133"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="140"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'rb'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'rb'."
+  />
+  <violation
+    line="160"
+    source="EmptyFinallyBlock"
+    severity="Medium"
+    type="pmd"
+    message="Avoid empty finally blocks"
+    severity-level="2"
+    popup-message="Avoid empty finally blocks"
+  />
+  <type type='pmd' number='10' suppressed='0'/>
+</file>

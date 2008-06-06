@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authentication/loginmodules/CSMLoginModule.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authentication/loginmodules/CSMLoginModule.java"
+>
+  <violation
+    line="136"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as 'sharedState'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as 'sharedState'."
+  />
+  <violation
+    line="168"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="193"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="199"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="220"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="221"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="221"
+    source="CollapsibleIfStatements"
+    severity="Medium"
+    type="pmd"
+    message="These nested if statements could be combined"
+    severity-level="2"
+    popup-message="These nested if statements could be combined"
+  />
+  <violation
+    line="225"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='8' suppressed='0'/>
+</file>

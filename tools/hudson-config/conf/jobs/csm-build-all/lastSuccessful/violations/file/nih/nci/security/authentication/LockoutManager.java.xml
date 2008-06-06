@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authentication/LockoutManager.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authentication/LockoutManager.java"
+>
+  <violation
+    line="85"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="129"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="131"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="134"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <type type='pmd' number='4' suppressed='0'/>
+</file>

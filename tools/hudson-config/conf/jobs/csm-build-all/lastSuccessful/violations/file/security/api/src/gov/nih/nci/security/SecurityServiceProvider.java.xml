@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/SecurityServiceProvider.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/SecurityServiceProvider.java"
+>
+  <violation
+    line="366"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='#line383'&gt;line 383&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 383."
+  />
+  <violation
+    line="383"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='#line366'&gt;line 366&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 366."
+  />
+  <line number='357'>	}</line>
+  <line number='358'></line>
+  <line number='359'>	private static AuthorizationManager getAuthorizationManagerDirectly(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException</line>
+  <line number='360'>	{</line>
+  <line number='361'>		return (AuthorizationManager)getUserProvisioningManagerDirectly(applicationContextName, userOrGroupName, isUserName);	</line>
+  <line number='362'>	}</line>
+  <line number='363'>	</line>
+  <line number='364'>	private static UserProvisioningManager getUserProvisioningManagerDirectly(String applicationContextName) throws CSConfigurationException</line>
+  <line number='365'>	{</line>
+  <line number='366'>		FileLoader fileLoader = FileLoader.getInstance();</line>
+  <line number='367'>		URL url = null;</line>
+  <line number='368'>		try</line>
+  <line number='369'>		{</line>
+  <line number='370'>			url = fileLoader.getFileAsURL(applicationContextName + Constants.FILE_NAME_SUFFIX);</line>
+  <line number='371'>		}</line>
+  <line number='372'>		catch (Exception e)</line>
+  <line number='373'>		{</line>
+  <line number='374'>			url = null;</line>
+  <line number='375'>		}</line>
+  <line number='376'>		if (url != null)</line>
+  <line number='377'>			return new AuthorizationManagerImpl(applicationContextName, url);</line>
+  <line number='378'>		return null;</line>
+  <line number='379'>	}</line>
+  <line number='380'></line>
+  <line number='381'>	private static UserProvisioningManager getUserProvisioningManagerDirectly(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException</line>
+  <line number='382'>	{</line>
+  <line number='383'>		FileLoader fileLoader = FileLoader.getInstance();</line>
+  <line number='384'>		URL url = null;</line>
+  <line number='385'>		try</line>
+  <line number='386'>		{</line>
+  <line number='387'>			url = fileLoader.getFileAsURL(applicationContextName + Constants.FILE_NAME_SUFFIX);</line>
+  <line number='388'>		}</line>
+  <line number='389'>		catch (Exception e)</line>
+  <line number='390'>		{</line>
+  <line number='391'>			url = null;</line>
+  <line number='392'>		}</line>
+  <line number='393'>		if (url != null)</line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

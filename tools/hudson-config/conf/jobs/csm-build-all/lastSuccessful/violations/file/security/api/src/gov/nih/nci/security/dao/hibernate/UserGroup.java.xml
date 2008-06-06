@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/dao/hibernate/UserGroup.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/UserGroup.java"
+>
+  <violation
+    line="103"
+    source="AvoidStarImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Using the '.*' form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*."
+    severity-level="1"
+    popup-message="Using the '.*' form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*."
+  />
+  <violation
+    line="153"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 20 lines from &lt;a href='../../../authorization/domainobjects/UserGroupRoleProtectionGroup.java#line154'&gt;line 154 in UserGroupRoleProtectionGroup.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 20 lines from line 154 in UserGroupRoleProtectionGroup.java."
+  />
+  <line number='94'> *</line>
+  <line number='95'> */</line>
+  <line number='96'></line>
+  <line number='97'></line>
+  <line number='98'>import java.io.Serializable;</line>
+  <line number='99'>import org.apache.commons.lang.builder.EqualsBuilder;</line>
+  <line number='100'>import org.apache.commons.lang.builder.HashCodeBuilder;</line>
+  <line number='101'>import org.apache.commons.lang.builder.ToStringBuilder;</line>
+  <line number='102'></line>
+  <line number='103'>import gov.nih.nci.security.authorization.domainobjects.*;</line>
+  <line number='104'></line>
+  <line number='105'>/** </line>
+  <line number='106'> *        @hibernate.class</line>
+  <line number='107'> *         table="user_group"</line>
+  <line number='108'> *     </line>
+  <line number='109'>*/</line>
+  <line number='110'>public class UserGroup implements Serializable {</line>
+  <line number='111'></line>
+  <line number='112'>    /** identifier field */</line>
+  <line number='113'>    private Long userGroupId;</line>
+  <line number='144'>        this.userGroupId = userGroupId;</line>
+  <line number='145'>    }</line>
+  <line number='146'></line>
+  <line number='147'>    /** </line>
+  <line number='148'>     *            @hibernate.many-to-one</line>
+  <line number='149'>     *             not-null="true"</line>
+  <line number='150'>     *            @hibernate.column name="GROUP_ID"         </line>
+  <line number='151'>     *         </line>
+  <line number='152'>     */</line>
+  <line number='153'>    public Group getGroup() {</line>
+  <line number='154'>        return this.group;</line>
+  <line number='155'>    }</line>
+  <line number='156'></line>
+  <line number='157'>    public void setGroup(Group group) {</line>
+  <line number='158'>        this.group = group;</line>
+  <line number='159'>    }</line>
+  <line number='160'></line>
+  <line number='161'>    /** </line>
+  <line number='162'>     *            @hibernate.many-to-one</line>
+  <line number='163'>     *             not-null="true"</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='1' suppressed='0'/>
+</file>

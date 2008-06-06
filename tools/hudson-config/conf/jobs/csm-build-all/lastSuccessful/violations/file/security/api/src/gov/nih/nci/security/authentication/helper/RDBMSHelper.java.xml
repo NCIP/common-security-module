@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authentication/helper/RDBMSHelper.java"
+  last-modified="1212512036000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/helper/RDBMSHelper.java"
+>
+  <violation
+    line="188"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 15 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 15 (max allowed is 10)."
+  />
+  <violation
+    line="188"
+    source="NPathComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="NPath Complexity is 880 (max allowed is 200)."
+    severity-level="1"
+    popup-message="NPath Complexity is 880 (max allowed is 200)."
+  />
+  <violation
+    line="259"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 17 lines from &lt;a href='#line327'&gt;line 327&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 17 lines from line 327."
+  />
+  <violation
+    line="327"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 18 lines from &lt;a href='#line259'&gt;line 259&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 18 lines from line 259."
+  />
+  <line number='179'>		}</line>
+  <line number='180'>		else</line>
+  <line number='181'>		{</line>
+  <line number='182'>			return authenticateAndObtainSubject(connection, connectionProperties, userID, encryptedPassword, subject);</line>
+  <line number='183'>		}</line>
+  <line number='184'></line>
+  <line number='185'>	}</line>
+  <line number='186'></line>
+  <line number='187'></line>
+  <line number='188'>	private static boolean authenticateAndObtainSubject(Connection connection, Hashtable connectionProperties, String userID, String password, Subject subject) throws CSInternalInsufficientAttributesException, CSInternalConfigurationException</line>
+  <line number='189'>	{</line>
+  <line number='190'></line>
+  <line number='191'>		PreparedStatement statement = null;</line>
+  <line number='192'>		ResultSet resultSet = null;</line>
+  <line number='193'>		boolean loginOK = false;</line>
+  <line number='194'>		</line>
+  <line number='195'>		String tableName = (String)connectionProperties.get(Constants.TABLE_NAME);</line>
+  <line number='196'>		</line>
+  <line number='197'>		String userNameColumn = (String)connectionProperties.get(Constants.USER_LOGIN_ID);</line>
+  <line number='198'>		String passwordColumn = (String)connectionProperties.get(Constants.USER_PASSWORD);</line>
+  <line number='250'>					loginOK = true;</line>
+  <line number='251'>					break;</line>
+  <line number='252'>				}</line>
+  <line number='253'>			}</line>
+  <line number='254'>			catch (SQLException e)</line>
+  <line number='255'>			{</line>
+  <line number='256'>				throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");				</line>
+  <line number='257'>			}</line>
+  <line number='258'>		}</line>
+  <line number='259'>		try</line>
+  <line number='260'>		{</line>
+  <line number='261'>			if (resultSet != null)</line>
+  <line number='262'>				resultSet.close();</line>
+  <line number='263'>			if (statement != null)</line>
+  <line number='264'>				statement.close();</line>
+  <line number='265'>			if (connection != null)</line>
+  <line number='266'>				connection.close();</line>
+  <line number='267'>		}</line>
+  <line number='268'>		catch (SQLException sqe)</line>
+  <line number='269'>		{</line>
+  <line number='318'>		}</line>
+  <line number='319'></line>
+  <line number='320'>		catch (Exception e)</line>
+  <line number='321'>		{</line>
+  <line number='322'>			e.printStackTrace();</line>
+  <line number='323'>			throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");				</line>
+  <line number='324'>		}</line>
+  <line number='325'>		finally</line>
+  <line number='326'>		{</line>
+  <line number='327'>			try</line>
+  <line number='328'>			{</line>
+  <line number='329'>				if (resultSet != null)</line>
+  <line number='330'>					resultSet.close();</line>
+  <line number='331'>				if (statement != null)</line>
+  <line number='332'>					statement.close();</line>
+  <line number='333'>				if (connection != null)</line>
+  <line number='334'>					connection.close();</line>
+  <line number='335'>			}</line>
+  <line number='336'>			catch (SQLException sqe)</line>
+  <line number='337'>			{</line>
+  <type type='checkstyle' number='2' suppressed='0'/>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/acegi/authentication/CSMUserDetails.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/acegi/authentication/CSMUserDetails.java"
+>
+  <violation
+    line="20"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as 'additionalData'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as 'additionalData'."
+  />
+  <type type='pmd' number='1' suppressed='0'/>
+</file>

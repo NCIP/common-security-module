@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java"
+>
+  <violation
+    line="93"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - java.util.ArrayList."
+    severity-level="1"
+    popup-message="Unused import - java.util.ArrayList."
+  />
+  <violation
+    line="109"
+    source="RedundantImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Duplicate import to line 94 - org.apache.log4j.Logger."
+    severity-level="1"
+    popup-message="Duplicate import to line 94 - org.apache.log4j.Logger."
+  />
+  <violation
+    line="463"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 15 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 15 (max allowed is 10)."
+  />
+  <violation
+    line="128"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 24 lines from &lt;a href='../InstanceLevelAction.java#line138'&gt;line 138 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 24 lines from line 138 in InstanceLevelAction.java."
+  />
+  <violation
+    line="130"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt; and &lt;a href='#line156'&gt;line 156&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 379, line 334, line 285, line 250, line 210, line 184 and line 156."
+  />
+  <violation
+    line="156"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 379, line 334, line 285, line 250, line 210, line 184 and line 130."
+  />
+  <violation
+    line="179"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 63 lines from &lt;a href='../InstanceLevelAction.java#line233'&gt;line 233 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 63 lines from line 233 in InstanceLevelAction.java."
+  />
+  <violation
+    line="184"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 379, line 334, line 285, line 250, line 210, line 156 and line 130."
+  />
+  <violation
+    line="210"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 379, line 334, line 285, line 250, line 184, line 156 and line 130."
+  />
+  <violation
+    line="210"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 16 lines from &lt;a href='#line250'&gt;line 250&lt;/a&gt; and &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 16 lines from line 250 and line 264 in InstanceLevelAction.java."
+  />
+  <violation
+    line="228"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='#line265'&gt;line 265&lt;/a&gt; and &lt;a href='../InstanceLevelAction.java#line280'&gt;line 280 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 265 and line 280 in InstanceLevelAction.java."
+  />
+  <violation
+    line="250"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 379, line 334, line 285, line 210, line 184, line 156 and line 130."
+  />
+  <violation
+    line="250"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt; and &lt;a href='#line210'&gt;line 210&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 264 in InstanceLevelAction.java and line 210."
+  />
+  <violation
+    line="265"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='#line228'&gt;line 228&lt;/a&gt; and &lt;a href='../InstanceLevelAction.java#line280'&gt;line 280 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 228 and line 280 in InstanceLevelAction.java."
+  />
+  <violation
+    line="283"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 242 lines from &lt;a href='../InstanceLevelAction.java#line459'&gt;line 459 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 242 lines from line 459 in InstanceLevelAction.java."
+  />
+  <violation
+    line="285"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 379, line 334, line 250, line 210, line 184, line 156 and line 130."
+  />
+  <violation
+    line="294"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line538'&gt;line 538&lt;/a&gt;, &lt;a href='#line388'&gt;line 388&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line564'&gt;line 564 in InstanceLevelAction.java&lt;/a&gt; and &lt;a href='../InstanceLevelAction.java#line470'&gt;line 470 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 538, line 388, line 564 in InstanceLevelAction.java and line 470 in InstanceLevelAction.java."
+  />
+  <violation
+    line="312"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line620'&gt;line 620 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line582'&gt;line 582 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line488'&gt;line 488 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line560'&gt;line 560&lt;/a&gt;, &lt;a href='#line444'&gt;line 444&lt;/a&gt; and &lt;a href='#line406'&gt;line 406&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 620 in InstanceLevelAction.java, line 582 in InstanceLevelAction.java, line 488 in InstanceLevelAction.java, line 560, line 444 and line 406."
+  />
+  <violation
+    line="334"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 379, line 285, line 250, line 210, line 184, line 156 and line 130."
+  />
+  <violation
+    line="379"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 428, line 334, line 285, line 250, line 210, line 184, line 156 and line 130."
+  />
+  <violation
+    line="388"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line538'&gt;line 538&lt;/a&gt;, &lt;a href='#line294'&gt;line 294&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line564'&gt;line 564 in InstanceLevelAction.java&lt;/a&gt; and &lt;a href='../InstanceLevelAction.java#line470'&gt;line 470 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 538, line 294, line 564 in InstanceLevelAction.java and line 470 in InstanceLevelAction.java."
+  />
+  <violation
+    line="406"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line620'&gt;line 620 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line582'&gt;line 582 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line488'&gt;line 488 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line560'&gt;line 560&lt;/a&gt;, &lt;a href='#line444'&gt;line 444&lt;/a&gt; and &lt;a href='#line312'&gt;line 312&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 620 in InstanceLevelAction.java, line 582 in InstanceLevelAction.java, line 488 in InstanceLevelAction.java, line 560, line 444 and line 312."
+  />
+  <violation
+    line="428"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 465, line 379, line 334, line 285, line 250, line 210, line 184, line 156 and line 130."
+  />
+  <violation
+    line="444"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line620'&gt;line 620 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line582'&gt;line 582 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line488'&gt;line 488 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line560'&gt;line 560&lt;/a&gt;, &lt;a href='#line406'&gt;line 406&lt;/a&gt; and &lt;a href='#line312'&gt;line 312&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 620 in InstanceLevelAction.java, line 582 in InstanceLevelAction.java, line 488 in InstanceLevelAction.java, line 560, line 406 and line 312."
+  />
+  <violation
+    line="465"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line529'&gt;line 529&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 529, line 428, line 379, line 334, line 285, line 250, line 210, line 184, line 156 and line 130."
+  />
+  <violation
+    line="529"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line641'&gt;line 641 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line604'&gt;line 604 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line555'&gt;line 555 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line510'&gt;line 510 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line461'&gt;line 461 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line264'&gt;line 264 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line238'&gt;line 238 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line140'&gt;line 140 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line465'&gt;line 465&lt;/a&gt;, &lt;a href='#line428'&gt;line 428&lt;/a&gt;, &lt;a href='#line379'&gt;line 379&lt;/a&gt;, &lt;a href='#line334'&gt;line 334&lt;/a&gt;, &lt;a href='#line285'&gt;line 285&lt;/a&gt;, &lt;a href='#line250'&gt;line 250&lt;/a&gt;, &lt;a href='#line210'&gt;line 210&lt;/a&gt;, &lt;a href='#line184'&gt;line 184&lt;/a&gt;, &lt;a href='#line156'&gt;line 156&lt;/a&gt; and &lt;a href='#line130'&gt;line 130&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641 in InstanceLevelAction.java, line 604 in InstanceLevelAction.java, line 555 in InstanceLevelAction.java, line 510 in InstanceLevelAction.java, line 461 in InstanceLevelAction.java, line 264 in InstanceLevelAction.java, line 238 in InstanceLevelAction.java, line 140 in InstanceLevelAction.java, line 465, line 428, line 379, line 334, line 285, line 250, line 210, line 184, line 156 and line 130."
+  />
+  <violation
+    line="538"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line388'&gt;line 388&lt;/a&gt;, &lt;a href='#line294'&gt;line 294&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line564'&gt;line 564 in InstanceLevelAction.java&lt;/a&gt; and &lt;a href='../InstanceLevelAction.java#line470'&gt;line 470 in InstanceLevelAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 388, line 294, line 564 in InstanceLevelAction.java and line 470 in InstanceLevelAction.java."
+  />
+  <violation
+    line="560"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../InstanceLevelAction.java#line620'&gt;line 620 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line582'&gt;line 582 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='../InstanceLevelAction.java#line488'&gt;line 488 in InstanceLevelAction.java&lt;/a&gt;, &lt;a href='#line444'&gt;line 444&lt;/a&gt;, &lt;a href='#line406'&gt;line 406&lt;/a&gt; and &lt;a href='#line312'&gt;line 312&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 620 in InstanceLevelAction.java, line 582 in InstanceLevelAction.java, line 488 in InstanceLevelAction.java, line 444, line 406 and line 312."
+  />
+  <line number='84'> *TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF</line>
+  <line number='85'> *THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</line>
+  <line number='86'> *</line>
+  <line number='87'> *&lt;!-- LICENSE_TEXT_END --&gt;</line>
+  <line number='88'> *</line>
+  <line number='89'> */</line>
+  <line number='90'></line>
+  <line number='91'></line>
+  <line number='92'></line>
+  <line number='93'>import java.util.ArrayList;</line>
+  <line number='94'>import org.apache.log4j.Logger;</line>
+  <line number='95'></line>
+  <line number='96'>import gov.nih.nci.logging.api.user.UserInfoHelper;</line>
+  <line number='97'>import gov.nih.nci.security.exceptions.CSException;</line>
+  <line number='98'>import gov.nih.nci.security.upt.constants.DisplayConstants;</line>
+  <line number='99'>import gov.nih.nci.security.upt.constants.ForwardConstants;</line>
+  <line number='100'>import gov.nih.nci.security.upt.forms.BaseDBForm;</line>
+  <line number='101'>import gov.nih.nci.security.upt.forms.LoginForm;</line>
+  <line number='102'>import gov.nih.nci.security.upt.util.JDBCHelper;</line>
+  <line number='103'>import gov.nih.nci.security.upt.viewobjects.SearchResult;</line>
+  <line number='104'></line>
+  <line number='105'>import javax.servlet.http.HttpServletRequest;</line>
+  <line number='106'>import javax.servlet.http.HttpServletResponse;</line>
+  <line number='107'>import javax.servlet.http.HttpSession;</line>
+  <line number='108'></line>
+  <line number='109'>import org.apache.log4j.Logger;</line>
+  <line number='110'>import org.apache.struts.action.ActionError;</line>
+  <line number='111'>import org.apache.struts.action.ActionErrors;</line>
+  <line number='112'>import org.apache.struts.action.ActionForm;</line>
+  <line number='113'>import org.apache.struts.action.ActionForward;</line>
+  <line number='114'>import org.apache.struts.action.ActionMapping;</line>
+  <line number='115'>import org.apache.struts.action.ActionMessage;</line>
+  <line number='116'>import org.apache.struts.action.ActionMessages;</line>
+  <line number='117'>import org.apache.struts.actions.DispatchAction;</line>
+  <line number='118'></line>
+  <line number='119'>/**</line>
+  <line number='120'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='121'> *</line>
+  <line number='122'> * </line>
+  <line number='123'> */</line>
+  <line number='124'>public class CommonDBAction extends DispatchAction</line>
+  <line number='125'>{</line>
+  <line number='126'>	private static final Logger logDB = Logger.getLogger(CommonDBAction.class);</line>
+  <line number='127'>	</line>
+  <line number='128'>	public ActionForward loadHome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='129'>	{</line>
+  <line number='130'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='131'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='132'>		</line>
+  <line number='133'>		HttpSession session = request.getSession();</line>
+  <line number='134'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='135'>		</line>
+  <line number='136'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='137'>			if (logDB.isDebugEnabled())</line>
+  <line number='138'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadHome|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='139'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='140'>		}</line>
+  <line number='147'>		if (logDB.isDebugEnabled())</line>
+  <line number='148'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='149'>					"|"+baseDBForm.getFormName()+"|loadHome|Success|Load the Home Page||");</line>
+  <line number='150'>		</line>
+  <line number='151'>		return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));	</line>
+  <line number='152'>	}</line>
+  <line number='153'>	</line>
+  <line number='154'>	public ActionForward loadAdd(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='155'>	{</line>
+  <line number='156'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='157'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='158'>		</line>
+  <line number='159'>		HttpSession session = request.getSession();</line>
+  <line number='160'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='161'>		</line>
+  <line number='162'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='163'>			if (logDB.isDebugEnabled())</line>
+  <line number='164'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadAdd|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='165'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='166'>		}</line>
+  <line number='170'>		session.setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.ADD);</line>
+  <line number='171'>		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='172'>		session.removeAttribute(DisplayConstants.SEARCH_RESULT);</line>
+  <line number='173'>		session.setAttribute(DisplayConstants.CREATE_WORKFLOW,DisplayConstants.CREATE_WORKFLOW);</line>
+  <line number='174'>		</line>
+  <line number='175'>		if (logDB.isDebugEnabled())</line>
+  <line number='176'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='177'>					"|"+baseDBForm.getFormName()+"|loadAdd|Success|Loading the Add Page||");</line>
+  <line number='178'>		</line>
+  <line number='179'>		return (mapping.findForward(ForwardConstants.LOAD_ADD_SUCCESS));</line>
+  <line number='180'>	}</line>
+  <line number='181'>	</line>
+  <line number='182'>	public ActionForward loadSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='183'>	{</line>
+  <line number='184'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='185'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='186'>		</line>
+  <line number='187'>		HttpSession session = request.getSession();</line>
+  <line number='188'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='189'>		</line>
+  <line number='190'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='191'>			if (logDB.isDebugEnabled())</line>
+  <line number='192'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearch|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='193'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='194'>		}</line>
+  <line number='201'>		if (logDB.isDebugEnabled())</line>
+  <line number='202'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='203'>					"|"+baseDBForm.getFormName()+"|loadSearch|Success|Loading the Search Page||");</line>
+  <line number='204'>		</line>
+  <line number='205'>		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_SUCCESS));</line>
+  <line number='206'>	}</line>
+  <line number='207'>	</line>
+  <line number='208'>	public ActionForward loadSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='209'>	{</line>
+  <line number='210'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='211'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='212'>		</line>
+  <line number='213'>		HttpSession session = request.getSession();</line>
+  <line number='214'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='215'>		</line>
+  <line number='216'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='217'>			if (logDB.isDebugEnabled())</line>
+  <line number='218'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearchResult|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='219'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='220'>		}</line>
+  <line number='221'>		</line>
+  <line number='222'>		</line>
+  <line number='223'>		</line>
+  <line number='224'>		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){</line>
+  <line number='225'>			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);</line>
+  <line number='226'>			session.removeAttribute(DisplayConstants.SEARCH_RESULT);</line>
+  <line number='227'>			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);</line>
+  <line number='228'>			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));</line>
+  <line number='229'>		}else{</line>
+  <line number='230'>				if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){</line>
+  <line number='231'>					session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));</line>
+  <line number='232'>					session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);</line>
+  <line number='233'>				}	</line>
+  <line number='234'>			}</line>
+  <line number='235'>			</line>
+  <line number='236'></line>
+  <line number='237'>		if (logDB.isDebugEnabled())</line>
+  <line number='238'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='241'>		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));</line>
+  <line number='242'>	}</line>
+  <line number='243'>	</line>
+  <line number='244'>	/**</line>
+  <line number='245'>	* Added this method to handle pre-popup search results.</line>
+  <line number='246'>	*/</line>
+  <line number='247'></line>
+  <line number='248'>	public ActionForward loadOriginalSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='249'>	{</line>
+  <line number='250'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='251'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='252'>		</line>
+  <line number='253'>		HttpSession session = request.getSession();</line>
+  <line number='254'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='255'>		</line>
+  <line number='256'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='257'>			if (logDB.isDebugEnabled())</line>
+  <line number='258'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearchResult|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='259'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='260'>		}</line>
+  <line number='261'>		</line>
+  <line number='262'>		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){</line>
+  <line number='263'>			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);</line>
+  <line number='264'>			//session.removeAttribute(DisplayConstants.SEARCH_RESULT);</line>
+  <line number='265'>			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));</line>
+  <line number='266'>		}else{</line>
+  <line number='267'>			if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){</line>
+  <line number='268'>				session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));</line>
+  <line number='269'>				session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);</line>
+  <line number='270'>			}	</line>
+  <line number='271'>		}</line>
+  <line number='272'>		</line>
+  <line number='273'></line>
+  <line number='274'>		if (logDB.isDebugEnabled())</line>
+  <line number='275'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='276'>					"|"+baseDBForm.getFormName()+"|loadSearchResult|Success|Loading the Search Result Page||");		</line>
+  <line number='277'>		</line>
+  <line number='278'>		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));</line>
+  <line number='279'>	}</line>
+  <line number='280'></line>
+  <line number='281'></line>
+  <line number='282'>	</line>
+  <line number='283'>	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='284'>	{</line>
+  <line number='285'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='286'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='287'>		</line>
+  <line number='288'>		HttpSession session = request.getSession();</line>
+  <line number='289'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='290'>		</line>
+  <line number='291'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='292'>			if (logDB.isDebugEnabled())</line>
+  <line number='293'>				logDB.debug("||"+baseDBForm.getFormName()+"|create|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='294'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='295'>		}</line>
+  <line number='296'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());		</line>
+  <line number='297'>		try</line>
+  <line number='298'>		{</line>
+  <line number='299'>			errors = form.validate(mapping, request);</line>
+  <line number='300'>			if(!errors.isEmpty()) </line>
+  <line number='301'>			{</line>
+  <line number='302'>				saveErrors(request,errors);</line>
+  <line number='303'>				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='304'>				if (logDB.isDebugEnabled())</line>
+  <line number='305'>					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='306'>						"|"+baseDBForm.getFormName()+"|create|Failure|Error validating the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='307'>						+form.toString()+"|");</line>
+  <line number='308'>				return mapping.getInputForward();</line>
+  <line number='309'>			}</line>
+  <line number='310'>			baseDBForm.buildDBObject(request);</line>
+  <line number='311'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Add Successful"));</line>
+  <line number='312'>			saveMessages( request, messages );</line>
+  <line number='313'>		}</line>
+  <line number='314'>		catch (CSException cse)</line>
+  <line number='315'>		{</line>
+  <line number='316'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));</line>
+  <line number='317'>			saveErrors( request,errors );</line>
+  <line number='318'>			if (logDB.isDebugEnabled())</line>
+  <line number='319'>				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='320'>					"|"+baseDBForm.getFormName()+"|create|Failure|Error Adding the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='321'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='322'>		}</line>
+  <line number='325'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='326'>				"|"+baseDBForm.getFormName()+"|create|Success|Adding a  new "+baseDBForm.getFormName()+" object|"</line>
+  <line number='327'>				+form.toString()+"|");		</line>
+  <line number='328'>		return (mapping.findForward(ForwardConstants.CREATE_SUCCESS));</line>
+  <line number='329'>	}</line>
+  <line number='330'></line>
+  <line number='331'>	</line>
+  <line number='332'>	public ActionForward read(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='333'>	{</line>
+  <line number='334'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='335'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='336'>		</line>
+  <line number='337'>		HttpSession session = request.getSession();</line>
+  <line number='338'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='339'>		</line>
+  <line number='340'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='341'>			if (logDB.isDebugEnabled())</line>
+  <line number='342'>				logDB.debug("||"+baseDBForm.getFormName()+"|read|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='343'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='344'>		}</line>
+  <line number='370'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='371'>				"|"+baseDBForm.getFormName()+"|read|Success|Success reading "+baseDBForm.getFormName()+" object|"</line>
+  <line number='372'>				+form.toString()+"|");</line>
+  <line number='373'>		return (mapping.findForward(ForwardConstants.READ_SUCCESS));</line>
+  <line number='374'></line>
+  <line number='375'>	}</line>
+  <line number='376'>	</line>
+  <line number='377'>	public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='378'>	{</line>
+  <line number='379'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='380'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='381'>		</line>
+  <line number='382'>		HttpSession session = request.getSession();</line>
+  <line number='383'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='384'>	</line>
+  <line number='385'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='386'>			if (logDB.isDebugEnabled())</line>
+  <line number='387'>				logDB.debug("||"+baseDBForm.getFormName()+"|update|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='388'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='389'>		}</line>
+  <line number='390'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());</line>
+  <line number='391'>		try</line>
+  <line number='392'>		{</line>
+  <line number='393'>			errors = form.validate(mapping, request);</line>
+  <line number='394'>			if(!errors.isEmpty()) </line>
+  <line number='395'>			{</line>
+  <line number='396'>				saveErrors(request,errors);</line>
+  <line number='397'>				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='398'>				if (logDB.isDebugEnabled())</line>
+  <line number='399'>					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='400'>						"|"+baseDBForm.getFormName()+"|update|Failure|Error validating the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='401'>						+form.toString()+"|");</line>
+  <line number='402'>				return mapping.getInputForward();</line>
+  <line number='403'>			}			</line>
+  <line number='404'>			baseDBForm.buildDBObject(request);</line>
+  <line number='405'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Update Successful"));</line>
+  <line number='406'>			saveMessages( request, messages );</line>
+  <line number='407'>		}</line>
+  <line number='408'>		catch (CSException cse)</line>
+  <line number='409'>		{</line>
+  <line number='410'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='411'>			saveErrors( request,errors );</line>
+  <line number='412'>			if (logDB.isDebugEnabled())</line>
+  <line number='413'>				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='414'>					"|"+baseDBForm.getFormName()+"|update|Failure|Error Updating the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='415'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='416'>		}</line>
+  <line number='419'>		if (logDB.isDebugEnabled())</line>
+  <line number='420'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='421'>				"|"+baseDBForm.getFormName()+"|update|Success|Updating existing "+baseDBForm.getFormName()+" object|"</line>
+  <line number='422'>				+form.toString()+"|");</line>
+  <line number='423'>		return (mapping.findForward(ForwardConstants.UPDATE_SUCCESS));</line>
+  <line number='424'>	}</line>
+  <line number='425'>	</line>
+  <line number='426'>	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='427'>	{</line>
+  <line number='428'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='429'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='430'>		</line>
+  <line number='431'>		HttpSession session = request.getSession();</line>
+  <line number='432'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='433'>		</line>
+  <line number='434'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='435'>			if (logDB.isDebugEnabled())</line>
+  <line number='436'>				logDB.debug("||"+baseDBForm.getFormName()+"|delete|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='437'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='438'>		}</line>
+  <line number='439'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());</line>
+  <line number='440'>		try</line>
+  <line number='441'>		{</line>
+  <line number='442'>			baseDBForm.removeDBObject(request);</line>
+  <line number='443'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Delete Successful"));</line>
+  <line number='444'>			saveMessages( request, messages );</line>
+  <line number='445'>		}</line>
+  <line number='446'>		catch (CSException cse)</line>
+  <line number='447'>		{</line>
+  <line number='448'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='449'>			saveErrors( request,errors );</line>
+  <line number='450'>			if (logDB.isDebugEnabled())</line>
+  <line number='451'>				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='452'>					"|"+baseDBForm.getFormName()+"|delete|Failure|Error Deleting the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='453'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='454'>		}</line>
+  <line number='455'>		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='456'>		if (logDB.isDebugEnabled())</line>
+  <line number='457'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='458'>				"|"+baseDBForm.getFormName()+"|delete|Success|Success Deleting "+baseDBForm.getFormName()+" object|"</line>
+  <line number='459'>				+form.toString()+"|");</line>
+  <line number='460'>		return (mapping.findForward(ForwardConstants.DELETE_SUCCESS));</line>
+  <line number='461'>	}</line>
+  <line number='462'>	</line>
+  <line number='463'>	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='464'>	{</line>
+  <line number='465'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='466'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='467'>		</line>
+  <line number='468'>		HttpSession session = request.getSession();</line>
+  <line number='469'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='470'>		</line>
+  <line number='471'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='472'>			if (logDB.isDebugEnabled())</line>
+  <line number='473'>				logDB.debug("||"+baseDBForm.getFormName()+"|search|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='474'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='475'>		}</line>
+  <line number='520'>		if (logDB.isDebugEnabled())</line>
+  <line number='521'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='522'>				"|"+baseDBForm.getFormName()+"|search|Success|Success in searching "+baseDBForm.getFormName()+" object|"</line>
+  <line number='523'>				+form.toString()+"|");</line>
+  <line number='524'>		return (mapping.findForward(ForwardConstants.SEARCH_SUCCESS));	</line>
+  <line number='525'>	}</line>
+  <line number='526'></line>
+  <line number='527'>	public ActionForward testConnection(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='528'>	{</line>
+  <line number='529'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='530'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='531'>		</line>
+  <line number='532'>		HttpSession session = request.getSession();</line>
+  <line number='533'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='534'>	</line>
+  <line number='535'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='536'>			if (logDB.isDebugEnabled())</line>
+  <line number='537'>				logDB.debug("||"+baseDBForm.getFormName()+"|Test Connection|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='538'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='539'>		}</line>
+  <line number='540'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());</line>
+  <line number='541'>		try</line>
+  <line number='542'>		{</line>
+  <line number='543'>			errors = form.validate(mapping, request);</line>
+  <line number='544'>			if(!errors.isEmpty()) </line>
+  <line number='545'>			{</line>
+  <line number='546'>				saveErrors(request,errors);</line>
+  <line number='547'>				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='548'>				if (logDB.isDebugEnabled())</line>
+  <line number='551'>						+form.toString()+"|");</line>
+  <line number='552'>				return mapping.getInputForward();</line>
+  <line number='553'>			}			</line>
+  <line number='554'>			</line>
+  <line number='555'>			// Test JDBC Database Connection Properties.</line>
+  <line number='556'>			String message = JDBCHelper.testConnectionHibernate(baseDBForm);</line>
+  <line number='557'>							</line>
+  <line number='558'>			//</line>
+  <line number='559'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, message));</line>
+  <line number='560'>			saveMessages( request, messages );</line>
+  <line number='561'>		}</line>
+  <line number='562'>		catch (CSException cse)</line>
+  <line number='563'>		{</line>
+  <line number='564'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='565'>			saveErrors( request,errors );</line>
+  <line number='566'>			if (logDB.isDebugEnabled())</line>
+  <line number='567'>				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='568'>					"|"+baseDBForm.getFormName()+"|Test Connection|Failure|Error Testing Application Database Connection."</line>
+  <line number='569'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='570'>		}</line>
+  <type type='checkstyle' number='3' suppressed='0'/>
+  <type type='simian' number='25' suppressed='0'/>
+</file>

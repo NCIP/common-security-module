@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.jabber.im.transport.JabberPublisherDescriptor>
+  <port>5222</port>
+  <hudsonNickname>hudson</hudsonNickname>
+  <hudsonPassword>secret</hudsonPassword>
+  <exposePresence>true</exposePresence>
+  <commandPrefix>!</commandPrefix>
+</hudson.plugins.jabber.im.transport.JabberPublisherDescriptor>

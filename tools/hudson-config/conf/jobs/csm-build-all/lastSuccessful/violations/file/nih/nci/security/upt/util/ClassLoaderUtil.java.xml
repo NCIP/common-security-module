@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/upt/util/ClassLoaderUtil.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/upt/util/ClassLoaderUtil.java"
+>
+  <violation
+    line="21"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as 'isInitialized'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as 'isInitialized'."
+  />
+  <violation
+    line="220"
+    source="CollapsibleIfStatements"
+    severity="Medium"
+    type="pmd"
+    message="These nested if statements could be combined"
+    severity-level="2"
+    popup-message="These nested if statements could be combined"
+  />
+  <type type='pmd' number='2' suppressed='0'/>
+</file>

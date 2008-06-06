@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: kenjin
+Build-Jdk: 1.5.0_13
+Extension-Name: svn-tag
+Implementation-Title: svn-tag
+Implementation-Version: 1.1
+Plugin-Class: hudson.plugins.svn_tag.PluginImpl
+Short-Name: svn-tag
+Long-Name: Hudson Subversion Tagging Plug-in
+Plugin-Version: 1.1
+Hudson-Version: 1.208
+

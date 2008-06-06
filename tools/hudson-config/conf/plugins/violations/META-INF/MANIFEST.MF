@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: preilly
+Build-Jdk: 1.6.0_10-beta
+Extension-Name: violations
+Implementation-Title: violations
+Implementation-Version: 0.6.0
+Plugin-Class: hudson.plugins.violations.PluginImpl
+Short-Name: violations
+Long-Name: Hudson Violations plugin
+Plugin-Version: 0.6.0
+Hudson-Version: 1.210
+

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/acegi/authentication/CSMAuthenticationProvider.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authentication/CSMAuthenticationProvider.java"
+>
+  <violation
+    line="15"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - org.acegisecurity.providers.AuthenticationProvider."
+    severity-level="1"
+    popup-message="Unused import - org.acegisecurity.providers.AuthenticationProvider."
+  />
+  <violation
+    line="18"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - org.acegisecurity.providers.dao.SaltSource."
+    severity-level="1"
+    popup-message="Unused import - org.acegisecurity.providers.dao.SaltSource."
+  />
+  <violation
+    line="19"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - org.acegisecurity.providers.encoding.PasswordEncoder."
+    severity-level="1"
+    popup-message="Unused import - org.acegisecurity.providers.encoding.PasswordEncoder."
+  />
+  <violation
+    line="20"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - org.acegisecurity.providers.encoding.PlaintextPasswordEncoder."
+    severity-level="1"
+    popup-message="Unused import - org.acegisecurity.providers.encoding.PlaintextPasswordEncoder."
+  />
+  <violation
+    line="23"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - org.acegisecurity.userdetails.UserDetailsService."
+    severity-level="1"
+    popup-message="Unused import - org.acegisecurity.userdetails.UserDetailsService."
+  />
+  <violation
+    line="45"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 11 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 11 (max allowed is 10)."
+  />
+  <line number='6'>import gov.nih.nci.security.exceptions.CSException;</line>
+  <line number='7'>import gov.nih.nci.security.exceptions.CSInputException;</line>
+  <line number='8'>import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;</line>
+  <line number='9'>import gov.nih.nci.security.exceptions.CSLoginException;</line>
+  <line number='10'></line>
+  <line number='11'>import org.acegisecurity.AuthenticationException;</line>
+  <line number='12'>import org.acegisecurity.AuthenticationServiceException;</line>
+  <line number='13'>import org.acegisecurity.BadCredentialsException;</line>
+  <line number='14'></line>
+  <line number='15'>import org.acegisecurity.providers.AuthenticationProvider;</line>
+  <line number='16'>import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;</line>
+  <line number='17'>import org.acegisecurity.providers.dao.AbstractUserDetailsAuthenticationProvider;</line>
+  <line number='18'>import org.acegisecurity.providers.dao.SaltSource;</line>
+  <line number='19'>import org.acegisecurity.providers.encoding.PasswordEncoder;</line>
+  <line number='20'>import org.acegisecurity.providers.encoding.PlaintextPasswordEncoder;</line>
+  <line number='21'></line>
+  <line number='22'>import org.acegisecurity.userdetails.UserDetails;</line>
+  <line number='23'>import org.acegisecurity.userdetails.UserDetailsService;</line>
+  <line number='24'></line>
+  <line number='25'>import org.springframework.dao.DataAccessException;</line>
+  <line number='26'></line>
+  <line number='27'>import org.springframework.util.Assert;</line>
+  <line number='28'></line>
+  <line number='29'></line>
+  <line number='30'>/**</line>
+  <line number='31'> * An {@link AuthenticationProvider} implementation that retrieves user details from an {@link UserDetailsService}.</line>
+  <line number='32'> *</line>
+  <line number='33'> * @author Vijay Parmar</line>
+  <line number='36'>    //~ Instance fields ================================================================================================</line>
+  <line number='37'></line>
+  <line number='38'>   </line>
+  <line number='39'>    </line>
+  <line number='40'>    private CSMUserDetailsService userDetailsService;</line>
+  <line number='41'>    private boolean includeDetailsObject = true;</line>
+  <line number='42'></line>
+  <line number='43'>    //~ Methods ========================================================================================================</line>
+  <line number='44'></line>
+  <line number='45'>    protected void additionalAuthenticationChecks(UserDetails userDetails,</line>
+  <line number='46'>        UsernamePasswordAuthenticationToken authentication)</line>
+  <line number='47'>        throws AuthenticationException {</line>
+  <line number='48'></line>
+  <line number='49'>        </line>
+  <line number='50'>    	// 	Use CSM authenticationManager to authenticate User.</line>
+  <line number='51'>        try {</line>
+  <line number='52'>			this.userDetailsService.authenticationManager.authenticate(userDetails.getUsername(), authentication.getCredentials().toString());</line>
+  <line number='53'>		} catch (CSLoginException e) {</line>
+  <line number='54'>			 throw new BadCredentialsException(messages.getMessage(</line>
+  <line number='55'>	                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"), includeDetailsObject ? userDetails : null);</line>
+  <type type='checkstyle' number='6' suppressed='0'/>
+</file>

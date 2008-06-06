@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/upt/forms/InstanceLevelForm.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/upt/forms/InstanceLevelForm.java"
+>
+  <violation
+    line="422"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="437"
+    source="StringInstantiation"
+    severity="Medium High"
+    type="pmd"
+    message="Avoid instantiating String objects; this is usually unnecessary."
+    severity-level="1"
+    popup-message="Avoid instantiating String objects; this is usually unnecessary."
+  />
+  <type type='pmd' number='2' suppressed='0'/>
+</file>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java"
+>
+  <violation
+    line="39"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='#line71'&gt;line 71&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 71."
+  />
+  <violation
+    line="70"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line138'&gt;line 138&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 138."
+  />
+  <violation
+    line="71"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='#line39'&gt;line 39&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 39."
+  />
+  <violation
+    line="103"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line140'&gt;line 140&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 140."
+  />
+  <violation
+    line="138"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line70'&gt;line 70&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 70."
+  />
+  <violation
+    line="140"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line103'&gt;line 103&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 103."
+  />
+  <violation
+    line="177"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line199'&gt;line 199&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 199."
+  />
+  <violation
+    line="199"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line177'&gt;line 177&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 177."
+  />
+  <line number='30'>	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.</line>
+  <line number='31'>	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.</line>
+  <line number='32'>	 * It then adds the filter to the persistent class by setting the filtering query.</line>
+  <line number='33'>	 * @param authorizationManager The CSM AuthorizationManager instance for this application</line>
+  <line number='34'>	 * @param configuration The Hibernate Configuration initialized for this application</line>
+  <line number='35'>	 * </line>
+  <line number='36'>	 */</line>
+  <line number='37'>	public static void addFiltersForGroups(AuthorizationManager authorizationManager,Configuration configuration)</line>
+  <line number='38'>	{</line>
+  <line number='39'>		FilterClause searchFilterClause = new FilterClause();</line>
+  <line number='40'>		searchFilterClause.setClassName("*");</line>
+  <line number='41'>		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);</line>
+  <line number='42'>		List list = authorizationManager.getObjects(searchCriteria);</line>
+  <line number='43'>		Iterator iterator = list.iterator();</line>
+  <line number='44'>		while (iterator.hasNext())</line>
+  <line number='45'>		{</line>
+  <line number='46'>			HashMap parameters = new HashMap();</line>
+  <line number='47'>			parameters.put("GROUP_NAMES", new StringType());</line>
+  <line number='48'>			parameters.put("APPLICATION_ID", new LongType());</line>
+  <line number='49'></line>
+  <line number='61'>	/**</line>
+  <line number='62'>	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have </line>
+  <line number='63'>	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.</line>
+  <line number='64'>	 * </line>
+  <line number='65'>	 * @param authorizationManager The CSM AuthorizationManager instance for this application</line>
+  <line number='66'>	 * @param List&lt;FilterDefinition&gt; The Hibernate FilterDefinition List.</line>
+  <line number='67'>	 */</line>
+  <line number='68'>	public static List&lt;FilterDefinition&gt; getFiltersForGroups(AuthorizationManager authorizationManager)</line>
+  <line number='69'>	{</line>
+  <line number='70'>		List&lt;FilterDefinition&gt; filterDefinitionList = new ArrayList&lt;FilterDefinition&gt;();</line>
+  <line number='71'>		FilterClause searchFilterClause = new FilterClause();</line>
+  <line number='72'>		searchFilterClause.setClassName("*");</line>
+  <line number='73'>		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);</line>
+  <line number='74'>		List list = authorizationManager.getObjects(searchCriteria);</line>
+  <line number='75'>		Iterator iterator = list.iterator();</line>
+  <line number='76'>		while (iterator.hasNext())</line>
+  <line number='77'>		{</line>
+  <line number='78'>			HashMap parameters = new HashMap();</line>
+  <line number='79'>			parameters.put("GROUP_NAMES", new StringType());</line>
+  <line number='80'>			parameters.put("APPLICATION_ID", new LongType());</line>
+  <line number='81'></line>
+  <line number='94'>	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have </line>
+  <line number='95'>	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.</line>
+  <line number='96'>	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.</line>
+  <line number='97'>	 * It then adds the filter to the persistent class by setting the filtering query.</line>
+  <line number='98'>	 * @param authorizationManager The CSM AuthorizationManager instance for this application</line>
+  <line number='99'>	 * @param configuration The Hibernate Configuration initialized for this application</line>
+  <line number='100'>	 */</line>
+  <line number='101'>	public static void addFilters(AuthorizationManager authorizationManager,Configuration configuration)</line>
+  <line number='102'>	{</line>
+  <line number='103'>		FilterClause searchFilterClause = new FilterClause();</line>
+  <line number='104'>		searchFilterClause.setClassName("*");</line>
+  <line number='105'>		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);</line>
+  <line number='106'>		List list = authorizationManager.getObjects(searchCriteria);</line>
+  <line number='107'>		Iterator iterator = list.iterator();</line>
+  <line number='108'>		while (iterator.hasNext())</line>
+  <line number='109'>		{</line>
+  <line number='110'>			HashMap parameters = new HashMap();</line>
+  <line number='111'>			parameters.put("USER_NAME", new StringType());</line>
+  <line number='112'>			parameters.put("APPLICATION_ID", new LongType());</line>
+  <line number='113'></line>
+  <line number='129'>	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.</line>
+  <line number='130'>	 * </line>
+  <line number='131'>	 * </line>
+  <line number='132'>	 * @param authorizationManager The CSM AuthorizationManager instance for this application</line>
+  <line number='133'>	 * @param List&lt;FilterDefinition&gt; The Hibernate FilterDefinition List.</line>
+  <line number='134'>	 */</line>
+  <line number='135'>	public static List&lt;FilterDefinition&gt; getFiltersForUser(AuthorizationManager authorizationManager)</line>
+  <line number='136'>	{</line>
+  <line number='137'></line>
+  <line number='138'>		List&lt;FilterDefinition&gt; filterDefinitionList = new ArrayList&lt;FilterDefinition&gt;();</line>
+  <line number='139'>		</line>
+  <line number='140'>		FilterClause searchFilterClause = new FilterClause();</line>
+  <line number='141'>		searchFilterClause.setClassName("*");</line>
+  <line number='142'>		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);</line>
+  <line number='143'>		List list = authorizationManager.getObjects(searchCriteria);</line>
+  <line number='144'>		Iterator iterator = list.iterator();</line>
+  <line number='145'>		while (iterator.hasNext())</line>
+  <line number='146'>		{</line>
+  <line number='147'>			HashMap parameters = new HashMap();</line>
+  <line number='148'>			parameters.put("USER_NAME", new StringType());</line>
+  <line number='149'>			parameters.put("APPLICATION_ID", new LongType());</line>
+  <line number='150'></line>
+  <line number='168'>	 * defined filters from the SessionFactory in the passes Session object. It then just iterates through the filter list and sets </line>
+  <line number='169'>	 * the group names and the application name parameter. </line>
+  <line number='170'>	 * @param groupNames The names of the groups which are invoking the query</line>
+  <line number='171'>	 * @param session The Hibernate Session initialized to execute this query</line>
+  <line number='172'>	 * @param authorizationManager The CSM AuthorizationManager instance for this application</line>
+  <line number='173'>	 * </line>
+  <line number='174'>	 */</line>
+  <line number='175'>	public static void initializeFiltersForGroups(String[] groupNames, Session session, AuthorizationManager authorizationManager)</line>
+  <line number='176'>	{</line>
+  <line number='177'>		SessionFactory sessionFactory = session.getSessionFactory();</line>
+  <line number='178'>		Set set = sessionFactory.getDefinedFilterNames();</line>
+  <line number='179'>		Iterator iterator = set.iterator();</line>
+  <line number='180'>		while (iterator.hasNext())</line>
+  <line number='181'>		{</line>
+  <line number='182'>			String filterName = (String)iterator.next();</line>
+  <line number='183'>			Filter filter = session.enableFilter(filterName);</line>
+  <line number='184'>			filter.setParameterList("GROUP_NAMES", groupNames);</line>
+  <line number='185'>			filter.setParameter("APPLICATION_ID", authorizationManager.getApplicationContext().getApplicationId());</line>
+  <line number='186'>		}</line>
+  <line number='187'>	}</line>
+  <line number='190'>	 * This method initializes the filter that are already added to the Sessionfactory. This method first obtains the list of all the </line>
+  <line number='191'>	 * defined filters from the SessionFactory in the passes Session object. It then just iterates through the filter list and sets </line>
+  <line number='192'>	 * the user name and the application name parameter. </line>
+  <line number='193'>	 * @param userName The name of the logged in user or group which is invoking the query</line>
+  <line number='194'>	 * @param session The Hibernate Session initialized to execute this query</line>
+  <line number='195'>	 * @param authorizationManager The CSM AuthorizationManager instance for this application</line>
+  <line number='196'>	 */</line>
+  <line number='197'>	public static void initializeFilters(String userName, Session session, AuthorizationManager authorizationManager)</line>
+  <line number='198'>	{</line>
+  <line number='199'>		SessionFactory sessionFactory = session.getSessionFactory();</line>
+  <line number='200'>		Set set = sessionFactory.getDefinedFilterNames();</line>
+  <line number='201'>		Iterator iterator = set.iterator();</line>
+  <line number='202'>		while (iterator.hasNext())</line>
+  <line number='203'>		{</line>
+  <line number='204'>			String filterName = (String)iterator.next();</line>
+  <line number='205'>			Filter filter = session.enableFilter(filterName);</line>
+  <line number='206'>			filter.setParameter("USER_NAME", userName);</line>
+  <line number='207'>			filter.setParameter("APPLICATION_ID", authorizationManager.getApplicationContext().getApplicationId());</line>
+  <line number='208'>		}</line>
+  <line number='209'>	}</line>
+  <type type='simian' number='8' suppressed='0'/>
+</file>

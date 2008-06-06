@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionElementAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionElementAction.java"
+>
+  <violation
+    line="147"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../../forms/SearchProtectionElementForm.java#line431'&gt;line 431 in SearchProtectionElementForm.java&lt;/a&gt; and &lt;a href='../../forms/ProtectionElementForm.java#line456'&gt;line 456 in ProtectionElementForm.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 431 in SearchProtectionElementForm.java and line 456 in ProtectionElementForm.java."
+  />
+  <line number='138'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='139'>		ProtectionElementForm protectionElementForm = (ProtectionElementForm)form;</line>
+  <line number='140'>		errors.clear();</line>
+  <line number='141'>		</line>
+  <line number='142'>		try</line>
+  <line number='143'>		{</line>
+  <line number='144'>			// TO-DO replace that getProtectionElements with getOwners</line>
+  <line number='145'>			Collection associatedProtectionGroups = userProvisioningManager.getProtectionElements(protectionElementForm.getProtectionElementId());</line>
+  <line number='146'>			</line>
+  <line number='147'>			ProtectionGroup protectionGroup = new ProtectionGroup();</line>
+  <line number='148'>			SearchCriteria searchCriteria = new ProtectionGroupSearchCriteria(protectionGroup);</line>
+  <line number='149'>			Collection totalProtectionGroups = (Collection)userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='150'></line>
+  <line number='151'>			Collection availableProtectionGroups = ObjectSetUtil.minus(totalProtectionGroups,associatedProtectionGroups);</line>
+  <line number='152'>			</line>
+  <line number='153'>			request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedProtectionGroups);</line>
+  <line number='154'>			request.setAttribute(DisplayConstants.AVAILABLE_SET, availableProtectionGroups);</line>
+  <line number='155'>			</line>
+  <line number='156'>		}</line>
+  <line number='157'>		catch (CSException cse)</line>
+  <type type='simian' number='1' suppressed='0'/>
+</file>

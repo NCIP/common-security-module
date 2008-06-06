@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java"
+  last-modified="1212512034000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java"
+>
+  <violation
+    line="46"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 12 (max allowed is 7) classes [AnnotationConfiguration, ArrayList, ByteArrayInputStream, ByteArrayOutputStream, CSConfigurationException, CSException, DataInputStream, HashMap, LabelValueBean, SimpleLayout, StringTokenizer, WriterAppender]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 12 (max allowed is 7) classes [AnnotationConfiguration, ArrayList, ByteArrayInputStream, ByteArrayOutputStream, CSConfigurationException, CSException, DataInputStream, HashMap, LabelValueBean, SimpleLayout, StringTokenizer, WriterAppender]."
+  />
+  <violation
+    line="46"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 37 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 37 (max allowed is 20)."
+  />
+  <violation
+    line="310"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line385'&gt;line 385&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 385."
+  />
+  <violation
+    line="348"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 33 lines from &lt;a href='#line420'&gt;line 420&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 33 lines from line 420."
+  />
+  <violation
+    line="385"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line310'&gt;line 310&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 310."
+  />
+  <violation
+    line="420"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 65 lines from &lt;a href='#line348'&gt;line 348&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 65 lines from line 348."
+  />
+  <line number='37'>import org.hibernate.criterion.Expression;</line>
+  <line number='38'>import org.hibernate.criterion.Projections;</line>
+  <line number='39'>import org.hibernate.engine.SessionFactoryImplementor;</line>
+  <line number='40'>import org.hibernate.metadata.ClassMetadata;</line>
+  <line number='41'>import org.hibernate.persister.entity.AbstractEntityPersister;</line>
+  <line number='42'>import org.hibernate.type.AssociationType;</line>
+  <line number='43'>import org.hibernate.type.Type;</line>
+  <line number='44'></line>
+  <line number='45'></line>
+  <line number='46'>public class HibernateHelper</line>
+  <line number='47'>{</line>
+  <line number='48'></line>
+  <line number='49'>	public static SessionFactory loadSessionFactory (String fileName, HttpSession sess) throws CSConfigurationException</line>
+  <line number='50'>	{</line>
+  <line number='51'>		FileLoader fileLoader = FileLoader.getInstance();</line>
+  <line number='52'>		URL url = fileLoader.getFileAsURL(fileName);</line>
+  <line number='53'>		SessionFactory sessionFactory = null;</line>
+  <line number='54'>		try</line>
+  <line number='55'>		{</line>
+  <line number='56'>			AnnotationConfiguration configuration = new AnnotationConfiguration().configure(url);</line>
+  <line number='301'>		targetCriteria.add(Expression.in(attributeName, (Object[]) valueArray));</line>
+  <line number='302'>		Criteria mainCriteria = (Criteria)criteriaList.get(0);</line>
+  <line number='303'>		mainCriteria.setProjection(Projections.id());</line>
+  <line number='304'>		</line>
+  <line number='305'>		return mainCriteria;</line>
+  <line number='306'>	}</line>
+  <line number='307'>	</line>
+  <line number='308'>	private static String modifySQLForUser (FilterClause filterClause, String generatedSQL, Session session)</line>
+  <line number='309'>	{</line>
+  <line number='310'>		String targetClassName = null;</line>
+  <line number='311'>		if (StringUtils.isBlank(filterClause.getTargetClassAlias()))</line>
+  <line number='312'>			targetClassName = filterClause.getTargetClassName().substring(0,filterClause.getTargetClassName().indexOf(" - "));</line>
+  <line number='313'>		else</line>
+  <line number='314'>			targetClassName = filterClause.getTargetClassAlias();</line>
+  <line number='315'>		String targetClassAttributeName = null;</line>
+  <line number='316'>		if (StringUtils.isBlank(filterClause.getTargetClassAttributeAlias()))</line>
+  <line number='317'>			targetClassAttributeName = filterClause.getTargetClassAttributeName();</line>
+  <line number='318'>		else</line>
+  <line number='319'>			targetClassAttributeName = filterClause.getTargetClassAttributeAlias();</line>
+  <line number='320'>		</line>
+  <line number='339'>		"where pg2.protection_group_id = pg.protection_group_id)) " +</line>
+  <line number='340'>		"and pg.protection_group_id = pgpe.protection_group_id " +</line>
+  <line number='341'>		"and pgpe.protection_element_id = pe.protection_element_id " +</line>
+  <line number='342'>		"and r.role_id = rp.role_id " +</line>
+  <line number='343'>		"and rp.privilege_id = p.privilege_id " +</line>
+  <line number='344'>		"and pe.object_id= '" + targetClassName + "' " +</line>
+  <line number='345'>		"and pe.attribute='" + targetClassAttributeName + "' " +</line>
+  <line number='346'>		"and p.privilege_name='READ' "  +</line>
+  <line number='347'>		"and u.login_name=:USER_NAME " +</line>
+  <line number='348'>		"and pe.application_id=:APPLICATION_ID" ; </line>
+  <line number='349'>		</line>
+  <line number='350'>		StringBuffer result = new StringBuffer();</line>
+  <line number='351'>		String query = generatedSQL.substring(generatedSQL.indexOf('-')+1, generatedSQL.length());</line>
+  <line number='352'>		query = query.trim();</line>
+  <line number='353'>		query = query.substring(0,query.indexOf('?'));</line>
+  <line number='354'>	    String delimiters = "+-*/(),. ";</line>
+  <line number='355'>	    StringTokenizer st = new StringTokenizer(query, delimiters, true);</line>
+  <line number='356'>	    while (st.hasMoreTokens()) {</line>
+  <line number='357'>	        String w = st.nextToken();</line>
+  <line number='358'>	        if (w.equals("this_")) {</line>
+  <line number='376'>	    	String[] columns = abstractEntityPersister.getPropertyColumnNames(Id);</line>
+  <line number='377'>	    	columnName = columns[0];</line>
+  <line number='378'>	    }</line>
+  <line number='379'>	    query = columnName + " in (" +result.toString() + CSM_QUERY + "))";</line>
+  <line number='380'>		return query.toString();</line>
+  <line number='381'>	}</line>
+  <line number='382'>	</line>
+  <line number='383'>	private static String modifySQLForGroup (FilterClause filterClause, String generatedSQL, Session session)</line>
+  <line number='384'>	{</line>
+  <line number='385'>		String targetClassName = null;</line>
+  <line number='386'>		if (StringUtils.isBlank(filterClause.getTargetClassAlias()))</line>
+  <line number='387'>			targetClassName = filterClause.getTargetClassName().substring(0,filterClause.getTargetClassName().indexOf(" - "));</line>
+  <line number='388'>		else</line>
+  <line number='389'>			targetClassName = filterClause.getTargetClassAlias();</line>
+  <line number='390'>		String targetClassAttributeName = null;</line>
+  <line number='391'>		if (StringUtils.isBlank(filterClause.getTargetClassAttributeAlias()))</line>
+  <line number='392'>			targetClassAttributeName = filterClause.getTargetClassAttributeName();</line>
+  <line number='393'>		else</line>
+  <line number='394'>			targetClassAttributeName = filterClause.getTargetClassAttributeAlias();</line>
+  <line number='395'>		</line>
+  <line number='411'>				" (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)" +</line>
+  <line number='412'>				" ) " +</line>
+  <line number='413'>				"AND pg.protection_group_id = pgpe.protection_group_id " +</line>
+  <line number='414'>				"AND pgpe.protection_element_id = pe.protection_element_id " +</line>
+  <line number='415'>				"AND r.role_id = rp.role_id " +</line>
+  <line number='416'>				"AND rp.privilege_id = p.privilege_id " +</line>
+  <line number='417'>				"AND pe.object_id= '"+ targetClassName +"' " +</line>
+  <line number='418'>				"AND p.privilege_name='READ' " +</line>
+  <line number='419'>				"AND g.group_name IN (:GROUP_NAMES ) " +</line>
+  <line number='420'>				"AND pe.application_id=:APPLICATION_ID";</line>
+  <line number='421'></line>
+  <line number='422'></line>
+  <line number='423'>		</line>
+  <line number='424'>		</line>
+  <line number='425'>		/*String CSM_QUERY = " select pe.attribute_value from " +</line>
+  <line number='426'>		"csm_protection_group pg, " +</line>
+  <line number='427'>		"csm_protection_element pe, " +</line>
+  <line number='428'>		"csm_pg_pe pgpe, " +</line>
+  <line number='429'>		"csm_user_group_role_pg ugrpg, " +</line>
+  <line number='430'>		"csm_user u, " +</line>
+  <type type='checkstyle' number='2' suppressed='0'/>
+  <type type='simian' number='4' suppressed='0'/>
+</file>

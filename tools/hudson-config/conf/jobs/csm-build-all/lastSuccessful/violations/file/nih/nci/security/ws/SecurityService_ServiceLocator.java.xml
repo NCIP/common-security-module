@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/ws/SecurityService_ServiceLocator.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/ws/SecurityService_ServiceLocator.java"
+>
+  <violation
+    line="32"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;SecurityServiceSoapPort&quot; appears 4 times in this file; the first occurrence is on line 32"
+    severity-level="2"
+    popup-message="The String literal &quot;SecurityServiceSoapPort&quot; appears 4 times in this file; the first occurrence is on line 32"
+  />
+  <type type='pmd' number='1' suppressed='0'/>
+</file>

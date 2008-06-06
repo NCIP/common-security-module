@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/ws/common/ErrorDetails.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/ws/common/ErrorDetails.java"
+>
+  <violation
+    line="67"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="69"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="70"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="109"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;http://security.nci.nih.gov/ws/common&quot; appears 4 times in this file; the first occurrence is on line 109"
+    severity-level="2"
+    popup-message="The String literal &quot;http://security.nci.nih.gov/ws/common&quot; appears 4 times in this file; the first occurrence is on line 109"
+  />
+  <type type='pmd' number='4' suppressed='0'/>
+</file>

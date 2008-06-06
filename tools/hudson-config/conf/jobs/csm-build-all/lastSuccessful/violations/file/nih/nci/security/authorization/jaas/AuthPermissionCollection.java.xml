@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authorization/jaas/AuthPermissionCollection.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authorization/jaas/AuthPermissionCollection.java"
+>
+  <violation
+    line="123"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_perms'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_perms'."
+  />
+  <violation
+    line="129"
+    source="UselessOverridingMethod"
+    severity="Medium"
+    type="pmd"
+    message="Overriding method merely calls super"
+    severity-level="2"
+    popup-message="Overriding method merely calls super"
+  />
+  <type type='pmd' number='2' suppressed='0'/>
+</file>

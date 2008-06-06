@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/util/SessionListen.java"
+  last-modified="1212512034000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/SessionListen.java"
+>
+  <violation
+    line="4"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.upt.constants.DisplayConstants."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.upt.constants.DisplayConstants."
+  />
+  <violation
+    line="6"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - java.io.File."
+    severity-level="1"
+    popup-message="Unused import - java.io.File."
+  />
+  <violation
+    line="7"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - java.net.URLClassLoader."
+    severity-level="1"
+    popup-message="Unused import - java.net.URLClassLoader."
+  />
+  <violation
+    line="8"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - java.util.Vector."
+    severity-level="1"
+    popup-message="Unused import - java.util.Vector."
+  />
+  <violation
+    line="14"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - org.hibernate.SessionFactory."
+    severity-level="1"
+    popup-message="Unused import - org.hibernate.SessionFactory."
+  />
+  <line number='1'>package gov.nih.nci.security.upt.util;</line>
+  <line number='2'></line>
+  <line number='3'></line>
+  <line number='4'>import gov.nih.nci.security.upt.constants.DisplayConstants;</line>
+  <line number='5'></line>
+  <line number='6'>import java.io.File;</line>
+  <line number='7'>import java.net.URLClassLoader;</line>
+  <line number='8'>import java.util.Vector;</line>
+  <line number='9'></line>
+  <line number='10'>import javax.servlet.http.HttpSession;</line>
+  <line number='11'>import javax.servlet.http.HttpSessionEvent;</line>
+  <line number='12'>import javax.servlet.http.HttpSessionListener;</line>
+  <line number='13'></line>
+  <line number='14'>import org.hibernate.SessionFactory;</line>
+  <line number='15'></line>
+  <line number='16'>public class SessionListen implements HttpSessionListener {</line>
+  <line number='17'></line>
+  <line number='18'></line>
+  <line number='19'>  public void sessionCreated(HttpSessionEvent se) {</line>
+  <line number='20'>   </line>
+  <line number='21'>  }</line>
+  <line number='22'></line>
+  <line number='23'>  public void sessionDestroyed(HttpSessionEvent se) {</line>
+  <line number='24'></line>
+  <type type='checkstyle' number='5' suppressed='0'/>
+</file>

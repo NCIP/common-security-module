@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="simian.xsl" type="text/xsl"?>
+<!--
+Similarity Analyser 2.2.24 - http://www.redhillconsulting.com.au/products/simian/index.html
+Copyright (c) 2003-08 RedHill Consulting Pty. Ltd.  All rights reserved.
+Simian is not free unless used solely for non-commercial or evaluation purposes.
+-->
+<simian version="2.2.24">
+    <check ignoreCharacterCase="true" ignoreCurlyBraces="true" ignoreIdentifierCase="true" ignoreModifiers="true" ignoreStringCase="true" threshold="6">
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="464" endLineNumber="473"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="441" endLineNumber="450"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java" startLineNumber="306" endLineNumber="314"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java" startLineNumber="269" endLineNumber="277"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java" startLineNumber="247" endLineNumber="255"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java" startLineNumber="211" endLineNumber="219"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="199" endLineNumber="205"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="177" endLineNumber="183"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Role.java" startLineNumber="167" endLineNumber="183"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Privilege.java" startLineNumber="134" endLineNumber="150"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="583" endLineNumber="594"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="559" endLineNumber="570"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/RoleForm.java" startLineNumber="341" endLineNumber="352"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionGroupForm.java" startLineNumber="374" endLineNumber="385"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java" startLineNumber="426" endLineNumber="433"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="451" endLineNumber="456"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="429" endLineNumber="434"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java" startLineNumber="321" endLineNumber="330"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java" startLineNumber="237" endLineNumber="246"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java" startLineNumber="170" endLineNumber="179"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="156" endLineNumber="161"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="116" endLineNumber="121"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="135" endLineNumber="141"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="99" endLineNumber="105"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="439" endLineNumber="448"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="417" endLineNumber="426"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="402" endLineNumber="409"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="360" endLineNumber="367"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="314" endLineNumber="321"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="261" endLineNumber="268"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="204" endLineNumber="211"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="167" endLineNumber="174"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="134" endLineNumber="141"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/UserClassAttributeMapCache.java" startLineNumber="147" endLineNumber="154"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/UserClassAttributeMapCache.java" startLineNumber="108" endLineNumber="115"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="302" endLineNumber="310"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="198" endLineNumber="205"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="168" endLineNumber="176"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/X509LoginModule.java" startLineNumber="465" endLineNumber="470"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/X509LoginModule.java" startLineNumber="430" endLineNumber="435"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Role.java" startLineNumber="224" endLineNumber="244"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Privilege.java" startLineNumber="158" endLineNumber="177"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1698" endLineNumber="1703"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1621" endLineNumber="1626"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java" startLineNumber="77" endLineNumber="82"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/CSMAfterInvocationProvider.java" startLineNumber="138" endLineNumber="143"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java" startLineNumber="67" endLineNumber="76"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java" startLineNumber="36" endLineNumber="45"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java" startLineNumber="261" endLineNumber="270"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java" startLineNumber="241" endLineNumber="250"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1494" endLineNumber="1502"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1430" endLineNumber="1437"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1362" endLineNumber="1369"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1071" endLineNumber="1080"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java" startLineNumber="247" endLineNumber="252"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java" startLineNumber="205" endLineNumber="210"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonAssociationAction.java" startLineNumber="162" endLineNumber="169"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonAssociationAction.java" startLineNumber="129" endLineNumber="136"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4974" endLineNumber="4984"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4921" endLineNumber="4931"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/RolePrivilege.java" startLineNumber="158" endLineNumber="167"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.java" startLineNumber="178" endLineNumber="187"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4790" endLineNumber="4795"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2612" endLineNumber="2617"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/FileLoader.java" startLineNumber="152" endLineNumber="166"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/FileLoader.java" startLineNumber="98" endLineNumber="112"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="143" endLineNumber="149"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="107" endLineNumber="113"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="431" endLineNumber="438"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="456" endLineNumber="463"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionElementAction.java" startLineNumber="147" endLineNumber="154"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4963" endLineNumber="4971"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4910" endLineNumber="4918"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="203" endLineNumber="208"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="194" endLineNumber="199"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="419" endLineNumber="426"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="340" endLineNumber="347"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="184" endLineNumber="191"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="921" endLineNumber="928"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="628" endLineNumber="639"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="134" endLineNumber="139"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="127" endLineNumber="132"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="598" endLineNumber="604"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="533" endLineNumber="539"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="641" endLineNumber="648"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="604" endLineNumber="611"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="555" endLineNumber="562"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="510" endLineNumber="517"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="461" endLineNumber="468"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="264" endLineNumber="271"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="238" endLineNumber="245"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="140" endLineNumber="147"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="529" endLineNumber="536"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="465" endLineNumber="472"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="428" endLineNumber="435"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="379" endLineNumber="386"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="334" endLineNumber="341"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="285" endLineNumber="292"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="250" endLineNumber="257"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="210" endLineNumber="217"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="184" endLineNumber="191"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="156" endLineNumber="163"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="130" endLineNumber="137"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/User.java" startLineNumber="455" endLineNumber="465"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Group.java" startLineNumber="268" endLineNumber="278"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="620" endLineNumber="627"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="582" endLineNumber="589"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="488" endLineNumber="495"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="560" endLineNumber="567"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="444" endLineNumber="451"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="406" endLineNumber="413"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="312" endLineNumber="319"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java" startLineNumber="147" endLineNumber="162"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java" startLineNumber="75" endLineNumber="90"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="287" endLineNumber="292"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="274" endLineNumber="279"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3401" endLineNumber="3407"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3289" endLineNumber="3295"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authentication/CSMUserDetailsService.java" startLineNumber="66" endLineNumber="71"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authentication/CSMUserDetailsService.java" startLineNumber="48" endLineNumber="53"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3952" endLineNumber="3957"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3904" endLineNumber="3909"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2732" endLineNumber="2737"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="521" endLineNumber="527"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="495" endLineNumber="502"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="414" endLineNumber="420"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4888" endLineNumber="4894"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4798" endLineNumber="4804"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4482" endLineNumber="4488"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4419" endLineNumber="4424"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4116" endLineNumber="4122"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4037" endLineNumber="4043"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3969" endLineNumber="3974"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3921" endLineNumber="3926"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3875" endLineNumber="3880"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3812" endLineNumber="3818"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3713" endLineNumber="3719"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3436" endLineNumber="3442"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3384" endLineNumber="3391"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3324" endLineNumber="3330"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3273" endLineNumber="3279"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3197" endLineNumber="3202"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3128" endLineNumber="3134"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3078" endLineNumber="3083"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3010" endLineNumber="3016"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2923" endLineNumber="2929"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2826" endLineNumber="2832"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2748" endLineNumber="2753"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2703" endLineNumber="2709"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2620" endLineNumber="2626"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2523" endLineNumber="2528"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2482" endLineNumber="2488"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2388" endLineNumber="2396"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2323" endLineNumber="2329"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2229" endLineNumber="2235"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2139" endLineNumber="2146"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2037" endLineNumber="2042"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1981" endLineNumber="1986"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1924" endLineNumber="1929"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1875" endLineNumber="1880"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1805" endLineNumber="1810"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1627" endLineNumber="1632"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="952" endLineNumber="958"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="831" endLineNumber="837"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="739" endLineNumber="745"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="663" endLineNumber="669"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="553" endLineNumber="559"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="485" endLineNumber="491"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java" startLineNumber="213" endLineNumber="222"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java" startLineNumber="197" endLineNumber="206"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java" startLineNumber="178" endLineNumber="187"/>
+        </set>
+        <set lineCount="6">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1476" endLineNumber="1481"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1344" endLineNumber="1349"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="438" endLineNumber="446"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2263" endLineNumber="2272"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java" startLineNumber="93" endLineNumber="100"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java" startLineNumber="45" endLineNumber="52"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java" startLineNumber="165" endLineNumber="172"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionResponse.java" startLineNumber="45" endLineNumber="52"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java" startLineNumber="69" endLineNumber="76"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java" startLineNumber="228" endLineNumber="237"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java" startLineNumber="270" endLineNumber="279"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/SecurityServiceProvider.java" startLineNumber="366" endLineNumber="376"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/SecurityServiceProvider.java" startLineNumber="383" endLineNumber="393"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="608" endLineNumber="615"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2191" endLineNumber="2198"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="440" endLineNumber="452"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="415" endLineNumber="427"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java" startLineNumber="531" endLineNumber="543"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/GroupForm.java" startLineNumber="375" endLineNumber="384"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2694" endLineNumber="2700"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4879" endLineNumber="4885"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="641" endLineNumber="647"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="720" endLineNumber="726"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="810" endLineNumber="816"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="930" endLineNumber="936"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2120" endLineNumber="2126"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2207" endLineNumber="2213"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2302" endLineNumber="2308"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2369" endLineNumber="2375"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2462" endLineNumber="2468"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2599" endLineNumber="2605"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2681" endLineNumber="2687"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2805" endLineNumber="2811"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2904" endLineNumber="2910"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2989" endLineNumber="2995"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3108" endLineNumber="3114"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3693" endLineNumber="3699"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3792" endLineNumber="3798"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4017" endLineNumber="4023"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4095" endLineNumber="4101"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4463" endLineNumber="4469"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4777" endLineNumber="4783"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4866" endLineNumber="4872"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="467" endLineNumber="473"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="535" endLineNumber="541"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2183" endLineNumber="2191"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2433" endLineNumber="2442"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/viewobjects/FormElement.java" startLineNumber="125" endLineNumber="131"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/viewobjects/FormElement.java" startLineNumber="137" endLineNumber="143"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/HomeAction.java" startLineNumber="128" endLineNumber="138"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/MenuSelectionAction.java" startLineNumber="130" endLineNumber="138"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2099" endLineNumber="2107"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2348" endLineNumber="2356"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/FileLoader.java" startLineNumber="72" endLineNumber="84"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/FileLoader.java" startLineNumber="131" endLineNumber="142"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="183" endLineNumber="191"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java" startLineNumber="418" endLineNumber="426"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="271" endLineNumber="278"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="255" endLineNumber="262"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2780" endLineNumber="2792"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2951" endLineNumber="2961"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="654" endLineNumber="660"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2220" endLineNumber="2226"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionGroupAction.java" startLineNumber="138" endLineNumber="146"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionGroupAction.java" startLineNumber="179" endLineNumber="187"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="402" endLineNumber="408"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="423" endLineNumber="429"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="484" endLineNumber="491"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="552" endLineNumber="559"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="662" endLineNumber="669"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="738" endLineNumber="745"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="830" endLineNumber="837"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="951" endLineNumber="958"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2036" endLineNumber="2042"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2138" endLineNumber="2146"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2228" endLineNumber="2235"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2322" endLineNumber="2329"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2387" endLineNumber="2396"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2481" endLineNumber="2488"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2619" endLineNumber="2626"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2702" endLineNumber="2709"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2747" endLineNumber="2753"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2825" endLineNumber="2832"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2922" endLineNumber="2929"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3009" endLineNumber="3016"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3195" endLineNumber="3202"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3874" endLineNumber="3880"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3920" endLineNumber="3926"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3968" endLineNumber="3974"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4036" endLineNumber="4043"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4115" endLineNumber="4122"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4418" endLineNumber="4424"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4481" endLineNumber="4488"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4797" endLineNumber="4804"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4887" endLineNumber="4894"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3272" endLineNumber="3279"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3321" endLineNumber="3330"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3383" endLineNumber="3391"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3433" endLineNumber="3442"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2167" endLineNumber="2176"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2417" endLineNumber="2426"/>
+        </set>
+        <set lineCount="7">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java" startLineNumber="36" endLineNumber="42"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java" startLineNumber="10" endLineNumber="16"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="289" endLineNumber="300"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="308" endLineNumber="319"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3742" endLineNumber="3752"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3648" endLineNumber="3656"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="122" endLineNumber="132"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="89" endLineNumber="97"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java" startLineNumber="157" endLineNumber="170"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java" startLineNumber="445" endLineNumber="458"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2748" endLineNumber="2755"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2229" endLineNumber="2237"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="663" endLineNumber="671"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2523" endLineNumber="2530"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1924" endLineNumber="1931"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java" startLineNumber="33" endLineNumber="50"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java" startLineNumber="89" endLineNumber="118"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2283" endLineNumber="2294"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="458" endLineNumber="466"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="301" endLineNumber="313"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="321" endLineNumber="333"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java" startLineNumber="285" endLineNumber="297"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java" startLineNumber="152" endLineNumber="164"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java" startLineNumber="50" endLineNumber="57"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java" startLineNumber="33" endLineNumber="40"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/UserGroup.java" startLineNumber="153" endLineNumber="172"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.java" startLineNumber="154" endLineNumber="167"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3810" endLineNumber="3818"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3711" endLineNumber="3719"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1647" endLineNumber="1654"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1564" endLineNumber="1571"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1086" endLineNumber="1094"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1516" endLineNumber="1524"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1451" endLineNumber="1459"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1383" endLineNumber="1391"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="138" endLineNumber="147"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="70" endLineNumber="78"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java" startLineNumber="191" endLineNumber="201"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java" startLineNumber="110" endLineNumber="120"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java" startLineNumber="83" endLineNumber="93"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionResponse.java" startLineNumber="54" endLineNumber="64"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java" startLineNumber="54" endLineNumber="64"/>
+        </set>
+        <set lineCount="8">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionResponse.java" startLineNumber="17" endLineNumber="42"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java" startLineNumber="17" endLineNumber="42"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="138" endLineNumber="146"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="139" endLineNumber="147"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="293" endLineNumber="305"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="275" endLineNumber="287"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="640" endLineNumber="648"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="678" endLineNumber="686"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2194" endLineNumber="2205"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2444" endLineNumber="2459"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="465" endLineNumber="473"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="533" endLineNumber="541"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4934" endLineNumber="4950"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4987" endLineNumber="5003"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="265" endLineNumber="278"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="228" endLineNumber="241"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="280" endLineNumber="293"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="538" endLineNumber="549"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="388" endLineNumber="399"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="294" endLineNumber="305"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="564" endLineNumber="575"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="470" endLineNumber="481"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3528" endLineNumber="3539"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3620" endLineNumber="3631"/>
+        </set>
+        <set lineCount="9">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="280" endLineNumber="291"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="263" endLineNumber="274"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="906" endLineNumber="919"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="613" endLineNumber="626"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java" startLineNumber="326" endLineNumber="335"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java" startLineNumber="310" endLineNumber="319"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3764" endLineNumber="3775"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3665" endLineNumber="3676"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="250" endLineNumber="263"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="264" endLineNumber="277"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="210" endLineNumber="225"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="103" endLineNumber="114"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="140" endLineNumber="151"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java" startLineNumber="385" endLineNumber="394"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java" startLineNumber="310" endLineNumber="319"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="365" endLineNumber="374"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="185" endLineNumber="194"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2506" endLineNumber="2517"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1947" endLineNumber="1961"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4658" endLineNumber="4668"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1080" endLineNumber="1090"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/GroupForm.java" startLineNumber="387" endLineNumber="403"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java" startLineNumber="547" endLineNumber="564"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3778" endLineNumber="3789"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3679" endLineNumber="3690"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1410" endLineNumber="1424"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1345" endLineNumber="1357"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3904" endLineNumber="3915"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2732" endLineNumber="2742"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3366" endLineNumber="3378"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3255" endLineNumber="3267"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java" startLineNumber="165" endLineNumber="175"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java" startLineNumber="93" endLineNumber="103"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2748" endLineNumber="2759"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2229" endLineNumber="2241"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="663" endLineNumber="675"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1924" endLineNumber="1935"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3343" endLineNumber="3357"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3233" endLineNumber="3246"/>
+        </set>
+        <set lineCount="10">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="158" endLineNumber="167"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="252" endLineNumber="261"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="182" endLineNumber="191"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="605" endLineNumber="615"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="561" endLineNumber="571"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="542" endLineNumber="552"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/JDBCHelper.java" startLineNumber="84" endLineNumber="100"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/JDBCHelper.java" startLineNumber="147" endLineNumber="163"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4797" endLineNumber="4810"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4887" endLineNumber="4900"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="662" endLineNumber="675"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2228" endLineNumber="2241"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2747" endLineNumber="2759"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3383" endLineNumber="3398"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3272" endLineNumber="3286"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3433" endLineNumber="3448"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3321" endLineNumber="3336"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="71" endLineNumber="83"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java" startLineNumber="39" endLineNumber="51"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2619" endLineNumber="2632"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2702" endLineNumber="2715"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="271" endLineNumber="282"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="306" endLineNumber="317"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="830" endLineNumber="843"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2825" endLineNumber="2838"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="390" endLineNumber="400"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="370" endLineNumber="380"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="810" endLineNumber="821"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2805" endLineNumber="2816"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="155" endLineNumber="166"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="207" endLineNumber="218"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="237" endLineNumber="248"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="343" endLineNumber="354"/>
+        </set>
+        <set lineCount="11">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="467" endLineNumber="478"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="641" endLineNumber="652"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java" startLineNumber="83" endLineNumber="114"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java" startLineNumber="197" endLineNumber="244"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="541" endLineNumber="552"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="560" endLineNumber="571"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="636" endLineNumber="647"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="557" endLineNumber="568"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="674" endLineNumber="685"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="601" endLineNumber="612"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="478" endLineNumber="495"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="455" endLineNumber="472"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="389" endLineNumber="400"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="410" endLineNumber="421"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="876" endLineNumber="890"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="584" endLineNumber="600"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1208" endLineNumber="1226"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1147" endLineNumber="1165"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="293" endLineNumber="304"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="259" endLineNumber="270"/>
+        </set>
+        <set lineCount="12">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="330" endLineNumber="341"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="225" endLineNumber="236"/>
+        </set>
+        <set lineCount="13">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java" startLineNumber="157" endLineNumber="179"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java" startLineNumber="224" endLineNumber="246"/>
+        </set>
+        <set lineCount="13">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4777" endLineNumber="4790"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4866" endLineNumber="4879"/>
+        </set>
+        <set lineCount="13">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4219" endLineNumber="4238"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4278" endLineNumber="4297"/>
+        </set>
+        <set lineCount="13">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2599" endLineNumber="2612"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2681" endLineNumber="2694"/>
+        </set>
+        <set lineCount="13">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/helper/RDBMSHelper.java" startLineNumber="259" endLineNumber="275"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/helper/RDBMSHelper.java" startLineNumber="327" endLineNumber="344"/>
+        </set>
+        <set lineCount="13">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java" startLineNumber="107" endLineNumber="122"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java" startLineNumber="188" endLineNumber="203"/>
+        </set>
+        <set lineCount="13">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java" startLineNumber="273" endLineNumber="285"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java" startLineNumber="293" endLineNumber="305"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="382" endLineNumber="397"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="205" endLineNumber="220"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="425" endLineNumber="438"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="507" endLineNumber="520"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="344" endLineNumber="369"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="366" endLineNumber="391"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2858" endLineNumber="2877"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="766" endLineNumber="785"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="315" endLineNumber="342"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="336" endLineNumber="363"/>
+        </set>
+        <set lineCount="14">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="419" endLineNumber="436"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="398" endLineNumber="415"/>
+        </set>
+        <set lineCount="15">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3297" endLineNumber="3316"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3409" endLineNumber="3428"/>
+        </set>
+        <set lineCount="15">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="182" endLineNumber="198"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java" startLineNumber="158" endLineNumber="174"/>
+        </set>
+        <set lineCount="16">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3314" endLineNumber="3332"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3265" endLineNumber="3281"/>
+        </set>
+        <set lineCount="16">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="485" endLineNumber="502"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java" startLineNumber="404" endLineNumber="420"/>
+        </set>
+        <set lineCount="16">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3426" endLineNumber="3444"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3376" endLineNumber="3393"/>
+        </set>
+        <set lineCount="17">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3458" endLineNumber="3481"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3551" endLineNumber="3574"/>
+        </set>
+        <set lineCount="17">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="378" endLineNumber="397"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="398" endLineNumber="417"/>
+        </set>
+        <set lineCount="17">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="128" endLineNumber="151"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="138" endLineNumber="162"/>
+        </set>
+        <set lineCount="17">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2648" endLineNumber="2672"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4820" endLineNumber="4844"/>
+        </set>
+        <set lineCount="19">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java" startLineNumber="155" endLineNumber="188"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java" startLineNumber="265" endLineNumber="298"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java" startLineNumber="119" endLineNumber="152"/>
+        </set>
+        <set lineCount="19">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/GroupForm.java" startLineNumber="414" endLineNumber="447"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="617" endLineNumber="650"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="641" endLineNumber="674"/>
+        </set>
+        <set lineCount="19">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java" startLineNumber="79" endLineNumber="112"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionResponse.java" startLineNumber="79" endLineNumber="112"/>
+        </set>
+        <set lineCount="20">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionResponse.java" startLineNumber="45" endLineNumber="71"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java" startLineNumber="45" endLineNumber="71"/>
+        </set>
+        <set lineCount="21">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1174" endLineNumber="1203"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1235" endLineNumber="1264"/>
+        </set>
+        <set lineCount="21">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1574" endLineNumber="1609"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1657" endLineNumber="1692"/>
+        </set>
+        <set lineCount="22">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="414" endLineNumber="455"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="439" endLineNumber="480"/>
+        </set>
+        <set lineCount="23">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="2545" endLineNumber="2581"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="4723" endLineNumber="4759"/>
+        </set>
+        <set lineCount="25">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/StringEncrypter.java" startLineNumber="60" endLineNumber="87"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/StringEncrypter.java" startLineNumber="104" endLineNumber="131"/>
+        </set>
+        <set lineCount="25">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="395" endLineNumber="435"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="372" endLineNumber="412"/>
+        </set>
+        <set lineCount="26">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/GroupForm.java" startLineNumber="471" endLineNumber="520"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="698" endLineNumber="748"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="674" endLineNumber="723"/>
+        </set>
+        <set lineCount="26">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3578" endLineNumber="3618"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="3485" endLineNumber="3526"/>
+        </set>
+        <set lineCount="28">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java" startLineNumber="420" endLineNumber="484"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java" startLineNumber="348" endLineNumber="380"/>
+        </set>
+        <set lineCount="37">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1362" endLineNumber="1404"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1430" endLineNumber="1472"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java" startLineNumber="1494" endLineNumber="1537"/>
+        </set>
+        <set lineCount="39">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="179" endLineNumber="241"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="233" endLineNumber="293"/>
+        </set>
+        <set lineCount="42">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java" startLineNumber="135" endLineNumber="251"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java" startLineNumber="136" endLineNumber="252"/>
+        </set>
+        <set lineCount="43">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="269" endLineNumber="377"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="288" endLineNumber="396"/>
+        </set>
+        <set lineCount="44">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="149" endLineNumber="266"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="147" endLineNumber="264"/>
+        </set>
+        <set lineCount="143">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java" startLineNumber="473" endLineNumber="736"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java" startLineNumber="497" endLineNumber="762"/>
+        </set>
+        <set lineCount="173">
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java" startLineNumber="283" endLineNumber="524"/>
+            <block sourceFile="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java" startLineNumber="459" endLineNumber="700"/>
+        </set>
+        <summary duplicateFileCount="51" duplicateLineCount="4698" duplicateBlockCount="388" totalFileCount="159" totalRawLineCount="38314" totalSignificantLineCount="12870" processingTime="605"/>
+    </check>
+</simian>

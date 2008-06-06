@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionGroupAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionGroupAction.java"
+>
+  <violation
+    line="138"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line179'&gt;line 179&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 179."
+  />
+  <violation
+    line="179"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line138'&gt;line 138&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 138."
+  />
+  <line number='129'> * TODO To change the template for this generated type comment go to</line>
+  <line number='130'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='131'> */</line>
+  <line number='132'>public class ProtectionGroupAction extends CommonAssociationAction </line>
+  <line number='133'>{</line>
+  <line number='134'>	private static final Logger logProtectionGroup = Logger.getLogger(ProtectionGroupAction.class);</line>
+  <line number='135'>	</line>
+  <line number='136'>	public ActionForward loadParentAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='137'>	{</line>
+  <line number='138'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='139'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='140'>		</line>
+  <line number='141'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='142'>		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;</line>
+  <line number='143'>		HttpSession session = request.getSession();</line>
+  <line number='144'>		</line>
+  <line number='145'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='146'>			if (logProtectionGroup.isDebugEnabled())</line>
+  <line number='147'>				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|loadParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='148'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='170'>			logProtectionGroup.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='171'>				"|"+protectionGroupForm.getFormName()+"|loadParentAssociation|Success|Success in Loading Parent Association for "+protectionGroupForm.getFormName()+" object|"</line>
+  <line number='172'>				+form.toString()+"|");</line>
+  <line number='173'>		return (mapping.findForward(ForwardConstants.LOAD_PARENT_ASSOCIATION_SUCCESS));		</line>
+  <line number='174'>		</line>
+  <line number='175'>	}</line>
+  <line number='176'>	</line>
+  <line number='177'>	public ActionForward setParentAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='178'>	{</line>
+  <line number='179'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='180'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='181'>		</line>
+  <line number='182'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='183'>		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;</line>
+  <line number='184'>		HttpSession session = request.getSession();</line>
+  <line number='185'>		</line>
+  <line number='186'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='187'>			if (logProtectionGroup.isDebugEnabled())</line>
+  <line number='188'>				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|setParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='189'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

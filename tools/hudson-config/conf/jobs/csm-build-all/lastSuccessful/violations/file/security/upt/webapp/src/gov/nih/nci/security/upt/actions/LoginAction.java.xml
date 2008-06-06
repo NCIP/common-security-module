@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java"
+>
+  <violation
+    line="131"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 23 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 23 (max allowed is 20)."
+  />
+  <violation
+    line="135"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 32 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 32 (max allowed is 10)."
+  />
+  <violation
+    line="135"
+    source="NPathComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="NPath Complexity is 288,000 (max allowed is 200)."
+    severity-level="1"
+    popup-message="NPath Complexity is 288,000 (max allowed is 200)."
+  />
+  <violation
+    line="211"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line306'&gt;line 306&lt;/a&gt;, &lt;a href='#line269'&gt;line 269&lt;/a&gt; and &lt;a href='#line247'&gt;line 247&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 306, line 269 and line 247."
+  />
+  <violation
+    line="247"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line306'&gt;line 306&lt;/a&gt;, &lt;a href='#line269'&gt;line 269&lt;/a&gt; and &lt;a href='#line211'&gt;line 211&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 306, line 269 and line 211."
+  />
+  <violation
+    line="269"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line306'&gt;line 306&lt;/a&gt;, &lt;a href='#line247'&gt;line 247&lt;/a&gt; and &lt;a href='#line211'&gt;line 211&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 306, line 247 and line 211."
+  />
+  <violation
+    line="306"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line269'&gt;line 269&lt;/a&gt;, &lt;a href='#line247'&gt;line 247&lt;/a&gt; and &lt;a href='#line211'&gt;line 211&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 269, line 247 and line 211."
+  />
+  <line number='122'>import org.jdom.JDOMException;</line>
+  <line number='123'>import org.jdom.input.SAXBuilder;</line>
+  <line number='124'></line>
+  <line number='125'>/**</line>
+  <line number='126'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='127'> *</line>
+  <line number='128'> * TODO To change the template for this generated type comment go to</line>
+  <line number='129'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='130'> */</line>
+  <line number='131'>public class LoginAction extends Action </line>
+  <line number='132'>{	</line>
+  <line number='133'>	private static final Logger log = Logger.getLogger(LoginAction.class);</line>
+  <line number='134'>	</line>
+  <line number='135'>	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)</line>
+  <line number='136'>	{</line>
+  <line number='137'>		ActionErrors errors = new ActionErrors();		</line>
+  <line number='138'></line>
+  <line number='139'>		AuthenticationManager authenticationManager = null;</line>
+  <line number='140'>		AuthorizationManager authorizationManager = null;</line>
+  <line number='141'>		UserProvisioningManager userProvisioningManager = null;</line>
+  <line number='142'>		boolean loginSuccessful = false;</line>
+  <line number='143'>		boolean hasPermission = false;</line>
+  <line number='144'>		String uptContextName = DisplayConstants.UPT_CONTEXT_NAME;</line>
+  <line number='145'>		Application application = null;</line>
+  <line number='202'>		{</line>
+  <line number='203'>			authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);</line>
+  <line number='204'>			if (null == authenticationManager)</line>
+  <line number='205'>			{</line>
+  <line number='206'>				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authentication Manager for the given application context"));			</line>
+  <line number='207'>				saveErrors( request,errors );</line>
+  <line number='208'>				if (log.isDebugEnabled())</line>
+  <line number='209'>					log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='210'>							"||Login|Failure|Unable to instantiate AuthenticationManager for UPT application||");</line>
+  <line number='211'>				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);</line>
+  <line number='212'>			}</line>
+  <line number='213'>		}</line>
+  <line number='214'>		catch (CSException cse)</line>
+  <line number='215'>		{</line>
+  <line number='216'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='217'>			saveErrors( request,errors );</line>
+  <line number='218'>			if (log.isDebugEnabled())</line>
+  <line number='219'>				log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='220'>						"||Login|Failure|Unable to instantiate AuthenticationManager for UPT application|"+loginForm.toString()+"|"+cse.getMessage());</line>
+  <line number='221'>			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);</line>
+  <line number='238'>		{</line>
+  <line number='239'>			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);</line>
+  <line number='240'>			if (null == authorizationManager)</line>
+  <line number='241'>			{</line>
+  <line number='242'>				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			</line>
+  <line number='243'>				saveErrors( request,errors );</line>
+  <line number='244'>				if (log.isDebugEnabled())</line>
+  <line number='245'>					log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='246'>							"||Login|Failure|Unable to instantiate Authorization Manager for UPT application||");</line>
+  <line number='247'>				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);</line>
+  <line number='248'>			}</line>
+  <line number='249'>		}</line>
+  <line number='250'>		catch (CSException cse)</line>
+  <line number='251'>		{</line>
+  <line number='252'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='253'>			saveErrors( request,errors );</line>
+  <line number='254'>			if (log.isDebugEnabled())</line>
+  <line number='255'>				log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='256'>						"||Login|Failure|Unable to instantiate AuthorizationManager for UPT application|"+loginForm.toString()+"|"+cse.getMessage());</line>
+  <line number='257'>			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);</line>
+  <line number='260'>		{</line>
+  <line number='261'>			hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);</line>
+  <line number='262'>			if (!hasPermission)</line>
+  <line number='263'>			{</line>
+  <line number='264'>				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));				</line>
+  <line number='265'>				saveErrors( request,errors );</line>
+  <line number='266'>				if (log.isDebugEnabled())</line>
+  <line number='267'>					log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='268'>							"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");</line>
+  <line number='269'>				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);</line>
+  <line number='270'>			}</line>
+  <line number='271'>		}</line>
+  <line number='272'>		catch (CSException cse)</line>
+  <line number='273'>		{</line>
+  <line number='274'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='275'>			saveErrors( request,errors );</line>
+  <line number='276'>			if (log.isDebugEnabled())</line>
+  <line number='277'>				log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='278'>						"||Login|Failure|Error in checking permission|"+loginForm.toString()+"|"+cse.getMessage());</line>
+  <line number='279'>			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			</line>
+  <line number='297'>				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());				</line>
+  <line number='298'>			}</line>
+  <line number='299'>			if (null == userProvisioningManager)</line>
+  <line number='300'>			{</line>
+  <line number='301'>				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			</line>
+  <line number='302'>				saveErrors( request,errors );</line>
+  <line number='303'>				if (log.isDebugEnabled())</line>
+  <line number='304'>					log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='305'>							"||Login|Failure|Unable to instantiate User Provisioning Manager for "+loginForm.getApplicationContextName()+" application||");</line>
+  <line number='306'>				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);</line>
+  <line number='307'>			}</line>
+  <line number='308'>		}</line>
+  <line number='309'>		catch (CSException cse)</line>
+  <line number='310'>		{</line>
+  <line number='311'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='312'>			saveErrors( request,errors );</line>
+  <line number='313'>			if (log.isDebugEnabled())</line>
+  <line number='314'>				log.debug("|"+loginForm.getLoginId()+</line>
+  <line number='315'>						"||Login|Failure|Unable to instantiate User Provisioning Manager for |"+loginForm.toString()+"|"+cse.getMessage());</line>
+  <line number='316'>			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			</line>
+  <type type='checkstyle' number='3' suppressed='0'/>
+  <type type='simian' number='4' suppressed='0'/>
+</file>

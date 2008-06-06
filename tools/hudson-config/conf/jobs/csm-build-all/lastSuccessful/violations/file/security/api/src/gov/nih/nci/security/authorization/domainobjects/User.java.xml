@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/domainobjects/User.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/User.java"
+>
+  <violation
+    line="455"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='../Group.java#line268'&gt;line 268 in Group.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 268 in Group.java."
+  />
+  <line number='446'>	}</line>
+  <line number='447'></line>
+  <line number='448'>	/**</line>
+  <line number='449'>	 * @param obj    obj</line>
+  <line number='450'>	 * </line>
+  <line number='451'>	 */</line>
+  <line number='452'>	public boolean equals(Object obj){</line>
+  <line number='453'>		User other = (User)obj;</line>
+  <line number='454'>		if(this.userId.toString().equals(other.getUserId().toString())){</line>
+  <line number='455'>			return true;</line>
+  <line number='456'>		}else{</line>
+  <line number='457'>		return false;</line>
+  <line number='458'>		}</line>
+  <line number='459'>	}</line>
+  <line number='460'></line>
+  <line number='461'>	public String toString(){</line>
+  <line number='462'>		return "";</line>
+  <line number='463'>	}</line>
+  <line number='464'></line>
+  <line number='465'>	public String getName(){</line>
+  <type type='simian' number='1' suppressed='0'/>
+</file>

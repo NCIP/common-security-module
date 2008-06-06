@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java"
+  last-modified="1212512021000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java"
+>
+  <violation
+    line="90"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 17 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 17 (max allowed is 10)."
+  />
+  <violation
+    line="75"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 16 lines from &lt;a href='../../authorization/CheckPermissionRequest.java#line147'&gt;line 147 in CheckPermissionRequest.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 16 lines from line 147 in CheckPermissionRequest.java."
+  />
+  <violation
+    line="93"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../LoginResponse.java#line45'&gt;line 45 in LoginResponse.java&lt;/a&gt;, &lt;a href='../../authorization/CheckPermissionRequest.java#line165'&gt;line 165 in CheckPermissionRequest.java&lt;/a&gt;, &lt;a href='../../authorization/CheckPermissionResponse.java#line45'&gt;line 45 in CheckPermissionResponse.java&lt;/a&gt; and &lt;a href='../../common/ErrorDetails.java#line69'&gt;line 69 in ErrorDetails.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 45 in LoginResponse.java, line 165 in CheckPermissionRequest.java, line 45 in CheckPermissionResponse.java and line 69 in ErrorDetails.java."
+  />
+  <violation
+    line="93"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='../../authorization/CheckPermissionRequest.java#line165'&gt;line 165 in CheckPermissionRequest.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 165 in CheckPermissionRequest.java."
+  />
+  <violation
+    line="107"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 16 lines from &lt;a href='../../authorization/CheckPermissionRequest.java#line188'&gt;line 188 in CheckPermissionRequest.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 16 lines from line 188 in CheckPermissionRequest.java."
+  />
+  <violation
+    line="110"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='../../authorization/CheckPermissionRequest.java#line191'&gt;line 191 in CheckPermissionRequest.java&lt;/a&gt;, &lt;a href='../../common/ErrorDetails.java#line83'&gt;line 83 in ErrorDetails.java&lt;/a&gt;, &lt;a href='../../authorization/CheckPermissionResponse.java#line54'&gt;line 54 in CheckPermissionResponse.java&lt;/a&gt; and &lt;a href='../LoginResponse.java#line54'&gt;line 54 in LoginResponse.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 191 in CheckPermissionRequest.java, line 83 in ErrorDetails.java, line 54 in CheckPermissionResponse.java and line 54 in LoginResponse.java."
+  />
+  <violation
+    line="155"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 34 lines from &lt;a href='../../authorization/CheckPermissionRequest.java#line265'&gt;line 265 in CheckPermissionRequest.java&lt;/a&gt; and &lt;a href='../../common/ErrorDetails.java#line119'&gt;line 119 in ErrorDetails.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 34 lines from line 265 in CheckPermissionRequest.java and line 119 in ErrorDetails.java."
+  />
+  <line number='66'>        this.password = password;</line>
+  <line number='67'>    }</line>
+  <line number='68'></line>
+  <line number='69'></line>
+  <line number='70'>    /**</line>
+  <line number='71'>     * Gets the applicationContext value for this LoginRequest.</line>
+  <line number='72'>     * </line>
+  <line number='73'>     * @return applicationContext</line>
+  <line number='74'>     */</line>
+  <line number='75'>    public java.lang.String getApplicationContext() {</line>
+  <line number='76'>        return applicationContext;</line>
+  <line number='77'>    }</line>
+  <line number='78'></line>
+  <line number='79'></line>
+  <line number='80'>    /**</line>
+  <line number='81'>     * Sets the applicationContext value for this LoginRequest.</line>
+  <line number='82'>     * </line>
+  <line number='83'>     * @param applicationContext</line>
+  <line number='84'>     */</line>
+  <line number='85'>    public void setApplicationContext(java.lang.String applicationContext) {</line>
+  <line number='86'>        this.applicationContext = applicationContext;</line>
+  <line number='87'>    }</line>
+  <line number='88'></line>
+  <line number='89'>    private java.lang.Object __equalsCalc = null;</line>
+  <line number='90'>    public synchronized boolean equals(java.lang.Object obj) {</line>
+  <line number='91'>        if (!(obj instanceof LoginRequest)) return false;</line>
+  <line number='92'>        LoginRequest other = (LoginRequest) obj;</line>
+  <line number='93'>        if (obj == null) return false;</line>
+  <line number='94'>        if (this == obj) return true;</line>
+  <line number='95'>        if (__equalsCalc != null) {</line>
+  <line number='96'>            return (__equalsCalc == obj);</line>
+  <line number='97'>        }</line>
+  <line number='98'>        __equalsCalc = obj;</line>
+  <line number='99'>        boolean _equals;</line>
+  <line number='100'>        _equals = true &amp;&amp; </line>
+  <line number='101'>            ((this.userName==null &amp;&amp; other.getUserName()==null) || </line>
+  <line number='102'>             (this.userName!=null &amp;&amp;</line>
+  <line number='103'>              this.userName.equals(other.getUserName()))) &amp;&amp;</line>
+  <line number='104'>            ((this.password==null &amp;&amp; other.getPassword()==null) || </line>
+  <line number='105'>             (this.password!=null &amp;&amp;</line>
+  <line number='106'>              this.password.equals(other.getPassword()))) &amp;&amp;</line>
+  <line number='107'>            ((this.applicationContext==null &amp;&amp; other.getApplicationContext()==null) || </line>
+  <line number='108'>             (this.applicationContext!=null &amp;&amp;</line>
+  <line number='109'>              this.applicationContext.equals(other.getApplicationContext())));</line>
+  <line number='110'>        __equalsCalc = null;</line>
+  <line number='111'>        return _equals;</line>
+  <line number='112'>    }</line>
+  <line number='113'></line>
+  <line number='114'>    private boolean __hashCodeCalc = false;</line>
+  <line number='115'>    public synchronized int hashCode() {</line>
+  <line number='116'>        if (__hashCodeCalc) {</line>
+  <line number='117'>            return 0;</line>
+  <line number='118'>        }</line>
+  <line number='119'>        __hashCodeCalc = true;</line>
+  <line number='120'>        int _hashCode = 1;</line>
+  <line number='146'>        elemField = new org.apache.axis.description.ElementDesc();</line>
+  <line number='147'>        elemField.setFieldName("password");</line>
+  <line number='148'>        elemField.setXmlName(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "Password"));</line>
+  <line number='149'>        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));</line>
+  <line number='150'>        elemField.setNillable(false);</line>
+  <line number='151'>        typeDesc.addFieldDesc(elemField);</line>
+  <line number='152'>        elemField = new org.apache.axis.description.ElementDesc();</line>
+  <line number='153'>        elemField.setFieldName("applicationContext");</line>
+  <line number='154'>        elemField.setXmlName(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "ApplicationContext"));</line>
+  <line number='155'>        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));</line>
+  <line number='156'>        elemField.setNillable(false);</line>
+  <line number='157'>        typeDesc.addFieldDesc(elemField);</line>
+  <line number='158'>    }</line>
+  <line number='159'></line>
+  <line number='160'>    /**</line>
+  <line number='161'>     * Return type metadata object</line>
+  <line number='162'>     */</line>
+  <line number='163'>    public static org.apache.axis.description.TypeDesc getTypeDesc() {</line>
+  <line number='164'>        return typeDesc;</line>
+  <line number='165'>    }</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='6' suppressed='0'/>
+</file>

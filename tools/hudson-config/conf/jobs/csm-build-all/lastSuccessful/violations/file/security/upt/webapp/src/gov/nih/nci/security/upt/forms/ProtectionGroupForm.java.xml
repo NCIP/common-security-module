@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionGroupForm.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionGroupForm.java"
+>
+  <violation
+    line="128"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, SearchResult, SimpleDateFormat]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, SearchResult, SimpleDateFormat]."
+  />
+  <violation
+    line="374"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='../UserForm.java#line583'&gt;line 583 in UserForm.java&lt;/a&gt;, &lt;a href='../SearchUserForm.java#line559'&gt;line 559 in SearchUserForm.java&lt;/a&gt;, &lt;a href='../RoleForm.java#line341'&gt;line 341 in RoleForm.java&lt;/a&gt; and &lt;a href='../InstanceLevelForm.java#line426'&gt;line 426 in InstanceLevelForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 583 in UserForm.java, line 559 in SearchUserForm.java, line 341 in RoleForm.java and line 426 in InstanceLevelForm.java."
+  />
+  <line number='119'>import org.apache.struts.action.ActionMessages;</line>
+  <line number='120'>import org.apache.struts.validator.ValidatorForm;</line>
+  <line number='121'></line>
+  <line number='122'>/**</line>
+  <line number='123'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='124'> *</line>
+  <line number='125'> * TODO To change the template for this generated type comment go to</line>
+  <line number='126'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='127'> */</line>
+  <line number='128'>public class ProtectionGroupForm extends ValidatorForm implements BaseAssociationForm</line>
+  <line number='129'>{</line>
+  <line number='130'>	private String protectionGroupId;</line>
+  <line number='131'>	private String protectionGroupName;</line>
+  <line number='132'>	private String protectionGroupDescription;</line>
+  <line number='133'>	private String protectionGroupLargeCountFlag;</line>
+  <line number='134'>	private String protectionGroupUpdateDate;</line>
+  <line number='135'></line>
+  <line number='136'>	private ProtectionGroup protectionGroupParentProtectionGroup;</line>
+  <line number='137'>	</line>
+  <line number='138'>	private String[] associatedIds;</line>
+  <line number='365'>	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception </line>
+  <line number='366'>	{</line>
+  <line number='367'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='368'>		ProtectionGroup protectionGroup = new ProtectionGroup();</line>
+  <line number='369'>		</line>
+  <line number='370'>		if (this.protectionGroupName != null &amp;&amp; !(this.protectionGroupName.trim().equalsIgnoreCase("")))</line>
+  <line number='371'>			protectionGroup.setProtectionGroupName(this.protectionGroupName);</line>
+  <line number='372'>		</line>
+  <line number='373'>		SearchCriteria searchCriteria = new ProtectionGroupSearchCriteria(protectionGroup);</line>
+  <line number='374'>		List list = userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='375'>		SearchResult searchResult = new SearchResult();</line>
+  <line number='376'>		searchResult.setSearchResultMessage(searchCriteria.getMessage());</line>
+  <line number='377'>		searchResult.setSearchResultObjects(list);</line>
+  <line number='378'>		return searchResult;</line>
+  <line number='379'>	}</line>
+  <line number='380'></line>
+  <line number='381'>	</line>
+  <line number='382'>	/* (non-Javadoc)</line>
+  <line number='383'>	 * @see gov.nih.nci.security.forms.BaseDBForm#getPrimaryId()</line>
+  <line number='384'>	 */</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='1' suppressed='0'/>
+</file>

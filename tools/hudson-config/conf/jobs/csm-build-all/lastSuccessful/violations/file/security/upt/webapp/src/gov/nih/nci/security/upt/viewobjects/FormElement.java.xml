@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/viewobjects/FormElement.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/viewobjects/FormElement.java"
+>
+  <violation
+    line="125"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line137'&gt;line 137&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 137."
+  />
+  <violation
+    line="137"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line125'&gt;line 125&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 125."
+  />
+  <line number='116'>	/**</line>
+  <line number='117'>	 * @param propertyLabel</line>
+  <line number='118'>	 * @param propertyName</line>
+  <line number='119'>	 * @param propertyValue</line>
+  <line number='120'>	 * @param propertyType</line>
+  <line number='121'>	 * @param propertyRequired</line>
+  <line number='122'>	 */</line>
+  <line number='123'>	public FormElement(String propertyLabel, String propertyName,</line>
+  <line number='124'>			String propertyValue, String propertyType, String propertyRequired, boolean propertyDisabled) {</line>
+  <line number='125'>		super();</line>
+  <line number='126'>		this.propertyLabel = propertyLabel;</line>
+  <line number='127'>		this.propertyName = propertyName;</line>
+  <line number='128'>		this.propertyValue = propertyValue;</line>
+  <line number='129'>		this.propertyType = propertyType;</line>
+  <line number='130'>		this.propertyRequired = propertyRequired;</line>
+  <line number='131'>		this.propertyDisabled = propertyDisabled;</line>
+  <line number='132'>		this.propertyReadonly = "NOT_READONLY";</line>
+  <line number='133'>	}</line>
+  <line number='134'>	</line>
+  <line number='135'>	public FormElement(String propertyLabel, String propertyName,</line>
+  <line number='136'>			String propertyValue, String propertyType, String propertyRequired, boolean propertyDisabled, String propertyReadonly) {</line>
+  <line number='137'>		super();</line>
+  <line number='138'>		this.propertyLabel = propertyLabel;</line>
+  <line number='139'>		this.propertyName = propertyName;</line>
+  <line number='140'>		this.propertyValue = propertyValue;</line>
+  <line number='141'>		this.propertyType = propertyType;</line>
+  <line number='142'>		this.propertyRequired = propertyRequired;</line>
+  <line number='143'>		this.propertyDisabled = propertyDisabled;</line>
+  <line number='144'>		this.propertyReadonly = propertyReadonly;</line>
+  <line number='145'>	}</line>
+  <line number='146'>	</line>
+  <line number='147'>	</line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

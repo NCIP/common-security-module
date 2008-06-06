@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/upt/actions/LogoutAction.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/upt/actions/LogoutAction.java"
+>
+  <violation
+    line="142"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="147"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="162"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'getUPTContextName()'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'getUPTContextName()'."
+  />
+  <type type='pmd' number='3' suppressed='0'/>
+</file>

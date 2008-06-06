@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: Ulli
+Build-Jdk: 1.5.0_11
+Extension-Name: checkstyle
+Specification-Title: This plug-in generates the trend report for    Ch
+ eckstyle, an open source static code analysis program.
+Implementation-Title: checkstyle
+Implementation-Version: 1.2
+Plugin-Class: hudson.plugins.checkstyle.CheckStylePlugin
+Short-Name: checkstyle
+Long-Name: Hudson Checkstyle Plug-in
+Plugin-Version: 1.2
+Hudson-Version: 1.217
+

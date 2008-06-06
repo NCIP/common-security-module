@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java"
+>
+  <violation
+    line="131"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as 'SQL_GETALLPERM'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as 'SQL_GETALLPERM'."
+  />
+  <violation
+    line="132"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_htConnProp'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_htConnProp'."
+  />
+  <violation
+    line="133"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_connection'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_connection'."
+  />
+  <violation
+    line="134"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_htPermissions'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_htPermissions'."
+  />
+  <violation
+    line="192"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'getConnection()'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'getConnection()'."
+  />
+  <violation
+    line="201"
+    source="UnusedFormalParameter"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused method parameters such as 'name'."
+    severity-level="2"
+    popup-message="Avoid unused method parameters such as 'name'."
+  />
+  <violation
+    line="201"
+    source="UnusedFormalParameter"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused method parameters such as 'principals'."
+    severity-level="2"
+    popup-message="Avoid unused method parameters such as 'principals'."
+  />
+  <violation
+    line="201"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'isTitleTo(String,Principal)'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'isTitleTo(String,Principal)'."
+  />
+  <type type='pmd' number='8' suppressed='0'/>
+</file>

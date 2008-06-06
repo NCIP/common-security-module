@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/acegi/authentication/CSMUserDetailsService.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/acegi/authentication/CSMUserDetailsService.java"
+>
+  <violation
+    line="48"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line66'&gt;line 66&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 66."
+  />
+  <violation
+    line="66"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line48'&gt;line 48&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 48."
+  />
+  <line number='39'>	protected AuthenticationManager authenticationManager;</line>
+  <line number='40'>	</line>
+  <line number='41'>	public AuthorizationManager authorizationManagerInstance(){</line>
+  <line number='42'>		if(this.authorizationManager!=null){</line>
+  <line number='43'>			return this.authorizationManager;</line>
+  <line number='44'>		}else{</line>
+  <line number='45'>			try {</line>
+  <line number='46'>				this.authorizationManager = SecurityServiceProvider</line>
+  <line number='47'>						.getAuthorizationManager(this.csmApplicationContext);</line>
+  <line number='48'>			} catch (CSConfigurationException e) {</line>
+  <line number='49'>				e.printStackTrace();</line>
+  <line number='50'>				throw new DataRetrievalFailureException(e.getMessage());</line>
+  <line number='51'>			} catch (CSException e) {</line>
+  <line number='52'>				e.printStackTrace();</line>
+  <line number='53'>				throw new DataAccessResourceFailureException(e.getMessage());</line>
+  <line number='54'>			}</line>
+  <line number='55'>			return this.authorizationManager;</line>
+  <line number='56'>		}</line>
+  <line number='57'>	}</line>
+  <line number='58'>	</line>
+  <line number='59'>	public AuthenticationManager authenticationManagerInstance(){</line>
+  <line number='60'>		if(this.authenticationManager!=null){</line>
+  <line number='61'>			return this.authenticationManager;</line>
+  <line number='62'>		}else{</line>
+  <line number='63'>			try {</line>
+  <line number='64'>				this.authenticationManager = SecurityServiceProvider</line>
+  <line number='65'>						.getAuthenticationManager(this.csmApplicationContext);</line>
+  <line number='66'>			} catch (CSConfigurationException e) {</line>
+  <line number='67'>				e.printStackTrace();</line>
+  <line number='68'>				throw new DataRetrievalFailureException(e.getMessage());</line>
+  <line number='69'>			} catch (CSException e) {</line>
+  <line number='70'>				e.printStackTrace();</line>
+  <line number='71'>				throw new DataAccessResourceFailureException(e.getMessage());</line>
+  <line number='72'>			}</line>
+  <line number='73'>			return this.authenticationManager;</line>
+  <line number='74'>		}</line>
+  <line number='75'>	}</line>
+  <line number='76'></line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

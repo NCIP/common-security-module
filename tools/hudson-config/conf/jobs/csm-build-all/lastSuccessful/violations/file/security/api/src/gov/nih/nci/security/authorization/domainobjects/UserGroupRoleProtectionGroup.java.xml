@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.java"
+>
+  <violation
+    line="154"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='../../../dao/hibernate/UserGroup.java#line153'&gt;line 153 in UserGroup.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 153 in UserGroup.java."
+  />
+  <violation
+    line="178"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='../../../dao/hibernate/RolePrivilege.java#line158'&gt;line 158 in RolePrivilege.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 158 in RolePrivilege.java."
+  />
+  <line number='145'></line>
+  <line number='146'>    public Date getUpdateDate() {</line>
+  <line number='147'>        return this.updateDate;</line>
+  <line number='148'>    }</line>
+  <line number='149'></line>
+  <line number='150'>    public void setUpdateDate(Date updateDate) {</line>
+  <line number='151'>        this.updateDate = updateDate;</line>
+  <line number='152'>    }</line>
+  <line number='153'></line>
+  <line number='154'>    public Group getGroup() {</line>
+  <line number='155'>        return this.group;</line>
+  <line number='156'>    }</line>
+  <line number='157'></line>
+  <line number='158'>    public void setGroup(Group group) {</line>
+  <line number='159'>        this.group = group;</line>
+  <line number='160'>    }</line>
+  <line number='161'></line>
+  <line number='162'>    public User getUser() {</line>
+  <line number='163'>        return this.user;</line>
+  <line number='164'>    }</line>
+  <line number='169'></line>
+  <line number='170'>    public ProtectionGroup getProtectionGroup() {</line>
+  <line number='171'>        return this.protectionGroup;</line>
+  <line number='172'>    }</line>
+  <line number='173'></line>
+  <line number='174'>    public void setProtectionGroup(ProtectionGroup protectionGroup) {</line>
+  <line number='175'>        this.protectionGroup = protectionGroup;</line>
+  <line number='176'>    }</line>
+  <line number='177'></line>
+  <line number='178'>    public Role getRole() {</line>
+  <line number='179'>        return this.role;</line>
+  <line number='180'>    }</line>
+  <line number='181'></line>
+  <line number='182'>    public void setRole(Role role) {</line>
+  <line number='183'>        this.role = role;</line>
+  <line number='184'>    }</line>
+  <line number='185'></line>
+  <line number='186'>    public String toString() {</line>
+  <line number='187'>        return new ToStringBuilder(this)</line>
+  <line number='188'>            .append("userGroupRoleProtectionGroupId", getUserGroupRoleProtectionGroupId())</line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

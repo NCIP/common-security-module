@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java"
+>
+  <violation
+    line="136"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 15 (max allowed is 7) classes [ActionError, ActionErrors, ArrayList, FormElement, Group, GroupSearchCriteria, HashSet, ProtectionGroup, ProtectionGroupSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 15 (max allowed is 7) classes [ActionError, ActionErrors, ArrayList, FormElement, Group, GroupSearchCriteria, HashSet, ProtectionGroup, ProtectionGroupSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]."
+  />
+  <violation
+    line="136"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 24 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 24 (max allowed is 20)."
+  />
+  <violation
+    line="564"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 13 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 13 (max allowed is 10)."
+  />
+  <violation
+    line="139"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='../SearchUserForm.java#line138'&gt;line 138 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 138 in SearchUserForm.java."
+  />
+  <violation
+    line="149"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 118 lines from &lt;a href='../SearchUserForm.java#line147'&gt;line 147 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 118 lines from line 147 in SearchUserForm.java."
+  />
+  <violation
+    line="288"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 109 lines from &lt;a href='../SearchUserForm.java#line269'&gt;line 269 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 109 lines from line 269 in SearchUserForm.java."
+  />
+  <violation
+    line="389"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line410'&gt;line 410&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 410."
+  />
+  <violation
+    line="398"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 20 lines from &lt;a href='../SearchUserForm.java#line378'&gt;line 378 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 20 lines from line 378 in SearchUserForm.java."
+  />
+  <violation
+    line="410"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line389'&gt;line 389&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 389."
+  />
+  <violation
+    line="419"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 18 lines from &lt;a href='../SearchUserForm.java#line398'&gt;line 398 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 18 lines from line 398 in SearchUserForm.java."
+  />
+  <violation
+    line="439"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='../SearchUserForm.java#line417'&gt;line 417 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 417 in SearchUserForm.java."
+  />
+  <violation
+    line="451"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='../SearchUserForm.java#line429'&gt;line 429 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 429 in SearchUserForm.java."
+  />
+  <violation
+    line="464"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='../SearchUserForm.java#line441'&gt;line 441 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 441 in SearchUserForm.java."
+  />
+  <violation
+    line="478"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 18 lines from &lt;a href='../SearchUserForm.java#line455'&gt;line 455 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 18 lines from line 455 in SearchUserForm.java."
+  />
+  <violation
+    line="497"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 266 lines from &lt;a href='../SearchUserForm.java#line473'&gt;line 473 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 266 lines from line 473 in SearchUserForm.java."
+  />
+  <violation
+    line="583"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='../SearchUserForm.java#line559'&gt;line 559 in SearchUserForm.java&lt;/a&gt;, &lt;a href='../RoleForm.java#line341'&gt;line 341 in RoleForm.java&lt;/a&gt;, &lt;a href='../ProtectionGroupForm.java#line374'&gt;line 374 in ProtectionGroupForm.java&lt;/a&gt; and &lt;a href='../InstanceLevelForm.java#line426'&gt;line 426 in InstanceLevelForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 559 in SearchUserForm.java, line 341 in RoleForm.java, line 374 in ProtectionGroupForm.java and line 426 in InstanceLevelForm.java."
+  />
+  <violation
+    line="641"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 34 lines from &lt;a href='../GroupForm.java#line414'&gt;line 414 in GroupForm.java&lt;/a&gt; and &lt;a href='../SearchUserForm.java#line617'&gt;line 617 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 34 lines from line 414 in GroupForm.java and line 617 in SearchUserForm.java."
+  />
+  <violation
+    line="698"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 51 lines from &lt;a href='../GroupForm.java#line471'&gt;line 471 in GroupForm.java&lt;/a&gt; and &lt;a href='../SearchUserForm.java#line674'&gt;line 674 in SearchUserForm.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 51 lines from line 471 in GroupForm.java and line 674 in SearchUserForm.java."
+  />
+  <line number='127'>import org.apache.struts.action.ActionMessages;</line>
+  <line number='128'>import org.apache.struts.validator.ValidatorForm;</line>
+  <line number='129'></line>
+  <line number='130'>/**</line>
+  <line number='131'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='132'> *</line>
+  <line number='133'> * TODO To change the template for this generated type comment go to</line>
+  <line number='134'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='135'> */</line>
+  <line number='136'>public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm</line>
+  <line number='137'>{</line>
+  <line number='138'>	</line>
+  <line number='139'>	private String userId;</line>
+  <line number='140'>	private String userLoginName;</line>
+  <line number='141'>	private String userFirstName;</line>
+  <line number='142'>	private String userLastName;</line>
+  <line number='143'>	private String userOrganization;</line>
+  <line number='144'>	private String userDepartment;</line>
+  <line number='145'>	private String userTitle;</line>
+  <line number='146'>	private String userPhoneNumber;</line>
+  <line number='147'>	private String userPassword;</line>
+  <line number='148'>	private String userPasswordConfirm;</line>
+  <line number='149'>	private String userEmailId;</line>
+  <line number='150'>	private String userStartDate;</line>
+  <line number='151'>	private String userEndDate;</line>
+  <line number='152'>	private String userUpdateDate;</line>
+  <line number='153'>	</line>
+  <line number='154'>	private String[] associatedIds;</line>
+  <line number='155'>	private String[] roleAssociatedIds;</line>
+  <line number='156'>	private String[] protectionGroupAssociatedIds;</line>
+  <line number='157'>	private String protectionGroupAssociatedId;</line>
+  <line number='158'>	</line>
+  <line number='159'></line>
+  <line number='279'>	 */</line>
+  <line number='280'>	public void setUserPasswordConfirm(String userPasswordConfirm)</line>
+  <line number='281'>	{</line>
+  <line number='282'>		this.userPasswordConfirm = userPasswordConfirm;</line>
+  <line number='283'>	}</line>
+  <line number='284'>	</line>
+  <line number='285'>	/**</line>
+  <line number='286'>	 * @return Returns the userPhoneNumber.</line>
+  <line number='287'>	 */</line>
+  <line number='288'>	public String getUserPhoneNumber() {</line>
+  <line number='289'>		return userPhoneNumber;</line>
+  <line number='290'>	}</line>
+  <line number='291'>	/**</line>
+  <line number='292'>	 * @param userPhoneNumber The userPhoneNumber to set.</line>
+  <line number='293'>	 */</line>
+  <line number='294'>	public void setUserPhoneNumber(String userPhoneNumber) {</line>
+  <line number='295'>		this.userPhoneNumber = userPhoneNumber;</line>
+  <line number='296'>	}</line>
+  <line number='297'>	/**</line>
+  <line number='298'>	 * @return Returns the userStartDate.</line>
+  <line number='380'>	public void setProtectionGroupAssociatedId(</line>
+  <line number='381'>			String protectionGroupAssociatedId) {</line>
+  <line number='382'>		this.protectionGroupAssociatedId = protectionGroupAssociatedId;</line>
+  <line number='383'>	}</line>
+  <line number='384'>	</line>
+  <line number='385'>	</line>
+  <line number='386'>	public void resetForm()</line>
+  <line number='387'>	{</line>
+  <line number='388'>		this.userId = "";</line>
+  <line number='389'>		this.userLoginName = "";</line>
+  <line number='390'>		this.userFirstName = "";</line>
+  <line number='391'>		this.userLastName = "";</line>
+  <line number='392'>		this.userOrganization = "";</line>
+  <line number='393'>		this.userDepartment = "";</line>
+  <line number='394'>		this.userTitle = "";</line>
+  <line number='395'>		this.userPhoneNumber = "";</line>
+  <line number='396'>		this.userPassword = "";</line>
+  <line number='397'>		this.userPasswordConfirm = "";</line>
+  <line number='398'>		this.userEmailId = "";</line>
+  <line number='399'>		this.userStartDate = "";</line>
+  <line number='400'>		this.userEndDate = "";</line>
+  <line number='401'>		this.userUpdateDate = "";</line>
+  <line number='402'>		this.associatedIds = null;</line>
+  <line number='403'>		this.protectionGroupAssociatedId = "";		</line>
+  <line number='404'>		this.protectionGroupAssociatedIds = null;</line>
+  <line number='405'>		this.roleAssociatedIds = null;</line>
+  <line number='406'>	}</line>
+  <line number='407'>	</line>
+  <line number='408'>	public void reset(ActionMapping mapping, HttpServletRequest request)</line>
+  <line number='409'>	{</line>
+  <line number='410'>		this.userLoginName = "";</line>
+  <line number='411'>		this.userFirstName = "";</line>
+  <line number='412'>		this.userLastName = "";</line>
+  <line number='413'>		this.userOrganization = "";</line>
+  <line number='414'>		this.userDepartment = "";</line>
+  <line number='415'>		this.userTitle = "";</line>
+  <line number='416'>		this.userPhoneNumber = "";</line>
+  <line number='417'>		this.userPassword = "";</line>
+  <line number='418'>		this.userPasswordConfirm = "";</line>
+  <line number='419'>		this.userEmailId = "";</line>
+  <line number='420'>		this.userStartDate = "";</line>
+  <line number='421'>		this.userEndDate = "";</line>
+  <line number='422'>		this.associatedIds = null;</line>
+  <line number='423'>		this.roleAssociatedIds = null;	</line>
+  <line number='424'>	}</line>
+  <line number='425'></line>
+  <line number='426'>	public ArrayList getAddFormElements()</line>
+  <line number='427'>	{</line>
+  <line number='428'>		ArrayList formElementList = new ArrayList();</line>
+  <line number='429'>	</line>
+  <line number='430'>		formElementList.add(new FormElement("User Login Name", "userLoginName", getUserLoginName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='431'>		formElementList.add(new FormElement("User First Name", "userFirstName", getUserFirstName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='432'>		formElementList.add(new FormElement("User Last Name", "userLastName", getUserLastName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='433'>		formElementList.add(new FormElement("User Organization", "userOrganization", getUserOrganization(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='434'>		formElementList.add(new FormElement("User Department", "userDepartment", getUserDepartment(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		</line>
+  <line number='435'>		formElementList.add(new FormElement("User Title", "userTitle", getUserTitle(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		</line>
+  <line number='436'>		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", getUserPhoneNumber(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));	</line>
+  <line number='437'>		formElementList.add(new FormElement("User Password", "userPassword", getUserPassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='438'>		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", getUserPasswordConfirm(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='439'>		formElementList.add(new FormElement("User Email Id", "userEmailId", getUserEmailId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='440'>		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='441'>		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='442'>		</line>
+  <line number='443'>		return formElementList;	</line>
+  <line number='444'>	}</line>
+  <line number='445'></line>
+  <line number='446'>	public ArrayList getDisplayFormElements()</line>
+  <line number='447'>	{</line>
+  <line number='448'>		ArrayList formElementList = new ArrayList();</line>
+  <line number='449'>	</line>
+  <line number='450'>		formElementList.add(new FormElement("User Login Name", "userLoginName", StringUtils.initString(getUserLoginName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED, DisplayConstants.READONLY));</line>
+  <line number='451'>		formElementList.add(new FormElement("User First Name", "userFirstName", StringUtils.initString(getUserFirstName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='452'>		formElementList.add(new FormElement("User Last Name", "userLastName", StringUtils.initString(getUserLastName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='453'>		formElementList.add(new FormElement("User Organization", "userOrganization",StringUtils.initString(getUserOrganization()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='454'>		formElementList.add(new FormElement("User Department", "userDepartment", StringUtils.initString(getUserDepartment()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		</line>
+  <line number='455'>		formElementList.add(new FormElement("User Title", "userTitle", StringUtils.initString(getUserTitle()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		</line>
+  <line number='456'>		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", StringUtils.initString(getUserPhoneNumber()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));	</line>
+  <line number='457'>		formElementList.add(new FormElement("User Password", "userPassword", StringUtils.initString(getUserPassword()), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='458'>		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", StringUtils.initString(getUserPasswordConfirm()), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='459'>		formElementList.add(new FormElement("User Email Id", "userEmailId", StringUtils.initString(getUserEmailId()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='460'>		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='461'>		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='462'>		formElementList.add(new FormElement("User Update Date", "userUpdateDate", getUserUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));</line>
+  <line number='463'>		</line>
+  <line number='464'>		return formElementList;	</line>
+  <line number='465'>	}</line>
+  <line number='466'>	</line>
+  <line number='467'>	public ArrayList getSearchFormElements()</line>
+  <line number='468'>	{</line>
+  <line number='469'>		ArrayList formElementList = new ArrayList();</line>
+  <line number='470'>	</line>
+  <line number='471'>		formElementList.add(new FormElement("User Login Name", "userLoginName", getUserLoginName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='472'>		formElementList.add(new FormElement("User First Name", "userFirstName", getUserFirstName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='473'>		formElementList.add(new FormElement("User Last Name", "userLastName", getUserLastName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='474'>		formElementList.add(new FormElement("User Organization", "userOrganization", StringUtils.initString(getUserOrganization()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='475'>		formElementList.add(new FormElement("User Department", "userDepartment", StringUtils.initString(getUserDepartment()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		</line>
+  <line number='476'>		formElementList.add(new FormElement("User Email Id", "userEmailId", StringUtils.initString(getUserEmailId()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='477'>	</line>
+  <line number='478'>		return formElementList;	</line>
+  <line number='479'>	}</line>
+  <line number='480'>	/* (non-Javadoc)</line>
+  <line number='481'>	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)</line>
+  <line number='482'>	 */</line>
+  <line number='483'>	public void buildDisplayForm(HttpServletRequest request) throws Exception </line>
+  <line number='484'>	{</line>
+  <line number='485'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='486'>		User user = userProvisioningManager.getUserById(this.userId);</line>
+  <line number='487'>		</line>
+  <line number='488'>		this.userLoginName = user.getLoginName();</line>
+  <line number='489'>		this.userFirstName = user.getFirstName();</line>
+  <line number='490'>		this.userLastName = user.getLastName();</line>
+  <line number='491'>		this.userOrganization = user.getOrganization();</line>
+  <line number='492'>		this.userDepartment = user.getDepartment();</line>
+  <line number='493'>		this.userTitle = user.getTitle();</line>
+  <line number='494'>		this.userPhoneNumber = user.getPhoneNumber();</line>
+  <line number='495'>		this.userPassword = user.getPassword();</line>
+  <line number='496'>		this.userPasswordConfirm = user.getPassword();</line>
+  <line number='497'>		this.userEmailId = user.getEmailId();</line>
+  <line number='498'></line>
+  <line number='499'>		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");</line>
+  <line number='500'>		if (user.getStartDate() != null)</line>
+  <line number='501'>			this.userStartDate = simpleDateFormat.format(user.getStartDate());</line>
+  <line number='502'>		if (user.getEndDate() != null)</line>
+  <line number='503'>			this.userEndDate = simpleDateFormat.format(user.getEndDate());</line>
+  <line number='504'>		if (user.getUpdateDate() != null)</line>
+  <line number='505'>			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());</line>
+  <line number='506'>	}</line>
+  <line number='507'>	</line>
+  <line number='555'>	public void removeDBObject(HttpServletRequest request) throws Exception {</line>
+  <line number='556'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='557'>		userProvisioningManager.removeUser(this.userId);</line>
+  <line number='558'>		this.resetForm();</line>
+  <line number='559'>		</line>
+  <line number='560'>	}</line>
+  <line number='561'>	/* (non-Javadoc)</line>
+  <line number='562'>	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest, org.apache.struts.action.ActionErrors, org.apache.struts.action.ActionMessages)</line>
+  <line number='563'>	 */</line>
+  <line number='564'>	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception {</line>
+  <line number='565'></line>
+  <line number='566'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='567'>		User user = new User();</line>
+  <line number='568'>		</line>
+  <line number='569'>		if (this.userLoginName != null &amp;&amp; !(this.userLoginName.trim().equalsIgnoreCase("")))</line>
+  <line number='570'>			user.setLoginName(this.userLoginName);</line>
+  <line number='571'>		if (this.userFirstName != null &amp;&amp; !(this.userFirstName.trim().equalsIgnoreCase("")))</line>
+  <line number='572'>			user.setFirstName(this.userFirstName);</line>
+  <line number='573'>		if (this.userLastName != null &amp;&amp; !(this.userLastName.trim().equalsIgnoreCase("")))</line>
+  <line number='574'>			user.setLastName(this.userLastName);</line>
+  <line number='575'>		if (this.userOrganization != null &amp;&amp; !(this.userOrganization.trim().equalsIgnoreCase("")))</line>
+  <line number='576'>			user.setOrganization(this.userOrganization);</line>
+  <line number='577'>		if (this.userDepartment != null &amp;&amp; !(this.userDepartment.trim().equalsIgnoreCase("")))</line>
+  <line number='578'>			user.setDepartment(this.userDepartment);</line>
+  <line number='579'>		if (this.userEmailId != null &amp;&amp; !(this.userEmailId.trim().equalsIgnoreCase("")))</line>
+  <line number='580'>			user.setEmailId(this.userEmailId);</line>
+  <line number='581'>		</line>
+  <line number='582'>		SearchCriteria searchCriteria = new UserSearchCriteria(user);</line>
+  <line number='583'>		List list = userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='584'>		SearchResult searchResult = new SearchResult();</line>
+  <line number='585'>		searchResult.setSearchResultMessage(searchCriteria.getMessage());</line>
+  <line number='586'>		searchResult.setSearchResultObjects(list);</line>
+  <line number='587'>		return searchResult;</line>
+  <line number='588'></line>
+  <line number='589'>		</line>
+  <line number='590'>	}</line>
+  <line number='591'>	/* (non-Javadoc)</line>
+  <line number='592'>	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getPrimaryId()</line>
+  <line number='593'>	 */</line>
+  <line number='632'>		userProvisioningManager.assignGroupsToUser(this.userId, this.associatedIds);</line>
+  <line number='633'>	}</line>
+  <line number='634'>	/* (non-Javadoc)</line>
+  <line number='635'>	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildDoubleAssociationObject(javax.servlet.http.HttpServletRequest)</line>
+  <line number='636'>	 */</line>
+  <line number='637'>	public void buildDoubleAssociationObject(HttpServletRequest request) throws Exception {</line>
+  <line number='638'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='639'></line>
+  <line number='640'>		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForUser(this.userId);</line>
+  <line number='641'>		Collection associatedProtectionGroups = (Collection)new HashSet();</line>
+  <line number='642'>		</line>
+  <line number='643'>		if (protectionGroupRoleContextList != null &amp;&amp; !(protectionGroupRoleContextList.size() == 0))</line>
+  <line number='644'>		{</line>
+  <line number='645'>			Iterator iterator = protectionGroupRoleContextList.iterator();</line>
+  <line number='646'>			while (iterator.hasNext())</line>
+  <line number='647'>			{</line>
+  <line number='648'>				ProtectionGroupRoleContext protectionGroupRoleContext = (ProtectionGroupRoleContext)iterator.next();</line>
+  <line number='649'>				associatedProtectionGroups.add(protectionGroupRoleContext.getProtectionGroup());</line>
+  <line number='650'>			}</line>
+  <line number='651'>		}</line>
+  <line number='689'>		userProvisioningManager.assignUserRoleToProtectionGroup(this.userId,this.roleAssociatedIds,this.protectionGroupAssociatedId);</line>
+  <line number='690'>	}</line>
+  <line number='691'>	/* (non-Javadoc)</line>
+  <line number='692'>	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildGroupAssociationObject(javax.servlet.http.HttpServletRequest)</line>
+  <line number='693'>	 */</line>
+  <line number='694'>	public Collection buildProtectionGroupAssociationObject(HttpServletRequest request) throws Exception {</line>
+  <line number='695'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='696'></line>
+  <line number='697'>		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForUser(this.userId);</line>
+  <line number='698'>		Collection associatedProtectionGroupRoleContexts = (Collection)new HashSet();</line>
+  <line number='699'>		</line>
+  <line number='700'>		if (protectionGroupRoleContextList != null &amp;&amp; !(protectionGroupRoleContextList.size() == 0))</line>
+  <line number='701'>		{</line>
+  <line number='702'>			associatedProtectionGroupRoleContexts = protectionGroupRoleContextList;</line>
+  <line number='703'>		}</line>
+  <line number='704'>		</line>
+  <line number='705'>		return associatedProtectionGroupRoleContexts;</line>
+  <line number='706'>	}</line>
+  <line number='707'>	/* (non-Javadoc)</line>
+  <line number='708'>	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildRoleAssociationObject(javax.servlet.http.HttpServletRequest)</line>
+  <type type='checkstyle' number='3' suppressed='0'/>
+  <type type='simian' number='15' suppressed='0'/>
+</file>

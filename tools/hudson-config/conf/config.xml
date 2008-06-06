@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <numExecutors>2</numExecutors>
+  <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>
+  <securityRealm class="hudson.security.SecurityRealm$None"/>
+  <jdks>
+    <jdk>
+      <name>jdk1.5.0_06</name>
+      <javaHome>/usr/jdk1.5.0_06/</javaHome>
+    </jdk>
+  </jdks>
+  <slaves/>
+  <quietPeriod>5</quietPeriod>
+  <slaveAgentPort>0</slaveAgentPort>
+  <secretKey>3cd34cb81438098ad84db2c2ed8607f40238128705c3f8fd1065730a722354be</secretKey>
+</hudson>

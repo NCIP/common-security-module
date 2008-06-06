@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java"
+>
+  <violation
+    line="134"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ActionError, ActionErrors, ActionMessage, ActionMessages, ArrayList, File, FileOutputStream, FormFile]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ActionError, ActionErrors, ActionMessage, ActionMessages, ArrayList, File, FileOutputStream, FormFile]."
+  />
+  <violation
+    line="134"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 26 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 26 (max allowed is 20)."
+  />
+  <violation
+    line="300"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 28 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 28 (max allowed is 10)."
+  />
+  <violation
+    line="300"
+    source="NPathComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="NPath Complexity is 3,168 (max allowed is 200)."
+    severity-level="1"
+    popup-message="NPath Complexity is 3,168 (max allowed is 200)."
+  />
+  <violation
+    line="639"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 15 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 15 (max allowed is 10)."
+  />
+  <violation
+    line="138"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 25 lines from &lt;a href='../CommonDBAction.java#line128'&gt;line 128 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 25 lines from line 128 in CommonDBAction.java."
+  />
+  <violation
+    line="140"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line641'&gt;line 641&lt;/a&gt;, &lt;a href='#line604'&gt;line 604&lt;/a&gt;, &lt;a href='#line555'&gt;line 555&lt;/a&gt;, &lt;a href='#line510'&gt;line 510&lt;/a&gt;, &lt;a href='#line461'&gt;line 461&lt;/a&gt;, &lt;a href='#line264'&gt;line 264&lt;/a&gt;, &lt;a href='#line238'&gt;line 238&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641, line 604, line 555, line 510, line 461, line 264, line 238, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <violation
+    line="168"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line302'&gt;line 302&lt;/a&gt; and &lt;a href='#line198'&gt;line 198&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 302 and line 198."
+  />
+  <violation
+    line="198"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line302'&gt;line 302&lt;/a&gt; and &lt;a href='#line168'&gt;line 168&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 302 and line 168."
+  />
+  <violation
+    line="233"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 61 lines from &lt;a href='../CommonDBAction.java#line179'&gt;line 179 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 61 lines from line 179 in CommonDBAction.java."
+  />
+  <violation
+    line="238"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line641'&gt;line 641&lt;/a&gt;, &lt;a href='#line604'&gt;line 604&lt;/a&gt;, &lt;a href='#line555'&gt;line 555&lt;/a&gt;, &lt;a href='#line510'&gt;line 510&lt;/a&gt;, &lt;a href='#line461'&gt;line 461&lt;/a&gt;, &lt;a href='#line264'&gt;line 264&lt;/a&gt;, &lt;a href='#line140'&gt;line 140&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641, line 604, line 555, line 510, line 461, line 264, line 140, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <violation
+    line="264"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line641'&gt;line 641&lt;/a&gt;, &lt;a href='#line604'&gt;line 604&lt;/a&gt;, &lt;a href='#line555'&gt;line 555&lt;/a&gt;, &lt;a href='#line510'&gt;line 510&lt;/a&gt;, &lt;a href='#line461'&gt;line 461&lt;/a&gt;, &lt;a href='#line238'&gt;line 238&lt;/a&gt;, &lt;a href='#line140'&gt;line 140&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641, line 604, line 555, line 510, line 461, line 238, line 140, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <violation
+    line="264"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 250 in CommonDBAction.java and line 210 in CommonDBAction.java."
+  />
+  <violation
+    line="280"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='../CommonDBAction.java#line265'&gt;line 265 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line228'&gt;line 228 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 265 in CommonDBAction.java and line 228 in CommonDBAction.java."
+  />
+  <violation
+    line="302"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line198'&gt;line 198&lt;/a&gt; and &lt;a href='#line168'&gt;line 168&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 198 and line 168."
+  />
+  <violation
+    line="459"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 242 lines from &lt;a href='../CommonDBAction.java#line283'&gt;line 283 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 242 lines from line 283 in CommonDBAction.java."
+  />
+  <violation
+    line="461"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line641'&gt;line 641&lt;/a&gt;, &lt;a href='#line604'&gt;line 604&lt;/a&gt;, &lt;a href='#line555'&gt;line 555&lt;/a&gt;, &lt;a href='#line510'&gt;line 510&lt;/a&gt;, &lt;a href='#line264'&gt;line 264&lt;/a&gt;, &lt;a href='#line238'&gt;line 238&lt;/a&gt;, &lt;a href='#line140'&gt;line 140&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641, line 604, line 555, line 510, line 264, line 238, line 140, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <violation
+    line="470"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='../CommonDBAction.java#line538'&gt;line 538 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line388'&gt;line 388 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line294'&gt;line 294 in CommonDBAction.java&lt;/a&gt; and &lt;a href='#line564'&gt;line 564&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 538 in CommonDBAction.java, line 388 in CommonDBAction.java, line 294 in CommonDBAction.java and line 564."
+  />
+  <violation
+    line="488"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line620'&gt;line 620&lt;/a&gt;, &lt;a href='#line582'&gt;line 582&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line560'&gt;line 560 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line444'&gt;line 444 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line406'&gt;line 406 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line312'&gt;line 312 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 620, line 582, line 560 in CommonDBAction.java, line 444 in CommonDBAction.java, line 406 in CommonDBAction.java and line 312 in CommonDBAction.java."
+  />
+  <violation
+    line="510"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line641'&gt;line 641&lt;/a&gt;, &lt;a href='#line604'&gt;line 604&lt;/a&gt;, &lt;a href='#line555'&gt;line 555&lt;/a&gt;, &lt;a href='#line461'&gt;line 461&lt;/a&gt;, &lt;a href='#line264'&gt;line 264&lt;/a&gt;, &lt;a href='#line238'&gt;line 238&lt;/a&gt;, &lt;a href='#line140'&gt;line 140&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641, line 604, line 555, line 461, line 264, line 238, line 140, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <violation
+    line="555"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line641'&gt;line 641&lt;/a&gt;, &lt;a href='#line604'&gt;line 604&lt;/a&gt;, &lt;a href='#line510'&gt;line 510&lt;/a&gt;, &lt;a href='#line461'&gt;line 461&lt;/a&gt;, &lt;a href='#line264'&gt;line 264&lt;/a&gt;, &lt;a href='#line238'&gt;line 238&lt;/a&gt;, &lt;a href='#line140'&gt;line 140&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641, line 604, line 510, line 461, line 264, line 238, line 140, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <violation
+    line="564"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='../CommonDBAction.java#line538'&gt;line 538 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line388'&gt;line 388 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line294'&gt;line 294 in CommonDBAction.java&lt;/a&gt; and &lt;a href='#line470'&gt;line 470&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 538 in CommonDBAction.java, line 388 in CommonDBAction.java, line 294 in CommonDBAction.java and line 470."
+  />
+  <violation
+    line="582"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line620'&gt;line 620&lt;/a&gt;, &lt;a href='#line488'&gt;line 488&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line560'&gt;line 560 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line444'&gt;line 444 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line406'&gt;line 406 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line312'&gt;line 312 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 620, line 488, line 560 in CommonDBAction.java, line 444 in CommonDBAction.java, line 406 in CommonDBAction.java and line 312 in CommonDBAction.java."
+  />
+  <violation
+    line="604"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line641'&gt;line 641&lt;/a&gt;, &lt;a href='#line555'&gt;line 555&lt;/a&gt;, &lt;a href='#line510'&gt;line 510&lt;/a&gt;, &lt;a href='#line461'&gt;line 461&lt;/a&gt;, &lt;a href='#line264'&gt;line 264&lt;/a&gt;, &lt;a href='#line238'&gt;line 238&lt;/a&gt;, &lt;a href='#line140'&gt;line 140&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 641, line 555, line 510, line 461, line 264, line 238, line 140, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <violation
+    line="620"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line582'&gt;line 582&lt;/a&gt;, &lt;a href='#line488'&gt;line 488&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line560'&gt;line 560 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line444'&gt;line 444 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line406'&gt;line 406 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line312'&gt;line 312 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 582, line 488, line 560 in CommonDBAction.java, line 444 in CommonDBAction.java, line 406 in CommonDBAction.java and line 312 in CommonDBAction.java."
+  />
+  <violation
+    line="641"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line604'&gt;line 604&lt;/a&gt;, &lt;a href='#line555'&gt;line 555&lt;/a&gt;, &lt;a href='#line510'&gt;line 510&lt;/a&gt;, &lt;a href='#line461'&gt;line 461&lt;/a&gt;, &lt;a href='#line264'&gt;line 264&lt;/a&gt;, &lt;a href='#line238'&gt;line 238&lt;/a&gt;, &lt;a href='#line140'&gt;line 140&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line529'&gt;line 529 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line465'&gt;line 465 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line428'&gt;line 428 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line379'&gt;line 379 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line334'&gt;line 334 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line285'&gt;line 285 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line250'&gt;line 250 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line210'&gt;line 210 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line184'&gt;line 184 in CommonDBAction.java&lt;/a&gt;, &lt;a href='../CommonDBAction.java#line156'&gt;line 156 in CommonDBAction.java&lt;/a&gt; and &lt;a href='../CommonDBAction.java#line130'&gt;line 130 in CommonDBAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 604, line 555, line 510, line 461, line 264, line 238, line 140, line 529 in CommonDBAction.java, line 465 in CommonDBAction.java, line 428 in CommonDBAction.java, line 379 in CommonDBAction.java, line 334 in CommonDBAction.java, line 285 in CommonDBAction.java, line 250 in CommonDBAction.java, line 210 in CommonDBAction.java, line 184 in CommonDBAction.java, line 156 in CommonDBAction.java and line 130 in CommonDBAction.java."
+  />
+  <line number='125'>import org.apache.struts.upload.FormFile;</line>
+  <line number='126'>import org.hibernate.Session;</line>
+  <line number='127'>import org.hibernate.SessionFactory;</line>
+  <line number='128'></line>
+  <line number='129'>/**</line>
+  <line number='130'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='131'> *</line>
+  <line number='132'> * </line>
+  <line number='133'> */</line>
+  <line number='134'>public class InstanceLevelAction extends DispatchAction</line>
+  <line number='135'>{</line>
+  <line number='136'>	private static final Logger logDB = Logger.getLogger(InstanceLevelAction.class);</line>
+  <line number='137'>	</line>
+  <line number='138'>	public ActionForward loadHome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='139'>	{</line>
+  <line number='140'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='141'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='142'>		</line>
+  <line number='143'>		HttpSession session = request.getSession();</line>
+  <line number='144'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='145'>		</line>
+  <line number='146'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='147'>			if (logDB.isDebugEnabled())</line>
+  <line number='148'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadHome|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='149'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='150'>		}</line>
+  <line number='159'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='160'>					"|"+baseDBForm.getFormName()+"|loadHome|Success|Load the Home Page||");</line>
+  <line number='161'>		</line>
+  <line number='162'>		return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));	</line>
+  <line number='163'>	}</line>
+  <line number='164'>	</line>
+  <line number='165'>	</line>
+  <line number='166'>	public ActionForward loadUpload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='167'>	{</line>
+  <line number='168'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='169'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='170'>		</line>
+  <line number='171'>		HttpSession session = request.getSession();</line>
+  <line number='172'>		</line>
+  <line number='173'>		InstanceLevelForm instanceLevelForm = (InstanceLevelForm)form;</line>
+  <line number='174'>		</line>
+  <line number='175'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='176'>			if (logDB.isDebugEnabled())</line>
+  <line number='177'>				logDB.debug("||"+instanceLevelForm.getFormName()+"|loadUpload|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='178'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='189'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='190'>					"|"+instanceLevelForm.getFormName()+"|loadUpload|Success|Loading the Upload Page||");</line>
+  <line number='191'>		</line>
+  <line number='192'>		return (mapping.findForward(ForwardConstants.LOAD_UPLOAD_SUCCESS));</line>
+  <line number='193'>	}</line>
+  <line number='194'>	</line>
+  <line number='195'>	</line>
+  <line number='196'>	public ActionForward loadAdd(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='197'>	{</line>
+  <line number='198'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='199'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='200'>		</line>
+  <line number='201'>		HttpSession session = request.getSession();</line>
+  <line number='202'>		InstanceLevelForm instanceLevelForm = (InstanceLevelForm)form;</line>
+  <line number='203'>		</line>
+  <line number='204'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='205'>			if (logDB.isDebugEnabled())</line>
+  <line number='206'>				logDB.debug("||"+instanceLevelForm.getFormName()+"|loadAdd|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='207'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='208'>		}</line>
+  <line number='224'>		session.setAttribute(DisplayConstants.CURRENT_ACTION, DisplayConstants.ADD);</line>
+  <line number='225'>		session.setAttribute(DisplayConstants.CURRENT_FORM, instanceLevelForm);</line>
+  <line number='226'>		session.removeAttribute(DisplayConstants.SEARCH_RESULT);</line>
+  <line number='227'>		session.setAttribute(DisplayConstants.CREATE_WORKFLOW,DisplayConstants.CREATE_WORKFLOW);</line>
+  <line number='228'>		</line>
+  <line number='229'>		if (logDB.isDebugEnabled())</line>
+  <line number='230'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='231'>					"|"+instanceLevelForm.getFormName()+"|loadAdd|Success|Loading the Upload Page||");</line>
+  <line number='232'>		</line>
+  <line number='233'>		return (mapping.findForward(ForwardConstants.LOAD_ADD_SUCCESS));</line>
+  <line number='234'>	}</line>
+  <line number='235'>	</line>
+  <line number='236'>	public ActionForward loadSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='237'>	{</line>
+  <line number='238'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='239'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='240'>		</line>
+  <line number='241'>		HttpSession session = request.getSession();</line>
+  <line number='242'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='243'>		</line>
+  <line number='244'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='245'>			if (logDB.isDebugEnabled())</line>
+  <line number='246'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearch|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='247'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='248'>		}</line>
+  <line number='255'>		if (logDB.isDebugEnabled())</line>
+  <line number='256'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='257'>					"|"+baseDBForm.getFormName()+"|loadSearch|Success|Loading the Search Page||");</line>
+  <line number='258'>		</line>
+  <line number='259'>		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_SUCCESS));</line>
+  <line number='260'>	}</line>
+  <line number='261'>	</line>
+  <line number='262'>	public ActionForward loadSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='263'>	{</line>
+  <line number='264'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='265'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='266'>		</line>
+  <line number='267'>		HttpSession session = request.getSession();</line>
+  <line number='268'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='269'>		</line>
+  <line number='270'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='271'>			if (logDB.isDebugEnabled())</line>
+  <line number='272'>				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearchResult|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='273'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='274'>		}</line>
+  <line number='275'></line>
+  <line number='276'>		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){</line>
+  <line number='277'>			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);</line>
+  <line number='278'>			session.removeAttribute(DisplayConstants.SEARCH_RESULT);</line>
+  <line number='279'>			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);</line>
+  <line number='280'>			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));</line>
+  <line number='281'>		}else</line>
+  <line number='282'>		{</line>
+  <line number='283'>			if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null)</line>
+  <line number='284'>			{</line>
+  <line number='285'>				session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));</line>
+  <line number='286'>				session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);</line>
+  <line number='287'>			}</line>
+  <line number='288'>		}</line>
+  <line number='289'>		if (logDB.isDebugEnabled())</line>
+  <line number='290'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='291'>					"|"+baseDBForm.getFormName()+"|loadSearchResult|Success|Loading the Search Result Page||");		</line>
+  <line number='292'>		</line>
+  <line number='293'>		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));</line>
+  <line number='294'>	}</line>
+  <line number='295'>	</line>
+  <line number='296'>	/**</line>
+  <line number='297'>	* Added this method to handle pre-popup search results.</line>
+  <line number='298'>	*/</line>
+  <line number='299'></line>
+  <line number='300'>	public ActionForward upload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) //throws Exception</line>
+  <line number='301'>	{</line>
+  <line number='302'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='303'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='304'>		</line>
+  <line number='305'>		HttpSession session = request.getSession();</line>
+  <line number='306'>			</line>
+  <line number='307'>		InstanceLevelForm instanceLevelForm = (InstanceLevelForm)form;</line>
+  <line number='308'>		</line>
+  <line number='309'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='310'>			if (logDB.isDebugEnabled())</line>
+  <line number='311'>				logDB.debug("||"+instanceLevelForm.getFormName()+"|upload|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='312'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='450'>				"|"+instanceLevelForm.getFormName()+"|create|Success|Uploading the Jar &amp; Loading the Hibernate |"</line>
+  <line number='451'>				+form.toString()+"|");		</line>
+  <line number='452'>		return (mapping.findForward(ForwardConstants.UPLOAD_SUCCESS));</line>
+  <line number='453'>	}</line>
+  <line number='454'></line>
+  <line number='455'>	</line>
+  <line number='456'>	</line>
+  <line number='457'></line>
+  <line number='458'></line>
+  <line number='459'>	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='460'>	{</line>
+  <line number='461'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='462'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='463'>		</line>
+  <line number='464'>		HttpSession session = request.getSession();</line>
+  <line number='465'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='466'>		</line>
+  <line number='467'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='468'>			if (logDB.isDebugEnabled())</line>
+  <line number='469'>				logDB.debug("||"+baseDBForm.getFormName()+"|create|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='470'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='471'>		}</line>
+  <line number='472'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());		</line>
+  <line number='473'>		try</line>
+  <line number='474'>		{</line>
+  <line number='475'>			errors = form.validate(mapping, request);</line>
+  <line number='476'>			if(!errors.isEmpty()) </line>
+  <line number='477'>			{</line>
+  <line number='478'>				saveErrors(request,errors);</line>
+  <line number='479'>				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='480'>				if (logDB.isDebugEnabled())</line>
+  <line number='481'>					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='482'>						"|"+baseDBForm.getFormName()+"|create|Failure|Error validating the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='483'>						+form.toString()+"|");</line>
+  <line number='484'>				return mapping.getInputForward();</line>
+  <line number='485'>			}</line>
+  <line number='486'>			baseDBForm.buildDBObject(request);</line>
+  <line number='487'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Add Successful"));</line>
+  <line number='488'>			saveMessages( request, messages );</line>
+  <line number='489'>		}</line>
+  <line number='490'>		catch (CSException cse)</line>
+  <line number='491'>		{</line>
+  <line number='492'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));</line>
+  <line number='493'>			saveErrors( request,errors );</line>
+  <line number='494'>			if (logDB.isDebugEnabled())</line>
+  <line number='495'>				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='496'>					"|"+baseDBForm.getFormName()+"|create|Failure|Error Adding the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='497'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='498'>		}</line>
+  <line number='501'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='502'>				"|"+baseDBForm.getFormName()+"|create|Success|Adding a  new "+baseDBForm.getFormName()+" object|"</line>
+  <line number='503'>				+form.toString()+"|");		</line>
+  <line number='504'>		return (mapping.findForward(ForwardConstants.CREATE_SUCCESS));</line>
+  <line number='505'>	}</line>
+  <line number='506'></line>
+  <line number='507'>	</line>
+  <line number='508'>	public ActionForward read(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='509'>	{</line>
+  <line number='510'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='511'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='512'>		</line>
+  <line number='513'>		HttpSession session = request.getSession();</line>
+  <line number='514'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='515'>		</line>
+  <line number='516'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='517'>			if (logDB.isDebugEnabled())</line>
+  <line number='518'>				logDB.debug("||"+baseDBForm.getFormName()+"|read|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='519'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='520'>		}</line>
+  <line number='546'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='547'>				"|"+baseDBForm.getFormName()+"|read|Success|Success reading "+baseDBForm.getFormName()+" object|"</line>
+  <line number='548'>				+form.toString()+"|");</line>
+  <line number='549'>		return (mapping.findForward(ForwardConstants.READ_SUCCESS));</line>
+  <line number='550'></line>
+  <line number='551'>	}</line>
+  <line number='552'>	</line>
+  <line number='553'>	public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='554'>	{</line>
+  <line number='555'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='556'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='557'>		</line>
+  <line number='558'>		HttpSession session = request.getSession();</line>
+  <line number='559'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='560'>	</line>
+  <line number='561'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='562'>			if (logDB.isDebugEnabled())</line>
+  <line number='563'>				logDB.debug("||"+baseDBForm.getFormName()+"|update|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='564'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='565'>		}</line>
+  <line number='566'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());</line>
+  <line number='567'>		try</line>
+  <line number='568'>		{</line>
+  <line number='569'>			errors = form.validate(mapping, request);</line>
+  <line number='570'>			if(!errors.isEmpty())</line>
+  <line number='571'>			{</line>
+  <line number='572'>				saveErrors(request,errors);</line>
+  <line number='573'>				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='574'>				if (logDB.isDebugEnabled())</line>
+  <line number='575'>					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='576'>						"|"+baseDBForm.getFormName()+"|update|Failure|Error validating the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='577'>						+form.toString()+"|");</line>
+  <line number='578'>				return mapping.getInputForward();</line>
+  <line number='579'>			}</line>
+  <line number='580'>			baseDBForm.buildDBObject(request);</line>
+  <line number='581'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Update Successful"));</line>
+  <line number='582'>			saveMessages( request, messages );</line>
+  <line number='583'>		}</line>
+  <line number='584'>		catch (CSException cse)</line>
+  <line number='585'>		{</line>
+  <line number='586'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='587'>			saveErrors( request,errors );</line>
+  <line number='588'>			if (logDB.isDebugEnabled())</line>
+  <line number='589'>				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='590'>					"|"+baseDBForm.getFormName()+"|update|Failure|Error Updating the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='591'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='592'>		}</line>
+  <line number='595'>		if (logDB.isDebugEnabled())</line>
+  <line number='596'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='597'>				"|"+baseDBForm.getFormName()+"|update|Success|Updating existing "+baseDBForm.getFormName()+" object|"</line>
+  <line number='598'>				+form.toString()+"|");</line>
+  <line number='599'>		return (mapping.findForward(ForwardConstants.UPDATE_SUCCESS));</line>
+  <line number='600'>	}</line>
+  <line number='601'>	</line>
+  <line number='602'>	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='603'>	{</line>
+  <line number='604'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='605'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='606'>		</line>
+  <line number='607'>		HttpSession session = request.getSession();</line>
+  <line number='608'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='609'>		</line>
+  <line number='610'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='611'>			if (logDB.isDebugEnabled())</line>
+  <line number='612'>				logDB.debug("||"+baseDBForm.getFormName()+"|delete|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='613'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='614'>		}</line>
+  <line number='615'>		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());</line>
+  <line number='616'>		try</line>
+  <line number='617'>		{</line>
+  <line number='618'>			baseDBForm.removeDBObject(request);</line>
+  <line number='619'>			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Delete Successful"));</line>
+  <line number='620'>			saveMessages( request, messages );</line>
+  <line number='621'>		}</line>
+  <line number='622'>		catch (CSException cse)</line>
+  <line number='623'>		{</line>
+  <line number='624'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			</line>
+  <line number='625'>			saveErrors( request,errors );</line>
+  <line number='626'>			if (logDB.isDebugEnabled())</line>
+  <line number='627'>				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='628'>					"|"+baseDBForm.getFormName()+"|delete|Failure|Error Deleting the "+baseDBForm.getFormName()+" object|"</line>
+  <line number='629'>					+form.toString()+"|"+ cse.getMessage());</line>
+  <line number='630'>		}</line>
+  <line number='631'>		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);</line>
+  <line number='632'>		if (logDB.isDebugEnabled())</line>
+  <line number='633'>			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+</line>
+  <line number='634'>				"|"+baseDBForm.getFormName()+"|delete|Success|Success Deleting "+baseDBForm.getFormName()+" object|"</line>
+  <line number='635'>				+form.toString()+"|");</line>
+  <line number='636'>		return (mapping.findForward(ForwardConstants.DELETE_SUCCESS));</line>
+  <line number='637'>	}</line>
+  <line number='638'>	</line>
+  <line number='639'>	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception</line>
+  <line number='640'>	{</line>
+  <line number='641'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='642'>		ActionMessages messages = new ActionMessages();</line>
+  <line number='643'>		</line>
+  <line number='644'>		HttpSession session = request.getSession();</line>
+  <line number='645'>		BaseDBForm baseDBForm = (BaseDBForm)form;</line>
+  <line number='646'>		</line>
+  <line number='647'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='648'>			if (logDB.isDebugEnabled())</line>
+  <line number='649'>				logDB.debug("||"+baseDBForm.getFormName()+"|search|Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='650'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='651'>		}</line>
+  <type type='checkstyle' number='5' suppressed='0'/>
+  <type type='simian' number='21' suppressed='0'/>
+</file>

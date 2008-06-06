@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authentication/loginmodules/RDBMSLoginModule.java"
+  last-modified="1212512036000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authentication/loginmodules/RDBMSLoginModule.java"
+>
+  <violation
+    line="99"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.exceptions.CSConfigurationException."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.exceptions.CSConfigurationException."
+  />
+  <violation
+    line="100"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.exceptions.CSException."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.exceptions.CSException."
+  />
+  <line number='90'> *TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF</line>
+  <line number='91'> *THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</line>
+  <line number='92'> *</line>
+  <line number='93'> *&lt;!-- LICENSE_TEXT_END --&gt;</line>
+  <line number='94'> *</line>
+  <line number='95'> */</line>
+  <line number='96'></line>
+  <line number='97'></line>
+  <line number='98'>import gov.nih.nci.security.authentication.helper.RDBMSHelper;</line>
+  <line number='99'>import gov.nih.nci.security.exceptions.CSConfigurationException;</line>
+  <line number='100'>import gov.nih.nci.security.exceptions.CSException;</line>
+  <line number='101'>import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;</line>
+  <line number='102'>import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;</line>
+  <line number='103'></line>
+  <line number='104'>import java.util.Map;</line>
+  <line number='105'>import java.util.Hashtable;</line>
+  <line number='106'></line>
+  <line number='107'>import javax.security.auth.Subject;</line>
+  <line number='108'></line>
+  <line number='109'>/**</line>
+  <line number='110'> *</line>
+  <type type='checkstyle' number='2' suppressed='0'/>
+</file>

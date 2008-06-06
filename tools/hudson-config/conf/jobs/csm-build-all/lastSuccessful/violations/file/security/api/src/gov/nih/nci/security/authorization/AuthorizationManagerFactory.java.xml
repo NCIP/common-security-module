@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java"
+>
+  <violation
+    line="98"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.provisioning.AuthorizationManagerImpl."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.provisioning.AuthorizationManagerImpl."
+  />
+  <violation
+    line="152"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='#line285'&gt;line 285&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 285."
+  />
+  <violation
+    line="157"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 23 lines from &lt;a href='#line224'&gt;line 224&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 23 lines from line 224."
+  />
+  <violation
+    line="170"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line321'&gt;line 321&lt;/a&gt; and &lt;a href='#line237'&gt;line 237&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 321 and line 237."
+  />
+  <violation
+    line="224"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 23 lines from &lt;a href='#line157'&gt;line 157&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 23 lines from line 157."
+  />
+  <violation
+    line="237"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line321'&gt;line 321&lt;/a&gt; and &lt;a href='#line170'&gt;line 170&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 321 and line 170."
+  />
+  <violation
+    line="285"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='#line152'&gt;line 152&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 152."
+  />
+  <violation
+    line="321"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line237'&gt;line 237&lt;/a&gt; and &lt;a href='#line170'&gt;line 170&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 237 and line 170."
+  />
+  <line number='89'> */</line>
+  <line number='90'></line>
+  <line number='91'>import java.net.URL;</line>
+  <line number='92'></line>
+  <line number='93'>import gov.nih.nci.security.AuthorizationManager;</line>
+  <line number='94'>import gov.nih.nci.security.SecurityServiceProvider;</line>
+  <line number='95'>import gov.nih.nci.security.constants.Constants;</line>
+  <line number='96'>import gov.nih.nci.security.exceptions.CSConfigurationException;</line>
+  <line number='97'>import gov.nih.nci.security.exceptions.CSException;</line>
+  <line number='98'>import gov.nih.nci.security.provisioning.AuthorizationManagerImpl;</line>
+  <line number='99'>import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;</line>
+  <line number='100'>import gov.nih.nci.security.util.FileLoader;</line>
+  <line number='101'></line>
+  <line number='102'>import org.apache.log4j.Logger;</line>
+  <line number='103'></line>
+  <line number='104'></line>
+  <line number='105'></line>
+  <line number='106'></line>
+  <line number='107'>/**</line>
+  <line number='108'> * @version 1.0</line>
+  <line number='143'>	 * implementation or the default provided Authorization Manager</line>
+  <line number='144'>	 * @throws CSException If there are any errors in obtaining the correct instance of the {@link AuthorizationManager}</line>
+  <line number='145'>	 * @throws CSConfigurationException </line>
+  <line number='146'>	 */	</line>
+  <line number='147'></line>
+  <line number='148'>	public static AuthorizationManager getAuthorizationManager(String applicationContextName) throws CSException, CSConfigurationException{</line>
+  <line number='149'></line>
+  <line number='150'>		AuthorizationManager authorizationManager = null;</line>
+  <line number='151'>		String applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthorizationManagerClass(applicationContextName);</line>
+  <line number='152'>		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))</line>
+  <line number='153'>		{</line>
+  <line number='154'>			if (log.isDebugEnabled())</line>
+  <line number='155'>				log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Common Authorization Manager|");</line>
+  <line number='156'>			authorizationManager = (AuthorizationManager)SecurityServiceProvider.getUserProvisioningManager(applicationContextName);</line>
+  <line number='157'>			authorizationManager.initialize(applicationContextName);</line>
+  <line number='158'></line>
+  <line number='159'>		}</line>
+  <line number='160'>		else</line>
+  <line number='161'>		{</line>
+  <line number='162'>			try</line>
+  <line number='163'>			{</line>
+  <line number='164'>				authorizationManager = (AuthorizationManager)(Class.forName(applicationManagerClassName)).newInstance();</line>
+  <line number='165'>				authorizationManager.initialize(applicationContextName);</line>
+  <line number='166'></line>
+  <line number='167'>				if (log.isDebugEnabled())</line>
+  <line number='168'>					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Custom Authorization Manager "+applicationManagerClassName+"|" );</line>
+  <line number='169'>			}</line>
+  <line number='170'>			catch (Exception exception)</line>
+  <line number='171'>			{</line>
+  <line number='172'>				if (log.isDebugEnabled())</line>
+  <line number='173'>					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Failure| Error initializing Custom Authorization Manager "+applicationManagerClassName+"|" + exception.getMessage() );</line>
+  <line number='174'>				exception.printStackTrace();</line>
+  <line number='175'>				throw new CSConfigurationException("Error in loading the configured AuthorizationManager for the Application", exception);</line>
+  <line number='176'>			}</line>
+  <line number='177'>			</line>
+  <line number='178'>		}</line>
+  <line number='179'>		return authorizationManager;</line>
+  <line number='180'></line>
+  <line number='215'>	public static AuthorizationManager getAuthorizationManager(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSException, CSConfigurationException{</line>
+  <line number='216'></line>
+  <line number='217'>		AuthorizationManager authorizationManager = null;</line>
+  <line number='218'>		String applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthorizationManagerClass(applicationContextName);</line>
+  <line number='219'>		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))</line>
+  <line number='220'>		{</line>
+  <line number='221'>			if (log.isDebugEnabled())</line>
+  <line number='222'>				log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Common Authorization Manager|");</line>
+  <line number='223'>			authorizationManager = (AuthorizationManager)SecurityServiceProvider.getUserProvisioningManager(applicationContextName, userOrGroupName, isUserName);</line>
+  <line number='224'>			authorizationManager.initialize(applicationContextName);</line>
+  <line number='225'></line>
+  <line number='226'>		}</line>
+  <line number='227'>		else</line>
+  <line number='228'>		{</line>
+  <line number='229'>			try</line>
+  <line number='230'>			{</line>
+  <line number='231'>				authorizationManager = (AuthorizationManager)(Class.forName(applicationManagerClassName)).newInstance();</line>
+  <line number='232'>				authorizationManager.initialize(applicationContextName);</line>
+  <line number='233'></line>
+  <line number='234'>				if (log.isDebugEnabled())</line>
+  <line number='235'>					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Custom Authorization Manager "+applicationManagerClassName+"|" );</line>
+  <line number='236'>			}</line>
+  <line number='237'>			catch (Exception exception)</line>
+  <line number='238'>			{</line>
+  <line number='239'>				if (log.isDebugEnabled())</line>
+  <line number='240'>					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Failure| Error initializing Custom Authorization Manager "+applicationManagerClassName+"|" + exception.getMessage() );</line>
+  <line number='241'>				exception.printStackTrace();</line>
+  <line number='242'>				throw new CSConfigurationException("Error in loading the configured AuthorizationManager for the Application", exception);</line>
+  <line number='243'>			}</line>
+  <line number='244'>			</line>
+  <line number='245'>		}</line>
+  <line number='246'>		return authorizationManager;</line>
+  <line number='247'></line>
+  <line number='276'>	 * implementation or the default provided Authorization Manager</line>
+  <line number='277'>	 * @throws CSException If there are any errors in obtaining the correct instance of the {@link AuthorizationManager}</line>
+  <line number='278'>	 * @throws CSConfigurationException </line>
+  <line number='279'>	 */	</line>
+  <line number='280'></line>
+  <line number='281'>	public static AuthorizationManager getAuthorizationManager(String applicationContextName, URL url) throws CSException, CSConfigurationException{</line>
+  <line number='282'></line>
+  <line number='283'>		AuthorizationManager authorizationManager = null;</line>
+  <line number='284'>		String applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthorizationManagerClass(applicationContextName, url);</line>
+  <line number='285'>		if (null == applicationManagerClassName || applicationManagerClassName.equals(""))</line>
+  <line number='286'>		{</line>
+  <line number='287'>			if (log.isDebugEnabled())</line>
+  <line number='288'>				log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Common Authorization Manager|");</line>
+  <line number='289'>			authorizationManager = (AuthorizationManager)SecurityServiceProvider.getUserProvisioningManager(applicationContextName);</line>
+  <line number='290'>			authorizationManager.initialize(applicationContextName);</line>
+  <line number='291'></line>
+  <line number='292'>		}</line>
+  <line number='293'>		else</line>
+  <line number='294'>		{</line>
+  <line number='295'>			try</line>
+  <line number='312'>				}</line>
+  <line number='313'>				else</line>
+  <line number='314'>				{</line>
+  <line number='315'>					if (log.isDebugEnabled())</line>
+  <line number='316'>						log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Success|Initializing Custom Authorization Manager with Hibernate File"+applicationManagerClassName+"|" );</line>
+  <line number='317'>					authorizationManager.initialize(applicationContextName);</line>
+  <line number='318'>				}</line>
+  <line number='319'>				return authorizationManager;</line>
+  <line number='320'>			}</line>
+  <line number='321'>			catch (Exception exception)</line>
+  <line number='322'>			{</line>
+  <line number='323'>				if (log.isDebugEnabled())</line>
+  <line number='324'>					log.debug("Authorization|"+applicationContextName+"||getAuthorizationManager|Failure| Error initializing Custom Authorization Manager "+applicationManagerClassName+"|" + exception.getMessage() );</line>
+  <line number='325'>				exception.printStackTrace();</line>
+  <line number='326'>				throw new CSConfigurationException("Error in loading the configured AuthorizationManager for the Application", exception);</line>
+  <line number='327'>			}</line>
+  <line number='328'>			</line>
+  <line number='329'>		}</line>
+  <line number='330'>		return authorizationManager;</line>
+  <line number='331'></line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='7' suppressed='0'/>
+</file>

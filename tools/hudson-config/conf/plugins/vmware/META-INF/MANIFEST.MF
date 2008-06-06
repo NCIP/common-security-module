@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: connollys
+Build-Jdk: 1.6.0_04
+Extension-Name: vmware
+Implementation-Title: vmware
+Implementation-Version: 0.7
+Plugin-Class: hudson.plugins.vmware.PluginImpl
+Long-Name: Hudson VMware plugin
+Plugin-Version: 0.7
+Hudson-Version: null
+

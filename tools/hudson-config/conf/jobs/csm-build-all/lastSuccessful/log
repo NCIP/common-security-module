@@ -1,0 +1,507 @@
+started
+Updating https://gforge.nci.nih.gov/svnroot/security/trunk/software
+U         common/ivysettings.xml
+U         api/build.xml
+At revision 2577
+[security] $ /usr/local/ant-1.7.0/bin/ant -Dci.server=true build:all static-analysis
+Buildfile: build.xml
+
+init:
+
+download-ivy:
+
+download-ivy-settings:
+
+download-ivy-bda:
+
+retrieve-bda:
+[ivy:settings] :: Ivy 2.0.0-beta2 - 20080225093827 :: http://ant.apache.org/ivy/ ::
+[ivy:settings] :: loading settings :: file = /home/csmuser/hudson/jobs/csm-build-all/workspace/security/ivy-bda-settings.xml
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-download;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [runtime]
+[ivy:resolve] 	found ncicb#bda-utils;0.2 in ncicb-ivy-repo
+[ivy:resolve] 	found javax.activation#activation;1.0.2 in ncicb-ivy-repo
+[ivy:resolve] 	found apache#antunit;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found apache#ant-contrib;1.0b3 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#bcel;5.1 in ncicb-ivy-repo
+[ivy:resolve] 	found ncicb#clm;3.2 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-httpclient;3.0.1 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-logging;1.0.4 in ncicb-ivy-repo
+[ivy:resolve] 	found dbconfig#dbconfig;0.1.8 in ncicb-ivy-repo
+[ivy:resolve] 	found apache#ivy;1.3.1 in ncicb-ivy-repo
+[ivy:resolve] 	found jaxen#jaxen-core;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found jaxen#jaxen-jdom;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found jaxen#saxpath;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found oracle#ojdbc14;10.2.0.3.0 in ncicb-ivy-repo
+[ivy:resolve] 	found mysql#mysql-connector-java;5.0.5 in ncicb-ivy-repo
+[ivy:resolve] 	found org.jdom#jdom;1.1 in ncicb-ivy-repo
+[ivy:resolve] 	found javax.mail#mail;1.3 in ncicb-ivy-repo
+[ivy:resolve] 	found jcraft#jsch;0.1.34 in ncicb-ivy-repo
+[ivy:resolve] 	found org.tigris#antelope_app;3.4.1 in ncicb-ivy-repo
+[ivy:resolve] 	found org.tigris#AntelopeApp;3.4.1 in ncicb-ivy-repo
+[ivy:resolve] 	found org.tigris#svnant;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found org.tigris#svnClientAdapter;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found org.tigris#svnjavahl;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found xmlconfig#xmlconfig;0.1.9 in ncicb-ivy-repo
+[ivy:resolve] 	found ncicb#propertyvalidator;0.1.5 in ncicb-ivy-repo
+[ivy:resolve] 	found redhillconsulting#simian;2.2.24 in ncicb-ivy-repo
+[ivy:resolve] 	found ggtools#grand;1.8 in ncicb-ivy-repo
+[ivy:resolve] 	found umlgraph#umlgraph;5.0 in ncicb-ivy-repo
+[ivy:resolve] 	found schemaspy#schemaspy;3.1.1 in ncicb-ivy-repo
+[ivy:resolve] 	found pmd#pmd;4.2.1 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm;3.1 in ncicb-ivy-repo
+[ivy:resolve] 	found jaxen#jaxen;1.1.1 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 1228ms :: artifacts dl 59ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      runtime     |   32  |   32  |   0   |   0   ||   33  |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-download
+[ivy:retrieve] 	confs: [runtime]
+[ivy:retrieve] 	0 artifacts copied, 33 already retrieved (0kB/40ms)
+    [unzip] Expanding: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/bda-utils/bda-build-utils-0.1.zip into /home/csmuser/hudson/jobs/csm-build-all/workspace/security/bda-utils
+    [unzip] Expanding: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/bda-utils/bda-build-utils-0.2.zip into /home/csmuser/hudson/jobs/csm-build-all/workspace/security/bda-utils
+
+clean:
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/dist
+
+init:
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/dist
+
+build:csm:
+
+ivy-clean-cache:
+
+-pre-clean:
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/classes
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/lib/api
+
+-init:
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/classes
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/local-ivy-repo/csm-api
+
+ivy-settings:
+[ivy:settings] :: Ivy 2.0.0-beta2 - 20080225093827 :: http://ant.apache.org/ivy/ ::
+[ivy:settings] :: loading settings :: file = /home/csmuser/hudson/jobs/csm-build-all/workspace/security/common/ivysettings.xml
+[ivy:settings] DEPRECATED: 'defaultCache' is deprecated, use 'caches[@defaultCacheDir]' instead (file:/home/csmuser/hudson/jobs/csm-build-all/workspace/security/common/ivysettings.xml)
+
+ivy-compile:
+[ivy:resolve] :: resolving dependencies :: ncicb#api;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [compile]
+[ivy:resolve] 	found springsource#acegi-security;1.0.3 in ncicb-ivy-repo
+[ivy:resolve] 	found springsource#spring;1.2.8 in ncicb-ivy-repo
+[ivy:resolve] 	found apache#log4j;1.2.9 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-lang;1.0.1 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-logging;1.0.4 in ncicb-ivy-repo
+[ivy:resolve] 	found org.jdom#jdom;1.1 in ncicb-ivy-repo
+[ivy:resolve] 	found org.hibernate#hibernate;3.2.0.ga in ncicb-ivy-repo
+[ivy:resolve] 	found org.hibernate#hibernate-annotations;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found org.hibernate#ejb3-persistence;1.0.1 in ncicb-ivy-repo
+[ivy:resolve] 	found ehcache#ehcache;1.2.4 in ncicb-ivy-repo
+[ivy:resolve] 	found ncicb#clm;4.0 in ncicb-ivy-repo
+[ivy:resolve] 	found junit#junit;3.8.1 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 331ms :: artifacts dl 10ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|      compile     |   12  |   0   |   0   |   0   ||   12  |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#api
+[ivy:retrieve] 	confs: [compile]
+[ivy:retrieve] 	12 artifacts copied, 0 already retrieved (5846kB/33ms)
+
+compile:
+    [javac] Compiling 151 source files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/classes
+    [javac] /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/ObjectUpdater.java:40: warning: non-varargs call of varargs method with inexact argument type for last parameter;
+    [javac] cast to java.lang.Class for a varargs call
+    [javac] cast to java.lang.Class[] for a non-varargs call and to suppress this warning
+    [javac] 			Method getterMethod= myClassObject.getClass().getMethod(desiredGetterMethodName, null);
+    [javac]                                                                                                          ^
+    [javac] /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/util/ObjectUpdater.java:41: warning: non-varargs call of varargs method with inexact argument type for last parameter;
+    [javac] cast to java.lang.Object for a varargs call
+    [javac] cast to java.lang.Object[] for a non-varargs call and to suppress this warning
+    [javac] 			String toTrimStringValue = (String)getterMethod.invoke(myClassObject, null);
+    [javac]                                                                                               ^
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+    [javac] 2 warnings
+     [copy] Copying 10 files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/classes/gov/nih/nci/security/authorization/domainobjects
+     [copy] Copying 3 files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/classes/gov/nih/nci/security/dao/hibernate
+     [copy] Copying 1 file to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/classes
+     [copy] Copying 1 file to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/classes
+
+dist:
+      [jar] Building jar: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/dist/csmapi.jar
+     [copy] Copying 1 file to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/dist
+   [delete] Deleting: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/dist/ObjectStateLoggerConfig.xml
+
+build:upt:
+
+init:
+
+clean:
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/upt
+
+prepareDir:
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/tld
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/conf
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/lib
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/META-INF
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/upt
+
+prepareBuild:
+     [copy] Copying 196 files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build
+     [copy] Copied 18 empty directories to 1 empty directory under /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build
+   [delete] Deleting: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/lib/commons-logging-1.0.4.jar
+   [delete] Deleting: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/lib/log4j-1.2.9.jar
+   [delete] Deleting: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/lib/jta.jar
+   [delete] Deleting: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/lib/clm.jar
+
+prepare:
+
+compile:
+    [javac] Compiling 37 source files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/classes
+    [javac] /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java:130: warning: [deprecation] getInstance(java.lang.Class) in org.apache.log4j.Category has been deprecated
+    [javac] 	private static final Category logDoubleAssociation = Category.getInstance(CommonDoubleAssociationAction.class);	
+    [javac]                                                                      ^
+    [javac] /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java:216: warning: [deprecation] readLine() in java.io.DataInputStream has been deprecated
+    [javac] 				String line = dataInputStream.readLine();
+    [javac]                                                              ^
+    [javac] /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java:504: warning: [deprecation] readLine() in java.io.DataInputStream has been deprecated
+    [javac] 				String line = dataInputStream.readLine();
+    [javac]                                                              ^
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+    [javac] 3 warnings
+     [copy] Copying 2 files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build/WEB-INF/classes
+
+dist:
+     [copy] Copying 7 files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/upt
+      [jar] Building jar: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/upt/upt.war
+     [copy] Copying 1 file to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/upt
+
+cleanup:
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/build
+
+all:
+
+build:securityws:
+
+init:
+
+clean:
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/securityws
+
+prepareDir:
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build/WEB-INF
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build/WEB-INF/lib
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build/META-INF
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build/WEB-INF/classes
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/securityws
+
+prepareBuild:
+     [copy] Copying 51 files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build
+
+prepare:
+
+compile:
+    [javac] Compiling 21 source files to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build/WEB-INF/classes
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+     [copy] Copying 1 file to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build/WEB-INF/classes
+
+dist:
+      [jar] Building jar: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/target/securityws/securityws.war
+
+cleanup:
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/build
+
+all:
+
+build:all:
+
+ivy-settings:
+[ivy:settings] :: Ivy 2.0.0-beta2 - 20080225093827 :: http://ant.apache.org/ivy/ ::
+[ivy:settings] :: loading settings :: file = /home/csmuser/hudson/jobs/csm-build-all/workspace/security/ivy-bda-settings.xml
+
+ivy-test-selenium:
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-testing;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [test-selenium]
+[ivy:resolve] 	found openqa#selenium;0.9.0 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 69ms :: artifacts dl 6ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|   test-selenium  |   1   |   0   |   0   |   0   ||   3   |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-testing
+[ivy:retrieve] 	confs: [test-selenium]
+[ivy:retrieve] 	0 artifacts copied, 3 already retrieved (0kB/8ms)
+
+ivy-test-junit:
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-testing;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [test-junit]
+[ivy:resolve] 	found junit#junit;4.3.1 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 27ms :: artifacts dl 1ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|    test-junit    |   1   |   0   |   0   |   0   ||   1   |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-testing
+[ivy:retrieve] 	confs: [test-junit]
+[ivy:retrieve] 	0 artifacts copied, 1 already retrieved (0kB/6ms)
+
+ivy-test-cobertura:
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-testing;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [test-cobertura]
+[ivy:resolve] 	found cobertura#cobertura;1.9 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm;2.2.1 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm-tree;2.2.1 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#oro;2.0.8 in ncicb-ivy-repo
+[ivy:resolve] 	found apache#log4j;1.2.9 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 53ms :: artifacts dl 3ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|  test-cobertura  |   5   |   0   |   0   |   0   ||   5   |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-testing
+[ivy:retrieve] 	confs: [test-cobertura]
+[ivy:retrieve] 	0 artifacts copied, 5 already retrieved (0kB/3ms)
+
+ivy-test-javancss:
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-testing;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [test-javancss]
+[ivy:resolve] 	found javancss#javancss;29.50 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 18ms :: artifacts dl 0ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|   test-javancss  |   1   |   0   |   0   |   0   ||   2   |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-testing
+[ivy:retrieve] 	confs: [test-javancss]
+[ivy:retrieve] 	0 artifacts copied, 2 already retrieved (0kB/1ms)
+
+ivy-test-checkstyle:
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-testing;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [test-checkstyle]
+[ivy:resolve] 	found checkstyle#checkstyle;4.4 in ncicb-ivy-repo
+[ivy:resolve] 	found org.antlr#antlr;2.7.6 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-beanutils-core;1.7.0 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-cli;1.0 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-collections;2.1 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#commons-logging;1.0.3 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 77ms :: artifacts dl 5ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|  test-checkstyle |   6   |   0   |   0   |   0   ||   7   |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-testing
+[ivy:retrieve] 	confs: [test-checkstyle]
+[ivy:retrieve] 	0 artifacts copied, 7 already retrieved (0kB/2ms)
+
+ivy-test-findbugs:
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-testing;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [test-findbugs]
+[ivy:resolve] 	found umd#findbugs;1.3.4 in ncicb-ivy-repo
+[ivy:resolve] 	found umd#annotations;1.3.4 in ncicb-ivy-repo
+[ivy:resolve] 	found umd#jsr;3.0.5 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm;3.0 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm-analysis;3.0 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm-commons;3.0 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm-tree;3.0 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm-util;3.0 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm-xml;3.0 in ncicb-ivy-repo
+[ivy:resolve] 	found dom4j#dom4j;1.6.1 in ncicb-ivy-repo
+[ivy:resolve] 	found apache#xml-apis;1.0.b2 in ncicb-ivy-repo
+[ivy:resolve] 	found jakarta#bcel;5.1 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 128ms :: artifacts dl 4ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|   test-findbugs  |   12  |   0   |   0   |   0   ||   11  |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-testing
+[ivy:retrieve] 	confs: [test-findbugs]
+[ivy:retrieve] 	0 artifacts copied, 11 already retrieved (0kB/4ms)
+
+ivy-test-pmd:
+[ivy:resolve] :: resolving dependencies :: ncicb#bda-testing;working@cbvapp-c1002.nci.nih.gov
+[ivy:resolve] 	confs: [test-pmd]
+[ivy:resolve] 	found pmd#pmd;4.2.1 in ncicb-ivy-repo
+[ivy:resolve] 	found objectweb#asm;3.1 in ncicb-ivy-repo
+[ivy:resolve] 	found jaxen#jaxen;1.1.1 in ncicb-ivy-repo
+[ivy:resolve] 	found junit#junit;4.4 in ncicb-ivy-repo
+[ivy:resolve] :: resolution report :: resolve 75ms :: artifacts dl 6ms
+	---------------------------------------------------------------------
+	|                  |            modules            ||   artifacts   |
+	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+	---------------------------------------------------------------------
+	|     test-pmd     |   4   |   0   |   0   |   0   ||   4   |   0   |
+	---------------------------------------------------------------------
+[ivy:retrieve] :: retrieving :: ncicb#bda-testing
+[ivy:retrieve] 	confs: [test-pmd]
+[ivy:retrieve] 	0 artifacts copied, 4 already retrieved (0kB/2ms)
+
+ivy-init:
+
+static-analysis:init:
+     [echo] ci: true
+   [delete] Deleting directory /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/simian
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/pmd
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/checkstyle
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/javancss
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/cobertura
+    [mkdir] Created dir: /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/findbugs
+
+static-analysis:simian:
+     [xslt] Processing /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/simian/simian-log.xml to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/simian/simian-log.html
+     [xslt] Loading stylesheet /home/csmuser/hudson/jobs/csm-build-all/workspace/security/common/simian/simian.xsl
+
+static-analysis:pmd:
+      [pmd] Processing /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/pmd/pmd_out_build-csm-upt.xml to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/pmd/pmd_report_build-csm-upt.html
+      [pmd] Loading stylesheet /home/csmuser/hudson/jobs/csm-build-all/workspace/security/common/pmd/pmd-report.xslt
+
+static-analysis:checkstyle:
+[cs:checkstyle] Running Checkstyle 4.4 on 159 files
+[checkstyle] Processing /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/checkstyle/checkstyle_build-csm-upt.xml to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/checkstyle/checkstyle_report_build-csm-upt.html
+[checkstyle] Loading stylesheet /home/csmuser/hudson/jobs/csm-build-all/workspace/security/common/checkstyle/checkstyle-simple.xsl
+
+static-analysis:java-ncss:
+ [javancss] Checking metrics on 211 files
+ [javancss] gov.nih.nci.security.acegi.CSMAfterInvocationProvider.decide(Authentication,Object,ConfigAttributeDefinition,Object) - 14 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.acegi.authentication.CSMAuthenticationProvider.additionalAuthenticationChecks(UserDetails,UsernamePasswordAuthenticationToken) - 16 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.acegi.authorization.CSMMethodDefinitionSource.addSecureMethod(Class,String,ConfigAttributeDefinition) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.AuthenticationManagerFactory.getAuthenticationManager(String) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.CommonAuthenticationManager.login(String,String,Subject) - 22 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.helper.LDAPHelper.getFullyDistinguishedName(Hashtable,Hashtable,String) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.helper.LDAPHelper.ldapAuthenticateUser(Hashtable,Hashtable,String,String,Subject) - 28 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.helper.RDBMSHelper.authenticateAndObtainSubject(Connection,Hashtable,String,String,Subject) - 21 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.helper.RDBMSHelper.executeQuery(Connection,String,String,String) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.loginmodules.CSMLoginModule.login() - 18 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.loginmodules.X509LoginModule.login() - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.loginmodules.X509LoginModule.getCertificateFromAlias() - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.loginmodules.X509LoginModule.checkCertificate(X509Certificate) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authentication.loginmodules.X509LoginModule.initialize(Subject,CallbackHandler,Map,Map) - 38 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authorization.AuthorizationManagerFactory.getAuthorizationManager(String,URL) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.authorization.attributeLevel.AttributeSecuritySessionInterceptor.onLoad(Object,Serializable,Object[],String[],Type[]) - 14 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.populateCache(String,boolean) - 19 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignUserToGroup(String,String) - 20 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignGroupsToUser(String,String[]) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignUsersToGroup(String,String[]) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignGroupRoleToProtectionGroup(String,String,String[]) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignPrivilegesToRole(String,String[]) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignProtectionElement(String,String,String) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignUserRoleToProtectionGroup(String,String[],String) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.checkPermission(String,String,String,String) - 19 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.checkPermission(String,String,String) - 16 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.checkPermissionForGroup(String,String,String,String) - 17 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.checkPermissionForGroup(String,String,String) - 17 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getAccessibleGroups(String,String,String) - 20 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.checkPermissionForUser(String,String,String) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.checkPermissionForUserAndGroup(String,String,String) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getObjects(SearchCriteria) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getProtectionElement(String,String) - 14 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getProtectionGroup(String) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.removeGroupRoleFromProtectionGroup(String,String,String[]) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.removeUserFromGroup(String,String) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.removeUserRoleFromProtectionGroup(String,String,String[]) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.setOwnerForProtectionElement(String,String,String) - 22 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.setOwnerForProtectionElement(String,String[]) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.deAssignProtectionElements(String,String) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.removeProtectionElementsFromProtectionGroup(String,String[]) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getApplicationByName(String) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getProtectionGroupRoleContextForUser(String) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getProtectionGroupRoleContextForGroup(String) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getProtectionElementPrivilegeContextForUser(String) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getProtectionElementPrivilegeContextForGroup(String) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.modifyObject(Object) - 23 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.createObject(Object) - 23 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignToProtectionGroups(String,String[]) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.assignParentProtectionGroup(String,String) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.secureObject(String,Object) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.secureCollection(String,Collection) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.secureUpdate(String,Object,Object) - 14 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.getPrivilegeMap(String,Collection) - 16 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.performEncrytionDecryption(Object,boolean) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.removeOwnerForProtectionElement(String,String,String) - 22 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.dao.AuthorizationDAOImpl.removeOwnerForProtectionElement(String,String[]) - 17 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.util.FileLoader.getFileAsStream(String,ClassLoader) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.util.FileLoader.getFileAsURL(String,ClassLoader) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.util.ObjectUpdater.setValueForField(Field,Object) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.util.StringEncrypter.encrypt(String) - 19 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.util.StringEncrypter.decrypt(String) - 19 CCN exceeds maximum per function
+ [javancss] test.gov.nih.nci.security.instancelevel.InstanceLevelSecurityTest.testInstanceANDAttributeLevelSecurityForUser() - 12 CCN exceeds maximum per function
+ [javancss] test.gov.nih.nci.security.instancelevel.InstanceLevelSecurityTest.testInstanceANDAttributeLevelSecrityForGroups() - 11 CCN exceeds maximum per function
+ [javancss] SOAPMonitorApplet.SOAPMonitorPage.run() - 13 CCN exceeds maximum per function
+ [javancss] SOAPMonitorApplet.SOAPMonitorTableModel.filterMatch(SOAPMonitorData) - 14 CCN exceeds maximum per function
+ [javancss] SOAPMonitorApplet.SOAPMonitorTextArea.doFormat() - 20 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.ws.SecurityServiceSoapBindingStub.createCall() - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.ws.SecurityServiceSoapBindingStub.login(gov.nih.nci.security.ws.authentication.LoginRequest) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.ws.SecurityServiceSoapBindingStub.checkPermission(gov.nih.nci.security.ws.authorization.CheckPermissionRequest) - 15 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.ws.authentication.LoginRequest.equals(java.lang.Object) - 21 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.ws.authorization.CheckPermissionRequest.equals(java.lang.Object) - 33 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.ws.common.ErrorDetails.equals(java.lang.Object) - 17 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDBAction.create(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDBAction.read(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDBAction.update(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDBAction.search(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 17 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDBAction.testConnection(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction.loadProtectionGroupAssociation(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction.loadProtectionElementPrivilegesAssociation(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction.removeProtectionGroupAssociation(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction.loadRoleAssociation(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.InstanceLevelAction.upload(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 37 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.InstanceLevelAction.create(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.InstanceLevelAction.read(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.InstanceLevelAction.update(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.InstanceLevelAction.search(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 17 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.LoginAction.execute(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 45 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.actions.MenuSelectionAction.execute(ActionMapping,ActionForm,HttpServletRequest,HttpServletResponse) - 28 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.forms.ApplicationForm.validate(ActionMapping,HttpServletRequest) - 12 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.forms.ProtectionElementForm.searchObjects(HttpServletRequest,ActionErrors,ActionMessages) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.forms.SearchUserForm.searchObjects(HttpServletRequest,ActionErrors,ActionMessages) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.forms.UserForm.searchObjects(HttpServletRequest,ActionErrors,ActionMessages) - 13 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.util.ClassLoaderUtil.releaseLoader(URLClassLoader,String) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.util.HibernateHelper.loadSessionFactory(String,HttpSession) - 11 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.util.HibernateHelper.getAssociatedClasses(String) - 14 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.util.JDBCHelper.testConnectionHibernate(BaseDBForm) - 18 CCN exceeds maximum per function
+ [javancss] gov.nih.nci.security.upt.util.JDBCHelper.testConnectionHibernate(AnnotationConfiguration) - 19 CCN exceeds maximum per function
+ [javancss] Generating report
+ [javancss] Processing /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/javancss/javancss_metrics_build-csm-upt.xml to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/javancss/javancss_report_build-csm-upt.html
+ [javancss] Loading stylesheet /home/csmuser/hudson/jobs/csm-build-all/workspace/security/common/javancss/javancss2methodhtml.xsl
+
+static-analysis:findbugs:
+ [findbugs] Executing findbugs from ant task
+ [findbugs] Running FindBugs...
+ [findbugs] Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/bcel/classfile/ClassFormatException
+ [findbugs] Output saved to /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/findbugs/findbugsbuild-csm-upt.xml
+
+static-analysis:
+
+BUILD SUCCESSFUL
+Total time: 35 seconds
+Collecting pmd analysis files...
+Successfully parsed PMD file /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/pmd/pmd_out_build-csm-upt.xml of module  with 908 warnings.
+A total of 908 warnings have been found.
+[CHECKSTYLE] Collecting checkstyle analysis files...
+[CHECKSTYLE] Successfully parsed file /home/csmuser/hudson/jobs/csm-build-all/workspace/security/reports/checkstyle/checkstyle_build-csm-upt.xml of module  with 172 warnings.
+[CHECKSTYLE] A total of 172 annotations have been found.
+finished: SUCCESS

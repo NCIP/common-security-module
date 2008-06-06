@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java"
+  last-modified="1212512021000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java"
+>
+  <violation
+    line="66"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 13 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 13 (max allowed is 10)."
+  />
+  <violation
+    line="69"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../../authentication/LoginRequest.java#line93'&gt;line 93 in LoginRequest.java&lt;/a&gt;, &lt;a href='../../authentication/LoginResponse.java#line45'&gt;line 45 in LoginResponse.java&lt;/a&gt;, &lt;a href='../../authorization/CheckPermissionRequest.java#line165'&gt;line 165 in CheckPermissionRequest.java&lt;/a&gt; and &lt;a href='../../authorization/CheckPermissionResponse.java#line45'&gt;line 45 in CheckPermissionResponse.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 93 in LoginRequest.java, line 45 in LoginResponse.java, line 165 in CheckPermissionRequest.java and line 45 in CheckPermissionResponse.java."
+  />
+  <violation
+    line="83"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='../../authorization/CheckPermissionRequest.java#line191'&gt;line 191 in CheckPermissionRequest.java&lt;/a&gt;, &lt;a href='../../authentication/LoginRequest.java#line110'&gt;line 110 in LoginRequest.java&lt;/a&gt;, &lt;a href='../../authorization/CheckPermissionResponse.java#line54'&gt;line 54 in CheckPermissionResponse.java&lt;/a&gt; and &lt;a href='../../authentication/LoginResponse.java#line54'&gt;line 54 in LoginResponse.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 191 in CheckPermissionRequest.java, line 110 in LoginRequest.java, line 54 in CheckPermissionResponse.java and line 54 in LoginResponse.java."
+  />
+  <violation
+    line="119"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 34 lines from &lt;a href='../../authentication/LoginRequest.java#line155'&gt;line 155 in LoginRequest.java&lt;/a&gt; and &lt;a href='../../authorization/CheckPermissionRequest.java#line265'&gt;line 265 in CheckPermissionRequest.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 34 lines from line 155 in LoginRequest.java and line 265 in CheckPermissionRequest.java."
+  />
+  <line number='57'>     * Sets the errorDescription value for this ErrorDetails.</line>
+  <line number='58'>     * </line>
+  <line number='59'>     * @param errorDescription</line>
+  <line number='60'>     */</line>
+  <line number='61'>    public void setErrorDescription(java.lang.String errorDescription) {</line>
+  <line number='62'>        this.errorDescription = errorDescription;</line>
+  <line number='63'>    }</line>
+  <line number='64'></line>
+  <line number='65'>    private java.lang.Object __equalsCalc = null;</line>
+  <line number='66'>    public synchronized boolean equals(java.lang.Object obj) {</line>
+  <line number='67'>        if (!(obj instanceof ErrorDetails)) return false;</line>
+  <line number='68'>        ErrorDetails other = (ErrorDetails) obj;</line>
+  <line number='69'>        if (obj == null) return false;</line>
+  <line number='70'>        if (this == obj) return true;</line>
+  <line number='71'>        if (__equalsCalc != null) {</line>
+  <line number='72'>            return (__equalsCalc == obj);</line>
+  <line number='73'>        }</line>
+  <line number='74'>        __equalsCalc = obj;</line>
+  <line number='75'>        boolean _equals;</line>
+  <line number='76'>        _equals = true &amp;&amp; </line>
+  <line number='77'>            ((this.errorCode==null &amp;&amp; other.getErrorCode()==null) || </line>
+  <line number='78'>             (this.errorCode!=null &amp;&amp;</line>
+  <line number='79'>              this.errorCode.equals(other.getErrorCode()))) &amp;&amp;</line>
+  <line number='80'>            ((this.errorDescription==null &amp;&amp; other.getErrorDescription()==null) || </line>
+  <line number='81'>             (this.errorDescription!=null &amp;&amp;</line>
+  <line number='82'>              this.errorDescription.equals(other.getErrorDescription())));</line>
+  <line number='83'>        __equalsCalc = null;</line>
+  <line number='84'>        return _equals;</line>
+  <line number='85'>    }</line>
+  <line number='86'></line>
+  <line number='87'>    private boolean __hashCodeCalc = false;</line>
+  <line number='88'>    public synchronized int hashCode() {</line>
+  <line number='89'>        if (__hashCodeCalc) {</line>
+  <line number='90'>            return 0;</line>
+  <line number='91'>        }</line>
+  <line number='92'>        __hashCodeCalc = true;</line>
+  <line number='93'>        int _hashCode = 1;</line>
+  <line number='110'>        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();</line>
+  <line number='111'>        elemField.setFieldName("errorCode");</line>
+  <line number='112'>        elemField.setXmlName(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorCode"));</line>
+  <line number='113'>        elemField.setXmlType(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorCodes"));</line>
+  <line number='114'>        elemField.setNillable(false);</line>
+  <line number='115'>        typeDesc.addFieldDesc(elemField);</line>
+  <line number='116'>        elemField = new org.apache.axis.description.ElementDesc();</line>
+  <line number='117'>        elemField.setFieldName("errorDescription");</line>
+  <line number='118'>        elemField.setXmlName(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorDescription"));</line>
+  <line number='119'>        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));</line>
+  <line number='120'>        elemField.setNillable(false);</line>
+  <line number='121'>        typeDesc.addFieldDesc(elemField);</line>
+  <line number='122'>    }</line>
+  <line number='123'></line>
+  <line number='124'>    /**</line>
+  <line number='125'>     * Return type metadata object</line>
+  <line number='126'>     */</line>
+  <line number='127'>    public static org.apache.axis.description.TypeDesc getTypeDesc() {</line>
+  <line number='128'>        return typeDesc;</line>
+  <line number='129'>    }</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='3' suppressed='0'/>
+</file>

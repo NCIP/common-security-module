@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/HomeAction.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/actions/HomeAction.java"
+>
+  <violation
+    line="128"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='../MenuSelectionAction.java#line130'&gt;line 130 in MenuSelectionAction.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 130 in MenuSelectionAction.java."
+  />
+  <line number='119'>{</line>
+  <line number='120'></line>
+  <line number='121'>	private static final Logger log = Logger.getLogger(HomeAction.class);</line>
+  <line number='122'>	</line>
+  <line number='123'>	public ActionForward execute(ActionMapping mapping, ActionForm form,</line>
+  <line number='124'>			HttpServletRequest request, HttpServletResponse response)</line>
+  <line number='125'>			throws Exception </line>
+  <line number='126'>	{</line>
+  <line number='127'>		HttpSession session = request.getSession();</line>
+  <line number='128'>		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {</line>
+  <line number='129'>			if (log.isDebugEnabled())</line>
+  <line number='130'>				log.debug("||||Failure|No Session or User Object Forwarding to the Login Page||");</line>
+  <line number='131'>			return mapping.findForward(ForwardConstants.LOGIN_PAGE);</line>
+  <line number='132'>		}</line>
+  <line number='133'>		/*</line>
+  <line number='134'>		 * clear the junk in the session here</line>
+  <line number='135'>		 */</line>
+  <line number='136'>		session.removeAttribute(DisplayConstants.CURRENT_ACTION);</line>
+  <line number='137'>		session.removeAttribute(DisplayConstants.CURRENT_FORM);</line>
+  <line number='138'>		session.removeAttribute(DisplayConstants.SEARCH_RESULT);</line>
+  <type type='simian' number='1' suppressed='0'/>
+</file>

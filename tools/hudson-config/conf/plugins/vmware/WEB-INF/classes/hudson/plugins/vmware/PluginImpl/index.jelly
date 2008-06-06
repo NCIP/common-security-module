@@ -1,0 +1,69 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <l:layout>
+        <l:header title="Subversion Authentication"/>
+        <l:side-panel/>
+        <l:main-panel>
+            <h1>VMware Virtual Machine IP Addresses</h1>
+            <table border="1px" class="pane sortable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>IP Adddress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="i" items="${it.vmIPAddresses}">
+                        <tr>
+                            <td data="${i.key}">${i.key}</td>
+                            <td data="${i.value}">${i.value}</td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+
+            </table>
+            <h2>
+                Add/Update
+            </h2>
+            <table>
+                <tr>
+                    <td>
+                        <form action="set" method="get">
+                            <table>
+                                <tr>
+                                    <td>Name:</td>
+                                    <td>
+                                        <input type="text" name="name"/>
+                                    </td>
+                                    <td>
+                                        <input type="submit" value="Set"></input>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+
+                    </td>
+                </tr>
+            </table>
+            <h2>
+                Remove
+            </h2>
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <form action="unset" method="get">
+                            <select name="name">
+                                <j:forEach var="i" items="${it.vmIPAddresses}">
+                                    <option>${i.key}</option>
+                                </j:forEach>
+
+                            </select>
+                            <input type="submit" value="Unset"></input>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

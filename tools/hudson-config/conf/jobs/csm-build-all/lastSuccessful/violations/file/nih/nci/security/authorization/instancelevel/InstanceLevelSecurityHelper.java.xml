@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java"
+>
+  <violation
+    line="48"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;APPLICATION_ID&quot; appears 6 times in this file; the first occurrence is on line 48"
+    severity-level="2"
+    popup-message="The String literal &quot;APPLICATION_ID&quot; appears 6 times in this file; the first occurrence is on line 48"
+  />
+  <violation
+    line="88"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="156"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='3' suppressed='0'/>
+</file>

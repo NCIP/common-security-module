@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: stephen
+Build-Jdk: 1.6.0_02
+Extension-Name: cobertura
+Implementation-Title: cobertura
+Implementation-Version: 0.8.4
+Plugin-Class: hudson.plugins.cobertura.PluginImpl
+Long-Name: Hudson Cobertura plugin
+Plugin-Version: 0.8.4
+

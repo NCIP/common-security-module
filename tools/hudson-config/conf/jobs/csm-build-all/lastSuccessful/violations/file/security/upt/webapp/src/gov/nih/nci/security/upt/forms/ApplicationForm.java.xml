@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java"
+>
+  <violation
+    line="132"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 12 (max allowed is 7) classes [ActionError, ActionErrors, Application, ApplicationSearchCriteria, ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 12 (max allowed is 7) classes [ActionError, ActionErrors, Application, ApplicationSearchCriteria, ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, SearchResult, SimpleDateFormat, User, UserSearchCriteria]."
+  />
+  <violation
+    line="342"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 12 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 12 (max allowed is 10)."
+  />
+  <violation
+    line="350"
+    source="BooleanExpressionComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Boolean expression complexity is 9 (max allowed is 5)."
+    severity-level="1"
+    popup-message="Boolean expression complexity is 9 (max allowed is 5)."
+  />
+  <violation
+    line="310"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line326'&gt;line 326&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 326."
+  />
+  <violation
+    line="326"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line310'&gt;line 310&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 310."
+  />
+  <violation
+    line="531"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='../ProtectionElementForm.java#line440'&gt;line 440 in ProtectionElementForm.java&lt;/a&gt;, &lt;a href='../SearchProtectionElementForm.java#line415'&gt;line 415 in SearchProtectionElementForm.java&lt;/a&gt; and &lt;a href='../GroupForm.java#line375'&gt;line 375 in GroupForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 440 in ProtectionElementForm.java, line 415 in SearchProtectionElementForm.java and line 375 in GroupForm.java."
+  />
+  <violation
+    line="547"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 18 lines from &lt;a href='../GroupForm.java#line387'&gt;line 387 in GroupForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 18 lines from line 387 in GroupForm.java."
+  />
+  <line number='123'>import org.apache.struts.action.ActionMessages;</line>
+  <line number='124'>import org.apache.struts.validator.ValidatorForm;</line>
+  <line number='125'></line>
+  <line number='126'>/**</line>
+  <line number='127'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='128'> *</line>
+  <line number='129'> * TODO To change the template for this generated type comment go to</line>
+  <line number='130'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='131'> */</line>
+  <line number='132'>public class ApplicationForm extends ValidatorForm implements BaseAssociationForm{</line>
+  <line number='133'></line>
+  <line number='134'>	private String applicationId;</line>
+  <line number='135'>	private String applicationName;</line>
+  <line number='136'>	private String applicationDescription;</line>
+  <line number='137'>	private String applicationDeclarativeFlag;</line>
+  <line number='138'>	private String applicationActiveFlag;</line>
+  <line number='139'>	private String applicationUpdateDate;</line>
+  <line number='140'>	private String applicationDatabaseURL;</line>
+  <line number='141'>	private String applicationDatabaseUserName;</line>
+  <line number='142'>	private String applicationDatabasePassword;</line>
+  <line number='301'>	public String getPrimaryId() {</line>
+  <line number='302'>		return this.applicationId;</line>
+  <line number='303'>	}</line>
+  <line number='304'></line>
+  <line number='305'>	/* (non-Javadoc)</line>
+  <line number='306'>	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#resetForm()</line>
+  <line number='307'>	 */</line>
+  <line number='308'>	public void resetForm() {</line>
+  <line number='309'>		this.applicationId = "";</line>
+  <line number='310'>		this.applicationName = "";</line>
+  <line number='311'>		this.applicationDescription = "";</line>
+  <line number='312'>		this.applicationDeclarativeFlag = DisplayConstants.YES;</line>
+  <line number='313'>		this.applicationActiveFlag = DisplayConstants.YES;</line>
+  <line number='314'>		this.applicationDatabaseURL = "";</line>
+  <line number='315'>		this.applicationDatabaseUserName = "";</line>
+  <line number='316'>		this.applicationDatabasePassword = "";</line>
+  <line number='317'>		this.applicationDatabaseConfirmPassword = "";</line>
+  <line number='318'>		this.applicationDatabaseDialect = "";</line>
+  <line number='319'>		this.applicationDatabaseDriver = "";</line>
+  <line number='320'>		this.applicationUpdateDate = "";</line>
+  <line number='321'>		this.associatedIds = null;</line>
+  <line number='322'>	}</line>
+  <line number='323'></line>
+  <line number='324'>	public void reset(ActionMapping mapping, HttpServletRequest request)</line>
+  <line number='325'>	{</line>
+  <line number='326'>		this.applicationName = "";</line>
+  <line number='327'>		this.applicationDescription = "";</line>
+  <line number='328'>		this.applicationDeclarativeFlag = DisplayConstants.YES;</line>
+  <line number='329'>		this.applicationActiveFlag = DisplayConstants.YES;</line>
+  <line number='330'>		this.applicationDatabaseURL = "";</line>
+  <line number='331'>		this.applicationDatabaseUserName = "";</line>
+  <line number='332'>		this.applicationDatabasePassword = "";</line>
+  <line number='333'>		this.applicationDatabaseConfirmPassword = "";</line>
+  <line number='334'>		this.applicationDatabaseDialect = "";</line>
+  <line number='335'>		this.applicationDatabaseDriver = "";</line>
+  <line number='336'>		this.associatedIds = null;		</line>
+  <line number='337'>	}</line>
+  <line number='338'>	</line>
+  <line number='339'>	/* (non-Javadoc)</line>
+  <line number='340'>	 * @see org.apache.struts.action.ActionForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)</line>
+  <line number='341'>	 */</line>
+  <line number='342'>	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) </line>
+  <line number='343'>	{</line>
+  <line number='344'>		ActionErrors errors = new ActionErrors();</line>
+  <line number='345'>		errors = super.validate(mapping,request);</line>
+  <line number='346'>		if (!this.applicationDatabasePassword.equals(this.applicationDatabaseConfirmPassword))</line>
+  <line number='347'>		{</line>
+  <line number='348'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Confirm Password does not match with Database Password"));</line>
+  <line number='349'>		}</line>
+  <line number='350'>		if (!(((StringUtilities.isBlank(applicationDatabaseURL) &amp;&amp; StringUtilities.isBlank(applicationDatabaseUserName)</line>
+  <line number='351'>				&amp;&amp; StringUtilities.isBlank(applicationDatabasePassword) &amp;&amp; StringUtilities.isBlank(applicationDatabaseDialect) &amp;&amp; StringUtilities.isBlank(applicationDatabaseDriver)))</line>
+  <line number='352'>			|| (!StringUtilities.isBlank(applicationDatabaseURL) &amp;&amp; !StringUtilities.isBlank(applicationDatabaseUserName)</line>
+  <line number='353'>					&amp;&amp; !StringUtilities.isBlank(applicationDatabasePassword) &amp;&amp; !StringUtilities.isBlank(applicationDatabaseDialect) &amp;&amp; !StringUtilities.isBlank(applicationDatabaseDriver))))</line>
+  <line number='354'>		{</line>
+  <line number='355'>			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Either all or none of the database properties should be provided"));</line>
+  <line number='356'>		}</line>
+  <line number='357'>		return errors;</line>
+  <line number='358'>	}</line>
+  <line number='359'></line>
+  <line number='360'>	/* (non-Javadoc)</line>
+  <line number='522'>	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest, org.apache.struts.action.ActionErrors, org.apache.struts.action.ActionMessages)</line>
+  <line number='523'>	 */</line>
+  <line number='524'>	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception {</line>
+  <line number='525'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='526'>		Application application = new Application();</line>
+  <line number='527'>		if (this.applicationName != null &amp;&amp; !(this.applicationName.trim().equalsIgnoreCase("")))</line>
+  <line number='528'>			application.setApplicationName(this.applicationName);</line>
+  <line number='529'>		</line>
+  <line number='530'>		SearchCriteria searchCriteria = new ApplicationSearchCriteria(application);</line>
+  <line number='531'>		List list = userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='532'>		SearchResult searchResult = new SearchResult();</line>
+  <line number='533'>		searchResult.setSearchResultMessage(searchCriteria.getMessage());</line>
+  <line number='534'>		searchResult.setSearchResultObjects(list);</line>
+  <line number='535'>		return searchResult;</line>
+  <line number='536'>		</line>
+  <line number='537'>	}</line>
+  <line number='538'></line>
+  <line number='539'>	/* (non-Javadoc)</line>
+  <line number='540'>	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)</line>
+  <line number='541'>	 */</line>
+  <line number='542'>	public void buildAssociationObject(HttpServletRequest request) throws Exception {</line>
+  <line number='543'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='544'></line>
+  <line number='545'>		Collection associatedUsers = (Collection)userProvisioningManager.getOwners(this.associatedProtectionElementId.toString());</line>
+  <line number='546'>		</line>
+  <line number='547'>		User user = new User();</line>
+  <line number='548'>		SearchCriteria searchCriteria = new UserSearchCriteria(user);</line>
+  <line number='549'>		Collection totalUsers = (Collection)userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='550'></line>
+  <line number='551'>		Collection availableUsers = ObjectSetUtil.minus(totalUsers,associatedUsers);</line>
+  <line number='552'>		</line>
+  <line number='553'>		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedUsers);</line>
+  <line number='554'>		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableUsers);</line>
+  <line number='555'>		</line>
+  <line number='556'>	}</line>
+  <line number='557'></line>
+  <type type='checkstyle' number='3' suppressed='0'/>
+  <type type='simian' number='4' suppressed='0'/>
+</file>

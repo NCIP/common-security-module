@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/ws/SecurityServiceSoapBindingStub.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/ws/SecurityServiceSoapBindingStub.java"
+>
+  <violation
+    line="28"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;http://security.nci.nih.gov/ws/authentication&quot; appears 6 times in this file; the first occurrence is on line 28"
+    severity-level="2"
+    popup-message="The String literal &quot;http://security.nci.nih.gov/ws/authentication&quot; appears 6 times in this file; the first occurrence is on line 28"
+  />
+  <violation
+    line="36"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;ErrorDetails&quot; appears 5 times in this file; the first occurrence is on line 36"
+    severity-level="2"
+    popup-message="The String literal &quot;ErrorDetails&quot; appears 5 times in this file; the first occurrence is on line 36"
+  />
+  <violation
+    line="36"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;http://security.nci.nih.gov/ws/common&quot; appears 6 times in this file; the first occurrence is on line 36"
+    severity-level="2"
+    popup-message="The String literal &quot;http://security.nci.nih.gov/ws/common&quot; appears 6 times in this file; the first occurrence is on line 36"
+  />
+  <violation
+    line="45"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;http://security.nci.nih.gov/ws/authorization&quot; appears 6 times in this file; the first occurrence is on line 45"
+    severity-level="2"
+    popup-message="The String literal &quot;http://security.nci.nih.gov/ws/authorization&quot; appears 6 times in this file; the first occurrence is on line 45"
+  />
+  <violation
+    line="80"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'qName2'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'qName2'."
+  />
+  <violation
+    line="85"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'arraysf'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'arraysf'."
+  />
+  <violation
+    line="86"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'arraydf'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'arraydf'."
+  />
+  <violation
+    line="87"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'simplesf'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'simplesf'."
+  />
+  <violation
+    line="88"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'simpledf'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'simpledf'."
+  />
+  <violation
+    line="89"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'simplelistsf'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'simplelistsf'."
+  />
+  <violation
+    line="90"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'simplelistdf'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'simplelistdf'."
+  />
+  <type type='pmd' number='11' suppressed='0'/>
+</file>

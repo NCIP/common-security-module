@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/dao/Queries.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/Queries.java"
+>
+  <violation
+    line="116"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line156'&gt;line 156&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 156."
+  />
+  <violation
+    line="127"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line134'&gt;line 134&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 134."
+  />
+  <violation
+    line="134"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line127'&gt;line 127&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 127."
+  />
+  <violation
+    line="156"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line116'&gt;line 116&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 116."
+  />
+  <violation
+    line="185"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line365'&gt;line 365&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 365."
+  />
+  <violation
+    line="205"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 16 lines from &lt;a href='#line382'&gt;line 382&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 16 lines from line 382."
+  />
+  <violation
+    line="225"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line330'&gt;line 330&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 330."
+  />
+  <violation
+    line="237"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line343'&gt;line 343&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 343."
+  />
+  <violation
+    line="259"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line293'&gt;line 293&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 293."
+  />
+  <violation
+    line="271"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line306'&gt;line 306&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 306."
+  />
+  <violation
+    line="293"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line259'&gt;line 259&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 259."
+  />
+  <violation
+    line="306"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line271'&gt;line 271&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 271."
+  />
+  <violation
+    line="330"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line225'&gt;line 225&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 225."
+  />
+  <violation
+    line="343"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line237'&gt;line 237&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 237."
+  />
+  <violation
+    line="365"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line185'&gt;line 185&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 185."
+  />
+  <violation
+    line="382"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 16 lines from &lt;a href='#line205'&gt;line 205&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 16 lines from line 205."
+  />
+  <violation
+    line="402"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line423'&gt;line 423&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 423."
+  />
+  <violation
+    line="404"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 17 lines from &lt;a href='#line485'&gt;line 485&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 17 lines from line 485."
+  />
+  <violation
+    line="414"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line521'&gt;line 521&lt;/a&gt; and &lt;a href='#line495'&gt;line 495&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 521 and line 495."
+  />
+  <violation
+    line="423"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line402'&gt;line 402&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 402."
+  />
+  <violation
+    line="425"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='#line507'&gt;line 507&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 507."
+  />
+  <violation
+    line="485"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 18 lines from &lt;a href='#line404'&gt;line 404&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 18 lines from line 404."
+  />
+  <violation
+    line="495"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line521'&gt;line 521&lt;/a&gt; and &lt;a href='#line414'&gt;line 414&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 521 and line 414."
+  />
+  <violation
+    line="507"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='#line425'&gt;line 425&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 425."
+  />
+  <violation
+    line="521"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line495'&gt;line 495&lt;/a&gt; and &lt;a href='#line414'&gt;line 414&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 495 and line 414."
+  />
+  <violation
+    line="533"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line598'&gt;line 598&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 598."
+  />
+  <violation
+    line="541"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line560'&gt;line 560&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 560."
+  />
+  <violation
+    line="542"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='#line605'&gt;line 605&lt;/a&gt; and &lt;a href='#line561'&gt;line 561&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 605 and line 561."
+  />
+  <violation
+    line="557"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line636'&gt;line 636&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 636."
+  />
+  <violation
+    line="560"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line541'&gt;line 541&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 541."
+  />
+  <violation
+    line="561"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='#line605'&gt;line 605&lt;/a&gt; and &lt;a href='#line542'&gt;line 542&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 605 and line 542."
+  />
+  <violation
+    line="598"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line533'&gt;line 533&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 533."
+  />
+  <violation
+    line="601"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line674'&gt;line 674&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 674."
+  />
+  <violation
+    line="605"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='#line561'&gt;line 561&lt;/a&gt; and &lt;a href='#line542'&gt;line 542&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 561 and line 542."
+  />
+  <violation
+    line="636"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line557'&gt;line 557&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 557."
+  />
+  <violation
+    line="640"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line678'&gt;line 678&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 678."
+  />
+  <violation
+    line="674"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line601'&gt;line 601&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 601."
+  />
+  <violation
+    line="678"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line640'&gt;line 640&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 640."
+  />
+  <line number='107'>		</line>
+  <line number='108'>		  StringBuffer stbr = new StringBuffer();</line>
+  <line number='109'>		  stbr.append("and pe.object_id=?");</line>
+  <line number='110'>		  stbr.append(" and pe.attribute=?");</line>
+  <line number='111'>		  stbr.append(" and u.login_name=?");</line>
+  <line number='112'>		  stbr.append(" and p.privilege_name=?");</line>
+  <line number='113'>		  stbr.append(" and pg.application_id=?");</line>
+  <line number='114'>		  stbr.append(" and pe.application_id=?");</line>
+  <line number='115'>		  </line>
+  <line number='116'>		  StringBuffer sqlBfr = new StringBuffer();</line>
+  <line number='117'>		  sqlBfr.append(getStaticStringForUserAndGroupForAttribute());</line>
+  <line number='118'>		  sqlBfr.append(stbr.toString());</line>
+  <line number='119'>		  sqlBfr.append(" union ");</line>
+  <line number='120'>		  sqlBfr.append(getStaticStringForUserAndGroupForAttribute2());</line>
+  <line number='121'>		  sqlBfr.append(stbr.toString());</line>
+  <line number='122'>		  </line>
+  <line number='123'>		  </line>
+  <line number='124'>		   </line>
+  <line number='125'>		  int i=1;</line>
+  <line number='126'>		  PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());</line>
+  <line number='127'>		  pstmt.setString(i++,objectId );</line>
+  <line number='128'>		  pstmt.setString(i++,attribute);</line>
+  <line number='129'>		  pstmt.setString(i++,loginName);</line>
+  <line number='130'>		  pstmt.setString(i++,privilegeName);</line>
+  <line number='131'>		  pstmt.setInt(i++,application_id);</line>
+  <line number='132'>		  pstmt.setInt(i++,application_id);</line>
+  <line number='133'>		  </line>
+  <line number='134'>		  pstmt.setString(i++,objectId );</line>
+  <line number='135'>		  pstmt.setString(i++,attribute);</line>
+  <line number='136'>		  pstmt.setString(i++,loginName);</line>
+  <line number='137'>		  pstmt.setString(i++,privilegeName);</line>
+  <line number='138'>		  pstmt.setInt(i++,application_id);</line>
+  <line number='139'>		  pstmt.setInt(i++,application_id);</line>
+  <line number='140'>		  </line>
+  <line number='141'>		  return pstmt;</line>
+  <line number='142'>		</line>
+  <line number='143'>	}</line>
+  <line number='144'>	protected static PreparedStatement getQueryForCheckPermissionForUserAndGroup(String loginName,</line>
+  <line number='147'>																		 int application_id, Connection cn) throws SQLException{</line>
+  <line number='148'></line>
+  <line number='149'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='150'>		stbr.append("and pe.object_id='").append(objectId).append("'");</line>
+  <line number='151'>		stbr.append(" and u.login_name='").append(loginName).append("'");</line>
+  <line number='152'>		stbr.append(" and p.privilege_name='").append(privilegeName).append("'");</line>
+  <line number='153'>		stbr.append(" and pg.application_id=").append(application_id);</line>
+  <line number='154'>		stbr.append(" and pe.application_id=").append(application_id);</line>
+  <line number='155'>		</line>
+  <line number='156'>		StringBuffer sqlBfr = new StringBuffer();</line>
+  <line number='157'>		sqlBfr.append(getStaticStringForUserAndGroupForAttribute());</line>
+  <line number='158'>		sqlBfr.append(stbr.toString());</line>
+  <line number='159'>		sqlBfr.append(" union ");</line>
+  <line number='160'>		sqlBfr.append(getStaticStringForUserAndGroupForAttribute2());</line>
+  <line number='161'>		sqlBfr.append(stbr.toString());</line>
+  <line number='162'>		</line>
+  <line number='163'>		</line>
+  <line number='164'>		  PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());</line>
+  <line number='165'>		  /*</line>
+  <line number='166'>		   * int i=1;</line>
+  <line number='176'>		  pstmt.setInt(i++,application_id);</line>
+  <line number='177'>		  pstmt.setInt(i++,application_id);*/</line>
+  <line number='178'>		  </line>
+  <line number='179'>		  return pstmt;</line>
+  <line number='180'>		</line>
+  <line number='181'>		}</line>
+  <line number='182'>	</line>
+  <line number='183'>	</line>
+  <line number='184'>	protected static PreparedStatement getQueryForCheckPermissionForGroup(String userName,</line>
+  <line number='185'>			                                 String objectId,</line>
+  <line number='186'>											 String privilegeName,</line>
+  <line number='187'>											 int application_id, Connection cn) throws SQLException{</line>
+  <line number='188'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='189'>		stbr.append("select 'X'");</line>
+  <line number='190'>		stbr.append("from csm_protection_group pg,");</line>
+  <line number='191'>		stbr.append("csm_protection_element pe,");</line>
+  <line number='192'>		stbr.append("csm_pg_pe pgpe,");</line>
+  <line number='193'>		stbr.append("csm_user_group_role_pg ugrpg,");</line>
+  <line number='194'>		stbr.append("csm_user u,");</line>
+  <line number='195'>		stbr.append("csm_group g,");</line>
+  <line number='196'>		stbr.append("csm_user_group ug,");</line>
+  <line number='197'>		stbr.append("csm_role_privilege rp,");</line>
+  <line number='198'>		stbr.append("csm_privilege p ");</line>
+  <line number='199'>		stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");</line>
+  <line number='200'>		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='201'>		stbr.append(" and pe.object_id=?");</line>
+  <line number='202'>		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");</line>
+  <line number='203'>		stbr.append(" and ugrpg.group_id = g.group_id ");</line>
+  <line number='204'>		stbr.append(" and ug.user_id = u.user_id");</line>
+  <line number='205'>		stbr.append(" and u.login_name=?");</line>
+  <line number='206'>		stbr.append(" and ugrpg.role_id = rp.role_id ");</line>
+  <line number='207'>		stbr.append(" and rp.privilege_id = p.privilege_id");</line>
+  <line number='208'>		stbr.append(" and p.privilege_name=?");</line>
+  <line number='209'>		stbr.append(" and pg.application_id=?");</line>
+  <line number='210'>		stbr.append(" and pe.application_id=?");</line>
+  <line number='211'>		</line>
+  <line number='212'>		int i=1;</line>
+  <line number='213'>		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());</line>
+  <line number='214'>		pstmt.setString(i++,objectId );</line>
+  <line number='215'>		pstmt.setString(i++,userName);</line>
+  <line number='216'>		pstmt.setString(i++,privilegeName);</line>
+  <line number='217'>		pstmt.setInt(i++,application_id);</line>
+  <line number='218'>		pstmt.setInt(i++,application_id);</line>
+  <line number='219'>		  </line>
+  <line number='220'>		return pstmt;</line>
+  <line number='221'>	}</line>
+  <line number='222'></line>
+  <line number='223'>	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String privilegeName, int application_id, Connection cn) throws SQLException </line>
+  <line number='224'>	{</line>
+  <line number='225'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='226'>		stbr.append("select 'X'");</line>
+  <line number='227'>		stbr.append("from csm_protection_group pg,");</line>
+  <line number='228'>		stbr.append("csm_protection_element pe,");</line>
+  <line number='229'>		stbr.append("csm_pg_pe pgpe,");</line>
+  <line number='230'>		stbr.append("csm_user_group_role_pg ugrpg,");</line>
+  <line number='231'>		stbr.append("csm_group g,");</line>
+  <line number='232'>		stbr.append("csm_role_privilege rp,");</line>
+  <line number='233'>		stbr.append("csm_privilege p ");</line>
+  <line number='234'>		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");</line>
+  <line number='235'>		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='236'>		stbr.append(" and pe.object_id=?");</line>
+  <line number='237'>		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");</line>
+  <line number='238'>		stbr.append(" and ugrpg.group_id = g.group_id ");</line>
+  <line number='239'>		stbr.append(" and g.group_name=?");</line>
+  <line number='240'>		stbr.append(" and ugrpg.role_id = rp.role_id ");</line>
+  <line number='241'>		stbr.append(" and rp.privilege_id = p.privilege_id");</line>
+  <line number='242'>		stbr.append(" and p.privilege_name=?");</line>
+  <line number='243'>		stbr.append(" and pg.application_id=?");</line>
+  <line number='244'>		stbr.append(" and pe.application_id=?");</line>
+  <line number='245'>		</line>
+  <line number='246'>		int i=1;</line>
+  <line number='247'>		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());</line>
+  <line number='250'>		pstmt.setString(i++,privilegeName);</line>
+  <line number='251'>		pstmt.setInt(i++,application_id);</line>
+  <line number='252'>		pstmt.setInt(i++,application_id);</line>
+  <line number='253'>		  </line>
+  <line number='254'>		return pstmt;</line>
+  <line number='255'>	}</line>
+  <line number='256'></line>
+  <line number='257'>	protected static PreparedStatement getQueryForAccessibleGroups(String objectId, String privilegeName, int applicationId, Connection cn) throws SQLException</line>
+  <line number='258'>	{</line>
+  <line number='259'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='260'>		stbr.append("select distinct g.group_id ");</line>
+  <line number='261'>		stbr.append("from csm_group g, ");</line>
+  <line number='262'>		stbr.append("csm_protection_group pg, ");</line>
+  <line number='263'>		stbr.append("csm_protection_element pe, ");</line>
+  <line number='264'>		stbr.append("csm_pg_pe pgpe, ");</line>
+  <line number='265'>		stbr.append("csm_user_group_role_pg ugrpg, ");</line>
+  <line number='266'>		stbr.append("csm_role_privilege rp, ");</line>
+  <line number='267'>		stbr.append("csm_privilege p ");</line>
+  <line number='268'>		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");</line>
+  <line number='269'>		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id ");</line>
+  <line number='270'>		stbr.append(" and pe.object_id=?");</line>
+  <line number='271'>		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");</line>
+  <line number='272'>		stbr.append(" and g.group_id = ugrpg.group_id");</line>
+  <line number='273'>		stbr.append(" and ugrpg.role_id = rp.role_id ");</line>
+  <line number='274'>		stbr.append(" and rp.privilege_id = p.privilege_id");</line>
+  <line number='275'>		stbr.append(" and p.privilege_name=?");</line>
+  <line number='276'>		stbr.append(" and g.application_id=?");</line>
+  <line number='277'>		stbr.append(" and pg.application_id=?");</line>
+  <line number='278'>		stbr.append(" and pe.application_id=?");</line>
+  <line number='279'>		</line>
+  <line number='280'>		int i=1;</line>
+  <line number='281'>		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());</line>
+  <line number='284'>		pstmt.setInt(i++,new Integer(applicationId).intValue());</line>
+  <line number='285'>		pstmt.setInt(i++,new Integer(applicationId).intValue());</line>
+  <line number='286'>		pstmt.setInt(i++,new Integer(applicationId).intValue());</line>
+  <line number='287'>		  </line>
+  <line number='288'>		return pstmt;</line>
+  <line number='289'>	}</line>
+  <line number='290'></line>
+  <line number='291'>	protected static PreparedStatement getQueryForAccessibleGroupsWithAttribute(String objectId, String attribute, String privilegeName, int applicationId, Connection cn) throws SQLException</line>
+  <line number='292'>	{</line>
+  <line number='293'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='294'>		stbr.append("select distinct g.group_id ");</line>
+  <line number='295'>		stbr.append("from csm_group g, ");</line>
+  <line number='296'>		stbr.append("csm_protection_group pg, ");</line>
+  <line number='297'>		stbr.append("csm_protection_element pe, ");</line>
+  <line number='298'>		stbr.append("csm_pg_pe pgpe, ");</line>
+  <line number='299'>		stbr.append("csm_user_group_role_pg ugrpg, ");</line>
+  <line number='300'>		stbr.append("csm_role_privilege rp, ");</line>
+  <line number='301'>		stbr.append("csm_privilege p ");</line>
+  <line number='302'>		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");</line>
+  <line number='303'>		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id ");</line>
+  <line number='304'>		stbr.append(" and pe.object_id=?");</line>
+  <line number='305'>		stbr.append(" and pe.attribute=?");</line>
+  <line number='306'>		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");</line>
+  <line number='307'>		stbr.append(" and g.group_id = ugrpg.group_id");</line>
+  <line number='308'>		stbr.append(" and ugrpg.role_id = rp.role_id ");</line>
+  <line number='309'>		stbr.append(" and rp.privilege_id = p.privilege_id");</line>
+  <line number='310'>		stbr.append(" and p.privilege_name=?");</line>
+  <line number='311'>		stbr.append(" and g.application_id=?");</line>
+  <line number='312'>		stbr.append(" and pg.application_id=?");</line>
+  <line number='313'>		stbr.append(" and pe.application_id=?");</line>
+  <line number='314'>		</line>
+  <line number='315'>		int i=1;</line>
+  <line number='316'>		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());</line>
+  <line number='321'>		pstmt.setInt(i++,new Integer(applicationId).intValue());</line>
+  <line number='322'>		pstmt.setInt(i++,new Integer(applicationId).intValue());</line>
+  <line number='323'>		  </line>
+  <line number='324'>		return pstmt;</line>
+  <line number='325'>	}</line>
+  <line number='326'></line>
+  <line number='327'>	</line>
+  <line number='328'>	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String attributeName, String privilegeName, int application_id, Connection cn) throws SQLException</line>
+  <line number='329'>	{</line>
+  <line number='330'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='331'>		stbr.append("select 'X'");</line>
+  <line number='332'>		stbr.append("from csm_protection_group pg,");</line>
+  <line number='333'>		stbr.append("csm_protection_element pe,");</line>
+  <line number='334'>		stbr.append("csm_pg_pe pgpe,");</line>
+  <line number='335'>		stbr.append("csm_user_group_role_pg ugrpg,");</line>
+  <line number='336'>		stbr.append("csm_group g,");</line>
+  <line number='337'>		stbr.append("csm_role_privilege rp,");</line>
+  <line number='338'>		stbr.append("csm_privilege p ");</line>
+  <line number='339'>		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");</line>
+  <line number='340'>		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='341'>		stbr.append(" and pe.object_id=?");</line>
+  <line number='342'>		stbr.append(" and pe.attribute=?");		</line>
+  <line number='343'>		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");</line>
+  <line number='344'>		stbr.append(" and ugrpg.group_id = g.group_id ");</line>
+  <line number='345'>		stbr.append(" and g.group_name=?");</line>
+  <line number='346'>		stbr.append(" and ugrpg.role_id = rp.role_id ");</line>
+  <line number='347'>		stbr.append(" and rp.privilege_id = p.privilege_id");</line>
+  <line number='348'>		stbr.append(" and p.privilege_name=?");</line>
+  <line number='349'>		stbr.append(" and pg.application_id=?");</line>
+  <line number='350'>		stbr.append(" and pe.application_id=?");</line>
+  <line number='351'>		</line>
+  <line number='352'>		int i=1;</line>
+  <line number='353'>		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());</line>
+  <line number='356'>		pstmt.setString(i++,groupName );</line>
+  <line number='357'>		pstmt.setString(i++,privilegeName);</line>
+  <line number='358'>		pstmt.setInt(i++,application_id);</line>
+  <line number='359'>		pstmt.setInt(i++,application_id);</line>
+  <line number='360'>				  </line>
+  <line number='361'>		return pstmt;</line>
+  <line number='362'>	}</line>
+  <line number='363'></line>
+  <line number='364'>	protected static PreparedStatement getQueryForCheckPermissionForUser(String userName,</line>
+  <line number='365'>			                                                  String objectId,</line>
+  <line number='366'>															  String privilegeName,</line>
+  <line number='367'>															  int application_id, Connection cn) throws SQLException {</line>
+  <line number='368'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='369'>		stbr.append("select 'X'");</line>
+  <line number='370'>		stbr.append("from csm_protection_group pg,");</line>
+  <line number='371'>		stbr.append("csm_protection_element pe,");</line>
+  <line number='372'>		stbr.append("csm_pg_pe pgpe,");</line>
+  <line number='373'>		stbr.append("csm_user_group_role_pg ugrpg,");</line>
+  <line number='374'>		stbr.append("csm_user u,");</line>
+  <line number='375'>		stbr.append("csm_role_privilege rp,");</line>
+  <line number='376'>		stbr.append("csm_privilege p ");</line>
+  <line number='377'>		stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");</line>
+  <line number='378'>		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='379'>		stbr.append(" and pe.object_id=?");</line>
+  <line number='380'>		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) ");</line>
+  <line number='381'>		stbr.append(" and ugrpg.user_id = u.user_id");</line>
+  <line number='382'>		stbr.append(" and u.login_name=?");</line>
+  <line number='383'>		stbr.append(" and ugrpg.role_id = rp.role_id ");</line>
+  <line number='384'>		stbr.append(" and rp.privilege_id = p.privilege_id");</line>
+  <line number='385'>		stbr.append(" and p.privilege_name=?");</line>
+  <line number='386'>		stbr.append(" and pg.application_id=?");</line>
+  <line number='387'>		stbr.append(" and pe.application_id=?");</line>
+  <line number='388'>		</line>
+  <line number='389'>		int i=1;</line>
+  <line number='390'>		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());</line>
+  <line number='391'>		pstmt.setString(i++,objectId );</line>
+  <line number='392'>		pstmt.setString(i++,userName );</line>
+  <line number='393'>		pstmt.setString(i++,privilegeName);</line>
+  <line number='394'>		pstmt.setInt(i++,application_id);</line>
+  <line number='395'>		pstmt.setInt(i++,application_id);</line>
+  <line number='396'>				  </line>
+  <line number='397'>		return pstmt;	</line>
+  <line number='398'>		</line>
+  <line number='399'>	}</line>
+  <line number='400'>	</line>
+  <line number='401'>	private static String getStaticStringForUserAndGroupForAttribute(){</line>
+  <line number='402'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='403'>		stbr.append("select 'X'");</line>
+  <line number='404'>		stbr.append(" from csm_protection_group pg,"); </line>
+  <line number='405'>		stbr.append(" csm_protection_element pe,"); </line>
+  <line number='406'>		stbr.append(" csm_pg_pe pgpe,"); </line>
+  <line number='407'>		stbr.append(" csm_user_group_role_pg ugrpg,"); </line>
+  <line number='408'>		stbr.append(" csm_user u,"); </line>
+  <line number='409'>		stbr.append(" csm_role_privilege rp,"); </line>
+  <line number='410'>		stbr.append(" csm_role r,");</line>
+  <line number='411'>		stbr.append(" csm_privilege p");  </line>
+  <line number='412'>		stbr.append(" where ugrpg.role_id = r.role_id and");</line>
+  <line number='413'>		stbr.append(" ugrpg.user_id = u.user_id and");</line>
+  <line number='414'>		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");</line>
+  <line number='415'>		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");</line>
+  <line number='416'>		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");</line>
+  <line number='417'>		stbr.append(" r.role_id = rp.role_id and");</line>
+  <line number='418'>		stbr.append(" rp.privilege_id = p.privilege_id ");</line>
+  <line number='419'>		</line>
+  <line number='420'>		return stbr.toString();</line>
+  <line number='421'>	}</line>
+  <line number='422'>	private static String getStaticStringForUserAndGroupForAttribute2(){</line>
+  <line number='423'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='424'>		stbr.append("select 'X'");</line>
+  <line number='425'>		stbr.append(" from csm_protection_group pg,"); </line>
+  <line number='426'>		stbr.append(" csm_protection_element pe,"); </line>
+  <line number='427'>		stbr.append(" csm_pg_pe pgpe,"); </line>
+  <line number='428'>		stbr.append(" csm_user_group_role_pg ugrpg,"); </line>
+  <line number='429'>		stbr.append(" csm_user u,");</line>
+  <line number='430'>		stbr.append(" csm_user_group ug,");</line>
+  <line number='431'>		stbr.append(" csm_group g,");</line>
+  <line number='432'>		stbr.append(" csm_role_privilege rp,"); </line>
+  <line number='433'>		stbr.append(" csm_role r,");</line>
+  <line number='434'>		stbr.append(" csm_privilege p");  </line>
+  <line number='435'>		stbr.append(" where ugrpg.role_id = r.role_id and");</line>
+  <line number='476'>				  </line>
+  <line number='477'>		return pstmt;</line>
+  <line number='478'>		</line>
+  <line number='479'>		</line>
+  <line number='480'>	}</line>
+  <line number='481'>	</line>
+  <line number='482'>	private static String getQueryForObjectMap_user(){</line>
+  <line number='483'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='484'>		stbr.append("select pe.attribute ");</line>
+  <line number='485'>		stbr.append(" from csm_protection_group pg,"); </line>
+  <line number='486'>		stbr.append(" csm_protection_element pe,"); </line>
+  <line number='487'>		stbr.append(" csm_pg_pe pgpe,"); </line>
+  <line number='488'>		stbr.append(" csm_user_group_role_pg ugrpg,"); </line>
+  <line number='489'>		stbr.append(" csm_user u,"); </line>
+  <line number='490'>		stbr.append(" csm_role_privilege rp,"); </line>
+  <line number='491'>		stbr.append(" csm_role r,");</line>
+  <line number='492'>		stbr.append(" csm_privilege p");  </line>
+  <line number='493'>		stbr.append(" where ugrpg.role_id = r.role_id and");</line>
+  <line number='494'>		stbr.append(" ugrpg.user_id = u.user_id and");</line>
+  <line number='495'>		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and"); </line>
+  <line number='496'>		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");</line>
+  <line number='497'>		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");</line>
+  <line number='498'>		stbr.append(" r.role_id = rp.role_id and");</line>
+  <line number='499'>		stbr.append(" rp.privilege_id = p.privilege_id ");</line>
+  <line number='500'>		</line>
+  <line number='501'>		</line>
+  <line number='502'>		return stbr.toString();</line>
+  <line number='503'>	}</line>
+  <line number='504'>	private static String getQueryForObjectMap_group(){</line>
+  <line number='505'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='506'>		stbr.append("select pe.attribute");</line>
+  <line number='507'>		stbr.append(" from csm_protection_group pg,"); </line>
+  <line number='508'>		stbr.append(" csm_protection_element pe,"); </line>
+  <line number='509'>		stbr.append(" csm_pg_pe pgpe,"); </line>
+  <line number='510'>		stbr.append(" csm_user_group_role_pg ugrpg,"); </line>
+  <line number='511'>		stbr.append(" csm_user u,");</line>
+  <line number='512'>		stbr.append(" csm_user_group ug,");</line>
+  <line number='513'>		stbr.append(" csm_group g,");</line>
+  <line number='514'>		stbr.append(" csm_role_privilege rp,"); </line>
+  <line number='515'>		stbr.append(" csm_role r,");</line>
+  <line number='516'>		stbr.append(" csm_privilege p");  </line>
+  <line number='517'>		stbr.append(" where ugrpg.role_id = r.role_id and");</line>
+  <line number='518'>		stbr.append(" ugrpg.group_id = g.group_id and");</line>
+  <line number='519'>		stbr.append(" g.group_id = ug.group_id and");</line>
+  <line number='520'>		stbr.append(" ug.user_id = u.user_id and");</line>
+  <line number='521'>		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");</line>
+  <line number='522'>		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");</line>
+  <line number='523'>		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");</line>
+  <line number='524'>		stbr.append(" r.role_id = rp.role_id and");</line>
+  <line number='525'>		stbr.append(" rp.privilege_id = p.privilege_id ");</line>
+  <line number='526'>		</line>
+  <line number='527'>		return stbr.toString();</line>
+  <line number='528'>	}</line>
+  <line number='529'>	</line>
+  <line number='530'>	</line>
+  <line number='531'>	protected static PreparedStatement getQueryforUserPEPrivilegeMap(String user_id, int application_id, Connection cn) throws SQLException</line>
+  <line number='532'>	{</line>
+  <line number='533'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='534'></line>
+  <line number='535'>		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");</line>
+  <line number='536'>		stbr.append("      FROM  csm_protection_element pe,");</line>
+  <line number='537'>		stbr.append("            csm_protection_group pg,");</line>
+  <line number='538'>		stbr.append("            csm_privilege p,");</line>
+  <line number='539'>		stbr.append("            csm_group g,");</line>
+  <line number='540'>		stbr.append("            csm_user_group ug,");</line>
+  <line number='541'>		stbr.append("            csm_user u,");</line>
+  <line number='542'>		stbr.append("            csm_pg_pe pgpe,");</line>
+  <line number='543'>		stbr.append("            csm_role r,");</line>
+  <line number='544'>		stbr.append("            csm_role_privilege rp,");</line>
+  <line number='545'>		stbr.append("            csm_user_group_role_pg ugrpg");</line>
+  <line number='546'>		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");</line>
+  <line number='547'>		stbr.append("            AND ugrpg.role_id = rp.role_id");</line>
+  <line number='548'>		stbr.append("            AND rp.privilege_id = p.privilege_id");</line>
+  <line number='549'>		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");</line>
+  <line number='550'>		stbr.append(" 			 AND pg.application_id=?");</line>
+  <line number='551'>		stbr.append(" 			 AND pe.application_id=?");		</line>
+  <line number='552'>		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='553'>		stbr.append("            AND ug.group_id = ugrpg.group_id");</line>
+  <line number='554'>		stbr.append("            AND ug.user_id = ?");</line>
+  <line number='555'>		stbr.append(" UNION ALL ");</line>
+  <line number='556'>		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");</line>
+  <line number='557'>		stbr.append("      FROM  csm_protection_element pe,");</line>
+  <line number='558'>		stbr.append("            csm_protection_group pg,");</line>
+  <line number='559'>		stbr.append("            csm_privilege p,");</line>
+  <line number='560'>		stbr.append("            csm_user u,");</line>
+  <line number='561'>		stbr.append("            csm_pg_pe pgpe,");</line>
+  <line number='562'>		stbr.append("            csm_role r,");</line>
+  <line number='563'>		stbr.append("            csm_role_privilege rp,");</line>
+  <line number='564'>		stbr.append("            csm_user_group_role_pg ugrpg");</line>
+  <line number='565'>		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");</line>
+  <line number='566'>		stbr.append("            AND ugrpg.role_id = rp.role_id");</line>
+  <line number='567'>		stbr.append("            AND rp.privilege_id = p.privilege_id");</line>
+  <line number='568'>		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");</line>
+  <line number='569'>		stbr.append(" 			 AND pg.application_id=?");</line>
+  <line number='570'>		stbr.append(" 			 AND pe.application_id=?");		</line>
+  <line number='571'>		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='589'>		pstmt.setInt(i++,new Integer(user_id).intValue());</line>
+  <line number='590'>		pstmt.setInt(i++,new Integer(user_id).intValue());</line>
+  <line number='591'>		pstmt.setInt(i++,application_id);</line>
+  <line number='592'>		return pstmt;</line>
+  <line number='593'>		</line>
+  <line number='594'>	}</line>
+  <line number='595'>	</line>
+  <line number='596'>	protected static PreparedStatement getQueryforGroupPEPrivilegeMap(String group_id, int application_id, Connection cn) throws SQLException</line>
+  <line number='597'>	{</line>
+  <line number='598'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='599'></line>
+  <line number='600'>		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");</line>
+  <line number='601'>		stbr.append("      FROM  csm_protection_element pe,");</line>
+  <line number='602'>		stbr.append("            csm_protection_group pg,");</line>
+  <line number='603'>		stbr.append("            csm_privilege p,");</line>
+  <line number='604'>		stbr.append("            csm_group g,");</line>
+  <line number='605'>		stbr.append("            csm_pg_pe pgpe,");</line>
+  <line number='606'>		stbr.append("            csm_role r,");</line>
+  <line number='607'>		stbr.append("            csm_role_privilege rp,");</line>
+  <line number='608'>		stbr.append("            csm_user_group_role_pg ugrpg");</line>
+  <line number='609'>		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");</line>
+  <line number='610'>		stbr.append("            AND ugrpg.role_id = rp.role_id");</line>
+  <line number='611'>		stbr.append("            AND rp.privilege_id = p.privilege_id");</line>
+  <line number='612'>		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");</line>
+  <line number='613'>		stbr.append(" 			 AND pg.application_id=?");</line>
+  <line number='614'>		stbr.append(" 			 AND pe.application_id=?");		</line>
+  <line number='615'>		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='627'>		</line>
+  <line number='628'>	}</line>
+  <line number='629'>	</line>
+  <line number='630'>	</line>
+  <line number='631'>	protected static PreparedStatement getQueryforUserAttributeMap(String userName, String className, String privilegeName, int application_id, Connection cn) throws SQLException</line>
+  <line number='632'>	{</line>
+  <line number='633'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='634'></line>
+  <line number='635'>		stbr.append("SELECT DISTINCT pe.attribute");</line>
+  <line number='636'>		stbr.append("      FROM  csm_protection_element pe,");</line>
+  <line number='637'>		stbr.append("            csm_protection_group pg,");</line>
+  <line number='638'>		stbr.append("            csm_privilege p,");</line>
+  <line number='639'>		stbr.append("            csm_user u,");</line>
+  <line number='640'>		stbr.append("            csm_pg_pe pgpe,");</line>
+  <line number='641'>		stbr.append("            csm_role r,");</line>
+  <line number='642'>		stbr.append("            csm_role_privilege rp,");</line>
+  <line number='643'>		stbr.append("            csm_user_group_role_pg ugrpg");</line>
+  <line number='644'>		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");</line>
+  <line number='645'>		stbr.append("            AND ugrpg.role_id = rp.role_id");</line>
+  <line number='646'>		stbr.append("            AND rp.privilege_id = p.privilege_id");</line>
+  <line number='647'>		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");</line>
+  <line number='648'>		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='649'>		stbr.append("            AND ugrpg.user_id = u.user_id");</line>
+  <line number='650'>		stbr.append("            AND (pe.attribute is not null or pe.attribute &lt;&gt; '')");</line>
+  <line number='665'>		</line>
+  <line number='666'>	}</line>
+  <line number='667'></line>
+  <line number='668'>	protected static PreparedStatement getQueryforGroupAttributeMap(String groupName, String className, String privilegeName, int application_id, Connection cn) throws SQLException</line>
+  <line number='669'>	{</line>
+  <line number='670'>		</line>
+  <line number='671'>		StringBuffer stbr = new StringBuffer();</line>
+  <line number='672'></line>
+  <line number='673'>		stbr.append("SELECT DISTINCT pe.attribute");</line>
+  <line number='674'>		stbr.append("      FROM  csm_protection_element pe,");</line>
+  <line number='675'>		stbr.append("            csm_protection_group pg,");</line>
+  <line number='676'>		stbr.append("            csm_privilege p,");</line>
+  <line number='677'>		stbr.append("            csm_group g,");</line>
+  <line number='678'>		stbr.append("            csm_pg_pe pgpe,");</line>
+  <line number='679'>		stbr.append("            csm_role r,");</line>
+  <line number='680'>		stbr.append("            csm_role_privilege rp,");</line>
+  <line number='681'>		stbr.append("            csm_user_group_role_pg ugrpg");</line>
+  <line number='682'>		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");</line>
+  <line number='683'>		stbr.append("            AND ugrpg.role_id = rp.role_id");</line>
+  <line number='684'>		stbr.append("            AND rp.privilege_id = p.privilege_id");</line>
+  <line number='685'>		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");</line>
+  <line number='686'>		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");</line>
+  <line number='687'>		stbr.append("            AND ugrpg.group_id = g.group_id");</line>
+  <line number='688'>		stbr.append("            AND (pe.attribute is not null or pe.attribute &lt;&gt; '')");</line>
+  <type type='simian' number='38' suppressed='0'/>
+</file>

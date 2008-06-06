@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/domainobjects/Application.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/Application.java"
+>
+  <violation
+    line="237"
+    source="EqualsHashCodeCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Definition of 'equals()' without corresponding definition of 'hashCode()'."
+    severity-level="1"
+    popup-message="Definition of 'equals()' without corresponding definition of 'hashCode()'."
+  />
+  <line number='228'>	/**</line>
+  <line number='229'>	 * The date when the data for this application was last modified</line>
+  <line number='230'>	 * @param newVal    newVal</line>
+  <line number='231'>	 * </line>
+  <line number='232'>	 */</line>
+  <line number='233'>	public void setUpdateDate(Date newVal){</line>
+  <line number='234'>		updateDate = newVal;</line>
+  <line number='235'>	}</line>
+  <line number='236'>	</line>
+  <line number='237'>	public boolean equals(Object obj){</line>
+  <line number='238'>	    Application other = (Application)obj;</line>
+  <line number='239'>		if(this.getApplicationId().toString().equals(other.getApplicationId().toString())){</line>
+  <line number='240'>			return true;</line>
+  <line number='241'>		}else{</line>
+  <line number='242'>		return false;</line>
+  <line number='243'>		}</line>
+  <line number='244'>	}</line>
+  <line number='245'></line>
+  <line number='246'>	public int compareTo(Object object) {</line>
+  <line number='247'>		if(object instanceof Application){</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+</file>

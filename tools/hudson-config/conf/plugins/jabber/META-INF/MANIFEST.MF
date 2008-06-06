@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: kohsuke
+Build-Jdk: 1.5.0_09
+Extension-Name: jabber
+Implementation-Title: jabber
+Implementation-Version: 0.4
+Plugin-Class: hudson.plugins.jabber.im.transport.JabberPluginImpl
+Long-Name: Hudson Jabber notifier plugin
+Plugin-Version: 0.4
+Hudson-Version: null
+

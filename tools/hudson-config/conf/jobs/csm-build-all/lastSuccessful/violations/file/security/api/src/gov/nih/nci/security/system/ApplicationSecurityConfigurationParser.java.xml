@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java"
+>
+  <violation
+    line="89"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 9 lines from &lt;a href='#line122'&gt;line 122&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 9 lines from line 122."
+  />
+  <violation
+    line="99"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line135'&gt;line 135&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 135."
+  />
+  <violation
+    line="107"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line143'&gt;line 143&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 143."
+  />
+  <violation
+    line="122"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='#line89'&gt;line 89&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 89."
+  />
+  <violation
+    line="135"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line99'&gt;line 99&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 99."
+  />
+  <violation
+    line="143"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='#line107'&gt;line 107&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 107."
+  />
+  <violation
+    line="155"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line207'&gt;line 207&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 207."
+  />
+  <violation
+    line="158"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line252'&gt;line 252&lt;/a&gt; and &lt;a href='#line182'&gt;line 182&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 252 and line 182."
+  />
+  <violation
+    line="158"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 17 lines from &lt;a href='#line182'&gt;line 182&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 17 lines from line 182."
+  />
+  <violation
+    line="182"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line158'&gt;line 158&lt;/a&gt; and &lt;a href='#line252'&gt;line 252&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 158 and line 252."
+  />
+  <violation
+    line="182"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 17 lines from &lt;a href='#line158'&gt;line 158&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 17 lines from line 158."
+  />
+  <violation
+    line="207"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='#line155'&gt;line 155&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 155."
+  />
+  <violation
+    line="252"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line158'&gt;line 158&lt;/a&gt; and &lt;a href='#line182'&gt;line 182&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 158 and line 182."
+  />
+  <line number='80'>		</line>
+  <line number='81'>	    return configDoc;</line>
+  <line number='82'>	    </line>
+  <line number='83'>	    </line>
+  <line number='84'>	}</line>
+  <line number='85'>	</line>
+  <line number='86'>	</line>
+  <line number='87'>	public static void validateXMLwithSchema(URL url) throws CSConfigurationException{</line>
+  <line number='88'>		try {</line>
+  <line number='89'>			InputStream inputStreamXSD = FileLoader.getInstance().getApplicationSecurityConfigSchemaAsStream();</line>
+  <line number='90'>			</line>
+  <line number='91'>	    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</line>
+  <line number='92'>	    	dbf.setNamespaceAware(true);</line>
+  <line number='93'>	    	dbf.setValidating(true);</line>
+  <line number='94'>	    	dbf.setAttribute(</line>
+  <line number='95'>	    		  "http://java.sun.com/xml/jaxp/properties/schemaLanguage",</line>
+  <line number='96'>	    		  "http://www.w3.org/2001/XMLSchema");</line>
+  <line number='97'>	    	dbf.setAttribute(</line>
+  <line number='98'>	    		  "http://java.sun.com/xml/jaxp/properties/schemaSource", inputStreamXSD);</line>
+  <line number='99'>	    	DocumentBuilder db = null;</line>
+  <line number='100'>			try {</line>
+  <line number='101'>				db = dbf.newDocumentBuilder();</line>
+  <line number='102'>			} catch (ParserConfigurationException e) {</line>
+  <line number='103'>				throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='104'>			}</line>
+  <line number='105'>	    	try {</line>
+  <line number='106'>				Document doc = (Document) db.parse(url.getPath());</line>
+  <line number='107'>			} catch (SAXException e) {</line>
+  <line number='108'>				throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='109'>			} catch (IOException e) {</line>
+  <line number='110'>				throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='111'>			}</line>
+  <line number='112'>	        } catch(DOMException de) {</line>
+  <line number='113'>	        	throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='114'>	        }</line>
+  <line number='115'>	}</line>
+  <line number='116'></line>
+  <line number='117'></line>
+  <line number='118'>	public static void validateXMLwithSchema(String xmlDocument) throws CSConfigurationException{</line>
+  <line number='119'>		try {</line>
+  <line number='120'>			</line>
+  <line number='121'>			String configFilePath = System.getProperty("gov.nih.nci.security.configFile");</line>
+  <line number='122'>			InputStream inputStreamXSD = FileLoader.getInstance().getApplicationSecurityConfigSchemaAsStream();</line>
+  <line number='123'>			//InputStream inputStreamXML = FileLoader.getInstance().getApplicationSecurityConfigXMLAsStream(xmlDocument);</line>
+  <line number='124'>			</line>
+  <line number='125'>			</line>
+  <line number='126'>	    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</line>
+  <line number='127'>	    	dbf.setNamespaceAware(true);</line>
+  <line number='128'>	    	dbf.setValidating(true);</line>
+  <line number='129'>	    	dbf.setAttribute(</line>
+  <line number='130'>	    		  "http://java.sun.com/xml/jaxp/properties/schemaLanguage",</line>
+  <line number='131'>	    		  "http://www.w3.org/2001/XMLSchema");</line>
+  <line number='132'>	    	dbf.setAttribute(</line>
+  <line number='133'>	    		  "http://java.sun.com/xml/jaxp/properties/schemaSource",</line>
+  <line number='134'>	    		  inputStreamXSD);</line>
+  <line number='135'>	    	DocumentBuilder db = null;</line>
+  <line number='136'>			try {</line>
+  <line number='137'>				db = dbf.newDocumentBuilder();</line>
+  <line number='138'>			} catch (ParserConfigurationException e) {</line>
+  <line number='139'>				throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='140'>			}</line>
+  <line number='141'>	    	try {</line>
+  <line number='142'>				Document doc = (Document) db.parse(configFilePath);</line>
+  <line number='143'>			} catch (SAXException e) {</line>
+  <line number='144'>				throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='145'>			} catch (IOException e) {</line>
+  <line number='146'>				throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='147'>			}</line>
+  <line number='148'>	        } catch(DOMException de) {</line>
+  <line number='149'>	        	throw new CSConfigurationException("Error in parsing the Application Security Config file");</line>
+  <line number='150'>	        }</line>
+  <line number='151'>	}</line>
+  <line number='152'></line>
+  <line number='153'>	public static String getAuthorizationManagerClass(String applicationContextName) throws CSException, CSConfigurationException{</line>
+  <line number='154'>		String authorizationProviderClassName = null;</line>
+  <line number='155'>		org.jdom.Document configDocument;</line>
+  <line number='156'>		</line>
+  <line number='157'>		configDocument = getConfigDocument();</line>
+  <line number='158'>		Element securityConfig = configDocument.getRootElement();</line>
+  <line number='159'>		Element applicationList = securityConfig.getChild("application-list");</line>
+  <line number='160'>		List applications = applicationList.getChildren("application");</line>
+  <line number='161'>		 Iterator appIterator  = applications.iterator();</line>
+  <line number='162'>		 while(appIterator.hasNext()){</line>
+  <line number='163'>		 	Element application = (Element)appIterator.next();</line>
+  <line number='164'>		 	Element contextName = application.getChild("context-name");</line>
+  <line number='165'>		 	String contextNameValue = contextName.getText().trim();</line>
+  <line number='166'>			if(contextNameValue.equalsIgnoreCase(applicationContextName)){</line>
+  <line number='167'>				Element authorization = application.getChild("authorization");</line>
+  <line number='168'>				Element authorizationProviderClass = authorization.getChild("authorization-provider-class");</line>
+  <line number='173'>				ApplicationSecurityConfigurationParser.log.debug("Authorization|||getAuthorizationManagerClass|Success| Read the authorization Class Name " );</line>
+  <line number='174'>		 return authorizationProviderClassName;</line>
+  <line number='175'>	}</line>
+  <line number='176'></line>
+  <line number='177'>	public static String getAuthorizationManagerClass(String applicationContextName, URL url) throws CSException, CSConfigurationException{</line>
+  <line number='178'>		String authorizationProviderClassName = null;</line>
+  <line number='179'>		org.jdom.Document configDocument;</line>
+  <line number='180'>		</line>
+  <line number='181'>		configDocument = getConfigDocument(url);</line>
+  <line number='182'>		Element securityConfig = configDocument.getRootElement();</line>
+  <line number='183'>		Element applicationList = securityConfig.getChild("application-list");</line>
+  <line number='184'>		List applications = applicationList.getChildren("application");</line>
+  <line number='185'>		 Iterator appIterator  = applications.iterator();</line>
+  <line number='186'>		 while(appIterator.hasNext()){</line>
+  <line number='187'>		 	Element application = (Element)appIterator.next();</line>
+  <line number='188'>		 	Element contextName = application.getChild("context-name");</line>
+  <line number='189'>		 	String contextNameValue = contextName.getText().trim();</line>
+  <line number='190'>			if(contextNameValue.equalsIgnoreCase(applicationContextName)){</line>
+  <line number='191'>				Element authorization = application.getChild("authorization");</line>
+  <line number='192'>				Element authorizationProviderClass = authorization.getChild("authorization-provider-class");</line>
+  <line number='198'>		 return authorizationProviderClassName;</line>
+  <line number='199'>	}</line>
+  <line number='200'>	</line>
+  <line number='201'>	</line>
+  <line number='202'>	public static String getAuthenticationManagerClass(String applicationContextName) throws CSException,CSConfigurationException{</line>
+  <line number='203'>		String authenticationProviderClassName = null;</line>
+  <line number='204'>		String lockoutTime = null;</line>
+  <line number='205'>		String allowedLoginTime = null;</line>
+  <line number='206'>		String allowedAttempts = null;</line>
+  <line number='207'>		org.jdom.Document configDocument;</line>
+  <line number='208'>	</line>
+  <line number='209'>		configDocument = getConfigDocument();</line>
+  <line number='210'>		Element securityConfig = configDocument.getRootElement();</line>
+  <line number='211'>		Element applicationList = securityConfig.getChild("application-list");</line>
+  <line number='212'>		List applications = applicationList.getChildren("application");</line>
+  <line number='213'>		 Iterator appIterator  = applications.iterator();</line>
+  <line number='214'>		 while(appIterator.hasNext()){</line>
+  <line number='215'>		 	Element application = (Element)appIterator.next();</line>
+  <line number='216'>		 	Element contextName = application.getChild("context-name");</line>
+  <line number='217'>		 	String contextNameValue = contextName.getText().trim();</line>
+  <line number='243'>			if (ApplicationSecurityConfigurationParser.log.isDebugEnabled())</line>
+  <line number='244'>				ApplicationSecurityConfigurationParser.log.debug("Authentication|||getAuthenticationManagerClass|Success| Read the authentication Class Name " );</line>
+  <line number='245'>		 return authenticationProviderClassName;</line>
+  <line number='246'>	}</line>
+  <line number='247'></line>
+  <line number='248'>	public static SessionFactory getApplicationSessionFactoryFromHotInitialization(String applicationContextName) throws CSConfigurationException{</line>
+  <line number='249'>		</line>
+  <line number='250'>		SessionFactory sf = null;</line>
+  <line number='251'>		org.jdom.Document configDocument = (org.jdom.Document) getConfigDocument();</line>
+  <line number='252'>		Element securityConfig = configDocument.getRootElement();</line>
+  <line number='253'>		Element applicationList = securityConfig.getChild("application-list");</line>
+  <line number='254'>		List applications = applicationList.getChildren("application");</line>
+  <line number='255'>		Iterator appIterator  = applications.iterator();</line>
+  <line number='256'>		while(appIterator.hasNext()){</line>
+  <line number='257'>		 	Element application = (Element)appIterator.next();</line>
+  <line number='258'>		 	Element contextName = application.getChild("context-name");</line>
+  <line number='259'>		 	String contextNameValue = contextName.getText().trim();</line>
+  <line number='260'>			if(contextNameValue.equalsIgnoreCase(applicationContextName)){</line>
+  <line number='261'>			 	Element authorization = application.getChild("authorization");</line>
+  <line number='262'>			 	Element hibernateConfigFile = authorization.getChild("hibernate-config-file");</line>
+  <type type='simian' number='13' suppressed='0'/>
+</file>

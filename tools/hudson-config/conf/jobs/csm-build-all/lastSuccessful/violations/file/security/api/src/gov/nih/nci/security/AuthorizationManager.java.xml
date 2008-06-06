@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/AuthorizationManager.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/AuthorizationManager.java"
+>
+  <violation
+    line="91"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.authorization.ObjectPrivilegeMap."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.authorization.ObjectPrivilegeMap."
+  />
+  <violation
+    line="106"
+    source="RedundantImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Redundant import from the same package - gov.nih.nci.security.UserProvisioningManager."
+    severity-level="1"
+    popup-message="Redundant import from the same package - gov.nih.nci.security.UserProvisioningManager."
+  />
+  <violation
+    line="106"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.UserProvisioningManager."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.UserProvisioningManager."
+  />
+  <violation
+    line="107"
+    source="RedundantImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Redundant import from the same package - gov.nih.nci.security.SecurityServiceProvider."
+    severity-level="1"
+    popup-message="Redundant import from the same package - gov.nih.nci.security.SecurityServiceProvider."
+  />
+  <violation
+    line="107"
+    source="UnusedImportsCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Unused import - gov.nih.nci.security.SecurityServiceProvider."
+    severity-level="1"
+    popup-message="Unused import - gov.nih.nci.security.SecurityServiceProvider."
+  />
+  <violation
+    line="164"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 21 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 21 (max allowed is 20)."
+  />
+  <line number='82'> *SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</line>
+  <line number='83'> *CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR</line>
+  <line number='84'> *TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF</line>
+  <line number='85'> *THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</line>
+  <line number='86'> *</line>
+  <line number='87'> *&lt;!-- LICENSE_TEXT_END --&gt;</line>
+  <line number='88'> *</line>
+  <line number='89'> */</line>
+  <line number='90'></line>
+  <line number='91'>import gov.nih.nci.security.authorization.ObjectPrivilegeMap;</line>
+  <line number='92'>import gov.nih.nci.security.authorization.domainobjects.Application;</line>
+  <line number='93'>import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;</line>
+  <line number='94'>import gov.nih.nci.security.authorization.domainobjects.FilterClause;</line>
+  <line number='95'>import gov.nih.nci.security.authorization.domainobjects.Group;</line>
+  <line number='96'>import gov.nih.nci.security.authorization.domainobjects.Privilege;</line>
+  <line number='97'>import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;</line>
+  <line number='98'>import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;</line>
+  <line number='99'>import gov.nih.nci.security.authorization.domainobjects.Role;</line>
+  <line number='100'>import gov.nih.nci.security.authorization.domainobjects.User;</line>
+  <line number='101'>import gov.nih.nci.security.authorization.jaas.AccessPermission;</line>
+  <line number='102'>import gov.nih.nci.security.dao.SearchCriteria;</line>
+  <line number='103'>import gov.nih.nci.security.exceptions.CSException;</line>
+  <line number='104'>import gov.nih.nci.security.exceptions.CSObjectNotFoundException;</line>
+  <line number='105'>import gov.nih.nci.security.exceptions.CSTransactionException;</line>
+  <line number='106'>import gov.nih.nci.security.UserProvisioningManager;</line>
+  <line number='107'>import gov.nih.nci.security.SecurityServiceProvider;</line>
+  <line number='108'></line>
+  <line number='109'>import java.net.URL;</line>
+  <line number='110'>import java.security.Principal;</line>
+  <line number='111'>import java.util.Collection;</line>
+  <line number='112'>import java.util.List;</line>
+  <line number='113'>import java.util.Set;</line>
+  <line number='114'></line>
+  <line number='115'>import javax.security.auth.Subject;</line>
+  <line number='116'></line>
+  <line number='117'></line>
+  <line number='155'> * </line>
+  <line number='156'> * If the client application wants to use just the authorization service then it can</line>
+  <line number='157'> * obtain the implementation of the &lt;code&gt;AuthorizationManager&lt;/code&gt; interface from the </line>
+  <line number='158'> * {@link SecurityServiceProvider} class.</line>
+  <line number='159'> * </line>
+  <line number='160'> * @author Vinay Kumar(Ekagra Software Technologies Ltd.) </line>
+  <line number='161'> * </line>
+  <line number='162'> */</line>
+  <line number='163'></line>
+  <line number='164'>public interface AuthorizationManager {</line>
+  <line number='165'></line>
+  <line number='166'>	/**</line>
+  <line number='167'>	 * This method returns the User object from the database for the passed User's Login Name. If no User is</line>
+  <line number='168'>	 * found then null is returned</line>
+  <line number='169'>	 * @param loginName The Login Name of the User which is to be obtained</line>
+  <line number='170'>	 * </line>
+  <line number='171'>	 * @return User The User object from the database for the passed Login Name</line>
+  <line number='172'>	 */</line>
+  <line number='173'>	public User getUser(String loginName);</line>
+  <line number='174'></line>
+  <type type='checkstyle' number='6' suppressed='0'/>
+</file>

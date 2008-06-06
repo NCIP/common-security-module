@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.vmware.VMwareActivationWrapper_-DescriptorImpl>
+  <hosts>
+    <hudson.plugins.vmware.VMwareActivationWrapper_-VMwareHostConfig>
+      <name>(default)</name>
+      <vixLibraryPath></vixLibraryPath>
+      <hostName></hostName>
+      <portNumber>902</portNumber>
+      <username></username>
+      <password></password>
+    </hudson.plugins.vmware.VMwareActivationWrapper_-VMwareHostConfig>
+  </hosts>
+</hudson.plugins.vmware.VMwareActivationWrapper_-DescriptorImpl>

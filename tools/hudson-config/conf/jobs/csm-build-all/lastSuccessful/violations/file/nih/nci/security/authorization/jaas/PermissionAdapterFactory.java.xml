@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authorization/jaas/PermissionAdapterFactory.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authorization/jaas/PermissionAdapterFactory.java"
+>
+  <violation
+    line="121"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_instance'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_instance'."
+  />
+  <type type='pmd' number='1' suppressed='0'/>
+</file>

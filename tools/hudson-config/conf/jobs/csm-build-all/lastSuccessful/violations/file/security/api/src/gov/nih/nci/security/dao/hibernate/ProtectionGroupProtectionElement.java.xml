@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.java"
+>
+  <violation
+    line="103"
+    source="AvoidStarImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Using the '.*' form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*."
+    severity-level="1"
+    popup-message="Using the '.*' form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*."
+  />
+  <line number='94'> *</line>
+  <line number='95'> */</line>
+  <line number='96'></line>
+  <line number='97'></line>
+  <line number='98'>import java.io.Serializable;</line>
+  <line number='99'>import java.util.Date;</line>
+  <line number='100'>import org.apache.commons.lang.builder.EqualsBuilder;</line>
+  <line number='101'>import org.apache.commons.lang.builder.HashCodeBuilder;</line>
+  <line number='102'>import org.apache.commons.lang.builder.ToStringBuilder;</line>
+  <line number='103'>import gov.nih.nci.security.authorization.domainobjects.*;</line>
+  <line number='104'></line>
+  <line number='105'>/** </line>
+  <line number='106'> *        @hibernate.class</line>
+  <line number='107'> *         table="protection_group_protection_element"</line>
+  <line number='108'> *     </line>
+  <line number='109'>*/</line>
+  <line number='110'>public class ProtectionGroupProtectionElement implements Serializable {</line>
+  <line number='111'></line>
+  <line number='112'>    /** identifier field */</line>
+  <line number='113'>    private Long protectionGroupProtectionElementId;</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+</file>

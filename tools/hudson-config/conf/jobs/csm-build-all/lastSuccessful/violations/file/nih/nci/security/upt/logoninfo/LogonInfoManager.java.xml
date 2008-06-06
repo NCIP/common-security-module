@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/upt/logoninfo/LogonInfoManager.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/upt/logoninfo/LogonInfoManager.java"
+>
+  <violation
+    line="14"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as 'loginInfo'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as 'loginInfo'."
+  />
+  <violation
+    line="16"
+    source="EmptyStaticInitializer"
+    severity="Medium"
+    type="pmd"
+    message="Empty static initializer was found"
+    severity-level="2"
+    popup-message="Empty static initializer was found"
+  />
+  <violation
+    line="37"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'getAllowedLogonAttempts()'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'getAllowedLogonAttempts()'."
+  />
+  <violation
+    line="40"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'getLockoutTime()'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'getLockoutTime()'."
+  />
+  <violation
+    line="43"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'getAllowedLogonTime()'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'getAllowedLogonTime()'."
+  />
+  <type type='pmd' number='5' suppressed='0'/>
+</file>

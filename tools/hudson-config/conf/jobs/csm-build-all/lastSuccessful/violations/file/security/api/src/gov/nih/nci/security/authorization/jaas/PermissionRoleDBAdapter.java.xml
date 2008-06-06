@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java"
+>
+  <violation
+    line="95"
+    source="AvoidStarImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Using the '.*' form of import should be avoided - java.security.*."
+    severity-level="1"
+    popup-message="Using the '.*' form of import should be avoided - java.security.*."
+  />
+  <violation
+    line="98"
+    source="AvoidStarImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Using the '.*' form of import should be avoided - java.sql.*."
+    severity-level="1"
+    popup-message="Using the '.*' form of import should be avoided - java.sql.*."
+  />
+  <line number='86'> *</line>
+  <line number='87'> *&lt;!-- LICENSE_TEXT_END --&gt;</line>
+  <line number='88'> *</line>
+  <line number='89'> */</line>
+  <line number='90'></line>
+  <line number='91'></line>
+  <line number='92'>import java.security.CodeSource;</line>
+  <line number='93'>import java.security.PermissionCollection;</line>
+  <line number='94'>import java.security.Principal;</line>
+  <line number='95'>import java.security.*;</line>
+  <line number='96'>import java.util.Hashtable;</line>
+  <line number='97'></line>
+  <line number='98'>import java.sql.*;</line>
+  <line number='99'></line>
+  <line number='100'></line>
+  <line number='101'></line>
+  <line number='102'></line>
+  <line number='103'></line>
+  <line number='104'></line>
+  <line number='105'>/**</line>
+  <line number='106'> * AuthznDBHanlder.java</line>
+  <line number='107'> * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.7 2005-04-26 17:59:09 copene Exp $ $Log: not supported by cvs2svn $</line>
+  <line number='108'> * @author ghuang  Create:4-Mar-2003  $Header: /share/content/cvsroot/security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java,v 1.7 2005-04-26 17:59:09 copene Exp $ Revision 1.5  2005/03/29 17:12:38  modik</line>
+  <type type='checkstyle' number='2' suppressed='0'/>
+</file>

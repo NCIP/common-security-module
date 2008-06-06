@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/util/JDBCHelper.java"
+  last-modified="1212512034000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/JDBCHelper.java"
+>
+  <violation
+    line="39"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 24 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 24 (max allowed is 20)."
+  />
+  <violation
+    line="84"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 17 lines from &lt;a href='#line147'&gt;line 147&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 17 lines from line 147."
+  />
+  <violation
+    line="147"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 17 lines from &lt;a href='#line84'&gt;line 84&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 17 lines from line 84."
+  />
+  <line number='30'>import com.mysql.jdbc.CommunicationsException;</line>
+  <line number='31'></line>
+  <line number='32'>/**</line>
+  <line number='33'> * JDBC Helper class is created to test the database connection parameters</line>
+  <line number='34'> * available from UPT's ApplicationForm.</line>
+  <line number='35'> * </line>
+  <line number='36'> * @author parmarv</line>
+  <line number='37'> * </line>
+  <line number='38'> */</line>
+  <line number='39'>public class JDBCHelper {</line>
+  <line number='40'></line>
+  <line number='41'>	/**</line>
+  <line number='42'>	 * This method uses Hibernates SessionFactory to get a Session and using Hibernates Criteria does a sample query </line>
+  <line number='43'>	 * to connection and obtain results as part of testing for successful connection.</line>
+  <line number='44'>	 * </line>
+  <line number='45'>	 * Based on the kind of exceptions this method throws CSException with appropriate message.</line>
+  <line number='46'>	 * @param appForm -</line>
+  <line number='47'>	 *            The ApplicationForm with application database parameters to</line>
+  <line number='48'>	 *            test connection for.</line>
+  <line number='49'>	 * @return String - The message indicating that connection and a SQL query</line>
+  <line number='75'>			</line>
+  <line number='76'>			List results = criteria.list();</line>
+  <line number='77'>			Integer integer = (Integer) results.iterator().next();</line>
+  <line number='78'>			if (integer == null) {</line>
+  <line number='79'>				session.close();</line>
+  <line number='80'>				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED);</line>
+  <line number='81'>			}</line>
+  <line number='82'>			</line>
+  <line number='83'>			session.close();</line>
+  <line number='84'>			return DisplayConstants.APPLICATION_DATABASE_CONNECTION_SUCCESSFUL;</line>
+  <line number='85'>		</line>
+  <line number='86'>		} catch(Throwable t){</line>
+  <line number='87'>			// Depending on the cause of the exception obtain message and throw a CSException.</line>
+  <line number='88'>			if(t instanceof SQLGrammarException){</line>
+  <line number='89'>				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"&lt;BR&gt;"+t.getCause().getMessage());</line>
+  <line number='90'>			}</line>
+  <line number='91'>			if(t instanceof JDBCConnectionException){</line>
+  <line number='92'>				if(t.getCause() instanceof CommunicationsException){</line>
+  <line number='93'>					throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_SERVER_PORT);</line>
+  <line number='94'>				}</line>
+  <line number='138'>			sf = configuration.buildSessionFactory();</line>
+  <line number='139'>			session = sf.openSession();</line>
+  <line number='140'>			conn = session.connection();</line>
+  <line number='141'>			stmt = conn.createStatement();</line>
+  <line number='142'>			stmt.execute("select count(*) from csm_application");</line>
+  <line number='143'>			rs = stmt.getResultSet();</line>
+  <line number='144'></line>
+  <line number='145'>			System.out.println(rs.getMetaData().getColumnCount());</line>
+  <line number='146'>			</line>
+  <line number='147'>			return DisplayConstants.APPLICATION_DATABASE_CONNECTION_SUCCESSFUL;</line>
+  <line number='148'>		</line>
+  <line number='149'>		} catch(Throwable t){</line>
+  <line number='150'>			// Depending on the cause of the exception obtain message and throw a CSException.</line>
+  <line number='151'>			if(t instanceof SQLGrammarException){</line>
+  <line number='152'>				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"&lt;BR&gt;"+t.getCause().getMessage());</line>
+  <line number='153'>			}</line>
+  <line number='154'>			if(t instanceof JDBCConnectionException){</line>
+  <line number='155'>				if(t.getCause() instanceof CommunicationsException){</line>
+  <line number='156'>					throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_SERVER_PORT);</line>
+  <line number='157'>				}</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='2' suppressed='0'/>
+</file>

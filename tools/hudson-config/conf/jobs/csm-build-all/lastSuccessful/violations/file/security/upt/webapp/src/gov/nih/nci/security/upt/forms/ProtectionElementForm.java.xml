@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java"
+>
+  <violation
+    line="128"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, SearchResult, SimpleDateFormat]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, SearchResult, SimpleDateFormat]."
+  />
+  <violation
+    line="423"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 11 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 11 (max allowed is 10)."
+  />
+  <violation
+    line="136"
+    source="duplication"
+    severity="High"
+    type="simian"
+    message="Duplication of 117 lines from &lt;a href='../SearchProtectionElementForm.java#line135'&gt;line 135 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="0"
+    popup-message="Duplication of 117 lines from line 135 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="271"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../SearchProtectionElementForm.java#line255'&gt;line 255 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 255 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="274"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line287'&gt;line 287&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 287."
+  />
+  <violation
+    line="280"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='../SearchProtectionElementForm.java#line263'&gt;line 263 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 263 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="287"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line274'&gt;line 274&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 274."
+  />
+  <violation
+    line="293"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='../SearchProtectionElementForm.java#line275'&gt;line 275 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 275 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="308"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='../SearchProtectionElementForm.java#line289'&gt;line 289 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 289 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="321"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='../SearchProtectionElementForm.java#line301'&gt;line 301 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 301 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="336"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 28 lines from &lt;a href='../SearchProtectionElementForm.java#line315'&gt;line 315 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 28 lines from line 315 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="366"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 26 lines from &lt;a href='../SearchProtectionElementForm.java#line344'&gt;line 344 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 26 lines from line 344 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="395"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 41 lines from &lt;a href='../SearchProtectionElementForm.java#line372'&gt;line 372 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 41 lines from line 372 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="439"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 42 lines from &lt;a href='../SearchProtectionElementForm.java#line414'&gt;line 414 in SearchProtectionElementForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 42 lines from line 414 in SearchProtectionElementForm.java."
+  />
+  <violation
+    line="440"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 13 lines from &lt;a href='../SearchProtectionElementForm.java#line415'&gt;line 415 in SearchProtectionElementForm.java&lt;/a&gt;, &lt;a href='../ApplicationForm.java#line531'&gt;line 531 in ApplicationForm.java&lt;/a&gt; and &lt;a href='../GroupForm.java#line375'&gt;line 375 in GroupForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 13 lines from line 415 in SearchProtectionElementForm.java, line 531 in ApplicationForm.java and line 375 in GroupForm.java."
+  />
+  <violation
+    line="456"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../SearchProtectionElementForm.java#line431'&gt;line 431 in SearchProtectionElementForm.java&lt;/a&gt; and &lt;a href='../../actions/ProtectionElementAction.java#line147'&gt;line 147 in ProtectionElementAction.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 431 in SearchProtectionElementForm.java and line 147 in ProtectionElementAction.java."
+  />
+  <line number='119'>import org.apache.struts.action.ActionMessages;</line>
+  <line number='120'>import org.apache.struts.validator.ValidatorForm;</line>
+  <line number='121'></line>
+  <line number='122'>/**</line>
+  <line number='123'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='124'> *</line>
+  <line number='125'> * TODO To change the template for this generated type comment go to</line>
+  <line number='126'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='127'> */</line>
+  <line number='128'>public class ProtectionElementForm extends ValidatorForm implements BaseAssociationForm{</line>
+  <line number='129'></line>
+  <line number='130'>	private String protectionElementId;</line>
+  <line number='131'>	private String protectionElementName;</line>
+  <line number='132'>	private String protectionElementDescription;</line>
+  <line number='133'>	private String protectionElementObjectId;</line>
+  <line number='134'>	private String protectionElementAttribute;</line>
+  <line number='135'>	private String protectionElementValue;</line>
+  <line number='136'>	private String protectionElementType;</line>
+  <line number='137'>	private String protectionElementUpdateDate;</line>
+  <line number='138'>	</line>
+  <line number='139'>	private String[] associatedIds;</line>
+  <line number='140'>	private String[] ownershipAssociatedIds;</line>
+  <line number='141'>	</line>
+  <line number='142'>	</line>
+  <line number='143'>	/**</line>
+  <line number='144'>	 * @return Returns the protectionElementAttribute.</line>
+  <line number='145'>	 */</line>
+  <line number='146'>	public String getProtectionElementAttribute() {</line>
+  <line number='262'>	</line>
+  <line number='263'>	/**</line>
+  <line number='264'>	 * @param protectionElementValue The protectionElementValue to set.</line>
+  <line number='265'>	 */</line>
+  <line number='266'>	public void setProtectionElementValue(String protectionElementValue)</line>
+  <line number='267'>	{</line>
+  <line number='268'>		this.protectionElementValue = protectionElementValue;</line>
+  <line number='269'>	}</line>
+  <line number='270'>	</line>
+  <line number='271'>	public void resetForm()</line>
+  <line number='272'>	{</line>
+  <line number='273'>		this.protectionElementId = "";</line>
+  <line number='274'>		this.protectionElementName = "";</line>
+  <line number='275'>		this.protectionElementDescription = "";</line>
+  <line number='276'>		this.protectionElementType = "";</line>
+  <line number='277'>		this.protectionElementObjectId = "";</line>
+  <line number='278'>		this.protectionElementAttribute = "";</line>
+  <line number='279'>		this.protectionElementValue = "";</line>
+  <line number='280'>		this.protectionElementUpdateDate = "";</line>
+  <line number='281'>		this.associatedIds = null;</line>
+  <line number='282'>		this.ownershipAssociatedIds = null;</line>
+  <line number='283'>	}</line>
+  <line number='284'>	</line>
+  <line number='285'>	public void reset(ActionMapping mapping, HttpServletRequest request)</line>
+  <line number='286'>	{</line>
+  <line number='287'>		this.protectionElementName = "";</line>
+  <line number='288'>		this.protectionElementDescription = "";</line>
+  <line number='289'>		this.protectionElementType = "";</line>
+  <line number='290'>		this.protectionElementObjectId = "";</line>
+  <line number='291'>		this.protectionElementAttribute = "";</line>
+  <line number='292'>		this.protectionElementValue = "";</line>
+  <line number='293'>		this.associatedIds = null;</line>
+  <line number='294'>		this.ownershipAssociatedIds = null;</line>
+  <line number='295'>	}</line>
+  <line number='296'>	</line>
+  <line number='297'>	public ArrayList getAddFormElements()</line>
+  <line number='298'>	{</line>
+  <line number='299'>		ArrayList formElementList = new ArrayList();</line>
+  <line number='300'></line>
+  <line number='301'>		formElementList.add(new FormElement("Protection Element Name", "protectionElementName", getProtectionElementName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='302'>		formElementList.add(new FormElement("Protection Element Description", "protectionElementDescription", getProtectionElementDescription(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='303'>		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", getProtectionElementType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='304'>		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='305'>		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='306'>		formElementList.add(new FormElement("Protection Element Value", "protectionElementValue", getProtectionElementValue(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='307'></line>
+  <line number='308'>		return formElementList;</line>
+  <line number='309'>	}</line>
+  <line number='310'></line>
+  <line number='311'>	public ArrayList getDisplayFormElements()</line>
+  <line number='312'>	{</line>
+  <line number='313'>		ArrayList formElementList = new ArrayList();</line>
+  <line number='314'></line>
+  <line number='315'>		formElementList.add(new FormElement("Protection Element Name", "protectionElementName", StringUtils.initString(getProtectionElementName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='316'>		formElementList.add(new FormElement("Protection Element Description", "protectionElementDescription", StringUtils.initString(getProtectionElementDescription()), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='317'>		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", StringUtils.initString(getProtectionElementType()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='318'>		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", StringUtils.initString(getProtectionElementObjectId()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='319'>		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", StringUtils.initString(getProtectionElementAttribute()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='320'>		formElementList.add(new FormElement("Protection Element Value", "protectionElementValue", StringUtils.initString(getProtectionElementValue()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='321'>		formElementList.add(new FormElement("Protection Element Update Date", "protectionElementUpdateDate", StringUtils.initString(getProtectionElementUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));</line>
+  <line number='322'></line>
+  <line number='323'>		return formElementList;</line>
+  <line number='324'>	}</line>
+  <line number='325'></line>
+  <line number='326'>	public ArrayList getSearchFormElements()</line>
+  <line number='327'>	{</line>
+  <line number='328'>		ArrayList formElementList = new ArrayList();</line>
+  <line number='329'></line>
+  <line number='330'>		formElementList.add(new FormElement("Protection Element Name", "protectionElementName", getProtectionElementName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='331'>		formElementList.add(new FormElement("Protection Element Type", "protectionElementType", getProtectionElementType(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='332'>		formElementList.add(new FormElement("Protection Element Object Id", "protectionElementObjectId", getProtectionElementObjectId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='333'>		formElementList.add(new FormElement("Protection Element Attribute", "protectionElementAttribute", getProtectionElementAttribute(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='334'>		formElementList.add(new FormElement("Protection Element Value", "protectionElementValue", getProtectionElementValue(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));</line>
+  <line number='335'></line>
+  <line number='336'>		return formElementList;</line>
+  <line number='337'>	}</line>
+  <line number='338'>	</line>
+  <line number='339'>	/* (non-Javadoc)</line>
+  <line number='340'>	 * @see gov.nih.nci.security.forms.BaseDBForm#getId()</line>
+  <line number='341'>	 */</line>
+  <line number='342'>	public String getPrimaryId()</line>
+  <line number='343'>	{</line>
+  <line number='344'>		if (this.protectionElementId == null)</line>
+  <line number='345'>		{</line>
+  <line number='346'>			return new String("");</line>
+  <line number='357'>		ProtectionElement protectionElement = userProvisioningManager.getProtectionElementById(this.protectionElementId);</line>
+  <line number='358'></line>
+  <line number='359'>		this.protectionElementName = protectionElement.getProtectionElementName();</line>
+  <line number='360'>		this.protectionElementDescription = protectionElement.getProtectionElementDescription();</line>
+  <line number='361'>		this.protectionElementType = protectionElement.getProtectionElementType();</line>
+  <line number='362'>		this.protectionElementObjectId = protectionElement.getObjectId();</line>
+  <line number='363'>		this.protectionElementAttribute = protectionElement.getAttribute();</line>
+  <line number='364'>		this.protectionElementValue = protectionElement.getValue();</line>
+  <line number='365'>		</line>
+  <line number='366'>		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");</line>
+  <line number='367'>		this.protectionElementUpdateDate = simpleDateFormat.format(protectionElement.getUpdateDate());</line>
+  <line number='368'>		</line>
+  <line number='369'>	}</line>
+  <line number='370'>	/* (non-Javadoc)</line>
+  <line number='371'>	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)</line>
+  <line number='372'>	 */</line>
+  <line number='373'>	public void buildDBObject(HttpServletRequest request) throws Exception</line>
+  <line number='374'>	{</line>
+  <line number='375'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='376'>		ProtectionElement protectionElement = null;</line>
+  <line number='386'></line>
+  <line number='387'>		protectionElement.setProtectionElementName(this.protectionElementName);</line>
+  <line number='388'>		protectionElement.setProtectionElementDescription(this.protectionElementDescription);</line>
+  <line number='389'>		protectionElement.setProtectionElementType(this.protectionElementType);</line>
+  <line number='390'>		protectionElement.setObjectId(this.protectionElementObjectId);</line>
+  <line number='391'>		protectionElement.setAttribute(this.protectionElementAttribute);</line>
+  <line number='392'>		protectionElement.setValue(this.protectionElementValue);</line>
+  <line number='393'>		</line>
+  <line number='394'>		</line>
+  <line number='395'>		if ((this.protectionElementId == null) || ((this.protectionElementId).equalsIgnoreCase("")))</line>
+  <line number='396'>		{</line>
+  <line number='397'>			userProvisioningManager.createProtectionElement(protectionElement);</line>
+  <line number='398'>			this.protectionElementId = protectionElement.getProtectionElementId().toString();</line>
+  <line number='399'>			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");</line>
+  <line number='400'>			this.protectionElementUpdateDate = simpleDateFormat.format(protectionElement.getUpdateDate());</line>
+  <line number='401'>		}</line>
+  <line number='402'>		else</line>
+  <line number='403'>		{</line>
+  <line number='404'>			protectionElement.setProtectionElementId(new Long(this.protectionElementId));</line>
+  <line number='405'>			userProvisioningManager.modifyProtectionElement(protectionElement);</line>
+  <line number='414'>	{</line>
+  <line number='415'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='416'>		userProvisioningManager.removeProtectionElement(this.protectionElementId);</line>
+  <line number='417'>		this.resetForm();</line>
+  <line number='418'>	}</line>
+  <line number='419'></line>
+  <line number='420'>	/* (non-Javadoc)</line>
+  <line number='421'>	 * @see gov.nih.nci.security.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest)</line>
+  <line number='422'>	 */</line>
+  <line number='423'>	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception </line>
+  <line number='424'>	{</line>
+  <line number='425'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='426'>		ProtectionElement protectionElement = new ProtectionElement();</line>
+  <line number='427'>		</line>
+  <line number='428'>		if (this.protectionElementName != null &amp;&amp; !(this.protectionElementName.trim().equalsIgnoreCase("")))</line>
+  <line number='429'>			protectionElement.setProtectionElementName(this.protectionElementName);</line>
+  <line number='430'>		if (this.protectionElementType != null &amp;&amp; !(this.protectionElementType.trim().equalsIgnoreCase("")))</line>
+  <line number='431'>			protectionElement.setProtectionElementType(this.protectionElementType);</line>
+  <line number='432'>		if (this.protectionElementObjectId != null &amp;&amp; !(this.protectionElementObjectId.trim().equalsIgnoreCase("")))</line>
+  <line number='433'>			protectionElement.setObjectId(this.protectionElementObjectId);</line>
+  <line number='434'>		if (this.protectionElementAttribute != null &amp;&amp; !(this.protectionElementAttribute.trim().equalsIgnoreCase("")))</line>
+  <line number='435'>			protectionElement.setAttribute(this.protectionElementAttribute);</line>
+  <line number='436'>		if (this.protectionElementValue != null &amp;&amp; !(this.protectionElementValue.trim().equalsIgnoreCase("")))</line>
+  <line number='437'>			protectionElement.setValue(this.protectionElementValue);</line>
+  <line number='438'>		</line>
+  <line number='439'>		SearchCriteria searchCriteria = new ProtectionElementSearchCriteria(protectionElement);</line>
+  <line number='440'>		List list = userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='441'>		SearchResult searchResult = new SearchResult();</line>
+  <line number='442'>		searchResult.setSearchResultMessage(searchCriteria.getMessage());</line>
+  <line number='443'>		searchResult.setSearchResultObjects(list);</line>
+  <line number='444'>		return searchResult;</line>
+  <line number='445'>	}</line>
+  <line number='446'></line>
+  <line number='447'>	/* (non-Javadoc)</line>
+  <line number='448'>	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)</line>
+  <line number='449'>	 */</line>
+  <line number='450'>	public void buildAssociationObject(HttpServletRequest request) throws Exception </line>
+  <line number='451'>	{</line>
+  <line number='452'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='453'></line>
+  <line number='454'>		Collection associatedProtectionGroups = userProvisioningManager.getProtectionGroups(this.protectionElementId);</line>
+  <line number='455'>		</line>
+  <line number='456'>		ProtectionGroup protectionGroup = new ProtectionGroup();</line>
+  <line number='457'>		SearchCriteria searchCriteria = new ProtectionGroupSearchCriteria(protectionGroup);</line>
+  <line number='458'>		Collection totalProtectionGroups = (Collection)userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='459'></line>
+  <line number='460'>		Collection availableProtectionGroups = ObjectSetUtil.minus(totalProtectionGroups,associatedProtectionGroups);</line>
+  <line number='461'>		</line>
+  <line number='462'>		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedProtectionGroups);</line>
+  <line number='463'>		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableProtectionGroups);</line>
+  <line number='464'>		</line>
+  <line number='465'>	}</line>
+  <line number='466'>	/* (non-Javadoc)</line>
+  <type type='checkstyle' number='2' suppressed='0'/>
+  <type type='simian' number='14' suppressed='0'/>
+</file>

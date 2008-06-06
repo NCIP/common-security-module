@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: ram
+Build-Jdk: 1.5.0_12
+Extension-Name: scp
+Implementation-Title: scp
+Implementation-Version: 1.3
+Plugin-Class: be.certipost.hudson.plugin.PluginImpl
+Long-Name: Hudson SCP publisher plugin
+Plugin-Version: 1.3
+Hudson-Version: null
+

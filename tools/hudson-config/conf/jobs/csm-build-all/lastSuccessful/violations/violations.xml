@@ -1,0 +1,1369 @@
+<violations>
+  <type name='checkstyle'>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java"
+      count = '44'>
+      <severity level="1" count="44"/>
+      <source  name="CyclomaticComplexityCheck" count="31"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="UnusedImportsCheck" count="1"/>
+      <source  name="NPathComplexityCheck" count="10"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/AuthorizationManager.java"
+      count = '6'>
+      <severity level="1" count="6"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="RedundantImportCheck" count="2"/>
+      <source  name="UnusedImportsCheck" count="3"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/acegi/authentication/CSMAuthenticationProvider.java"
+      count = '6'>
+      <severity level="1" count="6"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="UnusedImportsCheck" count="5"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/loginmodules/X509LoginModule.java"
+      count = '5'>
+      <severity level="1" count="5"/>
+      <source  name="CyclomaticComplexityCheck" count="2"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="NPathComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java"
+      count = '5'>
+      <severity level="1" count="5"/>
+      <source  name="CyclomaticComplexityCheck" count="2"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="NPathComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/util/SessionListen.java"
+      count = '5'>
+      <severity level="1" count="5"/>
+      <source  name="UnusedImportsCheck" count="5"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/loginmodules/CSMLoginModule.java"
+      count = '4'>
+      <severity level="1" count="4"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="UnusedImportsCheck" count="3"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java"
+      count = '4'>
+      <severity level="1" count="4"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="NPathComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/acegi/CSMAfterInvocationProvider.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/CommonAuthenticationManager.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/helper/LDAPHelper.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="2"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="RedundantImportCheck" count="1"/>
+      <source  name="UnusedImportsCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="NPathComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="BooleanExpressionComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java"
+      count = '3'>
+      <severity level="1" count="3"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/helper/RDBMSHelper.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="NPathComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/loginmodules/LDAPLoginModule.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/loginmodules/RDBMSLoginModule.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/principal/EmailIdPrincipal.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/principal/FirstNamePrincipal.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/principal/LastNamePrincipal.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/principal/LoginIdPrincipal.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="AvoidStarImportCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/exceptions/CSInsufficientAttributesException.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/exceptions/CSLoginException.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="UnusedImportsCheck" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/GroupForm.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java"
+      count = '2'>
+      <severity level="1" count="2"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/AuthenticationManager.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="UnusedImportsCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/AuthenticationManagerFactory.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="UnusedImportsCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/principal/BasePrincipal.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="UnusedImportsCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/Application.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/Privilege.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionElement.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionElementPrivilegeContext.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroupRoleContext.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/Role.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="EqualsHashCodeCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/jaas/AccessPermission.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/jaas/AuthPolicy.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/AuthorizationDAO.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/GroupSearchCriteria.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/PrivilegeSearchCriteria.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/ProtectionElementSearchCriteria.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/ProtectionGroupSearchCriteria.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/RoleSearchCriteria.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/SearchCriteria.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/UserSearchCriteria.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/hibernate/RolePrivilege.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/hibernate/UserGroup.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/system/ApplicationSessionFactory.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="UnusedImportsCheck" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/util/ObjectSetUtil.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="AvoidStarImportCheck" count="1"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/handler/WebServiceRequestHandler.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="UnusedImportsCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/MenuSelectionAction.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionGroupForm.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/RoleForm.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="ClassDataAbstractionCouplingCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/util/ClassLoaderUtil.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="CyclomaticComplexityCheck" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/util/JDBCHelper.java"
+      count = '1'>
+      <severity level="1" count="1"/>
+      <source  name="ClassFanOutComplexityCheck" count="1"/>
+  </file>
+  </type>
+  <type name='pmd'>
+    <file
+      name="nih/nci/security/dao/AuthorizationDAOImpl.java"
+      count = '282'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="281"/>
+      <source  name="ConsecutiveLiteralAppends" count="3"/>
+      <source  name="InsufficientStringBufferDeclaration" count="4"/>
+      <source  name="AvoidDuplicateLiterals" count="22"/>
+      <source  name="UnusedFormalParameter" count="1"/>
+      <source  name="UselessOverridingMethod" count="1"/>
+      <source  name="EmptyStatementNotInLoop" count="3"/>
+      <source  name="IfStmtsMustUseBraces" count="219"/>
+      <source  name="UseIndexOfChar" count="2"/>
+      <source  name="UnusedLocalVariable" count="5"/>
+      <source  name="IfElseStmtsMustUseBraces" count="10"/>
+      <source  name="EmptyIfStmt" count="2"/>
+      <source  name="BooleanInstantiation" count="1"/>
+      <source  name="EmptyCatchBlock" count="8"/>
+      <source  name="WhileLoopsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/dao/Queries.java"
+      count = '86'>
+      <severity level="2" count="86"/>
+      <source  name="ConsecutiveLiteralAppends" count="24"/>
+      <source  name="InsufficientStringBufferDeclaration" count="17"/>
+      <source  name="AvoidDuplicateLiterals" count="42"/>
+      <source  name="AppendCharacterWithChar" count="3"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/InstanceLevelAction.java"
+      count = '54'>
+      <severity level="2" count="54"/>
+      <source  name="IfStmtsMustUseBraces" count="41"/>
+      <source  name="CollapsibleIfStatements" count="1"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="UnusedLocalVariable" count="11"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/CommonDBAction.java"
+      count = '47'>
+      <severity level="2" count="47"/>
+      <source  name="IfStmtsMustUseBraces" count="33"/>
+      <source  name="CollapsibleIfStatements" count="1"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="UnusedLocalVariable" count="12"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/CommonDoubleAssociationAction.java"
+      count = '32'>
+      <severity level="2" count="32"/>
+      <source  name="IfStmtsMustUseBraces" count="25"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="UnusedLocalVariable" count="4"/>
+      <source  name="IfElseStmtsMustUseBraces" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/helper/RDBMSHelper.java"
+      count = '22'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="21"/>
+      <source  name="IfStmtsMustUseBraces" count="14"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="IfElseStmtsMustUseBraces" count="6"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/util/HibernateHelper.java"
+      count = '22'>
+      <severity level="2" count="22"/>
+      <source  name="IfStmtsMustUseBraces" count="4"/>
+      <source  name="UnusedLocalVariable" count="2"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="IfElseStmtsMustUseBraces" count="11"/>
+      <source  name="StringToString" count="2"/>
+      <source  name="UnusedPrivateMethod" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/helper/LDAPHelper.java"
+      count = '20'>
+      <severity level="2" count="20"/>
+      <source  name="IfStmtsMustUseBraces" count="12"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="IfElseStmtsMustUseBraces" count="6"/>
+      <source  name="EmptyIfStmt" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/system/ApplicationSecurityConfigurationParser.java"
+      count = '16'>
+      <severity level="2" count="16"/>
+      <source  name="IfStmtsMustUseBraces" count="4"/>
+      <source  name="UnusedLocalVariable" count="2"/>
+      <source  name="AvoidDuplicateLiterals" count="4"/>
+      <source  name="IfElseStmtsMustUseBraces" count="6"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/LoginAction.java"
+      count = '16'>
+      <severity level="2" count="16"/>
+      <source  name="IfStmtsMustUseBraces" count="15"/>
+      <source  name="UnusedLocalVariable" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/MenuSelectionAction.java"
+      count = '14'>
+      <severity level="2" count="14"/>
+      <source  name="IfStmtsMustUseBraces" count="3"/>
+      <source  name="IfElseStmtsMustUseBraces" count="11"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/SearchUserForm.java"
+      count = '13'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="12"/>
+      <source  name="IfStmtsMustUseBraces" count="12"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/UserForm.java"
+      count = '13'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="12"/>
+      <source  name="IfStmtsMustUseBraces" count="12"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/loginmodules/X509LoginModule.java"
+      count = '12'>
+      <severity level="2" count="12"/>
+      <source  name="IfStmtsMustUseBraces" count="7"/>
+      <source  name="CollapsibleIfStatements" count="1"/>
+      <source  name="AvoidDuplicateLiterals" count="2"/>
+      <source  name="UnusedLocalVariable" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/AuthorizationManagerFactory.java"
+      count = '11'>
+      <severity level="2" count="11"/>
+      <source  name="IfStmtsMustUseBraces" count="10"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/SecurityServiceSoapBindingStub.java"
+      count = '11'>
+      <severity level="2" count="11"/>
+      <source  name="UnusedLocalVariable" count="7"/>
+      <source  name="AvoidDuplicateLiterals" count="4"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/CommonAuthenticationManager.java"
+      count = '10'>
+      <severity level="2" count="10"/>
+      <source  name="InefficientEmptyStringCheck" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="5"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="IfElseStmtsMustUseBraces" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/attributeLevel/UserClassAttributeMapCache.java"
+      count = '10'>
+      <severity level="2" count="10"/>
+      <source  name="IfStmtsMustUseBraces" count="8"/>
+      <source  name="CollapsibleIfStatements" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/ApplicationForm.java"
+      count = '10'>
+      <severity level="2" count="10"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="IfElseStmtsMustUseBraces" count="8"/>
+  </file>
+    <file
+      name="nih/nci/security/util/FileLoader.java"
+      count = '10'>
+      <severity level="2" count="10"/>
+      <source  name="IfStmtsMustUseBraces" count="6"/>
+      <source  name="UnusedLocalVariable" count="2"/>
+      <source  name="EmptyFinallyBlock" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/SecurityServiceProvider.java"
+      count = '8'>
+      <severity level="2" count="8"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="IfElseStmtsMustUseBraces" count="6"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/loginmodules/CSMLoginModule.java"
+      count = '8'>
+      <severity level="2" count="8"/>
+      <source  name="IfStmtsMustUseBraces" count="6"/>
+      <source  name="CollapsibleIfStatements" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/jaas/PermissionRoleDBAdapter.java"
+      count = '8'>
+      <severity level="2" count="8"/>
+      <source  name="UnusedPrivateMethod" count="2"/>
+      <source  name="UnusedFormalParameter" count="2"/>
+      <source  name="UnusedPrivateField" count="4"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/CommonAssociationAction.java"
+      count = '8'>
+      <severity level="2" count="8"/>
+      <source  name="IfStmtsMustUseBraces" count="6"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="UnusedLocalVariable" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/ProtectionGroupAction.java"
+      count = '8'>
+      <severity level="2" count="8"/>
+      <source  name="IfStmtsMustUseBraces" count="6"/>
+      <source  name="UnusedLocalVariable" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/ProtectionElementForm.java"
+      count = '7'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="6"/>
+      <source  name="IfStmtsMustUseBraces" count="6"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/ProtectionGroupForm.java"
+      count = '7'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="6"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="IfElseStmtsMustUseBraces" count="4"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/RoleForm.java"
+      count = '7'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="6"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="IfElseStmtsMustUseBraces" count="4"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java"
+      count = '6'>
+      <severity level="2" count="6"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="UseIndexOfChar" count="1"/>
+      <source  name="EmptyIfStmt" count="1"/>
+      <source  name="EmptyCatchBlock" count="1"/>
+      <source  name="AppendCharacterWithChar" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/AuthenticationManagerFactory.java"
+      count = '6'>
+      <severity level="2" count="6"/>
+      <source  name="IfStmtsMustUseBraces" count="5"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/ObjectAccessMap.java"
+      count = '6'>
+      <severity level="2" count="6"/>
+      <source  name="ConsecutiveLiteralAppends" count="1"/>
+      <source  name="InsufficientStringBufferDeclaration" count="1"/>
+      <source  name="InefficientStringBuffering" count="1"/>
+      <source  name="AppendCharacterWithChar" count="3"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/jaas/AccessPermission.java"
+      count = '6'>
+      <severity level="2" count="6"/>
+      <source  name="UselessOverridingMethod" count="1"/>
+      <source  name="UnusedPrivateField" count="5"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/SearchProtectionElementForm.java"
+      count = '6'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="5"/>
+      <source  name="IfStmtsMustUseBraces" count="5"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/util/StringEncrypter.java"
+      count = '6'>
+      <severity level="2" count="6"/>
+      <source  name="InefficientEmptyStringCheck" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="4"/>
+      <source  name="UnusedFormalParameter" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/authorization/CheckPermissionRequest.java"
+      count = '6'>
+      <severity level="2" count="6"/>
+      <source  name="IfStmtsMustUseBraces" count="3"/>
+      <source  name="AvoidDuplicateLiterals" count="3"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/logoninfo/LogonInfoManager.java"
+      count = '5'>
+      <severity level="2" count="5"/>
+      <source  name="UnusedPrivateMethod" count="3"/>
+      <source  name="EmptyStaticInitializer" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/LockoutManager.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="IfElseStmtsMustUseBraces" count="4"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/jaas/AuthPolicy.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="UselessOverridingMethod" count="1"/>
+      <source  name="UnusedPrivateMethod" count="1"/>
+      <source  name="UnusedFormalParameter" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/exceptionHandler/DefaultExceptionHandler.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="IfElseStmtsMustUseBraces" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/authentication/LoginRequest.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="IfStmtsMustUseBraces" count="3"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/common/ErrorDetails.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="IfStmtsMustUseBraces" count="3"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/handler/authorization/AuthorizationWebServiceRequestHandler.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="IfElseStmtsMustUseBraces" count="4"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/principal/BasePrincipal.java"
+      count = '3'>
+      <severity level="2" count="3"/>
+      <source  name="IfStmtsMustUseBraces" count="3"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java"
+      count = '3'>
+      <severity level="2" count="3"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/junk/RandomIntGenerator.java"
+      count = '3'>
+      <severity level="2" count="3"/>
+      <source  name="ForLoopsMustUseBraces" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/LogoutAction.java"
+      count = '3'>
+      <severity level="2" count="3"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="UnusedPrivateMethod" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/GroupForm.java"
+      count = '3'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/util/StringUtilities.java"
+      count = '3'>
+      <severity level="2" count="3"/>
+      <source  name="UseIndexOfChar" count="1"/>
+      <source  name="InefficientStringBuffering" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/authentication/LoginResponse.java"
+      count = '3'>
+      <severity level="2" count="3"/>
+      <source  name="IfStmtsMustUseBraces" count="3"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/authorization/CheckPermissionResponse.java"
+      count = '3'>
+      <severity level="2" count="3"/>
+      <source  name="IfStmtsMustUseBraces" count="3"/>
+  </file>
+    <file
+      name="nih/nci/security/acegi/authentication/CSMAuthenticationProvider.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="AvoidDuplicateLiterals" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/acegi/authorization/CSMRoleVoter.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/domainobjects/GroupRoleContext.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="UnusedFormalParameter" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/domainobjects/UserRoleContext.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="UnusedFormalParameter" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/jaas/AuthPermissionCollection.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="UselessOverridingMethod" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/actions/HomeAction.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/InstanceLevelForm.java"
+      count = '2'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/forms/PrivilegeForm.java"
+      count = '2'>
+      <severity level="1" count="1"/>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+      <source  name="StringInstantiation" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/util/ClassLoaderUtil.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="CollapsibleIfStatements" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/util/JDBCHelper.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+      <source  name="EmptyCatchBlock" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/util/ObjectUpdater.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/factory/WebServiceRequestHandlerFactory.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="IfStmtsMustUseBraces" count="2"/>
+  </file>
+    <file
+      name="nih/nci/security/acegi/CSMAfterInvocationProviderManager.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="UnusedLocalVariable" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/acegi/authentication/CSMUserDetails.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/acegi/authentication/CSMUserDetailsService.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authentication/callback/CSMCallbackHandler.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/authorization/jaas/PermissionAdapterFactory.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/dao/hibernate/HibernateSessionFactory.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/dao/hibernate/UserGroup.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/provisioning/AuthorizationManagerImpl.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="UnusedPrivateField" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/system/ApplicationSessionFactory.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/upt/util/StringUtils.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="StringToString" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/SecurityService_ServiceLocator.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="AvoidDuplicateLiterals" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/cache/CacheManager.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/common/ErrorCodes.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+    <file
+      name="nih/nci/security/ws/utils/StringUtils.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="IfStmtsMustUseBraces" count="1"/>
+  </file>
+  </type>
+  <type name='simian'>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/AuthorizationDAOImpl.java"
+      count = '234'>
+      <severity level="2" count="93"/>
+      <severity level="4" count="141"/>
+      <source  name="duplication" count="234"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/Queries.java"
+      count = '38'>
+      <severity level="2" count="25"/>
+      <severity level="4" count="13"/>
+      <source  name="duplication" count="38"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDBAction.java"
+      count = '25'>
+      <severity level="0" count="2"/>
+      <severity level="2" count="8"/>
+      <severity level="4" count="15"/>
+      <source  name="duplication" count="25"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/InstanceLevelAction.java"
+      count = '21'>
+      <severity level="0" count="2"/>
+      <severity level="2" count="5"/>
+      <severity level="4" count="14"/>
+      <source  name="duplication" count="21"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchUserForm.java"
+      count = '15'>
+      <severity level="0" count="4"/>
+      <severity level="2" count="9"/>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="15"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/UserForm.java"
+      count = '15'>
+      <severity level="0" count="4"/>
+      <severity level="2" count="9"/>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="15"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionElementForm.java"
+      count = '14'>
+      <severity level="0" count="1"/>
+      <severity level="2" count="9"/>
+      <severity level="4" count="4"/>
+      <source  name="duplication" count="14"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/system/ApplicationSecurityConfigurationParser.java"
+      count = '13'>
+      <severity level="2" count="8"/>
+      <severity level="4" count="5"/>
+      <source  name="duplication" count="13"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonDoubleAssociationAction.java"
+      count = '12'>
+      <severity level="4" count="12"/>
+      <source  name="duplication" count="12"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/SearchProtectionElementForm.java"
+      count = '12'>
+      <severity level="0" count="1"/>
+      <severity level="2" count="9"/>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="12"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/instancelevel/InstanceLevelSecurityHelper.java"
+      count = '8'>
+      <severity level="2" count="5"/>
+      <severity level="4" count="3"/>
+      <source  name="duplication" count="8"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/AuthorizationManagerFactory.java"
+      count = '7'>
+      <severity level="2" count="7"/>
+      <source  name="duplication" count="7"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java"
+      count = '7'>
+      <severity level="2" count="5"/>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="7"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java"
+      count = '6'>
+      <severity level="2" count="2"/>
+      <severity level="4" count="4"/>
+      <source  name="duplication" count="6"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/authentication/LoginRequest.java"
+      count = '6'>
+      <severity level="2" count="5"/>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="6"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionRequest.java"
+      count = '6'>
+      <severity level="2" count="5"/>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="6"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java"
+      count = '5'>
+      <severity level="2" count="5"/>
+      <source  name="duplication" count="5"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java"
+      count = '5'>
+      <severity level="2" count="4"/>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="5"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/authorization/CheckPermissionResponse.java"
+      count = '5'>
+      <severity level="2" count="4"/>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="5"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java"
+      count = '4'>
+      <severity level="2" count="3"/>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="4"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/util/FileLoader.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="duplication" count="4"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/LoginAction.java"
+      count = '4'>
+      <severity level="4" count="4"/>
+      <source  name="duplication" count="4"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ApplicationForm.java"
+      count = '4'>
+      <severity level="2" count="4"/>
+      <source  name="duplication" count="4"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/GroupForm.java"
+      count = '4'>
+      <severity level="0" count="1"/>
+      <severity level="2" count="3"/>
+      <source  name="duplication" count="4"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/util/HibernateHelper.java"
+      count = '4'>
+      <severity level="0" count="1"/>
+      <severity level="2" count="3"/>
+      <source  name="duplication" count="4"/>
+  </file>
+    <file
+      name="security/securityws/src/gov/nih/nci/security/ws/common/ErrorDetails.java"
+      count = '3'>
+      <severity level="2" count="2"/>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="3"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/SecurityServiceProvider.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/acegi/authentication/CSMUserDetailsService.java"
+      count = '2'>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/helper/RDBMSHelper.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authentication/loginmodules/X509LoginModule.java"
+      count = '2'>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/attributeLevel/AttributeSecuritySessionInterceptor.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/attributeLevel/UserClassAttributeMapCache.java"
+      count = '2'>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/Privilege.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/Role.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/util/StringEncrypter.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/CommonAssociationAction.java"
+      count = '2'>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionGroupAction.java"
+      count = '2'>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/util/JDBCHelper.java"
+      count = '2'>
+      <severity level="2" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/viewobjects/FormElement.java"
+      count = '2'>
+      <severity level="4" count="2"/>
+      <source  name="duplication" count="2"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/acegi/CSMAfterInvocationProvider.java"
+      count = '1'>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java"
+      count = '1'>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/Group.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/authorization/domainobjects/User.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/hibernate/RolePrivilege.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/api/src/gov/nih/nci/security/dao/hibernate/UserGroup.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/HomeAction.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/MenuSelectionAction.java"
+      count = '1'>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/actions/ProtectionElementAction.java"
+      count = '1'>
+      <severity level="4" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/ProtectionGroupForm.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+    <file
+      name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/RoleForm.java"
+      count = '1'>
+      <severity level="2" count="1"/>
+      <source  name="duplication" count="1"/>
+  </file>
+  </type>
+</violations>

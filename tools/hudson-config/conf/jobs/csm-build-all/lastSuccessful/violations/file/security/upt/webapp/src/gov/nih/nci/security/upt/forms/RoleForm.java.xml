@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/forms/RoleForm.java"
+  last-modified="1212512033000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/forms/RoleForm.java"
+>
+  <violation
+    line="128"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, Privilege, PrivilegeSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [ArrayList, FormElement, Privilege, PrivilegeSearchCriteria, Role, RoleSearchCriteria, SearchResult, SimpleDateFormat]."
+  />
+  <violation
+    line="341"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 12 lines from &lt;a href='../UserForm.java#line583'&gt;line 583 in UserForm.java&lt;/a&gt;, &lt;a href='../SearchUserForm.java#line559'&gt;line 559 in SearchUserForm.java&lt;/a&gt;, &lt;a href='../ProtectionGroupForm.java#line374'&gt;line 374 in ProtectionGroupForm.java&lt;/a&gt; and &lt;a href='../InstanceLevelForm.java#line426'&gt;line 426 in InstanceLevelForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 12 lines from line 583 in UserForm.java, line 559 in SearchUserForm.java, line 374 in ProtectionGroupForm.java and line 426 in InstanceLevelForm.java."
+  />
+  <line number='119'>import org.apache.struts.action.ActionMessages;</line>
+  <line number='120'>import org.apache.struts.validator.ValidatorForm;</line>
+  <line number='121'></line>
+  <line number='122'>/**</line>
+  <line number='123'> * @author Kunal Modi (Ekagra Software Technologies Ltd.)</line>
+  <line number='124'> *</line>
+  <line number='125'> * TODO To change the template for this generated type comment go to</line>
+  <line number='126'> * Window - Preferences - Java - Code Style - Code Templates</line>
+  <line number='127'> */</line>
+  <line number='128'>public class RoleForm extends ValidatorForm implements BaseAssociationForm</line>
+  <line number='129'>{</line>
+  <line number='130'>	</line>
+  <line number='131'>	private String roleId;</line>
+  <line number='132'>	private String roleName;</line>
+  <line number='133'>	private String roleDescription;</line>
+  <line number='134'>	private String roleActiveFlag;</line>
+  <line number='135'>	private String roleUpdateDate;</line>
+  <line number='136'>	</line>
+  <line number='137'>	private String[] associatedIds;</line>
+  <line number='138'>	</line>
+  <line number='332'>	 */</line>
+  <line number='333'>	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception </line>
+  <line number='334'>	{</line>
+  <line number='335'>		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);</line>
+  <line number='336'>		Role role = new Role();</line>
+  <line number='337'>		if (this.roleName != null &amp;&amp; !(this.roleName.trim().equalsIgnoreCase("")))</line>
+  <line number='338'>			role.setName(this.roleName);</line>
+  <line number='339'>		</line>
+  <line number='340'>		SearchCriteria searchCriteria = new RoleSearchCriteria(role);</line>
+  <line number='341'>		List list = userProvisioningManager.getObjects(searchCriteria);</line>
+  <line number='342'>		SearchResult searchResult = new SearchResult();</line>
+  <line number='343'>		searchResult.setSearchResultMessage(searchCriteria.getMessage());</line>
+  <line number='344'>		searchResult.setSearchResultObjects(list);</line>
+  <line number='345'>		return searchResult;</line>
+  <line number='346'>	}</line>
+  <line number='347'></line>
+  <line number='348'>	</line>
+  <line number='349'>	/* (non-Javadoc)</line>
+  <line number='350'>	 * @see gov.nih.nci.security.forms.BaseDBForm#getPrimaryId()</line>
+  <line number='351'>	 */</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+  <type type='simian' number='1' suppressed='0'/>
+</file>

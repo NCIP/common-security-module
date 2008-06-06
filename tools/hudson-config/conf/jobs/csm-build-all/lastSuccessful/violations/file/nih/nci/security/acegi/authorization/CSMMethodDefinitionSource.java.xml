@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/acegi/authorization/CSMMethodDefinitionSource.java"
+>
+  <violation
+    line="71"
+    source="EmptyIfStmt"
+    severity="Medium"
+    type="pmd"
+    message="Avoid empty if statements"
+    severity-level="2"
+    popup-message="Avoid empty if statements"
+  />
+  <violation
+    line="83"
+    source="AppendCharacterWithChar"
+    severity="Medium"
+    type="pmd"
+    message="Avoid appending characters as strings in StringBuffer.append."
+    severity-level="2"
+    popup-message="Avoid appending characters as strings in StringBuffer.append."
+  />
+  <violation
+    line="103"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="112"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="125"
+    source="UseIndexOfChar"
+    severity="Medium"
+    type="pmd"
+    message="String.indexOf(char) is faster than String.indexOf(String)."
+    severity-level="2"
+    popup-message="String.indexOf(char) is faster than String.indexOf(String)."
+  />
+  <violation
+    line="231"
+    source="EmptyCatchBlock"
+    severity="Medium"
+    type="pmd"
+    message="Avoid empty catch blocks"
+    severity-level="2"
+    popup-message="Avoid empty catch blocks"
+  />
+  <type type='pmd' number='6' suppressed='0'/>
+</file>

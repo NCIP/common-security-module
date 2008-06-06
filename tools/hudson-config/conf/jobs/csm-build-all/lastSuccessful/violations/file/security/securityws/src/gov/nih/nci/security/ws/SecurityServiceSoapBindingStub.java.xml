@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java"
+  last-modified="1212512021000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/SecurityServiceSoapBindingStub.java"
+>
+  <violation
+    line="10"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [java.util.Vector, javax.xml.namespace.QName, org.apache.axis.AxisFault, org.apache.axis.NoEndPointException, org.apache.axis.client.Service, org.apache.axis.description.FaultDesc, org.apache.axis.description.OperationDesc, org.apache.axis.description.ParameterDesc]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 8 (max allowed is 7) classes [java.util.Vector, javax.xml.namespace.QName, org.apache.axis.AxisFault, org.apache.axis.NoEndPointException, org.apache.axis.client.Service, org.apache.axis.description.FaultDesc, org.apache.axis.description.OperationDesc, org.apache.axis.description.ParameterDesc]."
+  />
+  <violation
+    line="10"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 22 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 22 (max allowed is 20)."
+  />
+  <violation
+    line="135"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 13 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 13 (max allowed is 10)."
+  />
+  <violation
+    line="135"
+    source="NPathComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="NPath Complexity is 641 (max allowed is 200)."
+    severity-level="1"
+    popup-message="NPath Complexity is 641 (max allowed is 200)."
+  />
+  <violation
+    line="33"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line50'&gt;line 50&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 50."
+  />
+  <violation
+    line="50"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line33'&gt;line 33&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 33."
+  />
+  <violation
+    line="205"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line247'&gt;line 247&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 247."
+  />
+  <violation
+    line="228"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line270'&gt;line 270&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 270."
+  />
+  <violation
+    line="247"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 6 lines from &lt;a href='#line205'&gt;line 205&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 6 lines from line 205."
+  />
+  <violation
+    line="270"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line228'&gt;line 228&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 228."
+  />
+  <line number='1'>/**</line>
+  <line number='2'> * SecurityServiceSoapBindingStub.java</line>
+  <line number='3'> *</line>
+  <line number='4'> * This file was auto-generated from WSDL</line>
+  <line number='5'> * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.</line>
+  <line number='6'> */</line>
+  <line number='7'></line>
+  <line number='8'>package gov.nih.nci.security.ws;</line>
+  <line number='9'></line>
+  <line number='10'>public class SecurityServiceSoapBindingStub extends org.apache.axis.client.Stub implements gov.nih.nci.security.ws.SecurityService_PortType {</line>
+  <line number='11'>    private java.util.Vector cachedSerClasses = new java.util.Vector();</line>
+  <line number='12'>    private java.util.Vector cachedSerQNames = new java.util.Vector();</line>
+  <line number='13'>    private java.util.Vector cachedSerFactories = new java.util.Vector();</line>
+  <line number='14'>    private java.util.Vector cachedDeserFactories = new java.util.Vector();</line>
+  <line number='15'></line>
+  <line number='16'>    static org.apache.axis.description.OperationDesc [] _operations;</line>
+  <line number='17'></line>
+  <line number='18'>    static {</line>
+  <line number='19'>        _operations = new org.apache.axis.description.OperationDesc[2];</line>
+  <line number='20'>        _initOperationDesc1();</line>
+  <line number='24'>        org.apache.axis.description.OperationDesc oper;</line>
+  <line number='25'>        org.apache.axis.description.ParameterDesc param;</line>
+  <line number='26'>        oper = new org.apache.axis.description.OperationDesc();</line>
+  <line number='27'>        oper.setName("Login");</line>
+  <line number='28'>        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "LoginRequest"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "LoginRequest"), gov.nih.nci.security.ws.authentication.LoginRequest.class, false, false);</line>
+  <line number='29'>        oper.addParameter(param);</line>
+  <line number='30'>        oper.setReturnType(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "LoginResponse"));</line>
+  <line number='31'>        oper.setReturnClass(gov.nih.nci.security.ws.authentication.LoginResponse.class);</line>
+  <line number='32'>        oper.setReturnQName(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "LoginResponse"));</line>
+  <line number='33'>        oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);</line>
+  <line number='34'>        oper.setUse(org.apache.axis.constants.Use.LITERAL);</line>
+  <line number='35'>        oper.addFault(new org.apache.axis.description.FaultDesc(</line>
+  <line number='36'>                      new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorDetails"),</line>
+  <line number='37'>                      "gov.nih.nci.security.ws.common.ErrorDetails",</line>
+  <line number='38'>                      new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorDetails"), </line>
+  <line number='39'>                      true</line>
+  <line number='40'>                     ));</line>
+  <line number='41'>        _operations[0] = oper;</line>
+  <line number='42'></line>
+  <line number='43'>        oper = new org.apache.axis.description.OperationDesc();</line>
+  <line number='44'>        oper.setName("CheckPermission");</line>
+  <line number='45'>        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authorization", "CheckPermissionRequest"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authorization", "CheckPermissionRequest"), gov.nih.nci.security.ws.authorization.CheckPermissionRequest.class, false, false);</line>
+  <line number='46'>        oper.addParameter(param);</line>
+  <line number='47'>        oper.setReturnType(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authorization", "CheckPermissionResponse"));</line>
+  <line number='48'>        oper.setReturnClass(gov.nih.nci.security.ws.authorization.CheckPermissionResponse.class);</line>
+  <line number='49'>        oper.setReturnQName(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authorization", "CheckPermissionResponse"));</line>
+  <line number='50'>        oper.setStyle(org.apache.axis.constants.Style.DOCUMENT);</line>
+  <line number='51'>        oper.setUse(org.apache.axis.constants.Use.LITERAL);</line>
+  <line number='52'>        oper.addFault(new org.apache.axis.description.FaultDesc(</line>
+  <line number='53'>                      new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorDetails"),</line>
+  <line number='54'>                      "gov.nih.nci.security.ws.common.ErrorDetails",</line>
+  <line number='55'>                      new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorDetails"), </line>
+  <line number='56'>                      true</line>
+  <line number='57'>                     ));</line>
+  <line number='58'>        _operations[1] = oper;</line>
+  <line number='59'></line>
+  <line number='60'>    }</line>
+  <line number='126'>            qName = new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/common", "ErrorDetails");</line>
+  <line number='127'>            cachedSerQNames.add(qName);</line>
+  <line number='128'>            cls = gov.nih.nci.security.ws.common.ErrorDetails.class;</line>
+  <line number='129'>            cachedSerClasses.add(cls);</line>
+  <line number='130'>            cachedSerFactories.add(beansf);</line>
+  <line number='131'>            cachedDeserFactories.add(beandf);</line>
+  <line number='132'></line>
+  <line number='133'>    }</line>
+  <line number='134'></line>
+  <line number='135'>    protected org.apache.axis.client.Call createCall() throws java.rmi.RemoteException {</line>
+  <line number='136'>        try {</line>
+  <line number='137'>            org.apache.axis.client.Call _call = super._createCall();</line>
+  <line number='138'>            if (super.maintainSessionSet) {</line>
+  <line number='139'>                _call.setMaintainSession(super.maintainSession);</line>
+  <line number='140'>            }</line>
+  <line number='141'>            if (super.cachedUsername != null) {</line>
+  <line number='142'>                _call.setUsername(super.cachedUsername);</line>
+  <line number='143'>            }</line>
+  <line number='144'>            if (super.cachedPassword != null) {</line>
+  <line number='145'>                _call.setPassword(super.cachedPassword);</line>
+  <line number='196'>        }</line>
+  <line number='197'>    }</line>
+  <line number='198'></line>
+  <line number='199'>    public gov.nih.nci.security.ws.authentication.LoginResponse login(gov.nih.nci.security.ws.authentication.LoginRequest loginRequest) throws java.rmi.RemoteException, gov.nih.nci.security.ws.common.ErrorDetails {</line>
+  <line number='200'>        if (super.cachedEndpoint == null) {</line>
+  <line number='201'>            throw new org.apache.axis.NoEndPointException();</line>
+  <line number='202'>        }</line>
+  <line number='203'>        org.apache.axis.client.Call _call = createCall();</line>
+  <line number='204'>        _call.setOperation(_operations[0]);</line>
+  <line number='205'>        _call.setUseSOAPAction(true);</line>
+  <line number='206'>        _call.setSOAPActionURI("");</line>
+  <line number='207'>        _call.setEncodingStyle(null);</line>
+  <line number='208'>        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);</line>
+  <line number='209'>        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);</line>
+  <line number='210'>        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);</line>
+  <line number='211'>        _call.setOperationName(new javax.xml.namespace.QName("", "Login"));</line>
+  <line number='212'></line>
+  <line number='213'>        setRequestHeaders(_call);</line>
+  <line number='214'>        setAttachments(_call);</line>
+  <line number='215'> try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {loginRequest});</line>
+  <line number='219'>        }</line>
+  <line number='220'>        else {</line>
+  <line number='221'>            extractAttachments(_call);</line>
+  <line number='222'>            try {</line>
+  <line number='223'>                return (gov.nih.nci.security.ws.authentication.LoginResponse) _resp;</line>
+  <line number='224'>            } catch (java.lang.Exception _exception) {</line>
+  <line number='225'>                return (gov.nih.nci.security.ws.authentication.LoginResponse) org.apache.axis.utils.JavaUtils.convert(_resp, gov.nih.nci.security.ws.authentication.LoginResponse.class);</line>
+  <line number='226'>            }</line>
+  <line number='227'>        }</line>
+  <line number='228'>  } catch (org.apache.axis.AxisFault axisFaultException) {</line>
+  <line number='229'>    if (axisFaultException.detail != null) {</line>
+  <line number='230'>        if (axisFaultException.detail instanceof java.rmi.RemoteException) {</line>
+  <line number='231'>              throw (java.rmi.RemoteException) axisFaultException.detail;</line>
+  <line number='232'>         }</line>
+  <line number='233'>        if (axisFaultException.detail instanceof gov.nih.nci.security.ws.common.ErrorDetails) {</line>
+  <line number='234'>              throw (gov.nih.nci.security.ws.common.ErrorDetails) axisFaultException.detail;</line>
+  <line number='235'>         }</line>
+  <line number='236'>   }</line>
+  <line number='237'>  throw axisFaultException;</line>
+  <line number='238'>}</line>
+  <line number='239'>    }</line>
+  <line number='240'></line>
+  <line number='241'>    public gov.nih.nci.security.ws.authorization.CheckPermissionResponse checkPermission(gov.nih.nci.security.ws.authorization.CheckPermissionRequest checkPermissionRequest) throws java.rmi.RemoteException, gov.nih.nci.security.ws.common.ErrorDetails {</line>
+  <line number='242'>        if (super.cachedEndpoint == null) {</line>
+  <line number='243'>            throw new org.apache.axis.NoEndPointException();</line>
+  <line number='244'>        }</line>
+  <line number='245'>        org.apache.axis.client.Call _call = createCall();</line>
+  <line number='246'>        _call.setOperation(_operations[1]);</line>
+  <line number='247'>        _call.setUseSOAPAction(true);</line>
+  <line number='248'>        _call.setSOAPActionURI("");</line>
+  <line number='249'>        _call.setEncodingStyle(null);</line>
+  <line number='250'>        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);</line>
+  <line number='251'>        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);</line>
+  <line number='252'>        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);</line>
+  <line number='253'>        _call.setOperationName(new javax.xml.namespace.QName("", "CheckPermission"));</line>
+  <line number='254'></line>
+  <line number='255'>        setRequestHeaders(_call);</line>
+  <line number='256'>        setAttachments(_call);</line>
+  <line number='257'> try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {checkPermissionRequest});</line>
+  <line number='261'>        }</line>
+  <line number='262'>        else {</line>
+  <line number='263'>            extractAttachments(_call);</line>
+  <line number='264'>            try {</line>
+  <line number='265'>                return (gov.nih.nci.security.ws.authorization.CheckPermissionResponse) _resp;</line>
+  <line number='266'>            } catch (java.lang.Exception _exception) {</line>
+  <line number='267'>                return (gov.nih.nci.security.ws.authorization.CheckPermissionResponse) org.apache.axis.utils.JavaUtils.convert(_resp, gov.nih.nci.security.ws.authorization.CheckPermissionResponse.class);</line>
+  <line number='268'>            }</line>
+  <line number='269'>        }</line>
+  <line number='270'>  } catch (org.apache.axis.AxisFault axisFaultException) {</line>
+  <line number='271'>    if (axisFaultException.detail != null) {</line>
+  <line number='272'>        if (axisFaultException.detail instanceof java.rmi.RemoteException) {</line>
+  <line number='273'>              throw (java.rmi.RemoteException) axisFaultException.detail;</line>
+  <line number='274'>         }</line>
+  <line number='275'>        if (axisFaultException.detail instanceof gov.nih.nci.security.ws.common.ErrorDetails) {</line>
+  <line number='276'>              throw (gov.nih.nci.security.ws.common.ErrorDetails) axisFaultException.detail;</line>
+  <line number='277'>         }</line>
+  <line number='278'>   }</line>
+  <line number='279'>  throw axisFaultException;</line>
+  <line number='280'>}</line>
+  <type type='checkstyle' number='4' suppressed='0'/>
+  <type type='simian' number='6' suppressed='0'/>
+</file>

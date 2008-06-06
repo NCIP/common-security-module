@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/provisioning/AuthorizationManagerImpl.java"
+>
+  <violation
+    line="136"
+    source="ClassDataAbstractionCouplingCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Data Abstraction Coupling is 11 (max allowed is 7) classes [AuthorizationDAOImpl, CSTransactionException, Date, Group, Privilege, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, Role, java.util.Date]."
+    severity-level="1"
+    popup-message="Class Data Abstraction Coupling is 11 (max allowed is 7) classes [AuthorizationDAOImpl, CSTransactionException, Date, Group, Privilege, ProtectionElement, ProtectionElementSearchCriteria, ProtectionGroup, ProtectionGroupSearchCriteria, Role, java.util.Date]."
+  />
+  <violation
+    line="136"
+    source="ClassFanOutComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Class Fan-Out Complexity is 30 (max allowed is 20)."
+    severity-level="1"
+    popup-message="Class Fan-Out Complexity is 30 (max allowed is 20)."
+  />
+  <violation
+    line="178"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line213'&gt;line 213&lt;/a&gt; and &lt;a href='#line197'&gt;line 197&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 213 and line 197."
+  />
+  <violation
+    line="197"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line213'&gt;line 213&lt;/a&gt; and &lt;a href='#line178'&gt;line 178&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 213 and line 178."
+  />
+  <violation
+    line="213"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line197'&gt;line 197&lt;/a&gt; and &lt;a href='#line178'&gt;line 178&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 197 and line 178."
+  />
+  <violation
+    line="241"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line261'&gt;line 261&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 261."
+  />
+  <violation
+    line="261"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 10 lines from &lt;a href='#line241'&gt;line 241&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 10 lines from line 241."
+  />
+  <line number='127'></line>
+  <line number='128'></line>
+  <line number='129'></line>
+  <line number='130'>/**</line>
+  <line number='131'> * This class is an implementation of UserProvisioningManager. All the methods</line>
+  <line number='132'> * from UserProvisioingManager are implemented here.</line>
+  <line number='133'> * @version 1.0</line>
+  <line number='134'> * @author modik</line>
+  <line number='135'> */</line>
+  <line number='136'>public class AuthorizationManagerImpl implements UserProvisioningManager {</line>
+  <line number='137'></line>
+  <line number='138'></line>
+  <line number='139'>	/**</line>
+  <line number='140'>	 * authorizationDAO is an instance of AuthorizationDAO , which is used for</line>
+  <line number='141'>	 * peristence.</line>
+  <line number='142'>	 */</line>
+  <line number='143'>	private AuthorizationDAO authorizationDAO;</line>
+  <line number='144'></line>
+  <line number='145'>	/**</line>
+  <line number='146'>	 * The application context object for the given application</line>
+  <line number='169'>	 * @throws CSConfigurationException</line>
+  <line number='170'>	 */</line>
+  <line number='171'>	public AuthorizationManagerImpl(String applicationContextName) throws CSConfigurationException{</line>
+  <line number='172'>		/**</line>
+  <line number='173'>		 *  Ultimately we have to use ApplicationSessionFactory class</line>
+  <line number='174'>		 *  to get appropriate sessionFcatory for a application.</line>
+  <line number='175'>		 */</line>
+  <line number='176'>		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);</line>
+  <line number='177'>		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);</line>
+  <line number='178'>		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	</line>
+  <line number='179'>		authorizationDAO = (AuthorizationDAO)(adi);</line>
+  <line number='180'>		try</line>
+  <line number='181'>		{</line>
+  <line number='182'>			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);</line>
+  <line number='183'>		}</line>
+  <line number='184'>		catch (CSObjectNotFoundException e)</line>
+  <line number='185'>		{</line>
+  <line number='186'>			// TODO Auto-generated catch block</line>
+  <line number='187'>			e.printStackTrace();</line>
+  <line number='188'>		}</line>
+  <line number='189'>	}</line>
+  <line number='190'></line>
+  <line number='191'>	public AuthorizationManagerImpl(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{</line>
+  <line number='192'>		/**</line>
+  <line number='193'>		 *  Ultimately we have to use ApplicationSessionFactory class</line>
+  <line number='194'>		 *  to get appropriate sessionFcatory for a application.</line>
+  <line number='195'>		 */</line>
+  <line number='196'>		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, connectionProperties);</line>
+  <line number='197'>		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	</line>
+  <line number='198'>		authorizationDAO = (AuthorizationDAO)(adi);</line>
+  <line number='199'>		try</line>
+  <line number='200'>		{</line>
+  <line number='201'>			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);</line>
+  <line number='202'>		}</line>
+  <line number='203'>		catch (CSObjectNotFoundException e)</line>
+  <line number='204'>		{</line>
+  <line number='205'>			// TODO Auto-generated catch block</line>
+  <line number='206'>			e.printStackTrace();</line>
+  <line number='207'>		}</line>
+  <line number='208'>	}</line>
+  <line number='209'>	</line>
+  <line number='210'>	public AuthorizationManagerImpl(String applicationContextName, URL url) throws CSConfigurationException</line>
+  <line number='211'>	{</line>
+  <line number='212'>		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);</line>
+  <line number='213'>		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);	</line>
+  <line number='214'>		authorizationDAO = (AuthorizationDAO)(adi);</line>
+  <line number='215'>		try</line>
+  <line number='216'>		{</line>
+  <line number='217'>			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);</line>
+  <line number='218'>		}</line>
+  <line number='219'>		catch (CSObjectNotFoundException e)</line>
+  <line number='220'>		{</line>
+  <line number='221'>			// TODO Auto-generated catch block</line>
+  <line number='222'>			e.printStackTrace();</line>
+  <line number='223'>		}</line>
+  <line number='232'>	 * @throws CSConfigurationException</line>
+  <line number='233'>	 */</line>
+  <line number='234'>	public AuthorizationManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName) throws CSConfigurationException{</line>
+  <line number='235'>		/**</line>
+  <line number='236'>		 *  Ultimately we have to use ApplicationSessionFactory class</line>
+  <line number='237'>		 *  to get appropriate sessionFcatory for a application.</line>
+  <line number='238'>		 */</line>
+  <line number='239'>		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);</line>
+  <line number='240'>		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);</line>
+  <line number='241'>		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	</line>
+  <line number='242'>		authorizationDAO = (AuthorizationDAO)(adi);</line>
+  <line number='243'>		try</line>
+  <line number='244'>		{</line>
+  <line number='245'>			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);</line>
+  <line number='246'>		}</line>
+  <line number='247'>		catch (CSObjectNotFoundException e)</line>
+  <line number='248'>		{</line>
+  <line number='249'>			// TODO Auto-generated catch block</line>
+  <line number='250'>			e.printStackTrace();</line>
+  <line number='251'>		}</line>
+  <line number='252'>	}	</line>
+  <line number='253'>	</line>
+  <line number='254'>	public AuthorizationManagerImpl(String applicationContextName, String userOrGroupName, boolean isUserName, URL url) throws CSConfigurationException{</line>
+  <line number='255'>		/**</line>
+  <line number='256'>		 *  Ultimately we have to use ApplicationSessionFactory class</line>
+  <line number='257'>		 *  to get appropriate sessionFcatory for a application.</line>
+  <line number='258'>		 */</line>
+  <line number='259'>		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);</line>
+  <line number='260'>		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);</line>
+  <line number='261'>		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);	</line>
+  <line number='262'>		authorizationDAO = (AuthorizationDAO)(adi);</line>
+  <line number='263'>		try</line>
+  <line number='264'>		{</line>
+  <line number='265'>			this.applicationContext = (ApplicationContext)authorizationDAO.getApplication(applicationContextName);</line>
+  <line number='266'>		}</line>
+  <line number='267'>		catch (CSObjectNotFoundException e)</line>
+  <line number='268'>		{</line>
+  <line number='269'>			// TODO Auto-generated catch block</line>
+  <line number='270'>			e.printStackTrace();</line>
+  <line number='271'>		}</line>
+  <type type='checkstyle' number='2' suppressed='0'/>
+  <type type='simian' number='5' suppressed='0'/>
+</file>

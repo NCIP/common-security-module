@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.java"
+>
+  <violation
+    line="311"
+    source="EqualsHashCodeCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Definition of 'equals()' without corresponding definition of 'hashCode()'."
+    severity-level="1"
+    popup-message="Definition of 'equals()' without corresponding definition of 'hashCode()'."
+  />
+  <line number='302'>	 */</line>
+  <line number='303'>	public void addProtectionElements(ProtectionElement[] elements){</line>
+  <line number='304'></line>
+  <line number='305'>	}</line>
+  <line number='306'>	</line>
+  <line number='307'>	/**</line>
+  <line number='308'>	 * @param obj</line>
+  <line number='309'>	 * </line>
+  <line number='310'>	 */</line>
+  <line number='311'>	public boolean equals(Object obj){</line>
+  <line number='312'>		ProtectionGroup other = (ProtectionGroup)obj;</line>
+  <line number='313'>		if(this.protectionGroupId.toString().equals(other.getProtectionGroupId().toString())){</line>
+  <line number='314'>			return true;</line>
+  <line number='315'>		}else{</line>
+  <line number='316'>		return false;</line>
+  <line number='317'>		}</line>
+  <line number='318'>	}</line>
+  <line number='319'></line>
+  <line number='320'>	public int compareTo(Object object) {</line>
+  <line number='321'></line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+</file>

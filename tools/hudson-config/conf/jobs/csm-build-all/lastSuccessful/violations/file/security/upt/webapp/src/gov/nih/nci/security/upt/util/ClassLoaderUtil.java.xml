@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/upt/webapp/src/gov/nih/nci/security/upt/util/ClassLoaderUtil.java"
+  last-modified="1212512034000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/upt/webapp/src/gov/nih/nci/security/upt/util/ClassLoaderUtil.java"
+>
+  <violation
+    line="140"
+    source="CyclomaticComplexityCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Cyclomatic Complexity is 11 (max allowed is 10)."
+    severity-level="1"
+    popup-message="Cyclomatic Complexity is 11 (max allowed is 10)."
+  />
+  <line number='131'>     *Any errors are logged.</line>
+  <line number='132'>     *@param classLoader the instance of URLClassLoader (or a subclass) </line>
+  <line number='133'>     *@param jarsClosed a Vector of Strings that will contain the names of jars </line>
+  <line number='134'>     * successfully closed; can be null if the caller does not need the information returned</line>
+  <line number='135'>     *@return array of IOExceptions reporting jars that failed to close; null</line>
+  <line number='136'>     *indicates that an error other than an IOException occurred attempting to</line>
+  <line number='137'>     *release the loader; empty indicates a successful release; non-empty </line>
+  <line number='138'>     *indicates at least one error attempting to close an open jar.</line>
+  <line number='139'>     */</line>
+  <line number='140'>    public static IOException [] releaseLoader(URLClassLoader classLoader, Vector&lt;String&gt; jarsClosed) {</line>
+  <line number='141'>        </line>
+  <line number='142'>        IOException[] result = null;</line>
+  <line number='143'>        </line>
+  <line number='144'>        try { </line>
+  <line number='145'>            init();</line>
+  <line number='146'></line>
+  <line number='147'>            /* Records all IOExceptions thrown while closing jar files. */</line>
+  <line number='148'>            Vector&lt;IOException&gt; ioExceptions = new Vector&lt;IOException&gt;();</line>
+  <line number='149'></line>
+  <line number='150'>            if (jarsClosed != null) {</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+</file>

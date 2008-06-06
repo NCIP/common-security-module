@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authentication/CommonAuthenticationManager.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authentication/CommonAuthenticationManager.java"
+>
+  <violation
+    line="205"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="218"
+    source="InefficientEmptyStringCheck"
+    severity="Medium"
+    type="pmd"
+    message="String.trim().length()==0 is an inefficient way to validate an empty String."
+    severity-level="2"
+    popup-message="String.trim().length()==0 is an inefficient way to validate an empty String."
+  />
+  <violation
+    line="222"
+    source="InefficientEmptyStringCheck"
+    severity="Medium"
+    type="pmd"
+    message="String.trim().length()==0 is an inefficient way to validate an empty String."
+    severity-level="2"
+    popup-message="String.trim().length()==0 is an inefficient way to validate an empty String."
+  />
+  <violation
+    line="242"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="244"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="247"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="248"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;Authentication|&quot; appears 4 times in this file; the first occurrence is on line 248"
+    severity-level="2"
+    popup-message="The String literal &quot;Authentication|&quot; appears 4 times in this file; the first occurrence is on line 248"
+  />
+  <violation
+    line="255"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="262"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="269"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='10' suppressed='0'/>
+</file>

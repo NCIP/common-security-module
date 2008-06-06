@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authorization/jaas/AccessPermission.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authorization/jaas/AccessPermission.java"
+>
+  <violation
+    line="112"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as 'SEP_WILD'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as 'SEP_WILD'."
+  />
+  <violation
+    line="113"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_action'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_action'."
+  />
+  <violation
+    line="114"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_listActions'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_listActions'."
+  />
+  <violation
+    line="115"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_path'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_path'."
+  />
+  <violation
+    line="116"
+    source="UnusedPrivateField"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private fields such as '_bTail'."
+    severity-level="2"
+    popup-message="Avoid unused private fields such as '_bTail'."
+  />
+  <violation
+    line="122"
+    source="UselessOverridingMethod"
+    severity="Medium"
+    type="pmd"
+    message="Overriding method merely calls super"
+    severity-level="2"
+    popup-message="Overriding method merely calls super"
+  />
+  <type type='pmd' number='6' suppressed='0'/>
+</file>

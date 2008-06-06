@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java"
+  last-modified="1212512037000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/domainobjects/FilterClause.java"
+>
+  <violation
+    line="10"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 7 lines from &lt;a href='../../../../../../../../../upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java#line36'&gt;line 36 in InstanceLevelForm.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 7 lines from line 36 in InstanceLevelForm.java."
+  />
+  <violation
+    line="33"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 18 lines from &lt;a href='../../../../../../../../../upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java#line89'&gt;line 89 in InstanceLevelForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 18 lines from line 89 in InstanceLevelForm.java."
+  />
+  <violation
+    line="83"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 32 lines from &lt;a href='../../../../../../../../../upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java#line197'&gt;line 197 in InstanceLevelForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 32 lines from line 197 in InstanceLevelForm.java."
+  />
+  <violation
+    line="157"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 14 lines from &lt;a href='../../../../../../../../../upt/webapp/src/gov/nih/nci/security/upt/forms/InstanceLevelForm.java#line445'&gt;line 445 in InstanceLevelForm.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 14 lines from line 445 in InstanceLevelForm.java."
+  />
+  <line number='1'>package gov.nih.nci.security.authorization.domainobjects;</line>
+  <line number='2'></line>
+  <line number='3'>import java.util.Date;</line>
+  <line number='4'></line>
+  <line number='5'></line>
+  <line number='6'>public class FilterClause implements Comparable</line>
+  <line number='7'>{</line>
+  <line number='8'>	</line>
+  <line number='9'>	private Long id;</line>
+  <line number='10'>	private String className;</line>
+  <line number='11'>	private String filterChain;</line>
+  <line number='12'>	private String targetClassName;</line>
+  <line number='13'>	private String targetClassAttributeName;</line>
+  <line number='14'>	private String targetClassAttributeType;</line>
+  <line number='15'>	private String targetClassAlias;</line>
+  <line number='16'>	private String targetClassAttributeAlias;</line>
+  <line number='17'>	//private String generatedSQL;</line>
+  <line number='18'>	private String generatedSQLForUser;</line>
+  <line number='19'>	private String generatedSQLForGroup;</line>
+  <line number='20'>	private Application application;</line>
+  <line number='24'>	{</line>
+  <line number='25'>		return application;</line>
+  <line number='26'>	}</line>
+  <line number='27'>	</line>
+  <line number='28'>	public void setApplication(Application application)</line>
+  <line number='29'>	{</line>
+  <line number='30'>		this.application = application;</line>
+  <line number='31'>	}</line>
+  <line number='32'>	</line>
+  <line number='33'>	public String getClassName()</line>
+  <line number='34'>	{</line>
+  <line number='35'>		return className;</line>
+  <line number='36'>	}</line>
+  <line number='37'>	</line>
+  <line number='38'>	public void setClassName(String className)</line>
+  <line number='39'>	{</line>
+  <line number='40'>		this.className = className;</line>
+  <line number='41'>	}</line>
+  <line number='42'>	</line>
+  <line number='43'>	public String getFilterChain()</line>
+  <line number='74'>	{</line>
+  <line number='75'>		return targetClassAlias;</line>
+  <line number='76'>	}</line>
+  <line number='77'>	</line>
+  <line number='78'>	public void setTargetClassAlias(String targetClassAlias)</line>
+  <line number='79'>	{</line>
+  <line number='80'>		this.targetClassAlias = targetClassAlias;</line>
+  <line number='81'>	}</line>
+  <line number='82'>	</line>
+  <line number='83'>	public String getTargetClassAttributeName()</line>
+  <line number='84'>	{</line>
+  <line number='85'>		return targetClassAttributeName;</line>
+  <line number='86'>	}</line>
+  <line number='87'></line>
+  <line number='88'>	</line>
+  <line number='89'>	public void setTargetClassAttributeName(String targetClassAttributeName)</line>
+  <line number='90'>	{</line>
+  <line number='91'>		this.targetClassAttributeName = targetClassAttributeName;</line>
+  <line number='92'>	}</line>
+  <line number='93'></line>
+  <line number='148'>	public int compareTo(Object object)</line>
+  <line number='149'>	{</line>
+  <line number='150'>		if(object instanceof FilterClause){</line>
+  <line number='151'>			FilterClause obj = (FilterClause) object;	</line>
+  <line number='152'>			return this.getClassName().compareToIgnoreCase(obj.getClassName()); </line>
+  <line number='153'>		}</line>
+  <line number='154'>		return 0;</line>
+  <line number='155'>	}</line>
+  <line number='156'></line>
+  <line number='157'>	public String getGeneratedSQLForGroup() {</line>
+  <line number='158'>		return generatedSQLForGroup;</line>
+  <line number='159'>	}</line>
+  <line number='160'></line>
+  <line number='161'>	public void setGeneratedSQLForGroup(String generatedSQLForGroup) {</line>
+  <line number='162'>		this.generatedSQLForGroup = generatedSQLForGroup;</line>
+  <line number='163'>	}</line>
+  <line number='164'></line>
+  <line number='165'>	public String getGeneratedSQLForUser() {</line>
+  <line number='166'>		return generatedSQLForUser;</line>
+  <line number='167'>	}</line>
+  <type type='simian' number='4' suppressed='0'/>
+</file>

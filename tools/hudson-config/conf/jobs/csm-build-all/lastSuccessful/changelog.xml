@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><log><logentry revision="2577"><author>gursesl</author><date>2008-06-06T19:16:40.696827Z</date><paths><path action="M">/trunk/software/api/build.xml</path><path action="M">/trunk/software/common/ivysettings.xml</path></paths><msg>Added local Ivy repository</msg></logentry></log>

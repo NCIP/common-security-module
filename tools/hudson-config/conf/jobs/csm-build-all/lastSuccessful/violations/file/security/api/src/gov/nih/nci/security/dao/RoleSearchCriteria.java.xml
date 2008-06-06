@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/dao/RoleSearchCriteria.java"
+  last-modified="1212512039000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/dao/RoleSearchCriteria.java"
+>
+  <violation
+    line="94"
+    source="AvoidStarImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Using the '.*' form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*."
+    severity-level="1"
+    popup-message="Using the '.*' form of import should be avoided - gov.nih.nci.security.authorization.domainobjects.*."
+  />
+  <line number='85'> *TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF</line>
+  <line number='86'> *THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</line>
+  <line number='87'> *</line>
+  <line number='88'> *&lt;!-- LICENSE_TEXT_END --&gt;</line>
+  <line number='89'> *</line>
+  <line number='90'> */</line>
+  <line number='91'></line>
+  <line number='92'></line>
+  <line number='93'>import java.util.Hashtable;</line>
+  <line number='94'>import gov.nih.nci.security.authorization.domainobjects.*;</line>
+  <line number='95'></line>
+  <line number='96'>/**</line>
+  <line number='97'> * </line>
+  <line number='98'> * @author Vinay Kumar (Ekagra Software Technologies Ltd.)</line>
+  <line number='99'> */</line>
+  <line number='100'>public class RoleSearchCriteria extends SearchCriteria{</line>
+  <line number='101'></line>
+  <line number='102'>	private Role role;</line>
+  <line number='103'>	public RoleSearchCriteria(Role role){</line>
+  <line number='104'>		this.role=role;</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+</file>

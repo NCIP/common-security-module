@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/upt/util/HibernateHelper.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/upt/util/HibernateHelper.java"
+>
+  <violation
+    line="73"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="85"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="121"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; - &quot; appears 6 times in this file; the first occurrence is on line 121"
+    severity-level="2"
+    popup-message="The String literal &quot; - &quot; appears 6 times in this file; the first occurrence is on line 121"
+  />
+  <violation
+    line="148"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="182"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="195"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="197"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="208"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'enumeration'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'enumeration'."
+  />
+  <violation
+    line="249"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="312"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="314"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="317"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="319"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="380"
+    source="StringToString"
+    severity="Medium"
+    type="pmd"
+    message="Avoid calling toString() on String objects; this is unnecessary."
+    severity-level="2"
+    popup-message="Avoid calling toString() on String objects; this is unnecessary."
+  />
+  <violation
+    line="387"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="389"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="390"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'targetClassAttributeName'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'targetClassAttributeName'."
+  />
+  <violation
+    line="392"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="394"
+    source="IfElseStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if...else statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if...else statements without curly braces"
+  />
+  <violation
+    line="484"
+    source="StringToString"
+    severity="Medium"
+    type="pmd"
+    message="Avoid calling toString() on String objects; this is unnecessary."
+    severity-level="2"
+    popup-message="Avoid calling toString() on String objects; this is unnecessary."
+  />
+  <violation
+    line="487"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'startSQLCapture(ByteArrayOutputStream)'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'startSQLCapture(ByteArrayOutputStream)'."
+  />
+  <violation
+    line="495"
+    source="UnusedPrivateMethod"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused private methods such as 'stopSQLCapture(Appender,ByteArrayOutputStream)'."
+    severity-level="2"
+    popup-message="Avoid unused private methods such as 'stopSQLCapture(Appender,ByteArrayOutputStream)'."
+  />
+  <type type='pmd' number='22' suppressed='0'/>
+</file>

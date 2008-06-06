@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/dao/Queries.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/dao/Queries.java"
+>
+  <violation
+    line="108"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 127 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 127 characters appended."
+  />
+  <violation
+    line="109"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 6 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 6 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="109"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 6 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 6 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="111"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and u.login_name=?&quot; appears 4 times in this file; the first occurrence is on line 111"
+    severity-level="2"
+    popup-message="The String literal &quot; and u.login_name=?&quot; appears 4 times in this file; the first occurrence is on line 111"
+  />
+  <violation
+    line="112"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and p.privilege_name=?&quot; appears 8 times in this file; the first occurrence is on line 112"
+    severity-level="2"
+    popup-message="The String literal &quot; and p.privilege_name=?&quot; appears 8 times in this file; the first occurrence is on line 112"
+  />
+  <violation
+    line="113"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and pg.application_id=?&quot; appears 8 times in this file; the first occurrence is on line 113"
+    severity-level="2"
+    popup-message="The String literal &quot; and pg.application_id=?&quot; appears 8 times in this file; the first occurrence is on line 113"
+  />
+  <violation
+    line="114"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and pe.application_id=?&quot; appears 8 times in this file; the first occurrence is on line 114"
+    severity-level="2"
+    popup-message="The String literal &quot; and pe.application_id=?&quot; appears 8 times in this file; the first occurrence is on line 114"
+  />
+  <violation
+    line="149"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 109 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 109 characters appended."
+  />
+  <violation
+    line="150"
+    source="AppendCharacterWithChar"
+    severity="Medium"
+    type="pmd"
+    message="Avoid appending characters as strings in StringBuffer.append."
+    severity-level="2"
+    popup-message="Avoid appending characters as strings in StringBuffer.append."
+  />
+  <violation
+    line="150"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="150"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="151"
+    source="AppendCharacterWithChar"
+    severity="Medium"
+    type="pmd"
+    message="Avoid appending characters as strings in StringBuffer.append."
+    severity-level="2"
+    popup-message="Avoid appending characters as strings in StringBuffer.append."
+  />
+  <violation
+    line="151"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="151"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="152"
+    source="AppendCharacterWithChar"
+    severity="Medium"
+    type="pmd"
+    message="Avoid appending characters as strings in StringBuffer.append."
+    severity-level="2"
+    popup-message="Avoid appending characters as strings in StringBuffer.append."
+  />
+  <violation
+    line="152"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="152"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 2 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="188"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 848 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 848 characters appended."
+  />
+  <violation
+    line="189"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 22 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 22 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="189"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;select 'X'&quot; appears 6 times in this file; the first occurrence is on line 189"
+    severity-level="2"
+    popup-message="The String literal &quot;select 'X'&quot; appears 6 times in this file; the first occurrence is on line 189"
+  />
+  <violation
+    line="190"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;from csm_protection_group pg,&quot; appears 4 times in this file; the first occurrence is on line 190"
+    severity-level="2"
+    popup-message="The String literal &quot;from csm_protection_group pg,&quot; appears 4 times in this file; the first occurrence is on line 190"
+  />
+  <violation
+    line="191"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;csm_protection_element pe,&quot; appears 4 times in this file; the first occurrence is on line 191"
+    severity-level="2"
+    popup-message="The String literal &quot;csm_protection_element pe,&quot; appears 4 times in this file; the first occurrence is on line 191"
+  />
+  <violation
+    line="192"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;csm_pg_pe pgpe,&quot; appears 4 times in this file; the first occurrence is on line 192"
+    severity-level="2"
+    popup-message="The String literal &quot;csm_pg_pe pgpe,&quot; appears 4 times in this file; the first occurrence is on line 192"
+  />
+  <violation
+    line="193"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;csm_user_group_role_pg ugrpg,&quot; appears 4 times in this file; the first occurrence is on line 193"
+    severity-level="2"
+    popup-message="The String literal &quot;csm_user_group_role_pg ugrpg,&quot; appears 4 times in this file; the first occurrence is on line 193"
+  />
+  <violation
+    line="197"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;csm_role_privilege rp,&quot; appears 4 times in this file; the first occurrence is on line 197"
+    severity-level="2"
+    popup-message="The String literal &quot;csm_role_privilege rp,&quot; appears 4 times in this file; the first occurrence is on line 197"
+  />
+  <violation
+    line="198"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;csm_privilege p &quot; appears 6 times in this file; the first occurrence is on line 198"
+    severity-level="2"
+    popup-message="The String literal &quot;csm_privilege p &quot; appears 6 times in this file; the first occurrence is on line 198"
+  />
+  <violation
+    line="200"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and pgpe.protection_element_id = pe.protection_element_id&quot; appears 4 times in this file; the first occurrence is on line 200"
+    severity-level="2"
+    popup-message="The String literal &quot; and pgpe.protection_element_id = pe.protection_element_id&quot; appears 4 times in this file; the first occurrence is on line 200"
+  />
+  <violation
+    line="201"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and pe.object_id=?&quot; appears 6 times in this file; the first occurrence is on line 201"
+    severity-level="2"
+    popup-message="The String literal &quot; and pe.object_id=?&quot; appears 6 times in this file; the first occurrence is on line 201"
+  />
+  <violation
+    line="202"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))&quot; appears 5 times in this file; the first occurrence is on line 202"
+    severity-level="2"
+    popup-message="The String literal &quot; and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))&quot; appears 5 times in this file; the first occurrence is on line 202"
+  />
+  <violation
+    line="206"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and ugrpg.role_id = rp.role_id &quot; appears 6 times in this file; the first occurrence is on line 206"
+    severity-level="2"
+    popup-message="The String literal &quot; and ugrpg.role_id = rp.role_id &quot; appears 6 times in this file; the first occurrence is on line 206"
+  />
+  <violation
+    line="207"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; and rp.privilege_id = p.privilege_id&quot; appears 6 times in this file; the first occurrence is on line 207"
+    severity-level="2"
+    popup-message="The String literal &quot; and rp.privilege_id = p.privilege_id&quot; appears 6 times in this file; the first occurrence is on line 207"
+  />
+  <violation
+    line="225"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 793 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 793 characters appended."
+  />
+  <violation
+    line="226"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 19 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 19 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="234"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; where pgpe.protection_group_id = pg.protection_group_id &quot; appears 4 times in this file; the first occurrence is on line 234"
+    severity-level="2"
+    popup-message="The String literal &quot; where pgpe.protection_group_id = pg.protection_group_id &quot; appears 4 times in this file; the first occurrence is on line 234"
+  />
+  <violation
+    line="259"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 820 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 820 characters appended."
+  />
+  <violation
+    line="260"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 19 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 19 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="293"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 839 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 839 characters appended."
+  />
+  <violation
+    line="294"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="330"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 812 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 812 characters appended."
+  />
+  <violation
+    line="331"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="368"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 789 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 789 characters appended."
+  />
+  <violation
+    line="369"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 19 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 19 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="402"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 724 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 724 characters appended."
+  />
+  <violation
+    line="403"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 16 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 16 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="404"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; from csm_protection_group pg,&quot; appears 4 times in this file; the first occurrence is on line 404"
+    severity-level="2"
+    popup-message="The String literal &quot; from csm_protection_group pg,&quot; appears 4 times in this file; the first occurrence is on line 404"
+  />
+  <violation
+    line="405"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; csm_protection_element pe,&quot; appears 4 times in this file; the first occurrence is on line 405"
+    severity-level="2"
+    popup-message="The String literal &quot; csm_protection_element pe,&quot; appears 4 times in this file; the first occurrence is on line 405"
+  />
+  <violation
+    line="406"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; csm_pg_pe pgpe,&quot; appears 4 times in this file; the first occurrence is on line 406"
+    severity-level="2"
+    popup-message="The String literal &quot; csm_pg_pe pgpe,&quot; appears 4 times in this file; the first occurrence is on line 406"
+  />
+  <violation
+    line="407"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; csm_user_group_role_pg ugrpg,&quot; appears 4 times in this file; the first occurrence is on line 407"
+    severity-level="2"
+    popup-message="The String literal &quot; csm_user_group_role_pg ugrpg,&quot; appears 4 times in this file; the first occurrence is on line 407"
+  />
+  <violation
+    line="408"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; csm_user u,&quot; appears 4 times in this file; the first occurrence is on line 408"
+    severity-level="2"
+    popup-message="The String literal &quot; csm_user u,&quot; appears 4 times in this file; the first occurrence is on line 408"
+  />
+  <violation
+    line="409"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; csm_role_privilege rp,&quot; appears 4 times in this file; the first occurrence is on line 409"
+    severity-level="2"
+    popup-message="The String literal &quot; csm_role_privilege rp,&quot; appears 4 times in this file; the first occurrence is on line 409"
+  />
+  <violation
+    line="410"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; csm_role r,&quot; appears 4 times in this file; the first occurrence is on line 410"
+    severity-level="2"
+    popup-message="The String literal &quot; csm_role r,&quot; appears 4 times in this file; the first occurrence is on line 410"
+  />
+  <violation
+    line="411"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; csm_privilege p&quot; appears 4 times in this file; the first occurrence is on line 411"
+    severity-level="2"
+    popup-message="The String literal &quot; csm_privilege p&quot; appears 4 times in this file; the first occurrence is on line 411"
+  />
+  <violation
+    line="412"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; where ugrpg.role_id = r.role_id and&quot; appears 4 times in this file; the first occurrence is on line 412"
+    severity-level="2"
+    popup-message="The String literal &quot; where ugrpg.role_id = r.role_id and&quot; appears 4 times in this file; the first occurrence is on line 412"
+  />
+  <violation
+    line="415"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; pg.protection_group_id = pgpe.protection_group_id and&quot; appears 4 times in this file; the first occurrence is on line 415"
+    severity-level="2"
+    popup-message="The String literal &quot; pg.protection_group_id = pgpe.protection_group_id and&quot; appears 4 times in this file; the first occurrence is on line 415"
+  />
+  <violation
+    line="416"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; pgpe.protection_element_id = pe.protection_element_id and&quot; appears 4 times in this file; the first occurrence is on line 416"
+    severity-level="2"
+    popup-message="The String literal &quot; pgpe.protection_element_id = pe.protection_element_id and&quot; appears 4 times in this file; the first occurrence is on line 416"
+  />
+  <violation
+    line="417"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; r.role_id = rp.role_id and&quot; appears 4 times in this file; the first occurrence is on line 417"
+    severity-level="2"
+    popup-message="The String literal &quot; r.role_id = rp.role_id and&quot; appears 4 times in this file; the first occurrence is on line 417"
+  />
+  <violation
+    line="418"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot; rp.privilege_id = p.privilege_id &quot; appears 4 times in this file; the first occurrence is on line 418"
+    severity-level="2"
+    popup-message="The String literal &quot; rp.privilege_id = p.privilege_id &quot; appears 4 times in this file; the first occurrence is on line 418"
+  />
+  <violation
+    line="423"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 813 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 813 characters appended."
+  />
+  <violation
+    line="424"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="449"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 108 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 108 characters appended."
+  />
+  <violation
+    line="450"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 5 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 5 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="450"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 5 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 5 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="483"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 734 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 734 characters appended."
+  />
+  <violation
+    line="484"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 16 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 16 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="505"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 823 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 823 characters appended."
+  />
+  <violation
+    line="506"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="533"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 2096 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 2096 characters appended."
+  />
+  <violation
+    line="535"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 45 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 45 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="536"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;      FROM  csm_protection_element pe,&quot; appears 5 times in this file; the first occurrence is on line 536"
+    severity-level="2"
+    popup-message="The String literal &quot;      FROM  csm_protection_element pe,&quot; appears 5 times in this file; the first occurrence is on line 536"
+  />
+  <violation
+    line="537"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            csm_protection_group pg,&quot; appears 5 times in this file; the first occurrence is on line 537"
+    severity-level="2"
+    popup-message="The String literal &quot;            csm_protection_group pg,&quot; appears 5 times in this file; the first occurrence is on line 537"
+  />
+  <violation
+    line="538"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            csm_privilege p,&quot; appears 5 times in this file; the first occurrence is on line 538"
+    severity-level="2"
+    popup-message="The String literal &quot;            csm_privilege p,&quot; appears 5 times in this file; the first occurrence is on line 538"
+  />
+  <violation
+    line="542"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            csm_pg_pe pgpe,&quot; appears 5 times in this file; the first occurrence is on line 542"
+    severity-level="2"
+    popup-message="The String literal &quot;            csm_pg_pe pgpe,&quot; appears 5 times in this file; the first occurrence is on line 542"
+  />
+  <violation
+    line="543"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            csm_role r,&quot; appears 5 times in this file; the first occurrence is on line 543"
+    severity-level="2"
+    popup-message="The String literal &quot;            csm_role r,&quot; appears 5 times in this file; the first occurrence is on line 543"
+  />
+  <violation
+    line="544"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            csm_role_privilege rp,&quot; appears 5 times in this file; the first occurrence is on line 544"
+    severity-level="2"
+    popup-message="The String literal &quot;            csm_role_privilege rp,&quot; appears 5 times in this file; the first occurrence is on line 544"
+  />
+  <violation
+    line="545"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            csm_user_group_role_pg ugrpg&quot; appears 5 times in this file; the first occurrence is on line 545"
+    severity-level="2"
+    popup-message="The String literal &quot;            csm_user_group_role_pg ugrpg&quot; appears 5 times in this file; the first occurrence is on line 545"
+  />
+  <violation
+    line="546"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)&quot; appears 5 times in this file; the first occurrence is on line 546"
+    severity-level="2"
+    popup-message="The String literal &quot;      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)&quot; appears 5 times in this file; the first occurrence is on line 546"
+  />
+  <violation
+    line="547"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            AND ugrpg.role_id = rp.role_id&quot; appears 5 times in this file; the first occurrence is on line 547"
+    severity-level="2"
+    popup-message="The String literal &quot;            AND ugrpg.role_id = rp.role_id&quot; appears 5 times in this file; the first occurrence is on line 547"
+  />
+  <violation
+    line="548"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            AND rp.privilege_id = p.privilege_id&quot; appears 5 times in this file; the first occurrence is on line 548"
+    severity-level="2"
+    popup-message="The String literal &quot;            AND rp.privilege_id = p.privilege_id&quot; appears 5 times in this file; the first occurrence is on line 548"
+  />
+  <violation
+    line="549"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            AND pg.protection_group_id = pgpe.protection_group_id&quot; appears 5 times in this file; the first occurrence is on line 549"
+    severity-level="2"
+    popup-message="The String literal &quot;            AND pg.protection_group_id = pgpe.protection_group_id&quot; appears 5 times in this file; the first occurrence is on line 549"
+  />
+  <violation
+    line="552"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;            AND pgpe.protection_element_id = pe.protection_element_id&quot; appears 5 times in this file; the first occurrence is on line 552"
+    severity-level="2"
+    popup-message="The String literal &quot;            AND pgpe.protection_element_id = pe.protection_element_id&quot; appears 5 times in this file; the first occurrence is on line 552"
+  />
+  <violation
+    line="598"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 888 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 888 characters appended."
+  />
+  <violation
+    line="600"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 18 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 18 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="633"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 960 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 960 characters appended."
+  />
+  <violation
+    line="635"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <violation
+    line="671"
+    source="InsufficientStringBufferDeclaration"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer constructor is initialized with size 16, but has at least 964 characters appended."
+    severity-level="2"
+    popup-message="StringBuffer constructor is initialized with size 16, but has at least 964 characters appended."
+  />
+  <violation
+    line="673"
+    source="ConsecutiveLiteralAppends"
+    severity="Medium"
+    type="pmd"
+    message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+    severity-level="2"
+    popup-message="StringBuffer.append is called 20 consecutive times with literal Strings. Use a single append with a single String."
+  />
+  <type type='pmd' number='86' suppressed='0'/>
+</file>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java"
+  last-modified="1212512021000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/securityws/src/gov/nih/nci/security/ws/authentication/LoginResponse.java"
+>
+  <violation
+    line="17"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 26 lines from &lt;a href='../../authorization/CheckPermissionResponse.java#line17'&gt;line 17 in CheckPermissionResponse.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 26 lines from line 17 in CheckPermissionResponse.java."
+  />
+  <violation
+    line="45"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='../LoginRequest.java#line93'&gt;line 93 in LoginRequest.java&lt;/a&gt;, &lt;a href='../../authorization/CheckPermissionRequest.java#line165'&gt;line 165 in CheckPermissionRequest.java&lt;/a&gt;, &lt;a href='../../authorization/CheckPermissionResponse.java#line45'&gt;line 45 in CheckPermissionResponse.java&lt;/a&gt; and &lt;a href='../../common/ErrorDetails.java#line69'&gt;line 69 in ErrorDetails.java&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 93 in LoginRequest.java, line 165 in CheckPermissionRequest.java, line 45 in CheckPermissionResponse.java and line 69 in ErrorDetails.java."
+  />
+  <violation
+    line="45"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 27 lines from &lt;a href='../../authorization/CheckPermissionResponse.java#line45'&gt;line 45 in CheckPermissionResponse.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 27 lines from line 45 in CheckPermissionResponse.java."
+  />
+  <violation
+    line="54"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 11 lines from &lt;a href='../../authorization/CheckPermissionRequest.java#line191'&gt;line 191 in CheckPermissionRequest.java&lt;/a&gt;, &lt;a href='../LoginRequest.java#line110'&gt;line 110 in LoginRequest.java&lt;/a&gt;, &lt;a href='../../common/ErrorDetails.java#line83'&gt;line 83 in ErrorDetails.java&lt;/a&gt; and &lt;a href='../../authorization/CheckPermissionResponse.java#line54'&gt;line 54 in CheckPermissionResponse.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 11 lines from line 191 in CheckPermissionRequest.java, line 110 in LoginRequest.java, line 83 in ErrorDetails.java and line 54 in CheckPermissionResponse.java."
+  />
+  <violation
+    line="79"
+    source="duplication"
+    severity="Medium"
+    type="simian"
+    message="Duplication of 34 lines from &lt;a href='../../authorization/CheckPermissionResponse.java#line79'&gt;line 79 in CheckPermissionResponse.java&lt;/a&gt;."
+    severity-level="2"
+    popup-message="Duplication of 34 lines from line 79 in CheckPermissionResponse.java."
+  />
+  <line number='8'>package gov.nih.nci.security.ws.authentication;</line>
+  <line number='9'></line>
+  <line number='10'>public class LoginResponse  implements java.io.Serializable {</line>
+  <line number='11'>    private boolean result;</line>
+  <line number='12'></line>
+  <line number='13'>    public LoginResponse() {</line>
+  <line number='14'>    }</line>
+  <line number='15'></line>
+  <line number='16'>    public LoginResponse(</line>
+  <line number='17'>           boolean result) {</line>
+  <line number='18'>           this.result = result;</line>
+  <line number='19'>    }</line>
+  <line number='20'></line>
+  <line number='21'></line>
+  <line number='22'>    /**</line>
+  <line number='23'>     * Gets the result value for this LoginResponse.</line>
+  <line number='24'>     * </line>
+  <line number='25'>     * @return result</line>
+  <line number='26'>     */</line>
+  <line number='27'>    public boolean isResult() {</line>
+  <line number='36'>     */</line>
+  <line number='37'>    public void setResult(boolean result) {</line>
+  <line number='38'>        this.result = result;</line>
+  <line number='39'>    }</line>
+  <line number='40'></line>
+  <line number='41'>    private java.lang.Object __equalsCalc = null;</line>
+  <line number='42'>    public synchronized boolean equals(java.lang.Object obj) {</line>
+  <line number='43'>        if (!(obj instanceof LoginResponse)) return false;</line>
+  <line number='44'>        LoginResponse other = (LoginResponse) obj;</line>
+  <line number='45'>        if (obj == null) return false;</line>
+  <line number='46'>        if (this == obj) return true;</line>
+  <line number='47'>        if (__equalsCalc != null) {</line>
+  <line number='48'>            return (__equalsCalc == obj);</line>
+  <line number='49'>        }</line>
+  <line number='50'>        __equalsCalc = obj;</line>
+  <line number='51'>        boolean _equals;</line>
+  <line number='52'>        _equals = true &amp;&amp; </line>
+  <line number='53'>            this.result == other.isResult();</line>
+  <line number='54'>        __equalsCalc = null;</line>
+  <line number='55'>        return _equals;</line>
+  <line number='56'>    }</line>
+  <line number='57'></line>
+  <line number='58'>    private boolean __hashCodeCalc = false;</line>
+  <line number='59'>    public synchronized int hashCode() {</line>
+  <line number='60'>        if (__hashCodeCalc) {</line>
+  <line number='61'>            return 0;</line>
+  <line number='62'>        }</line>
+  <line number='63'>        __hashCodeCalc = true;</line>
+  <line number='64'>        int _hashCode = 1;</line>
+  <line number='70'>    // Type metadata</line>
+  <line number='71'>    private static org.apache.axis.description.TypeDesc typeDesc =</line>
+  <line number='72'>        new org.apache.axis.description.TypeDesc(LoginResponse.class, true);</line>
+  <line number='73'></line>
+  <line number='74'>    static {</line>
+  <line number='75'>        typeDesc.setXmlType(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "LoginResponse"));</line>
+  <line number='76'>        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();</line>
+  <line number='77'>        elemField.setFieldName("result");</line>
+  <line number='78'>        elemField.setXmlName(new javax.xml.namespace.QName("http://security.nci.nih.gov/ws/authentication", "Result"));</line>
+  <line number='79'>        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));</line>
+  <line number='80'>        elemField.setNillable(false);</line>
+  <line number='81'>        typeDesc.addFieldDesc(elemField);</line>
+  <line number='82'>    }</line>
+  <line number='83'></line>
+  <line number='84'>    /**</line>
+  <line number='85'>     * Return type metadata object</line>
+  <line number='86'>     */</line>
+  <line number='87'>    public static org.apache.axis.description.TypeDesc getTypeDesc() {</line>
+  <line number='88'>        return typeDesc;</line>
+  <line number='89'>    }</line>
+  <type type='simian' number='5' suppressed='0'/>
+</file>

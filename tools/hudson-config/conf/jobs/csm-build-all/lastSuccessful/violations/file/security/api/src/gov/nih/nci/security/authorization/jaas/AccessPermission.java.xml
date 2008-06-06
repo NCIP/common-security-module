@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/jaas/AccessPermission.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/jaas/AccessPermission.java"
+>
+  <violation
+    line="93"
+    source="AvoidStarImportCheck"
+    severity="Medium High"
+    type="checkstyle"
+    message="Using the '.*' form of import should be avoided - java.util.*."
+    severity-level="1"
+    popup-message="Using the '.*' form of import should be avoided - java.util.*."
+  />
+  <line number='84'> *TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF</line>
+  <line number='85'> *THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</line>
+  <line number='86'> *</line>
+  <line number='87'> *&lt;!-- LICENSE_TEXT_END --&gt;</line>
+  <line number='88'> *</line>
+  <line number='89'> */</line>
+  <line number='90'></line>
+  <line number='91'></line>
+  <line number='92'>import java.security.Permission;</line>
+  <line number='93'>import java.util.*;</line>
+  <line number='94'>import java.io.Serializable;</line>
+  <line number='95'>import java.io.File;</line>
+  <line number='96'></line>
+  <line number='97'></line>
+  <line number='98'></line>
+  <line number='99'></line>
+  <line number='100'></line>
+  <line number='101'></line>
+  <line number='102'></line>
+  <line number='103'>/**</line>
+  <type type='checkstyle' number='1' suppressed='0'/>
+</file>

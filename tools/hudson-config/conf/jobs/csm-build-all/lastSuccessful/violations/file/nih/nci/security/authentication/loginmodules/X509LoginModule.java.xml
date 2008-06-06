@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="nih/nci/security/authentication/loginmodules/X509LoginModule.java"
+  last-modified="0"
+  file="/home/csmuser/nih/nci/security/authentication/loginmodules/X509LoginModule.java"
+>
+  <violation
+    line="174"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'crl'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'crl'."
+  />
+  <violation
+    line="176"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="217"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;Authentication|||login|Failure| KeyStore could not be loaded.&quot; appears 8 times in this file; the first occurrence is on line 217"
+    severity-level="2"
+    popup-message="The String literal &quot;Authentication|||login|Failure| KeyStore could not be loaded.&quot; appears 8 times in this file; the first occurrence is on line 217"
+  />
+  <violation
+    line="249"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="255"
+    source="CollapsibleIfStatements"
+    severity="Medium"
+    type="pmd"
+    message="These nested if statements could be combined"
+    severity-level="2"
+    popup-message="These nested if statements could be combined"
+  />
+  <violation
+    line="302"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="307"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="338"
+    source="UnusedLocalVariable"
+    severity="Medium"
+    type="pmd"
+    message="Avoid unused local variables such as 'kmf'."
+    severity-level="2"
+    popup-message="Avoid unused local variables such as 'kmf'."
+  />
+  <violation
+    line="350"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="419"
+    source="AvoidDuplicateLiterals"
+    severity="Medium"
+    type="pmd"
+    message="The String literal &quot;trusted-certs-&quot; appears 4 times in this file; the first occurrence is on line 419"
+    severity-level="2"
+    popup-message="The String literal &quot;trusted-certs-&quot; appears 4 times in this file; the first occurrence is on line 419"
+  />
+  <violation
+    line="432"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <violation
+    line="467"
+    source="IfStmtsMustUseBraces"
+    severity="Medium"
+    type="pmd"
+    message="Avoid using if statements without curly braces"
+    severity-level="2"
+    popup-message="Avoid using if statements without curly braces"
+  />
+  <type type='pmd' number='12' suppressed='0'/>
+</file>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file
+  name="security/api/src/gov/nih/nci/security/authorization/attributeLevel/UserClassAttributeMapCache.java"
+  last-modified="1212512038000"
+  file="/home/csmuser/hudson/jobs/csm-build-all/workspace/security/api/src/gov/nih/nci/security/authorization/attributeLevel/UserClassAttributeMapCache.java"
+>
+  <violation
+    line="108"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line147'&gt;line 147&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 147."
+  />
+  <violation
+    line="147"
+    source="duplication"
+    severity="Low"
+    type="simian"
+    message="Duplication of 8 lines from &lt;a href='#line108'&gt;line 108&lt;/a&gt;."
+    severity-level="4"
+    popup-message="Duplication of 8 lines from line 108."
+  />
+  <line number='99'>		if(cache==null) initializeCache();</line>
+  <line number='100'>		</line>
+  <line number='101'>		String privilegeName = "READ";</line>
+  <line number='102'>		Map map = sessionFactory.getAllClassMetadata();</line>
+  <line number='103'>		Set set = map.keySet();</line>
+  <line number='104'>		ArrayList list = new ArrayList(set);</line>
+  <line number='105'></line>
+  <line number='106'>		List&lt;ClassAttributeMap&gt; classAttributeMapList = new ArrayList&lt;ClassAttributeMap&gt;();</line>
+  <line number='107'>			</line>
+  <line number='108'>		Iterator iterator = list.iterator();</line>
+  <line number='109'>		while (iterator.hasNext())</line>
+  <line number='110'>		{</line>
+  <line number='111'>			String className = (String)iterator.next();</line>
+  <line number='112'>			ClassAttributeMap classAttributeMap=null;</line>
+  <line number='113'>			if(!StringUtilities.isBlank(className))</line>
+  <line number='114'>			{</line>
+  <line number='115'>				classAttributeMap = new ClassAttributeMap(className); </line>
+  <line number='116'>			}</line>
+  <line number='117'>			List  attributeList = authorizationManager.getAttributeMapForGroup(userName, className, privilegeName);</line>
+  <line number='118'>			if (null!= attributeList &amp;&amp; attributeList.size() != 0)</line>
+  <line number='138'>		Set set = map.keySet();</line>
+  <line number='139'>		ArrayList list = new ArrayList(set);</line>
+  <line number='140'>		</line>
+  <line number='141'>		for(int i=0;i&lt;groupNames.length;i++)</line>
+  <line number='142'>		{</line>
+  <line number='143'>			List&lt;ClassAttributeMap&gt; classAttributeMapList = new ArrayList&lt;ClassAttributeMap&gt;();</line>
+  <line number='144'>			</line>
+  <line number='145'>			String groupName = groupNames[i];</line>
+  <line number='146'>			</line>
+  <line number='147'>			Iterator iterator = list.iterator();</line>
+  <line number='148'>			while (iterator.hasNext())</line>
+  <line number='149'>			{</line>
+  <line number='150'>				String className = (String)iterator.next();</line>
+  <line number='151'>				ClassAttributeMap classAttributeMap=null;</line>
+  <line number='152'>				if(!StringUtilities.isBlank(className))</line>
+  <line number='153'>				{</line>
+  <line number='154'>					classAttributeMap = new ClassAttributeMap(className); </line>
+  <line number='155'>				}</line>
+  <line number='156'>				List  attributeList = authorizationManager.getAttributeMapForGroup(groupName, className, privilegeName);</line>
+  <line number='157'>				if (null!= attributeList &amp;&amp; attributeList.size() != 0)</line>
+  <type type='simian' number='2' suppressed='0'/>
+</file>
