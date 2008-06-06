@@ -9,14 +9,14 @@
 	<resolvers>
 		<ibiblio name="ibiblio" m2compatible="true" />
 
-		<!-- for messing with install task as starting point for ivy defs for third party libs
-			<filesystem name="internal" local="true">
-			<ivy pattern="c:/foo/[organisation]/[module]-[revision]/ivy.xml"/>
-			<artifact pattern="c:/foo/[organisation]/[module]-[revision]/[artifact]-[revision].[ext]"/>
-			</filesystem>
-		-->
-
 		<chain name="nci-chain">
+			
+			<!-- this is where you can publish to, either your own code or for testing new thirdparty files -->
+			<filesystem name="local-repo" local="true">
+				<artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+				<ivy pattern="${local.repo.dir}/[organisation]/[module]/[revision]/ivy.xml" />
+			</filesystem> 
+		
 			<url name="ncicb-ivy-repo" m2compatible="false">
 				<ivy pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/ivy.xml" />
 				<artifact pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />

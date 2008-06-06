@@ -2,6 +2,8 @@
 	<description>CSM API Project Build File</description>
 
 	<property name="common.dir" value="${basedir}/../" />
+	<property name="local.repo.dir" value="${basedir}/../local-ivy-repo/${ant.project.name}" />
+	
 	<property name="global.ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
 
 	<!-- set global properties for this build -->
@@ -65,6 +67,7 @@
 		<!-- Create the time stamp -->
 		<tstamp />
 		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${local.repo.dir}"/>
 		<mkdir dir="${dist}" />
 	</target>
 
