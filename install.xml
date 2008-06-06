@@ -208,44 +208,42 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<target name="install:database" description="Re-creates database and users from baseline and applys incremental database changes." unless="exclude.database"
 		depends="
 		install:clean,
-		install:init,
-		-install:database:oracle,
-		-install:database:mysql
+		install:init
 		">
+		<switch value="${database.type}">
+			<case value="oracle">
+				<run-sql-script database.url="${database.url}"
+					database.user="${database.user}" 
+					database.password="${database.password}" 
+					sql.delimiter="/" 
+					sql.delimitertype="row"
+					sql.file="${db.dir.target}/${database.type}/AuthSchemaOracle.sql"
+					onerror="continue"/>
+				<run-sql-script database.url="${database.url}" 
+					database.user="${database.user}"
+					database.password="${database.password}" 
+					sql.delimiter="/" 
+					sql.delimitertype="row"
+					sql.file="${db.dir.target}/${database.type}/DataPrimingOracle.sql"
+					onerror="continue"/>
+			</case>
+			<case value="mysql">
+				<database-create/>
+				<run-sql-script
+					database.url="${database.url}"
+					database.user="${database.user}"
+					database.password="${database.password}"
+					sql.file="${db.dir.target}/${database.type}/AuthSchemaMySQL.sql"
+					/>
+				<run-sql-script
+					database.url="${database.url}"
+					database.user="${database.user}"
+					database.password="${database.password}"
+					sql.file="${db.dir.target}/${database.type}/DataPrimingMySQL.sql"
+					/>
+			</case>
+		</switch>
 		<antcall target="upgrade:database" inheritAll="false"/>
-	</target>
-
-	<target name="-install:database:oracle" if="is.oracle" unless="exclude.database">
-		<run-sql-script database.url="${database.url}"
-		                database.user="${database.user}" 
-		                database.password="${database.password}" 
-		                sql.delimiter="/" 
-		                sql.delimitertype="row"
-				sql.file="${db.dir.target}/${database.type}/AuthSchemaOracle.sql"
-		                onerror="continue"/>
-		<run-sql-script database.url="${database.url}" 
-		                database.user="${database.user}"
-		                database.password="${database.password}" 
-		                sql.delimiter="/" 
-		                sql.delimitertype="row"
-				sql.file="${db.dir.target}/${database.type}/DataPrimingOracle.sql"
-		                onerror="continue"/>
-	</target>
-
-	<target name="-install:database:mysql" if="is.mysql" unless="exclude.database">
-		<database-create/>
-		<run-sql-script
-		       database.url="${database.url}"
-		       database.user="${database.user}"
-		       database.password="${database.password}"
-		       sql.file="${db.dir.target}/${database.type}/AuthSchemaMySQL.sql"
-		       	/>
-		<run-sql-script
-		       database.url="${database.url}"
-		       database.user="${database.user}"
-		       database.password="${database.password}"
-		       sql.file="${db.dir.target}/${database.type}/DataPrimingMySQL.sql"
-		       	/>
 	</target>
 
 	<target name="install:jboss:binaries" description="Unzip JBoss binary" unless="exclude.jboss">
@@ -534,32 +532,60 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<target name="upgrade:database" description="Apply incremental DB changes" unless="exclude.database"
 		depends="
 		install:init,
-		upgrade:init,
-		upgrade:database:oracle,
-		upgrade:database:mysql
-		"/>
-
-	<target name="upgrade:database:oracle" if="is.oracle" unless="exclude.database">
-
+		upgrade:init
+		">
 		<!-- **figure out the changes/scripts based upon current version IN the database, if any ** -->
+		<switch value="${database.type}">
+			<case value="oracle">
+				<if>
+					<available file="${db-incr.list.file}"/>
+					<then>
+						<property name="db.continue" value="true"/>
+						<database-create-control-table
+							database.url="${database.url}"
+							database.user="${database.user}"
+							database.password="${database.password}"
+							/>
+						<database-identify-scripts
+							sqlfiles.list.file="${db-incr.list.file}"
+							build.properties.file="${db-incr.conf.file}"
+							sql.delimiter="/" 
+							sql.delimitertype="row"
+							database.sql.dir="${db-incr.dir.target}"/>
+					</then>
+					<else>
+						<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>
+					</else>
+				</if>
+			</case>
+			<case value="mysql">
+				<if>
+					<available file="${db-incr.list.file}"/>
+					<then>
+						<property name="db.continue" value="true"/>
+						<database-create-control-table
+							database.url="${database.url}"
+							database.user="${database.user}"
+							database.password="${database.password}"
+							/>
+						<database-identify-scripts
+							sqlfiles.list.file="${db-incr.list.file}"
+							build.properties.file="${db-incr.conf.file}"
+							database.sql.dir="${db-incr.dir.target}"
+							/>
+					</then>
+					<else>
+						<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>
+					</else>
+				</if>
+			</case>
+		</switch>
+		<echo  message="db.continue=${db.continue}"/>
 		<if>
-			<available file="${db-incr.list.file}"/>
+			<isset property="db.continue"/>
 			<then>
-				<database-create-control-table
-					database.url="${database.url}"
-					database.user="${database.user}"
-					database.password="${database.password}"
-					/>		
-				<database-identify-scripts
-					sqlfiles.list.file="${db-incr.list.file}"
-					build.properties.file="${db-incr.conf.file}"
-					sql.delimiter="/" 
-					sql.delimitertype="row"
-					database.sql.dir="${db-incr.dir.target}"/>
-		       	
 				<!-- **make the changes to the db aka invoke the proper scripts ** -->
 				<antcall target="database-integrate" />
-				
 				<!-- ** make sure the versioning information IN the database is updated to reflect what we just did ** -->
 				<database-update-version-table
 					database.driver="${database.driver}"
@@ -567,36 +593,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 					database.user="${database.user}"
 					database.password="${database.password}"/>
 			</then>
-			<else>
-				<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>
-			</else>
-		</if>
-	</target>
-
-	<target name="upgrade:database:mysql" if="is.mysql" unless="exclude.database">
-		<if>
-			<available file="${db-incr.list.file}"/>
-			<then>
-				<database-create-control-table
-					database.url="${database.url}"
-					database.user="${database.user}"
-					database.password="${database.password}"
-					/>
-				<database-identify-scripts
-					sqlfiles.list.file="${db-incr.list.file}"
-					build.properties.file="${db-incr.conf.file}"
-					database.sql.dir="${db-incr.dir.target}"/>
-				<antcall target="database-integrate" />
-				<database-update-version-table
-					database.driver="${database.driver}"
-					database.url="${database.url}"
-					database.user="${database.user}"
-					database.password="${database.password}"
-					/>
-			</then>
-			<else>
-				<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>
-			</else>
 		</if>
 	</target>
 

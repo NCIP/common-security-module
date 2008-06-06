@@ -1,0 +1,24 @@
+<ivy-module version="1.0">
+  <info organisation="ncicb" 
+        module="bda-testing" />
+  <configurations>
+    <conf name="default" />          
+    <conf name="compile" />     
+    <conf name="runtime" />          
+    <conf name="test" extends="runtime" />
+    <conf name="test-pmd" extends="runtime" />
+  </configurations>
+  
+  <publications>    
+  </publications>
+  
+  <dependencies>
+    <dependency org="openqa" name="selenium" rev="0.9.0" conf="test->master"/>
+    <dependency org="junit" name="junit" rev="4.3.1" conf="test->master"/>
+    <dependency org="cobertura" name="cobertura" rev="1.9" conf="test->runtime"/>  
+    <dependency org="javancss" name="javancss" rev="29.50" conf="test->runtime"/>
+    <dependency org="checkstyle" name="checkstyle" rev="4.4" conf="test->runtime"/>
+    <dependency org="pmd" name="pmd" rev="4.2.1" conf="test-pmd->runtime"/>
+  </dependencies>
+  
+</ivy-module>
