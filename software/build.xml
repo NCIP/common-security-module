@@ -3,8 +3,10 @@
 $Id: build.xml 4753 2008-05-15 18:24:16Z saksass $
 $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 -->
-<project name="generic-build" default="build:all" basedir="." 
-	xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="build-csm-upt" default="build:all" basedir="." 
+	xmlns:ivy="antlib:org.apache.ivy.ant"
+	xmlns:cs="antlib:com.puppycrawl.tools.checkstyle"
+	>
 	<description>
 		Builds the CSM/UPT application.
 	</description>
@@ -26,7 +28,11 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="resources.dir" value="${basedir}/resources" />
 	<property name="reports.dir" value="${basedir}/reports" />
 	<property name="temp.dir" value="${basedir}/temp" />
-	<property name="global.ivy.settings.file" location="ivysettings.xml" />
+	<property name="ivy.settings.file" location="ivy-bda-settings.xml" />
+	<property name="ivy.bda-testing.file" location="ivy-bda-testing.xml" />
+	<property name="ivy.file" value="ivy-2.0.0-beta2.jar"/>
+	<property name="ivy-core.file" value="ivy-core-2.0.0-beta2.jar"/>
+
 
 	<!-- Used by dist:*:prep to copy resource files to distribution area -->
 	<property name="common.src.dir" value="${basedir}/${common.dist.relative.dir}" />
@@ -84,13 +90,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Default install time targets passed by deploy targets to the installer, can be overridden by being set on the command line if different target is desitred.  -->
 	<property name="install.target" value="install"/>
 	<property name="upgrade.target" value="upgrade"/>
-
-	<!-- Paths -->
-	<path id="bda-utils.classpath">
-		<fileset dir="${bda-utils.dir}">
-			<include name="**/*.jar" />
-		</fileset>
-	</path>
 	
 	<!-- retrive ivy files then retrieve bda files and librarires -->
 	<mkdir dir="lib"/>
@@ -100,6 +99,19 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="lib.dir" value="${lib.dir}"/>
 	</ant>
 
+	<!-- Paths -->
+	<path id="bda-utils.classpath">
+		<fileset dir="${bda-utils.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<path id="ivy.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="${ivy.file}" />
+			<include name="${ivy-core.file}" />
+		</fileset>
+	</path>
+
 	<!-- Task definitions -->
 	<taskdef resource="simiantask.properties" classpathref="bda-utils.classpath" />
 	<taskdef uri="antlib:org.apache.ant.antunit" resource="org/apache/ant/antunit/antlib.xml">
@@ -108,7 +120,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		</classpath>
 	</taskdef>
 	<taskdef name="xmlconfig" classname="com.xmlconfig.anttask.XmlConfig" classpathref="bda-utils.classpath" />
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="bda-utils.classpath"/>
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.classpath"/>
 	<taskdef name="for" classname="net.sf.antcontrib.logic.ForTask">
 		<classpath>
 			<pathelement location="${bda-utils.dir}/ant-contrib-1.0b3.jar"/>
@@ -155,7 +167,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 
 	<target name="ivy:clean" description="Clean">
-		<ivy:settings file="${global.ivy.settings.file}" />
+		<ivy:settings file="${ivy.settings.file}" />
 		<ivy:cleancache />
 		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml"
 			target="ivy-cleancache">
@@ -523,12 +535,14 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<target name="static-analysis" description="Performs static analysis"
 		depends="
+		ivy-init,
+		static-analysis:init,
 		static-analysis:simian,
-		static-analysis:pmd
-		"/>
-	<!--
+		static-analysis:pmd,
 		static-analysis:checkstyle,
 		static-analysis:java-ncss
+		"/>
+	<!--
 		static-analysis:cobertura:instrument,
 		static-analysis:cobertura:report,
 		static-analysis:cobertura:check
@@ -540,10 +554,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="csm.java.dir" value="api/src/gov"/>
 		<property name="securityws.java.dir" value="securityws/src/gov"/>
 		<property name="common.dir" value="common"/>
-		<property name="report.dir" value="reports"/>
-		<property name="report.simian.dir" value="${report.dir}/simian"/>
-		<property name="report.pmd.dir" value="${report.dir}/pmd"/>
-		<property name="report.checkstyle.dir" value="${report.dir}/checkstyle"/>
+		<property name="reports.dir" value="reports"/>
+		<property name="reports.simian.dir" value="${reports.dir}/simian"/>
+		<property name="reports.pmd.dir" value="${reports.dir}/pmd"/>
+		<property name="reports.checkstyle.dir" value="${reports.dir}/checkstyle"/>
+		<property name="reports.javancss.dir" value="${reports.dir}/javancss"/>
+		<property name="reports.cobertura.dir" value="${reports.dir}/cobertura"/>
 
 		<property name="src.test.dir" value="${basedir}/test" />
 		<property name="test.classes.dir" value="${basedir}/test-classes" />
@@ -573,10 +589,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</fileset>
 		</path>
 		<echo>ci: ${ci.server}</echo>
-		<mkdir dir="${report.dir}"/>
-		<mkdir dir="${report.simian.dir}"/>
-		<mkdir dir="${report.pmd.dir}"/>
-		<mkdir dir="${report.checkstyle.dir}"/>
+		<mkdir dir="${reports.dir}"/>
+		<mkdir dir="${reports.simian.dir}"/>
+		<mkdir dir="${reports.pmd.dir}"/>
+		<mkdir dir="${reports.checkstyle.dir}"/>
+		<mkdir dir="${reports.javancss.dir}"/>
+		<mkdir dir="${reports.cobertura.dir}"/>
 
 	</target>
 
@@ -585,37 +603,107 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<fileset dir="${upt.java.dir}" includes="**/*.java"/>
 			<fileset dir="${securityws.java.dir}" includes="**/*.java"/>
 			<fileset dir="${csm.java.dir}" includes="**/*.java"/>
-			<formatter type="xml" toFile="${report.simian.dir}/simian-log.xml"/>
+			<formatter type="xml" toFile="${reports.simian.dir}/simian-log.xml"/>
 		</simian>
-		<xslt in="${report.simian.dir}/simian-log.xml" out="${report.simian.dir}/simian-log.html" style="${common.dir}/simian/simian.xsl" />
+		<xslt in="${reports.simian.dir}/simian-log.xml" out="${reports.simian.dir}/simian-log.html" style="${common.dir}/simian/simian.xsl" />
 	</target>
 	 
-	<target name="static-analysis:pmd">
+	<target name="static-analysis:pmd"
+		depends="
+		ivy-init,
+		static-analysis:init
+		">
 		<taskdef name="pmd" 
 			classname="net.sourceforge.pmd.ant.PMDTask"
-			classpathref="bda-utils.classpath"/>
+			classpathref="project.test.pmd.classpath"/>
 		<pmd shortFilenames="true" 
 			rulesetfiles="${common.dir}/pmd/pmd-ruleset-basic.xml">
 			<formatter type="xml"
-				toFile="${report.pmd.dir}/pmd_out_${ant.project.name}.xml" />
+				toFile="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml" />
 			<fileset dir="${upt.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${csm.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${securityws.java.dir}">
 				<include name="**/*.java"/>
 			</fileset>
 		</pmd>
 		<xslt taskname="pmd"
-			in="${report.pmd.dir}/pmd_out_${ant.project.name}.xml"
-			out="${report.pmd.dir}/pmd_report_${ant.project.name}.html"
+			in="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml"
+			out="${reports.pmd.dir}/pmd_report_${ant.project.name}.html"
 			style="${common.dir}/pmd/pmd-report.xslt"/>
 	</target>
-	<!-- Static Analysis  & testing targets 
+
+	<target name="static-analysis:java-ncss"
+		depends="
+		ivy-init,
+		static-analysis:init
+		">
+		<taskdef name="javancss" classpathref="project.test.classpath" classname="javancss.JavancssAntTask" />
+		<javancss srcdir="${basedir}"
+			includes="**/*.java"
+			excludes="**/*test*/*"
+			generatereport="true"
+			outputfile="${reports.javancss.dir}/javancss_metrics_${ant.project.name}.xml"
+			ccnPerFuncMax="10"
+			format="xml">
+		</javancss>
+		<xslt taskname="javancss"
+			in="${reports.javancss.dir}/javancss_metrics_${ant.project.name}.xml"
+			out="${reports.javancss.dir}/javancss_report_${ant.project.name}.html"
+			style="${common.dir}/javancss/javancss2methodhtml.xsl"/>
+	</target>
+	<target name="static-analysis:checkstyle" 
+		depends="
+		ivy-init,
+		static-analysis:init
+		">
+		<taskdef resource="checkstyletask.properties"
+			uri="antlib:com.puppycrawl.tools.checkstyle"
+			classpathref="project.test.classpath"/>
+		<cs:checkstyle config="${common.dir}/checkstyle/checkstyle_minimal.xml"
+			failOnViolation="false">
+			<formatter type="xml" 
+				tofile="${reports.dir}/checkstyle/checkstyle_${ant.project.name}.xml"/>
+			<fileset dir="${upt.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${csm.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${securityws.java.dir}">
+				<include name="**/*.java"/>
+			</fileset>
+		</cs:checkstyle>
+		<xslt taskname="checkstyle"
+			in="${reports.checkstyle.dir}/checkstyle_${ant.project.name}.xml"
+			out="${reports.checkstyle.dir}/checkstyle_report_${ant.project.name}.html"
+			style="${common.dir}/checkstyle/checkstyle-simple.xsl"/>
+	</target>
+
+
+	<target name="ivy-init" 
+		depends="
+		ivy-settings,
+		ivy-test,
+		ivy-test-pmd
+		"/>
+	<target name="ivy-settings">
+		<property name="ivy.dep.file" value="${ivy.bda-testing.file}"/>
+		<ivy:settings file="${ivy.settings.file}" />
+	</target>
 	<target name="ivy-test" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test" />
 	</target>
-	<target name="ivy-test-pmd" if="ci.server" depends="ivy-settings" description="Updates the local ivy repository">
+	<target name="ivy-test-pmd" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test-pmd" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-pmd" />
 	</target>
+
+	<!-- Static Analysis  & testing targets 
 	<target name="post-clean-test" if="ci.server">
 		<delete dir="${instrumented.dir}" quiet="false" />
 		<delete dir="${test.classes.dir}" quiet="false" />
@@ -629,7 +717,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<mkdir dir="${reports.dir}/pmd" />
 	</target>
 	
-	<target name="compile-test" if="ci.server" depends="-pre-clean, -init, ivy-test" description="Compiles the Java source code">
+	<target name="compile-test" if="ci.server" depends="-pre-clean, -init, ivy-init" description="Compiles the Java source code">
 		<javac srcdir="${src.test.dir}" destdir="${test.classes.dir}" debug="true">
 			<classpath refid="project.test.classpath" />
 			<classpath path="${classes.to.test.dir}" />
@@ -668,36 +756,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 -->
 <!--
-	<target name="static-analysis:java-ncss" if="ci.server">
-		<taskdef name="javancss" classpathref="project.test.classpath" classname="javancss.JavancssAntTask" />
-		<javancss srcdir="${src.java.dir}"
-			includes="**/*.java"
-			generatereport="true"
-			outputfile="${reports.dir}/javancss/javancss_metrics_${ant.project.name}.xml"
-			ccnPerFuncMax="10"
-			format="xml"/>
-		<xslt taskname="javancss"
-			in="${reports.dir}/javancss/javancss_metrics_${ant.project.name}.xml"
-			out="${reports.dir}/javancss/javancss_report_${ant.project.name}.html"
-			style="../common/javancss/javancss2methodhtml.xsl"/>
-	</target>
-	<target name="static-analysis:checkstyle" if="ci.server">
-		<taskdef resource="checkstyletask.properties"
-			uri="antlib:com.puppycrawl.tools.checkstyle"
-			classpathref="project.test.classpath"/>
-		<cs:checkstyle config="../common/checkstyle/checkstyle_minimal.xml"
-			failOnViolation="false">
-			<formatter type="xml" 
-				tofile="${reports.dir}/checkstyle/checkstyle_${ant.project.name}.xml"/>
-			<fileset dir="${src.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-		</cs:checkstyle>
-		<xslt taskname="checkstyle"
-			in="${reports.dir}/checkstyle/checkstyle_${ant.project.name}.xml"
-			out="${reports.dir}/checkstyle/checkstyle_report_${ant.project.name}.html"
-			style="../common/checkstyle/checkstyle-simple.xsl"/>
-	</target>
 
 	<target name="static-analysis:cobertura:instrument" if="ci.server" description="Instruments Cobertura test classes">
 		wait to do this until ivy has populated the directory 
