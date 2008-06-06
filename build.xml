@@ -533,6 +533,50 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			/>
 	</target>
 
+	<target name="ivy-init" 
+		depends="
+		ivy-settings,
+		ivy-test-selenium,
+		ivy-test-junit,
+		ivy-test-cobertura,
+		ivy-test-javancss,
+		ivy-test-checkstyle,
+		ivy-test-findbugs,
+		ivy-test-pmd
+		"/>
+	<target name="ivy-settings">
+		<property name="ivy.dep.file" value="${ivy.bda-testing.file}"/>
+		<ivy:settings file="${ivy.settings.file}" />
+	</target>
+	<target name="ivy-test-selenium" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-selenium" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-selenium" />
+	</target>
+	<target name="ivy-test-junit" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-junit" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-junit" />
+	</target>
+	<target name="ivy-test-cobertura" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-cobertura" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-cobertura" />
+	</target>
+	<target name="ivy-test-javancss" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-javancss" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-javancss" />
+	</target>
+	<target name="ivy-test-checkstyle" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-checkstyle" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-checkstyle" />
+	</target>
+	<target name="ivy-test-pmd" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-pmd" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-pmd" />
+	</target>
+	<target name="ivy-test-findbugs" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="test-findbugs" />
+		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-findbugs" />
+	</target>
+
 	<target name="static-analysis" description="Performs static analysis"
 		depends="
 		ivy-init,
@@ -540,7 +584,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		static-analysis:simian,
 		static-analysis:pmd,
 		static-analysis:checkstyle,
-		static-analysis:java-ncss
+		static-analysis:java-ncss,
+		static-analysis:findbugs
 		"/>
 	<!--
 		static-analysis:cobertura:instrument,
@@ -560,6 +605,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="reports.checkstyle.dir" value="${reports.dir}/checkstyle"/>
 		<property name="reports.javancss.dir" value="${reports.dir}/javancss"/>
 		<property name="reports.cobertura.dir" value="${reports.dir}/cobertura"/>
+		<property name="reports.findbugs.dir" value="${reports.dir}/findbugs"/>
 
 		<property name="src.test.dir" value="${basedir}/test" />
 		<property name="test.classes.dir" value="${basedir}/test-classes" />
@@ -578,8 +624,28 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</fileset>
 		</path>
 		<fail unless="lib.dir" message="must define lib.dir for unittesting.xml to work"/>
-		<path id="project.test.classpath">
-			<fileset dir="${lib.dir}/test">
+		<path id="project.test.selenium.classpath">
+			<fileset dir="${lib.dir}/test-selenium">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<path id="project.test.junit.classpath">
+			<fileset dir="${lib.dir}/test-junit">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<path id="project.test.cobertura.classpath">
+			<fileset dir="${lib.dir}/test-cobertura">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<path id="project.test.javancss.classpath">
+			<fileset dir="${lib.dir}/test-javancss">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<path id="project.test.checkstyle.classpath">
+			<fileset dir="${lib.dir}/test-checkstyle">
 				<include name="*.jar" />
 			</fileset>
 		</path>
@@ -588,13 +654,21 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				<include name="*.jar" />
 			</fileset>
 		</path>
+		<path id="project.test.findbugs.classpath">
+			<fileset dir="${lib.dir}/test-findbugs">
+				<include name="*.jar" />
+			</fileset>
+		</path>
 		<echo>ci: ${ci.server}</echo>
+		
+		<delete dir="${reports.dir}"/>
 		<mkdir dir="${reports.dir}"/>
 		<mkdir dir="${reports.simian.dir}"/>
 		<mkdir dir="${reports.pmd.dir}"/>
 		<mkdir dir="${reports.checkstyle.dir}"/>
 		<mkdir dir="${reports.javancss.dir}"/>
 		<mkdir dir="${reports.cobertura.dir}"/>
+		<mkdir dir="${reports.findbugs.dir}"/>
 
 	</target>
 
@@ -641,7 +715,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		ivy-init,
 		static-analysis:init
 		">
-		<taskdef name="javancss" classpathref="project.test.classpath" classname="javancss.JavancssAntTask" />
+		<taskdef name="javancss" classpathref="project.test.javancss.classpath" classname="javancss.JavancssAntTask" />
 		<javancss srcdir="${basedir}"
 			includes="**/*.java"
 			excludes="**/*test*/*"
@@ -662,7 +736,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		">
 		<taskdef resource="checkstyletask.properties"
 			uri="antlib:com.puppycrawl.tools.checkstyle"
-			classpathref="project.test.classpath"/>
+			classpathref="project.test.checkstyle.classpath"/>
 		<cs:checkstyle config="${common.dir}/checkstyle/checkstyle_minimal.xml"
 			failOnViolation="false">
 			<formatter type="xml" 
@@ -683,25 +757,23 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			style="${common.dir}/checkstyle/checkstyle-simple.xsl"/>
 	</target>
 
-
-	<target name="ivy-init" 
+	<target name="static-analysis:findbugs" 
 		depends="
-		ivy-settings,
-		ivy-test,
-		ivy-test-pmd
-		"/>
-	<target name="ivy-settings">
-		<property name="ivy.dep.file" value="${ivy.bda-testing.file}"/>
-		<ivy:settings file="${ivy.settings.file}" />
+		ivy-init,
+		static-analysis:init
+		">
+		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="project.test.findbugs.classpath"/>
+
+		<copy file="${lib.dir}/test-findbugs/findbugs-1.3.4.jar" tofile="${lib.dir}/test-findbugs/findbugs.jar"/>
+		<findbugs home="${lib.dir}/test-findbugs"
+			output="xml"
+			outputFile="${reports.dir}/findbugs/findbugs${ant.project.name}.xml" >
+			<!-- <auxClasspath path="${basedir}/lib/Regex.jar" />-->
+			<sourcePath path="${upt.java.dir}" />
+			<class location="${lib.dir}/test-findbugs/bcel-5.1.jar" />
+		</findbugs>
 	</target>
-	<target name="ivy-test" depends="ivy-settings" description="Updates the local ivy repository">
-		<ivy:resolve refresh="true" conf="test" />
-		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test" />
-	</target>
-	<target name="ivy-test-pmd" depends="ivy-settings" description="Updates the local ivy repository">
-		<ivy:resolve refresh="true" conf="test-pmd" />
-		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-pmd" />
-	</target>
+
 
 	<!-- Static Analysis  & testing targets 
 	<target name="post-clean-test" if="ci.server">
