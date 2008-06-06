@@ -611,7 +611,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="test.classes.dir" value="${basedir}/test-classes" />
 		<property name="instrumented.dir" value="${basedir}/instrumented" />
 		<property name="cobertura.ser.file" value="${instrumented.dir}/cobertura.ser" />
-		<property name="reports.dir" value="${common.dir}reports"/>
 		<property name="junit.reports.dir" value="${reports.dir}/junit"/>
 		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura"/>
 		<!--
@@ -729,6 +728,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			out="${reports.javancss.dir}/javancss_report_${ant.project.name}.html"
 			style="${common.dir}/javancss/javancss2methodhtml.xsl"/>
 	</target>
+
 	<target name="static-analysis:checkstyle" 
 		depends="
 		ivy-init,
@@ -773,7 +773,49 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<class location="${lib.dir}/test-findbugs/bcel-5.1.jar" />
 		</findbugs>
 	</target>
+	<!-- in process
+	<target name="static-analysis:cobertura" 
+		depends="
+		ivy-init,
+		static-analysis:init,
+		static-analysis:cobertura:check
+		"/>
 
+	<target name="static-analysis:cobertura:instrument" description="Instruments Cobertura test classes"
+		depends="
+		ivy-init,
+		static-analysis:init
+		">
+		<taskdef classpathref="project.test.cobertura.classpath" resource="tasks.properties" />
+		<cobertura-instrument todir="${instrumented.dir}" datafile="${cobertura.ser.file}">
+			<fileset dir="${classes.to.test.dir}">
+				<include name="gov/nih/nci/security/**" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
+	<target name="static-analysis:cobertura:report"  description="Creates Cobertura report"
+		depends="
+		ivy-init,
+		static-analysis:init,
+		static-analysis:cobertura:instrument
+		">
+		<cobertura-report datafile="${cobertura.ser.file}" format="html" destdir="${cobertura.reports.dir}/${ant.project.name}">
+			<fileset dir="${src.java.dir}">
+				<include name="gov/nih/nci/security/**" />
+			</fileset>
+		</cobertura-report>
+	</target>
+
+	<target name="static-analysis:cobertura:check"
+		depends="
+		ivy-init,
+		static-analysis:init,
+		static-analysis:cobertura:report
+		">
+		<cobertura-check failureproperty="cobertura.failure" datafile="${cobertura.ser.file}" haltonfailure="false" linerate="0" packagebranchrate="0" packagelinerate="0" totalbranchrate="25" totallinerate="30" />
+	</target>
+	-->
 
 	<!-- Static Analysis  & testing targets 
 	<target name="post-clean-test" if="ci.server">
@@ -827,29 +869,5 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		
 	</target>
 -->
-<!--
-
-	<target name="static-analysis:cobertura:instrument" if="ci.server" description="Instruments Cobertura test classes">
-		wait to do this until ivy has populated the directory 
-		<taskdef classpathref="project.test.classpath" resource="tasks.properties" />
-		<cobertura-instrument todir="${instrumented.dir}" datafile="${cobertura.ser.file}">
-			<fileset dir="${classes.to.test.dir}">
-				<include name="gov/nih/nci/security/**" />
-			</fileset>
-		</cobertura-instrument>
-	</target>
-	<target name="static-analysis:cobertura:report" if="ci.server" depends="-cobertura-instrument" description="Creates Cobertura report">
-		<cobertura-report datafile="${cobertura.ser.file}" format="html" destdir="${cobertura.reports.dir}/${ant.project.name}">
-			<fileset dir="${src.java.dir}">
-				<include name="gov/nih/nci/security/**" />
-			</fileset>
-		</cobertura-report>
-	</target>
-	<target name="static-analysis:cobertura:check" if="ci.server" depends="-cobertura-report">
-		<cobertura-check failureproperty="cobertura.failure" datafile="${cobertura.ser.file}" haltonfailure="false" linerate="0" packagebranchrate="0" packagelinerate="0" totalbranchrate="25" totallinerate="30" />
-	</target>
-
-	-->
-	<!-- Static Analysis wrapper, calls all statict analysis targets -->
 
 </project>
