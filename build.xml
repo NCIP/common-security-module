@@ -464,7 +464,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- Copies the distrbution to the remote system -->
 	<target name="deploy:remote:install:copy">
-		<remote-scp remoteScpFileToCopy="${target.dir}/${csm.install.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
+		<remote-scp remoteScpFileToCopy="${dist.dir}/${csm.install.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
 		<remote-scp remoteScpFileToCopy="${properties.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
 	</target>
 
@@ -487,7 +487,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- Copies distribution to remote system -->
 	<target name="deploy:remote:upgrade:copy">
-		<remote-scp remoteScpFileToCopy="${target.dir}/${csm.upgrade.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
+		<remote-scp remoteScpFileToCopy="${dist.dir}/${csm.upgrade.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
 		<remote-scp remoteScpFileToCopy="${properties.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
 	</target>
 	<!-- Extracts distribution on remote system -->
