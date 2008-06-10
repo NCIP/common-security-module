@@ -599,7 +599,13 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="upt.java.dir" value="upt/webapp/src/gov"/>
 		<property name="csm.java.dir" value="api/src/gov"/>
 		<property name="securityws.java.dir" value="securityws/src/gov"/>
+
+		<property name="upt.classes.dir" value="upt/webapp/src/gov"/>
+		<property name="csm.classes.dir" value="api/src/gov"/>
+		<property name="securityws.java.dir" value="securityws/src/gov"/>
+
 		<property name="common.dir" value="common"/>
+
 		<property name="reports.dir" value="reports"/>
 		<property name="reports.simian.dir" value="${reports.dir}/simian"/>
 		<property name="reports.pmd.dir" value="${reports.dir}/pmd"/>
@@ -608,11 +614,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="reports.cobertura.dir" value="${reports.dir}/cobertura"/>
 		<property name="reports.findbugs.dir" value="${reports.dir}/findbugs"/>
 
-		<property name="src.test.dir" value="${basedir}/test" />
-		<property name="test.classes.dir" value="${basedir}/test-classes" />
 		<property name="instrumented.dir" value="${basedir}/instrumented" />
 		<property name="cobertura.ser.file" value="${instrumented.dir}/cobertura.ser" />
-		<property name="junit.reports.dir" value="${reports.dir}/junit"/>
 		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura"/>
 		<!--
 		<fail unless="classes.to.test.dir" message="must define classes.to.test.dir for unittesting.xml to work.  it's typically same as classes.dir in host build file"/>
@@ -669,6 +672,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<mkdir dir="${reports.javancss.dir}"/>
 		<mkdir dir="${reports.cobertura.dir}"/>
 		<mkdir dir="${reports.findbugs.dir}"/>
+		<delete dir="${instrumented.dir}"/>
+		<mkdir dir="${instrumented.dir}"/>
 
 	</target>
 
@@ -884,62 +889,67 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		ivy-init,
 		static-analysis:init
 		">
+		<!-- still needs work
 		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="project.test.findbugs.classpath"/>
 
 		<copy file="${lib.dir}/test-findbugs/findbugs-1.3.4.jar" tofile="${lib.dir}/test-findbugs/findbugs.jar"/>
 		<findbugs home="${lib.dir}/test-findbugs"
 			output="xml"
 			outputFile="${reports.dir}/findbugs/findbugs${ant.project.name}.xml" >
-			<!-- <auxClasspath path="${basedir}/lib/Regex.jar" />-->
+			####<auxClasspath path="${basedir}/lib/Regex.jar" />#####
 			<sourcePath path="${upt.java.dir}" />
 			<class location="${lib.dir}/test-findbugs/bcel-5.1.jar" />
 		</findbugs>
+		-->
 	</target>
-	<!-- in process
+
 	<target name="static-analysis:cobertura" 
 		depends="
-		ivy-init,
-		static-analysis:init,
-		static-analysis:cobertura:check
-		"/>
-
-	<target name="static-analysis:cobertura:instrument" description="Instruments Cobertura test classes"
-		depends="
+		build:all,
 		ivy-init,
 		static-analysis:init
 		">
-		<taskdef classpathref="project.test.cobertura.classpath" resource="tasks.properties" />
-		<cobertura-instrument todir="${instrumented.dir}" datafile="${cobertura.ser.file}">
-			<fileset dir="${classes.to.test.dir}">
-				<include name="gov/nih/nci/security/**" />
-			</fileset>
-		</cobertura-instrument>
+		<static-analysis-cobertura
+			cobertura.src.dir="${upt.java.dir}"
+			cobertura.classes.dir="${upt.classes.dir}"
+			cobertura.rpt.dir="${reports.cobertura.dir}"
+			cobertura.instrumented.dir="${basedir}/instrumented"
+			cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl"
+			cobertura.ser.file="cobertura.ser"
+			cobertura.config.file="${common.dir}/cobertura/cobertura.xml"
+			/>
 	</target>
 
-	<target name="static-analysis:cobertura:report"  description="Creates Cobertura report"
-		depends="
-		ivy-init,
-		static-analysis:init,
-		static-analysis:cobertura:instrument
-		">
-		<cobertura-report datafile="${cobertura.ser.file}" format="html" destdir="${cobertura.reports.dir}/${ant.project.name}">
-			<fileset dir="${src.java.dir}">
-				<include name="gov/nih/nci/security/**" />
-			</fileset>
-		</cobertura-report>
-	</target>
+	<macrodef name="static-analysis-cobertura">
+		<attribute name="cobertura.src.dir"/>
+		<attribute name="cobertura.rpt.dir"/>
+		<attribute name="cobertura.classes.dir"/>
+		<attribute name="cobertura.instrumented.dir"/>
+		<attribute name="cobertura.report-xsl.file"/>
+		<attribute name="cobertura.ser.file"/>
+		<attribute name="cobertura.config.file"/>
+		<sequential>
+			<taskdef classpathref="project.test.cobertura.classpath" resource="tasks.properties" />
+			<cobertura-instrument todir="@{cobertura.instrumented.dir}" datafile="@{cobertura.instrumented.dir}/@{cobertura.ser.file}">
+				<fileset dir="@{cobertura.classes.dir}">
+					<include name="**/*.java" />
+				</fileset>
+			</cobertura-instrument>
+	
+			<cobertura-report datafile="@{cobertura.instrumented.dir}/@{cobertura.ser.file}" format="html" destdir="@{cobertura.rpt.dir}">
+				<fileset dir="@{cobertura.src.dir}">
+					<include name="**/*.java" />
+				</fileset>
+			</cobertura-report>
 
-	<target name="static-analysis:cobertura:check"
-		depends="
-		ivy-init,
-		static-analysis:init,
-		static-analysis:cobertura:report
-		">
-		<cobertura-check failureproperty="cobertura.failure" datafile="${cobertura.ser.file}" haltonfailure="false" linerate="0" packagebranchrate="0" packagelinerate="0" totalbranchrate="25" totallinerate="30" />
-	</target>
-	-->
+			<cobertura-check failureproperty="cobertura.failure" datafile="${cobertura.ser.file}" haltonfailure="false" linerate="0" packagebranchrate="0" packagelinerate="0" totalbranchrate="25" totallinerate="30" />
+		</sequential>
+	</macrodef>
 
 	<!-- Static Analysis  & testing targets 
+		<property name="src.test.dir" value="${basedir}/test" />
+		<property name="test.classes.dir" value="${basedir}/test-classes" />
+		<property name="junit.reports.dir" value="${reports.dir}/junit"/>
 	<target name="post-clean-test" if="ci.server">
 		<delete dir="${instrumented.dir}" quiet="false" />
 		<delete dir="${test.classes.dir}" quiet="false" />
