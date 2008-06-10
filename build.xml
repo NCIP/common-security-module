@@ -611,7 +611,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		static-analysis:pmd,
 		static-analysis:checkstyle,
 		static-analysis:javancss,
-		static-analysis:findbugs,
 		static-analysis:cobertura
 		"/>
 
@@ -906,23 +905,47 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<target name="static-analysis:findbugs" 
 		depends="
+		compile:all,
 		ivy-init,
 		static-analysis:init
 		">
-		<!-- still needs work
-		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="project.test.findbugs.classpath"/>
-
-		<copy file="${lib.dir}/test-findbugs/findbugs-1.3.4.jar" tofile="${lib.dir}/test-findbugs/findbugs.jar"/>
-		<findbugs home="${lib.dir}/test-findbugs"
-			output="xml"
-			outputFile="${reports.dir}/findbugs/findbugs${ant.project.name}.xml" >
-			####<auxClasspath path="${basedir}/lib/Regex.jar" />#####
-			<sourcePath path="${upt.java.dir}" />
-			<class location="${lib.dir}/test-findbugs/bcel-5.1.jar" />
-		</findbugs>
-		-->
+		<static-analysis-findbugs
+			findbugs.src.dir="${upt.java.dir}"
+			findbugs.classes.dir="${upt.classes.dir}"
+			findbugs.rpt.dir="${reports.findbugs.dir}/upt"
+			findbugs.report-xsl.file="${common.dir}/findbugs/fancy.xsl"
+			findbugs.xml.name="findbugs-upt.xml"
+			findbugs.html.name="findbugs-upt.html"
+			/>
 	</target>
 
+	<macrodef name="static-analysis-findbugs">
+		<attribute name="findbugs.src.dir"/>
+		<attribute name="findbugs.rpt.dir"/>
+		<attribute name="findbugs.classes.dir"/>
+		<attribute name="findbugs.report-xsl.file"/>
+		<attribute name="findbugs.xml.name" default="findbugs.xml"/>
+		<attribute name="findbugs.html.name" default="findbugs.html"/>
+		<sequential>
+			<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="project.test.findbugs.classpath"/>
+	
+			<copy file="${lib.dir}/test-findbugs/findbugs-1.3.4.jar" tofile="${lib.dir}/test-findbugs/findbugs.jar"/>
+			<findbugs home="${lib.dir}/test-findbugs"
+				output="xml"
+				outputFile="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
+				>
+				<!-- <auxClasspath path="${basedir}/lib/Regex.jar" /> -->
+				<sourcePath path="@{findbugs.src.dir}" />
+				<class location="@{findbugs.classes.dir}" />
+			</findbugs>
+			<xslt taskname="findbugs"
+				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
+				out="@{findbugs.rpt.dir}/@{findbugs.html.name}"
+				style="@{findbugs.report-xsl.file}"
+				/>
+		</sequential>
+	</macrodef>
+		
 	<target name="static-analysis:cobertura" 
 		depends="
 		compile:all,
