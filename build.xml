@@ -129,7 +129,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</taskdef>
 
 	<!-- Includes- include BDA marcos -->
-	<import file="${bda-utils.dir}/bda-build-utils-0.2.xml" />
+	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
 
 	<!-- Start logging --> 
 	<mkdir dir="${log.dir}" />
@@ -201,7 +201,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}"
 			target="${upt.build.target}"
 			dir="${upt.base.dir}" >
-			<property name="dist.home" value="${upt.target.dir}" />
+			<property name="dist.dir" value="${upt.target.dir}" />
 		</ant>
 	</target>
 
@@ -585,7 +585,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		static-analysis:simian,
 		static-analysis:pmd,
 		static-analysis:checkstyle,
-		static-analysis:java-ncss,
+		static-analysis:javancss,
 		static-analysis:findbugs
 		"/>
 	<!--
@@ -676,40 +676,40 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<static-analysis-simian
 			simian.src.dir="${upt.java.dir}"
 			simian.rpt.dir="${reports.simian.dir}"
-			simian.report.xsl.file="${common.dir}/simian/simian.xsl"
-			simian.log.name="upt-simian.xml"
-			simian.html.name="upt-simian.html"
+			simian.report-xsl.file="${common.dir}/simian/simian.xsl"
+			simian.xml.name="simian-upt.xml"
+			simian.html.name="simian-upt.html"
 			/>
 
 		<static-analysis-simian
 			simian.src.dir="${csm.java.dir}"
 			simian.rpt.dir="${reports.simian.dir}"
-			simian.report.xsl.file="${common.dir}/simian/simian.xsl"
-			simian.log.name="csm-simian.xml"
-			simian.html.name="csm-simian.html"
+			simian.report-xsl.file="${common.dir}/simian/simian.xsl"
+			simian.xml.name="simian-csm.xml"
+			simian.html.name="simian-csm.html"
 			/>
 
 		<static-analysis-simian
 			simian.src.dir="${securityws.java.dir}"
 			simian.rpt.dir="${reports.simian.dir}"
-			simian.report.xsl.file="${common.dir}/simian/simian.xsl"
-			simian.log.name="securityws-simian.xml"
-			simian.html.name="securityws-simian.html"
+			simian.report-xsl.file="${common.dir}/simian/simian.xsl"
+			simian.xml.name="simian-securityws.-securitywsxml"
+			simian.html.name="simian-securityws.html"
 			/>
 
 	</target>
 	<macrodef name="static-analysis-simian">
 		<attribute name="simian.src.dir"/>
 		<attribute name="simian.rpt.dir"/>
-		<attribute name="simian.report.xsl.file"/>
-		<attribute name="simian.log.name" default="simian.xml"/>
+		<attribute name="simian.report-xsl.file"/>
+		<attribute name="simian.xml.name" default="simian.xml"/>
 		<attribute name="simian.html.name" default="simian.html"/>
 		<sequential>
 			<simian>
 				<fileset dir="@{simian.src.dir}" includes="**/*.java"/>
-				<formatter type="xml" toFile="@{simian.rpt.dir}/@{simian.log.name}"/>
+				<formatter type="xml" toFile="@{simian.rpt.dir}/@{simian.xml.name}"/>
 			</simian>
-			<xslt in="@{simian.rpt.dir}/@{simian.log.name}" out="@{simian.rpt.dir}/@{simian.html.name}" style="@{simian.report.xsl.file}" />
+			<xslt in="@{simian.rpt.dir}/@{simian.xml.name}" out="@{simian.rpt.dir}/@{simian.html.name}" style="@{simian.report-xsl.file}" />
 		</sequential>
 	</macrodef>
 	 
@@ -718,87 +718,166 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		ivy-init,
 		static-analysis:init
 		">
-
+		<static-analysis-pmd
+			pmd.src.dir="${upt.java.dir}"
+			pmd.rpt.dir="${reports.pmd.dir}"
+			pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt"
+			pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml"
+			pmd.xml.name="pmd-upt.xml"
+			pmd.html.name="pmd-upt.html"
+			/>
+		<static-analysis-pmd
+			pmd.src.dir="${securityws.java.dir}"
+			pmd.rpt.dir="${reports.pmd.dir}"
+			pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt"
+			pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml"
+			pmd.xml.name="pmd-securityws.xml"
+			pmd.html.name="pmd-securityws.html"
+			/>
+		<static-analysis-pmd
+			pmd.src.dir="${csm.java.dir}"
+			pmd.rpt.dir="${reports.pmd.dir}"
+			pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt"
+			pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml"
+			pmd.xml.name="pmd-csm.xml"
+			pmd.html.name="pmd-csm.html"
+			/>
 	</target>
 
 	<macrodef name="static-analysis-pmd">
-		<attribute name="simian.src.dir"/>
-		<attribute name="simian.rpt.dir"/>
-		<attribute name="simian.report.xsl.file"/>
-		<attribute name="simian.log.name" default="simian.xml"/>
-		<attribute name="simian.html.name" default="simian.html"/>
+		<attribute name="pmd.src.dir"/>
+		<attribute name="pmd.rpt.dir"/>
+		<attribute name="pmd.report-xsl.file"/>
+		<attribute name="pmd.rule-set.file"/>
+		<attribute name="pmd.xml.name" default="pmd.xml"/>
+		<attribute name="pmd.html.name" default="pmd.html"/>
 		<sequential>
 			<taskdef name="pmd" 
 				classname="net.sourceforge.pmd.ant.PMDTask"
 				classpathref="project.test.pmd.classpath"/>
 			<pmd shortFilenames="true" 
-				rulesetfiles="${common.dir}/pmd/pmd-ruleset-basic.xml">
+				rulesetfiles="@{pmd.rule-set.file}">
 				<formatter type="xml"
-					toFile="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml" />
-				<fileset dir="${upt.java.dir}">
-					<include name="**/*.java"/>
-				</fileset>
-				<fileset dir="${csm.java.dir}">
-					<include name="**/*.java"/>
-				</fileset>
-				<fileset dir="${securityws.java.dir}">
+					toFile="@{pmd.rpt.dir}/@{pmd.xml.name}" />
+				<fileset dir="@{pmd.src.dir}">
 					<include name="**/*.java"/>
 				</fileset>
 			</pmd>
 			<xslt taskname="pmd"
-				in="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml"
-				out="${reports.pmd.dir}/pmd_report_${ant.project.name}.html"
-				style="${common.dir}/pmd/pmd-report.xslt"/>
+				in="@{pmd.rpt.dir}/@{pmd.xml.name}"
+				out="@{pmd.rpt.dir}/@{pmd.html.name}"
+				style="@{pmd.report-xsl.file}"/>
 		</sequential>
 	</macrodef>
 
-	<target name="static-analysis:java-ncss"
+	<target name="static-analysis:javancss"
 		depends="
 		ivy-init,
 		static-analysis:init
 		">
-		<taskdef name="javancss" classpathref="project.test.javancss.classpath" classname="javancss.JavancssAntTask" />
-		<javancss srcdir="${basedir}"
-			includes="**/*.java"
-			excludes="**/*test*/*"
-			generatereport="true"
-			outputfile="${reports.javancss.dir}/javancss_metrics_${ant.project.name}.xml"
-			ccnPerFuncMax="10"
-			format="xml">
-		</javancss>
-		<xslt taskname="javancss"
-			in="${reports.javancss.dir}/javancss_metrics_${ant.project.name}.xml"
-			out="${reports.javancss.dir}/javancss_report_${ant.project.name}.html"
-			style="${common.dir}/javancss/javancss2methodhtml.xsl"/>
+		<static-analysis-javancss
+			javancss.src.dir="${upt.java.dir}"
+			javancss.rpt.dir="${reports.javancss.dir}"
+			javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl"
+			javancss.xml.name="javancss_metrics_upt.xml"
+			javancss.html.name="javancss_report_upt.html"
+			/>
+		<static-analysis-javancss
+			javancss.src.dir="${securityws.java.dir}"
+			javancss.rpt.dir="${reports.javancss.dir}"
+			javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl"
+			javancss.xml.name="javancss_metrics_securityws.xml"
+			javancss.html.name="javancss_report_securityws.html"
+			/>
+		<static-analysis-javancss
+			javancss.src.dir="${csm.java.dir}"
+			javancss.rpt.dir="${reports.javancss.dir}"
+			javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl"
+			javancss.xml.name="javancss_metrics_csm.xml"
+			javancss.html.name="javancss_report_csm.html"
+			/>
 	</target>
+
+	<macrodef name="static-analysis-javancss">
+		<attribute name="javancss.src.dir"/>
+		<attribute name="javancss.rpt.dir"/>
+		<attribute name="javancss.report-xsl.file"/>
+		<attribute name="javancss.xml.name" default="javancss.xml"/>
+		<attribute name="javancss.html.name" default="javancss.html"/>
+		<sequential>
+			<taskdef name="javancss" classpathref="project.test.javancss.classpath" classname="javancss.JavancssAntTask" />
+			<javancss srcdir="@{javancss.src.dir}"
+				includes="**/*.java"
+				excludes="**/*test*/*"
+				generatereport="true"
+				outputfile="@{javancss.rpt.dir}/@{javancss.xml.name}"
+				ccnPerFuncMax="10"
+				format="xml">
+			</javancss>
+			<xslt taskname="javancss"
+				in="@{javancss.rpt.dir}/@{javancss.xml.name}"
+				out="@{javancss.rpt.dir}/@{javancss.html.name}"
+				style="@{javancss.report-xsl.file}"/>
+		</sequential>
+	</macrodef>
 
 	<target name="static-analysis:checkstyle" 
 		depends="
 		ivy-init,
 		static-analysis:init
 		">
-		<taskdef resource="checkstyletask.properties"
-			uri="antlib:com.puppycrawl.tools.checkstyle"
-			classpathref="project.test.checkstyle.classpath"/>
-		<cs:checkstyle config="${common.dir}/checkstyle/checkstyle_minimal.xml"
-			failOnViolation="false">
-			<formatter type="xml" 
-				tofile="${reports.dir}/checkstyle/checkstyle_${ant.project.name}.xml"/>
-			<fileset dir="${upt.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-			<fileset dir="${csm.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-			<fileset dir="${securityws.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-		</cs:checkstyle>
-		<xslt taskname="checkstyle"
-			in="${reports.checkstyle.dir}/checkstyle_${ant.project.name}.xml"
-			out="${reports.checkstyle.dir}/checkstyle_report_${ant.project.name}.html"
-			style="${common.dir}/checkstyle/checkstyle-simple.xsl"/>
+		<static-analysis-checkstyle
+			checkstyle.src.dir="${upt.java.dir}"
+			checkstyle.rpt.dir="${reports.checkstyle.dir}"
+			checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl"
+			checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml"
+			checkstyle.xml.name="checkstyle-upt.xml"
+			checkstyle.html.name="checkstyle-upt.html"
+			/>
+		<static-analysis-checkstyle
+			checkstyle.src.dir="${securityws.java.dir}"
+			checkstyle.rpt.dir="${reports.checkstyle.dir}"
+			checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl"
+			checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml"
+			checkstyle.xml.name="checkstyle-securityws.xml"
+			checkstyle.html.name="checkstyle-securityws.html"
+			/>
+		<static-analysis-checkstyle
+			checkstyle.src.dir="${csm.java.dir}"
+			checkstyle.rpt.dir="${reports.checkstyle.dir}"
+			checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl"
+			checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml"
+			checkstyle.xml.name="checkstyle-csm.xml"
+			checkstyle.html.name="checkstyle-csm.html"
+			/>
 	</target>
+
+	<macrodef name="static-analysis-checkstyle">
+		<attribute name="checkstyle.src.dir"/>
+		<attribute name="checkstyle.rpt.dir"/>
+		<attribute name="checkstyle.report-xsl.file"/>
+		<attribute name="checkstyle.config.file"/>
+		<attribute name="checkstyle.xml.name" default="checkstyle.xml"/>
+		<attribute name="checkstyle.html.name" default="checkstyle.html"/>
+		<sequential>
+			<taskdef resource="checkstyletask.properties"
+				uri="antlib:com.puppycrawl.tools.checkstyle"
+				classpathref="project.test.checkstyle.classpath"/>
+			<cs:checkstyle config="@{checkstyle.config.file}"
+				failOnViolation="false">
+				<formatter type="xml" 
+					tofile="@{checkstyle.rpt.dir}/@{checkstyle.xml.name}"/>
+				<fileset dir="@{checkstyle.src.dir}">
+					<include name="**/*.java"/>
+				</fileset>
+			</cs:checkstyle>
+			<xslt taskname="checkstyle"
+				in="@{checkstyle.rpt.dir}/@{checkstyle.xml.name}"
+				out="@{checkstyle.rpt.dir}/@{checkstyle.html.name}"
+				style="@{checkstyle.report-xsl.file}"
+				/>
+		</sequential>
+	</macrodef>
 
 	<target name="static-analysis:findbugs" 
 		depends="

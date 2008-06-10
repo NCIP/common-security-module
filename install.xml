@@ -120,7 +120,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		</elseif>
 	</if>
 	<!-- Includes-->
-	<import file="${bda-utils.dir}/bda-build-utils-0.1.xml" />
+	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
 	<!-- Generated and used by database incremental build process -->
 	<!--<import file="db-integrate.xml" />-->
 
