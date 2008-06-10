@@ -213,6 +213,31 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		</ant>
 	</target>
 
+	<target name="compile:all" description="Used by static-analysis, required since dist target cleans up generated classes that are required by some static analysis tools"
+		depends="
+			init,
+			compile:csm,
+			compile:upt,
+			compile:securityws
+			"/>
+
+	<target name="compile:csm" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}"
+			target="compile"
+			dir="${csm.base.dir}"/>
+	</target>
+
+	<target name="compile:upt" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}"
+			target="compile"
+			dir="${upt.base.dir}"/>
+	</target>
+
+	<target name="compile:securityws" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}"
+			target="compile"
+			dir="${securityws.base.dir}"/>
+	</target>
 
 	<!-- Produces all distributions: installer, upgrader and source -->
 	<target name="dist" description="Makes all distributions: installer, upgrader and source"
@@ -586,23 +611,18 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		static-analysis:pmd,
 		static-analysis:checkstyle,
 		static-analysis:javancss,
-		static-analysis:findbugs
+		static-analysis:findbugs,
+		static-analysis:cobertura
 		"/>
-	<!--
-		static-analysis:cobertura:instrument,
-		static-analysis:cobertura:report,
-		static-analysis:cobertura:check
-		"/>
-	-->
 
 	<target name="static-analysis:init">
-		<property name="upt.java.dir" value="upt/webapp/src/gov"/>
+		<property name="upt.java.dir" value="upt/webapp/src"/>
 		<property name="csm.java.dir" value="api/src/gov"/>
-		<property name="securityws.java.dir" value="securityws/src/gov"/>
+		<property name="securityws.java.dir" value="securityws/src"/>
 
-		<property name="upt.classes.dir" value="upt/webapp/src/gov"/>
-		<property name="csm.classes.dir" value="api/src/gov"/>
-		<property name="securityws.java.dir" value="securityws/src/gov"/>
+		<property name="upt.classes.dir" value="upt/build/WEB-INF/classes"/>
+		<property name="csm.classes.dir" value="api/classes"/>
+		<property name="securityws.classes.dir" value="securityws/build/WEB-INF/classes"/>
 
 		<property name="common.dir" value="common"/>
 
@@ -905,15 +925,36 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<target name="static-analysis:cobertura" 
 		depends="
-		build:all,
+		compile:all,
 		ivy-init,
 		static-analysis:init
 		">
+		<mkdir dir="${basedir}/instrumented/csm"/>
+		<mkdir dir="${basedir}/instrumented/securityws"/>
+		<mkdir dir="${basedir}/instrumented/upt"/>
 		<static-analysis-cobertura
 			cobertura.src.dir="${upt.java.dir}"
 			cobertura.classes.dir="${upt.classes.dir}"
-			cobertura.rpt.dir="${reports.cobertura.dir}"
-			cobertura.instrumented.dir="${basedir}/instrumented"
+			cobertura.rpt.dir="${reports.cobertura.dir}/upt"
+			cobertura.instrumented.dir="${basedir}/instrumented/upt"
+			cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl"
+			cobertura.ser.file="cobertura.ser"
+			cobertura.config.file="${common.dir}/cobertura/cobertura.xml"
+			/>
+		<static-analysis-cobertura
+			cobertura.src.dir="${csm.java.dir}"
+			cobertura.classes.dir="${csm.classes.dir}"
+			cobertura.rpt.dir="${reports.cobertura.dir}/csm"
+			cobertura.instrumented.dir="${basedir}/instrumented/csm"
+			cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl"
+			cobertura.ser.file="cobertura.ser"
+			cobertura.config.file="${common.dir}/cobertura/cobertura.xml"
+			/>
+		<static-analysis-cobertura
+			cobertura.src.dir="${securityws.java.dir}"
+			cobertura.classes.dir="${securityws.classes.dir}"
+			cobertura.rpt.dir="${reports.cobertura.dir}/securityws"
+			cobertura.instrumented.dir="${basedir}/instrumented/securityws"
 			cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl"
 			cobertura.ser.file="cobertura.ser"
 			cobertura.config.file="${common.dir}/cobertura/cobertura.xml"
@@ -932,7 +973,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<taskdef classpathref="project.test.cobertura.classpath" resource="tasks.properties" />
 			<cobertura-instrument todir="@{cobertura.instrumented.dir}" datafile="@{cobertura.instrumented.dir}/@{cobertura.ser.file}">
 				<fileset dir="@{cobertura.classes.dir}">
-					<include name="**/*.java" />
+					<include name="**" />
 				</fileset>
 			</cobertura-instrument>
 	
@@ -942,7 +983,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				</fileset>
 			</cobertura-report>
 
-			<cobertura-check failureproperty="cobertura.failure" datafile="${cobertura.ser.file}" haltonfailure="false" linerate="0" packagebranchrate="0" packagelinerate="0" totalbranchrate="25" totallinerate="30" />
+			<cobertura-check failureproperty="cobertura.failure" datafile="@{cobertura.instrumented.dir}/@{cobertura.ser.file}" haltonfailure="false" linerate="0" packagebranchrate="0" packagelinerate="0" totalbranchrate="25" totallinerate="30" />
 		</sequential>
 	</macrodef>
 
