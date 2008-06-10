@@ -15,6 +15,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="project.name" value="generic"/>
 	<property environment="env" />
 	<!-- The project.properties stores properties that are shared between both build.xml and install.xml. Typically properties that are related to the distribution directories, or files. -->
+	<property file="local.properties" />
 	<property file="project.properties" />
 	<property name="properties.file" value="${basedir}/install.properties"/>
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2"/>
@@ -57,7 +58,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- The target name that should be called from the sub-project build file -->
 	<property name="securityws.build.target" value="all"/>
 	<property name="csm.build.target" value="dist"/>
-	<property name="upt.build.target" value="all"/>
+	<property name="upt.build.target" value="run"/>
     
 	<!-- Distribution Structure properties, used to copy files into the distribution area.
        		Use project.propertie relative dir names becasue they are used by install also-->
@@ -128,7 +129,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</taskdef>
 
 	<!-- Includes- include BDA marcos -->
-	<import file="${bda-utils.dir}/bda-build-utils-0.1.xml" />
+	<import file="${bda-utils.dir}/bda-build-utils-0.2.xml" />
 
 	<!-- Start logging --> 
 	<mkdir dir="${log.dir}" />
@@ -672,42 +673,84 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 
 	<target name="static-analysis:simian" depends="static-analysis:init" description="Performs code duplication analysis">
-		<simian>
-			<fileset dir="${upt.java.dir}" includes="**/*.java"/>
-			<fileset dir="${securityws.java.dir}" includes="**/*.java"/>
-			<fileset dir="${csm.java.dir}" includes="**/*.java"/>
-			<formatter type="xml" toFile="${reports.simian.dir}/simian-log.xml"/>
-		</simian>
-		<xslt in="${reports.simian.dir}/simian-log.xml" out="${reports.simian.dir}/simian-log.html" style="${common.dir}/simian/simian.xsl" />
+		<static-analysis-simian
+			simian.src.dir="${upt.java.dir}"
+			simian.rpt.dir="${reports.simian.dir}"
+			simian.report.xsl.file="${common.dir}/simian/simian.xsl"
+			simian.log.name="upt-simian.xml"
+			simian.html.name="upt-simian.html"
+			/>
+
+		<static-analysis-simian
+			simian.src.dir="${csm.java.dir}"
+			simian.rpt.dir="${reports.simian.dir}"
+			simian.report.xsl.file="${common.dir}/simian/simian.xsl"
+			simian.log.name="csm-simian.xml"
+			simian.html.name="csm-simian.html"
+			/>
+
+		<static-analysis-simian
+			simian.src.dir="${securityws.java.dir}"
+			simian.rpt.dir="${reports.simian.dir}"
+			simian.report.xsl.file="${common.dir}/simian/simian.xsl"
+			simian.log.name="securityws-simian.xml"
+			simian.html.name="securityws-simian.html"
+			/>
+
 	</target>
+	<macrodef name="static-analysis-simian">
+		<attribute name="simian.src.dir"/>
+		<attribute name="simian.rpt.dir"/>
+		<attribute name="simian.report.xsl.file"/>
+		<attribute name="simian.log.name" default="simian.xml"/>
+		<attribute name="simian.html.name" default="simian.html"/>
+		<sequential>
+			<simian>
+				<fileset dir="@{simian.src.dir}" includes="**/*.java"/>
+				<formatter type="xml" toFile="@{simian.rpt.dir}/@{simian.log.name}"/>
+			</simian>
+			<xslt in="@{simian.rpt.dir}/@{simian.log.name}" out="@{simian.rpt.dir}/@{simian.html.name}" style="@{simian.report.xsl.file}" />
+		</sequential>
+	</macrodef>
 	 
 	<target name="static-analysis:pmd"
 		depends="
 		ivy-init,
 		static-analysis:init
 		">
-		<taskdef name="pmd" 
-			classname="net.sourceforge.pmd.ant.PMDTask"
-			classpathref="project.test.pmd.classpath"/>
-		<pmd shortFilenames="true" 
-			rulesetfiles="${common.dir}/pmd/pmd-ruleset-basic.xml">
-			<formatter type="xml"
-				toFile="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml" />
-			<fileset dir="${upt.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-			<fileset dir="${csm.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-			<fileset dir="${securityws.java.dir}">
-				<include name="**/*.java"/>
-			</fileset>
-		</pmd>
-		<xslt taskname="pmd"
-			in="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml"
-			out="${reports.pmd.dir}/pmd_report_${ant.project.name}.html"
-			style="${common.dir}/pmd/pmd-report.xslt"/>
+
 	</target>
+
+	<macrodef name="static-analysis-pmd">
+		<attribute name="simian.src.dir"/>
+		<attribute name="simian.rpt.dir"/>
+		<attribute name="simian.report.xsl.file"/>
+		<attribute name="simian.log.name" default="simian.xml"/>
+		<attribute name="simian.html.name" default="simian.html"/>
+		<sequential>
+			<taskdef name="pmd" 
+				classname="net.sourceforge.pmd.ant.PMDTask"
+				classpathref="project.test.pmd.classpath"/>
+			<pmd shortFilenames="true" 
+				rulesetfiles="${common.dir}/pmd/pmd-ruleset-basic.xml">
+				<formatter type="xml"
+					toFile="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml" />
+				<fileset dir="${upt.java.dir}">
+					<include name="**/*.java"/>
+				</fileset>
+				<fileset dir="${csm.java.dir}">
+					<include name="**/*.java"/>
+				</fileset>
+				<fileset dir="${securityws.java.dir}">
+					<include name="**/*.java"/>
+				</fileset>
+			</pmd>
+			<xslt taskname="pmd"
+				in="${reports.pmd.dir}/pmd_out_${ant.project.name}.xml"
+				out="${reports.pmd.dir}/pmd_report_${ant.project.name}.html"
+				style="${common.dir}/pmd/pmd-report.xslt"/>
+		</sequential>
+	</macrodef>
 
 	<target name="static-analysis:java-ncss"
 		depends="
