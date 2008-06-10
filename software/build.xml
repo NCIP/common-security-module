@@ -25,6 +25,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<basename property="properties.file.name" file="${properties.file}"/>
 
 	<!-- Generic build time properties -->
+	<property name="bda.version" value="0.2"/>
 	<property name="lib.dir" value="${basedir}/lib" />
 	<property name="resources.dir" value="${basedir}/resources" />
 	<property name="reports.dir" value="${basedir}/reports" />
