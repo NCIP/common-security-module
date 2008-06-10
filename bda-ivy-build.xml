@@ -18,7 +18,7 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 	<!-- Properties -->
 	<property name="lib.dir" value="${basedir}/lib" />
 	<property name="bda-utils.dir" value="${basedir}/bda-utils" />
-	<property name="local.repo.dir" value="${basedir}/local-ivy-repo"/>
+	<property name="bda.local.repo.dir" value="${basedir}/../../bda-local-ivy-repo"/>
 
 	<property name="ivy.file" value="ivy-2.0.0-beta2.jar"/>
 	<property name="ivy-core.file" value="ivy-core-2.0.0-beta2.jar"/>
@@ -53,13 +53,13 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 	<!-- Targets -->
 	<target name="init" description="Makes transcient directories">
 		<mkdir dir="${lib.dir}"/>
-		<mkdir dir="${local.repo.dir}"/>
+		<mkdir dir="${bda.local.repo.dir}"/>
 		<mkdir dir="${bda-utils.dir}"/>
 	</target>
 
 	<target name="clean" description="Cleans transcient directories and files, also cleans ivy cache">
 		<delete dir="${lib.dir}"/>
-		<delete dir="${local.repo.dir}"/>
+		<delete dir="${bda.local.repo.dir}"/>
 		<delete dir="${bda-utils.dir}"/>
 		<delete>
 			<fileset dir=".">
@@ -122,7 +122,7 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 		<tstamp>
 			<format property="now" pattern="yyyyMMddHHmmss"/>
 		</tstamp>
-		<mkdir dir="${local.repo.dir}"/>
+		<mkdir dir="${bda.local.repo.dir}"/>
 		<mkdir dir="${scratch.dir}"/>
 		<get src="${ivy.repo.url}/${ivy.sample.path}/${ivy.sample.file}"
 			dest="${scratch.dir}/${ivy.sample.file}"/>
