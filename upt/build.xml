@@ -1,12 +1,14 @@
 <project name="csm-upt" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<description>CSM UPT Project Build File</description>
 
+	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="common.dir" value="${basedir}/../" />
+	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
 	<property name="global.ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
 
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="webapp/src" />
-	<property name="lib.dir" value="${common.dir}/lib/api" />
+	<property name="lib.dir" value="${common.dir}/lib/" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="app.name"		value="upt" />
@@ -33,12 +35,16 @@
 	</path>
 
 	<path id="project.compile.classpath">
-		<fileset dir="${lib.dir}/">
+		<fileset dir="${lib.dir}/upt/compile">
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${local.lib.dir}">
 			<include name="*.jar" />
 			<exclude name="clmwebapp.jar"/>
+			<exclude name="csmapi.jar"/>
+
+
+
 		</fileset>
 		<fileset dir="${otherlib.dir}">
 			<include name="*.jar" />
@@ -50,14 +56,20 @@
 
 	<!-- Targets -->
 
-	<target name="ivy-settings">
+	<target name="ivy-settings" depends="-init">
 		<ivy:settings file="${global.ivy.settings.file}" />
 	</target>
 
 	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="compile" />
-		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+		<ivy:retrieve pattern="${common.dir}/lib/upt/[conf]/[artifact]-[revision].[ext]" conf="compile" />
 	</target>
+
+	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="runtime" />
+		<ivy:retrieve pattern="${common.dir}/lib/upt/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
+	</target>
+
 
 	<target name="ivy-clean-cache" description="Cleans local Ivy cache">
 		<delete dir="${user.home}/.ivy-${ant.project.name}" />
@@ -65,8 +77,6 @@
 
 	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
 		<delete dir="${classes.dir}" quiet="false" />
-		<delete file="${target.dir}/${jar.name}" quiet="false" />
-		<delete dir="${lib.dir}" />
 		<delete dir="${dist.dir}" />
 	</target>
 
@@ -76,18 +86,21 @@
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.dir}/WEB-INF" />
+		<mkdir dir="${build.dir}/WEB-INF/classes" />
 		<mkdir dir="${build.dir}/WEB-INF/tld" />
 		<mkdir dir="${build.dir}/WEB-INF/conf" />
 		<mkdir dir="${build.dir}/WEB-INF/lib" />
 		<mkdir dir="${build.dir}/META-INF" />
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${lib.dir}/upt/compile" />
+		<mkdir dir="${lib.dir}/upt/runtime" />
 	</target>
 
 
 	<target name="prepareBuild" depends="-init">
 
-		<copy todir="${build.dir}">
+<!--		<copy todir="${build.dir}">
 			<fileset dir="${web.dir}"/>
 		</copy>
 		<copy todir="${build.dir}/WEB-INF/">
@@ -95,12 +108,13 @@
 		</copy>
 		<copy todir="${build.dir}/WEB-INF/lib">
 			<fileset dir="${lib.dir}" includes="**/*.jar"/>
-		</copy>
+		</copy>-->
 		<delete quiet="true" file="${build.dir}/WEB-INF/lib/commons-logging.jar"/>
 		<delete quiet="true" file="${build.dir}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
 		<delete quiet="true" file="${build.dir}/WEB-INF/lib/log4j-1.2.9.jar"/>
 		<delete quiet="true" file="${build.dir}/WEB-INF/lib/jta.jar"/>
 		<delete quiet="true" file="${build.dir}/WEB-INF/lib/clm.jar"/>		
+		<delete quiet="true" file="${build.dir}/WEB-INF/lib/csmapi.jar"/>		
 	</target>
 	
 	<target name="prepare" depends="prepareBuild"/>
@@ -117,7 +131,9 @@
 		<delete quiet="true" file="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources/ObjectStateLoggerConfig.xml"/>
 	</target>
 
-	<target name="dist" depends="compile" description="generate the distribution">
+
+	<!-- split 'dist' to a) build war..b) copy runtime jars which upt is dependent on.-->
+	<target name="dist" depends="compile,ivy-runtime" description="generate the distribution">
 
 		<copy todir="${dist.dir}">
 			<fileset dir="../common/resources/jboss-conf"/>
@@ -130,7 +146,7 @@
 			<fileset dir="../common/resources/db/sqlserver"/>						
 		</copy>
 		<jar jarfile="${war.file}" basedir="${build.dir}" />
-		<copy todir="${dist.dir}" file="${lib.dir}/compile/clm-4.0.jar" />
+		<copy todir="${dist.dir}" file="${common.dir}/lib/upt/runtime/clm-4.0.jar" />
 	</target>
 
 	<target name="clean" depends="dist" description="perform the clean up">
