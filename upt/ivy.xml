@@ -3,7 +3,7 @@
                  href="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-xsl/ivy.xsl"?>
        
 <ivy-module version="1.0">
-	<info organisation="ncicb" module="api" />
+	<info organisation="ncicb" module="upt" />
 
 	<configurations>
 		<conf name="default" />
@@ -15,7 +15,7 @@
 	</configurations>
 
 	<publications>
-		<artifact name="upt" type="war" conf="default" />
+		
 	</publications>
 
 	<dependencies>
@@ -32,7 +32,7 @@
 		<dependency org="org.hibernate" name="ejb3-persistence" rev="1.0.1" conf="compile;runtime;" />
 
 		<dependency org="ehcache" name="ehcache" rev="1.2.4" conf="compile;runtime;" />
-		<!--<dependency org="ncicb" name="csmapi" rev="4.0" conf="compile;runtime;" /> -->
+		<dependency org="ncicb" name="csm" rev="4.0" conf="compile;runtime;" /> 
 		<dependency org="ncicb" name="clm" rev="4.0" conf="compile;runtime;" />
 		
 		<dependency org="javancss" name="javancss" rev="29.50" conf="test->runtime"/>
@@ -43,3 +43,5 @@
 	</dependencies>
 
 </ivy-module>
+
+
