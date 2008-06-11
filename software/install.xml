@@ -39,7 +39,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<property name="upt.app-sec-conf.file" value="ApplicationSecurityConfig.xml" />
 	<property name="upt.hibernate.file" value="hibernate.cfg.xml" />
 	<property name="upt.war.file" value="upt.war" />
-	<property name="securityws.dir.dist" value="${basedir}/${securityws.dist.relative.dir}/dist" />
+	<property name="securityws.dir.dist" value="${basedir}/${securityws.dist.relative.dir}" />
 	<property name="securityws.war.file" value="securityws.war" />
 
 	<!-- Paths -->
@@ -270,9 +270,10 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		<delete dir="${jboss.home}/server/${jboss.server.name}/work"/>
 
 		<copy file="${upt.dir.dist}/${upt.war.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
+		<copy file="${upt.dir.dist}/clm-4.0.jar" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
+		
 		<!-- Replace this with file from ivy when project is ivy'fied -->
-		<copy file="${securityws.dir.dist}/clm-4.0.jar" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 		<copy file="${securityws.dir.dist}/${securityws.war.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 	</target>
 

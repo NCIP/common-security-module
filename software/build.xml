@@ -79,7 +79,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Where the sub-projects should deploy thier artifacts.  This relative from thier *.base.dir above.  We need to use this because thier basedir is not the same as this project's basedir. -->
 	<property name="csm.dist.dir" value="../${csm.target.dir}" />
 	<property name="upt.dist.dir" value="${upt.target.dir}" />
-	<property name="securityws.dist.dir" value="../${securityws.target.dir}" />
+	<property name="securityws.dist.dir" value="${securityws.target.dir}" />
 
 	<!-- Properties related to creating the distribution -->
 	<property name="dist.dir" value="dist"/>
@@ -146,13 +146,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 
 	<target name="clean">
-		<mkdir dir="${target.dir}"/>
-		<mkdir dir="${dist.dir}"/>
-		<delete>
-			<fileset dir="${target.dir}">
-				<exclude name="**/tools/*"/>
-			</fileset>
-		</delete>
+		<delete dir="${target.dir}"/>
 		<delete dir="${dist.dir}"/>
 		<delete dir="${temp.dir}"/>
 	</target>
