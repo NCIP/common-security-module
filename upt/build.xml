@@ -20,7 +20,7 @@
 	<property name="otherlib.dir"	value="otherlib" />
 	<property name="build.dir"		value="build" />
 	<property name="classes.dir"	value="${webinf.dir}/classes" />
-	<property name="dist.dir"			value="dist" />
+	<property name="dist.dir"		value="dist" />
 	<property name="resources"		value="resources" />
 	<property name="common.resources" value="../common/resources/jboss-conf" />
 	<property name="jar.name"		value="csmapi.jar" />
@@ -130,7 +130,6 @@
 
 	<!-- split 'dist' to a) build war..b) copy runtime jars which upt is dependent on.-->
 	<target name="dist" depends="compile,ivy-runtime" description="generate the distribution">
-
 		<copy todir="${dist.dir}">
 			<fileset dir="../common/resources/jboss-conf"/>
 			<fileset dir="resources">
@@ -148,13 +147,11 @@
 	<target name="clean" depends="-post-clean" description="perform the clean up">
 		<delete dir="${classes.dir}" quiet="false" />
 		<delete dir="${build.dir}" quiet="false" />
-		<delete dir="${dist.dir}" quiet="false" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
 		<delete dir="${classes.dir}" quiet="false" />
 		<delete dir="${build.dir}" quiet="false" />
-
 	</target>
 
 	<target name="all" depends="dist, -post-clean" description="Default project target" />
