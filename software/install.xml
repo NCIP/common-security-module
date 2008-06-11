@@ -73,33 +73,36 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<!-- Conditionals -->
 	<available file="${jboss.home}/server/${jboss.server.name}/conf/jboss-service.xml" property="jboss.exists"/>
 	<!-- upt can use either Oracle or MySQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
-	<if>
-		<equals arg1="${database.type}" arg2="oracle"/>
-		<then>
+	<switch value="${database.type}">
+		<case value="oracle">
 			<property name="database.dialect" value="org.hibernate.dialect.OracleDialect"/>
 			<property name="is.oracle" value="true"/>
 			<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
 			<property name="database.driver" value="oracle.jdbc.driver.OracleDriver"/>
 			<property name="db-incr.list.file" value="${db-incr.oracle.list.file}"/>
 			<property name="db-incr.conf.file" value="${db-incr.oracle.conf.file}"/>
-		</then>
-		<else>
-			<if>
-				<equals arg1="${database.type}" arg2="mysql"/>
-				<then>
-					<property name="database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-					<property name="is.mysql" value="true"/>
-					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.5.jar"/>
-					<property name="database.driver" value="com.mysql.jdbc.Driver"/>
-					<property name="db-incr.list.file" value="${db-incr.mysql.list.file}"/>
-					<property name="db-incr.conf.file" value="${db-incr.mysql.conf.file}"/>
-				</then>
-				<else>
-					<fail message="Invalid database type ${database.type}"/>
-				</else>
-			</if>
-		</else>
-	</if>
+		</case>
+		<case value="mysql">
+			<property name="database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			<property name="is.mysql" value="true"/>
+			<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.5.jar"/>
+			<property name="database.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="db-incr.list.file" value="${db-incr.mysql.list.file}"/>
+			<property name="db-incr.conf.file" value="${db-incr.mysql.conf.file}"/>
+		</case>
+		<case value="postgresql">
+			<property name="database.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			<property name="is.postgresql" value="true"/>
+			<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-603.jar"/>
+			<property name="database.driver" value="org.postgresql.Driver"/>
+			<property name="db-incr.list.file" value="${db-incr.postgresql.list.file}"/>
+			<property name="db-incr.conf.file" value="${db-incr.postgresql.conf.file}"/>
+		</case>
+		<default>
+			<fail message="Invalid database type ${database.type}"/>
+		</default>
+	</switch>
+
 	<!-- figure out whether to use install-properties.template or upgrade-proprties.template -->
 	<propertyregex property="properties.file.type"
 		input="${properties.file}"
@@ -207,40 +210,51 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<!-- Wrapper install database target, depends on both MySQL and Oracle sub-targets, ifs should ensure only one is run.  Target path can be skipped by exlude.database also calls upgrade:database -->
 	<target name="install:database" description="Re-creates database and users from baseline and applys incremental database changes." unless="exclude.database"
 		depends="
-		install:clean,
 		install:init
 		">
 		<switch value="${database.type}">
 			<case value="oracle">
-				<run-sql-script database.url="${database.url}"
-					database.user="${database.user}" 
-					database.password="${database.password}" 
-					sql.delimiter="/" 
-					sql.delimitertype="row"
-					sql.file="${db.dir.target}/${database.type}/AuthSchemaOracle.sql"
-					onerror="continue"/>
-				<run-sql-script database.url="${database.url}" 
-					database.user="${database.user}"
-					database.password="${database.password}" 
-					sql.delimiter="/" 
-					sql.delimitertype="row"
-					sql.file="${db.dir.target}/${database.type}/DataPrimingOracle.sql"
-					onerror="continue"/>
+				<for list="${db.install.oracle.file.list}" param="db.install.oracle.file">
+					<sequential>
+						<echo message="Running ${db.dir.target}/${database.type}/@{db.install.postgresql.file}"/>
+						<run-sql-script database.url="${database.url}"
+							database.user="${database.user}" 
+							database.password="${database.password}" 
+							sql.delimiter="/" 
+							sql.delimitertype="row"
+							sql.file="${db.dir.target}/${database.type}/@{db.install.oracle.file}"
+							onerror="continue"/>
+					</sequential>
+				</for>
 			</case>
 			<case value="mysql">
 				<database-create/>
-				<run-sql-script
-					database.url="${database.url}"
-					database.user="${database.user}"
-					database.password="${database.password}"
-					sql.file="${db.dir.target}/${database.type}/AuthSchemaMySQL.sql"
-					/>
-				<run-sql-script
-					database.url="${database.url}"
-					database.user="${database.user}"
-					database.password="${database.password}"
-					sql.file="${db.dir.target}/${database.type}/DataPrimingMySQL.sql"
-					/>
+				<for list="${db.install.mysql.file.list}" param="db.install.mysql.file">
+					<sequential>
+						<echo message="Running ${db.dir.target}/${database.type}/@{db.install.postgresql.file}"/>
+						<run-sql-script
+							database.url="${database.url}"
+							database.user="${database.user}"
+							database.password="${database.password}"
+							sql.file="${db.dir.target}/${database.type}/@{db.install.mysql.file}"
+							/>
+					</sequential>
+				</for>
+			</case>
+			<case value="postgresql">
+				<for list="${db.install.postgresql.file.list}" param="db.install.postgresql.file">
+					<sequential>
+						<echo message="Running ${db.dir.target}/${database.type}/@{db.install.postgresql.file}"/>
+						<run-sql-script
+							database.url="${database.url}"
+							database.user="${database.user}"
+							database.password="${database.password}"
+							sql.delimiter="/" 
+							sql.delimitertype="row"
+							sql.file="${db.dir.target}/${database.type}/@{db.install.postgresql.file}"
+							/>
+					</sequential>
+				</for>
 			</case>
 		</switch>
 		<antcall target="upgrade:database" inheritAll="false"/>
@@ -573,6 +587,28 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 							build.properties.file="${db-incr.conf.file}"
 							database.sql.dir="${db-incr.dir.target}"
 							/>
+					</then>
+					<else>
+						<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>
+					</else>
+				</if>
+			</case>
+			<case value="postgresql">
+				<if>
+					<available file="${db-incr.list.file}"/>
+					<then>
+						<property name="db.continue" value="true"/>
+						<database-create-control-table
+							database.url="${database.url}"
+							database.user="${database.user}"
+							database.password="${database.password}"
+							/>
+						<database-identify-scripts
+							sqlfiles.list.file="${db-incr.list.file}"
+							build.properties.file="${db-incr.conf.file}"
+							sql.delimiter="/" 
+							sql.delimitertype="row"
+							database.sql.dir="${db-incr.dir.target}"/>
 					</then>
 					<else>
 						<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>
