@@ -24,17 +24,17 @@
 
 			<!-- begin csmupt specific stuff -->
 			<filesystem name="api-resolver" local="true">
-				<artifact pattern="${csmupt.basedir}/target/csm/[module].[ext]" />
+				<artifact pattern="${csmupt.basedir}/lib/[module]/[conf]/[artifact]-[revision].[ext]" />
 				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
 			</filesystem>
 
 			<filesystem name="securityws-resolver" local="true">
-				<artifact pattern="${csmupt.basedir}/target/securityws/[module].[ext]" />
+				<artifact pattern="${csmupt.basedir}/lib/[module]/[conf]/[artifact]-[revision].[ext]" />
 				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
 			</filesystem>
 
 			<filesystem name="upt-resolver" local="true">
-				<artifact pattern="${csmupt.basedir}/csmupt-services-commons/lib/[module].[ext]" />
+				<artifact pattern="${csmupt.basedir}/lib/upt/[conf]/[artifact]-[revision].[ext]" />
 				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
 			</filesystem>
 
