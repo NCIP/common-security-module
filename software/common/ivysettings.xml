@@ -29,7 +29,7 @@
 			</filesystem>
 
 			<filesystem name="securityws-resolver" local="true">
-				<artifact pattern="${csmupt.basedir}/lib/[module]/[conf]/[artifact]-[revision].[ext]" />
+				<artifact pattern="${csmupt.basedir}/lib/securityws/[conf]/[artifact]-[revision].[ext]" />
 				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
 			</filesystem>
 
