@@ -211,7 +211,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}"
 			target="${securityws.build.target}"
 			dir="${securityws.base.dir}" >
-			<property name="dist.home" value="${securityws.target.dir}" />
+			<property name="dist.dir" value="${securityws.target.dir}" />
 		</ant>
 	</target>
 
