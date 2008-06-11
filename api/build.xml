@@ -66,7 +66,7 @@
 	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
 		<delete dir="${classes.dir}" quiet="false" />
 		<delete file="${target.dir}/${jar.name}" quiet="false" />
-		<delete dir="${lib.dir}" />
+
 	</target>
 
 	<target name="-init" description="Initializes the system before a build">
