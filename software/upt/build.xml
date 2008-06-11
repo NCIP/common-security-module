@@ -1,4 +1,4 @@
-<project name="csm-upt" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csm-upt" default="all" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<description>CSM UPT Project Build File</description>
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
@@ -160,6 +160,6 @@
 
 	</target>
 
-	<target name="run" depends="dist, -post-clean" description="Default project target" />
+	<target name="all" depends="dist, -post-clean" description="Default project target" />
 
 </project>
