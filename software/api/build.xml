@@ -9,7 +9,7 @@
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="src" />
 
-	<property name="lib.dir" value="${common.dir}/lib/api" />
+	<property name="lib.dir" value="${common.dir}/lib" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="local.lib.dir" value="lib" />
@@ -30,7 +30,7 @@
 	</path>
 
 	<path id="project.compile.classpath">
-		<fileset dir="${lib.dir}/compile">
+		<fileset dir="${lib.dir}/api/compile">
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${local.lib.dir}">
@@ -50,12 +50,12 @@
 
 	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="compile" />
-		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="compile" />
 	</target>
 
   	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="runtime" />
-		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
+		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
 	</target>
   
 
