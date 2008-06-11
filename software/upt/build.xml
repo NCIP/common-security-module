@@ -38,13 +38,10 @@
 		<fileset dir="${lib.dir}/upt/compile">
 			<include name="*.jar" />
 		</fileset>
-		<!--<fileset dir="${local.lib.dir}">
-			<include name="*.jar" />
-			<exclude name="clmwebapp.jar"/>
-			<exclude name="csmapi.jar"/>
-			<exclude name="oscache-2.1.jar"/>
-
-		</fileset>-->
+		<!-- Dont need to include to local libs anymore -->
+		<fileset dir="${local.lib.dir}">
+			<exclude name="*.jar" />
+		</fileset>
 		<fileset dir="${otherlib.dir}">
 			<include name="*.jar" />
 		</fileset>
