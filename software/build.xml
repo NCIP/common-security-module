@@ -59,7 +59,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- The target name that should be called from the sub-project build file -->
 	<property name="securityws.build.target" value="all"/>
 	<property name="csm.build.target" value="dist"/>
-	<property name="upt.build.target" value="run"/>
+	<property name="upt.build.target" value="all"/>
     
 	<!-- Distribution Structure properties, used to copy files into the distribution area.
        		Use project.propertie relative dir names becasue they are used by install also-->
