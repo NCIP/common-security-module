@@ -24,7 +24,7 @@
     <dependency org="cobertura" name="cobertura" rev="1.9" conf="test-cobertura->runtime"/>  
     <dependency org="javancss" name="javancss" rev="29.50" conf="test-javancss->runtime"/>
     <dependency org="checkstyle" name="checkstyle" rev="4.4" conf="test-checkstyle->runtime"/>
-    <dependency org="umd" name="findbugs" rev="1.3.4" conf="test-findbugs->runtime"/>
+    <dependency org="umd" name="findbugs-ant" rev="1.3.4" conf="test-findbugs->runtime"/>
     <dependency org="pmd" name="pmd" rev="4.2.1" conf="test-pmd->runtime"/>
   </dependencies>
   
