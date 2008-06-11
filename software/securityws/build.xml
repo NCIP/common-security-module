@@ -1,74 +1,153 @@
-<project name="Security Web Services Project" basedir="." default="all">
-	<description>Security Web Services Project Build File</description>
+<project name="csm-securityws" default="all" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<description>CSM Security Web Service Project Build File</description>
 
-	<target name="init" >
-		<property name="app.name"				value="securityws" />
-		<property name="app.path"				value="/${app.name}" />
-		<property name="src.home"				value="${basedir}/src" />
-		<property name="web.home"				value="${basedir}/WebRoot" />
-		<property name="webinf.home"			value="${web.home}/WEB-INF" />
-		<property name="lib.home"				value="${webinf.home}/lib" />
-		<property name="build.home"				value="${basedir}/build" />
-		<property name="dist.home"				value="${basedir}/dist" />
-		<property name="classes.home"		value="${webinf.home}/classes" />
-		<property name="war.file"					value="${dist.home}/${app.name}.war" />
+	<property name="ivy.settings.dir" value="${basedir}/../common" />
+	<property name="common.dir" value="${basedir}/../" />
+	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
+	<property name="global.ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
+
+	<!-- set global properties for this build -->
+	<property name="src.dir" location="src" />
+	<property name="lib.dir" value="${common.dir}/lib/" />
+
+	<!-- This will be removed once all jars are retrieved from Ivy -->
+	<property name="app.name"		value="securityws" />
+	<property name="app.path"		value="/${app.name}" />
+	<property name="base.lib.dir"	value="../lib" />
+	<property name="web.dir"		value="${basedir}/WebRoot" />
+	<property name="webinf.dir"		value="${web.dir}/WEB-INF" />
+	<property name="local.lib.dir"	value="${webinf.dir}/lib" />
+	<property name="otherlib.dir"	value="otherlib" />
+	<property name="build.dir"		value="build" />
+	<property name="classes.dir"	value="${webinf.dir}/classes" />
+	<property name="dist.dir"			value="dist" />
+	<property name="resources"		value="resources" />
+	<property name="common.resources" value="../common/resources/jboss-conf" />
+	<property name="jar.name"		value="csmapi.jar" />
+	<property name="war.file"		value="${dist.dir}/${app.name}.war" />
+
+	<!-- Paths -->
+	<path id="common.classpath">
+		<fileset dir="${common.dir}/lib">
+			<include name="ivy-core-2.0.0-beta2.jar" />
+			<include name="ivy-2.0.0-beta2.jar" />
+		</fileset>
+	</path>
+
+	<path id="project.compile.classpath">
+		<fileset dir="${lib.dir}/securityws/compile">
+			<include name="*.jar" />
+		</fileset>
+		<!-- Dont need the local libs for each project -->
+		<fileset dir="${local.lib.dir}">
+			<exclude name="*.jar" />
+			<exclude name="*.properties"/>
+		</fileset>
+	
+	</path>
+
+	<!-- Task definitions -->
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="common.classpath" />
+
+	<!-- Targets -->
+
+	<target name="ivy-settings" depends="-init">
+		<ivy:settings file="${global.ivy.settings.file}" />
+	</target>
+
+	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="compile" />
+		<ivy:retrieve pattern="${common.dir}/lib/securityws/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+	</target>
+
+	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="runtime" />
+		<ivy:retrieve pattern="${common.dir}/lib/securityws/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
 	</target>
 
 
-	<target name="clean" depends="init" description="Delete the Build and Dist directories">
-		<delete dir="${build.home}" />
-		<delete dir="${dist.home}" />
+	<target name="ivy-clean-cache" description="Cleans local Ivy cache">
+		<delete dir="${user.home}/.ivy-${ant.project.name}" />
+	</target>
+
+	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
+		<delete dir="${classes.dir}" quiet="false" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="-init" description="Initializes the system before a build">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dir}/WEB-INF" />
+		<mkdir dir="${build.dir}/WEB-INF/classes" />
+		<mkdir dir="${build.dir}/WEB-INF/tld" />
+		<mkdir dir="${build.dir}/WEB-INF/conf" />
+		<mkdir dir="${build.dir}/WEB-INF/lib" />
+		<mkdir dir="${build.dir}/META-INF" />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${lib.dir}/securityws/compile" />
+		<mkdir dir="${lib.dir}/securityws/runtime" />
 	</target>
 
 
-	<target name="prepareDir" depends="init">
-		<mkdir dir="${build.home}" />
-		<mkdir dir="${build.home}/WEB-INF" />
-		<mkdir dir="${build.home}/WEB-INF/lib" />
-		<mkdir dir="${build.home}/META-INF" />
-		<mkdir dir="${build.home}/WEB-INF/classes" />
+	<target name="prepareBuild" depends="-init">
 
-		<mkdir dir="${dist.home}" />
-	</target>
-
-
-	<target name="prepareBuild" depends="prepareDir">
-
-		<copy todir="${build.home}">
-			<fileset dir="${web.home}"/>
+<!--		<copy todir="${build.dir}">
+			<fileset dir="${web.dir}"/>
 		</copy>
-
-		<copy todir="${build.home}/WEB-INF/">
-			<fileset dir="${webinf.home}"/>
+		<copy todir="${build.dir}/WEB-INF/">
+			<fileset dir="${webinf.dir}"/>
 		</copy>
-
-		<copy todir="${build.home}/WEB-INF/lib">
-			<fileset dir="${lib.home}" includes="**/*.jar"/>
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}" includes="**/*.jar"/>
 		</copy>
-	</target>
-
-
-	<target name="prepare" depends="prepareDir,prepareBuild"/>
-
-	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
-		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true" >
-			<classpath>
-				<fileset dir="${lib.home}" includes="*.jar" />
-			</classpath>
-		</javac>
-		<copy todir="${build.home}/WEB-INF/classes" >
-			<fileset dir="${src.home}" excludes="**/*.java" />
-		</copy>
-	</target>
-
-	<target name="dist" depends="init,compile" description="Creates war file">
-		<jar jarfile="${war.file}" basedir="${build.home}" />
-	</target>
-
-	<target name="cleanup" depends="dist" description="Delete the Build directory">
-		<delete dir="${build.home}" />
+		<delete quiet="true" file="${build.dir}/WEB-INF/lib/commons-logging.jar"/>
+		<delete quiet="true" file="${build.dir}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+		<delete quiet="true" file="${build.dir}/WEB-INF/lib/log4j-1.2.9.jar"/>
+		<delete quiet="true" file="${build.dir}/WEB-INF/lib/jta.jar"/>
+		<delete quiet="true" file="${build.dir}/WEB-INF/lib/clm.jar"/>		
+		<delete quiet="true" file="${build.dir}/WEB-INF/lib/csmapi.jar"/>-->		
 	</target>
 	
-	<target name="all" depends="init,clean,prepare,compile,dist,cleanup" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+	<target name="prepare" depends="prepareBuild"/>
+
+	<target name="compile" depends="-pre-clean, ivy-compile,prepare" description="Compiles all the files in the project">
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="true" deprecation="true" classpathref="project.compile.classpath" />
+		<copy todir="${build.dir}/WEB-INF/classes" >
+			<fileset dir="${src.dir}" excludes="**/*.java" />
+		</copy>
+	</target>
+
+
+	<!-- split 'dist' to a) build war..b) copy runtime jars which upt is dependent on.-->
+	<target name="dist" depends="compile,ivy-runtime" description="generate the distribution">
+
+		<copy todir="${dist.dir}">
+			<fileset dir="../common/resources/jboss-conf"/>
+			<fileset dir="../common/resources/db/mysql"/>
+			<fileset dir="../common/resources/db/oracle"/>
+			<fileset dir="../common/resources/db/postgresql"/>
+			<fileset dir="../common/resources/db/sqlserver"/>						
+		</copy>
+		<jar jarfile="${war.file}" basedir="${build.dir}" />
+		<copy todir="${dist.dir}" file="${common.dir}/lib/securityws/runtime/clm-4.0.jar" />
+	</target>
+
+	<target name="clean" depends="-post-clean" description="perform the clean up">
+		<delete dir="${classes.dir}" quiet="false" />
+		<delete dir="${build.dir}" quiet="false" />
+		<delete dir="${dist.dir}" quiet="false" />
+	</target>
+
+	<target name="-post-clean" description="Performs necessary clean-up after a build">
+		<delete dir="${classes.dir}" quiet="false" />
+		<delete dir="${build.dir}" quiet="false" />
+
+	</target>
+
+	<target name="all" depends="dist, -post-clean" description="Default project target" />
 
 </project>
