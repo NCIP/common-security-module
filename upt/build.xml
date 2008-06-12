@@ -13,7 +13,6 @@
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="web.dir" value="${basedir}/webapp/public_html" />
-	<property name="otherlib.dir" value="otherlib" />
 	<property name="build.dir" value="build" />
 	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
 	<property name="war.file" value="upt.war" />
@@ -28,10 +27,6 @@
 
 	<path id="project.compile.classpath">
 		<fileset dir="${lib.dir}/upt/compile">
-			<include name="*.jar" />
-		</fileset>
-
-		<fileset dir="${otherlib.dir}">
 			<include name="*.jar" />
 		</fileset>
 	</path>
@@ -70,8 +65,12 @@
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${lib.dir}/upt/compile" />
 		<mkdir dir="${lib.dir}/upt/runtime" />
+		<!--  MAKE SURE TO REMOVE THE LIB JARS from WEB-INF/lib folder once runtime jars are ivyfied.-->
 		<copy todir="${build.dir}">
 			<fileset dir="${web.dir}" />
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}/upt/runtime" includes="**/*.jar"/>
 		</copy>
 	</target>
 
