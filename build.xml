@@ -80,11 +80,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Where to write files retrieved by get, into the distribution area.  The file names come from project.properties  -->
 	<property name="jboss.dest.file" value="${tools.target.dir}/${jboss.binaries.file}"/>
 
-	<!-- Where the sub-projects should deploy thier artifacts.  This relative from thier *.base.dir above.  We need to use this because thier basedir is not the same as this project's basedir. -->
-	<property name="csm.dist.dir" value="${csm.target.dir}" />
-	<property name="upt.dist.dir" value="${upt.target.dir}" />
-	<property name="securityws.dist.dir" value="${securityws.target.dir}" />
-
 	<!-- Properties related to creating the distribution -->
 	<property name="dist.dir" value="dist"/>
 	<property name="csm.install.name" value="csm_install" />
@@ -199,9 +194,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}"
 			target="${csm.build.target}"
 			dir="${csm.base.dir}" >
-			<!-- ignore this since it does not need to be in distribution
-			<property name="dist" value="${csm.dist.dir}" />
-			-->
 		</ant>
 	</target>
 
@@ -209,7 +201,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}"
 			target="${upt.build.target}"
 			dir="${upt.base.dir}" >
-			<property name="dist.dir" value="${upt.dist.dir}" />
 		</ant>
 	</target>
 
@@ -217,7 +208,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}"
 			target="${securityws.build.target}"
 			dir="${securityws.base.dir}" >
-			<property name="dist.dir" value="${securityws.dist.dir}" />
 		</ant>
 	</target>
 
