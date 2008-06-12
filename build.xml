@@ -17,12 +17,17 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- The project.properties stores properties that are shared between both build.xml and install.xml. Typically properties that are related to the distribution directories, or files. -->
 	<property file="local.properties" />
 	<property file="project.properties" />
+	<!-- Should not be required for builds.
 	<property name="properties.file" value="${basedir}/install.properties"/>
+	-->
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2"/>
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2"/>
 	<property file="${properties.file}" />
 	<!-- added for remote deployments since file is copied to root of install dir -->
 	<basename property="properties.file.name" file="${properties.file}"/>
+
+	<!-- Default values in case property file is not used -->
+	<property name="application.base.path" value="${user.home}/apps"/>
 
 	<!-- Generic build time properties -->
 	<property name="bda.version" value="0.2"/>
@@ -1190,5 +1195,4 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		
 	</target>
 -->
-
 </project>
