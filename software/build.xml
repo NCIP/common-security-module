@@ -150,7 +150,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<target name="clean">
 		<delete dir="${dist.dir}"/>
 		<delete dir="${temp.dir}"/>
-		<delete>
+		<delete quiet="true">
 			<fileset dir="${target.dir}">
 				<exclude name="**/tools/*"/>
 			</fileset>
