@@ -531,6 +531,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		install:init,
 		install:jboss:upt:re-configure,
 		install:jboss:upt,
+		install:jboss:upt:configure,
 		install:jboss:start
 		" />
 
