@@ -96,13 +96,13 @@
 
 	<target name="prepareBuild" depends="-init">
 
-<!--		<copy todir="${build.dir}">
+		<copy todir="${build.dir}">
 			<fileset dir="${web.dir}"/>
 		</copy>
 		<copy todir="${build.dir}/WEB-INF/">
 			<fileset dir="${webinf.dir}"/>
 		</copy>
-		<copy todir="${build.dir}/WEB-INF/lib">
+<!--		<copy todir="${build.dir}/WEB-INF/lib">
 			<fileset dir="${lib.dir}" includes="**/*.jar"/>
 		</copy>-->
 		<delete quiet="true" file="${build.dir}/WEB-INF/lib/commons-logging.jar"/>
