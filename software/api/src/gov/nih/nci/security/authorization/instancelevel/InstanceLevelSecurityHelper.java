@@ -102,13 +102,7 @@ public class InstanceLevelSecurityHelper
 		ApplicationContext ac = authorizationManager.getApplicationContext();
 		props.setProperty("hibernate.connection.url", ac.getDatabaseURL());
 		props.setProperty("hibernate.connection.username", ac.getDatabaseUserName());
-		try {
-			StringEncrypter se = new StringEncrypter();
-			props.setProperty("hibernate.connection.password", se.decrypt(ac.getDatabasePassword()));
-		} catch (EncryptionException e) {
-			e.printStackTrace();
-			throw new CSException("Unable to obtain determine the type of the Database. Check the CSM Application Details in the Schema - database password not encrypted or invalid.");
-		}
+		props.setProperty("hibernate.connection.password", ac.getDatabasePassword());
 		props.setProperty("hibernate.connection.driver", ac.getDatabaseDriver());
 		props.setProperty("hibernate.dialect", ac.getDatabaseDialect());
 		
@@ -210,13 +204,7 @@ public class InstanceLevelSecurityHelper
 		ApplicationContext ac = authorizationManager.getApplicationContext();
 		props.setProperty("hibernate.connection.url", ac.getDatabaseURL());
 		props.setProperty("hibernate.connection.username", ac.getDatabaseUserName());
-		try {
-			StringEncrypter se = new StringEncrypter();
-			props.setProperty("hibernate.connection.password", se.decrypt(ac.getDatabasePassword()));
-		} catch (EncryptionException e) {
-			e.printStackTrace();
-			throw new CSException("Unable to obtain determine the type of the Database. Check the CSM Application Details in the Schema - database password not encrypted or invalid.");
-		}
+		props.setProperty("hibernate.connection.password", ac.getDatabasePassword());
 		props.setProperty("hibernate.connection.driver", ac.getDatabaseDriver());
 		props.setProperty("hibernate.dialect", ac.getDatabaseDialect());
 		
