@@ -3,6 +3,7 @@
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="common.dir" value="${basedir}/../" />
+	<property name="target.dir" value="${common.dir}/target/securityws" />
 	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
 	<property name="global.ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
 
@@ -11,17 +12,11 @@
 	<property name="lib.dir" value="${common.dir}/lib/" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
-	<property name="base.lib.dir"	value="../lib" />
-	<property name="web.dir"		value="${basedir}/WebRoot" />
-	<property name="webinf.dir"		value="${web.dir}/WEB-INF" />
-	<property name="local.lib.dir"	value="${webinf.dir}/lib" />
-	<property name="otherlib.dir"	value="otherlib" />
-	<property name="build.dir"		value="build" />
-	<property name="classes.dir"	value="${webinf.dir}/classes" />
-	<property name="dist.dir"		value="dist" />
-	<property name="resources"		value="resources" />
-	<property name="common.resources" value="../common/resources/jboss-conf" />
-	<property name="war.file"		value="securityws.war" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="webinf.dir" value="${web.dir}/WEB-INF" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${webinf.dir}/classes" />
+	<property name="war.file" value="securityws.war" />
 
 	<!-- Paths -->
 	<path id="common.classpath">
@@ -35,12 +30,6 @@
 		<fileset dir="${lib.dir}/securityws/compile">
 			<include name="*.jar" />
 		</fileset>
-		<!-- Dont need the local libs for each project -->
-		<fileset dir="${local.lib.dir}">
-			<exclude name="*.jar" />
-			<exclude name="*.properties"/>
-		</fileset>
-	
 	</path>
 
 	<!-- Task definitions -->
@@ -87,44 +76,24 @@
 		<mkdir dir="${lib.dir}/securityws/runtime" />
 	</target>
 
+	<target name="compile" depends="-pre-clean, ivy-compile" description="Compiles all the files in the project">
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="true" deprecation="true" classpathref="project.compile.classpath" />
+	</target>
 
-	<target name="prepareBuild" depends="-init">
-
-<!--		<copy todir="${build.dir}">
-			<fileset dir="${web.dir}"/>
+	<target name="-post-compile" depends="compile" description="Compiles all the files in the project">
+		<copy todir="${build.dir}">
+			<fileset dir="${web.dir}" />
 		</copy>
 		<copy todir="${build.dir}/WEB-INF/">
-			<fileset dir="${webinf.dir}"/>
+			<fileset dir="${webinf.dir}" />
 		</copy>
-		<copy todir="${build.dir}/WEB-INF/lib">
-			<fileset dir="${lib.dir}" includes="**/*.jar"/>
-		</copy>
-		<delete quiet="true" file="${build.dir}/WEB-INF/lib/commons-logging.jar"/>
-		<delete quiet="true" file="${build.dir}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
-		<delete quiet="true" file="${build.dir}/WEB-INF/lib/log4j-1.2.9.jar"/>
-		<delete quiet="true" file="${build.dir}/WEB-INF/lib/jta.jar"/>
-		<delete quiet="true" file="${build.dir}/WEB-INF/lib/clm.jar"/>		
-		<delete quiet="true" file="${build.dir}/WEB-INF/lib/csmapi.jar"/>-->		
-	</target>
-	
-	<target name="prepare" depends="prepareBuild"/>
-
-	<target name="compile" depends="-pre-clean, ivy-compile,prepare" description="Compiles all the files in the project">
-		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="true" deprecation="true" classpathref="project.compile.classpath" />
-		<copy todir="${build.dir}/WEB-INF/classes" >
+		<copy todir="${build.dir}/WEB-INF/classes">
 			<fileset dir="${src.dir}" excludes="**/*.java" />
 		</copy>
 	</target>
 
-
-	<!-- split 'dist' to a) build war..b) copy runtime jars which upt is dependent on.-->
-	<target name="dist" depends="compile,ivy-runtime" description="generate the distribution">
-		<jar jarfile="${dist.dir}/${war.file}" basedir="${build.dir}" />
-	</target>
-
-	<target name="clean" depends="-post-clean" description="perform the clean up">
-		<delete dir="${classes.dir}" quiet="false" />
-		<delete dir="${build.dir}" quiet="false" />
+	<target name="dist" depends="compile, -post-compile, ivy-runtime" description="Generate the distribution">
+		<jar jarfile="${target.dir}/${war.file}" basedir="${build.dir}" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
