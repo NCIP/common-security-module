@@ -7,8 +7,6 @@ import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.FilterClauseSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.util.StringEncrypter;
-import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
