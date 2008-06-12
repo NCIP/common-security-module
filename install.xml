@@ -125,7 +125,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<!-- Includes-->
 	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
 	<!-- Generated and used by database incremental build process -->
-	<!--<import file="db-integrate.xml" />-->
+	<import file="db-integrate.xml" />
 
 	<!-- Read db configs from existing ds.xml if it exists -->
 	<available file="${jboss.home}/server/${jboss.server.name}/deploy/${upt.ds.file}" property="ds.exists"/>
