@@ -98,6 +98,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="install.target" value="install"/>
 	<property name="upgrade.target" value="upgrade"/>
 	
+	<!-- Where grand stores it's outputed pdf reports of build files -->
+	<property name="grand.rpt.dir" value="common/grand"/>
+
 	<!-- retrive ivy files then retrieve bda files and librarires -->
 	<mkdir dir="lib"/>
 	<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml"
@@ -553,10 +556,31 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			/>
 	</target>
 	<target name="report:grand" description="Generates grand graphs for build.xml files">
+		<mkdir dir="${grand.rpt.dir}"/>
 		<report-grand
 			build.file.location="build.xml"
 			output.file.dir="."
-			output.file.name="generic-root-build.xml"
+			output.file.name="${grand.rpt.dir}/root-build.xml"
+			/>
+		<report-grand
+			build.file.location="install.xml"
+			output.file.dir="."
+			output.file.name="${grand.rpt.dir}/root-install.xml"
+			/>
+		<report-grand
+			build.file.location="api/build.xml"
+			output.file.dir="."
+			output.file.name="${grand.rpt.dir}/csm-build.xml"
+			/>
+		<report-grand
+			build.file.location="upt/build.xml"
+			output.file.dir="."
+			output.file.name="${grand.rpt.dir}/upt-build.xml"
+			/>
+		<report-grand
+			build.file.location="securityws/build.xml"
+			output.file.dir="."
+			output.file.name="${grand.rpt.dir}/securityws-build.xml"
 			/>
 	</target>
 
