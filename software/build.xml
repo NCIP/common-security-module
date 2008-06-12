@@ -639,7 +639,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<target name="static-analysis:init">
 		<property name="upt.java.dir" value="upt/webapp/src"/>
-		<property name="csm.java.dir" value="api/src/gov"/>
+		<property name="csm.java.dir" value="api/src"/>
 		<property name="securityws.java.dir" value="securityws/src"/>
 
 		<property name="upt.classes.dir" value="upt/build/WEB-INF/classes"/>
