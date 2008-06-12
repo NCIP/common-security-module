@@ -352,9 +352,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 				<jboss-start-jboss />
 			</then>
 		</if>
+		<sleep seconds="15"/>
 	</target>
 	<target name="install:validation:pre-install">
-		<validate-pre-install />
+		<validate-pre-install
+			database.version="4.1.19"
+			/>
 	</target>
 	<target name="install:validation:pre-install:ports">
 		<validate-ports-preinstall />
