@@ -610,7 +610,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		static-analysis:pmd,
 		static-analysis:checkstyle,
 		static-analysis:javancss,
-		static-analysis:cobertura
+		static-analysis:cobertura,
+		static-analysis:findbugs
 		"/>
 
 	<target name="static-analysis:init">
@@ -707,7 +708,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				<include name="*.jar" />
 			</fileset>
 		</path>
-		<echo>ci: ${ci.server}</echo>
 		
 		<delete dir="${reports.dir}"/>
 		<mkdir dir="${reports.dir}"/>
@@ -742,11 +742,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</not>
 			<then>
 				<mkdir dir="${test.jboss.dir}"/>
-				<unzip dest="${temp.dir}" src="${jboss.dest.file}" >
-					<patternset>
-						<include name="**/lib/*"/>
-					</patternset>
-				</unzip>
+				<unzip dest="${temp.dir}" src="${jboss.dest.file}"/>
 			</then>
 		</if>
 
@@ -980,11 +976,33 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			findbugs.src.dir="${upt.java.dir}"
 			findbugs.classes.dir="${upt.classes.dir}"
 			findbugs.rpt.dir="${reports.findbugs.dir}/upt"
-			findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/default.xsl"
+			findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl"
 			findbugs.app.classpath.dir="${lib.dir}/upt/runtime"
-			findbugs.jboss.classpath.dir="${test.jboss.dir}/lib"
+			findbugs.jboss.classpath.dir="${test.jboss.dir}"
 			findbugs.xml.name="findbugs-upt.xml"
 			findbugs.html.name="findbugs-upt.html"
+			/>
+		<static-analysis-findbugs
+			findbugs.home.dir="${findbugs.home.dir}"
+			findbugs.src.dir="${csm.java.dir}"
+			findbugs.classes.dir="${csm.classes.dir}"
+			findbugs.rpt.dir="${reports.findbugs.dir}/csm"
+			findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl"
+			findbugs.app.classpath.dir="${lib.dir}/api/runtime"
+			findbugs.jboss.classpath.dir="${test.jboss.dir}"
+			findbugs.xml.name="findbugs-csm.xml"
+			findbugs.html.name="findbugs-csm.html"
+			/>
+		<static-analysis-findbugs
+			findbugs.home.dir="${findbugs.home.dir}"
+			findbugs.src.dir="${securityws.java.dir}"
+			findbugs.classes.dir="${securityws.classes.dir}"
+			findbugs.rpt.dir="${reports.findbugs.dir}/securityws"
+			findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl"
+			findbugs.app.classpath.dir="${lib.dir}/securityws/runtime"
+			findbugs.jboss.classpath.dir="${test.jboss.dir}"
+			findbugs.xml.name="findbugs-securityws.xml"
+			findbugs.html.name="findbugs-securityws.html"
 			/>
 	</target>
 
@@ -1002,7 +1020,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="project.test.findbugs.classpath"/>
 	
 			<findbugs home="@{findbugs.home.dir}"
-				output="xml"
+				output="xml:withMessages"
 				outputFile="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
 				jvmargs="-Xms128m -Xmx512m"
 				>
@@ -1023,6 +1041,33 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				out="@{findbugs.rpt.dir}/@{findbugs.html.name}"
 				style="@{findbugs.report-xsl.file}"
 				/>
+			<!--
+			<xslt taskname="findbugs"
+				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
+				out="@{findbugs.rpt.dir}/default-@{findbugs.html.name}"
+				style="${findbugs.home.dir}/src/xsl/default.xsl"
+				/>
+			<xslt taskname="findbugs"
+				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
+				out="@{findbugs.rpt.dir}/fancy-@{findbugs.html.name}"
+				style="${findbugs.home.dir}/src/xsl/fancy.xsl"
+				/>
+			<xslt taskname="findbugs"
+				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
+				out="@{findbugs.rpt.dir}/fancy-hist-@{findbugs.html.name}"
+				style="${findbugs.home.dir}/src/xsl/fancy-hist.xsl"
+				/>
+			<xslt taskname="findbugs"
+				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
+				out="@{findbugs.rpt.dir}/plain-@{findbugs.html.name}"
+				style="${findbugs.home.dir}/src/xsl/plain.xsl"
+				/>
+			<xslt taskname="findbugs"
+				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
+				out="@{findbugs.rpt.dir}/summary-@{findbugs.html.name}"
+				style="${findbugs.home.dir}/src/xsl/summary.xsl"
+				/>
+			-->
 		</sequential>
 	</macrodef>
 		
