@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+install:jboss:upt:configure<?xml version="1.0" encoding="utf-8" ?>
 <!--
 $Id: install.xml 4757 2008-05-15 20:43:31Z zengje $
 $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
@@ -280,8 +280,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 
 	<target name="install:jboss:upt:configure" description="Configure upt application" unless="exclude.jboss">
 		<copy file="${jboss-conf.dir.target}/${upt.ds.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
-		<copy file="${jboss-conf.dir.target}/${upt.app-sec-conf.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
-		<copy file="${jboss-conf.dir.target}/${upt.hibernate.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 	</target>
 
 	<!-- Wrapper target to configure jboss container, not deployed application -->
