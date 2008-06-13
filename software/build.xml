@@ -3,16 +3,13 @@
 $Id: build.xml 4753 2008-05-15 18:24:16Z saksass $
 $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 -->
-<project name="build-csm-upt" default="build:all" basedir="." 
-	xmlns:ivy="antlib:org.apache.ivy.ant"
-	xmlns:cs="antlib:com.puppycrawl.tools.checkstyle"
-	>
+<project name="build-csm-upt" default="build:all" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
 	<description>
 		Builds the CSM/UPT application.
 	</description>
 
 	<!-- Property file related properties and tasks -->
-	<property name="project.name" value="generic"/>
+	<property name="project.name" value="generic" />
 	<property environment="env" />
 	<!-- The project.properties stores properties that are shared between both build.xml and install.xml. Typically properties that are related to the distribution directories, or files. -->
 	<property file="local.properties" />
@@ -20,14 +17,14 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Should not be required for builds.
 	<property name="properties.file" value="${basedir}/install.properties"/>
 	-->
-	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2"/>
-	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2"/>
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2" />
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2" />
 	<property file="${properties.file}" />
 	<!-- added for remote deployments since file is copied to root of install dir -->
-	<basename property="properties.file.name" file="${properties.file}"/>
+	<basename property="properties.file.name" file="${properties.file}" />
 
 	<!-- Default values in case property file is not used -->
-	<property name="application.base.path" value="${user.home}/apps"/>
+	<property name="application.base.path" value="${user.home}/apps" />
 
 	<!-- Generic build time properties -->
 	<property name="lib.dir" value="${basedir}/lib" />
@@ -36,8 +33,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="temp.dir" value="${basedir}/temp" />
 	<property name="ivy.settings.file" location="ivy-bda-settings.xml" />
 	<property name="ivy.bda-testing.file" location="ivy-bda-testing.xml" />
-	<property name="ivy.file" value="ivy-2.0.0-beta2.jar"/>
-	<property name="ivy-core.file" value="ivy-core-2.0.0-beta2.jar"/>
+	<property name="ivy.file" value="ivy-2.0.0-beta2.jar" />
+	<property name="ivy-core.file" value="ivy-core-2.0.0-beta2.jar" />
 
 
 	<!-- Used by dist:*:prep to copy resource files to distribution area -->
@@ -48,23 +45,23 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	-->
 	<property name="db.src.dir" value="${basedir}/${db.dist.relative.dir}" />
 	<property name="db-incr.src.dir" value="${basedir}/${db-incr.dist.relative.dir}" />
-	
+
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
-	<property name="securityws.base.dir" value="${basedir}/securityws"/>
-	<property name="csm.base.dir" value="${basedir}/api"/>
-	<property name="upt.base.dir" value="${basedir}/upt"/>
+	<property name="securityws.base.dir" value="${basedir}/securityws" />
+	<property name="csm.base.dir" value="${basedir}/api" />
+	<property name="upt.base.dir" value="${basedir}/upt" />
 
 	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
-	<property name="upt.build.file" value="build.xml"/>
-	<property name="csm.build.file" value="build.xml"/>
-	<property name="securityws.build.file" value="build.xml"/>
-	
+	<property name="upt.build.file" value="build.xml" />
+	<property name="csm.build.file" value="build.xml" />
+	<property name="securityws.build.file" value="build.xml" />
+
 	<!-- The target name that should be called from the sub-project build file -->
-	<property name="securityws.build.target" value="all"/>
-	<property name="csm.build.target" value="dist"/>
-	<property name="upt.build.target" value="all"/>
-    
+	<property name="securityws.build.target" value="all" />
+	<property name="csm.build.target" value="dist" />
+	<property name="upt.build.target" value="all" />
+
 	<!-- Distribution Structure properties, used to copy files into the distribution area.
        		Use project.propertie relative dir names becasue they are used by install also-->
 	<property name="target.dir" value="${basedir}/target" />
@@ -78,24 +75,23 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="jboss-conf.target.dir" value="${target.dir}/${jboss-conf.dist.relative.dir}" />
 
 	<!-- Where to write files retrieved by get, into the distribution area.  The file names come from project.properties  -->
-	<property name="jboss.dest.file" value="${tools.target.dir}/${jboss.binaries.file}"/>
+	<property name="jboss.dest.file" value="${tools.target.dir}/${jboss.binaries.file}" />
 
 	<!-- Properties related to creating the distribution -->
-	<property name="dist.dir" value="dist"/>
+	<property name="dist.dir" value="dist" />
 
 	<!-- Default install time targets passed by deploy targets to the installer, can be overridden by being set on the command line if different target is desitred.  -->
-	<property name="install.target" value="install"/>
-	<property name="upgrade.target" value="upgrade"/>
-	
+	<property name="install.target" value="install" />
+	<property name="upgrade.target" value="upgrade" />
+
 	<!-- Where grand stores it's outputed pdf reports of build files -->
-	<property name="grand.rpt.dir" value="common/grand"/>
+	<property name="grand.rpt.dir" value="common/grand" />
 
 	<!-- retrive ivy files then retrieve bda files and librarires -->
-	<mkdir dir="lib"/>
-	<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml"
-		target="retrieve-bda">
-		<property name="bda-utils.dir" value="${bda-utils.dir}"/>
-		<property name="lib.dir" value="${lib.dir}"/>
+	<mkdir dir="lib" />
+	<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml" target="retrieve-bda">
+		<property name="bda-utils.dir" value="${bda-utils.dir}" />
+		<property name="lib.dir" value="${lib.dir}" />
 	</ant>
 
 	<!-- Paths -->
@@ -118,154 +114,140 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<pathelement location="${bda-utils.dir}/antunit-1.0.jar" />
 		</classpath>
 	</taskdef>
+
 	<taskdef name="xmlconfig" classname="com.xmlconfig.anttask.XmlConfig" classpathref="bda-utils.classpath" />
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.classpath"/>
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.classpath" />
+
 	<taskdef name="for" classname="net.sf.antcontrib.logic.ForTask">
 		<classpath>
-			<pathelement location="${bda-utils.dir}/ant-contrib-1.0b3.jar"/>
+			<pathelement location="${bda-utils.dir}/ant-contrib-1.0b3.jar" />
 		</classpath>
 	</taskdef>
 
 	<!-- Includes- include BDA marcos -->
 	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
 
-	<!-- Start logging --> 
+	<!-- Start logging -->
 	<mkdir dir="${log.dir}" />
 	<tstamp>
 		<format property="install.time" pattern="yyyy-MM-dd-HH-mm" />
 	</tstamp>
-	<record name="${log.dir}/install-${install.time}.log" action="start"/>
+	<record name="${log.dir}/install-${install.time}.log" action="start" />
 
 	<!-- Targets -->
 	<target name="diagnostics" description="diagnostics">
-		<echoproperties/>
-		<diagnostics/>
+		<echoproperties />
+		<diagnostics />
 	</target>
 
 	<target name="clean">
-		<delete dir="${dist.dir}"/>
-		<delete dir="${temp.dir}"/>
+		<delete dir="${dist.dir}" />
+		<delete dir="${temp.dir}" />
 		<delete quiet="true">
 			<fileset dir="${target.dir}">
-				<exclude name="**/tools/*"/>
+				<exclude name="**/tools/*" />
 			</fileset>
 		</delete>
 
 	</target>
 
-	<target name="init" >
-		<mkdir dir="${dist.dir}"/>
-		<mkdir dir="${target.dir}"/>
-		<mkdir dir="${csm.target.dir}"/>
-		<mkdir dir="${securityws.target.dir}"/>
-		<mkdir dir="${upt.target.dir}"/>
-		<mkdir dir="${common.target.dir}"/>
-		<mkdir dir="${tools.target.dir}"/>
-		<mkdir dir="${temp.dir}"/>
-		<available file="${jboss.dest.file}" property="jboss.tools.exists"/>
+	<target name="init">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${target.dir}" />
+		<mkdir dir="${csm.target.dir}" />
+		<mkdir dir="${securityws.target.dir}" />
+		<mkdir dir="${upt.target.dir}" />
+		<mkdir dir="${common.target.dir}" />
+		<mkdir dir="${tools.target.dir}" />
+		<mkdir dir="${temp.dir}" />
+		<available file="${jboss.dest.file}" property="jboss.tools.exists" />
 	</target>
 
 	<target name="ivy:clean" description="Clean">
 		<ivy:settings file="${ivy.settings.file}" />
 		<ivy:cleancache />
-		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml"
-			target="ivy-cleancache">
-			<property name="bda-utils.dir" value="${bda-utils.dir}"/>
-			<property name="lib.dir" value="${lib.dir}"/>
+		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml" target="ivy-cleancache">
+			<property name="bda-utils.dir" value="${bda-utils.dir}" />
+			<property name="lib.dir" value="${lib.dir}" />
 		</ant>
-		
+
+		<!-- Clean subproject ivy caches -->
+		<ant inheritAll="false" inheritRefs="false" dir="${csm.base.dir}" antfile="${csm.build.file}" target="ivy-clean-cache" />
+		<ant inheritAll="false" inheritRefs="false" dir="${securityws.base.dir}" antfile="${securityws.build.file}" target="ivy-clean-cache" />
+		<ant inheritAll="false" inheritRefs="false" dir="${upt.base.dir}" antfile="${upt.build.file}" target="ivy-clean-cache" />
 	</target>
 
 	<!-- Wrapper build target, call appropriate builds for sub-projects -->
-	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions"
-		depends="
+	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
 		build:upt,
-		build:securityws"/>
+		build:securityws" />
 
 	<!-- Build generic-query-grid sub-project produces project level artifact -->
 	<target name="build:csm" depends="init">
-		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}"
-			target="${csm.build.target}"
-			dir="${csm.base.dir}" >
+		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}" target="${csm.build.target}" dir="${csm.base.dir}">
 		</ant>
 	</target>
 
 	<target name="build:upt" depends="init, build:csm">
-		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}"
-			target="${upt.build.target}"
-			dir="${upt.base.dir}" >
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="${upt.build.target}" dir="${upt.base.dir}">
 		</ant>
 	</target>
 
 	<target name="build:securityws" depends="init, build:csm">
-		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}"
-			target="${securityws.build.target}"
-			dir="${securityws.base.dir}" >
+		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}" target="${securityws.build.target}" dir="${securityws.base.dir}">
 		</ant>
 	</target>
 
-	<target name="compile:all" description="Used by static-analysis, required since dist target cleans up generated classes that are required by some static analysis tools"
-		depends="
+	<target name="compile:all" description="Used by static-analysis, required since dist target cleans up generated classes that are required by some static analysis tools" depends="
 			init,
 			compile:csm,
 			compile:upt,
 			compile:securityws
-			"/>
+			" />
 
 	<target name="compile:csm" depends="init">
-		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}"
-			target="compile"
-			dir="${csm.base.dir}"/>
+		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}" target="compile" dir="${csm.base.dir}" />
 	</target>
 
 	<target name="compile:upt" depends="init">
-		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}"
-			target="compile"
-			dir="${upt.base.dir}"/>
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="compile" dir="${upt.base.dir}" />
 	</target>
 
 	<target name="compile:securityws" depends="init">
-		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}"
-			target="compile"
-			dir="${securityws.base.dir}"/>
+		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}" target="compile" dir="${securityws.base.dir}" />
 	</target>
 
 	<!-- Produces all distributions: installer, upgrader and source -->
-	<target name="dist" description="Makes all distributions: installer, upgrader and source"
-		depends="
+	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
 		build:all,
 		dist:installer,
 		dist:upgrader,
-		dist:src"
-	      	/>
+		dist:src" />
 
 	<target name="dist:src">
 		<!-- Add tasks here to zip up src into a distribution, may require some additoinal properties for distribution name" -->
 	</target>
 
 	<!-- Wrapper target that downloads all required binaries from Common Tools Repository -->
-	<target name="dist:tools:retrieve" description="Downloads binary support tools form common tools repository"
-		depends="
+	<target name="dist:tools:retrieve" description="Downloads binary support tools form common tools repository" depends="
 		init,
 		dist:tools:retrieve:jboss
 		" />
 
 	<!-- Downloads jboss from tools repository and compares checksum, based on properties set in project.properties -->
 	<target name="dist:tools:retrieve:jboss" unless="jboss.tools.exists">
-		<get src="${jboss.src.url}"
-			dest="${jboss.dest.file}"/>
-		<get src="${jboss.src.url}.MD5"
-			dest="${jboss.dest.file}.MD5"/>
-		<checksum file="${jboss.dest.file}" verifyProperty="jboss.cksum.ok"/>
+		<get src="${jboss.src.url}" dest="${jboss.dest.file}" />
+		<get src="${jboss.src.url}.MD5" dest="${jboss.dest.file}.MD5" />
+		<checksum file="${jboss.dest.file}" verifyProperty="jboss.cksum.ok" />
 		<if>
-			<equals arg1="${jboss.cksum.ok}" arg2="true"/>
+			<equals arg1="${jboss.cksum.ok}" arg2="true" />
 			<then>
-				<echo message="Downloaded jboss sucessfully"/>
+				<echo message="Downloaded jboss sucessfully" />
 			</then>
 			<else>
-				<fail message="Failed to download jboss file sucessfully."/>
+				<fail message="Failed to download jboss file sucessfully." />
 			</else>
 		</if>
 	</target>
@@ -277,15 +259,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			db-incr.* propertes are stored in project.properties because they are used in both
 			install.xml and build.xml
 		-->
-		<database-build-filelist 
-			sqlfiles.list.file="${target.dir}/${db-incr.mysql.list.file}"
-			build.properties.file="${target.dir}/${db-incr.mysql.conf.file}"
-			incr.sql.dir="${db-incr.src.dir}/mysql" />
-		<database-build-filelist 
-			sqlfiles.list.file="${target.dir}/${db-incr.oracle.list.file}"
-			build.properties.file="${target.dir}/${db-incr.oracle.conf.file}"
-			incr.sql.dir="${db-incr.src.dir}/oracle" />
-		<copy tofile="${target.dir}/db-integrate.xml" file="${bda-utils.dir}/resource/template-db-integrate.xml"/>
+		<database-build-filelist sqlfiles.list.file="${target.dir}/${db-incr.mysql.list.file}" build.properties.file="${target.dir}/${db-incr.mysql.conf.file}" incr.sql.dir="${db-incr.src.dir}/mysql" />
+		<database-build-filelist sqlfiles.list.file="${target.dir}/${db-incr.oracle.list.file}" build.properties.file="${target.dir}/${db-incr.oracle.conf.file}" incr.sql.dir="${db-incr.src.dir}/oracle" />
+		<copy tofile="${target.dir}/db-integrate.xml" file="${bda-utils.dir}/resource/template-db-integrate.xml" />
 
 		<!-- Copy install related xml and properties files -->
 		<copy todir="${target.dir}" overwrite="true">
@@ -295,18 +271,16 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				<include name="*properties.template" />
 				<include name="project.properties" />
 			</fileset>
-		</copy> 
+		</copy>
 		<!-- Set default target on install xml to install -->
-		<replaceregexp file="${target.dir}/install.xml" byline="true"
-			match="(.project.*default=.)\w+(.\s+.*)"
-			replace="\1upgrade\2"/>
+		<replaceregexp file="${target.dir}/install.xml" byline="true" match="(.project.*default=.)\w+(.\s+.*)" replace="\1upgrade\2" />
 		<!-- Rename install.xml to build.xml so manual installs will not need to include the -f optoin on ant, simplifying the install proces. -->
-		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml"/>
+		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml" />
 
 		<!-- Copy over BDA macrodefs and librarires -->
 		<copy todir="${target.dir}/bda-utils" overwrite="true">
 			<fileset dir="${bda-utils.dir}">
-				<include name="**/*"/>
+				<include name="**/*" />
 			</fileset>
 		</copy>
 
@@ -315,21 +289,21 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		-->
 		<copy todir="${common.target.dir}" overwrite="true">
 			<fileset dir="${common.src.dir}">
-				<include name="**/*"/>
+				<include name="**/*" />
 			</fileset>
-		</copy> 
+		</copy>
 	</target>
 
 	<!-- Creates the installer distribution used by automated or manual remote installations -->
 	<target name="dist:installer" depends="dist:installer:prep">
-		<delete file="${dist.dir}/${csm.install.zip.file}"/>
-		<zip destfile="${dist.dir}/${csm.install.zip.file}" basedir="${target.dir}"/>
+		<delete file="${dist.dir}/${csm.install.zip.file}" />
+		<zip destfile="${dist.dir}/${csm.install.zip.file}" basedir="${target.dir}" />
 	</target>
 
 	<!-- Copies install time resources into distribution tree -->
 	<target name="dist:upgrader:prep">
 		<!-- Cleans up files copied by dist:*:prep targets to ensure only required files are present becaue this target is run after dist:installer:prep -->
-		<delete dir="${tools.target.dir}"/>
+		<delete dir="${tools.target.dir}" />
 		<delete>
 			<fileset dir="${target.dir}">
 				<include name="*.xml" />
@@ -342,15 +316,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			db-incr.* propertes are stored in project.properties because they are used in both
 			install.xml and build.xml
 		-->
-		<database-build-filelist 
-			sqlfiles.list.file="${target.dir}/${db-incr.mysql.list.file}"
-			build.properties.file="${target.dir}/${db-incr.mysql.conf.file}"
-			incr.sql.dir="${db-incr.src.dir}/mysql" />
-		<database-build-filelist 
-			sqlfiles.list.file="${target.dir}/${db-incr.oracle.list.file}"
-			build.properties.file="${target.dir}/${db-incr.oracle.conf.file}"
-			incr.sql.dir="${db-incr.src.dir}/oracle" />
-		<copy tofile="${target.dir}/db-integrate.xml" file="${bda-utils.dir}/resource/template-db-integrate.xml"/>
+		<database-build-filelist sqlfiles.list.file="${target.dir}/${db-incr.mysql.list.file}" build.properties.file="${target.dir}/${db-incr.mysql.conf.file}" incr.sql.dir="${db-incr.src.dir}/mysql" />
+		<database-build-filelist sqlfiles.list.file="${target.dir}/${db-incr.oracle.list.file}" build.properties.file="${target.dir}/${db-incr.oracle.conf.file}" incr.sql.dir="${db-incr.src.dir}/oracle" />
+		<copy tofile="${target.dir}/db-integrate.xml" file="${bda-utils.dir}/resource/template-db-integrate.xml" />
 
 		<!-- Copy install related xml and properties files -->
 		<copy todir="${target.dir}" overwrite="true">
@@ -360,18 +328,16 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				<include name="*properties.template" />
 				<include name="project.properties" />
 			</fileset>
-		</copy> 
+		</copy>
 		<!-- Change default target of install.xml to upgrade -->
-		<replaceregexp file="${target.dir}/install.xml" byline="true"
-			match="(.project.*default=.)\w+(.\s+.*)"
-			replace="\1install\2"/>
+		<replaceregexp file="${target.dir}/install.xml" byline="true" match="(.project.*default=.)\w+(.\s+.*)" replace="\1install\2" />
 		<!-- Rename install.xml to build.xml to simply install but not having to provide -f option to ant command line -->
-		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml"/>
+		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml" />
 
 		<!-- Copy BDA macrodefs and library files -->
 		<copy todir="${target.dir}/bda-utils" overwrite="true">
 			<fileset dir="${bda-utils.dir}">
-				<exclude name="**/*.zip"/>
+				<exclude name="**/*.zip" />
 			</fileset>
 		</copy>
 
@@ -380,57 +346,56 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		-->
 		<copy todir="${common.target.dir}" overwrite="true">
 			<fileset dir="${common.src.dir}">
-				<include name="**/*"/>
+				<include name="**/*" />
 			</fileset>
-		</copy> 
+		</copy>
 	</target>
 
 	<!-- Creates upgrader distribution -->
 	<target name="dist:upgrader" depends="dist:upgrader:prep">
-		<delete file="${dist.dir}/${csm.upgrade.zip.file}"/>
-		<zip destfile="${dist.dir}/${csm.upgrade.zip.file}" basedir="${target.dir}"/>
+		<delete file="${dist.dir}/${csm.upgrade.zip.file}" />
+		<zip destfile="${dist.dir}/${csm.upgrade.zip.file}" basedir="${target.dir}" />
 
 	</target>
 
 
 	<!-- Installs the application locally. Requires a local instance of mysql. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from exec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. This target will use differnt properties based on linux (linux-install.properties) or windows (windows-install.properties) installs. It only supports using those properties files for now, so if you want to change install time properites edit these files. -->
-	<target name="deploy:local:install" depends="dist:installer:prep" description="Installs the application and required binaries on the local machine, used for developer desktops and ci environments" >
+	<target name="deploy:local:install" depends="dist:installer:prep" description="Installs the application and required binaries on the local machine, used for developer desktops and ci environments">
 		<!-- deploy:local fails about basedirectory in real strange place macrodefs:319, this should fix it -->
-		<mkdir dir="${target.dir}/lib"/>
+		<mkdir dir="${target.dir}/lib" />
 
 		<!-- Copies over all files so linux and windows properties are present -->
 		<copy todir="${target.dir}">
 			<fileset dir="${basedir}">
-				<include name="*.properties"/>
+				<include name="*.properties" />
 			</fileset>
 		</copy>
 		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}">
 			<!-- use alternate properties file since default has replace values -->
-			<arg value="-Dproperties.file=linux-install.properties"/>
+			<arg value="-Dproperties.file=linux-install.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
-			<arg value="-Dforce.reinstall=true"/>
-			<arg value="${install.target}"/>
-		</exec> 
-		<exec os="Windows XP, Windows 2000, Windows 2003"
-			executable="ant.bat" dir="${target.dir}">
+			<arg value="-Dforce.reinstall=true" />
+			<arg value="${install.target}" />
+		</exec>
+		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${target.dir}">
 			<!-- use alternate properties file since default has replace values -->
-			<arg value="-Dproperties.file=windows-install.properties"/>
+			<arg value="-Dproperties.file=windows-install.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
-			<arg value="-Dforce.reinstall=true"/>
-			<arg value="${install.target}"/>
-		</exec> 
+			<arg value="-Dforce.reinstall=true" />
+			<arg value="${install.target}" />
+		</exec>
 
 	</target>
 
 	<!-- Upgrades the application locally. Requires a local instance of mysql. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from exec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. This target will use differnt properties based on linux (linux-install.properties) or windows (windows-install.properties) upgrades. It only supports using those properties files for now, so if you want to change install time properites edit these files. -->
-	<target name="deploy:local:upgrade" depends="dist:upgrader:prep" description="Upgrades the application on the local machine, used for developer desktops and ci environments" >
+	<target name="deploy:local:upgrade" depends="dist:upgrader:prep" description="Upgrades the application on the local machine, used for developer desktops and ci environments">
 		<!-- deploy:local fails about basedirectory in real strange place macrodefs:319, this should fix it -->
-		<mkdir dir="${target.dir}/lib"/>
+		<mkdir dir="${target.dir}/lib" />
 
 		<!-- Copies over all files so linux and windows properties are present -->
 		<copy todir="${target.dir}">
 			<fileset dir="${basedir}">
-				<include name="*.properties"/>
+				<include name="*.properties" />
 			</fileset>
 		</copy>
 
@@ -440,50 +405,43 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			properties file.
 		-->
 		<if>
-			<isset property="ci.server"/>
+			<isset property="ci.server" />
 			<then>
-				<replaceregexp file="${target.dir}/linux-upgrade.properties" byline="true"
-					match="exclude.start.servers=true"
-					replace=""/>
-				<replaceregexp file="${target.dir}/windows-upgrade.properties" byline="true"
-					match="exclude.start.servers=true"
-					replace=""/>
+				<replaceregexp file="${target.dir}/linux-upgrade.properties" byline="true" match="exclude.start.servers=true" replace="" />
+				<replaceregexp file="${target.dir}/windows-upgrade.properties" byline="true" match="exclude.start.servers=true" replace="" />
 			</then>
 		</if>
 
 		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}">
 			<!-- use alternate properties file since default has replace values -->
-			<arg value="-Dproperties.file=linux-upgrade.properties"/>
+			<arg value="-Dproperties.file=linux-upgrade.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
-			<arg value="-Dforce.reinstall=true"/>
-			<arg value="-Dlocal.install=true"/>
-			<arg value="${upgrade.target}"/>
-		</exec> 
-		<exec os="Windows XP, Windows 2000, Windows 2003"
-			executable="ant.bat" dir="${target.dir}">
+			<arg value="-Dforce.reinstall=true" />
+			<arg value="-Dlocal.install=true" />
+			<arg value="${upgrade.target}" />
+		</exec>
+		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${target.dir}">
 			<!-- use alternate properties file since default has replace values -->
-			<arg value="-Dproperties.file=windows-upgrade.properties"/>
+			<arg value="-Dproperties.file=windows-upgrade.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
-			<arg value="-Dforce.reinstall=true"/>
-			<arg value="-Dlocal.install=true"/>
-			<arg value="${upgrade.target}"/>
-		</exec> 
-		<echo message="The server is not started as part of local deployment.  You will need to run $JBOSS_HOME/bin/run.bat (or run.sh if you are linux)."/>
+			<arg value="-Dforce.reinstall=true" />
+			<arg value="-Dlocal.install=true" />
+			<arg value="${upgrade.target}" />
+		</exec>
+		<echo message="The server is not started as part of local deployment.  You will need to run $JBOSS_HOME/bin/run.bat (or run.sh if you are linux)." />
 	</target>
 
 	<macrodef name="deploy-files">
-		<attribute name="ssh.user" default="${ssh.server.username}"/>
-		<attribute name="ssh.host" default="${ssh.server.hostname}"/>
-		<attribute name="remote.directory.property.name" default="ssh.dir.temp"/>
-		<attribute name="properties.file" default="${properties.file}"/>
-		<attribute name="dist.dir" default="${dist.dir}"/>
+		<attribute name="ssh.user" default="${ssh.server.username}" />
+		<attribute name="ssh.host" default="${ssh.server.hostname}" />
+		<attribute name="remote.directory.property.name" default="ssh.dir.temp" />
+		<attribute name="properties.file" default="${properties.file}" />
+		<attribute name="dist.dir" default="${dist.dir}" />
 		<attribute name="dist.file" />
 		<sequential>
 			<!-- Validate remote directory is valid -->
 			<propertycopy name="remote.dir" from="@{remote.directory.property.name}" />
-			<check-valid-directory-name
-				directory.property="remote.dir"
-				/>
+			<check-valid-directory-name directory.property="remote.dir" />
 			<!-- Delete/re-create remote directory -->
 			<remote-ssh remotesshcommand="rm -rf ${remote.dir};mkdir -p ${remote.dir}" />
 			<!-- work around for issue where basedir is required but is not currently used -->
@@ -498,26 +456,20 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</macrodef>
 
 	<!-- Install the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point installer to correct enviornment to install into -->
-	<target name="deploy:remote:install"
-		depends="
+	<target name="deploy:remote:install" depends="
 		build:all,
 		dist:installer
 		">
-		<deploy-files
-			dist.file="${csm.install.zip.file}"
-			/>
+		<deploy-files dist.file="${csm.install.zip.file}" />
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.target}" />
 	</target>
 
 	<!-- Upgrades the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point upgrader to correct enviornment to upgrade -->
-	<target name="deploy:remote:upgrade"
-		depends="
+	<target name="deploy:remote:upgrade" depends="
 		build:all,
 		dist:upgrader
 		">
-		<deploy-files
-			dist.file="${csm.upgrade.zip.file}"
-			/>
+		<deploy-files dist.file="${csm.upgrade.zip.file}" />
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${upgrade.target}" />
 	</target>
 
@@ -527,49 +479,23 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- Scorches checkout area and then checks out the generic project from svn. Serval propeties influence what is checked out.  Each of the properites have defaults, which will check out trunk.  This target uses the svn-co macro from bda -->
 	<target name="svn:co">
-		<property name="svn.project.base.url" value="http://gforge.nci.nih.gov/svnroot/generic"/>
-		<property name="svn.project.name" value="generic"/>
-		<property name="svn.tag" value="trunk"/>
-		<property name="svn.co.base.dir" value="${user.home}/tmp"/>
+		<property name="svn.project.base.url" value="http://gforge.nci.nih.gov/svnroot/generic" />
+		<property name="svn.project.name" value="generic" />
+		<property name="svn.tag" value="trunk" />
+		<property name="svn.co.base.dir" value="${user.home}/tmp" />
 
-		<svn-co
-			svn.project.base.url="${svn.project.base.url}"
-			svn.project.name="${svn.project.name}"
-			svn.tag="${svn.tag}"
-			svn.co.base.dir="${svn.co.base.dir}"
-			/>
+		<svn-co svn.project.base.url="${svn.project.base.url}" svn.project.name="${svn.project.name}" svn.tag="${svn.tag}" svn.co.base.dir="${svn.co.base.dir}" />
 	</target>
 	<target name="report:grand" description="Generates grand graphs for build.xml files">
-		<mkdir dir="${grand.rpt.dir}"/>
-		<report-grand
-			build.file.location="build.xml"
-			output.file.dir="."
-			output.file.name="${grand.rpt.dir}/root-build.xml"
-			/>
-		<report-grand
-			build.file.location="install.xml"
-			output.file.dir="."
-			output.file.name="${grand.rpt.dir}/root-install.xml"
-			/>
-		<report-grand
-			build.file.location="api/build.xml"
-			output.file.dir="."
-			output.file.name="${grand.rpt.dir}/csm-build.xml"
-			/>
-		<report-grand
-			build.file.location="upt/build.xml"
-			output.file.dir="."
-			output.file.name="${grand.rpt.dir}/upt-build.xml"
-			/>
-		<report-grand
-			build.file.location="securityws/build.xml"
-			output.file.dir="."
-			output.file.name="${grand.rpt.dir}/securityws-build.xml"
-			/>
+		<mkdir dir="${grand.rpt.dir}" />
+		<report-grand build.file.location="build.xml" output.file.dir="." output.file.name="${grand.rpt.dir}/root-build.xml" />
+		<report-grand build.file.location="install.xml" output.file.dir="." output.file.name="${grand.rpt.dir}/root-install.xml" />
+		<report-grand build.file.location="api/build.xml" output.file.dir="." output.file.name="${grand.rpt.dir}/csm-build.xml" />
+		<report-grand build.file.location="upt/build.xml" output.file.dir="." output.file.name="${grand.rpt.dir}/upt-build.xml" />
+		<report-grand build.file.location="securityws/build.xml" output.file.dir="." output.file.name="${grand.rpt.dir}/securityws-build.xml" />
 	</target>
 
-	<target name="ivy-init" 
-		depends="
+	<target name="ivy-init" depends="
 		ivy-settings,
 		ivy-test-selenium,
 		ivy-test-junit,
@@ -577,31 +503,38 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		ivy-test-javancss,
 		ivy-test-checkstyle,
 		ivy-test-pmd
-		"/>
+		" />
+
 	<target name="ivy-settings">
-		<property name="ivy.dep.file" value="${ivy.bda-testing.file}"/>
+		<property name="ivy.dep.file" value="${ivy.bda-testing.file}" />
 		<ivy:settings file="${ivy.settings.file}" />
 	</target>
+
 	<target name="ivy-test-selenium" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test-selenium" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-selenium" />
 	</target>
+
 	<target name="ivy-test-junit" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test-junit" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-junit" />
 	</target>
+
 	<target name="ivy-test-cobertura" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test-cobertura" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-cobertura" />
 	</target>
+
 	<target name="ivy-test-javancss" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test-javancss" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-javancss" />
 	</target>
+
 	<target name="ivy-test-checkstyle" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test-checkstyle" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-checkstyle" />
 	</target>
+
 	<target name="ivy-test-pmd" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="test-pmd" />
 		<ivy:retrieve pattern="${lib.dir}/[conf]/[artifact]-[revision].[ext]" conf="test-pmd" />
@@ -614,8 +547,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 	-->
 
-	<target name="static-analysis" description="Performs static analysis"
-		depends="
+	<target name="static-analysis" description="Performs static analysis" depends="
 		ivy-init,
 		static-analysis:init,
 		findbugs-init,
@@ -625,30 +557,30 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		static-analysis:javancss,
 		static-analysis:cobertura,
 		static-analysis:findbugs
-		"/>
+		" />
 
 	<target name="static-analysis:init">
-		<property name="upt.java.dir" value="upt/webapp/src"/>
-		<property name="csm.java.dir" value="api/src"/>
-		<property name="securityws.java.dir" value="securityws/src"/>
+		<property name="upt.java.dir" value="upt/webapp/src" />
+		<property name="csm.java.dir" value="api/src" />
+		<property name="securityws.java.dir" value="securityws/src" />
 
-		<property name="upt.classes.dir" value="upt/build/WEB-INF/classes"/>
-		<property name="csm.classes.dir" value="api/classes"/>
-		<property name="securityws.classes.dir" value="securityws/build/WEB-INF/classes"/>
+		<property name="upt.classes.dir" value="upt/build/WEB-INF/classes" />
+		<property name="csm.classes.dir" value="api/classes" />
+		<property name="securityws.classes.dir" value="securityws/build/WEB-INF/classes" />
 
-		<property name="common.dir" value="common"/>
+		<property name="common.dir" value="common" />
 
-		<property name="reports.dir" value="reports"/>
-		<property name="reports.simian.dir" value="${reports.dir}/simian"/>
-		<property name="reports.pmd.dir" value="${reports.dir}/pmd"/>
-		<property name="reports.checkstyle.dir" value="${reports.dir}/checkstyle"/>
-		<property name="reports.javancss.dir" value="${reports.dir}/javancss"/>
-		<property name="reports.cobertura.dir" value="${reports.dir}/cobertura"/>
-		<property name="reports.findbugs.dir" value="${reports.dir}/findbugs"/>
+		<property name="reports.dir" value="reports" />
+		<property name="reports.simian.dir" value="${reports.dir}/simian" />
+		<property name="reports.pmd.dir" value="${reports.dir}/pmd" />
+		<property name="reports.checkstyle.dir" value="${reports.dir}/checkstyle" />
+		<property name="reports.javancss.dir" value="${reports.dir}/javancss" />
+		<property name="reports.cobertura.dir" value="${reports.dir}/cobertura" />
+		<property name="reports.findbugs.dir" value="${reports.dir}/findbugs" />
 
 		<property name="instrumented.dir" value="${basedir}/instrumented" />
 		<property name="cobertura.ser.file" value="${instrumented.dir}/cobertura.ser" />
-		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura"/>
+		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura" />
 
 		<!-- findbugs seems to like jars named a specific way, going to try doing it as a binary
 		<copy todir="${lib.dir}/test-findbugs">
@@ -690,7 +622,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				<include name="*.jar" />
 			</fileset>
 		</path>
-		<fail unless="lib.dir" message="must define lib.dir for unittesting.xml to work"/>
+		<fail unless="lib.dir" message="must define lib.dir for unittesting.xml to work" />
 		<path id="project.test.selenium.classpath">
 			<fileset dir="${lib.dir}/test-selenium">
 				<include name="*.jar" />
@@ -721,41 +653,40 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				<include name="*.jar" />
 			</fileset>
 		</path>
-		
-		<delete dir="${reports.dir}"/>
-		<mkdir dir="${reports.dir}"/>
-		<mkdir dir="${reports.simian.dir}"/>
-		<mkdir dir="${reports.pmd.dir}"/>
-		<mkdir dir="${reports.checkstyle.dir}"/>
-		<mkdir dir="${reports.javancss.dir}"/>
-		<mkdir dir="${reports.cobertura.dir}"/>
-		<mkdir dir="${reports.findbugs.dir}"/>
-		<delete dir="${instrumented.dir}"/>
-		<mkdir dir="${instrumented.dir}"/>
+
+		<delete dir="${reports.dir}" />
+		<mkdir dir="${reports.dir}" />
+		<mkdir dir="${reports.simian.dir}" />
+		<mkdir dir="${reports.pmd.dir}" />
+		<mkdir dir="${reports.checkstyle.dir}" />
+		<mkdir dir="${reports.javancss.dir}" />
+		<mkdir dir="${reports.cobertura.dir}" />
+		<mkdir dir="${reports.findbugs.dir}" />
+		<delete dir="${instrumented.dir}" />
+		<mkdir dir="${instrumented.dir}" />
 
 	</target>
 
 	<target name="findbugs-init" depends="dist:tools:retrieve:jboss">
-		<property name="findbugs.home.dir" value="${lib.dir}/${findbugs.binaries.relative.dir}"/>
+		<property name="findbugs.home.dir" value="${lib.dir}/${findbugs.binaries.relative.dir}" />
 		<if>
 			<not>
-				<available file="${findbugs.home.dir}/lib/findbugs.jar"/>
+				<available file="${findbugs.home.dir}/lib/findbugs.jar" />
 			</not>
 			<then>
-				<echo message="Findbugs is missing, downloading and isnstalling in ${findbugs.home.dir}"/>
-				<get src="${findbugs.src.url}"
-					dest="${temp.dir}/${findbugs.binaries.file}"/>
+				<echo message="Findbugs is missing, downloading and isnstalling in ${findbugs.home.dir}" />
+				<get src="${findbugs.src.url}" dest="${temp.dir}/${findbugs.binaries.file}" />
 				<unzip dest="${lib.dir}" src="${temp.dir}/${findbugs.binaries.file}" />
 			</then>
 		</if>
-		<property name="test.jboss.dir" value="${temp.dir}/${jboss.binaries.relative.dir}"/>
+		<property name="test.jboss.dir" value="${temp.dir}/${jboss.binaries.relative.dir}" />
 		<if>
 			<not>
-				<available file="${test.jboss.dir}/lib/jboss-system.jar"/>
+				<available file="${test.jboss.dir}/lib/jboss-system.jar" />
 			</not>
 			<then>
-				<mkdir dir="${test.jboss.dir}"/>
-				<unzip dest="${temp.dir}" src="${jboss.dest.file}"/>
+				<mkdir dir="${test.jboss.dir}" />
+				<unzip dest="${temp.dir}" src="${jboss.dest.file}" />
 			</then>
 		</if>
 
@@ -767,276 +698,136 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 
 	<target name="static-analysis:simian" depends="static-analysis:init" description="Performs code duplication analysis">
-		<static-analysis-simian
-			simian.src.dir="${upt.java.dir}"
-			simian.rpt.dir="${reports.simian.dir}"
-			simian.report-xsl.file="${common.dir}/simian/simian.xsl"
-			simian.xml.name="simian-upt.xml"
-			simian.html.name="simian-upt.html"
-			/>
+		<static-analysis-simian simian.src.dir="${upt.java.dir}" simian.rpt.dir="${reports.simian.dir}" simian.report-xsl.file="${common.dir}/simian/simian.xsl" simian.xml.name="simian-upt.xml" simian.html.name="simian-upt.html" />
 
-		<static-analysis-simian
-			simian.src.dir="${csm.java.dir}"
-			simian.rpt.dir="${reports.simian.dir}"
-			simian.report-xsl.file="${common.dir}/simian/simian.xsl"
-			simian.xml.name="simian-csm.xml"
-			simian.html.name="simian-csm.html"
-			/>
+		<static-analysis-simian simian.src.dir="${csm.java.dir}" simian.rpt.dir="${reports.simian.dir}" simian.report-xsl.file="${common.dir}/simian/simian.xsl" simian.xml.name="simian-csm.xml" simian.html.name="simian-csm.html" />
 
-		<static-analysis-simian
-			simian.src.dir="${securityws.java.dir}"
-			simian.rpt.dir="${reports.simian.dir}"
-			simian.report-xsl.file="${common.dir}/simian/simian.xsl"
-			simian.xml.name="simian-securityws.-securitywsxml"
-			simian.html.name="simian-securityws.html"
-			/>
+		<static-analysis-simian simian.src.dir="${securityws.java.dir}" simian.rpt.dir="${reports.simian.dir}" simian.report-xsl.file="${common.dir}/simian/simian.xsl" simian.xml.name="simian-securityws.-securitywsxml" simian.html.name="simian-securityws.html" />
 
 	</target>
 	<macrodef name="static-analysis-simian">
-		<attribute name="simian.src.dir"/>
-		<attribute name="simian.rpt.dir"/>
-		<attribute name="simian.report-xsl.file"/>
-		<attribute name="simian.xml.name" default="simian.xml"/>
-		<attribute name="simian.html.name" default="simian.html"/>
+		<attribute name="simian.src.dir" />
+		<attribute name="simian.rpt.dir" />
+		<attribute name="simian.report-xsl.file" />
+		<attribute name="simian.xml.name" default="simian.xml" />
+		<attribute name="simian.html.name" default="simian.html" />
 		<sequential>
 			<simian>
-				<fileset dir="@{simian.src.dir}" includes="**/*.java"/>
-				<formatter type="xml" toFile="@{simian.rpt.dir}/@{simian.xml.name}"/>
+				<fileset dir="@{simian.src.dir}" includes="**/*.java" />
+				<formatter type="xml" toFile="@{simian.rpt.dir}/@{simian.xml.name}" />
 			</simian>
 			<xslt in="@{simian.rpt.dir}/@{simian.xml.name}" out="@{simian.rpt.dir}/@{simian.html.name}" style="@{simian.report-xsl.file}" />
 		</sequential>
 	</macrodef>
-	 
-	<target name="static-analysis:pmd"
-		depends="
+
+	<target name="static-analysis:pmd" depends="
 		ivy-init,
 		static-analysis:init
 		">
-		<static-analysis-pmd
-			pmd.src.dir="${upt.java.dir}"
-			pmd.rpt.dir="${reports.pmd.dir}"
-			pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt"
-			pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml"
-			pmd.xml.name="pmd-upt.xml"
-			pmd.html.name="pmd-upt.html"
-			/>
-		<static-analysis-pmd
-			pmd.src.dir="${securityws.java.dir}"
-			pmd.rpt.dir="${reports.pmd.dir}"
-			pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt"
-			pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml"
-			pmd.xml.name="pmd-securityws.xml"
-			pmd.html.name="pmd-securityws.html"
-			/>
-		<static-analysis-pmd
-			pmd.src.dir="${csm.java.dir}"
-			pmd.rpt.dir="${reports.pmd.dir}"
-			pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt"
-			pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml"
-			pmd.xml.name="pmd-csm.xml"
-			pmd.html.name="pmd-csm.html"
-			/>
+		<static-analysis-pmd pmd.src.dir="${upt.java.dir}" pmd.rpt.dir="${reports.pmd.dir}" pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt" pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml" pmd.xml.name="pmd-upt.xml" pmd.html.name="pmd-upt.html" />
+		<static-analysis-pmd pmd.src.dir="${securityws.java.dir}" pmd.rpt.dir="${reports.pmd.dir}" pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt" pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml" pmd.xml.name="pmd-securityws.xml" pmd.html.name="pmd-securityws.html" />
+		<static-analysis-pmd pmd.src.dir="${csm.java.dir}" pmd.rpt.dir="${reports.pmd.dir}" pmd.report-xsl.file="${common.dir}/pmd/pmd-report.xslt" pmd.rule-set.file="${common.dir}/pmd/pmd-ruleset-basic.xml" pmd.xml.name="pmd-csm.xml" pmd.html.name="pmd-csm.html" />
 	</target>
 
 	<macrodef name="static-analysis-pmd">
-		<attribute name="pmd.src.dir"/>
-		<attribute name="pmd.rpt.dir"/>
-		<attribute name="pmd.report-xsl.file"/>
-		<attribute name="pmd.rule-set.file"/>
-		<attribute name="pmd.xml.name" default="pmd.xml"/>
-		<attribute name="pmd.html.name" default="pmd.html"/>
+		<attribute name="pmd.src.dir" />
+		<attribute name="pmd.rpt.dir" />
+		<attribute name="pmd.report-xsl.file" />
+		<attribute name="pmd.rule-set.file" />
+		<attribute name="pmd.xml.name" default="pmd.xml" />
+		<attribute name="pmd.html.name" default="pmd.html" />
 		<sequential>
-			<taskdef name="pmd" 
-				classname="net.sourceforge.pmd.ant.PMDTask"
-				classpathref="project.test.pmd.classpath"/>
-			<pmd shortFilenames="true" 
-				rulesetfiles="@{pmd.rule-set.file}">
-				<formatter type="xml"
-					toFile="@{pmd.rpt.dir}/@{pmd.xml.name}" />
+			<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="project.test.pmd.classpath" />
+			<pmd shortFilenames="true" rulesetfiles="@{pmd.rule-set.file}">
+				<formatter type="xml" toFile="@{pmd.rpt.dir}/@{pmd.xml.name}" />
 				<fileset dir="@{pmd.src.dir}">
-					<include name="**/*.java"/>
+					<include name="**/*.java" />
 				</fileset>
 			</pmd>
-			<xslt taskname="pmd"
-				in="@{pmd.rpt.dir}/@{pmd.xml.name}"
-				out="@{pmd.rpt.dir}/@{pmd.html.name}"
-				style="@{pmd.report-xsl.file}"/>
+			<xslt taskname="pmd" in="@{pmd.rpt.dir}/@{pmd.xml.name}" out="@{pmd.rpt.dir}/@{pmd.html.name}" style="@{pmd.report-xsl.file}" />
 		</sequential>
 	</macrodef>
 
-	<target name="static-analysis:javancss"
-		depends="
+	<target name="static-analysis:javancss" depends="
 		ivy-init,
 		static-analysis:init
 		">
-		<static-analysis-javancss
-			javancss.src.dir="${upt.java.dir}"
-			javancss.rpt.dir="${reports.javancss.dir}"
-			javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl"
-			javancss.xml.name="javancss_metrics_upt.xml"
-			javancss.html.name="javancss_report_upt.html"
-			/>
-		<static-analysis-javancss
-			javancss.src.dir="${securityws.java.dir}"
-			javancss.rpt.dir="${reports.javancss.dir}"
-			javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl"
-			javancss.xml.name="javancss_metrics_securityws.xml"
-			javancss.html.name="javancss_report_securityws.html"
-			/>
-		<static-analysis-javancss
-			javancss.src.dir="${csm.java.dir}"
-			javancss.rpt.dir="${reports.javancss.dir}"
-			javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl"
-			javancss.xml.name="javancss_metrics_csm.xml"
-			javancss.html.name="javancss_report_csm.html"
-			/>
+		<static-analysis-javancss javancss.src.dir="${upt.java.dir}" javancss.rpt.dir="${reports.javancss.dir}" javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl" javancss.xml.name="javancss_metrics_upt.xml" javancss.html.name="javancss_report_upt.html" />
+		<static-analysis-javancss javancss.src.dir="${securityws.java.dir}" javancss.rpt.dir="${reports.javancss.dir}" javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl" javancss.xml.name="javancss_metrics_securityws.xml" javancss.html.name="javancss_report_securityws.html" />
+		<static-analysis-javancss javancss.src.dir="${csm.java.dir}" javancss.rpt.dir="${reports.javancss.dir}" javancss.report-xsl.file="${common.dir}/javancss/javancss2methodhtml.xsl" javancss.xml.name="javancss_metrics_csm.xml" javancss.html.name="javancss_report_csm.html" />
 	</target>
 
 	<macrodef name="static-analysis-javancss">
-		<attribute name="javancss.src.dir"/>
-		<attribute name="javancss.rpt.dir"/>
-		<attribute name="javancss.report-xsl.file"/>
-		<attribute name="javancss.xml.name" default="javancss.xml"/>
-		<attribute name="javancss.html.name" default="javancss.html"/>
+		<attribute name="javancss.src.dir" />
+		<attribute name="javancss.rpt.dir" />
+		<attribute name="javancss.report-xsl.file" />
+		<attribute name="javancss.xml.name" default="javancss.xml" />
+		<attribute name="javancss.html.name" default="javancss.html" />
 		<sequential>
 			<taskdef name="javancss" classpathref="project.test.javancss.classpath" classname="javancss.JavancssAntTask" />
-			<javancss srcdir="@{javancss.src.dir}"
-				includes="**/*.java"
-				excludes="**/*test*/*"
-				generatereport="true"
-				outputfile="@{javancss.rpt.dir}/@{javancss.xml.name}"
-				ccnPerFuncMax="10"
-				format="xml">
+			<javancss srcdir="@{javancss.src.dir}" includes="**/*.java" excludes="**/*test*/*" generatereport="true" outputfile="@{javancss.rpt.dir}/@{javancss.xml.name}" ccnPerFuncMax="10" format="xml">
 			</javancss>
-			<xslt taskname="javancss"
-				in="@{javancss.rpt.dir}/@{javancss.xml.name}"
-				out="@{javancss.rpt.dir}/@{javancss.html.name}"
-				style="@{javancss.report-xsl.file}"/>
+			<xslt taskname="javancss" in="@{javancss.rpt.dir}/@{javancss.xml.name}" out="@{javancss.rpt.dir}/@{javancss.html.name}" style="@{javancss.report-xsl.file}" />
 		</sequential>
 	</macrodef>
 
-	<target name="static-analysis:checkstyle" 
-		depends="
+	<target name="static-analysis:checkstyle" depends="
 		ivy-init,
 		static-analysis:init
 		">
-		<static-analysis-checkstyle
-			checkstyle.src.dir="${upt.java.dir}"
-			checkstyle.rpt.dir="${reports.checkstyle.dir}"
-			checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl"
-			checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml"
-			checkstyle.xml.name="checkstyle-upt.xml"
-			checkstyle.html.name="checkstyle-upt.html"
-			/>
-		<static-analysis-checkstyle
-			checkstyle.src.dir="${securityws.java.dir}"
-			checkstyle.rpt.dir="${reports.checkstyle.dir}"
-			checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl"
-			checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml"
-			checkstyle.xml.name="checkstyle-securityws.xml"
-			checkstyle.html.name="checkstyle-securityws.html"
-			/>
-		<static-analysis-checkstyle
-			checkstyle.src.dir="${csm.java.dir}"
-			checkstyle.rpt.dir="${reports.checkstyle.dir}"
-			checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl"
-			checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml"
-			checkstyle.xml.name="checkstyle-csm.xml"
-			checkstyle.html.name="checkstyle-csm.html"
-			/>
+		<static-analysis-checkstyle checkstyle.src.dir="${upt.java.dir}" checkstyle.rpt.dir="${reports.checkstyle.dir}" checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl" checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml" checkstyle.xml.name="checkstyle-upt.xml" checkstyle.html.name="checkstyle-upt.html" />
+		<static-analysis-checkstyle checkstyle.src.dir="${securityws.java.dir}" checkstyle.rpt.dir="${reports.checkstyle.dir}" checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl" checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml" checkstyle.xml.name="checkstyle-securityws.xml" checkstyle.html.name="checkstyle-securityws.html" />
+		<static-analysis-checkstyle checkstyle.src.dir="${csm.java.dir}" checkstyle.rpt.dir="${reports.checkstyle.dir}" checkstyle.report-xsl.file="${common.dir}/checkstyle/checkstyle-simple.xsl" checkstyle.config.file="${common.dir}/checkstyle/checkstyle_minimal.xml" checkstyle.xml.name="checkstyle-csm.xml" checkstyle.html.name="checkstyle-csm.html" />
 	</target>
 
 	<macrodef name="static-analysis-checkstyle">
-		<attribute name="checkstyle.src.dir"/>
-		<attribute name="checkstyle.rpt.dir"/>
-		<attribute name="checkstyle.report-xsl.file"/>
-		<attribute name="checkstyle.config.file"/>
-		<attribute name="checkstyle.xml.name" default="checkstyle.xml"/>
-		<attribute name="checkstyle.html.name" default="checkstyle.html"/>
+		<attribute name="checkstyle.src.dir" />
+		<attribute name="checkstyle.rpt.dir" />
+		<attribute name="checkstyle.report-xsl.file" />
+		<attribute name="checkstyle.config.file" />
+		<attribute name="checkstyle.xml.name" default="checkstyle.xml" />
+		<attribute name="checkstyle.html.name" default="checkstyle.html" />
 		<sequential>
-			<taskdef resource="checkstyletask.properties"
-				uri="antlib:com.puppycrawl.tools.checkstyle"
-				classpathref="project.test.checkstyle.classpath"/>
-			<cs:checkstyle config="@{checkstyle.config.file}"
-				failOnViolation="false">
-				<formatter type="xml" 
-					tofile="@{checkstyle.rpt.dir}/@{checkstyle.xml.name}"/>
+			<taskdef resource="checkstyletask.properties" uri="antlib:com.puppycrawl.tools.checkstyle" classpathref="project.test.checkstyle.classpath" />
+			<cs:checkstyle config="@{checkstyle.config.file}" failOnViolation="false">
+				<formatter type="xml" tofile="@{checkstyle.rpt.dir}/@{checkstyle.xml.name}" />
 				<fileset dir="@{checkstyle.src.dir}">
-					<include name="**/*.java"/>
+					<include name="**/*.java" />
 				</fileset>
 			</cs:checkstyle>
-			<xslt taskname="checkstyle"
-				in="@{checkstyle.rpt.dir}/@{checkstyle.xml.name}"
-				out="@{checkstyle.rpt.dir}/@{checkstyle.html.name}"
-				style="@{checkstyle.report-xsl.file}"
-				/>
+			<xslt taskname="checkstyle" in="@{checkstyle.rpt.dir}/@{checkstyle.xml.name}" out="@{checkstyle.rpt.dir}/@{checkstyle.html.name}" style="@{checkstyle.report-xsl.file}" />
 		</sequential>
 	</macrodef>
 
-	<target name="static-analysis:findbugs" 
-		depends="
+	<target name="static-analysis:findbugs" depends="
 		compile:all,
 		ivy-init,
 		findbugs-init,
 		static-analysis:init
 		">
-		<mkdir dir="${reports.findbugs.dir}/upt"/>
-		<mkdir dir="${reports.findbugs.dir}/csm"/>
-		<mkdir dir="${reports.findbugs.dir}/securityws"/>
+		<mkdir dir="${reports.findbugs.dir}/upt" />
+		<mkdir dir="${reports.findbugs.dir}/csm" />
+		<mkdir dir="${reports.findbugs.dir}/securityws" />
 
-		<static-analysis-findbugs
-			findbugs.home.dir="${findbugs.home.dir}"
-			findbugs.src.dir="${upt.java.dir}"
-			findbugs.classes.dir="${upt.classes.dir}"
-			findbugs.rpt.dir="${reports.findbugs.dir}/upt"
-			findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl"
-			findbugs.app.classpath.dir="${lib.dir}/upt/runtime"
-			findbugs.jboss.classpath.dir="${test.jboss.dir}"
-			findbugs.xml.name="findbugs-upt.xml"
-			findbugs.html.name="findbugs-upt.html"
-			/>
-		<static-analysis-findbugs
-			findbugs.home.dir="${findbugs.home.dir}"
-			findbugs.src.dir="${csm.java.dir}"
-			findbugs.classes.dir="${csm.classes.dir}"
-			findbugs.rpt.dir="${reports.findbugs.dir}/csm"
-			findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl"
-			findbugs.app.classpath.dir="${lib.dir}/api/runtime"
-			findbugs.jboss.classpath.dir="${test.jboss.dir}"
-			findbugs.xml.name="findbugs-csm.xml"
-			findbugs.html.name="findbugs-csm.html"
-			/>
-		<static-analysis-findbugs
-			findbugs.home.dir="${findbugs.home.dir}"
-			findbugs.src.dir="${securityws.java.dir}"
-			findbugs.classes.dir="${securityws.classes.dir}"
-			findbugs.rpt.dir="${reports.findbugs.dir}/securityws"
-			findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl"
-			findbugs.app.classpath.dir="${lib.dir}/securityws/runtime"
-			findbugs.jboss.classpath.dir="${test.jboss.dir}"
-			findbugs.xml.name="findbugs-securityws.xml"
-			findbugs.html.name="findbugs-securityws.html"
-			/>
+		<static-analysis-findbugs findbugs.home.dir="${findbugs.home.dir}" findbugs.src.dir="${upt.java.dir}" findbugs.classes.dir="${upt.classes.dir}" findbugs.rpt.dir="${reports.findbugs.dir}/upt" findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl" findbugs.app.classpath.dir="${lib.dir}/upt/runtime" findbugs.jboss.classpath.dir="${test.jboss.dir}" findbugs.xml.name="findbugs-upt.xml" findbugs.html.name="findbugs-upt.html" />
+		<static-analysis-findbugs findbugs.home.dir="${findbugs.home.dir}" findbugs.src.dir="${csm.java.dir}" findbugs.classes.dir="${csm.classes.dir}" findbugs.rpt.dir="${reports.findbugs.dir}/csm" findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl" findbugs.app.classpath.dir="${lib.dir}/api/runtime" findbugs.jboss.classpath.dir="${test.jboss.dir}" findbugs.xml.name="findbugs-csm.xml" findbugs.html.name="findbugs-csm.html" />
+		<static-analysis-findbugs findbugs.home.dir="${findbugs.home.dir}" findbugs.src.dir="${securityws.java.dir}" findbugs.classes.dir="${securityws.classes.dir}" findbugs.rpt.dir="${reports.findbugs.dir}/securityws" findbugs.report-xsl.file="${findbugs.home.dir}/src/xsl/fancy.xsl" findbugs.app.classpath.dir="${lib.dir}/securityws/runtime" findbugs.jboss.classpath.dir="${test.jboss.dir}" findbugs.xml.name="findbugs-securityws.xml" findbugs.html.name="findbugs-securityws.html" />
 	</target>
 
 	<macrodef name="static-analysis-findbugs">
-		<attribute name="findbugs.home.dir"/>
-		<attribute name="findbugs.src.dir"/>
-		<attribute name="findbugs.rpt.dir"/>
-		<attribute name="findbugs.classes.dir"/>
-		<attribute name="findbugs.report-xsl.file"/>
-		<attribute name="findbugs.app.classpath.dir"/>
-		<attribute name="findbugs.jboss.classpath.dir"/>
-		<attribute name="findbugs.xml.name" default="findbugs.xml"/>
-		<attribute name="findbugs.html.name" default="findbugs.html"/>
+		<attribute name="findbugs.home.dir" />
+		<attribute name="findbugs.src.dir" />
+		<attribute name="findbugs.rpt.dir" />
+		<attribute name="findbugs.classes.dir" />
+		<attribute name="findbugs.report-xsl.file" />
+		<attribute name="findbugs.app.classpath.dir" />
+		<attribute name="findbugs.jboss.classpath.dir" />
+		<attribute name="findbugs.xml.name" default="findbugs.xml" />
+		<attribute name="findbugs.html.name" default="findbugs.html" />
 		<sequential>
-			<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="project.test.findbugs.classpath"/>
-	
-			<findbugs home="@{findbugs.home.dir}"
-				output="xml:withMessages"
-				outputFile="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
-				jvmargs="-Xms128m -Xmx512m"
-				>
+			<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="project.test.findbugs.classpath" />
+
+			<findbugs home="@{findbugs.home.dir}" output="xml:withMessages" outputFile="@{findbugs.rpt.dir}/@{findbugs.xml.name}" jvmargs="-Xms128m -Xmx512m">
 				<auxClasspath>
 					<fileset dir="@{findbugs.app.classpath.dir}">
 						<include name="**/*.jar" />
@@ -1045,15 +836,11 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 						<include name="**/*.jar" />
 					</fileset>
 				</auxClasspath>
-				
+
 				<sourcePath path="@{findbugs.src.dir}" />
 				<class location="@{findbugs.classes.dir}" />
 			</findbugs>
-			<xslt taskname="findbugs"
-				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
-				out="@{findbugs.rpt.dir}/@{findbugs.html.name}"
-				style="@{findbugs.report-xsl.file}"
-				/>
+			<xslt taskname="findbugs" in="@{findbugs.rpt.dir}/@{findbugs.xml.name}" out="@{findbugs.rpt.dir}/@{findbugs.html.name}" style="@{findbugs.report-xsl.file}" />
 			<!--
 			<xslt taskname="findbugs"
 				in="@{findbugs.rpt.dir}/@{findbugs.xml.name}"
@@ -1083,53 +870,28 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			-->
 		</sequential>
 	</macrodef>
-		
-	<target name="static-analysis:cobertura" 
-		depends="
+
+	<target name="static-analysis:cobertura" depends="
 		compile:all,
 		ivy-init,
 		static-analysis:init
 		">
-		<mkdir dir="${basedir}/instrumented/csm"/>
-		<mkdir dir="${basedir}/instrumented/securityws"/>
-		<mkdir dir="${basedir}/instrumented/upt"/>
-		<static-analysis-cobertura
-			cobertura.src.dir="${upt.java.dir}"
-			cobertura.classes.dir="${upt.classes.dir}"
-			cobertura.rpt.dir="${reports.cobertura.dir}/upt"
-			cobertura.instrumented.dir="${basedir}/instrumented/upt"
-			cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl"
-			cobertura.ser.file="cobertura.ser"
-			cobertura.config.file="${common.dir}/cobertura/cobertura.xml"
-			/>
-		<static-analysis-cobertura
-			cobertura.src.dir="${csm.java.dir}"
-			cobertura.classes.dir="${csm.classes.dir}"
-			cobertura.rpt.dir="${reports.cobertura.dir}/csm"
-			cobertura.instrumented.dir="${basedir}/instrumented/csm"
-			cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl"
-			cobertura.ser.file="cobertura.ser"
-			cobertura.config.file="${common.dir}/cobertura/cobertura.xml"
-			/>
-		<static-analysis-cobertura
-			cobertura.src.dir="${securityws.java.dir}"
-			cobertura.classes.dir="${securityws.classes.dir}"
-			cobertura.rpt.dir="${reports.cobertura.dir}/securityws"
-			cobertura.instrumented.dir="${basedir}/instrumented/securityws"
-			cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl"
-			cobertura.ser.file="cobertura.ser"
-			cobertura.config.file="${common.dir}/cobertura/cobertura.xml"
-			/>
+		<mkdir dir="${basedir}/instrumented/csm" />
+		<mkdir dir="${basedir}/instrumented/securityws" />
+		<mkdir dir="${basedir}/instrumented/upt" />
+		<static-analysis-cobertura cobertura.src.dir="${upt.java.dir}" cobertura.classes.dir="${upt.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/upt" cobertura.instrumented.dir="${basedir}/instrumented/upt" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
+		<static-analysis-cobertura cobertura.src.dir="${csm.java.dir}" cobertura.classes.dir="${csm.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/csm" cobertura.instrumented.dir="${basedir}/instrumented/csm" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
+		<static-analysis-cobertura cobertura.src.dir="${securityws.java.dir}" cobertura.classes.dir="${securityws.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/securityws" cobertura.instrumented.dir="${basedir}/instrumented/securityws" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
 	</target>
 
 	<macrodef name="static-analysis-cobertura">
-		<attribute name="cobertura.src.dir"/>
-		<attribute name="cobertura.rpt.dir"/>
-		<attribute name="cobertura.classes.dir"/>
-		<attribute name="cobertura.instrumented.dir"/>
-		<attribute name="cobertura.report-xsl.file"/>
-		<attribute name="cobertura.ser.file"/>
-		<attribute name="cobertura.config.file"/>
+		<attribute name="cobertura.src.dir" />
+		<attribute name="cobertura.rpt.dir" />
+		<attribute name="cobertura.classes.dir" />
+		<attribute name="cobertura.instrumented.dir" />
+		<attribute name="cobertura.report-xsl.file" />
+		<attribute name="cobertura.ser.file" />
+		<attribute name="cobertura.config.file" />
 		<sequential>
 			<taskdef classpathref="project.test.cobertura.classpath" resource="tasks.properties" />
 			<cobertura-instrument todir="@{cobertura.instrumented.dir}" datafile="@{cobertura.instrumented.dir}/@{cobertura.ser.file}">
@@ -1137,7 +899,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 					<include name="**" />
 				</fileset>
 			</cobertura-instrument>
-	
+
 			<cobertura-report datafile="@{cobertura.instrumented.dir}/@{cobertura.ser.file}" format="html" destdir="@{cobertura.rpt.dir}">
 				<fileset dir="@{cobertura.src.dir}">
 					<include name="**/*.java" />

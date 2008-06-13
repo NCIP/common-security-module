@@ -5,7 +5,7 @@
 	<property name="target.dir" value="${common.dir}/target/csmapi" />
 	<property name="local.repo.dir" value="${basedir}/../local-ivy-repo/${ant.project.name}" />
 
-	<property name="global.ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
+	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
 
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="src" />
@@ -44,7 +44,7 @@
 	<!-- Targets -->
 
 	<target name="ivy-settings">
-		<ivy:settings file="${global.ivy.settings.file}" />
+		<ivy:settings file="${ivy.settings.file}" />
 	</target>
 
 	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
@@ -57,9 +57,9 @@
 		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
 	</target>
 
-
-	<target name="ivy-clean-cache" description="Cleans local Ivy cache">
-		<delete dir="${user.home}/.ivy-${ant.project.name}" />
+	<target name="ivy-clean-cache" description="Cleans project Ivy cache">
+		<ivy:settings file="${ivy.settings.file}" />
+		<ivy:cleancache />
 	</target>
 
 	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
