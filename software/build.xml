@@ -82,11 +82,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- Properties related to creating the distribution -->
 	<property name="dist.dir" value="dist"/>
-	<property name="csm.install.name" value="csm_install" />
-	<property name="csm.upgrade.name" value="csm_ugprade" />
-	<property name="csm.version" value="3.1" />
-	<property name="csm.upgrade.zip.file" value="${csm.upgrade.name}${csm.version}.zip" />
-	<property name="csm.install.zip.file" value="${csm.install.name}${csm.version}.zip" />
 
 	<!-- Default install time targets passed by deploy targets to the installer, can be overridden by being set on the command line if different target is desitred.  -->
 	<property name="install.target" value="install"/>
@@ -476,58 +471,53 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<echo message="The server is not started as part of local deployment.  You will need to run $JBOSS_HOME/bin/run.bat (or run.sh if you are linux)."/>
 	</target>
 
-	<!-- Cleans remote deployment area and ensure required directorys are created -->
-	<target name="deploy:remote:prep">
-		<property name="ssh.prop.list" value="ssh.server.username,ssh.server.hostname,ssh.port,ssh.key.file,ssh.dir.temp"/>
-		<properties-exist properties.list="${ssh.prop.list}"/>
-		<!-- add call to bad directory checker once it is a separate macro on macrodefs.xml -->
-		<remote-ssh remotesshcommand="rm -rf ${ssh.dir.temp};mkdir -p ${ssh.dir.temp}" />
-		<!-- work around for issue where basedir is required but is not currently used -->
-		<remote-ssh remotesshcommand="mkdir -p ${ssh.dir.temp}/lib" />
-	</target>
+	<macrodef name="deploy-files">
+		<attribute name="ssh.user" default="${ssh.server.username}"/>
+		<attribute name="ssh.host" default="${ssh.server.hostname}"/>
+		<attribute name="remote.directory.property.name" default="ssh.dir.temp"/>
+		<attribute name="properties.file" default="${properties.file}"/>
+		<attribute name="dist.dir" default="${dist.dir}"/>
+		<attribute name="dist.file" />
+		<sequential>
+			<!-- Validate remote directory is valid -->
+			<propertycopy name="remote.dir" from="@{remote.directory.property.name}" />
+			<check-valid-directory-name
+				directory.property="remote.dir"
+				/>
+			<!-- Delete/re-create remote directory -->
+			<remote-ssh remotesshcommand="rm -rf ${remote.dir};mkdir -p ${remote.dir}" />
+			<!-- work around for issue where basedir is required but is not currently used -->
+			<remote-ssh remotesshcommand="mkdir -p ${remote.dir}/lib" />
 
-	<!-- Copies the distrbution to the remote system -->
-	<target name="deploy:remote:install:copy">
-		<remote-scp remoteScpFileToCopy="${dist.dir}/${csm.install.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
-		<remote-scp remoteScpFileToCopy="${properties.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
-	</target>
-
-	<!-- Extracts the distribution on the remote system -->
-	<target name="deploy:remote:install:extract">
-		<remote-ssh remotesshcommand="cd ${ssh.dir.temp}; unzip -q ${csm.install.zip.file}" />
-	</target>
+			<!-- copy distribution and prop file to remote system -->
+			<remote-scp remoteScpFileToCopy="@{dist.dir}/@{dist.file}" remoteScpToDir="@{ssh.user}@@@{ssh.host}:${remote.dir}" />
+			<remote-scp remoteScpFileToCopy="@{properties.file}" remoteScpToDir="@{ssh.user}@@@{ssh.host}:${remote.dir}" />
+			<!-- Extract zip file -->
+			<remote-ssh remotesshcommand="cd ${remote.dir}; unzip -q @{dist.file}" />
+		</sequential>
+	</macrodef>
 
 	<!-- Install the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point installer to correct enviornment to install into -->
 	<target name="deploy:remote:install"
 		depends="
 		build:all,
-		dist:installer,
-		deploy:remote:prep,
-		deploy:remote:install:copy,
-		deploy:remote:install:extract
+		dist:installer
 		">
+		<deploy-files
+			dist.file="${csm.install.zip.file}"
+			/>
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.target}" />
-	</target>
-
-	<!-- Copies distribution to remote system -->
-	<target name="deploy:remote:upgrade:copy">
-		<remote-scp remoteScpFileToCopy="${dist.dir}/${csm.upgrade.zip.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
-		<remote-scp remoteScpFileToCopy="${properties.file}" remoteScpToDir="${ssh.server.username}@${ssh.server.hostname}:${ssh.dir.temp}" />
-	</target>
-	<!-- Extracts distribution on remote system -->
-	<target name="deploy:remote:upgrade:extract">
-		<remote-ssh remotesshcommand="cd ${ssh.dir.temp}; unzip -q ${csm.upgrade.zip.file}" />
 	</target>
 
 	<!-- Upgrades the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point upgrader to correct enviornment to upgrade -->
 	<target name="deploy:remote:upgrade"
 		depends="
 		build:all,
-		dist:upgrader,
-		deploy:remote:prep,
-		deploy:remote:upgrade:copy,
-		deploy:remote:upgrade:extract
+		dist:upgrader
 		">
+		<deploy-files
+			dist.file="${csm.upgrade.zip.file}"
+			/>
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${upgrade.target}" />
 	</target>
 
