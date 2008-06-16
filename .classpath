@@ -26,7 +26,6 @@
 	<classpathentry kind="lib" path="software/securityws/WebRoot/WEB-INF/lib/saaj.jar"/>
 	<classpathentry kind="lib" path="software/securityws/WebRoot/WEB-INF/lib/spring.jar"/>
 	<classpathentry kind="lib" path="software/securityws/WebRoot/WEB-INF/lib/wsdl4j-1.5.1.jar"/>
-	<classpathentry kind="lib" path="software/upt/otherlib/servlet.jar"/>
 	<classpathentry kind="lib" path="software/upt/webapp/public_html/WEB-INF/lib/acegi-security-1.0.3.jar"/>
 	<classpathentry kind="lib" path="software/upt/webapp/public_html/WEB-INF/lib/antlr-2.7.6rc1.jar"/>
 	<classpathentry kind="lib" path="software/upt/webapp/public_html/WEB-INF/lib/aopalliance-1.0.jar"/>
@@ -96,5 +95,6 @@
 	<classpathentry kind="lib" path="software/lib/api/compile/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="software/lib/api/compile/spring-1.2.8.jar"/>
 	<classpathentry kind="lib" path="software/lib/api/compile/clm-4.0.jar"/>
+	<classpathentry kind="var" path="CSM_BASE/lib/upt/runtime/servlet-2.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
