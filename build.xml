@@ -921,6 +921,24 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		</sequential>
 	</macrodef>
 
+	<target name="test:all" description="Used by static-analysis, required since dist target cleans up generated classes that are required by some static analysis tools" depends="
+			init,
+			test:csm,
+			test:upt,
+			test:securityws
+			" />
+
+	<target name="test:csm" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${csm.build.file}" target="test" dir="${csm.base.dir}" />
+	</target>
+
+	<target name="test:upt" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="test" dir="${upt.base.dir}" />
+	</target>
+
+	<target name="test:securityws" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}" target="test" dir="${securityws.base.dir}" />
+	</target>
 	<!-- Static Analysis  & testing targets 
 		<property name="src.test.dir" value="${basedir}/test" />
 		<property name="test.classes.dir" value="${basedir}/test-classes" />
