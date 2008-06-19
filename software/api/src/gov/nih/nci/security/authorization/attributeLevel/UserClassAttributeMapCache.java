@@ -114,7 +114,7 @@ public class UserClassAttributeMapCache
 			{
 				classAttributeMap = new ClassAttributeMap(className); 
 			}
-			List  attributeList = authorizationManager.getAttributeMapForGroup(userName, className, privilegeName);
+			List  attributeList = authorizationManager.getAttributeMap(userName, className, privilegeName);
 			if (null!= attributeList && attributeList.size() != 0)
 			{
 				if(classAttributeMap!=null)
