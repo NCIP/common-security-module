@@ -13,7 +13,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<!-- Properties file related properties and tasks -->
 	<property environment="env" />
 	<property file="project.properties"/>
-	<property name="properties.file" value="${basedir}/install.properties"/>
+	<property name="properties.file" value="${basedir}/upgrade.properties"/>
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2"/>
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2"/>
 	<property file="${properties.file}" />
