@@ -273,7 +273,13 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</fileset>
 		</copy>
 		<!-- Set default target on install xml to install -->
-		<replaceregexp file="${target.dir}/install.xml" byline="true" match="(.project.*default=.)\w+(.\s+.*)" replace="\1install\2" />
+		<replaceregexp file="${target.dir}/install.xml" byline="true"
+			match="(.project.*default=.)\w+(.\s+.*)"
+		       	replace="\1install\2" />
+		<replaceregexp file="${target.dir}/install.xml" byline="true"
+			match="(.*property name=.\$\{properties.file\} value=.)[\w\.\d\-\_]+(.\s+.*)"
+			replace="\1install.properties\2"/>
+
 		<!-- Rename install.xml to build.xml so manual installs will not need to include the -f optoin on ant, simplifying the install proces. -->
 		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml" />
 
@@ -330,7 +336,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</fileset>
 		</copy>
 		<!-- Change default target of install.xml to upgrade -->
-		<replaceregexp file="${target.dir}/install.xml" byline="true" match="(.project.*default=.)\w+(.\s+.*)" replace="\1install\2" />
+		<replaceregexp file="${target.dir}/install.xml" byline="true"
+			match="(.project.*default=.)\w+(.\s+.*)"
+			replace="\1upgrade\2" />
+		<replaceregexp file="${target.dir}/install.xml" byline="true"
+			match="(.*property name=.\$\{properties.file\} value=.)[\w\.\d\-\_]+(.\s+.*)"
+			replace="\1upgrade.properties\2"/>
 		<!-- Rename install.xml to build.xml to simply install but not having to provide -f option to ant command line -->
 		<move file="${target.dir}/install.xml" tofile="${target.dir}/build.xml" />
 
