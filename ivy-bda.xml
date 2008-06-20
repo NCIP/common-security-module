@@ -14,6 +14,6 @@ This is the definition of a virtual module called bda-download that has a depend
 	<publications>
 	</publications>
 	<dependencies>
-		<dependency org="ncicb" name="bda-utils" rev="0.2-beta" force="true" conf="runtime"/>
+		<dependency org="ncicb" name="bda-utils" rev="0.2.0" force="true" conf="runtime"/>
 	</dependencies>
 </ivy-module>
