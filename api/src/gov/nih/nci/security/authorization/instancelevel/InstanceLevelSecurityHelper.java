@@ -45,25 +45,7 @@ public class InstanceLevelSecurityHelper
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
-		if(isMySQLDatabase(props)){
-			needsOptimisation = true;
-			String strDialect = props.getProperty("hibernate.dialect");
-			
-			if(strDialect!=null && strDialect.equalsIgnoreCase(Constants.HIBERNATE_MYSQL_DIALECT)){
-				// Dialect is MySQL. Substitute CSM's custom dialect to register Constants.CSM_FILTER_ALIAS as a keyword.
-				props.setProperty("hibernate.dialect", "gov.nih.nci.security.dialect.CSMMySQLInnoDBDialect");
-			}else{
-				/* Custom Dialect is being Used. 
-				 * Check if Constants.CSM_FILTER_ALIAS is registered as a Keyword by the Custom Dialect.
-				 * TODO: Unable to check the Dialect without building SessionFactory. 
-				 * It doesnt seem like a good idea to build SessionFactory at this point since the Filters arent added or initialized yet.
-				 * So for right now just give an indication to developers on console that key word needs to be registered.
-				 * For more information refer the documentation.
-				 * */
-
-				//System.out.println("Note: A Custom MySQL Dialect is configured instead of the 'org.hibernate.dialect.MySQLDialect'. Ensure that CSM Filter Alias is registered as a Keyword.");
-			}
-		}
+		needsOptimisation = isMySQLDatabase(props,true);
 		
 		FilterClause searchFilterClause = new FilterClause();
 		searchFilterClause.setClassName("*");
@@ -106,9 +88,8 @@ public class InstanceLevelSecurityHelper
 		
 
 		boolean needsOptimisation = false;
-		if(isMySQLDatabase(props)){
-			needsOptimisation = true;	
-		}
+		needsOptimisation = isMySQLDatabase(props,false);
+		
 
 		List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>();
 		FilterClause searchFilterClause = new FilterClause();
@@ -145,25 +126,8 @@ public class InstanceLevelSecurityHelper
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
-		if(isMySQLDatabase(props)){
-			needsOptimisation = true;
-			String strDialect = props.getProperty("hibernate.dialect");
-			
-			if(strDialect!=null && strDialect.equalsIgnoreCase(Constants.HIBERNATE_MYSQL_DIALECT)){
-				// Dialect is MySQL. Substitute CSM's custom dialect to register Constants.CSM_FILTER_ALIAS as a keyword. 
-				props.setProperty("hibernate.dialect", "gov.nih.nci.security.dialect.CSMMySQLInnoDBDialect");
-			}else{
-				/* Custom Dialect is being Used. 
-				 * Check if Constants.CSM_FILTER_ALIAS is registered as a Keyword by the Custom Dialect.
-				 * TODO: Unable to check the Dialect without building SessionFactory. 
-				 * It doesnt seem like a good idea to build SessionFactory at this point since the Filters arent added or initialized yet.
-				 * So for right now just give an indication to developers on console that key word needs to be registered.
-				 * For more information refer the documentation.
-				 * */
-
-				System.out.println("Note: A Custom MySQL Dialect is configured instead of the 'org.hibernate.dialect.MySQLDialect'. Ensure that CSM Filter Alias is registered as a Keyword.");
-			}
-		}
+		needsOptimisation = isMySQLDatabase(props,true);
+		
 		
 		FilterClause searchFilterClause = new FilterClause();
 		searchFilterClause.setClassName("*");
@@ -208,9 +172,7 @@ public class InstanceLevelSecurityHelper
 		
 
 		boolean needsOptimisation = false;
-		if(isMySQLDatabase(props)){
-			needsOptimisation = true;	
-		}
+		needsOptimisation = isMySQLDatabase(props,false);
 		
 		List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>();
 		
@@ -287,7 +249,7 @@ public class InstanceLevelSecurityHelper
 	
 	private static String optimiseFilterQuery(Boolean needsOptimisation, String filterSQL) {
 		
-		if(needsOptimisation){
+		if(needsOptimisation && filterSQL!=null){
 
 			StringBuffer strbfr = new StringBuffer();
 			
@@ -312,7 +274,7 @@ public class InstanceLevelSecurityHelper
 					strbfr.append(filterSQL.substring(startInsertCount,endInsertCount+queryPart2Length));
 					strbfr.append(") "+Constants.CSM_FILTER_ALIAS+" ");
 					strbfr.append(filterSQL.substring(endInsertCount+queryPart2Length));
-					//System.out.println(strbfr.toString());
+					System.out.println(strbfr.toString());
 					
 				}
 				if(filterSQL.indexOf(":USER_NAME")>0){
@@ -348,27 +310,35 @@ public class InstanceLevelSecurityHelper
 	 * @param props
 	 * @return
 	 */
-	private static boolean isMySQLDatabase(Properties props) {
+	private static boolean isMySQLDatabase(Properties props, boolean propsChangeAllowed) {
 
 		boolean returnval = false;
-		try {
-			String driverName = props.getProperty("hibernate.connection.driver");
-			if(driverName!=null)
-				Class.forName(props.getProperty("hibernate.connection.driver"));
-		} catch(java.lang.ClassNotFoundException e) {
-			e.printStackTrace();
+		String strDialect = null;
+		if(props.containsKey("hibernate.dialect")){
+			strDialect = props.getProperty("hibernate.dialect");
+		}else{
+			if(props.containsKey("dialect")){
+				strDialect = props.getProperty("dialect");
+			}
 		}
-		try{ 
-			 Connection dbConnection=DriverManager.getConnection(props.getProperty("hibernate.connection.url"),props.getProperty("hibernate.connection.username"),props.getProperty("hibernate.connection.password"));
-			 DatabaseMetaData meta = dbConnection.getMetaData();
-				String databaseName = meta.getDatabaseProductName();
-				if(databaseName.equalsIgnoreCase("MySQL")) {
-					returnval = true;
-				}
+		
+		if(strDialect!=null && strDialect.equalsIgnoreCase(Constants.HIBERNATE_MYSQL_DIALECT)){
+			// Dialect is MySQL. Substitute CSM's custom dialect to register Constants.CSM_FILTER_ALIAS as a keyword.
+			if(propsChangeAllowed){
+				props.setProperty("hibernate.dialect", "gov.nih.nci.security.dialect.CSMMySQLInnoDBDialect");
+				props.setProperty("dialect", "gov.nih.nci.security.dialect.CSMMySQLInnoDBDialect");
 			}
-			catch( SQLException sqe ){
-				sqe.printStackTrace();
-			}
+			returnval=true;
+		}else{
+			/* Database is not MySQL or Custom Dialect is being Used. 
+			 * 
+			 * TODO: Unable to check the Dialect without building SessionFactory. 
+			 * It doesnt seem like a good idea to build SessionFactory at this point since the Filters arent added or initialized yet.
+			 * So for right now just give an indication to developers on console that key word needs to be registered.
+			 * For more information refer the documentation.
+			 * */
+		}
+		
 		return returnval;
 	}	
 
