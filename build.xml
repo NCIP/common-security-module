@@ -381,14 +381,14 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 				<include name="*.properties" />
 			</fileset>
 		</copy>
-		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}">
+		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}" failonerror="true">
 			<!-- use alternate properties file since default has replace values -->
 			<arg value="-Dproperties.file=linux-install.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
 			<arg value="-Dforce.reinstall=true" />
 			<arg value="${install.target}" />
 		</exec>
-		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${target.dir}">
+		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${target.dir}" failonerror="true">
 			<!-- use alternate properties file since default has replace values -->
 			<arg value="-Dproperties.file=windows-install.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
@@ -423,7 +423,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</then>
 		</if>
 
-		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}">
+		<exec os="Linux, Max OS X" executable="ant" dir="${target.dir}" failonerror="true">
 			<!-- use alternate properties file since default has replace values -->
 			<arg value="-Dproperties.file=linux-upgrade.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
@@ -431,7 +431,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<arg value="-Dlocal.install=true" />
 			<arg value="${upgrade.target}" />
 		</exec>
-		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${target.dir}">
+		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${target.dir}" failonerror="true">
 			<!-- use alternate properties file since default has replace values -->
 			<arg value="-Dproperties.file=windows-upgrade.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
