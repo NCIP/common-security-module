@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -213,16 +214,33 @@ public class InstanceLevelSecurityHelper
 	 */
 	public static void initializeFiltersForGroups(String[] groupNames, Session session, AuthorizationManager authorizationManager)
 	{
+		List<String> sessionGroupFilterNamesList = new ArrayList<String>();
+		
 		SessionFactory sessionFactory = session.getSessionFactory();
-		Set set = sessionFactory.getDefinedFilterNames();
-		Iterator iterator = set.iterator();
-		while (iterator.hasNext())
-		{
-			String filterName = (String)iterator.next();
+		Set sessionFilterNamesSet = sessionFactory.getDefinedFilterNames();
+
+		Iterator sessionFilterNamesSetIterator = sessionFilterNamesSet.iterator();
+		while (sessionFilterNamesSetIterator.hasNext()){
+			String filterName = (String)sessionFilterNamesSetIterator.next();
+			FilterDefinition filterDefinition = sessionFactory.getFilterDefinition(filterName);
+			if(filterDefinition!=null){
+				Set<String> parameterNamesSet = filterDefinition.getParameterNames();
+				if(parameterNamesSet!=null && parameterNamesSet.contains("GROUP_NAMES")){
+					sessionGroupFilterNamesList.add(filterName);
+				}
+			}
+				
+		}
+		
+		Iterator sessionGroupFilterNamesListIterator = sessionGroupFilterNamesList.iterator();
+		while(sessionGroupFilterNamesListIterator.hasNext()){
+			String filterName = (String)sessionGroupFilterNamesListIterator.next();
 			Filter filter = session.enableFilter(filterName);
 			filter.setParameterList("GROUP_NAMES", groupNames);
 			filter.setParameter("APPLICATION_ID", authorizationManager.getApplicationContext().getApplicationId());
 		}
+
+		
 	}
 	
 	/**
@@ -235,16 +253,33 @@ public class InstanceLevelSecurityHelper
 	 */
 	public static void initializeFilters(String userName, Session session, AuthorizationManager authorizationManager)
 	{
+		
+		List<String> sessionUserFilterNamesList = new ArrayList<String>();
 		SessionFactory sessionFactory = session.getSessionFactory();
-		Set set = sessionFactory.getDefinedFilterNames();
-		Iterator iterator = set.iterator();
-		while (iterator.hasNext())
-		{
-			String filterName = (String)iterator.next();
+		Set sessionFilterNamesSet = sessionFactory.getDefinedFilterNames();
+
+		
+		
+		Iterator sessionFilterNamesSetIterator = sessionFilterNamesSet.iterator();
+		while (sessionFilterNamesSetIterator.hasNext()){
+			String filterName = (String)sessionFilterNamesSetIterator.next();
+			FilterDefinition filterDefinition = sessionFactory.getFilterDefinition(filterName);
+			if(filterDefinition!=null){
+				Set<String> parameterNamesSet = filterDefinition.getParameterNames();
+				if(parameterNamesSet!=null && parameterNamesSet.contains("USER_NAME")){
+					sessionUserFilterNamesList.add(filterName);
+				}	
+			}		
+		}
+		
+		Iterator sessionUserFilterNamesListIterator = sessionUserFilterNamesList.iterator();
+		while(sessionUserFilterNamesListIterator.hasNext()){
+			String filterName = (String)sessionUserFilterNamesListIterator.next();
 			Filter filter = session.enableFilter(filterName);
 			filter.setParameter("USER_NAME", userName);
 			filter.setParameter("APPLICATION_ID", authorizationManager.getApplicationContext().getApplicationId());
 		}
+
 	}
 	
 	private static String optimiseFilterQuery(Boolean needsOptimisation, String filterSQL) {
