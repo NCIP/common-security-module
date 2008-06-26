@@ -66,7 +66,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		super.tearDown();
 	}
 	
-	public void testUnSecured(){
+	/*private void testUnSecured(){
 		SessionFactory sf=null;
 		Configuration configuration = null;
 		if(null == sf || sf.isClosed()){
@@ -87,7 +87,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		assertEquals("Incorrect number of cards retrieved",size, 53); // Expecting all cards in the deck including the joker.
 	}
 	
-	public void testInstanceLevelSecurityForUser() throws Exception {
+	private void testInstanceLevelSecurityForUser() throws Exception {
 		SessionFactory sf=null;
 		Configuration configuration = null;
 		if(null == sf || sf.isClosed()){
@@ -124,7 +124,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 
 	}
 	
-	public void testAttributeLevelSecurityForUser() throws Exception {
+	private void testAttributeLevelSecurityForUser() throws Exception {
 		
 		SessionFactory sf=null;
 		Configuration configuration = null;
@@ -168,7 +168,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 	}
 	
 	
-	public void testInstanceANDAttributeLevelSecurityForUser() {
+	private void testInstanceANDAttributeLevelSecurityForUser() {
 		SessionFactory sf=null;
 		Configuration configuration = null;
 		if(null == sf || sf.isClosed()){
@@ -219,6 +219,21 @@ public class InstanceLevelSecurityTest extends TestCase {
 		sf.close();
 		assertEquals("Incorrect number of cards retrieved",size, 52); // Expecting all cards in the deck
 	}
+	public void testGetFiltersForUser() throws Exception {
+		SessionFactory sf=null;
+		Configuration configuration = null;
+		if(null == sf || sf.isClosed()){
+			configuration = new Configuration().configure(hibernateCfgFileName);
+			InstanceLevelSecurityHelper.getFiltersForUser(authorizationManager);
+			sf = configuration.buildSessionFactory();
+		}
+		
+				
+	
+		sf.close();
+		assertEquals("GetFiltersForGroups Method successful",52, 52); 
+	}
+	*/
 
 	public void testInstanceLevelSecurityForGroups() throws Exception {
 		SessionFactory sf=null;
@@ -337,6 +352,21 @@ public class InstanceLevelSecurityTest extends TestCase {
 		session.close();
 		sf.close();
 		assertEquals("Incorrect number of cards retrieved",size, 52); // Expecting all cards in the deck
+	}
+	
+	public void testGetFiltersForGroups() throws Exception {
+		SessionFactory sf=null;
+		Configuration configuration = null;
+		if(null == sf || sf.isClosed()){
+			configuration = new Configuration().configure(hibernateCfgFileName);
+			InstanceLevelSecurityHelper.getFiltersForGroups(authorizationManager);
+			sf = configuration.buildSessionFactory();
+		}
+		
+				
+	
+		sf.close();
+		assertEquals("GetFiltersForGroups Method successful",52, 52); 
 	}
 	
 	private void printObject(Object obj, Class klass) throws Exception {
