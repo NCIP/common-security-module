@@ -54,6 +54,10 @@ public class HibernateHelper
 		try
 		{
 			AnnotationConfiguration configuration = new AnnotationConfiguration().configure(url);
+			if(configuration.getProperty("hibernate.cache.use_second_level_cache")==null || configuration.getProperty("cache.use_second_level_cache")==null){
+				configuration.setProperty("hibernate.cache.use_second_level_cache","false");
+				configuration.setProperty("cache.use_second_level_cache","false");
+			}
 			JDBCHelper.testConnectionHibernate(configuration);
 			
 			sessionFactory = configuration.buildSessionFactory();
