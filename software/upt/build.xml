@@ -55,7 +55,7 @@
 		<ivy:cleancache />
 	</target>
 
-	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
+	<target name="-pre-clean" description="Performs all necessary clean-up before a build">
 		<delete dir="${classes.dir}" quiet="false" />
 	</target>
 
@@ -81,6 +81,8 @@
 
 	<target name="-post-compile" depends="compile" description="Post-compile operations">
 		<copy file="${src.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" />
+		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
+		<copy file="${src.dir}/gov/nih/nci/security/upt/resources/ApplicationResources.properties" todir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
 	</target>
 
 	<target name="war" depends="compile, -post-compile, ivy-runtime" description="Generate upt.war">
