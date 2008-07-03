@@ -22,31 +22,7 @@
 				<artifact pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
 			</url>
 
-			<!-- begin csmupt specific stuff -->
-			<filesystem name="api-resolver" local="true">
-				<artifact pattern="${csmupt.basedir}/lib/[module]/[conf]/[artifact]-[revision].[ext]" />
-				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
-			</filesystem>
-
-			<filesystem name="securityws-resolver" local="true">
-				<artifact pattern="${csmupt.basedir}/lib/securityws/[conf]/[artifact]-[revision].[ext]" />
-				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
-			</filesystem>
-
-			<filesystem name="upt-resolver" local="true">
-				<artifact pattern="${csmupt.basedir}/lib/upt/[conf]/[artifact]-[revision].[ext]" />
-				<ivy pattern="${csmupt.basedir}/[module]/ivy.xml" />
-			</filesystem>
-
-			<!-- end csmupt specific stuff -->
-
 		</chain>
 	</resolvers>
-
-	<modules>
-		<module organisation="ncicb" name="api" resolver="api-resolver" />
-		<module organisation="ncicb" name="securityws" resolver="securityws-resolver" />
-		<module organisation="ncicb" name="upt" resolver="upt-resolver" />
-	</modules>
 
 </ivysettings>
