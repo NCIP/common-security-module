@@ -407,119 +407,18 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 
 	<!-- Fixes hibernate dialect and other configurations in code generated at build time.  This is requred because the properties/options selected at build time can be different than those used at install time. -->
 	<target name="install:jboss:upt:re-configure" unless="exclude.jboss">
-	    
-	    
-		<!--
-		<delete dir="${working.dir}/upt-ear"/>
-		<delete dir="${working.dir}/upt-war"/>
-		<delete dir="${working.dir}/${upt-api.file.src}"/>
-		<delete dir="${working.dir}//upt/imageZippingMDB-jar"/>
+		<!-- 
+		<delete dir="${working.dir}/generic-webapp"/>
+		<unzip src="${generic-webapp.dir.dist}/${generic-webapp.war.file}" dest="${working.dir}/generic-webapp"/>
+		<copy todir="${working.dir}/generic-webapp/WEB-INF/classes" file="${jboss-conf.dir.dest}/hibernate.cfg.xml"/>
 
-		
-		<mkdir dir="${working.dir}/upt-ear"/>
-		<mkdir dir="${working.dir}/upt-war"/>
-		<mkdir dir="${working.dir}/${upt-api.file.src}"/>
-		<mkdir dir="${working.dir}/upt/imageZippingMDB.jar"/>
-
-		
-		<unzip src="${basedir}/upt-ear/upt.ear" dest="${working.dir}/upt-ear"/>
-		<unzip src="${working.dir}/upt-ear/upt.war" dest="${working.dir}/upt-war"/>
-		<unzip src="${upt-core-grid.dir.src}/${upt-api.file.src}" dest="${working.dir}/${upt-api.file.src}"/>
-		<unzip src="${working.dir}/upt-ear/imageZippingMDB.jar" dest="${working.dir}/imageZippingMDB-jar"/>
-
-		
-		<xmlconfig in="${working.dir}/upt-war/WEB-INF/classes/upt.csm.new.hibernate.cfg.xml" verbose="false">
-			<update path="(//session-factory)/property[@name='dialect']" value="${database.dialect}"/>
-		</xmlconfig>
-
-		<xmlconfig in="${working.dir}/upt-war/WEB-INF/classes/upt.csm.new.hibernate.cfg.xml" verbose="false">
-			<update path="(//session-factory)/property[@name='dialect']" value="${database.dialect}"/>
-		</xmlconfig>
-		<xmlconfig in="${working.dir}/upt-war/WEB-INF/classes/upt.hibernate.cfg.xml" verbose="false">
-			<update path="(//session-factory)/property[@name='dialect']" value="${database.dialect}"/>
-		</xmlconfig>
-
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^(hibernate.dialect.*)"
-			replace="#\1"/>
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^(hibernate.connection.driver_class.*)"
-			replace="#\1"/>
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^#+(hibernate.dialect ${database.dialect})"
-			replace="\1"/>
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^#+(hibernate.connection.driver_class ${database.driver})"
-			replace="\1"/>
-
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/conf/hibernate.properties" byline="true"
-			match="^(hibernate.dialect.*)"
-			replace="#\1"/>
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/conf/hibernate.properties" byline="true"
-			match="^(hibernate.connection.driver_class.*)"
-			replace="#\1"/>
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/conf/hibernate.properties" byline="true"
-			match="^#+(hibernate.dialect ${database.dialect})"
-			replace="\1"/>
-		<replaceregexp file="${working.dir}/upt-war/WEB-INF/conf/hibernate.properties" byline="true"
-			match="^#+(hibernate.connection.driver_class ${database.driver})"
-			replace="\1"/>
-		
-		<replaceregexp file="${working.dir}/${upt-api.file.src}/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^(hibernate.dialect.*)"
-			replace="#\1"/>
-		<replaceregexp file="${working.dir}/${upt-api.file.src}/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^(hibernate.connection.driver_class.*)"
-			replace="#\1"/>
-		<replaceregexp file="${working.dir}/${upt-api.file.src}/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^#+(hibernate.dialect ${database.dialect})"
-			replace="\1"/>
-		<replaceregexp file="${working.dir}/${upt-api.file.src}/WEB-INF/classes/hibernate.properties" byline="true"
-			match="^#+(hibernate.connection.driver_class ${database.driver})"
-			replace="\1"/>
-
-		
-		<replaceregexp file="${working.dir}/upt/uptwar/WEB-INF/classes/mail.properties" byline="true"
-			match="^(host)=(.*)"
-			replace="\1=${mail.smtp.server}"/>
-		<replace dir="${working.dir}" token="localhost:59080" value="${jboss.server.hostname}:${jboss.server.port}">
-			<include name="**/database.properties" />
-			<include name="**/remoteService.xml" />
-		</replace>
-
-		<xmlconfig in="${working.dir}/imageZippingMDB-jar/upt.hibernate.cfg.xml" verbose="false">
-			<update path="(//property)[@name='dialect']" value="${database.dialect}" />
-		</xmlconfig>
-
-		
-		<move file="${basedir}/upt-ear/upt.ear" tofile="${basedir}/upt-ear/upt.ear.orig"/>
-		<move file="${upt-core-grid.dir.src}/${upt-api.file.src}" tofile="${upt-core-grid.dir.src}/${upt-api.file.src}.orig"/>
-
-		
-		<jar jarfile="${working.dir}/upt-ear/imageZippingMDB.jar" compress="false" manifest="${working.dir}/imageZippingMDB-jar/META-INF/MANIFEST.MF">
-			<fileset dir="${working.dir}/imageZippingMDB-jar">
+		<move file="${generic-webapp.dir.dist}/${generic-webapp.war.file}" tofile="${generic-webapp.dir.dist}/${generic-webapp.war.file}.orig"/>
+		<war destfile="${generic-webapp.dir.dist}/${generic-webapp.war.file}" compress="false" webxml="${working.dir}/generic-webapp/WEB-INF/web.xml" >
+			<fileset dir="${working.dir}/generic-webapp">
 				<include name="*/**" />
 			</fileset>
-		</jar>
-		<war destfile="${working.dir}/upt-ear/upt.war" compress="false" webxml="${working.dir}/upt-war/WEB-INF/web.xml" >
-			<fileset dir="${working.dir}/upt-war">
-				<include name="*/**" />
-			</fileset>
-		</war>
-
-		<ear compress="false" destfile="${basedir}/upt-ear/upt.ear" appxml="${working.dir}/upt-ear/META-INF/application.xml">
-			<fileset dir="${working.dir}/upt-ear">
-				<include name="*/**" />
-			</fileset>
-		</ear>
-
-		<war destfile="${upt-core-grid.dir.src}/${upt-api.file.src}" compress="false" webxml="${working.dir}/${upt-api.file.src}/WEB-INF/web.xml" >
-			<fileset dir="${working.dir}/${upt-api.file.src}">
-				<include name="*/**" />
-			</fileset>
-		</war>
-
-	-->
+		</war>  
+		-->
 	</target>
 
 	<!-- Wrapper target to upgrade jboss container. Does not install or configure binaries -->
