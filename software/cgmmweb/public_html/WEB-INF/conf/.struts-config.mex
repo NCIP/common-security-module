@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowViewLayout Version="1.2">
+  <StrutsActivity path="/Home.do" location="60,45" dimension="253,88" />
+  <StrutsActivity path="/Login.do" location="345,165" dimension="264,88" />
+  <StrutsActivity path="/Query.do" location="660,300" dimension="264,88" />
+  <StrutsActivity path="/QueryResultsPaging.do" location="975,375" dimension="269,88" />
+  <StrutsActivity path="/Logout.do" location="1290,465" dimension="269,88" />
+  <StrutsActivity path="Home;6" location="50,350" dimension="86,75" />
+  <StrutsActivity path="showPublicLogin;6" location="350,450" dimension="124,75" />
+  <StrutsActivity path="showHome;6" location="50,550" dimension="95,75" />
+  <StrutsActivity path="showQuery;6" location="650,550" dimension="98,75" />
+  <StrutsActivity path="showQueryResults;6" location="950,550" dimension="133,75" />
+  <StrutsActivity path="logout;6" location="50,750" dimension="92,75" />
+  <StrutsActivity path="page.home" location="540,-30" dimension="83,49" />
+  <StrutsActivity path="page.public.home" location="405,690" dimension="114,49" />
+  <StrutsActivity path="/body/public_home.jsp" location="375,285" dimension="138,49" />
+  <StrutsActivity path="page.query.results" location="915,165" dimension="121,49" />
+  <StrutsActivity path="page.query" location="765,180" dimension="85,49" />
+  <StrutsActivity path="/body/queryresults.jsp" location="1290,330" dimension="139,49" />
+  <StrutsActivity path="/body/querymain.jsp" location="735,420" dimension="129,49" />
+  <StrutsActivity path="/body/publichome.jsp" location="650,750" dimension="132,49" />
+  <StrutsTransition id="/Login.do,showPublicLogin,page.public.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="534,253" />
+      <AbsolutePoint location="534,714" />
+      <AbsolutePoint location="519,714" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="Home;6,null,/Home.do,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="93,350" />
+      <AbsolutePoint location="93,133" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="showHome;6,null,page.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="50,587" />
+      <AbsolutePoint location="-10,587" />
+      <AbsolutePoint location="-10,-5" />
+      <AbsolutePoint location="540,-5" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Query.do,showQueryResults,page.query.results,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="924,345" />
+      <AbsolutePoint location="990,345" />
+      <AbsolutePoint location="990,214" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/QueryResultsPaging.do,showPublicLogin,page.public.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1109,463" />
+      <AbsolutePoint location="1109,900" />
+      <AbsolutePoint location="432,900" />
+      <AbsolutePoint location="432,739" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/QueryResultsPaging.do,showQueryResults,page.query.results,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1021,375" />
+      <AbsolutePoint location="1021,214" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="page.query.results,null,/QueryResultsPaging.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="975,189" />
+      <AbsolutePoint location="1109,419" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Home.do,showHome,page.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="313,89" />
+      <AbsolutePoint location="581,89" />
+      <AbsolutePoint location="581,19" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/body/public_home.jsp,null,/Home.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="375,309" />
+      <AbsolutePoint location="186,309" />
+      <AbsolutePoint location="186,133" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Query.do,showPublicLogin,page.public.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="660,349" />
+      <AbsolutePoint location="489,349" />
+      <AbsolutePoint location="489,690" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/body/queryresults.jsp,null,/QueryResultsPaging.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1359,379" />
+      <AbsolutePoint location="1359,419" />
+      <AbsolutePoint location="1244,419" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/QueryResultsPaging.do,showHome,page.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1139,375" />
+      <AbsolutePoint location="1139,-105" />
+      <AbsolutePoint location="611,-105" />
+      <AbsolutePoint location="611,-30" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="page.query,null,/Query.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="807,204" />
+      <AbsolutePoint location="792,344" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Login.do,showQueryResults,page.query.results,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="477,165" />
+      <AbsolutePoint location="477,-75" />
+      <AbsolutePoint location="975,-75" />
+      <AbsolutePoint location="975,165" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Home.do,showPublicHome,page.public.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="156,133" />
+      <AbsolutePoint location="156,714" />
+      <AbsolutePoint location="405,714" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="logout;6,null,/Logout.do,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="96,825" />
+      <AbsolutePoint location="96,990" />
+      <AbsolutePoint location="1424,990" />
+      <AbsolutePoint location="1424,553" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="showQuery;6,null,page.query,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="650,587" />
+      <AbsolutePoint location="246,587" />
+      <AbsolutePoint location="246,148" />
+      <AbsolutePoint location="807,148" />
+      <AbsolutePoint location="807,180" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/QueryResultsPaging.do,showQuery,page.query,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1109,375" />
+      <AbsolutePoint location="1109,268" />
+      <AbsolutePoint location="822,268" />
+      <AbsolutePoint location="822,229" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Query.do,showQuery,page.query,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="792,300" />
+      <AbsolutePoint location="792,229" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="page.public.home,null,/Login.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="489,739" />
+      <AbsolutePoint location="489,765" />
+      <AbsolutePoint location="585,765" />
+      <AbsolutePoint location="585,253" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Login.do,showQuery,page.query,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="609,209" />
+      <AbsolutePoint location="765,209" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="showPublicLogin;6,null,page.public.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="420,525" />
+      <AbsolutePoint location="420,690" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Query.do,showHome,page.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="750,300" />
+      <AbsolutePoint location="750,-5" />
+      <AbsolutePoint location="623,-5" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Login.do,showHome,page.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="555,165" />
+      <AbsolutePoint location="555,19" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="showQueryResults;6,null,page.query.results,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="960,550" />
+      <AbsolutePoint location="960,214" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/Logout.do,showPublicLogin,page.public.home,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1394,553" />
+      <AbsolutePoint location="1394,670" />
+      <AbsolutePoint location="459,670" />
+      <AbsolutePoint location="459,690" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+</FlowViewLayout>
+

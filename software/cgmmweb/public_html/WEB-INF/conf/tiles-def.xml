@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+"http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+<tiles-definitions>
+
+  <definition name="HomeLayout" page="/WEB-INF/pages/layout/layout.jsp">
+    <put name="nci_header" value="/WEB-INF/pages/header/nciheader.jsp" />
+    <put name="app_header" value="/WEB-INF/pages/header/appheader.jsp" />
+    <put name="app_footer" value="/WEB-INF/pages/footer/appfooter.jsp" />
+    <put name="nci_footer" value="/WEB-INF/pages/footer/ncifooter.jsp" />
+    <put name="menu" value="/WEB-INF/pages/menu/menu.jsp" />
+    <put name="title" type="string" value="Common Security Moduile - GAARDS User Migration Tool"/>
+  </definition>
+  
+
+  <definition name="page.public.home" extends="HomeLayout">
+	<put name="content" value="/WEB-INF/pages/body/publichome.jsp" />
+  </definition>  
+
+  <definition name="page.home" extends="HomeLayout">
+	<put name="content"   value="/WEB-INF/pages/body/home.jsp" />
+
+  </definition>  
+
+  <definition name="page.csmLogin" extends="HomeLayout">
+	<put name="content"   value="/WEB-INF/pages/body/csmLogin.jsp" />
+  </definition>  
+  <definition name="page.gridLogin" extends="HomeLayout">
+	<put name="content"   value="/WEB-INF/pages/body/gridLogin.jsp" />
+  </definition>  
+  <definition name="page.newGridUser" extends="HomeLayout">
+	<put name="content"   value="/WEB-INF/pages/body/newGridUser.jsp" />
+  </definition>    
+</tiles-definitions>

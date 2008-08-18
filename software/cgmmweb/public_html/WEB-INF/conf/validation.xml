@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+
+
+
+	<global>
+		<constant>
+        <constant-name>phone</constant-name>
+        <constant-value>^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$</constant-value>
+     </constant>
+     <constant>
+        <constant-name>zip</constant-name>
+        <constant-value>^\d{5}(-\d{4})?$</constant-value>
+     </constant>
+     <constant>
+        <constant-name>customDate</constant-name>
+        <constant-value>(((0?[1-9])|(1[012]))[- /.]((0?[1-9])|([12][0-9])|(3[01]))[- /.]((19|20)[0-9][0-9]))</constant-value>
+     </constant>
+     <constant>
+        <constant-name>email</constant-name>
+        <constant-value>\w@\w.$\w</constant-value>
+     </constant>
+	</global>
+
+	<formset>
+		<form name="csmLoginForm">
+			<field property="loginID" depends="required">
+				<arg0 key="label.login_id" />
+			</field>
+			<field property="password" depends="required">
+				<arg0 key="label.login_password" />
+			</field>
+		</form>
+		<form name="gridLoginForm">
+			<field property="loginID" depends="required">
+				<arg0 key="label.login_id" />
+			</field>
+			<field property="password" depends="required">
+				<arg0 key="label.login_password" />
+			</field>
+			
+		</form>
+		
+    <form name="NewGridUserForm">
+		<field property="firstName" depends="required,maxlength">
+  			<arg0 key="label.new_user_first_name"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+		<field property="lastName" depends="required,maxlength">
+  			<arg0 key="label.new_user_first_name"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+		<field property="userName" depends="required,maxlength">
+  			<arg0 key="label.new_user_name"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+  		<field property="password" depends="required,maxlength">
+  			<arg0 key="label.new_user_password"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+  		<field property="email" depends="required,maxlength,email">
+  			<arg0 key="label.new_user_email"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+	  	<field property="phone" depends="required,mask">
+  			<arg0 key="label.new_user_phone"/>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>${phone}</var-value>
+  			</var>
+  		</field>
+		<field property="organization" depends="required,maxlength">
+  			<arg0 key="label.new_user_organization"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+  		<field property="address1" depends="required,maxlength">
+  			<arg0 key="label.new_user_address_1"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+		<field property="address2" depends="maxlength">
+  			<arg0 key="label.new_user_address_2"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+  		<field property="city" depends="required,maxlength">
+  			<arg0 key="label.new_user_city"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+  		<field property="state" depends="required">
+  			<arg0 key="label.new_user_state"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+		<field property="postalCode" depends="required,zip">
+  			<arg0 key="label.new_user_postal_code"/>
+  			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
+  			<var>
+  				<var-name>maxlength</var-name>
+  				<var-value>100</var-value>
+  			</var>
+  		</field>
+  		<field property="country" depends="required">
+  			<arg0 key="label.new_user_country"/>
+  			
+  		</field>
+      </form>
+		
+
+	</formset>
+
+
+
+</form-validation>
