@@ -3,13 +3,13 @@
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="common.dir" value="${basedir}/../" />
-	<property name="target.dir" value="${common.dir}/target/upt" />
+	<property name="target.dir" value="${common.dir}/target/dist/exploded/upt" />
 	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
 	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
 
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="webapp/src" />
-	<property name="lib.dir" value="${common.dir}/lib/" />
+	<property name="lib.dir" value="${common.dir}/target/lib/" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="web.dir" value="${basedir}/webapp/public_html" />
@@ -19,7 +19,7 @@
 
 	<!-- Paths -->
 	<path id="common.classpath">
-		<fileset dir="${common.dir}/lib">
+		<fileset dir="${common.dir}/target/lib">
 			<include name="ivy-core-2.0.0-beta2.jar" />
 			<include name="ivy-2.0.0-beta2.jar" />
 		</fileset>
@@ -42,12 +42,12 @@
 
 	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="compile" />
-		<ivy:retrieve pattern="${common.dir}/lib/upt/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+		<ivy:retrieve pattern="${lib.dir}/upt/[conf]/[artifact]-[revision].[ext]" conf="compile" />
 	</target>
 
 	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="runtime" />
-		<ivy:retrieve pattern="${common.dir}/lib/upt/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
+		<ivy:retrieve pattern="${lib.dir}/upt/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
 	</target>
 
 	<target name="ivy-clean-cache" description="Cleans project Ivy cache">
@@ -100,7 +100,7 @@
 			<fileset dir="../common/resources/db/postgresql" />
 			<fileset dir="../common/resources/db/sqlserver" />
 		</copy>
-		<copy todir="${target.dir}" file="${common.dir}/lib/upt/runtime/clm-4.0.jar" />
+		<copy todir="${target.dir}" file="${lib.dir}/upt/runtime/clm-4.0.jar" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">

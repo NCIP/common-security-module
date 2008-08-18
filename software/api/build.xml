@@ -2,7 +2,7 @@
 	<description>CSM API Project Build File</description>
 
 	<property name="common.dir" value="${basedir}/.." />
-	<property name="target.dir" value="${common.dir}/target/csmapi" />
+	<property name="target.dir" value="${common.dir}/target/dist/exploded/csmapi" />
 	<property name="local.repo.dir" value="${basedir}/../local-ivy-repo/${ant.project.name}" />
 
 	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
@@ -10,11 +10,11 @@
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="src" />
 
-	<property name="lib.dir" value="${common.dir}/lib" />
+	<property name="lib.dir" value="${common.dir}/target/lib" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="local.lib.dir" value="lib" />
-	<property name="base.lib.dir" value="../lib" />
+	<property name="base.lib.dir" value="${common.dir}/target/lib" />
 
 	<property name="classes.dir" location="${basedir}/classes" />
 	<property name="common.resources" location="../common/resources/jboss-conf" />
@@ -22,7 +22,7 @@
 
 	<!-- Paths -->
 	<path id="common.classpath">
-		<fileset dir="${common.dir}/lib">
+		<fileset dir="${common.dir}/target/lib">
 			<include name="ivy-core-2.0.0-beta2.jar" />
 			<include name="ivy-2.0.0-beta2.jar" />
 		</fileset>
