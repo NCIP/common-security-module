@@ -1,0 +1,113 @@
+<project name="cgmmweb" default="all" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<description>CSM GAARDS User Migration Module - Web Component Build File</description>
+
+	<property name="ivy.settings.dir" value="${basedir}/../common" />
+	<property name="common.dir" value="${basedir}/../" />
+	<property name="target.dir" value="${common.dir}/target/cgmmweb" />
+	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
+	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
+
+	<!-- set global properties for this build -->
+	<property name="src.dir" location="webapp/src" />
+	<property name="lib.dir" value="${common.dir}/lib/" />
+
+	<!-- This will be removed once all jars are retrieved from Ivy -->
+	<property name="web.dir" value="${basedir}/webapp/public_html" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
+	<property name="war.file" value="cgmmweb.war" />
+
+	<!-- Paths -->
+	<path id="common.classpath">
+		<fileset dir="${common.dir}/lib">
+			<include name="ivy-core-2.0.0-beta2.jar" />
+			<include name="ivy-2.0.0-beta2.jar" />
+		</fileset>
+	</path>
+
+	<path id="project.compile.classpath">
+		<fileset dir="${lib.dir}/cgmmweb/compile">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Task definitions -->
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="common.classpath" />
+
+	<!-- Targets -->
+
+	<target name="ivy-settings" depends="-init">
+		<ivy:settings override="true" file="${ivy.settings.file}" />
+	</target>
+
+	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="compile" />
+		<ivy:retrieve pattern="${common.dir}/lib/cgmmweb/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+	</target>
+
+	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="runtime" />
+		<ivy:retrieve pattern="${common.dir}/lib/cgmmweb/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
+	</target>
+
+	<target name="ivy-clean-cache" description="Cleans project Ivy cache">
+		<ivy:settings file="${ivy.settings.file}" />
+		<ivy:cleancache />
+	</target>
+
+	<target name="-pre-clean" description="Performs all necessary clean-up before a build">
+		<delete dir="${classes.dir}" quiet="false" />
+	</target>
+
+	<target name="-init" description="Initializes the system before a build">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${lib.dir}/cgmmweb/compile" />
+		<mkdir dir="${lib.dir}/cgmmweb/runtime" />
+		<!--  MAKE SURE TO REMOVE THE LIB JARS from WEB-INF/lib folder once runtime jars are ivyfied.-->
+		<copy todir="${build.dir}">
+			<fileset dir="${web.dir}" />
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}/cgmmweb/runtime" includes="**/*.jar" />
+		</copy>
+	</target>
+
+	<target name="compile" depends="-pre-clean, -init, ivy-compile" description="Compiles all the files in the project">
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="true" deprecation="true" classpathref="project.compile.classpath" />
+	</target>
+
+	<target name="-post-compile" depends="compile" description="Post-compile operations">
+		<copy file="${src.dir}/cgmmweb.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" />
+		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/cgmmweb/resources" />
+		<copy file="${src.dir}/gov/nih/nci/security/upt/resources/ApplicationResources.properties" todir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/cgmmweb/resources" />
+	</target>
+
+	<target name="war" depends="compile, -post-compile, ivy-runtime" description="Generate cgmmweb.war">
+		<jar jarfile="${target.dir}/${war.file}" basedir="${build.dir}" />
+	</target>
+
+	<target name="dist" depends="war" description="generate the distribution">
+		<copy todir="${target.dir}">
+			<fileset dir="../common/resources/jboss-conf" />
+			<fileset dir="resources">
+				<exclude name="ObjectStateLoggerConfig.xml" />
+			</fileset>
+			<fileset dir="../common/resources/db/mysql" />
+			<fileset dir="../common/resources/db/oracle" />
+			<fileset dir="../common/resources/db/postgresql" />
+			<fileset dir="../common/resources/db/sqlserver" />
+		</copy>
+		<copy todir="${target.dir}" file="${common.dir}/lib/cgmmweb/runtime/clm-4.0.jar" />
+	</target>
+
+	<target name="-post-clean" description="Performs necessary clean-up after a build">
+		<delete dir="${classes.dir}" quiet="false" />
+		<delete dir="${build.dir}" quiet="false" />
+	</target>
+
+	<target name="all" depends="dist, -post-clean" description="Default project target" />
+
+</project>

@@ -1,0 +1,299 @@
+font 
+{  	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; font-style: normal; 
+	line-height: normal; 
+	font-weight: normal; 
+	font-variant: normal; 
+	color: #000000
+}
+
+
+td 
+{  
+	font-family: 
+	Arial, Helvetica, sans-serif; 
+	font-style: normal; 
+	line-height: normal; 
+	font-weight: normal; 
+	font-variant: normal; 
+	text-transform: none
+}
+
+
+
+body 
+{  
+	background-color: #FFFFFF
+}
+
+.error
+{
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 14pt; 
+	color: red;	
+	text-align: center
+}
+
+.framesetbody 
+{
+	background: #0033CC
+}
+
+.copyright {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+			  font-size: 8pt; 
+			  font-style: italic; 
+			  font-weight: normal; 
+			  color: #000000
+}
+
+.normalBold {  font-family: Verdana, Arial, Helvetica, sans-serif; 
+			   font-size: 10pt; font-style: normal; 
+			   font-weight: bold; 
+			   color: #000000
+}
+
+.framesetHeader 
+{
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12pt; 
+	font-weight: 700; 
+	color: #FFFFFF
+}
+
+.pageTitle 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 14pt; 
+	font-weight: normal; 
+	color: #9999cc
+}
+.pageHeader
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 14pt; 
+	font-weight: normal; 
+	color: #333366
+}
+
+
+.detailsubsection 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12pt; 
+	font-weight: bold; 
+	color: #333366
+}
+.subsection 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12pt; 
+	font-weight: bold; 
+	color: #003333
+
+}
+
+.detailsubsection {  
+        font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12pt; 
+	font-weight: bold; 
+	color: #333366
+}
+
+.pageFooter 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 8pt; 
+	font-weight: normal; 
+	color: #003333
+}
+
+.sideBar 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10pt; 
+	font-weight: bold; 
+	color: #000000; 
+	background-color: #9999CC
+}
+
+.cellBackground 
+{  
+	background-color: #FFFFFF
+}
+
+.requiredFieldLabel 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-weight: bold; 
+	color: #000000
+}
+
+.detailRequiredFieldLabel {  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10pt; 
+	font-weight: 
+	bold; color: #000000
+}
+
+.optionalFieldLabel 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-weight: normal; 
+	color: #000000
+}
+
+.detailOptionalFieldLabel {  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10pt; 
+	font-weight: normal; 
+	color: #000000
+}
+
+.text 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-weight: normal; 
+	color: #000000
+}
+
+
+
+.disclaimerText 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt; 
+	font-weight: normal; 
+	color: #000000
+}
+
+.dropDown 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt
+}
+
+.textField 
+{  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 9pt
+}
+
+.basefont {  
+ 	font-family: Arial, Helvetica, sans-serif; 
+ 	font-size: 10pt; 
+ 	color: #000000
+ }
+
+.bigFont {  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 14pt; 
+	font-weight: bold; 
+	color: #000000
+}
+
+.subsectionBlack { 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12pt; 
+	font-weight: bold; 
+	color: #000000
+}
+
+.italic {  
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 10pt; 
+	color: navy; 
+	font-style: italic
+}
+.stestBlack {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: 600;
+	color: #000000;
+}
+.stestRed {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color:red
+}
+.stestGreen {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color:green
+}
+
+.stestYellow {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color:maroon
+}
+.stestBlue { 
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #0000FF;
+}
+
+p {  font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #FFFFFF}
+a {  color: #0000FF; font-family: Arial, Helvetica, sans-serif; font-size: 10pt; text-decoration: underline;}
+
+
+.headerAuditTool { background: #0033CC; }
+
+.header-s
+{
+	font-family: Helvetica,sans-serif; 
+	font-size: 1.5em; 
+	font-weight : bold; 
+	color: #000033;
+}
+
+
+/* Query Table Class */
+.queryTableHeader    { background: #009900; align: center; font-family: veranda; font-weight: 700; color: #FFFFFF; font-size: 10pt; text-align: center;}
+.queryTableFooter    { background: #009900; align: left; font-family: veranda; font-weight: 700; color: #FFFFFF; font-size: 10pt; text-align: center;}
+.queryTableDataGrey  { background: #CCCCCC; align: center; font-family: veranda; font-weight: normal; color: #000000; font-size: 9pt; text-align: center;}
+.queryTableDataWhite { background: #FFFFFF; align: center; font-family: veranda; font-weight: normal; color: #000000; font-size: 9pt; text-align: center;}
+
+.queryInfoList	{ background: #0033CC; align: center; font-family: veranda; font-weight: 700; color: #FFFFFF; font-size: 12pt; text-align: center;}
+/* <font background=#0033CC align="center" color=#FFFFFF> */
+
+/* Event details classes */
+.AuditDetailsHeader { background: #CCCCCC; align:center; font-family: veranda; font-weight: normal; color: #000000; font-size:10pt; text-align: center;}
+.AuditDetailsBody { background: #FFFFFF; align:left; font-family: veranda; font-weight: normal; color: #000000; font-size:10pt; text-align: left;}
+.AuditDetailsFooter { background: #00CC00; align:center; font-family: veranda; font-weight: normal; color: #000000; font-size:10pt; text-align: center;}
+
+/* Labels */
+.formLabelRequired { font-family: Arial, Helvetica, sans-serif; font-weight: 700; color: #000000; font-size: 9pt}
+.formLabelOptional { font-family: Arial, Helvetica, sans-serif; font-weight: normal; color: #000000; font-size: 9pt}
+.formLabelwhite    { font-family: Arial, Helvetica, sans-serif; font-weight: 700; color: #FFFFFF; font-size: 9pt}
+.formLabelyellow   { font-family: Arial, Helvetica, sans-serif; font-weight: 700; color: #FFFF00; font-size: 9pt}
+.displayLabel	   { font-family: Arial, Helvetica, sans-serif; font-weight: bold; color: #000000; font-size: 9pt}
+/* <font size=3 color=#000000><b> */
+.displayValue	   { font-family: Arial, Helvetica, sans-serif; font-weight: 550; color: #000000; font-size: 11pt}
+/* <font color=#000000> */
+
+
+/* Form Field attributes */
+.fieldTextRegular { font-family: Arial, Helvetica, sans-serif; font-size: 9pt ; width: 5cm }
+.fieldTextHalf { font-family: Arial, Helvetica, sans-serif; font-size: 9pt ; width: 2cm}
+
+
+/* Select attributes */
+.dropDownFieldTextRegular { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; width: 5cm}
+
+/* Header formatting tags (Basically unused) */
+h1 {  font-family: Arial, Helvetica, sans-serif; font-size: 18pt; color: #333333}
+h2 {  font-family: Arial, Helvetica, sans-serif; font-size: 14pt; color: #FFFFFF}
+h3 {  font-family: Arial, Helvetica, sans-serif; font-size: 12pt; color: #003333}
+h4 {  font-family: Arial, Helvetica, sans-serif; font-size: 20pt; color: #FE3030; align: center}
+

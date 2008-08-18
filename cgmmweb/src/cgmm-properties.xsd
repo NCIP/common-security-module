@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="authentication-service-information">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="service-name"/>
+				<xs:element ref="service-url"/>
+				<xs:element ref="dorian-information"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="authentication-service-list">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="authentication-service-information" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dorian-information">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="service-url"/>
+				<xs:element ref="proxy-lifetime-hours"/>
+				<xs:element ref="proxy-lifetime-minutes"/>
+				<xs:element ref="proxy-lifetime-seconds"/>
+				<xs:element ref="proxy-delegation-path-length"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="cgmm-information">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="cgmm-context-name"/>
+				<xs:element ref="start-auto-syncgts"/>
+				<xs:element ref="cgmm-ui-host-application-logo"/>
+				<xs:element ref="cgmm-ui-menu-display-value-for-csm"/>
+				<xs:element ref="cgmm-ui-menu-display-value-for-grid"/>
+				<xs:element ref="cgmm-new-grid-user-creation-disabled"/>
+				<xs:element ref="cgmm-new-grid-user-creation-host-redirect-uri"/>
+				<xs:element ref="error-messages"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="host-application-information">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="host-context-name"/>
+				<xs:element ref="host-public-home-page-url"/>
+				<xs:element ref="host-user-home-page-url"/>
+				<xs:element ref="host-new-local-user-creation-url"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="error-messages">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="error-csm-invalid-credentials" type="xs:string"/>
+				<xs:element name="error-grid-invalid-credentials" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="cgmm-new-grid-user-creation-disabled" type="xs:string"/>
+	<xs:element name="cgmm-new-grid-user-creation-host-redirect-uri" type="xs:string" nillable="true"/>
+	<xs:element name="cgmm-context-name" type="xs:string"/>
+	<xs:element name="cgmm-ui-menu-display-value-for-csm" type="xs:string"/>
+	<xs:element name="cgmm-ui-menu-display-value-for-grid" type="xs:string"/>
+	<xs:element name="cgmm-ui-host-application-logo" type="xs:string"/>
+	<xs:element name="host-context-name" type="xs:string"/>
+	<xs:element name="host-public-home-page-url" type="xs:string"/>
+	<xs:element name="host-user-home-page-url" type="xs:string"/>	
+	<xs:element name="host-new-local-user-creation-url" type="xs:string"/>
+	<xs:element name="start-auto-syncgts" type="xs:string"/>
+	<xs:element name="host-credential-certificate-file-path" type="xs:string"/>
+	<xs:element name="host-credential-key-file-path" type="xs:string"/>
+	<xs:element name="group-name" type="xs:string"/>
+	<xs:element name="host-identity" type="xs:string"/>
+	<xs:element name="service-name" type="xs:string"/>
+	<xs:element name="service-url" type="xs:anyURI"/>
+	<xs:element name="proxy-lifetime-hours" type="xs:integer"/>
+	<xs:element name="proxy-lifetime-minutes" type="xs:integer"/>
+	<xs:element name="proxy-lifetime-seconds" type="xs:integer"/>
+	<xs:element name="proxy-delegation-path-length" type="xs:integer"/>
+	<xs:element name="cgmm-properties">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="cgmm-information"/>
+				<xs:element ref="host-application-information"/>
+				<xs:element ref="authentication-service-list"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
