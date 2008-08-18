@@ -37,19 +37,19 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- BDA standard structure -->
 	<property name="build.dir" location="." />
-	<property name="software.dir" value=".." />
-	<property name="common.dir" value="${software.dir}/common" />
-	<property name="local.repo.dir" value="${software.dir}/local-ivy-repo" />
-	<property name="target.dir" value="${software.dir}/target" />
-	<property name="bda-download.dir" value="${common.dir}/bda-download" />
-	<property name="ivy.settings.dir" value="${common.dir}/ivy" />
-	<property name="lib.dir" value="${target.dir}/lib" />
-	<property name="temp.dir" value="${target.dir}/temp" />
-	<property name="reports.dir" value="${target.dir}/reports" />
-	<property name="bda-utils.dir" value="${target.dir}/bda-utils" />
-	<property name="log.dir" value="${target.dir}/logs" />
-	<property name="dist.dir" value="${target.dir}/dist" />
-	<property name="download.dir" value="${target.dir}/download" />
+	<property name="software.dir" location=".." />
+	<property name="common.dir" location="${build.dir}/common" />
+	<property name="local.repo.dir" location="${software.dir}/local-ivy-repo" />
+	<property name="target.dir" location="${software.dir}/target" />
+	<property name="bda-download.dir" location="${common.dir}/bda-download" />
+	<property name="ivy.settings.dir" location="${common.dir}/ivy" />
+	<property name="lib.dir" location="${target.dir}/lib" />
+	<property name="temp.dir" location="${target.dir}/temp" />
+	<property name="reports.dir" location="${target.dir}/reports" />
+	<property name="bda-utils.dir" location="${target.dir}/bda-utils" />
+	<property name="log.dir" location="${target.dir}/logs" />
+	<property name="dist.dir" location="${target.dir}/dist" />
+	<property name="download.dir" location="${target.dir}/download" />
 	<property name="pt.dir" location="${target.dir}/persistent-transient" />
 
 	<!-- Ivy Related props -->
@@ -58,19 +58,19 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="ivy-cacore.file" value="ivy-cacore-2.0.0-beta2.jar" />
 
 	<!-- Used by dist:*:prep to copy resource files to distribution area -->
-	<property name="common.src.dir" value="${basedir}/${common.dist.relative.dir}" />
+	<property name="common.src.dir" value="${software.dir}/${common.dist.relative.dir}" />
 
 	<!-- Used by dist:*:prep to determin list of files to use for incremental build process.
 		Directory and files must be in svn to work.
 	-->
-	<property name="db.src.dir" value="${basedir}/${db.dist.relative.dir}" />
-	<property name="db-incr.src.dir" value="${basedir}/${db-incr.dist.relative.dir}" />
+	<property name="db.src.dir" value="${software.dir}/${db.dist.relative.dir}" />
+	<property name="db-incr.src.dir" value="${software.dir}/${db-incr.dist.relative.dir}" />
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
-	<property name="securityws.base.dir" value="${basedir}/securityws" />
-	<property name="csm.base.dir" value="${basedir}/api" />
-	<property name="upt.base.dir" value="${basedir}/upt" />
+	<property name="securityws.base.dir" value="${software.dir}/securityws" />
+	<property name="csm.base.dir" value="${software.dir}/api" />
+	<property name="upt.base.dir" value="${software.dir}/upt" />
 
 	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
 	<property name="upt.build.file" value="build.xml" />
@@ -304,7 +304,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 		<!-- Copy install related xml and properties files -->
 		<copy todir="${dist.exploded.dir}" overwrite="true">
-			<fileset dir="${basedir}">
+			<fileset dir="${build.dir}">
 				<include name="install.xml" />
 				<include name="install.properties" />
 				<include name="*properties.template" />
@@ -373,7 +373,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 		<!-- Copy install related xml and properties files -->
 		<copy todir="${dist.exploded.dir}" overwrite="true">
-			<fileset dir="${basedir}">
+			<fileset dir="${build.dir}">
 				<include name="install.xml" />
 				<include name="upgrade.properties" />
 				<include name="*properties.template" />
@@ -419,7 +419,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<target name="deploy:local:install" depends="dist:installer:prep" description="Installs the application and required binaries on the local machine, used for developer desktops and ci environments">
 		<!-- Copies over all files so linux and windows properties are present -->
 		<copy todir="${dist.exploded.dir}">
-			<fileset dir="${basedir}">
+			<fileset dir="${build.dir}">
 				<include name="*.properties" />
 			</fileset>
 		</copy>
@@ -444,7 +444,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<target name="deploy:local:upgrade" depends="dist:upgrader:prep" description="Upgrades the application on the local machine, used for developer desktops and ci environments">
 		<!-- Copies over all files so linux and windows properties are present -->
 		<copy todir="${dist.exploded.dir}">
-			<fileset dir="${basedir}">
+			<fileset dir="${build.dir}">
 				<include name="*.properties" />
 			</fileset>
 		</copy>
@@ -628,7 +628,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<property name="reports.cobertura.dir" value="${reports.dir}/cobertura" />
 		<property name="reports.findbugs.dir" value="${reports.dir}/findbugs" />
 
-		<property name="instrumented.dir" value="${basedir}/instrumented" />
+		<property name="instrumented.dir" value="${target.dir}/instrumented" />
 		<property name="cobertura.ser.file" value="${instrumented.dir}/cobertura.ser" />
 		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura" />
 
@@ -864,12 +864,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		ivy-init,
 		static-analysis:init
 		">
-		<mkdir dir="${basedir}/instrumented/csm" />
-		<mkdir dir="${basedir}/instrumented/securityws" />
-		<mkdir dir="${basedir}/instrumented/upt" />
-		<static-analysis-cobertura cobertura.src.dir="${upt.java.dir}" cobertura.classes.dir="${upt.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/upt" cobertura.instrumented.dir="${basedir}/instrumented/upt" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
-		<static-analysis-cobertura cobertura.src.dir="${csm.java.dir}" cobertura.classes.dir="${csm.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/csm" cobertura.instrumented.dir="${basedir}/instrumented/csm" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
-		<static-analysis-cobertura cobertura.src.dir="${securityws.java.dir}" cobertura.classes.dir="${securityws.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/securityws" cobertura.instrumented.dir="${basedir}/instrumented/securityws" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
+		<mkdir dir="${target.dir}/instrumented/csm" />
+		<mkdir dir="${target.dir}/instrumented/securityws" />
+		<mkdir dir="${target.dir}/instrumented/upt" />
+		<static-analysis-cobertura cobertura.src.dir="${upt.java.dir}" cobertura.classes.dir="${upt.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/upt" cobertura.instrumented.dir="${target.dir}/instrumented/upt" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
+		<static-analysis-cobertura cobertura.src.dir="${csm.java.dir}" cobertura.classes.dir="${csm.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/csm" cobertura.instrumented.dir="${target.dir}/instrumented/csm" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
+		<static-analysis-cobertura cobertura.src.dir="${securityws.java.dir}" cobertura.classes.dir="${securityws.classes.dir}" cobertura.rpt.dir="${reports.cobertura.dir}/securityws" cobertura.instrumented.dir="${target.dir}/instrumented/securityws" cobertura.report-xsl.file="${common.dir}/cobertura/cobertura-simple.xsl" cobertura.ser.file="cobertura.ser" cobertura.config.file="${common.dir}/cobertura/cobertura.xml" />
 	</target>
 
 	<macrodef name="static-analysis-cobertura">
