@@ -29,8 +29,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<property name="tools.dir.src" value="${basedir}/${tools.dist.relative.dir}" />
 	<property name="common.dir.src" value="${basedir}/${common.dist.relative.dir}" />
 	<property name="common.dir.target" value="${working.dir}/${common.dist.relative.dir}" />
-	<property name="db.dir.target" value="${working.dir}/${db.dist.relative.dir}" />
-	<property name="db-incr.dir.target" value="${working.dir}/${db-incr.dist.relative.dir}" />
+	<property name="db-install.dir.dest" value="${working.dir}/${db-install.dist.relative.dir}" />
+	<property name="db-upgrade.dir.dest" value="${working.dir}/${db-upgrade.dist.relative.dir}" />
 	<property name="jboss-conf.dir.target" value="${working.dir}/${jboss-conf.dist.relative.dir}" />
 
 	<!-- *-ds.xml and WAR -->
@@ -209,50 +209,131 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	</target>
 
 	<!-- Wrapper install database target, depends on both MySQL and Oracle sub-targets, ifs should ensure only one is run.  Target path can be skipped by exlude.database also calls upgrade:database -->
-	<target name="install:database" description="Re-creates database and users from baseline and applys incremental database changes." unless="exclude.database"
+	<target name="install:database:prep" description="Copies db files with filtering" unless="exclude.database" depends="install:init">
+		<echoproperties prefix="database"/>
+	</target>
+	<target name="install:database:verify-flags">
+		<if>
+			<and>
+				<equals arg1="${database.re-create}" arg2="true"/>
+				<equals arg1="${database.drop-schema}" arg2="true"/>
+			</and>
+			<then>
+				<fail message="You cannot set both database.re-create and database.drop-schema at the same time.  database.re-create is used in local installs.  database.drop-schema is used in remote installs.  Either one can be set for external (Cancer Center) installs."/>
+			</then>
+		</if>
+	</target>
+	<target name="install:database:re-create" description="Recreates database if database.re-create is true. Used on local installs" unless="exclude.database" depends="install:init,install:database:verify-flags">
+		<if>
+			<equals arg1="${database.re-create}" arg2="true"/>
+			<then>
+				<switch value="${database.type}">
+					<case value="postgresql">
+						<database-create/>
+					</case>
+					<case value="mysql">
+						<database-create/>
+					</case>
+					<default>
+						<echo message="Re-creation (drop and re-create) of ${database.type} databases is not supported, nothing done."/>
+					</default>
+				</switch>
+				<property name="db.install.file.list" value="${db.install.postgresql.file.list}"/>
+			</then>
+			<else>
+				<echo message="Database.recreate flag not set, database not re-created."/>
+			</else>
+		</if>
+	</target>
+	<target name="install:database:drop" description="Runs database drop scripts if database.drop-schema is set. Used on Tier environments (dev, qa, stg, prod)." unless="exclude.database" depends="install:init,install:database:verify-flags">
+		<if>
+			<equals arg1="${database.drop-schema}" arg2="true"/>
+			<then>
+				<switch value="${database.type}">
+					<case value="postgresql">
+						<property name="database.schema" value="public"/>
+					</case>
+					<case value="mysql">
+						<property name="database.schema" value="database.name"/>
+					</case>
+					<case value="oracle">
+						<property name="database.schema" value="database.name"/>
+					</case>
+				</switch>
+				<echo message="Dropping database objects"/>
+				<dropAllDatabaseObjects
+					driver="${database.driver}"
+					url="${database.url}"
+					username="${database.user}"
+					password="${database.password}"
+					promptOnNonLocalDatabase="${prompt.user.if.not.local.database}"
+					classpathref="bda-utils.classpath"
+					defaultSchemaName="${database.schema}"
+					/>
+				<!-- Sequences don't seem to drop in first run second run cleans them up -->
+				<dropAllDatabaseObjects
+					driver="${database.driver}"
+					url="${database.url}"
+					username="${database.user}"
+					password="${database.password}"
+					promptOnNonLocalDatabase="${prompt.user.if.not.local.database}"
+					classpathref="bda-utils.classpath"
+					defaultSchemaName="${database.schema}"
+					/>
+				<sleep seconds="5"/>
+			</then>
+			<else>
+				<echo message="Database.drop-schema flag not set, database schema not dropped."/>
+			</else>
+		</if>
+
+	</target>
+
+	<target name="install:database" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database"
 		depends="
-		install:init
+		install:init,
+		install:database:prep,
+		install:database:re-create,
+		install:database:drop
 		">
+
 		<switch value="${database.type}">
 			<case value="oracle">
-				<for list="${db.install.oracle.file.list}" param="db.install.oracle.file">
+				<for list="${db.install.create.oracle.file.list}" param="db.install.oracle.file">
 					<sequential>
-						<echo message="Running ${db.dir.target}/${database.type}/@{db.install.postgresql.file}"/>
 						<run-sql-script database.url="${database.url}"
 							database.user="${database.user}" 
 							database.password="${database.password}" 
 							sql.delimiter="/" 
 							sql.delimitertype="row"
-							sql.file="${db.dir.target}/${database.type}/@{db.install.oracle.file}"
+							sql.file="${db-install.dir.dest}/${database.type}/@{db.install.oracle.file}"
 							onerror="continue"/>
 					</sequential>
 				</for>
 			</case>
 			<case value="mysql">
-				<database-create/>
-				<for list="${db.install.mysql.file.list}" param="db.install.mysql.file">
+				<for list="${db.install.create.mysql.file.list}" param="db.install.mysql.file">
 					<sequential>
-						<echo message="Running ${db.dir.target}/${database.type}/@{db.install.postgresql.file}"/>
+						<echo message="${db-install.dir.dest}/${database.type}/@{db.install.mysql.file}"/>
 						<run-sql-script
 							database.url="${database.url}"
 							database.user="${database.user}"
 							database.password="${database.password}"
-							sql.file="${db.dir.target}/${database.type}/@{db.install.mysql.file}"
+							sql.file="${db-install.dir.dest}/${database.type}/@{db.install.mysql.file}"
 							/>
 					</sequential>
 				</for>
 			</case>
 			<case value="postgresql">
-				<for list="${db.install.postgresql.file.list}" param="db.install.postgresql.file">
+				<for list="${db.install.create.postgresql.file.list}" param="db.install.postgresql.file">
 					<sequential>
-						<echo message="Running ${db.dir.target}/${database.type}/@{db.install.postgresql.file}"/>
 						<run-sql-script
 							database.url="${database.url}"
 							database.user="${database.user}"
 							database.password="${database.password}"
 							sql.delimiter="/" 
 							sql.delimitertype="row"
-							sql.file="${db.dir.target}/${database.type}/@{db.install.postgresql.file}"
+							sql.file="${db-install.dir.dest}/${database.type}/@{db.install.postgresql.file}"
 							/>
 					</sequential>
 				</for>
@@ -260,6 +341,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		</switch>
 		<antcall target="upgrade:database" inheritAll="false"/>
 	</target>
+
 
 	<target name="install:jboss:binaries" description="Unzip JBoss binary" unless="exclude.jboss">
 		<unzip dest="${application.base.path}" src="${tools.dir.src}/${jboss.binaries.file}" />
@@ -468,7 +550,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 							build.properties.file="${db-incr.conf.file}"
 							sql.delimiter="/" 
 							sql.delimitertype="row"
-							database.sql.dir="${db-incr.dir.target}"/>
+							database.sql.dir="${db-upgrade.dir.dest}"/>
 					</then>
 					<else>
 						<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>
@@ -488,7 +570,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 						<database-identify-scripts
 							sqlfiles.list.file="${db-incr.list.file}"
 							build.properties.file="${db-incr.conf.file}"
-							database.sql.dir="${db-incr.dir.target}"
+							database.sql.dir="${db-upgrade.dir.dest}"
 							/>
 					</then>
 					<else>
@@ -511,7 +593,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 							build.properties.file="${db-incr.conf.file}"
 							sql.delimiter="/" 
 							sql.delimitertype="row"
-							database.sql.dir="${db-incr.dir.target}"/>
+							database.sql.dir="${db-upgrade.dir.dest}"/>
 					</then>
 					<else>
 						<echo message="Could not find an incremental file list file ${db-incr.list.file}, there must not be any incrmental updates."/>

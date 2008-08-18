@@ -38,7 +38,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- BDA standard structure -->
 	<property name="build.dir" location="." />
 	<property name="software.dir" location=".." />
-	<property name="common.dir" location="${build.dir}/common" />
+	<property name="common.dir" location="${software.dir}/common" />
 	<property name="local.repo.dir" location="${software.dir}/local-ivy-repo" />
 	<property name="target.dir" location="${software.dir}/target" />
 	<property name="bda-download.dir" location="${common.dir}/bda-download" />
@@ -63,8 +63,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Used by dist:*:prep to determin list of files to use for incremental build process.
 		Directory and files must be in svn to work.
 	-->
-	<property name="db.src.dir" value="${software.dir}/${db.dist.relative.dir}" />
-	<property name="db-incr.src.dir" value="${software.dir}/${db-incr.dist.relative.dir}" />
+	<property name="db.src.dir" value="${software.dir}/${db-install.dist.relative.dir}" />
+	<property name="db-incr.src.dir" value="${software.dir}/${db-upgrade.dist.relative.dir}" />
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
@@ -90,8 +90,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="upt.dist.dir" value="${dist.exploded.dir}/${upt.dist.relative.dir}" />
 	<property name="tools.dist.dir" value="${dist.exploded.dir}/${tools.dist.relative.dir}" />
 	<property name="common.dist.dir" value="${dist.exploded.dir}/${common.dist.relative.dir}" />
-	<property name="db.dist.dir" value="${dist.exploded.dir}/${db.dist.relative.dir}" />
-	<property name="db-incr.dist.dir" value="${dist.exploded.dir}/${db-incr.dist.relative.dir}" />
+	<property name="db.dist.dir" value="${dist.exploded.dir}/${db-install.dist.relative.dir}" />
+	<property name="db-incr.dist.dir" value="${dist.exploded.dir}/${db-upgrade.dist.relative.dir}" />
 	<property name="jboss-conf.dist.dir" value="${dist.exploded.dir}/${jboss-conf.dist.relative.dir}" />
 
 	<!-- Selenium settings -->
@@ -192,13 +192,14 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<mkdir dir="${target.dir}" />
 		<mkdir dir="${dist.exploded.dir}" />
 		<mkdir dir="${dist.exploded.dir}" />
-		<mkdir dir="${bda-blueprints-api.dist.dir}" />
-		<mkdir dir="${bda-blueprints-webapp.dist.dir}" />
 		<mkdir dir="${common.dist.dir}" />
 		<mkdir dir="${tools.dist.dir}" />
 		<mkdir dir="${temp.dir}" />
 		<mkdir dir="${download.dir}" />
 		<mkdir dir="${pt.dir}" />
+		<mkdir dir="${csm.dist.dir}" />
+		<mkdir dir="${upt.dist.dir}" />
+		<mkdir dir="${securityws.dist.dir}" />
 		<available file="${jboss.dest.file}" property="jboss.tools.exists" />
 	</target>
 
