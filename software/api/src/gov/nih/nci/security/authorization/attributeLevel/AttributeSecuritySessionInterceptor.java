@@ -18,11 +18,26 @@ public class AttributeSecuritySessionInterceptor extends EmptyInterceptor
 	boolean securityBehaviourStrict = true;
 	
 	
+	/**
+	 * Default Constructor with Strict Behaviour.
+	 * Strict behaviour restricts access to all attributes that a user doesnt have access to.
+	 * 
+	 * 
+	 * 
+	 */
 	public AttributeSecuritySessionInterceptor(){
 		this.securityBehaviourStrict = true;
 	}
-	public AttributeSecuritySessionInterceptor(boolean strict){
-		this.securityBehaviourStrict = strict;
+	/**
+	 * Constructore with boolean flag that allows to enable to disable Strict behaviour.
+	 * If strict behaviour is disabled, then all association type attributes are allowed access to for any secured object. 
+	 * All non-association type attributes are secured according to the provisioned attribute level security.
+	 * 
+	 * @param isBehaviourStrict
+	 * 
+	 */
+	public AttributeSecuritySessionInterceptor(boolean isBehaviourStrict){
+		this.securityBehaviourStrict = isBehaviourStrict;
 	}
 
 	
