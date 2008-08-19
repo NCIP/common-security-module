@@ -53,7 +53,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<property name="pt.dir" location="${target.dir}/persistent-transient" />
 
 	<!-- Ivy Related props -->
-	<property name="ivy.settings.file" value="ivy.settings.xml" />
+	<property name="ivy.testing-def.file" value="ivy-bda-testing.xml" />
+	<property name="ivy.settings.file" value="ivysettings.xml" />
 	<property name="ivy.file" value="ivy-2.0.0-beta2.jar" />
 	<property name="ivy-cacore.file" value="ivy-cacore-2.0.0-beta2.jar" />
 
@@ -68,9 +69,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
-	<property name="securityws.base.dir" value="${software.dir}/securityws" />
-	<property name="csm.base.dir" value="${software.dir}/api" />
-	<property name="upt.base.dir" value="${software.dir}/upt" />
+	<property name="securityws.base.dir" location="${software.dir}/securityws" />
+	<property name="csm.base.dir" location="${software.dir}/api" />
+	<property name="upt.base.dir" location="${software.dir}/upt" />
 
 	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
 	<property name="upt.build.file" value="build.xml" />
@@ -84,15 +85,15 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- Distribution Structure properties, used to copy files into the distribution area.
        		Use project.propertie relative dir names becasue they are used by install also-->
-	<property name="dist.exploded.dir" value="${dist.dir}/exploded" />
-	<property name="csm.dist.dir" value="${dist.exploded.dir}/${csm.dist.relative.dir}" />
-	<property name="securityws.dist.dir" value="${dist.exploded.dir}/${securityws.dist.relative.dir}" />
-	<property name="upt.dist.dir" value="${dist.exploded.dir}/${upt.dist.relative.dir}" />
-	<property name="tools.dist.dir" value="${dist.exploded.dir}/${tools.dist.relative.dir}" />
-	<property name="common.dist.dir" value="${dist.exploded.dir}/${common.dist.relative.dir}" />
-	<property name="db.dist.dir" value="${dist.exploded.dir}/${db-install.dist.relative.dir}" />
-	<property name="db-incr.dist.dir" value="${dist.exploded.dir}/${db-upgrade.dist.relative.dir}" />
-	<property name="jboss-conf.dist.dir" value="${dist.exploded.dir}/${jboss-conf.dist.relative.dir}" />
+	<property name="dist.exploded.dir" location="${dist.dir}/exploded" />
+	<property name="csm.dist.dir" location="${dist.exploded.dir}/${csm.dist.relative.dir}" />
+	<property name="securityws.dist.dir" location="${dist.exploded.dir}/${securityws.dist.relative.dir}" />
+	<property name="upt.dist.dir" location="${dist.exploded.dir}/${upt.dist.relative.dir}" />
+	<property name="tools.dist.dir" location="${dist.exploded.dir}/${tools.dist.relative.dir}" />
+	<property name="common.dist.dir" location="${dist.exploded.dir}/${common.dist.relative.dir}" />
+	<property name="db.dist.dir" location="${dist.exploded.dir}/${db-install.dist.relative.dir}" />
+	<property name="db-incr.dist.dir" location="${dist.exploded.dir}/${db-upgrade.dist.relative.dir}" />
+	<property name="jboss-conf.dist.dir" location="${dist.exploded.dir}/${jboss-conf.dist.relative.dir}" />
 
 	<!-- Selenium settings -->
 	<property name="selenium.jar" value="${lib.dir}/test-selenium/selenium-server-1.0-beta-1.jar" />
@@ -557,8 +558,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		" />
 
 	<target name="ivy-settings">
-		<property name="ivy.dep.file" value="${ivy.bda-testing.file}" />
-		<ivy:settings file="${ivy.settings.file}" />
+		<property name="ivy.dep.file" value="${ivy.settings.dir}/${ivy.testing-def.file}" />
+		<ivy:settings file="${common.dir}/${ivy.settings.file}" />
 	</target>
 
 	<target name="ivy-test-selenium" depends="ivy-settings" description="Updates the local ivy repository">
@@ -611,27 +612,27 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		" />
 
 	<target name="static-analysis:init">
-		<property name="upt.java.dir" value="upt/webapp/src" />
-		<property name="csm.java.dir" value="api/src" />
-		<property name="securityws.java.dir" value="securityws/src" />
+		<property name="upt.java.dir" location="${software.dir}/upt/webapp/src" />
+		<property name="csm.java.dir" location="${software.dir}/api/src" />
+		<property name="securityws.java.dir" location="${software.dir}/securityws/src" />
 
-		<property name="upt.classes.dir" value="upt/build/WEB-INF/classes" />
-		<property name="csm.classes.dir" value="api/classes" />
-		<property name="securityws.classes.dir" value="securityws/build/WEB-INF/classes" />
+		<property name="upt.classes.dir" location="${software.dir}/upt/build/WEB-INF/classes" />
+		<property name="csm.classes.dir" location="${software.dir}/api/classes" />
+		<property name="securityws.classes.dir" location="${software.dir}/securityws/build/WEB-INF/classes" />
 
-		<property name="common.dir" value="common" />
+		<property name="common.dir" location="${software.dir}/common" />
 
-		<property name="reports.dir" value="reports" />
-		<property name="reports.simian.dir" value="${reports.dir}/simian" />
-		<property name="reports.pmd.dir" value="${reports.dir}/pmd" />
-		<property name="reports.checkstyle.dir" value="${reports.dir}/checkstyle" />
-		<property name="reports.javancss.dir" value="${reports.dir}/javancss" />
-		<property name="reports.cobertura.dir" value="${reports.dir}/cobertura" />
-		<property name="reports.findbugs.dir" value="${reports.dir}/findbugs" />
+		<property name="reports.dir" location="${software.dir}/reports" />
+		<property name="reports.simian.dir" location="${reports.dir}/simian" />
+		<property name="reports.pmd.dir" location="${reports.dir}/pmd" />
+		<property name="reports.checkstyle.dir" location="${reports.dir}/checkstyle" />
+		<property name="reports.javancss.dir" location="${reports.dir}/javancss" />
+		<property name="reports.cobertura.dir" location="${reports.dir}/cobertura" />
+		<property name="reports.findbugs.dir" location="${reports.dir}/findbugs" />
 
-		<property name="instrumented.dir" value="${target.dir}/instrumented" />
-		<property name="cobertura.ser.file" value="${instrumented.dir}/cobertura.ser" />
-		<property name="cobertura.reports.dir" value="${reports.dir}/cobertura" />
+		<property name="instrumented.dir" location="${target.dir}/instrumented" />
+		<property name="cobertura.ser.file" location="${instrumented.dir}/cobertura.ser" />
+		<property name="cobertura.reports.dir" location="${reports.dir}/cobertura" />
 
 		<path id="ivy.classpath">
 			<fileset dir="${common.dir}/lib">
@@ -714,11 +715,28 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	</target>
 
 	<target name="static-analysis:simian" depends="static-analysis:init" description="Performs code duplication analysis">
-		<static-analysis-simian simian.src.dir="${upt.java.dir}" simian.rpt.dir="${reports.simian.dir}" simian.report-xsl.file="${common.dir}/simian/simian.xsl" simian.xml.name="simian-upt.xml" simian.html.name="simian-upt.html" />
+		<static-analysis-simian
+		       simian.src.dir="${upt.java.dir}"
+		       simian.rpt.dir="${reports.simian.dir}"
+		       simian.report-xsl.file="${common.dir}/simian/simian.xsl"
+		       simian.xml.name="simian-upt.xml"
+		       simian.html.name="simian-upt.html" />
 
-		<static-analysis-simian simian.src.dir="${csm.java.dir}" simian.rpt.dir="${reports.simian.dir}" simian.report-xsl.file="${common.dir}/simian/simian.xsl" simian.xml.name="simian-csm.xml" simian.html.name="simian-csm.html" />
+		<static-analysis-simian
+		       simian.src.dir="${csm.java.dir}"
+		       simian.rpt.dir="${reports.simian.dir}"
+		       simian.report-xsl.file="${common.dir}/simian/simian.xsl"
+		       simian.xml.name="simian-csm.xml"
+		       simian.html.name="simian-csm.html"
+		       />
 
-		<static-analysis-simian simian.src.dir="${securityws.java.dir}" simian.rpt.dir="${reports.simian.dir}" simian.report-xsl.file="${common.dir}/simian/simian.xsl" simian.xml.name="simian-securityws.-securitywsxml" simian.html.name="simian-securityws.html" />
+		<static-analysis-simian
+		       simian.src.dir="${securityws.java.dir}"
+		       simian.rpt.dir="${reports.simian.dir}"
+		       simian.report-xsl.file="${common.dir}/simian/simian.xsl"
+		       simian.xml.name="simian-securityws.-securitywsxml"
+		       simian.html.name="simian-securityws.html"
+		       />
 
 	</target>
 	<macrodef name="static-analysis-simian">
@@ -917,4 +935,33 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<target name="test:securityws" depends="init">
 		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}" target="test" dir="${securityws.base.dir}" />
 	</target>
+
+	<target name="deploy:hot" depends="build:all" description="Hot deploys the deployment artifact">
+		<copy file="${bda-blueprints-webapp.dist.dir}/${bda-blueprints-webapp.file.name}" todir="${jboss.deploy.dir}" />
+	</target>
+
+	<target name="deploy:hot:jsp" description="Copies all current JSP code to the deployed application for quick update">
+		<for param="toDir">
+			<path>
+				<dirset dir="${jboss.deploy.dir}/../tmp/deploy" includes="tmp*${bda-blueprints-webapp.name}*" />
+			</path>
+			<sequential>
+				<copy todir="@{toDir}" overwrite="true">
+					<fileset dir="${bda-blueprints-webapp.src.dir}">
+						<include name="**/*.jsp" />
+						<include name="**/*.jspf" />
+						<include name="**/*.css" />
+						<include name="**/*.js" />
+						<include name="**/*.jpg" />
+						<include name="**/*.gif" />
+						<include name="**/*.png" />
+						<include name="**/*.faces" />
+						<include name="**/*.tag" />
+						<include name="**/*.tagf" />
+					</fileset>
+				</copy>
+			</sequential>
+		</for>
+	</target>
+
 </project>
