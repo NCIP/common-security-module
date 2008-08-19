@@ -44,29 +44,6 @@ jboss.snmp.port=
 jboss.remoting.port=
 jboss.messaging.port=
 
-
-##############
-###  LDAP  ###
-##############
-ldap.url=
-ldap.basedn=
-
-##################################
-#  Grid Service registration URL #
-##################################
-# Production Grid
-#    grid.index.url=
-# QA Grid
-#    grid.index.url=
-# Training Grid
-grid.index.url=
-
-
-########################
-###  MAIL  SETTINGS  ###
-########################
-mail.smtp.server=
-
 ###################################
 #  PRE-POST VALIDATION PROPERTIES #
 ###################################
