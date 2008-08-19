@@ -14,7 +14,20 @@ import org.hibernate.type.Type;
 
 public class AttributeSecuritySessionInterceptor extends EmptyInterceptor
 {
+	
+	boolean securityBehaviourStrict = true;
+	
+	
+	public AttributeSecuritySessionInterceptor(){
+		this.securityBehaviourStrict = true;
+	}
+	public AttributeSecuritySessionInterceptor(boolean strict){
+		this.securityBehaviourStrict = strict;
+	}
 
+	
+	
+	
 	/* (non-Javadoc)
 	 * @see org.hibernate.EmptyInterceptor#onLoad(java.lang.Object, java.io.Serializable, java.lang.Object[], java.lang.String[], org.hibernate.type.Type[])
 	 */
@@ -39,7 +52,12 @@ public class AttributeSecuritySessionInterceptor extends EmptyInterceptor
 			{
 				if (!(attributeList.contains(propertyNames[i])))
 				{
-					state[i]=null;
+					if(this.securityBehaviourStrict){
+						state[i]=null;
+					}else{
+						if(!types[i].isAssociationType())
+							state[i]=null;
+					}
 				}
 			}
 			return super.onLoad(entity, id, state, propertyNames, types);
@@ -70,7 +88,12 @@ public class AttributeSecuritySessionInterceptor extends EmptyInterceptor
 			{
 				if (!(attributeList.contains(propertyNames[i])))
 				{
-					state[i]=null;
+					if(this.securityBehaviourStrict){
+						state[i]=null;
+					}else{
+						if(!types[i].isAssociationType())
+							state[i]=null;
+					}
 				}
 			}
 			return super.onLoad(entity, id, state, propertyNames, types);		
