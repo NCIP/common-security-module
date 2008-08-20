@@ -963,5 +963,54 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</sequential>
 		</for>
 	</target>
+	
+	<target name="continuous-integration" description="calls wrapper targets for continuous integration build" depends="
+		build:all,
+		static-analysis
+		" />
 
+	<target name="test:seleniumrc:start">
+		<echo message="${lib.dir}/test-selenium/selenium-server-0.9.0.jar" />
+		<java jar="${lib.dir}/test-selenium/selenium-server-0.9.0.jar" fork="true" spawn="true" />
+	</target>
+	<target name="test:seleniumrc:stop" description="Stops selenuimrc server when using selenium from java">
+		<get taskname="selenium-shutdown" src="http://localhost:${selenium.proxy.port}/selenium-server/driver/?cmd=shutDown" dest="${temp.dir}/result.txt" ignoreerrors="true" />
+	</target>
+
+	<target name="test:selenium:init" description="Sets up environment for running selenium tests">
+		<mkdir dir="${selenium.report.dir}" />
+		<if>
+			<not>
+				<socket server="${jboss.server.hostname}" port="${jboss.server.port}" />
+			</not>
+			<then>
+				<jboss-start-jboss />
+			</then>
+		</if>
+	</target>
+
+	<target name="test:selenium:run" description="Executes selenium test suite">
+		<!-- Another optoin  for running tests
+		<java jar="${selenium.jar}" fork="true">
+			<arg line=" -htmlSuite &quot;${selenium.browser}&quot;"/>
+			<arg line=" &quot;${selenium.url}&quot;"/>
+			<arg line=" &quot;${selenium.test.suite}&quot;"/>
+			<arg line=" &quot;${selenium.report.dir}/${selenium.report.file}&quot;"/>
+			<arg line=" -timeout 30"/>
+			<arg line=" -log ${temp.dir}/selenium-debug.log"/>
+		</java> 
+		-->
+		<osfamily property="os.family" />
+		<if>
+			<equals arg1="${os.family}" arg2="unix" />
+			<then>
+				<echo message="To be able to selenium tests on Unix platforms you need to meet the following conditions." />
+				<echo message="You need to be logged in on the console running X (developer linux or mac workstation)." />
+				<echo message=" If you are running it from a server that does not have a console (like a CI server) you need to be running at runlevel 3, running and xframe buffer ('Xvfb :1 -screen 0 1024x768x24', should be setup on a CI server) and have your DISPLAY environment variable sto to match your frame buffer ('DISPLAY=:1.0', should be set in .bash_profile on CI server)." />
+				<fail unless="env.DISPLAY" message="DISPLAY environment variable not set, please set it as outlined above and run again." />
+			</then>
+		</if>
+		<taskdef resource="selenium-ant.properties" classpathref="project.test.selenium.classpath" />
+		<selenese suite="${selenium.test.suite}" browser="${selenium.browser}" results="${selenium.report.dir}/${selenium.report.file}" multiWindow="falsE" timeoutInSeconds="60" port="${selenium.proxy.port}" startURL="${selenium.url}" />
+	</target>
 </project>
