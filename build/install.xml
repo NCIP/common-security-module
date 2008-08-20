@@ -21,6 +21,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<!-- Generic properties -->
 	<property name="lib.dir" value="${basedir}/lib" />
 	<property name="working.dir" value="${basedir}/working" />
+	<property name="log.dir" value="${basedir}/logs" />
+	<property name="bda-utils.dir" value="${basedir}/bda-utils"/>
+
 
 
 	<!-- Install Time properties -->
