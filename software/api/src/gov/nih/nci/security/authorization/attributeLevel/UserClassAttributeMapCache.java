@@ -57,8 +57,11 @@ public class UserClassAttributeMapCache
 			while(it.hasNext())
 			{
 				ClassAttributeMap classAttributeMap = (ClassAttributeMap)it.next();
-				if(null!= classAttributeMap.getAttributes() && !classAttributeMap.getAttributes().isEmpty()) 
+				if(null!= classAttributeMap.getAttributes() && !classAttributeMap.getAttributes().isEmpty()){
+					if(classAttributeMap.getClassName().equalsIgnoreCase(className) && classAttributeMap.getAttributes()!=null)
 					strClassAttributeMapList.addAll(classAttributeMap.getAttributes());
+				}
+					
 			}
 		}
 		return strClassAttributeMapList;
