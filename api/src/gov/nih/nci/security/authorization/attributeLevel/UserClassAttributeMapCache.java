@@ -84,8 +84,10 @@ public class UserClassAttributeMapCache
 					while(it.hasNext())
 					{
 						ClassAttributeMap gcam = (ClassAttributeMap)it.next();
-						if(null!= gcam.getAttributes() && !gcam.getAttributes().isEmpty()) 
-							classAttributeMapForGroups.addAll(gcam.getAttributes());
+						if(null!= gcam.getAttributes() && !gcam.getAttributes().isEmpty()) {
+							if(gcam.getClassName().equalsIgnoreCase(className) && gcam.getAttributes()!=null)
+								classAttributeMapForGroups.addAll(gcam.getAttributes());
+						}
 					}
 				}
 			}
