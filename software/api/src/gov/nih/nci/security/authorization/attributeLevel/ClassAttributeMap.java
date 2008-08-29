@@ -5,14 +5,14 @@ import java.util.List;
 public class ClassAttributeMap{
 	
 	private String className;
-	private List attributes;
+	private List<String> attributes;
 	public ClassAttributeMap(String className){
 		this.className=className;
 	}
-	public List getAttributes() {
+	public List<String> getAttributes() {
 		return attributes;
 	}
-	public void setAttributes(List attributes) {
+	public void setAttributes(List<String> attributes) {
 		this.attributes = attributes;
 	}
 	public String getClassName() {
