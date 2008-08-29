@@ -58,8 +58,8 @@ public class UserClassAttributeMapCache
 			{
 				ClassAttributeMap classAttributeMap = (ClassAttributeMap)it.next();
 				if(null!= classAttributeMap.getAttributes() && !classAttributeMap.getAttributes().isEmpty()){
-					if(classAttributeMap.getClassName().equalsIgnoreCase(className) && classAttributeMap.getAttributes()!=null)
-					strClassAttributeMapList.addAll(classAttributeMap.getAttributes());
+					if(classAttributeMap.getClassName().equalsIgnoreCase(className) )
+						strClassAttributeMapList.addAll(classAttributeMap.getAttributes());
 				}
 					
 			}
@@ -85,7 +85,7 @@ public class UserClassAttributeMapCache
 					{
 						ClassAttributeMap gcam = (ClassAttributeMap)it.next();
 						if(null!= gcam.getAttributes() && !gcam.getAttributes().isEmpty()) {
-							if(gcam.getClassName().equalsIgnoreCase(className) && gcam.getAttributes()!=null)
+							if(gcam.getClassName().equalsIgnoreCase(className) )
 								classAttributeMapForGroups.addAll(gcam.getAttributes());
 						}
 					}
