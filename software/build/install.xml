@@ -18,13 +18,12 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2"/>
 	<property file="${properties.file}" />
 	
+	
 	<!-- Generic properties -->
 	<property name="lib.dir" value="${basedir}/lib" />
 	<property name="working.dir" value="${basedir}/working" />
 	<property name="log.dir" value="${basedir}/logs" />
 	<property name="bda-utils.dir" value="${basedir}/bda-utils"/>
-
-
 
 	<!-- Install Time properties -->
 	<!-- Source and target directories -->
@@ -35,6 +34,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<property name="db-install.dir.dest" value="${working.dir}/${db-install.dist.relative.dir}" />
 	<property name="db-upgrade.dir.dest" value="${working.dir}/${db-upgrade.dist.relative.dir}" />
 	<property name="jboss-conf.dir.target" value="${working.dir}/${jboss-conf.dist.relative.dir}" />
+	<property name="tomcat-conf.dir.target" value="${working.dir}/${tomcat-conf.dist.relative.dir}" />
 
 	<!-- *-ds.xml and WAR -->
 	<property name="upt.dir.dist" value="${basedir}/${upt.dist.relative.dir}" />
@@ -167,8 +167,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		<filter token="hibernate.cfg.file.path" value="${hibernate.cfg.file.path}"/>
 	</filterset>
 	
-
-	<!-- Start logging --> 
+	<!-- Start logging -->
 	<mkdir dir="${log.dir}" />
 	<tstamp>
 		<format property="install.time" pattern="yyyy-MM-dd-HH-mm" />
@@ -199,7 +198,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 				<include name="**/*"/>
 			</fileset>
 			<filterset refid="filterset.pre"/>
-		</copy> 
+		</copy>
 		<copy todir="${common.dir.target}" filtering="true">
 			<fileset dir="${resource.dir.temp}">
 				<include name="**/*"/>
@@ -208,7 +207,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 				<filtersfile file="${properties.file}"/>
 				<filtersfile file="project.properties"/>
 			</filterset>
-		</copy> 
+		</copy>
 	</target>
 
 	<!-- Wrapper install database target, depends on both MySQL and Oracle sub-targets, ifs should ensure only one is run.  Target path can be skipped by exlude.database also calls upgrade:database -->
@@ -350,6 +349,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		<unzip dest="${application.base.path}" src="${tools.dir.src}/${jboss.binaries.file}" />
 	</target>
 
+
 	<target name="install:jboss:upt" description="Deploy upt upt.ear, upt-api.war and common libraries" unless="exclude.jboss">
 		<!-- added to ensure working.dirs are fresh for our install -->
 		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp"/>
@@ -358,11 +358,28 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		<copy file="${upt.dir.dist}/${upt.war.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 		<copy file="${upt.dir.dist}/${clm.jar.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
-		
+
 		<!-- Replace this with file from ivy when project is ivy'fied -->
 		<copy file="${securityws.dir.dist}/${securityws.war.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 	</target>
+	
+	<target name="install:tomcat:upt" description="Deploy upt upt.ear, upt-api.war and common libraries" unless="exclude.tomcat">
+		<!-- added to ensure working.dirs are fresh for our install -->
+		<delete dir="${tomcat.home}/temp"/>
+		<delete dir="${tomcat.home}/work"/>
 
+		<copy file="${upt.dir.dist}/${upt.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
+		<copy file="${upt.dir.dist}/${clm.jar.file}" todir="${tomcat.home}/common/lib" overwrite="true" />
+		<copy file="${database.driver.file}" todir="${tomcat.home}/common/lib" overwrite="true" />
+
+		<!-- Replace this with file from ivy when project is ivy'fied -->
+		<copy file="${securityws.dir.dist}/${securityws.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
+	</target>
+	
+	<target name="install:tomcat:upt:configure" description="Configure upt application" unless="exclude.tomcat">
+		<copy file="${jboss-conf.dir.target}/${upt.ds.file}" todir="${tomcat.home}/conf" overwrite="true" />
+	</target>
+	
 	<target name="install:jboss:upt:configure" description="Configure upt application" unless="exclude.jboss">
 		<copy file="${jboss-conf.dir.target}/${upt.ds.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 	</target>
@@ -385,23 +402,23 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 
 	<!-- Add custom login-config.xml content from snippet from upt/software/resources/deploy/login-config.${auth.type}-block.xml -->
 	<target name="-install:jboss:configure:login-conf" unless="exclude.jboss">
-		<if>    
+		<if>
 			<equals arg1="${authentication.type}" arg2="ldap"/>
-			<then>  
+			<then>
 				<property name="login-config.block.file" value="${jboss-conf.dir.target}/login-config.ldap-block.xml"/>
-			</then> 
-			<else>  
-				<if>    
+			</then>
+			<else>
+				<if>
 					<equals arg1="${authentication.type}" arg2="db"/>
-					<then>  
+					<then>
 						<property name="login-config.block.file" value="${jboss-conf.dir.target}/login-config.db-block.xml"/>
-					</then> 
-					<else>  
+					</then>
+					<else>
 						<fail message="${authentication.type} is not a valid authentiation type, please change to db or ldap and re-run the build."/>
-					</else> 
-				</if>   
-			</else> 
-		</if>   
+					</else>
+				</if>
+			</else>
+		</if>
 		<echo message="Inserting ${login-config.block.file} into ${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"/>
 		<xmlconfig in="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml" verbose="false">
 			<insertbranch path="//policy" srcxmlfile="${login-config.block.file}" srcpath="//application-policy" />
@@ -410,7 +427,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 
 	<!-- Configure log4j settings based on contents of upt/software/resrouces/deploy/log4j.block.xml -->
 	<target name="-install:jboss:configure:log4j" unless="exclude.jboss">
-        <!--
+		<!--
 		<property name="log4j.block.file" value="${resource.dir.target}/log4j.block.xml"/>
 		<loadfile 
 			property="xml.content"
@@ -427,7 +444,17 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		<jboss-stop-jboss jboss.server.jndi.port="${jboss.server.jndi.port}"/>
 		<jboss-stop-jboss />
 	</target>
-	<target name="install:jboss:start"  unless="exclude.jboss">
+
+	<target name="install:tomcat:stop" description="Stop Tomcat" unless="exclude.tomcat">
+		<if>
+			<available file="${tomcat.home}/bin/shutdown.sh" />
+			<then>
+				<tomcat-stop tomcat.home="${tomcat.home}" />
+			</then>
+		</if>
+	</target>
+
+	<target name="install:jboss:start" unless="exclude.jboss">
 		<if>
 			<not>
 				<isset property="exclude.start.servers"/>
@@ -438,7 +465,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		</if>
 		<sleep seconds="15"/>
 	</target>
-	<target name="install:validation:pre-install">
+	<target name="install:validation:pre-install">		
 		<validate-pre-install
 			database.version="4.1.19"
 			/>
@@ -475,23 +502,92 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		install:jboss:configure,
 		install:jboss:start
 		" />
+	
+	<!-- Wrapper target to deploy Tomcat container -->
+	<target name="install:tomcat" unless="exclude.tomcat"
+		depends="
+		install:validation:pre-install,
+		install:tomcat:stop,
+		install:validation:pre-install:ports,
+		install:clean,
+		install:init,
+		install:tomcat:binaries,
+		install:tomcat:upt,
+		install:tomcat:upt:configure,
+		install:tomcat:configure,
+		install:tomcat:start
+		" />
+	
+	<target name="install:tomcat:binaries" description="Install tomcat binaries" unless="exclude.tomcat">
+		<delete dir="${application.base.path}"/>
+		<unzip dest="${application.base.path}" src="${tools.dir.src}/${tomcat.binaries.file}" />
+		<if>    
+			<os family="unix"/>
+			<then>  
+				<chmod dir="${tomcat.home}/bin" perm="ugo+rx" 
+					includes="**/*.sh"/>
+			</then>
+		</if>
+	</target>
+	
+	<target name="install:tomcat:configure" description="Configure tomcat (change ports)" unless="exclude.tomcat">
+		<!-- Change ports -->
+		<xmlconfig in="${tomcat.home}/conf/server.xml" verbose="false">
+			<update path="(//Connector)[@port=8080]/@port" value="${tomcat.port.http}" />
+			<update path="(//Connector)[@redirectPort=8443]/@redirectPort" value="${tomcat.port.ssl}" />
+			<update path="(//Connector)[@port=8009]/@port" value="${tomcat.port.ajp}" />
+			<update path="(//Connector)[@port=8443]/@port" value="${tomcat.port.ssl}" />
+			<update path="(//Server)[@port=8005]/@port" value="${tomcat.port.shutdown}" />
+		</xmlconfig>
+	</target>
+	
+	<target name="install:tomcat:start" description="Start Tomcat" unless="exclude.tomcat">
+		<if>    
+			<not>   
+				<isset property="exclude.start.servers"/>
+			</not>  
+			<then>  
+				<echo message="******************** ${tomcat.home} **************"></echo>
+				<tomcat-start tomcat.home="${tomcat.home}"/>
+			</then> 
+		</if>   
+	</target>
 
 	<!-- Wrapper target to deploy all containers to one server -->
-	<target name="install" description="Installs and configures JBOSS, creates database, and deploys application" 
+	<target name="install" description="Installs and configures JBOSS,Tomcat creates database, and deploys application" 
 		depends="
 		install:validation:pre-install,
 		install:jboss:stop,
+		install:tomcat:stop,
 		install:validation:pre-install:ports,
 		install:clean,
 		install:init,
 		install:database,
 		install:jboss,
+		install:tomcat,
+		install:tomcat:start,
 		install:jboss:start,
 		install:validation:post-install
 		"/>
 
 	<!-- Fixes hibernate dialect and other configurations in code generated at build time.  This is requred because the properties/options selected at build time can be different than those used at install time. -->
 	<target name="install:jboss:upt:re-configure" unless="exclude.jboss">
+		<!-- 
+		<delete dir="${working.dir}/generic-webapp"/>
+		<unzip src="${generic-webapp.dir.dist}/${generic-webapp.war.file}" dest="${working.dir}/generic-webapp"/>
+		<copy todir="${working.dir}/generic-webapp/WEB-INF/classes" file="${jboss-conf.dir.dest}/hibernate.cfg.xml"/>
+
+		<move file="${generic-webapp.dir.dist}/${generic-webapp.war.file}" tofile="${generic-webapp.dir.dist}/${generic-webapp.war.file}.orig"/>
+		<war destfile="${generic-webapp.dir.dist}/${generic-webapp.war.file}" compress="false" webxml="${working.dir}/generic-webapp/WEB-INF/web.xml" >
+			<fileset dir="${working.dir}/generic-webapp">
+				<include name="*/**" />
+			</fileset>
+		</war>  
+		-->
+	</target>
+	
+		<!-- Fixes hibernate dialect and other configurations in code generated at build time.  This is requred because the properties/options selected at build time can be different than those used at install time. -->
+	<target name="install:tomcat:upt:re-configure" unless="exclude.jboss">
 		<!-- 
 		<delete dir="${working.dir}/generic-webapp"/>
 		<unzip src="${generic-webapp.dir.dist}/${generic-webapp.war.file}" dest="${working.dir}/generic-webapp"/>
@@ -517,6 +613,19 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		install:jboss:upt:configure,
 		install:jboss:start
 		" />
+		
+		<!-- Wrapper target to upgrade tomcat container. Does not install or configure binaries -->
+	<target name="upgrade:tomcat" description="Wrapper target to call all targets required to upgrade tomcat container." unless="exclude.tomcat"
+		depends="
+		install:validation:pre-install,
+		install:tomcat:stop,
+		install:init,
+		install:tomcat:upt:re-configure,
+		install:tomcat:upt,
+		install:tomcat:upt:configure,
+		install:tomcat:start
+		" />
+		
 
 	<!-- Wrapper target to upgrade all container. Does not install or configure binaries -->
 	<target name="upgrade" description="Deploys application and runs incremental database build" 
@@ -524,9 +633,11 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		upgrade:init,
 		install:validation:pre-install,
 		install:jboss:stop,
+		install:tomcat:stop,
 		install:init,
 		upgrade:database,
 		upgrade:jboss,
+		upgrade:tomcat,
 		install:validation:post-install
 		"/>
 
@@ -621,8 +732,17 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	</target>
 
 	<target name="upgrade:init">
-		<echo  message="Checking if database properties exist.  If they do not on an upgrade install then ${jboss.home}/server/${jboss.server.name}/deploy/${upt.ds.file} may not exist."/>
-		<property name="db.prop.list" value="database.url,database.user,database.password,database.name"/>
-		<properties-exist properties.list="${db.prop.list}"/>
+		<if>
+			<equals arg1="${exclude.tomcat}" arg2="true" />
+			<then>
+				<echo
+					message="Checking if database properties exist.  If they do not on an upgrade install then ${jboss.home}/server/${jboss.server.name}/deploy/${upt.ds.file} may not exist." />
+				<property name="db.prop.list" value="database.url,database.user,database.password,database.name" />
+				<properties-exist properties.list="${db.prop.list}" />
+			</then>
+			<else>
+				<echo message="upgrade:init target needs to be updated for tomcat" />
+			</else>
+		</if>
 	</target>
 </project>
