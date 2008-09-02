@@ -110,6 +110,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	<!-- Where to write files retrieved by get, into the distribution area.  The file names come from project.properties  -->
 	<property name="jboss.dest.file" value="${download.dir}/${jboss.binaries.file}" />
+	<property name="tomcat.dest.file" value="${download.dir}/${tomcat.binaries.file}" />
+
 
 	<!-- Properties related to creating the distribution -->
 	<property name="dist.dir" value="dist" />
@@ -202,6 +204,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		<mkdir dir="${upt.dist.dir}" />
 		<mkdir dir="${securityws.dist.dir}" />
 		<available file="${jboss.dest.file}" property="jboss.tools.exists" />
+		<available file="${tomcat.dest.file}" property="tomcat.tools.exists" />
 	</target>
 
 	<target name="ivy:clean" description="Clean">
@@ -274,7 +277,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<!-- Wrapper target that downloads all required binaries from Common Tools Repository -->
 	<target name="dist:tools:retrieve" description="Downloads binary support tools form common tools repository" depends="
 		init,
-		dist:tools:retrieve:jboss
+		dist:tools:retrieve:jboss,
+		dist:tools:retrieve:tomcat
 		" />
 
 	<!-- Downloads jboss from tools repository and compares checksum, based on properties set in project.properties -->
@@ -289,6 +293,21 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</then>
 			<else>
 				<fail message="Failed to download jboss file sucessfully." />
+			</else>
+		</if>
+	</target>
+
+	<target name="dist:tools:retrieve:tomcat" unless="tomcat.tools.exists" description="Downloads TOMCAT from binary repository and verifies checksum">
+		<get src="${tomcat.src.url}" dest="${tomcat.dest.file}" />
+		<get src="${tomcat.src.url}.MD5" dest="${tomcat.dest.file}.MD5" />
+		<checksum file="${tomcat.dest.file}" verifyProperty="tomcat.cksum.ok" />
+		<if>
+			<equals arg1="${tomcat.cksum.ok}" arg2="true" />
+			<then>
+				<echo message="Downloaded tomcat sucessfully" />
+			</then>
+			<else>
+				<fail message="Failed to download tomcat file sucessfully." />
 			</else>
 		</if>
 	</target>
@@ -416,9 +435,33 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 
 	</target>
 
+	<target name="deploy:local:install:jboss">
+		<antcall target="deploy:local:install">
+			<param name="install.server" value="jboss"/>
+		</antcall>
+	</target>
+		
+	<target name="deploy:local:install:tomcat">
+		<antcall target="deploy:local:install">
+			<param name="install.server" value="tomcat"/>
+		</antcall>
+	</target>
 
+	<target name="dist:server:init">
+		<if>
+			<equals arg1="${install.server}" arg2="tomcat" />
+			<then>
+				<property name="exclude.server" value="exclude.jboss" />
+			</then>
+			<else>
+				<property name="exclude.server" value="exclude.tomcat" />
+			</else>
+		</if>		
+	</target>
+	
 	<!-- Installs the application locally. Requires a local instance of mysql. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from exec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. This target will use differnt properties based on linux (linux-install.properties) or windows (windows-install.properties) installs. It only supports using those properties files for now, so if you want to change install time properites edit these files. -->
-	<target name="deploy:local:install" depends="dist:installer:prep" description="Installs the application and required binaries on the local machine, used for developer desktops and ci environments">
+	<target name="deploy:local:install" depends="dist:installer:prep,dist:server:init" description="Installs the application and required binaries on the local machine, used for developer desktops and ci environments">
+
 		<!-- Copies over all files so linux and windows properties are present -->
 		<copy todir="${dist.exploded.dir}">
 			<fileset dir="${build.dir}">
@@ -430,6 +473,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<arg value="-Dproperties.file=linux-install.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
 			<arg value="-Dforce.reinstall=true" />
+			<arg value="-D${exclude.server}=true" />
 			<arg value="${install.target}" />
 		</exec>
 		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${dist.exploded.dir}" failonerror="true">
@@ -437,13 +481,25 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<arg value="-Dproperties.file=windows-install.properties" />
 			<!-- force reinstall of database and jboss without prompting -->
 			<arg value="-Dforce.reinstall=true" />
+			<arg value="-D${exclude.server}=true" />
 			<arg value="${install.target}" />
 		</exec>
-
+	</target>
+	
+	<target name="deploy:local:upgrade:jboss">
+		<antcall target="deploy:local:upgrade">
+			<param name="install.server" value="jboss"/>
+		</antcall>
+	</target>
+	
+	<target name="deploy:local:upgrade:tomcat">
+		<antcall target="deploy:local:upgrade">
+			<param name="install.server" value="tomcat"/>
+		</antcall>
 	</target>
 
 	<!-- Upgrades the application locally. Requires a local instance of mysql. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from exec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. This target will use differnt properties based on linux (linux-install.properties) or windows (windows-install.properties) upgrades. It only supports using those properties files for now, so if you want to change install time properites edit these files. -->
-	<target name="deploy:local:upgrade" depends="dist:upgrader:prep" description="Upgrades the application on the local machine, used for developer desktops and ci environments">
+	<target name="deploy:local:upgrade" depends="dist:upgrader:prep,dist:server:init" description="Upgrades the application on the local machine, used for developer desktops and ci environments">
 		<!-- Copies over all files so linux and windows properties are present -->
 		<copy todir="${dist.exploded.dir}">
 			<fileset dir="${build.dir}">
@@ -470,6 +526,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<!-- force reinstall of database and jboss without prompting -->
 			<arg value="-Dforce.reinstall=true" />
 			<arg value="-Dlocal.install=true" />
+			<arg value="-D${exclude.server}=true" />
 			<arg value="${upgrade.target}" />
 		</exec>
 		<exec os="Windows XP, Windows 2000, Windows 2003" executable="ant.bat" dir="${dist.exploded.dir}" failonerror="true">
@@ -478,6 +535,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<!-- force reinstall of database and jboss without prompting -->
 			<arg value="-Dforce.reinstall=true" />
 			<arg value="-Dlocal.install=true" />
+			<arg value="-D${exclude.server}=true" />
 			<arg value="${upgrade.target}" />
 		</exec>
 		<echo message="The server is not started as part of local deployment.  You will need to run $JBOSS_HOME/bin/run.bat (or run.sh if you are linux)." />
@@ -963,7 +1021,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</sequential>
 		</for>
 	</target>
-	
+
 	<target name="continuous-integration" description="calls wrapper targets for continuous integration build" depends="
 		build:all,
 		static-analysis
