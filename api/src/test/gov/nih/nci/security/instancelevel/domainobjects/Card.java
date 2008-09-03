@@ -23,6 +23,9 @@ public class Card  implements Serializable
 	@Column(name="IMAGE") 
 	private String image;
 	
+	@Column(name="NAME")
+	private String Name;
+	
 	@ManyToOne
 	@JoinColumn(name="suit_id", insertable=false,updatable=false)
 	private Suit suit;
@@ -62,9 +65,7 @@ public class Card  implements Serializable
 		this.image = image;
 	}
 	
-		/**
-	* 	**/
-	private String Name;
+	
 	/**
 	* Retreives the value of Name attribute
 	* @return Name
