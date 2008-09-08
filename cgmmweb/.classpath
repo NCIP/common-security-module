@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/acegi-security-1.0.3.jar"/>
@@ -84,6 +85,7 @@
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/wss4j.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/xmldsig-1.0.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/xmlsec-1.4.0.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/csmapi.jar" sourcepath="/csm_api"/>
+	<classpathentry kind="lib" path="public_html/WEB-INF/lib/csmapi.jar"/>
+	<classpathentry kind="lib" path="public_html/WEB-INF/lib/cgmmapi.jar"/>
 	<classpathentry kind="output" path="public_html/WEB-INF/classes"/>
 </classpath>
