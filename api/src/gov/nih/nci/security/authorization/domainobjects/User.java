@@ -168,6 +168,11 @@ public class User implements Principal, Comparable {
 	 * It is the date when the user information was last updated
 	 */
 	private java.util.Date updateDate;
+	/**
+	 * Indicate whether the User id is migrated to Grid Id.
+	 */
+	private byte migratedFlag;	
+	
 
 	public User(){
 
@@ -440,6 +445,14 @@ public class User implements Principal, Comparable {
 	public void setUserId(Long newVal){
 		userId = newVal;
 	}
+	
+	public byte getMigratedFlag() {
+		return migratedFlag;
+	}
+
+	public void setMigratedFlag(byte migratedFlag) {
+		this.migratedFlag = migratedFlag;
+	}
 
 	public int hashCode(){
 		return 0;
@@ -474,5 +487,7 @@ public class User implements Principal, Comparable {
 		}
 		return 0;
 	}
+
+	
 	
 }
