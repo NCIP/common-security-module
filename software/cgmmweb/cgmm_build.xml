@@ -1,0 +1,116 @@
+<project name="CGMM Project" basedir="." default="all">
+	<description>CGMM Project Build File</description>
+
+	<target name="init" >
+		<property name="app.name"				value="cgmmweb" />
+		<property name="app.path"				value="/${app.name}" />
+		<property name="src.home"				value="${basedir}/src" />
+		<property name="web.home"				value="${basedir}/public_html" />
+		<property name="webinf.home"			value="${web.home}/WEB-INF" />
+		<property name="lib.home"				value="${webinf.home}/lib" />
+		<property name="build.home"				value="${basedir}/build" />
+		<property name="dist.home"				value="${basedir}/dist" />
+		<property name="classes.home"			value="${webinf.home}/classes" />
+		<property name="war.file"				value="${dist.home}/${app.name}.war" />
+	</target>
+
+
+	<target name="clean" depends="init" description="Delete the Build and Dist directories">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+	</target>
+
+
+	<target name="prepareDir" depends="init">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/WEB-INF" />
+		<mkdir dir="${build.home}/WEB-INF/tld" />
+		<mkdir dir="${build.home}/WEB-INF/conf" />
+		<mkdir dir="${build.home}/WEB-INF/lib" />
+		<mkdir dir="${build.home}/META-INF" />
+		<mkdir dir="${classes.home}" />
+
+		<mkdir dir="${dist.home}" />
+	</target>
+
+
+	<target name="prepareBuild" depends="prepareDir">
+
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}"/>
+		</copy>
+
+		<copy todir="${build.home}/WEB-INF/">
+			<fileset dir="${webinf.home}"/>
+		</copy>
+
+		<copy todir="${build.home}/WEB-INF/lib">
+			<fileset dir="${lib.home}" includes="**/*.jar"/>
+		</copy>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging.jar"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta.jar"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/clm.jar"/>		
+	</target>
+
+
+	<target name="prepare" depends="prepareDir,prepareBuild"/>
+
+	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
+		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true" >
+			<classpath>
+				<fileset dir="${lib.home}" includes="*.jar" />
+			</classpath>
+		</javac>
+		<copy todir="${build.home}/WEB-INF/classes" >
+			<fileset dir="${src.home}" excludes="**/*.java" />
+		</copy>
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/ApplicationSecurityConfig.xml"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/csmcgmmweb.hibernate.cfg.xml"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/security.hibernate.cfg.xml"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/hibernate.properties"/>
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/ObjectStateLoggerConfig.xml"/>
+	</target>
+
+	<target name="createJars" depends="compile" description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war">
+		
+		<jar jarfile="${dist.home}/cgmmapi.jar">
+			<fileset dir="${classes.home}" excludes="**/webapp/**/*" excludesfile="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+		</jar>
+		<jar jarfile="${dist.home}/cgmmfilter.jar">
+					<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class"/>
+		</jar>
+		
+		<jar jarfile="${dist.home}/cgmmweb.war">
+			<fileset dir="${build.home}">
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/*.class"/>				
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/beans/*.class"/>
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/constants/*.class"/>
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/exceptions/*.class"/>
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/filters/*.class"/>
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/*.class"/>
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/impl/*.*"/>					
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/util/*.class"/>				
+				<exclude name="WEB-INF/classes/test/*.class"/>				
+				
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="dist" depends="init,compile,createJars" description="Creates war file">
+		<copy todir="${dist.home}">
+			<fileset dir="${basedir}/resources">
+				<exclude name="ObjectStateLoggerConfig.xml" />
+			</fileset>
+		</copy>
+		
+	</target>
+
+	<target name="cleanup" depends="dist" description="Delete the Build directory">
+		<delete dir="${build.home}" />
+	</target>
+	
+	<target name="all" depends="init,clean,prepare,compile,dist,cleanup" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+
+</project>
