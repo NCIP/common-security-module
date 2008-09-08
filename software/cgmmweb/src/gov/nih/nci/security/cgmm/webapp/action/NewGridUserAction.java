@@ -1,0 +1,269 @@
+package gov.nih.nci.security.cgmm.webapp.action;
+
+import gov.nih.nci.security.cgmm.CGMMManager;
+import gov.nih.nci.security.cgmm.CGMMManagerImpl;
+import gov.nih.nci.security.cgmm.beans.CGMMUser;
+import gov.nih.nci.security.cgmm.exceptions.CGMMException;
+import gov.nih.nci.security.cgmm.util.CGMMProperties;
+import gov.nih.nci.security.cgmm.util.StringUtils;
+import gov.nih.nci.security.cgmm.webapp.DisplayConstants;
+import gov.nih.nci.security.cgmm.webapp.ForwardConstants;
+import gov.nih.nci.security.cgmm.webapp.form.NewGridUserForm;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionError;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessages;
+import org.globus.gsi.GlobusCredential;
+
+public class NewGridUserAction extends Action
+{
+
+	/**
+	 * Method execute
+	 * 
+	 * @param mapping
+	 * @param form
+	 * @param request
+	 * @param response
+	 * @return ActionForward
+	 */
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+	{
+
+		ActionErrors errors = new ActionErrors();
+		@SuppressWarnings("unused")
+		ActionMessages messages = new ActionMessages();
+
+		HttpSession session = request.getSession();
+		
+		NewGridUserForm newGridUserForm = (NewGridUserForm) form;
+
+
+		//Obtain CGMMManager from CGMM API.
+		CGMMManager cgmmManager = null;
+		try {
+			cgmmManager = new CGMMManagerImpl();
+		} catch (CGMMException e1) {
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e1.getMessage()));			
+			saveErrors( request,errors );
+			return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
+		}
+		
+		String loginWorkflow = null;
+		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
+		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
+			// No Workflow selected.
+			//Forward to Home page.
+			return mapping.findForward(ForwardConstants.FORWARD_HOME);
+		}
+		
+		
+		if(!StringUtils.isBlankOrNull(loginWorkflow) && DisplayConstants.CSM_WORKFLOW.equalsIgnoreCase(loginWorkflow)){
+			// CSM Workflow.  Authenticate Grid User
+			
+			
+			//Check if CGMM is enabled for New Grid User Creation Workflow.
+			String newgridusercreationdisabled = null;
+			newgridusercreationdisabled = CGMMProperties.getCGMMInformation().getCgmmNewGridUserCreationDisabled();
+			if("true".equalsIgnoreCase(newgridusercreationdisabled)){
+				//New Grid User Workflow is disabled.
+				// So pass control to host applications New Grid User Redirect URI
+				
+				String hostAppContextName = CGMMProperties.getHostApplicationInformation().getHostContextName();
+				String newgridusercreationdisabledURL = CGMMProperties.getCGMMInformation().getCgmmNewGridUserCreationHostRedirectURI();
+				
+				if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(newgridusercreationdisabledURL)){
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
+					saveErrors( request,errors );
+				}else{
+					ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+hostAppContextName);
+					RequestDispatcher rd = sc.getRequestDispatcher(newgridusercreationdisabledURL);
+					try {
+						rd.forward(request, response);
+					} catch (ServletException e) {
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+						saveErrors( request,errors );
+					} catch (IOException e) {
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+						saveErrors( request,errors );
+					}
+				}
+
+			}else{
+				// New Grid User Workflow is NOT disabled.
+				
+
+				if(session.getAttribute("POPULATED_FORM")==null){
+					/*
+					 * 1. Obtain CSM User Details from csm.
+					 * 2. copy User details to form.
+					 * 3. forward to new grid user screen.
+					 */
+					// Obtain CSM User Details.
+					String csmUserLoginId = (String)session.getAttribute(DisplayConstants.LOGIN_OBJECT);
+					if(!StringUtils.isBlankOrNull(csmUserLoginId)){
+						try{
+							
+							CGMMUser user = cgmmManager.getUserDetails(csmUserLoginId);
+							// Populate NewGridUserForm details as much from CSM schema.
+							copyCsmUserDetailsToForm(user,newGridUserForm);
+							session.setAttribute(DisplayConstants.CURRENT_FORM, newGridUserForm);
+							session.setAttribute("POPULATED_FORM", "YES");
+						}catch(CGMMException e){
+							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+							saveErrors( request,errors );
+							return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN);
+						}
+					} 
+					return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
+					
+				}else{
+					/* 1. Create Account
+					 * 2. Authenticate User and get Grid Proxy.
+					 * 3. Migrate CSM User
+					 * 4. Populate Grid proxy and User information in request
+					 * 5. Forward control to Host application.
+					 */
+					
+					session.setAttribute(DisplayConstants.CURRENT_FORM, newGridUserForm);
+
+					// Create Account.
+					CGMMUser cgmmUser = populateApplication(newGridUserForm);
+					try {
+						cgmmManager.createDorianAccount(cgmmUser , CGMMProperties.getAuthenticationServiceInformationList().get(0).getDorianInformation().getDorianServiceURL());
+					} catch (CGMMException e) {
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));
+						saveErrors( request,errors );
+					}
+					if(errors.size()>0){
+						session.setAttribute(DisplayConstants.CURRENT_FORM, newGridUserForm);
+						return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
+					}
+
+					// Authenticate User and get Grid Proxy.
+					GlobusCredential globusCredential=null;
+					try {
+						globusCredential = cgmmManager.performGridLogin(cgmmUser.getLoginIDGrid(),cgmmUser.getPasswordGrid(), CGMMProperties.getAuthenticationServiceInformationList().get(0).getDorianInformation().getDorianServiceURL());
+						if(globusCredential!=null){
+							//Migrate User.
+							boolean migrated = false;
+							migrated = cgmmManager.migrateCSMUserIDToGridID((String)session.getAttribute(DisplayConstants.LOGIN_OBJECT), globusCredential.getIdentity());
+							
+							if(!migrated){
+								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_MIGRATION_FAILURE));			
+								saveErrors( request,errors );
+							}else{
+								
+								HashMap<String, String> attributesMap = cgmmManager.getUserAttributesMap(cgmmUser.getLoginIDGrid(),cgmmUser.getPasswordGrid(),CGMMProperties.getAuthenticationServiceInformationList().get(0).getDorianInformation().getDorianServiceURL());
+								
+								// Populate Request Attributes and Grid Proxy in Request
+								request.setAttribute(DisplayConstants.CGMM_EMAIL_ID, attributesMap.get(DisplayConstants.CGMM_EMAIL_ID));
+								request.setAttribute(DisplayConstants.CGMM_FIRST_NAME, attributesMap.get(DisplayConstants.CGMM_FIRST_NAME));
+								request.setAttribute(DisplayConstants.CGMM_LAST_NAME, attributesMap.get(DisplayConstants.CGMM_LAST_NAME));
+								request.setAttribute(DisplayConstants.GRID_PROXY, globusCredential);
+								session.setAttribute(DisplayConstants.LOGIN_OBJECT, globusCredential.getIdentity());
+								
+								//Forward request to the Host Application URL.
+								String hostAppContextName = CGMMProperties.getHostApplicationInformation().getHostContextName();
+								String hostUserHomePageURL = CGMMProperties.getHostApplicationInformation().getHostUserHomePageURL();
+								if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostUserHomePageURL)){
+									errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
+									saveErrors( request,errors );
+								}else{
+									ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+hostAppContextName);
+									RequestDispatcher rd = sc.getRequestDispatcher(hostUserHomePageURL);
+									try {
+										rd.forward(request, response);
+									} catch (ServletException e) {
+										errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+										saveErrors( request,errors );
+									} catch (IOException e) {
+										errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+										saveErrors( request,errors );
+									}
+								}
+								
+							}
+						}else{
+							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_INVALID_CREDENTIALS));
+							saveErrors( request,errors );
+						}
+					}  catch (CGMMException e) {
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+						saveErrors( request,errors );
+					}
+					return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
+					
+				}
+			}
+			// Forward control to newGridUser.jsp.
+			return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
+		}
+
+
+		return mapping.findForward(ForwardConstants.FORWARD_CSM_LOGIN);
+
+	}
+
+	private CGMMUser populateApplication(NewGridUserForm newGridUserForm) {
+		CGMMUser cgmmUser = new CGMMUser();
+		
+		if(newGridUserForm!=null){
+			
+	
+			cgmmUser.setAddress1(newGridUserForm.getAddress1()==null?" ":newGridUserForm.getAddress1());
+			cgmmUser.setAddress2(newGridUserForm.getAddress2()==null?" ":newGridUserForm.getAddress2());
+			cgmmUser.setCity(newGridUserForm.getCity()==null?" ":newGridUserForm.getCity());
+			if(newGridUserForm.getCountry()!=null)
+				cgmmUser.setCountry(newGridUserForm.getCountry());
+			else
+				cgmmUser.setCountry("US");
+			cgmmUser.setFirstName(newGridUserForm.getFirstName()==null?" ":newGridUserForm.getFirstName());
+			cgmmUser.setLastName(newGridUserForm.getLastName()==null?" ":newGridUserForm.getLastName());
+			cgmmUser.setOrganization(newGridUserForm.getOrganization()==null?" ":newGridUserForm.getOrganization());
+			cgmmUser.setPasswordGrid(newGridUserForm.getPassword()==null?" ":newGridUserForm.getPassword());
+			cgmmUser.setPhoneNumber(newGridUserForm.getPhone()==null?" ":newGridUserForm.getPhone());
+			if(newGridUserForm.getCountry()!=null)
+				cgmmUser.setState(newGridUserForm.getState());
+				//application.setState(StateCode.fromString(newGridUserForm.getState()));
+			else
+				cgmmUser.setState("AK");
+			cgmmUser.setLoginIDGrid(newGridUserForm.getUserName()==null?" ":newGridUserForm.getUserName());
+			cgmmUser.setZipcode(newGridUserForm.getPostalCode()==null?" ":newGridUserForm.getPostalCode());
+			cgmmUser.setEmailId(newGridUserForm.getEmail()==null?" ":newGridUserForm.getEmail());
+		}
+		return cgmmUser;
+		
+	}
+
+	private void copyCsmUserDetailsToForm(CGMMUser user, NewGridUserForm newGridUserForm) {
+		if(user!=null){
+			
+		
+		newGridUserForm.setFirstName(user.getFirstName());
+		newGridUserForm.setLastName(user.getLastName());
+		newGridUserForm.setUserName(user.getLoginIDGrid());
+		newGridUserForm.setEmail(user.getEmailId());
+		newGridUserForm.setPhone(user.getPhoneNumber());
+		newGridUserForm.setOrganization(user.getOrganization());
+		}
+		
+	}
+	
+
+	
+}

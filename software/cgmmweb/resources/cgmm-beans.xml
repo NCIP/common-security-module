@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-lazy-init="false" default-dependency-check="none" default-autowire="no">
+
+	<bean name="FileHelper" class="gov.nih.nci.security.cgmm.util.FileHelper" singleton="true" />
+
+	<bean name="CGMMProperties" class="gov.nih.nci.security.cgmm.util.CGMMProperties" singleton="true">
+		<constructor-arg ref="FileHelper"></constructor-arg>
+		<constructor-arg value="cgmm-properties.xml"></constructor-arg>
+		<constructor-arg value="cgmm-properties.xsd"></constructor-arg>
+	</bean>
+
+	<bean name="AuthenticationServiceHelper" class="gov.nih.nci.security.cgmm.helper.impl.AuthenticationServiceHelperImpl" singleton="true" />
+
+	<bean name="DorianHelper" class="gov.nih.nci.security.cgmm.helper.impl.DorianHelperImpl" singleton="true" />
+
+	<bean name="ProxyValidator" class="gov.nih.nci.security.cgmm.helper.impl.ProxyValidatorImpl" singleton="true" />
+
+	<bean name="SAMLToAttributeMapper" class="gov.nih.nci.security.cgmm.helper.impl.SAMLToAttributeMapperImpl" singleton="true" />
+
+	<bean name="SAMLToAttributeMapper" class="gov.nih.nci.security.cgmm.helper.impl.SAMLToAttributeMapperImpl" singleton="true" />
+
+</beans>
