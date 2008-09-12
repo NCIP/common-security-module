@@ -153,8 +153,14 @@ public interface AuthorizationDAO {
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.UserProvisioningManager#assignUsersToGroup(java.lang.String, java.lang.String[])
 	 */
-	public void assignUsersToGroup(String groupId, String[] userIds) throws CSTransactionException;;
+	public void assignUsersToGroup(String groupId, String[] userIds) throws CSTransactionException;
 
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignUsersToGroup(java.lang.String, java.lang.String[])
+	 */
+	public void addUsersToGroup(String groupId, String[] userIds) throws CSTransactionException;
+
+	
 	/**
 	 * @param protectionElementObjectId
 	 * @param userNames
@@ -164,6 +170,15 @@ public interface AuthorizationDAO {
 			String protectionElementObjectId, String[] userNames)
 			throws CSTransactionException;
 
+	/**
+	 * @param userId
+	 * @param rolesId
+	 * @param protectionGroupId
+	 *  
+	 */
+	public void addUserRoleToProtectionGroup(String userId,
+			String[] rolesId, String protectionGroupId)
+			throws CSTransactionException;
 	/**
 	 * @param userId
 	 * @param rolesId
@@ -252,6 +267,14 @@ public interface AuthorizationDAO {
 	 * @param privilegeIds
 	 *  
 	 */
+	public void addPrivilegesToRole(String roleId, String[] privilegeIds)
+			throws CSTransactionException;
+
+	/**
+	 * @param roleId
+	 * @param privilegeIds
+	 *  
+	 */
 	public void assignPrivilegesToRole(String roleId, String[] privilegeIds)
 			throws CSTransactionException;
 
@@ -306,13 +329,20 @@ public interface AuthorizationDAO {
 					String[] userNames) throws CSTransactionException;
 	
 	
-			
+	
+	/**
+	 * @param userId
+	 * @param groupIds
+	 */
+	public void addGroupsToUser(String userId,String[] groupIds)
+			throws CSTransactionException;
+	
 	/**
 	 * @param userId
 	 * @param groupIds
 	 */
 	public void assignGroupsToUser(String userId,String[] groupIds)
-			throws CSTransactionException;;
+			throws CSTransactionException;
 
 	/**
 	 * @param groupId
@@ -320,8 +350,18 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public void removeUserFromGroup(String groupId, String userId)
-			throws CSTransactionException;;
+			throws CSTransactionException;
 
+	
+	/**
+	 * @param protectionGroupId
+	 * @param groupId
+	 * @param rolesId
+	 *  
+	 */
+	public void addGroupRoleToProtectionGroup(String protectionGroupId,
+			String groupId, String[] rolesId) throws CSTransactionException ;
+	
 	/**
 	 * @param protectionGroupId
 	 * @param groupId
@@ -329,8 +369,9 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public void assignGroupRoleToProtectionGroup(String protectionGroupId,
-			String groupId, String[] rolesId) throws CSTransactionException;;
+			String groupId, String[] rolesId) throws CSTransactionException;
 
+	
 	
 	/**
 	 * This method removes the user from a protection group irrespective of all
@@ -341,7 +382,7 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public void removeUserFromProtectionGroup(String protectionGroupId,
-			String userId) throws CSTransactionException;;
+			String userId) throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupId
@@ -350,7 +391,7 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public void removeGroupRoleFromProtectionGroup(String protectionGroupId,
-			String groupId, String[] roleId) throws CSTransactionException;;
+			String groupId, String[] roleId) throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupId
@@ -358,7 +399,7 @@ public interface AuthorizationDAO {
 	 *  
 	 */
 	public void removeGroupFromProtectionGroup(String protectionGroupId,
-			String groupId) throws CSTransactionException;;
+			String groupId) throws CSTransactionException;
 
 	/**
 	 * @param protectionGroupName
@@ -402,9 +443,9 @@ public interface AuthorizationDAO {
 	
 	public Set getProtectionGroupRoleContextForGroup(String groupId) throws CSObjectNotFoundException;
 
-	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException;;
+	public Set getProtectionElementPrivilegeContextForUser(String userId) throws CSObjectNotFoundException;
 	
-	public Set getProtectionElementPrivilegeContextForGroup(String groupId) throws CSObjectNotFoundException;;	
+	public Set getProtectionElementPrivilegeContextForGroup(String groupId) throws CSObjectNotFoundException;	
 	
 	public void removeObject(Object obj) throws CSTransactionException;
 	
@@ -420,9 +461,13 @@ public interface AuthorizationDAO {
 
 	public Set getProtectionGroups(String protectionElementId) throws CSObjectNotFoundException;
 	
+	public void addToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
+	
 	public void assignToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
 
 	public void assignParentProtectionGroup(String parentProtectionGroupId,String childProtectionGroupId) throws CSTransactionException;
+	
+	public void addOwners(String protectionElementId,String[] userIds) throws CSTransactionException;
 	
 	public void assignOwners(String protectionElementId,String[] userIds) throws CSTransactionException;
 	
@@ -438,7 +483,7 @@ public interface AuthorizationDAO {
 
 	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException;
 
-	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;;
+	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;
 
 	public List getAccessibleGroups(String objectId, String privilegeName) throws CSException;
 

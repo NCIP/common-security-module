@@ -154,15 +154,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	 */
 	private boolean isEncryptionEnabled;
 	
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.UserProvisioningManager#addUserToGroup(java.lang.String, java.lang.String)
-	 */
-	public void addUserToGroup(String groupId, String userId)
-			throws CSTransactionException {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	/**
 	 * Constructor for UserProvisioningManagerImpl.
 	 * @param applicationContextName String
@@ -398,6 +390,19 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		authorizationDAO.setOwnerForProtectionElement(protectionElementObjectId,userNames);
 	}
 
+	/**
+	 * @param userId
+	 * @param rolesId
+	 * @param protectionGroupId
+	 * 
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#addUserRoleToProtectionGroup(String, String[], String)
+	 */
+	public void addUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId)throws CSTransactionException{
+           
+		authorizationDAO.addUserRoleToProtectionGroup(userId,rolesId,protectionGroupId);
+	}
+	
 	/**
 	 * @param userId
 	 * @param rolesId
@@ -652,6 +657,17 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		authorizationDAO.removeObject(p);
 		
 	}
+	
+	/**
+	 * @param roleId
+	 * @param privilegeIds
+	 * 
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignPrivilegesToRole(String, String[])
+	 */
+	public void addPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException{
+		authorizationDAO.addPrivilegesToRole(roleId,privilegeIds);
+	}
 
 	/**
 	 * @param roleId
@@ -778,10 +794,31 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	 * @throws CSTransactionException
 	 * @see gov.nih.nci.security.UserProvisioningManager#assignGroupsToUser(String, String[])
 	 */
+	public void addGroupsToUser(String userId,String[] groupIds)throws CSTransactionException{
+        authorizationDAO.addGroupsToUser(userId,groupIds);
+	}
+	
+	/**
+	 * @param userId
+	 * 
+	 * @param groupIds String[]
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignGroupsToUser(String, String[])
+	 */
 	public void assignUsersToGroup(String groupId,String[] userIds)throws CSTransactionException{
         authorizationDAO.assignUsersToGroup(groupId,userIds);
 	}
 	
+	/**
+	 * @param userId
+	 * 
+	 * @param groupIds String[]
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignGroupsToUser(String, String[])
+	 */
+	public void addUsersToGroup(String groupId,String[] userIds)throws CSTransactionException{
+        authorizationDAO.addUsersToGroup(groupId,userIds);
+	}
 
 	/**
 	 * @param groupId
@@ -794,6 +831,18 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
            authorizationDAO.removeUserFromGroup(groupId,userId);
 	}
 
+	/**
+	 * @param protectionGroupId
+	 * @param groupId
+	 * @param rolesId
+	 * 
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignGroupRoleToProtectionGroup(String, String, String[])
+	 */
+	public void addGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId[])throws CSTransactionException{
+		authorizationDAO.addGroupRoleToProtectionGroup( protectionGroupId, groupId, rolesId );
+	}
+	
 	/**
 	 * @param protectionGroupId
 	 * @param groupId
@@ -1062,6 +1111,16 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	}
 	
 	/**
+	 * Method addToProtectionGroups.
+	 * @param protectionElementId String
+	 * @param protectionGroupIds String[]
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#assignToProtectionGroups(String, String[])
+	 */
+	public void addToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException{
+		authorizationDAO.addToProtectionGroups(protectionElementId,protectionGroupIds);
+	}
+	/**
 	 * Method assignToProtectionGroups.
 	 * @param protectionElementId String
 	 * @param protectionGroupIds String[]
@@ -1133,7 +1192,18 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		return (Application)authorizationDAO.getObjectByPrimaryKey(Application.class,applicationId);
 		//authorizationDAO.getProtectionElement(protectionElementId);
 	}
-	
+
+	/**
+	 * Method addOwners.
+	 * @param protectionElementId String
+	 * @param userIds String[]
+	 * @throws CSTransactionException
+	 * @see gov.nih.nci.security.UserProvisioningManager#addOwners(String, String[])
+	 */
+	public void addOwners(String protectionElementId,String[] userIds) throws CSTransactionException{
+		authorizationDAO.addOwners(protectionElementId,userIds);
+	}
+
 	/**
 	 * Method assignOwners.
 	 * @param protectionElementId String
@@ -1221,7 +1291,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		// TODO Auto-generated method stub
 		authorizationDAO.assignUserToGroup( userName, groupName );
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthorizationManager#setAuditUserInfo(java.lang.String, java.lang.String)
 	 */
