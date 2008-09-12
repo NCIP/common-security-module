@@ -581,6 +581,19 @@ public interface AuthorizationManager {
 	 */
 	public void removeProtectionElement(String protectionElementId)throws CSTransactionException;
 
+	
+	/**
+	 * Assigns multiples roles to a Protection Group for a particular user. This method accepts a single user id and 
+	 * Protection Group id and multiple role ids
+	 * 
+	 * @param userId The id of the user which needs to be assigned the Protection Group and roles
+	 * @param rolesId The ids of the roles which are to be assigned to the user for a Protection Group
+	 * @param protectionGroupId The id of the protection Group which needs to be assigned to the group and roles
+	 * 
+	 * @throws CSTransactionException If there is any exception in assigning user role to the protection group
+	 */
+	public void addUserRoleToProtectionGroup(String userId, String[] rolesId, String protectionGroupId)throws CSTransactionException;
+	
 	/**
 	 * Assigns multiples roles to a Protection Group for a particular user. This method accepts a single user id and 
 	 * Protection Group id and multiple role ids
@@ -656,6 +669,15 @@ public interface AuthorizationManager {
 	
 	/**
 	 * Assigns multiple Privileges to a single Role.
+	 * 
+	 * @param roleId the Role to which the Privileges are to be assigned
+	 * @param privilegeIds The Privileges which are to be assigned to the Role
+	 * @throws CSTransactionException If there are any errors in the Assignment
+	 */
+	public void addPrivilegesToRole(String roleId,String[] privilegeIds)throws CSTransactionException;
+	
+	/**
+	 * Assigns multiple Privileges to a single Role.
 	 * The same method should be called for de-assigning or modifying the association
 	 * @param roleId the Role to which the Privileges are to be assigned
 	 * @param privilegeIds The Privileges which are to be assigned to the Role
@@ -698,6 +720,15 @@ public interface AuthorizationManager {
 	public void assignGroupsToUser(String userId,String[] groupIds)throws CSTransactionException;
 	
 	/**
+	 * Add multiple Groups to a single User.
+	 * 
+	 * @param userId the User to which the Groups are to be assigned
+	 * @param groupIds The Groups which are to be assigned to the User
+	 * @throws CSTransactionException If there are any errors in the Assignment
+	 */
+	public void addGroupsToUser(String userId,String[] groupIds)throws CSTransactionException;
+	
+	/**
 	 * Assigns multiple Users to a single Group.
 	 * The same method should be called for de-assigning or modifying the association
 	 * @param groupId the Group to which the Users are to be assigned
@@ -706,6 +737,15 @@ public interface AuthorizationManager {
 	 */
 	public void assignUsersToGroup(String groupId,String[] userIds)throws CSTransactionException;
 	
+	/**
+	 * Assigns multiple Users to a single Group.
+	 * 
+	 * @param groupId the Group to which the Users are to be assigned
+	 * @param userIds The Users which are to be assigned to the Group
+	 * @throws CSTransactionException If there are any errors in the Assignment
+	 */
+	public void addUsersToGroup(String groupId,String[] userIds)throws CSTransactionException;
+
 	
 	/**
 	 * Assigns a User to a Group
@@ -729,6 +769,18 @@ public interface AuthorizationManager {
 	/**
 	 * Assigns multiples roles to a Protection Group for a particular user. This method accepts a single user id and 
 	 * Protection Group id and multiple role ids
+	 * 
+	 * @param groupId The id of the group which needs to be assigned the Protection Group and roles
+	 * @param rolesId The ids of the roles which are to be assigned to the group for a Protection Group
+	 * @param protectionGroupId The id of the protection Group which needs to be assigned to the group and roles
+	 * 
+	 * @throws CSTransactionException if there is any error in the assignment operations
+	 */
+	public void addGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId[])throws CSTransactionException;
+	
+	/**
+	 * Assigns multiples roles to a Protection Group for a particular user. This method accepts a single user id and 
+	 * Protection Group id and multiple role ids
 	 * The same method should be called for de-assigning or modifying the association
 	 * @param groupId The id of the group which needs to be assigned the Protection Group and roles
 	 * @param rolesId The ids of the roles which are to be assigned to the group for a Protection Group
@@ -738,6 +790,8 @@ public interface AuthorizationManager {
 	 */
 	public void assignGroupRoleToProtectionGroup(String protectionGroupId, String groupId, String rolesId[])throws CSTransactionException;
 
+
+	
 	/**
 	 * Returns the Privilege object for the passed Privilege id
 	 * @param privilegeId The id of the Privilege object which is to be obtained
@@ -958,6 +1012,14 @@ public interface AuthorizationManager {
 	
 	/**
 	 * Assigns multiple Protection Groups to a single Protection Element.
+	 * 
+	 * @param protectionElementId the Protection Element to which the protection Groups are to be assigned
+	 * @param protectionGroupIds The Protection Group which are to be assigned to the Protection Element
+	 * @throws CSTransactionException If there are any errors in the Assignment
+	 */
+	public void addToProtectionGroups(String protectionElementId,String[] protectionGroupIds) throws CSTransactionException;
+	/**
+	 * Assigns multiple Protection Groups to a single Protection Element.
 	 * The same method should be called for de-assigning or modifying the association
 	 * @param protectionElementId the Protection Element to which the protection Groups are to be assigned
 	 * @param protectionGroupIds The Protection Group which are to be assigned to the Protection Element
@@ -1018,6 +1080,17 @@ public interface AuthorizationManager {
 	 */
 	public void assignOwners(String protectionElementId,String[] userIds) throws CSTransactionException;
 
+	/**
+	 * Adds multiple Owners (User) to a single Protection Element. This method is to be used if you want to group
+	 * multiple Owners to a Protection Element.
+	 * This method should only be used to incrementally add Owners.
+	 * @param protectionElementId the Protection Element to which the Owners(User) are to be assigned
+	 * @param userIds The Owners (Users) which are to be associated to the Protection Element
+	 * @throws CSTransactionException If there are any errors in adding Owners
+	 */
+	public void addOwners(String protectionElementId,String[] userIds) throws CSTransactionException;
+
+	
 	/**
 	 * Returns the Assigned Owners (Users) for a particular Protection Elements. The Protection Element is obtained from the Protection Element Id passed
 	 * @param protectionElementId The id of the Protection Element object whose associated Owners (Users) are to be obtained

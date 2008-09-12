@@ -433,6 +433,80 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		
 
 	}
+	
+	public void addGroupsToUser(String userId, String[] groupIds)
+	throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+			User user = (User) s.load(User.class,new Long(userId));
+			if(user==null) throw new CSTransactionException("Authorization|||addGroupsToUser || Unable to retrieve User with Id :"+userId);
+			
+			
+			Set groupSet = user.getGroups();
+			if(groupSet==null) groupSet = new HashSet();
+			
+			for (int i = 0; i < groupIds.length; i++) {
+				boolean assigned= false;
+				Iterator iterator = groupSet.iterator();
+				while(iterator.hasNext()){
+					Group group =(Group)iterator.next();
+					if(groupIds[i].equalsIgnoreCase(group.getGroupId().toString()))
+						assigned=true;
+				}
+				if(!assigned){
+					Group group= (Group) s.load(Group.class, Long.parseLong(groupIds[i]));
+					if(group!=null)
+						groupSet.add(group);
+				}
+			}
+			
+			t = s.beginTransaction();
+			s.update(user);
+			t.commit();
+			s.flush();
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addGroupsToUser|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addGroupsToUser|Failure|Error occurred in assigning Groups "
+								+ StringUtilities.stringArrayToString(groupIds)
+								+ " to User " + userId + "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in adding Groups to User\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addGroupsToUser|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||addGroupsToUser|Success|Successful in assigning Groups "
+							+ StringUtilities.stringArrayToString(groupIds)
+							+ " to User " + userId + "|");
+		auditLog.info("Assigning User " + userId + " to Groups");		
+		
+	}
+
+
+
 
 	public void assignGroupsToUser(String userId, String[] groupIds)
 			throws CSTransactionException {
@@ -500,6 +574,78 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ " to User " + userId + "|");
 		auditLog.info("Assigning User " + userId + " to Groups");		
 	}
+	
+	public void addUsersToGroup(String groupId, String[] userIds)
+	throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+			Group group = (Group) s.load(Group.class,new Long(groupId));
+			if(group==null) throw new CSTransactionException("Authorization|||addUsersToGroup|| Unable to retrieve Group with Id :"+groupId);
+			
+			Set userSet = group.getUsers();
+						
+			for (int k = 0; k < userIds.length; k++) {
+				boolean assigned= false;
+				Iterator iterator  = userSet.iterator();
+				while(iterator.hasNext()){
+					User user = (User)iterator.next();
+					if(user.getUserId().toString().equalsIgnoreCase(userIds[k]))
+						assigned=true;
+				}
+				if(!assigned){
+					User user = (User) s.load(User.class, Long.parseLong(userIds[k]));
+					if(user!=null)
+						userSet.add(user);
+				}
+			}
+			
+			t = s.beginTransaction();
+			s.update(group);
+			t.commit();
+			s.flush();
+			
+			
+			
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addUsersToGroup|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addUsersToGroup|Failure|Error occurred in assigning Users "
+								+ StringUtilities.stringArrayToString(userIds)
+								+ " to Group " + groupId + "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in adding Users to Group\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addUsersToGroup|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||addUsersToGroup|Success|Successful in assigning Users "
+							+ StringUtilities.stringArrayToString(userIds)
+							+ " to Group " + groupId + "|");
+		auditLog.info("Adding Group " + groupId + " to Users");		
+	}
+
 
 	public void assignUsersToGroup(String groupId, String[] userIds)
 	throws CSTransactionException {
@@ -570,6 +716,105 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	}
 
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignGroupRoleToProtectionGroup(java.lang.String,
+	 *      java.lang.String, java.lang.String)
+	 */
+
+	public void addGroupRoleToProtectionGroup(String protectionGroupId,
+			String groupId, String[] rolesId) throws CSTransactionException {
+
+		Session s = null;
+		Transaction t = null;
+        ArrayList roles = new ArrayList();
+		try {
+
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+			
+			for (int i = 0; i < rolesId.length; i++){
+				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
+						new Long(rolesId[i]));
+				roles.add(role);
+			}
+
+			ProtectionGroup pgroup = (ProtectionGroup) s.load(ProtectionGroup.class, new Long(protectionGroupId));
+			if(pgroup==null) throw new CSTransactionException("Authorization|||addGroupRoleToProtectionGroup || Unable to retrieve Protection Group with Id :"+protectionGroupId);
+
+			Group group = (Group) s.load(Group.class,new Long(groupId));
+			if(group==null) throw new CSTransactionException("Authorization|||addGroupRoleToProtectionGroup || Unable to retrieve Group with Id :"+groupId);
+						
+			Criteria criteria = s
+					.createCriteria(UserGroupRoleProtectionGroup.class);
+			criteria.add(Restrictions.eq("protectionGroup", pgroup));
+			criteria.add(Restrictions.eq("group", group));
+			
+			List list = criteria.list();
+			for(int k=0;k<list.size();k++){
+				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
+				Role r = ugrpg.getRole();
+				  if(roles.contains(r)){
+				  	roles.remove(r);
+				  }
+			}
+			t = s.beginTransaction();
+			for(int j=0;j<roles.size();j++){
+				Role leftOverRole = (Role)roles.get(j);
+				UserGroupRoleProtectionGroup toBeSaved = new UserGroupRoleProtectionGroup();
+			  	toBeSaved.setGroup(group);
+			  	toBeSaved.setProtectionGroup(pgroup);
+			  	toBeSaved.setRole(leftOverRole);
+                toBeSaved.setUpdateDate(new Date());
+                s.save(toBeSaved);
+			}
+			t.commit();
+			s.flush();
+			auditLog.info("Adding Roles to Group " + group.getGroupName() + " for Protection Group " + pgroup.getProtectionGroupName());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addGroupsToUser|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addGroupRoleToProtectionGroup|Failure|Error Occured in assigning Roles "
+								+ StringUtilities.stringArrayToString(rolesId)
+								+ " to Group "
+								+ groupId
+								+ " and Protection Group"
+								+ protectionGroupId
+								+ "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in adding Protection Group and Roles to a Group\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addGroupRoleToProtectionGroup|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||GroupRoleToProtectionGroup|Success|Successful in assigning Roles "
+							+ StringUtilities.stringArrayToString(rolesId)
+							+ " to Group "
+							+ groupId
+							+ " and Protection Group"
+							+ protectionGroupId + "|");
+	}
+
 	
 	/*
 	 * (non-Javadoc)
@@ -630,11 +875,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
                 toBeSaved.setUpdateDate(new Date());
                 s.save(toBeSaved);
 			}
-			
-			
-
-			
-
 			t.commit();
 			s.flush();
 			auditLog.info("Assigning Roles to Group " + group.getGroupName() + " for Protection Group " + pgroup.getProtectionGroupName());
@@ -679,6 +919,84 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ groupId
 							+ " and Protection Group"
 							+ protectionGroupId + "|");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignPrivilegesToRole(java.lang.String[],
+	 *      java.lang.String)
+	 */
+
+	public void addPrivilegesToRole(String roleId, String[] privilegeIds)
+			throws CSTransactionException {
+
+		Session s = null;
+		Transaction t = null;
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+
+			Role role = (Role) s.load(Role.class,new Long(roleId));
+			if(role==null) throw new CSTransactionException("Authorization|||addPrivilegesToRole|| Unable to retrieve Role with Id :"+roleId);
+			
+			Set<Privilege> privs = role.getPrivileges();
+			
+			for (int k = 0; k < privilegeIds.length; k++) {
+				boolean assigned = false;
+				if(privilegeIds[k]!=null && privilegeIds[k].length()>0){
+					Privilege pr = (Privilege) s.load(Privilege.class,new Long(privilegeIds[k]));
+					if (pr != null) {
+						Iterator it=privs.iterator();
+						while(it.hasNext()){
+							Privilege p = (Privilege)it.next();
+							if(p.equals(pr)) assigned=true;
+						}
+						if(!assigned) privs.add(pr);
+					}
+				}
+			}
+			
+			role.setPrivileges(privs);
+			t = s.beginTransaction();
+			s.update(role);
+			t.commit();
+			s.flush();
+			auditLog.info("Adding Privileges to Role " + role.getName());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addPrivilegesToRole|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addPrivilegesToRole|Failure|Error Occured in assigning Privilege "
+								+ StringUtilities
+										.stringArrayToString(privilegeIds)
+								+ " to Role " + roleId + "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in adding Privileges to Role\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addPrivilegesToRole|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||addPrivilegesToRole|Success|Success in assigning Privilege "
+							+ StringUtilities.stringArrayToString(privilegeIds)
+							+ " to Role " + roleId + "|");
 	}
 
 	/*
@@ -852,7 +1170,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String,
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElement(java.lang.String,
 	 *      java.lang.String[])
 	 */
 	public void assignProtectionElement(String protectionGroupName,
@@ -861,6 +1179,102 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.assignProtectionElement(protectionGroupName,
 				protectionElementObjectId, null);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignUserRoleToProtectionGroup(java.lang.String,
+	 *      java.lang.String[], java.lang.String)
+	 */
+	public void addUserRoleToProtectionGroup(String userId,
+			String[] rolesId, String protectionGroupId)
+			throws CSTransactionException {
+		
+		Session s = null;
+		Transaction t = null;
+		ArrayList roles = new ArrayList();
+
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+			for (int i = 0; i < rolesId.length; i++){
+				Role role = (Role) s.load( Role.class,new Long(rolesId[i]));
+				if(role!=null)
+					roles.add(role);
+			}
+			ProtectionGroup pgroup = (ProtectionGroup) s.load(ProtectionGroup.class, new Long(protectionGroupId));
+			if(pgroup==null) throw new CSTransactionException("Authorization|||addUserRoleToProtectionGroup || Unable to retrieve Protection Group with ID :"+protectionGroupId);
+
+			User user =(User) s.load(User.class,new Long(userId));
+			if(user==null) throw new CSTransactionException("Authorization|||addUserRoleToProtectionGroup || Unable to retrieve User with ID :"+userId);
+			
+			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
+			criteria.add(Restrictions.eq("protectionGroup", pgroup));
+			criteria.add(Restrictions.eq("user", user));
+			
+			List list = criteria.list();
+			for(int k=0;k<list.size();k++){
+				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
+				Role r = ugrpg.getRole();
+				  if(roles.contains(r)){
+				  	roles.remove(r);
+				  }
+			}
+			t = s.beginTransaction();
+			for(int j=0;j<roles.size();j++){
+				Role leftOverRole = (Role)roles.get(j);
+				UserGroupRoleProtectionGroup toBeSaved = new UserGroupRoleProtectionGroup();
+				toBeSaved.setUser(user);
+			  	toBeSaved.setProtectionGroup(pgroup);
+			  	toBeSaved.setRole(leftOverRole);
+                toBeSaved.setUpdateDate(new Date());
+                s.save(toBeSaved);
+			}
+			t.commit();
+			s.flush();
+			auditLog.info("Adding Roles to User " + user.getLoginName() + " for Protection Group " + pgroup.getProtectionGroupName());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addUserRoleToProtectionGroup|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addGroupRoleToProtectionGroup|Failure|Error Occured in adding Roles "
+								+ StringUtilities.stringArrayToString(rolesId)
+								+ " to User "
+								+ userId
+								+ " and Protection Group"
+								+ protectionGroupId
+								+ "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in adding Protection Group and Roles to a User\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addUserRoleToProtectionGroup|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||addGroupRoleToProtectionGroup|Success|Successful in assigning Roles "
+							+ StringUtilities.stringArrayToString(rolesId)
+							+ " to User "
+							+ userId
+							+ " and Protection Group"
+							+ protectionGroupId + "|");
 	}
 
 	/*
@@ -3983,6 +4397,85 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 
+	public void addToProtectionGroups(String protectionElementId,
+			String[] protectionGroupIds) throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			ProtectionElement protectionElement = (ProtectionElement) s.load(ProtectionElement.class,new Long(protectionElementId));
+			if(protectionElement==null)
+				throw new CSTransactionException("Authorization|||addToProtectionGroups|| Unable to retrieve Protection Element with ProtectionElementId :"+protectionElementId);
+			
+			Set<ProtectionGroup> protectionGroups = protectionElement.getProtectionGroups();
+			if(protectionGroups==null)
+				protectionGroups = new HashSet();
+
+			for (int k = 0; k < protectionGroupIds.length; k++) {
+				boolean assigned = false;
+				if(protectionGroupIds[k]!=null && protectionGroupIds[k].length()>0){
+					ProtectionGroup pr = (ProtectionGroup) s.load(ProtectionGroup.class,new Long(protectionGroupIds[k]));
+					if (pr != null) {
+						Iterator it=protectionGroups.iterator();
+						while(it.hasNext()){
+							ProtectionGroup p = (ProtectionGroup)it.next();
+							if(p.equals(pr)) assigned=true;
+						}
+						if(!assigned) protectionGroups.add(pr);
+					}
+				}
+			}
+			
+			
+			protectionElement.setProtectionGroups(protectionGroups);
+			
+			t = s.beginTransaction();
+			s.update(protectionElement);
+			t.commit();
+			s.flush();
+			auditLog.info("Adding Protection Groups to Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addToProtectionGroups|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addToProtectionGroups|Failure|Error in assigning Protection Groups "
+								+ StringUtilities
+										.stringArrayToString(protectionGroupIds)
+								+ " to protection element id "
+								+ protectionElementId + "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occurred in adding Protection Groups to the Protection Element\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addToProtectionGroups|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||addToProtectionGroups|Success|Successful in adding Protection Groups"
+							+ StringUtilities
+									.stringArrayToString(protectionGroupIds)
+							+ " to protection element id "
+							+ protectionElementId + "|");
+	}
+
+	
 	public void assignToProtectionGroups(String protectionElementId,
 			String[] protectionGroupIds) throws CSTransactionException {
 		Session s = null;
@@ -4432,6 +4925,78 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ protectionElementId + "|");
 		return result;
 	}
+	
+	public void addOwners(String protectionElementId, String[] userIds) throws CSTransactionException{
+
+		Session s = null;
+		Transaction t = null;
+		
+		try {
+			
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			ProtectionElement protectionElement = (ProtectionElement) s.load(ProtectionElement.class,Long.parseLong(protectionElementId));
+			if(protectionElement==null) throw new CSTransactionException("Authorization|||addOwners|| Unable to retrieve ProtectionElement with Id :"+protectionElementId);
+			Set userSet = protectionElement.getOwners();
+			if(userSet==null) userSet=new HashSet();
+			
+			for (int i = 0; i < userIds.length; i++) {
+				boolean assigned= false;
+				Iterator iterator = userSet.iterator();
+				while(iterator.hasNext()){
+					User us =(User)iterator.next();
+					if(userIds[i].equalsIgnoreCase(us.getUserId().toString()));
+					assigned=true;
+				}
+				if(!assigned){
+					User user = (User) s.load(User.class, Long.parseLong(userIds[i]));
+					if(user!=null)
+						userSet.add(user);
+				}
+			}
+			
+			t = s.beginTransaction();
+			s.update(protectionElement);
+			t.commit();
+			s.flush();
+			auditLog.info("Adding Users as Owner of Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addOwners|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addOwners|Failure|Error in assigning the Owners "
+								+ StringUtilities.stringArrayToString(userIds)
+								+ "for the Protection Element Id "
+								+ protectionElementId + "|");
+			throw new CSTransactionException(
+					"An error occured in assigning Owners to the Protection Element\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addOwners|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||addOwners|Success|Successful in adding the Owners to Protection Element"
+							+ StringUtilities.stringArrayToString(userIds)
+							+ "for the Protection Element Id "
+							+ protectionElementId + "|");
+	}
+
 
 	public void assignOwners(String protectionElementId, String[] userIds)
 			throws CSTransactionException {
