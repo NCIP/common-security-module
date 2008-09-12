@@ -30,9 +30,9 @@ public class AuthenicationManagerTest extends TestCase {
 		super.setUp();
 		
 		props = System.getProperties();
-		url = this.getClass().getClassLoader().getSystemResource("ApplicationSecurityConfig.xml");
+		/*url = this.getClass().getClassLoader().getSystemResource("ApplicationSecurityConfig.xml");
 		path = url.getPath();
-		props.setProperty("gov.nih.nci.security.configFile", path.substring(1,(path.length())));
+		props.setProperty("gov.nih.nci.security.configFile", path.substring(1,(path.length())));*/
 		url = this.getClass().getClassLoader().getSystemResource("login.config");
 		path = url.getPath();		
 		props.setProperty("java.security.auth.login.config", path);
