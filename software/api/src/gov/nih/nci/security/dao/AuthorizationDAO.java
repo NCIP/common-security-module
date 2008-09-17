@@ -236,6 +236,16 @@ public interface AuthorizationDAO {
 			String attributeId, String privilegeName) throws CSException;
 
 	/**
+	 * @param userName
+	 * @param objectId
+	 * @param attributeName
+	 * @param attributeValue
+	 * @param privilegeName
+	 * @return
+	 */
+	public boolean checkPermission(String userName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException;
+	
+	/**
 	 * @param privilege
 	 *  
 	 */
@@ -482,6 +492,8 @@ public interface AuthorizationDAO {
 	public Object secureUpdate(String userName, Object originalObject,Object mutatedObject) throws CSException;
 
 	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException;
+	
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException;
 
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;
 
@@ -494,6 +506,8 @@ public interface AuthorizationDAO {
 	public List getAttributeMap(String userName, String className, String privilegeName);
 
 	public List getAttributeMapForGroup(String groupsName, String className, String privilegeName);
+
+	
 }
 
 

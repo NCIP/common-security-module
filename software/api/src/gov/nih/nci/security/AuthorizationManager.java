@@ -282,6 +282,23 @@ public interface AuthorizationManager {
 	 * @throws CSException If there are any errors while checking for permission
 	 */
 	public boolean checkPermission(String userName, String objectId, String attributeName, String privilegeName) throws CSException;
+	
+	/**
+	 * The method checks the permission for a {@link User} for a given Instance. The 
+	 * {@link ProtectionElement} for instance is obtained using the object id , attribute name and attribute value. 
+	 * The userName is used to to obtain the User object. Then the check
+	 * permission operation is performed to see if the user has the required access or not for the particular instance. <br> 
+	 * Please Note: If caching is enabled for the user then it is ignored.
+	 * @param userName The user name of the user which is trying to perform the operation
+	 * @param objectId The object id of the protection element on which the user wants to perform the operation
+	 * @param attributeName The attribute of the protection element on which the user wants to perform the operation
+	 * @param attributeValue The attribute value of the protection element on which the user wants to perform the operation
+	 * @param privilegeName The operation which the user wants to perform on the protection element
+	 * 
+	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
+	 * @throws CSException If there are any errors while checking for permission
+	 */
+	public boolean checkPermission(String userName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException;
 
 	/**
 	 * The method checks the permission for a {@link User} for a given {@link ProtectionElement}. The 
@@ -315,19 +332,36 @@ public interface AuthorizationManager {
 	 * @throws CSException If there are any errors while checking for permission
 	 */
 	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException;
+	
+	/**
+	 * The method checks the permission for a {@link Group} for a given Instance. The 
+	 * {@link ProtectionElement} for instance is obtained using the object id , attribute name and attribute value. 
+	 * The userName is used to to obtain the User object. Then the check
+	 * permission operation is performed to see if the user has the required access or not for the particular instance. <br> 
+	 * Please Note: If caching is enabled for the user then it is ignored.
+	 * @param groupName The group name which is trying to perform the operation
+	 * @param objectId The object id of the protection element on which the group wants to perform the operation
+	 * @param attributeName The attribute of the protection element on which the group wants to perform the operation
+	 * @param attributeValue The attribute value of the protection element on which the group wants to perform the operation
+	 * @param privilegeName The operation which the group wants to perform on the protection element
+	 * 
+	 * @return boolean Returns true if the group has permission to perform the operation on that particular resource
+	 * @throws CSException If there are any errors while checking for permission
+	 */
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException;
 
 	/**
 	 * The method checks the permission for a {@link Group} for a given {@link ProtectionElement}. The 
 	 * {@link ProtectionElement} is obtained using the object id only. 
-	 * The userName is used to to obtain the Group object. Then the check
+	 * The groupName is used to to obtain the Group object. Then the check
 	 * permission operation is performed to see if the group has the required access or not. If caching is enabled 
 	 * for the group then the permissions are validated against the internal stored cache else the query is 
 	 * fired against the database to check the permissions
 	 * @param groupName The group name which is trying to perform the operation
-	 * @param objectId The object id of the protection element on which the user wants to perform the operation
-	 * @param privilegeName The operation which the user wants to perform on the protection element
+	 * @param objectId The object id of the protection element on which the group wants to perform the operation
+	 * @param privilegeName The operation which the group wants to perform on the protection element
 	 * 
-	 * @return boolean Returns true if the user has permission to perform the operation on that particular resource
+	 * @return boolean Returns true if the group has permission to perform the operation on that particular resource
 	 * @throws CSException If there are any errors while checking for permission
 	 */
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException;
