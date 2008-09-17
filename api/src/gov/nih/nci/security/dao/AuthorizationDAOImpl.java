@@ -1514,6 +1514,71 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return test;
 	}
 
+	public boolean checkPermission(String userName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException {
+
+		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		boolean test = false;
+		Session s = null;
+
+		Connection connection = null;
+		if (StringUtilities.isBlank(userName)) {
+			throw new CSException("user name can't be null!");
+		}
+		if (StringUtilities.isBlank(objectId)) {
+			throw new CSException("objectId can't be null!");
+		}
+		
+		test = this.checkOwnership(userName, objectId);
+		if (test)
+			return true;
+
+		if (attributeName == null || attributeValue == null || privilegeName == null) {
+			return false;
+		}
+
+		try {
+
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			connection = s.connection();
+			
+			
+			preparedStatement = Queries.getQueryForUserAndGroupForAttributeValue(userName,
+					objectId, attributeName, attributeValue, privilegeName, this.application.getApplicationId().intValue(), connection);
+			
+			rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				test = true;
+			}
+			rs.close();
+
+			preparedStatement.close();
+
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Failed to get privileges for " + userName + "|"
+						+ ex.getMessage());
+			throw new CSException("Failed to get privileges for " + userName
+					+ "|" + ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+				rs.close();
+				preparedStatement.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||checkPermissiong|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+
+		return test;
+	}
+
+	
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) throws CSException {
 		boolean test = false;
@@ -1615,6 +1680,63 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug("Authorization||" + groupName + "|checkPermission|Success|Successful in checking permissions with group id "	+ groupName + " object id: " + objectId	+ " and privilege name " + privilegeName + " and the result is " + hasAccess + "|");
 		
 		return hasAccess;
+	}
+	
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException {
+		boolean hasAccess = false;
+
+		Session session = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		
+		if (StringUtilities.isBlank(groupName)) {
+			throw new CSException("Group name can't be null!");
+		}
+		if (StringUtilities.isBlank(objectId)) {
+			throw new CSException("Object Id can't be null!");
+		}
+		if (StringUtilities.isBlank(privilegeName)) {
+			throw new CSException("Privilege can't be null!");
+		}
+				
+		try {
+
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			connection = session.connection();
+			
+			preparedStatement = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, attributeName, attributeValue, privilegeName, this.application.getApplicationId().intValue(),connection);
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next())
+			{
+				hasAccess = true;
+			}
+			resultSet.close();
+			preparedStatement.close();
+
+		} catch (Exception ex)
+		{
+			log.error(ex);
+			if (log.isDebugEnabled())
+				log.debug("Authorization||"	+ groupName	+ "|checkPermissionForGroup|Failure|Error Occured in checking permissions with group name " + groupName + " object id: " + objectId + " and privilege name " + privilegeName + "|"	+ ex.getMessage());
+			throw new CSException( "An error occurred while checking permissions\n"	+ ex.getMessage(), ex);
+		} finally {
+			try {
+
+				session.close();
+				resultSet.close();
+				preparedStatement.close();
+				
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermissionForGroup|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization||" + groupName + "|checkPermissionForGroup|Success|Successful in checking permissions with group id "	+ groupName + " object id: " + objectId	+ " and privilege name " + privilegeName + " and the result is " + hasAccess + "|");
+		
+		return hasAccess;
+		
 	}
 
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException
@@ -5574,6 +5696,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug("Authorization|||getAttributeMapForGroups|Success|Successful in Obtaining the Attribute Map|");
 		return attributeList; 		
 	}
+
+	
 
 	
 }

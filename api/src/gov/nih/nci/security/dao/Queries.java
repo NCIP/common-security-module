@@ -141,6 +141,55 @@ public class Queries {
 		  return pstmt;
 		
 	}
+	
+	protected static PreparedStatement getQueryForUserAndGroupForAttributeValue(String loginName,
+            String objectId,
+			 String attribute,
+			 String attributeValue,
+			 String privilegeName,
+			 int application_id, Connection cn) throws SQLException{
+
+
+		StringBuffer stbr = new StringBuffer();
+		stbr.append("and pe.object_id=?");
+		stbr.append(" and pe.attribute=?");
+		stbr.append(" and pe.attribute_value=?");
+		stbr.append(" and u.login_name=?");
+		stbr.append(" and p.privilege_name=?");
+		stbr.append(" and pg.application_id=?");
+		stbr.append(" and pe.application_id=?");
+		
+		StringBuffer sqlBfr = new StringBuffer();
+		sqlBfr.append(getStaticStringForUserAndGroupForAttribute());
+		sqlBfr.append(stbr.toString());
+		sqlBfr.append(" union ");
+		sqlBfr.append(getStaticStringForUserAndGroupForAttribute2());
+		sqlBfr.append(stbr.toString());
+		
+		
+		
+		int i=1;
+		PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());
+		pstmt.setString(i++,objectId );
+		pstmt.setString(i++,attribute);
+		pstmt.setString(i++,attributeValue);
+		pstmt.setString(i++,loginName);
+		pstmt.setString(i++,privilegeName);
+		pstmt.setInt(i++,application_id);
+		pstmt.setInt(i++,application_id);
+		
+		pstmt.setString(i++,objectId );
+		pstmt.setString(i++,attribute);
+		pstmt.setString(i++,attributeValue);
+		pstmt.setString(i++,loginName);
+		pstmt.setString(i++,privilegeName);
+		pstmt.setInt(i++,application_id);
+		pstmt.setInt(i++,application_id);
+		
+		return pstmt;
+	
+	}
+	
 	protected static PreparedStatement getQueryForCheckPermissionForUserAndGroup(String loginName,
 															            String objectId,
 																		 String privilegeName,
@@ -325,6 +374,18 @@ public class Queries {
 	}
 
 	
+	/**
+	 * getQueryForCheckPermissionForOnlyGroup for Object Id, Attribute Name
+	 * 
+	 * @param groupName
+	 * @param objectId
+	 * @param attributeName
+	 * @param privilegeName
+	 * @param application_id
+	 * @param cn
+	 * @return
+	 * @throws SQLException
+	 */
 	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String attributeName, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
@@ -361,6 +422,57 @@ public class Queries {
 		return pstmt;
 	}
 
+	/**
+	 * getQueryForCheckPermissionForOnlyGroup for Object Id, Attribute and AttributeValue
+	 * 
+	 * @param groupName
+	 * @param objectId
+	 * @param attributeName
+	 * @param attributeValue
+	 * @param privilegeName
+	 * @param application_id
+	 * @param cn
+	 * @return
+	 * @throws SQLException
+	 */
+	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String attributeName, String attributeValue, String privilegeName, int application_id, Connection cn) throws SQLException
+	{
+		StringBuffer stbr = new StringBuffer();
+		stbr.append("select 'X'");
+		stbr.append("from csm_protection_group pg,");
+		stbr.append("csm_protection_element pe,");
+		stbr.append("csm_pg_pe pgpe,");
+		stbr.append("csm_user_group_role_pg ugrpg,");
+		stbr.append("csm_group g,");
+		stbr.append("csm_role_privilege rp,");
+		stbr.append("csm_privilege p ");
+		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
+		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append(" and pe.object_id=?");
+		stbr.append(" and pe.attribute=?");		
+		stbr.append(" and pe.attribute_value=?");
+		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
+		stbr.append(" and ugrpg.group_id = g.group_id ");
+		stbr.append(" and g.group_name=?");
+		stbr.append(" and ugrpg.role_id = rp.role_id ");
+		stbr.append(" and rp.privilege_id = p.privilege_id");
+		stbr.append(" and p.privilege_name=?");
+		stbr.append(" and pg.application_id=?");
+		stbr.append(" and pe.application_id=?");
+		
+		int i=1;
+		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		pstmt.setString(i++,objectId );
+		pstmt.setString(i++,attributeName );
+		pstmt.setString(i++,attributeValue );
+		pstmt.setString(i++,groupName );
+		pstmt.setString(i++,privilegeName);
+		pstmt.setInt(i++,application_id);
+		pstmt.setInt(i++,application_id);
+				  
+		return pstmt;
+	}
+	
 	protected static PreparedStatement getQueryForCheckPermissionForUser(String userName,
 			                                                  String objectId,
 															  String privilegeName,

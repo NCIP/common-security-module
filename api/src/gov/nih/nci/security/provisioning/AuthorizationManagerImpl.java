@@ -563,19 +563,23 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		
 	}
 
-	/**
-	 * @param userName
-	 * @param objectId
-	 * @param attributeId
-	 * @param privilegeName
-	 * 
-	 * @return boolean
-	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(String, String, String, String)
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public boolean checkPermission(String userName, String objectId, String attributeId, String privilegeName)throws CSException{
-		return authorizationDAO.checkPermission(userName,objectId,attributeId,privilegeName) ;
+	public boolean checkPermission(String userName, String objectId, String attributeName, String privilegeName)throws CSException{
+		return authorizationDAO.checkPermission(userName,objectId,attributeName,privilegeName) ;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#checkPermission(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public boolean checkPermission(String userName, String objectId, String attributeName, String attributeValue,  String privilegeName)throws CSException{
+		return authorizationDAO.checkPermission(userName,objectId,attributeName,attributeValue,privilegeName) ;
+	}
+
+	
 	/**
 	 * @param privilege
 	 * 
@@ -602,11 +606,16 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	}
 
 	
+	
 	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException
 	{
 		return authorizationDAO.checkPermissionForGroup(groupName,objectId,attributeName,privilegeName) ;
 	}
 
+	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException
+	{
+		return authorizationDAO.checkPermissionForGroup(groupName,objectId,attributeName,attributeValue,privilegeName) ;
+	}
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException
 	{
 		return authorizationDAO.checkPermissionForGroup(groupName,objectId,privilegeName) ;
