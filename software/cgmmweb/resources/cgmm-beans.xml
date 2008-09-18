@@ -18,6 +18,5 @@
 
 	<bean name="SAMLToAttributeMapper" class="gov.nih.nci.security.cgmm.helper.impl.SAMLToAttributeMapperImpl" singleton="true" />
 
-	<bean name="SAMLToAttributeMapper" class="gov.nih.nci.security.cgmm.helper.impl.SAMLToAttributeMapperImpl" singleton="true" />
 
 </beans>
