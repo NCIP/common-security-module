@@ -1,6 +1,12 @@
 package gov.nih.nci.security.cgmm;
 
 
+/**
+ * Struts Forward Constants for CGMM Web Application
+ * 
+ * @author Vijay Parmar (Ekagra Software Technologies)
+ *
+ */
 public interface ForwardConstants 
 {
 	public static final String FORWARD_PUBLIC_LOGIN= "showPublicLogin";
