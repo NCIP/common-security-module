@@ -47,6 +47,7 @@
 		<copy todir="${build.home}/WEB-INF/lib">
 			<fileset dir="${lib.home}" includes="**/*.jar"/>
 		</copy>
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/cgmmapi.jar"/>
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging.jar"/>
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar"/>
@@ -66,11 +67,6 @@
 		<copy todir="${build.home}/WEB-INF/classes" >
 			<fileset dir="${src.home}" excludes="**/*.java" />
 		</copy>
-		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/ApplicationSecurityConfig.xml"/>
-		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/csmcgmmweb.hibernate.cfg.xml"/>
-		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/security.hibernate.cfg.xml"/>
-		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/hibernate.properties"/>
-		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/cgmm/resources/ObjectStateLoggerConfig.xml"/>
 	</target>
 
 	<target name="createJars" depends="compile" description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war">
@@ -78,8 +74,12 @@
 		<jar jarfile="${dist.home}/cgmmapi.jar">
 			<fileset dir="${classes.home}" excludes="**/webapp/**/*" excludesfile="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
 		</jar>
+		<jar jarfile="${build.home}/WEB-INF/lib/cgmmapi.jar">
+			<fileset dir="${classes.home}" excludes="**/webapp/**/*" excludesfile="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+		</jar>
+
 		<jar jarfile="${dist.home}/cgmmfilter.jar">
-					<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class"/>
+			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class"/>
 		</jar>
 		
 		<jar jarfile="${dist.home}/cgmmweb.war">
@@ -101,7 +101,7 @@
 	<target name="dist" depends="init,compile,createJars" description="Creates war file">
 		<copy todir="${dist.home}">
 			<fileset dir="${basedir}/resources">
-				<exclude name="ObjectStateLoggerConfig.xml" />
+
 			</fileset>
 		</copy>
 		
