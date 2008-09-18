@@ -8,10 +8,10 @@
     <session-factory>
         <!-- properties  -->
 
-        <!--<property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
         <property name="hibernate.show_sql">false</property>
-        <property name="connection.datasource">java:/<<host-app-csm-db-ds-name>></property>
-        -->
+        <property name="connection.datasource">java:/cgmmweb</property><!--
+        
 
 
         <property name="connection.url">jdbc:mysql://localhost:3306/csm41cgmm</property>
@@ -19,8 +19,11 @@
         <property name="connection.username">root</property>
         <property name="connection.password">admin</property>
         <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
-         <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.show_sql">false</property>
         <property name="connection.zeroDateTimeBehavior">convertToNull</property>
+        -->
+        
+        
         
         <property name="hibernate.cache.use_query_cache">false</property>
         <property name="hibernate.cache.use_second_level_cache">false</property>   
