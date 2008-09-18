@@ -28,7 +28,7 @@ import java.util.Properties;
  * 
  *  class provides util methods to perform csm login and updating User information as necessary.
  * 
- * @author Vijay
+ * @author Vijay Parmar 
  *
  */
 public class CSMAuthHelper {
