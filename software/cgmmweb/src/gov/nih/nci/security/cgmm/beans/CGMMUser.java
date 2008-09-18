@@ -197,9 +197,7 @@ public class CGMMUser implements Serializable{
 		this.migratedFlag = migratedFlag;
 	}
 
-	public int hashCode(){
-		return 0;
-	}
+	
 
 	public String getLoginIDCSM() {
 		return loginIDCSM;
@@ -273,4 +271,25 @@ public class CGMMUser implements Serializable{
 		this.zipcode = zipcode;
 	}
 
+	
+	public boolean equals(Object obj){
+		if(this == obj)
+			return true;
+		if((obj == null) || (obj.getClass() != this.getClass()))
+			return false;
+		
+		CGMMUser test = (CGMMUser)obj;
+
+		return (loginIDGrid == test.loginIDGrid || (loginIDGrid != null && loginIDGrid.equals(test.loginIDGrid))) && 
+			(loginIDCSM == test.loginIDCSM || (loginIDCSM != null && loginIDCSM.equals(test.loginIDCSM)));
+	}
+	
+	public int hashCode(){
+		
+		int intNumber = 57 * 5;
+		intNumber = intNumber + ( (null==loginIDCSM?0:loginIDCSM.hashCode()) + (null==loginIDGrid?0:loginIDGrid.hashCode()) );
+		return intNumber;
+	}
+
+	
 }
