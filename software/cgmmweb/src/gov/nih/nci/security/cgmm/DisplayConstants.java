@@ -1,6 +1,12 @@
 package gov.nih.nci.security.cgmm;
 
 
+/**
+ * Display Constants for CGMM Application
+ * 
+ * @author Vijay Parmar (Ekagra Software Technologies)
+ *
+ */
 public class DisplayConstants
 {
 	
