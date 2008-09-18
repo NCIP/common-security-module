@@ -22,7 +22,7 @@ import org.globus.gsi.GlobusCredential;
  * Impl for CGMMManager.
  * 
  * 
- * @author Vijay
+ * @author Vijay Parmar (Ekagra Software Technologies)
  *
  */
 public class CGMMManagerImpl implements CGMMManager {
