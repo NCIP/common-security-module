@@ -15,7 +15,7 @@ import org.globus.gsi.GlobusCredential;
 
 /**
  * 
- * This CGMM Manager provides all the CSM GAARDS user migration related services
+ * CGMM Manager provides all the CSM GAARDS user migration related services
  * offered by Common Security Module. This interface defines the contract for
  * any class that wants to act as CGMMManager. It defines the methods required
  * for authenticating CSM users, authenticating users with caGrid based accounts
@@ -25,13 +25,15 @@ import org.globus.gsi.GlobusCredential;
  * configured using the cgmm-properties.xml
  * 
  * 
- * @author Vijay
+ * @author Vijay Parmar (Ekagra Software Technologies)
  * 
  */
 public interface CGMMManager {
 
 	/**
 	 * Authenticates user against the configured CSM credential provider.
+	 * 
+	 * The CGMM configuration file is configured with the CSM credential provider information.
 	 * 
 	 * @param loginIDCSM
 	 * @param password
@@ -44,11 +46,11 @@ public interface CGMMManager {
 	public boolean performCSMLogin(String loginIDCSM, String password) throws CGMMInputException, CGMMConfigurationException, CGMMMigrationException, CGMMCSMAuthenticationException;
 
 	/**
-	 * Updates the CGMMUser object with CSM User Details. Retrieves CSM user
-	 * information from CSM schema using the CSM API's AuthorizationManager and populates teh CGMMUser
+	 * Retrieves CSM user information from CSM schema using the CSM API's AuthorizationManager and 
+	 * updates the CGMMUser object with CSM User Details.
 	 * 
 	 * @param loginID is the CSM Login ID
-	 * @return CGMMUser
+	 * @return CGMMUser 
 	 * @throws CGMMCSMException 
 	 * @throws CGMMConfigurationException 
 	 * @throws CGMMInputException 
@@ -90,10 +92,10 @@ public interface CGMMManager {
 	 * Authenticates the Grid credentials of the user against the provided
 	 * Authentication Service URL.
 	 * 
-	 * @param username
-	 * @param password
-	 * @param authenticationServiceURL
-	 * @return
+	 * @param username The Grid account login name.
+	 * @param password The Grid account login password
+	 * @param authenticationServiceURL The URL for Authentication Service
+	 * @return GlobusCredential 
 	 * @throws CGMMGridAuthenticationServiceException 
 	 * @throws CGMMGridDorianException 
 	 * @throws CGMMConfigurationException 
@@ -101,18 +103,24 @@ public interface CGMMManager {
 	 */
 	public GlobusCredential performGridLogin(String username, String password, String authenticationServiceURL) throws CGMMInputException, CGMMConfigurationException, CGMMGridDorianException, CGMMGridAuthenticationServiceException ;
 
+
 	/**
-	 * @param application
-	 * @param dorianURL
-	 * @return
-	 * @throws CGMMGridDorianException 
-	 * @throws CGMMAuthenticationURLException 
+	 * 
+	 * Creates a Dorian account for the CGMMUser. 
+	 * <br>
+	 * Please Note: The CGMMUser should be populated with details for successful Dorian account creation.
+	 * 
+	 * @param cgmmUser The CGMMUser for whom the account is to be created in Dorian.
+	 * @param dorianURL The Dorian URL 
+	 * @return confirmationMessage - Returns a confirmation message.
+	 * @throws CGMMAuthenticationURLException
+	 * @throws CGMMGridDorianException
 	 */
 	public String createDorianAccount(CGMMUser cgmmUser, String dorianURL) throws CGMMAuthenticationURLException, CGMMGridDorianException;
 
 	/**
 	 * 
-	 * Provides the list of Authentication Service URLS.
+	 * Provides the list of Authentication Service URLS. The CGMM configuration file is the source from which the Authentication URL List is obtained.
 	 * 
 	 * @return
 	 * @throws CGMMConfigurationException 
@@ -121,8 +129,9 @@ public interface CGMMManager {
 
 	/**
 	 * Returns User Attributes Map based on the authenticated user.
+	 * The User Attributes Map consists of User's First Name, User's Last Name and User's Email Id.
 	 * 
-	 * @return
+	 * @return HashMap - Returns a HashMap consisting of the User Attributes. 
 	 * @throws CGMMGridAuthenticationServiceException 
 	 * @throws CGMMGridDorianException 
 	 * @throws CGMMConfigurationException 
