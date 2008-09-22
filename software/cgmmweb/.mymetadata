@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="cgmmweb_all"
+  name="cgmmweb_all_svn"
   id="myeclipse.1218406490718"
   context-root="/cgmmweb"
   j2ee-spec="1.4"
-  archive="cgmmweb_all.war">
+  archive="cgmmweb_all_svn.war">
   <attributes>
     <attribute name="webrootdir" value="public_html" />
   </attributes>
