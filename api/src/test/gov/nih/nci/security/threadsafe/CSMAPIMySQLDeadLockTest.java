@@ -69,25 +69,25 @@ public class CSMAPIMySQLDeadLockTest {
 		 */
 		
 		System.out.println(" assignGroupRoleToProtectionGroup");
-		assignGroupRoleToProtectionGroup();
+//		assignGroupRoleToProtectionGroup();
 		System.out.println(" addGroupRoleToProtectionGroup");
 		addGroupRoleToProtectionGroup();
 		
 		System.out.println(" assignGroupsToUser");
-		assignGroupsToUser();
+//		assignGroupsToUser();
 		System.out.println(" addGroupsToUser");
 		addGroupsToUser();
 		
 		System.out.println(" assignOwners");
-		assignOwners();
+//		assignOwners();
 		System.out.println(" addOwners");
 		addOwners();
 		
 		System.out.println(" assignParentProtectionGroup");
-		assignParentProtectionGroup() ;
+//		assignParentProtectionGroup() ;
 		
 		System.out.println(" assignPrivilegesToRole");
-		assignPrivilegesToRole();
+//		assignPrivilegesToRole();
 		System.out.println(" addPrivilegesToRole");
 		addPrivilegesToRole();
 	
@@ -95,23 +95,22 @@ public class CSMAPIMySQLDeadLockTest {
 		assignProtectionElement();
 			
 		System.out.println(" assignProtectionElements");
-		assignProtectionElements();
-	
+//		assignProtectionElements();
 		System.out.println(" assignProtectionElements");
 		addProtectionElements();
 	
 		System.out.println(" assignToProtectionGroups");
-		assignToProtectionGroups();
+//		assignToProtectionGroups();
 		System.out.println(" addToProtectionGroups");
 		addToProtectionGroups();
 		
 		System.out.println(" assignUserRoleToProtectionGroup");
-		assignUserRoleToProtectionGroup();
+//		assignUserRoleToProtectionGroup();
 		System.out.println(" addUserRoleToProtectionGroup");
 		addUserRoleToProtectionGroup();
 		
 		System.out.println(" assignUsersToGroup");
-		assignUsersToGroup();
+//		assignUsersToGroup();
 		System.out.println(" addUsersToGroup");
 		addUsersToGroup();
 		
@@ -136,10 +135,11 @@ public class CSMAPIMySQLDeadLockTest {
 					roleId =  String.valueOf(randomRole.draw() - 1);
 					roleIds[0]=roleId;
 					am.assignGroupRoleToProtectionGroup(pgId, groupId, roleIds);
-					System.out.println();
+
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 		
 	}
 	
@@ -156,10 +156,11 @@ public class CSMAPIMySQLDeadLockTest {
 					roleId =  String.valueOf(randomRole.draw() - 1);
 					roleIds[0]=roleId;
 					am.addGroupRoleToProtectionGroup(pgId, groupId, roleIds);
-					System.out.println();
+					
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 		
 	}
 	
@@ -211,7 +212,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.assignUserToGroup("TestUserLoginName"+userId, "TestGroupName"+gId);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 	}
 
 	private void assignUserRoleToProtectionGroup() {
@@ -229,7 +231,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.assignUserRoleToProtectionGroup(userId,roleIds, pgId);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) {
+			e.printStackTrace(); }	
 	}
 	private void addUserRoleToProtectionGroup() {
 		String userId = String.valueOf(randomUser.draw() );
@@ -246,7 +249,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.addUserRoleToProtectionGroup(userId,roleIds, pgId);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 	}
 
 	private void assignToProtectionGroups() {
@@ -262,7 +266,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.assignToProtectionGroups(peId, pgIds);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 	}
 	private void addToProtectionGroups() {
 		String pgId = String.valueOf(randomProtectionElement.draw() );
@@ -277,7 +282,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.addToProtectionGroups(peId, pgIds);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 	}
 
 	
@@ -295,7 +301,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.assignProtectionElements(pgId, peIds);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 		
 	}
 	
@@ -312,7 +319,9 @@ public class CSMAPIMySQLDeadLockTest {
 					am.addProtectionElements(pgId, peIds);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+		//	e.printStackTrace(); 
+		}	
 		
 	}
 
@@ -328,7 +337,7 @@ public class CSMAPIMySQLDeadLockTest {
 					try {
 						am.assignProtectionElement("TestProtectionGroupName"+pgId, "TestProtectionElementObjectID"+peId);
 					} catch (Exception e) { 
-						 e.printStackTrace();
+						 //e.printStackTrace();
 							 
 					}
 						
@@ -352,7 +361,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.assignParentProtectionGroup(pgId, parentPgId);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }	
+		} catch (Exception e) { 
+			e.printStackTrace(); }	
 	}
 
 	private void assignPrivilegesToRole() {
@@ -369,7 +379,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.assignPrivilegesToRole(roleId, privIds);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }
+		} catch (Exception e) { 
+			e.printStackTrace(); }
 	}
 	private void addPrivilegesToRole() {
 
@@ -385,7 +396,8 @@ public class CSMAPIMySQLDeadLockTest {
 					am.addPrivilegesToRole(roleId, privIds);
 				}
 			}
-		} catch (Exception e) { e.printStackTrace(); }
+		} catch (Exception e) {
+			e.printStackTrace(); }
 	}
 	
 	private void assignOwners() {
