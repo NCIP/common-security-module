@@ -977,6 +977,14 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	}
 	
 	
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#addProtectionElements(java.lang.String, java.lang.String[])
+	 */
+	public void addProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException{
+		authorizationDAO.addProtectionElements(protectionGroupId,protectionElementIds);
+	}
+	
 	/**
 	 * Method getProtectionGroupRoleContextForUser.
 	 * @param userId String
