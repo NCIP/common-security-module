@@ -445,6 +445,9 @@ public interface AuthorizationDAO {
 	public void assignProtectionElements(String protectionGroupId,
 			String[] protectionElementIds) throws CSTransactionException;
 
+	public void addProtectionElements(String protectionGroupId,
+			String[] protectionElementIds) throws CSTransactionException;
+	
 	public void removeProtectionElementsFromProtectionGroup(
 			String protectionGroupId, String[] protectionLementIds)
 			throws CSTransactionException;

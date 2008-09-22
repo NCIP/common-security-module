@@ -429,6 +429,7 @@ public interface AuthorizationManager {
 	 * for the given data or there are any errors in the actual assignment.
 	 */
 	public void assignProtectionElement(String protectionGroupName, String protectionElementObjectId)throws CSTransactionException;
+	
 
 	/**
 	 * The methods sets the ownership of a given {@link ProtectionElement} to the given {@link User}. The protectio element
@@ -921,6 +922,16 @@ public interface AuthorizationManager {
 	 * @throws CSTransactionException If there are any errors in the Assignment
 	 */
 	public void assignProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
+	
+	/**
+	 * Assigns multiple Protection Element to a single Protection Group. This method is to be used if you want to group
+	 * multiple Protection Element to a Protection Group.
+	 * 
+	 * @param protectionGroupId the Protection Group to which the protection elements are to be assigned
+	 * @param protectionElementIds The Protection Element which are to be assigned to the Protection Group
+	 * @throws CSTransactionException If there are any errors in the Assignment
+	 */
+	public void addProtectionElements(String protectionGroupId,String[] protectionElementIds) throws CSTransactionException;
 	
 		
 	/**

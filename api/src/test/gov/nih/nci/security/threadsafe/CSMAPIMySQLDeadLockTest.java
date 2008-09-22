@@ -69,17 +69,17 @@ public class CSMAPIMySQLDeadLockTest {
 		 */
 		
 		System.out.println(" assignGroupRoleToProtectionGroup");
-//		assignGroupRoleToProtectionGroup();
+		assignGroupRoleToProtectionGroup();
 		System.out.println(" addGroupRoleToProtectionGroup");
 		addGroupRoleToProtectionGroup();
 		
 		System.out.println(" assignGroupsToUser");
-//		assignGroupsToUser();
+		assignGroupsToUser();
 		System.out.println(" addGroupsToUser");
 		addGroupsToUser();
 		
 		System.out.println(" assignOwners");
-//		assignOwners();
+		assignOwners();
 		System.out.println(" addOwners");
 		addOwners();
 		
@@ -87,27 +87,31 @@ public class CSMAPIMySQLDeadLockTest {
 		assignParentProtectionGroup() ;
 		
 		System.out.println(" assignPrivilegesToRole");
-//		assignPrivilegesToRole();
+		assignPrivilegesToRole();
 		System.out.println(" addPrivilegesToRole");
 		addPrivilegesToRole();
-		
+	
 		System.out.println(" assignProtectionElement");
-//		assignProtectionElement();
+		assignProtectionElement();
+			
 		System.out.println(" assignProtectionElements");
 		assignProtectionElements();
-
+	
+		System.out.println(" assignProtectionElements");
+		addProtectionElements();
+	
 		System.out.println(" assignToProtectionGroups");
-//		assignToProtectionGroups();
+		assignToProtectionGroups();
 		System.out.println(" addToProtectionGroups");
 		addToProtectionGroups();
 		
 		System.out.println(" assignUserRoleToProtectionGroup");
-//		assignUserRoleToProtectionGroup();
+		assignUserRoleToProtectionGroup();
 		System.out.println(" addUserRoleToProtectionGroup");
 		addUserRoleToProtectionGroup();
 		
 		System.out.println(" assignUsersToGroup");
-//		assignUsersToGroup();
+		assignUsersToGroup();
 		System.out.println(" addUsersToGroup");
 		addUsersToGroup();
 		
@@ -276,6 +280,8 @@ public class CSMAPIMySQLDeadLockTest {
 		} catch (Exception e) { e.printStackTrace(); }	
 	}
 
+	
+	
 	private void assignProtectionElements() {
 		String pgId = String.valueOf(randomProtectionGroup.draw());
 		String peId = String.valueOf(randomProtectionElement.draw());
@@ -287,6 +293,23 @@ public class CSMAPIMySQLDeadLockTest {
 					peId = String.valueOf(randomProtectionElement.draw() - 1);
 					peIds[0]=peId;
 					am.assignProtectionElements(pgId, peIds);
+				}
+			}
+		} catch (Exception e) { e.printStackTrace(); }	
+		
+	}
+	
+	private void addProtectionElements() {
+		String pgId = String.valueOf(randomProtectionGroup.draw());
+		String peId = String.valueOf(randomProtectionElement.draw());
+		try {
+			for (int loopCount = 0; loopCount < innerLoopCount; loopCount++) {
+				String[] peIds = new String[1];
+				for (int count = 0; count < outerLoopCount; count++) {
+					pgId = String.valueOf(randomProtectionGroup.draw() - 1);
+					peId = String.valueOf(randomProtectionElement.draw() - 1);
+					peIds[0]=peId;
+					am.addProtectionElements(pgId, peIds);
 				}
 			}
 		} catch (Exception e) { e.printStackTrace(); }	

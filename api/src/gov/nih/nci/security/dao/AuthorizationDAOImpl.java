@@ -3378,6 +3378,81 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ " to Protection Group" + protectionGroupId + "|");
 	}
 	
+	public void addProtectionElements(String protectionGroupId,
+			String[] protectionElementIds) throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+		
+			ProtectionGroup protectionGroup = (ProtectionGroup) s.load(ProtectionGroup.class,new Long(protectionGroupId));
+			if(protectionGroup==null) throw new CSTransactionException("Authorization|||addProtectionElements|| Unable to retrieve ProtectionGroup with Id :"+protectionGroupId);
+			
+			
+			Set protectionElementSet = protectionGroup.getProtectionElements();
+			if(protectionElementSet==null) protectionElementSet = new HashSet();
+			
+			for (int i = 0; i < protectionElementIds.length; i++) {
+				boolean assigned= false;
+				Iterator iterator = protectionElementSet.iterator();
+				while(iterator.hasNext()){
+					ProtectionElement protectionElement =(ProtectionElement)iterator.next();
+					if(protectionElementIds[i].equalsIgnoreCase(protectionElement.getProtectionElementId().toString()))
+						assigned=true;
+				}
+				if(!assigned){
+					ProtectionElement protectionElement= (ProtectionElement) s.load(ProtectionElement.class, Long.parseLong(protectionElementIds[i]));
+					if(protectionElement!=null)
+						protectionElementSet.add(protectionElement);
+				}
+			}
+			
+			t = s.beginTransaction();
+			s.update(protectionGroup);
+			t.commit();
+			s.flush();
+			auditLog.info("Adding Protection Elements to Protection Group " + protectionGroup.getProtectionGroupName());
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addProtectionElements|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||addProtectionElements|Failure|Error Occured in addding Protection Elements "
+								+ StringUtilities
+										.stringArrayToString(protectionElementIds)
+								+ " to Protection Group"
+								+ protectionGroupId
+								+ "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occured in adding Protection Elements to the Protection Group\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+				
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||addProtectionElements|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||addProtectionElements|Success|Successful in adding Protection Elements "
+							+ StringUtilities
+									.stringArrayToString(protectionElementIds)
+							+ " to Protection Group" + protectionGroupId + "|");
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
