@@ -113,6 +113,7 @@ public interface ForwardConstants
 	public static final String LOAD_SEARCH_SUCCESS="LoadSearchSuccess";
 	public static final String LOAD_SEARCH_RESULT_SUCCESS="LoadSearchResultSuccess";	
 	public static final String UPLOAD_SUCCESS="UploadSuccess";
+	public static final String UNLOCK_SUCCESS="UnlockSuccess";
 	public static final String CREATE_SUCCESS="CreateSuccess";
 	public static final String READ_SUCCESS="ReadSuccess";
 	public static final String UPDATE_SUCCESS="UpdateSuccess";

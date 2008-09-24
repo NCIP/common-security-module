@@ -90,12 +90,15 @@ package gov.nih.nci.security.upt.actions;
 
 
 import gov.nih.nci.logging.api.user.UserInfoHelper;
+import gov.nih.nci.security.authentication.LockoutManager;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
+import gov.nih.nci.security.upt.forms.BaseDBForm;
 import gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.forms.UserForm;
 import gov.nih.nci.security.util.ProtectionElementPrivilegesContextComparator;
 import gov.nih.nci.security.util.ProtectionGroupRoleContextComparator;
 
@@ -434,5 +437,45 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		return (mapping.findForward(ForwardConstants.SET_ROLEASSOCIATION_SUCCESS));		
 	}
 
+	public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		ActionErrors errors = new ActionErrors();
+		ActionMessages messages = new ActionMessages();
+		
+		HttpSession session = request.getSession();
+		BaseDBForm baseDBForm = (BaseDBForm)form;
+	
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
+			if (logDoubleAssociation.isDebugEnabled())
+				logDoubleAssociation.debug("||"+baseDBForm.getFormName()+"|unlock|Failure|No Session or User Object Forwarding to the Login Page||");
+			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		}
+		UserForm userForm=(UserForm)baseDBForm;
+		String userLoginName = userForm.getUserLoginName();
+		String loginId = ((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId();
+		UserInfoHelper.setUserInfo(loginId, session.getId());
+		try
+		{
+			LockoutManager.getInstance().unLockUser(userLoginName);			
+			baseDBForm.buildDBObject(request);
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "UnLock Successful"));
+			saveMessages( request, messages );
+		}
+		catch (CSException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			saveErrors( request,errors );
+			if (logDoubleAssociation.isDebugEnabled())
+				logDoubleAssociation.debug(session.getId()+"|"+userLoginName+
+					"|"+baseDBForm.getFormName()+"|unlock|Failure|Error unlock the "+baseDBForm.getFormName()+" object|"
+					+form.toString()+"|"+ cse.getMessage());
+		}
+		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 
+		if (logDoubleAssociation.isDebugEnabled())
+			logDoubleAssociation.debug(session.getId()+"|"+userLoginName+
+				"|"+baseDBForm.getFormName()+"|unlock|Success|Updating existing "+baseDBForm.getFormName()+" object|"
+				+form.toString()+"|");
+		return (mapping.findForward(ForwardConstants.UNLOCK_SUCCESS));
+	}
 }
