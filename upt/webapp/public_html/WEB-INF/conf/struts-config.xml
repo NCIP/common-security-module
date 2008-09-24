@@ -238,6 +238,7 @@
 			<forward name="ReadSuccess" path="Tiles.User.Detail.Screen" />
 			<forward name="ReadFailure" path="Tiles.User.Search.Result" />
 			<forward name="UpdateSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="UnlockSuccess" path="Tiles.User.Detail.Screen" />
 			<forward name="DeleteSuccess" path="Tiles.User.Home" />
 			<forward name="SearchSuccess" path="Tiles.User.Search.Result" />
 			<forward name="SearchFailure" path="Tiles.User.Detail.Screen" />
