@@ -101,9 +101,6 @@ public class UserProtectionElement implements Serializable {
     private Long userProtectionElementId;
 
     /** persistent field */
-    private Date updateDate;
-
-    /** persistent field */
     private gov.nih.nci.security.authorization.domainobjects.ProtectionElement protectionElement;
 
     /** persistent field */
@@ -112,7 +109,6 @@ public class UserProtectionElement implements Serializable {
     /** full constructor */
     public UserProtectionElement(Long userProtectionElementId, Date updateDate, gov.nih.nci.security.authorization.domainobjects.ProtectionElement protectionElement, gov.nih.nci.security.authorization.domainobjects.User user) {
         this.userProtectionElementId = userProtectionElementId;
-        this.updateDate = updateDate;
         this.protectionElement = protectionElement;
         this.user = user;
     }
@@ -127,14 +123,6 @@ public class UserProtectionElement implements Serializable {
 
     public void setUserProtectionElementId(Long userProtectionElementId) {
         this.userProtectionElementId = userProtectionElementId;
-    }
-
-    public Date getUpdateDate() {
-        return this.updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public gov.nih.nci.security.authorization.domainobjects.ProtectionElement getProtectionElement() {

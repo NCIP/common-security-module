@@ -27,14 +27,6 @@
 	 </generator>
     </id>
 
-    <property
-        name="updateDate"
-        type="java.sql.Date"
-        column="UPDATE_DATE"
-        not-null="true"
-        length="10"
-    />
-
     <!-- Associations -->
   
     <!-- bi-directional many-to-one association to Privilege -->
