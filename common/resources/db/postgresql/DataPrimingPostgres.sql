@@ -23,8 +23,8 @@ VALUES ( 'csmupt','CSM UPT Super Admin Application Protection Element','csmupt',
 /
 
 INSERT INTO CSM_USER_PE(
-PROTECTION_ELEMENT_ID, USER_ID, UPDATE_DATE)
-VALUES ( 1,1,current_date)
+PROTECTION_ELEMENT_ID, USER_ID)
+VALUES ( 1,1)
 /
 
 COMMIT
