@@ -1,7 +1,9 @@
 package gov.nih.nci.security.authentication;
 
+import gov.nih.nci.security.constants.Constants;
+
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,7 +11,7 @@ import java.util.TimerTask;
 public class LockoutManager
 {
 
-	private static HashMap lockoutCache = null;
+	private static Hashtable lockoutCache = null;
 	private static LockoutManager lockoutManager = null;
 	static Timer cleanupTimer = new Timer();
 
@@ -99,26 +101,21 @@ public class LockoutManager
 	
 	private LockoutManager()
 	{
-		lockoutCache = new HashMap();
+		lockoutCache = new Hashtable();
 	}
 	
 
 	public static void initialize(String lockoutTime, String allowedLoginTime, String allowedAttempts)
 	{
-		
-			lockoutManager = new LockoutManager(lockoutTime, allowedLoginTime, allowedAttempts);
-		
+		if(null==lockoutManager){
+				lockoutManager = new LockoutManager(lockoutTime, allowedLoginTime, allowedAttempts);
+		}
 	}
 	
-	public static LockoutManager getInstance()
-	{
-		if (null == lockoutManager)
-		{
-			// Initialize with the following defaults
-			lockoutManager = new LockoutManager("1800000", "60000", "3");
-		}
+	public static LockoutManager getInstance() {
+		LockoutManager.initialize(Constants.LOCKOUT_TIME,Constants.ALLOWED_LOGIN_TIME, Constants.ALLOWED_ATTEMPTS);
 		return lockoutManager;
-	}	
+	}
 
 	public boolean isUserLockedOut(String userId)
 	{
@@ -169,5 +166,10 @@ public class LockoutManager
 			lockoutCache.put(userId,lockoutInfo);
 		}
 		return isUserLockedout;
+	}
+	
+	public void unLockUser(String userId){
+		
+		lockoutCache.remove(userId);
 	}
 }

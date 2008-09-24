@@ -8,7 +8,8 @@
 <%@ page import='gov.nih.nci.security.upt.viewobjects.*'%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-<script>
+
+<%@page import="gov.nih.nci.security.authentication.LockoutManager"%><script>
 <!--
    	function setAndSubmit(target)
    	{
@@ -187,7 +188,16 @@
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>										
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
+										<bean:define id="userLoginName"  name="UserForm" property="userLoginName" />
+										<%
+										  boolean isUserLockOut = LockoutManager.getInstance().isUserLockedOut((String)userLoginName);
+										  if (isUserLockOut) {
+										%>
+										 <td><html:submit style="actionButton" onclick="setAndSubmit('unlock');">Unlock</html:submit></td>
+										<%
+										  }
+										%>
+
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
 										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
