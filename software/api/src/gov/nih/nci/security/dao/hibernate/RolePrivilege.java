@@ -111,9 +111,6 @@ public class RolePrivilege implements Serializable {
     private Long rolePrivilegeId;
 
     /** persistent field */
-    private Date updateDate;
-
-    /** persistent field */
     private Privilege privilege;
 
     /** persistent field */
@@ -122,7 +119,6 @@ public class RolePrivilege implements Serializable {
     /** full constructor */
     public RolePrivilege(Long rolePrivilegeId, Date updateDate,Privilege privilege,Role role) {
         this.rolePrivilegeId = rolePrivilegeId;
-        this.updateDate = updateDate;
         this.privilege = privilege;
         this.role = role;
     }
@@ -138,15 +134,7 @@ public class RolePrivilege implements Serializable {
     public void setRolePrivilegeId(Long rolePrivilegeId) {
         this.rolePrivilegeId = rolePrivilegeId;
     }
-
-    public Date getUpdateDate() {
-        return this.updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
+  
     public Privilege getPrivilege() {
         return this.privilege;
     }
