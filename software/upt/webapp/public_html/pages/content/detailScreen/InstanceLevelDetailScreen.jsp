@@ -283,7 +283,7 @@
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
 											<logic:equal name="formElement" property="propertyName" value="className">
 												<td class="formField">
-													<html:select style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" onchange="loadFirstChildList();">
+													<html:select style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" onclick="loadFirstChildList();" onchange="loadFirstChildList();" onfocus="loadFirstChildList();">
 														<html:options collection="classNames" property="value" labelProperty="label" />
 													</html:select>
 												</td>
@@ -330,7 +330,7 @@
 										</td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
+										<td class="formField"><html:textarea style="formFieldSized" cols="70" rows="5" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
 										<td class="formField"><html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
