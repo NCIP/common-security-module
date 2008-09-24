@@ -19,8 +19,8 @@ insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAM
 values(1, 'csmupt','UPT Super Admin Application','csmupt',1,sysdate);
 select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
-insert into csm_user_pe(USER_PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
-values(1,1,1,sysdate);
+insert into csm_user_pe(USER_PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_ID,USER_ID)
+values(1,1,1);
 select CSM_USER_PE_USER_PROTECTIO_SEQ.nextval from dual;
 
 # 
