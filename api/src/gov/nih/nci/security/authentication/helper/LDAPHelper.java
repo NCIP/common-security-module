@@ -100,9 +100,11 @@ import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.constants.Constants;
+import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.security.Security;
 import java.util.Hashtable;
@@ -274,18 +276,20 @@ public class LDAPHelper {
 	 */
 	private static boolean ldapAuthenticateUser(Hashtable environment, Hashtable connectionProperties, String userName, String password, Subject subject) throws CSInternalLoginException, CSInternalInsufficientAttributesException, CSInternalConfigurationException
 	{
+		if (StringUtilities.isBlank(password)) {
+			throw new CSInternalInsufficientAttributesException("Password cannot be blank");
+		}
 		String fullyDistinguishedName = getFullyDistinguishedName(environment, connectionProperties, userName);//connectionProperties.get(Constants.LDAP_USER_ID_LABEL) + "=" + userName + "," + connectionProperties.get(Constants.LDAP_SEARCHABLE_BASE);
-
 		if (null == fullyDistinguishedName) {
 			if (log.isDebugEnabled())
 				log.debug("Authentication||"+userName+"|ldapAuthenticateUser|Failure| Error obtaining the Distinguished Name|");
 			return false;
 		}
-
 		try 
 		{
 			environment.put(Context.SECURITY_PRINCIPAL, fullyDistinguishedName);
 			environment.put(Context.SECURITY_CREDENTIALS, password);
+			
 			DirContext initialDircontext = new InitialDirContext(environment);			
 			if (   ((String)connectionProperties.get(Constants.USER_FIRST_NAME) != null && !((String)connectionProperties.get(Constants.USER_FIRST_NAME)).trim().equals(""))
 				&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) != null 	&& !((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
@@ -313,15 +317,7 @@ public class LDAPHelper {
 				
 				subject.getPrincipals().add(new LoginIdPrincipal(userName));
 
-			}
-			else if (  ((String)connectionProperties.get(Constants.USER_FIRST_NAME) == null || ((String)connectionProperties.get(Constants.USER_FIRST_NAME)).trim().equals(""))
-					&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) == null 	|| ((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
-					&& ((String)connectionProperties.get(Constants.USER_EMAIL_ID) == null 	|| ((String)connectionProperties.get(Constants.USER_EMAIL_ID)).trim().equals("")))
-			{
-				// do nothing;
-			}
-			else
-			{
+			}else{
 				throw new CSInternalConfigurationException("Login Failed : Improper Configuration, Unable to Retrieve User Attributes");
 			}
 			initialDircontext.close();
