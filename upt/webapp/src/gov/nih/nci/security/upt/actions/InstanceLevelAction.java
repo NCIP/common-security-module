@@ -344,7 +344,7 @@ public class InstanceLevelAction extends DispatchAction
 			}
 			else 
 			{
-				if (!(((formFileList[i].getContentType()).equals("application/x-jar")) || ((formFileList[i].getContentType()).equals("application/x-zip-compressed")) || ((formFileList[i].getContentType()).equals("application/octet-stream"))))
+				if (!(((formFileList[i].getContentType()).equals("application/x-jar")) || ((formFileList[i].getContentType()).equals("application/x-zip-compressed")) || ((formFileList[i].getContentType()).equals("application/octet-stream")) || ((formFileList[i].getContentType()).equals("application/java-archive"))))
 				{
 					System.out.println("File Type is : " + formFileList[i].getContentType());
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "The File number " + Integer.toString(i+1) + " is not a valid Java Archive (JAR) File" ));
