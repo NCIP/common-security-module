@@ -88,8 +88,14 @@ package gov.nih.nci.security.authorization.domainobjects;
  *
  */
 
+
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 
@@ -100,8 +106,12 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:51 AM
  */
-public class User implements Principal, Comparable {
+public class User implements Principal, Comparable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8362437494465133742L;
 	/**
 	 * This a collection of protectionGroupRoleContext objects. It indicates as to
 	 * which protection groups this user has access to and in which roles.
@@ -454,25 +464,19 @@ public class User implements Principal, Comparable {
 		this.migratedFlag = migratedFlag;
 	}
 
-	public int hashCode(){
-		return 0;
-	}
-
-	/**
-	 * @param obj    obj
-	 * 
-	 */
-	public boolean equals(Object obj){
-		User other = (User)obj;
-		if(this.userId.toString().equals(other.getUserId().toString())){
-			return true;
-		}else{
-		return false;
-		}
-	}
-
-	public String toString(){
-		return "";
+	public String toString() {
+        return new ToStringBuilder(this)
+        	.append("userId", userId)
+            .append("loginName", loginName)
+            .append("firstName", firstName)            
+            .append("lastName", lastName)
+            .append("emailId", emailId)
+            .append("department", department)
+            .append("organization", organization)
+            .append("phoneNumber", phoneNumber)
+            .append("startDate", startDate)
+            .append("updateDate", updateDate.toString())            
+            .toString();
 	}
 
 	public String getName(){
@@ -487,7 +491,26 @@ public class User implements Principal, Comparable {
 		}
 		return 0;
 	}
+	
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if ((other == null) || (other.getClass() != this.getClass()))
+			return false;
+		User castOther = (User) other;
+		return new EqualsBuilder()
+			.append(this.userId,castOther.getUserId())
+			.append(this.getLoginName(),castOther.getLoginName())
+			.isEquals();
+	}
 
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.userId)
+				.append(this.loginName)
+				.toHashCode();
+	}
+
+	
 	
 	
 }

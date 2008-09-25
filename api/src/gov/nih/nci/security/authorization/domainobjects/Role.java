@@ -89,7 +89,12 @@ package gov.nih.nci.security.authorization.domainobjects;
  */
 
 
+import java.io.Serializable;
 import java.util.Date;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 
@@ -101,8 +106,12 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:51 AM
  */
-public class Role implements Comparable {
+public class Role implements Comparable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5249940855749582819L;
 	/**
 	 * This is the name of the role. This can be any user friendly name to address
 	 * business needs.
@@ -262,15 +271,6 @@ public class Role implements Comparable {
 	public void setUpdateDate(Date newVal){
 		updateDate = newVal;
 	}
-	
-	public boolean equals(Object obj){
-		Role other = (Role)obj;
-		if(this.id.toString().equals(other.getId().toString())){
-			return true;
-		}else{
-		return false;
-		}
-	}
 
 	public int compareTo(Object object) {
 
@@ -279,6 +279,33 @@ public class Role implements Comparable {
 			return this.getName().compareToIgnoreCase(obj.getName()); 
 		}
 		return 0;
+	}
+
+	public String toString() {
+        return new ToStringBuilder(this)
+        	.append("id", id)
+            .append("name", name)
+            .append("desc", desc)            
+            .append("updateDate", updateDate.toString())            
+            .toString();
+	}
+	
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if ((other == null) || (other.getClass() != this.getClass()))
+			return false;
+		Role castOther = (Role) other;
+		return new EqualsBuilder()
+			.append(this.id,castOther.getId())
+			.append(this.name,castOther.getName())
+			.isEquals();
+	}
+
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.id)
+				.append(this.name)
+				.toHashCode();
 	}
 	
 }

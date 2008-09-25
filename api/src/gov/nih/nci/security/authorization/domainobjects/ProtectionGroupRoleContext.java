@@ -1,5 +1,7 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
+import java.io.Serializable;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -99,8 +101,12 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionGroupRoleContext  implements Comparable {
+public class ProtectionGroupRoleContext  implements Comparable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8802745556267951642L;
 	/**
 	 * Collection of roles for this protection group
 	 */
@@ -156,6 +162,10 @@ public class ProtectionGroupRoleContext  implements Comparable {
 	}
 
 	public boolean equals(Object obj){
+		 if(this == obj)
+	 			return true;
+	 		 if((obj == null) || (obj.getClass() != this.getClass()))
+	 			return false;
 	    ProtectionGroupRoleContext other = (ProtectionGroupRoleContext)obj;
 		if(this.getProtectionGroup().getProtectionGroupName().equals(other.getProtectionGroup().getProtectionGroupName())){
 			return true;
@@ -170,6 +180,13 @@ public class ProtectionGroupRoleContext  implements Comparable {
 			return this.getProtectionGroup().getProtectionGroupName().compareToIgnoreCase(a.getProtectionGroup().getProtectionGroupName());
 		}
 		return 0;
+	}
+	
+	public int hashCode(){
+		
+		int intNumber = 57 * 5;
+		intNumber = intNumber + ( (null==protectionGroup.getProtectionGroupId()?0:protectionGroup.getProtectionGroupId().intValue())  );
+		return intNumber;
 	}
 
 

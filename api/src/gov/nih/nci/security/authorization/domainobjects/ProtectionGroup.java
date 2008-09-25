@@ -89,7 +89,12 @@ package gov.nih.nci.security.authorization.domainobjects;
  */
 
 
+import java.io.Serializable;
 import java.util.Date;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 
@@ -102,8 +107,12 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionGroup implements Comparable {
+public class ProtectionGroup implements Comparable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -592825051392330293L;
 	/**
 	 * It is the unique id by which it is identified in an application. 
 	 */
@@ -304,19 +313,6 @@ public class ProtectionGroup implements Comparable {
 
 	}
 	
-	/**
-	 * @param obj
-	 * 
-	 */
-	public boolean equals(Object obj){
-		ProtectionGroup other = (ProtectionGroup)obj;
-		if(this.protectionGroupId.toString().equals(other.getProtectionGroupId().toString())){
-			return true;
-		}else{
-		return false;
-		}
-	}
-
 	public int compareTo(Object object) {
 
 		if(object instanceof ProtectionGroup){
@@ -326,5 +322,33 @@ public class ProtectionGroup implements Comparable {
 		return 0;
 	}
 	
+	public String toString() {
+        return new ToStringBuilder(this)
+        	.append("protectionGroupId", protectionGroupId)
+            .append("protectionGroupName", protectionGroupName)
+            .append("protectionGroupDescription", protectionGroupDescription)            
+            .append("updateDate", updateDate.toString())            
+            .toString();
+	}
 	
+	
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if ((other == null) || (other.getClass() != this.getClass()))
+			return false;
+		ProtectionGroup castOther = (ProtectionGroup) other;
+		return new EqualsBuilder()
+			.append(this.getProtectionGroupId(),castOther.getProtectionGroupId())
+			.append(this.getProtectionGroupName(),castOther.getProtectionGroupName())
+			.isEquals();
+	}
+
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.protectionGroupId)
+				.append(this.protectionGroupName)
+				.toHashCode();
+	}
+	
+
 }

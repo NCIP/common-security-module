@@ -98,7 +98,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /** @author Hibernate CodeGenerator */
 public class UserGroupRoleProtectionGroup implements Serializable {
 
-    /** identifier field */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5962454901890239098L;
+
+	/** identifier field */
     private Long userGroupRoleProtectionGroupId;
 
     /** persistent field */

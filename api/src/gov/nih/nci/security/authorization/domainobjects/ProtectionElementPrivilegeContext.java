@@ -1,5 +1,7 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
+import java.io.Serializable;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -94,8 +96,12 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionElementPrivilegeContext implements Comparable {
+public class ProtectionElementPrivilegeContext implements Comparable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1284454348966855754L;
 	/**
 	 * Collection of privileges for this protection element
 	 */
@@ -170,5 +176,14 @@ public class ProtectionElementPrivilegeContext implements Comparable {
 		return 0;
 	}
 
+	public int hashCode(){
+		
+		int intNumber = 57 * 5;
+		intNumber = intNumber + ( (null==protectionElement.getProtectionElementId()?0:protectionElement.getProtectionElementId().intValue())  );
+		return intNumber;
+	}
+
+	
+	
 	
 }

@@ -1,5 +1,7 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
+import java.io.Serializable;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -99,8 +101,12 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @version 1.0
  * created 03-Dec-2004 1:17:52 AM
  */
-public class UserRoleContext {
+public class UserRoleContext implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3445218716580216568L;
 	/**
 	 * The collection of roles assigned to a user for a protection group.
 	 */
