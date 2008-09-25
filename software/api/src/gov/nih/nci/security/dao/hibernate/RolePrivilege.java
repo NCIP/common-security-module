@@ -107,6 +107,11 @@ import gov.nih.nci.security.authorization.domainobjects.*;
  */
 public class RolePrivilege implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4402397084502833395L;
+
 	/** identifier field */
     private Long rolePrivilegeId;
 
