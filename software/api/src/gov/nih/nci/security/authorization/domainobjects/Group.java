@@ -88,7 +88,12 @@ package gov.nih.nci.security.authorization.domainobjects;
  *
  */
 
+import java.io.Serializable;
 import java.security.Principal;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 
@@ -99,8 +104,12 @@ import java.security.Principal;
  * @version 1.0
  * created 03-Dec-2004 1:17:49 AM
  */
-public class Group implements Principal, Comparable {
+public class Group implements Principal, Comparable, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2570109077218622029L;
 	/**
 	 * This is the collection of ProtectionGroupRoleContext objects indicating the
 	 * access of this group on the protection groups with respect to roles.
@@ -253,35 +262,39 @@ public class Group implements Principal, Comparable {
 	public void setUsers(java.util.Set newVal){
 		users = newVal;
 	}
-
-	public int hashCode(){
-		return 0;
-	}
-
-	/**
-	 * @param obj
-	 * 
-	 */
-	public boolean equals(Object obj){
-		Group other = (Group)obj;
-		if(this.groupId.toString().equals(other.getGroupId().toString())){
+	
+	
+	 
+	public boolean equals(Object other) {
+		if (this == other)
 			return true;
-		}else{
-		return false;
-		}
+		if ((other == null) || (other.getClass() != this.getClass()))
+			return false;
+		Group castOther = (Group) other;
+		return new EqualsBuilder().append(this.getGroupId(),
+				castOther.getGroupId()).isEquals();
 	}
 
-	public String toString(){
-		return "";
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.groupId)
+				.append(this.groupName).toHashCode();
 	}
 
-	public String getName(){
+	public String toString() {
+		return new ToStringBuilder(this)
+			.append("groupId", getGroupId())
+			.append("groupName", getGroupName())
+			.append("groupDescription",getGroupDesc())
+			.append("updateDate",getUpdateDate().toString()).toString();
+	}
+
+	public String getName() {
 		return "";
 	}
 
 	public int compareTo(Object object) {
-		if(object instanceof Group){
-			Group a = (Group) object;	
+		if (object instanceof Group) {
+			Group a = (Group) object;
 			return this.getGroupName().compareToIgnoreCase(a.getGroupName()); 
 		}
 		return 0;

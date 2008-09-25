@@ -109,7 +109,12 @@ import gov.nih.nci.security.authorization.domainobjects.*;
 */
 public class ProtectionGroupProtectionElement implements Serializable {
 
-    /** identifier field */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7545274799144832795L;
+
+	/** identifier field */
     private Long protectionGroupProtectionElementId;
 
     /** persistent field */

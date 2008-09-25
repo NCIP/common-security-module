@@ -1,5 +1,11 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
+import java.io.Serializable;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -96,10 +102,14 @@ package gov.nih.nci.security.authorization.domainobjects;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class Privilege implements Comparable {
+public class Privilege implements Comparable, Serializable {
 
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5515663199759034544L;
 	/**
 	 * This is the name of the privilege.
 	 */
@@ -190,19 +200,6 @@ public class Privilege implements Comparable {
 	public void setUpdateDate(java.util.Date newVal){
 		this.updateDate= newVal;
 	}
-	
-	/**
-	 * @param obj
-	 * 
-	 */
-	public boolean equals(Object obj){
-		Privilege other = (Privilege)obj;
-		if(this.id.toString().equals(other.getId().toString())){
-			return true;
-		}else{
-		return false;
-		}
-	}
 
 	public int compareTo(Object object) {
 
@@ -211,6 +208,27 @@ public class Privilege implements Comparable {
 			return this.getName().compareToIgnoreCase(obj.getName()); 
 		}
 		return 0;
+	}
+	
+	public String toString() {
+        return new ToStringBuilder(this)
+        	.append("id", id)
+            .append("name", name)
+            .toString();
+	}
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if ((other == null) || (other.getClass() != this.getClass()))
+			return false;
+		Privilege castOther = (Privilege) other;
+		return new EqualsBuilder().append(this.getId(),
+				castOther.getId()).isEquals();
+	}
+
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.id)
+				.append(this.name).toHashCode();
 	}
 
 }

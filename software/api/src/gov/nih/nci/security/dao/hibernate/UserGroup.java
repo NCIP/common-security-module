@@ -109,7 +109,12 @@ import gov.nih.nci.security.authorization.domainobjects.*;
 */
 public class UserGroup implements Serializable {
 
-    /** identifier field */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3072200561068414335L;
+
+	/** identifier field */
     private Long userGroupId;
 
     /** persistent field */

@@ -1,10 +1,16 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class FilterClause implements Comparable
+public class FilterClause implements Comparable, Serializable
 {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9026282337212120933L;
 	
 	private Long id;
 	private String className;

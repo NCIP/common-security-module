@@ -89,7 +89,11 @@ package gov.nih.nci.security.authorization.domainobjects;
  */
 
 
+import java.io.Serializable;
 import java.util.Date;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 
@@ -99,8 +103,12 @@ import java.util.Date;
  * created 17-Nov-2004 3:19:57 PM
  * @version 1.0
  */
-public class Application extends ApplicationContext implements Comparable {
+public class Application extends ApplicationContext implements Comparable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1342239270660119710L;
 	/**
 	 * The collection of protection elements which belong to this application
 	 */
@@ -234,14 +242,6 @@ public class Application extends ApplicationContext implements Comparable {
 		updateDate = newVal;
 	}
 	
-	public boolean equals(Object obj){
-	    Application other = (Application)obj;
-		if(this.getApplicationId().toString().equals(other.getApplicationId().toString())){
-			return true;
-		}else{
-		return false;
-		}
-	}
 
 	public int compareTo(Object object) {
 		if(object instanceof Application){
@@ -251,4 +251,14 @@ public class Application extends ApplicationContext implements Comparable {
 		return 0;
 	}
 
+	public String toString() {
+        return new ToStringBuilder(this)
+            .append("applicationId", getApplicationId())
+            .append("applicationName", getApplicationName())
+            .append("applicationDescription", getApplicationDescription())
+            .toString();
+	}
+	
+	 
+	
 }

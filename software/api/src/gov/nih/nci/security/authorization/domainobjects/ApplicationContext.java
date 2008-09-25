@@ -1,5 +1,9 @@
 package gov.nih.nci.security.authorization.domainobjects;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -322,4 +326,29 @@ public abstract class ApplicationContext {
 		this.databaseUserName = databaseUserName;
 	}
 
+    public String toString() {
+	        return new ToStringBuilder(this)
+	            .append("applicationId", getApplicationId())
+	            .append("applicationName", getApplicationName())
+	            .toString();
+	}
+	 
+     public boolean equals(Object other) {
+    	 if(this == other)
+ 			return true;
+ 		 if((other == null) || (other.getClass() != this.getClass()))
+ 			return false;
+	     ApplicationContext castOther = (ApplicationContext) other;
+	     return new EqualsBuilder()
+	     	.append(this.getApplicationId(), castOther.getApplicationId())
+	        .isEquals();
+     }
+
+	 public int hashCode() {
+		 return new HashCodeBuilder()
+		 	.append(this.applicationName)
+		 	.toHashCode();
+	 }	 
+	 
+	
 }

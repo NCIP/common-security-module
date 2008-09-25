@@ -97,7 +97,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /** @author Hibernate CodeGenerator */
 public class UserProtectionElement implements Serializable {
 
-    /** identifier field */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4836893049223613272L;
+
+	/** identifier field */
     private Long userProtectionElementId;
 
     /** persistent field */

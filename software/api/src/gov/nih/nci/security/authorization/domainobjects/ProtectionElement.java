@@ -89,7 +89,12 @@ package gov.nih.nci.security.authorization.domainobjects;
  */
 
 
+import java.io.Serializable;
 import java.util.Date;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 
@@ -101,8 +106,12 @@ import java.util.Date;
  * @version 1.0
  * created 03-Dec-2004 1:17:50 AM
  */
-public class ProtectionElement implements Comparable {
+public class ProtectionElement implements Comparable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7057784494069084156L;
 	/**
 	 * It is the unique id by which it is identified in an application.
 	 */
@@ -340,19 +349,7 @@ public class ProtectionElement implements Comparable {
 
 	}
 	
-	/**
-	 * @param obj
-	 * 
-	 */
-	public boolean equals(Object obj){
-		ProtectionElement other = (ProtectionElement)obj;
-		if(this.protectionElementId.toString().equals(other.getProtectionElementId().toString())){
-			return true;
-		}else{
-		return false;
-		}
-	}
-
+	
 	public int compareTo(Object object) {
 
 		if(object instanceof ProtectionElement){
@@ -374,5 +371,41 @@ public class ProtectionElement implements Comparable {
 		this.value = value;
 	}
 
+
+	
+	public String toString() {
+        return new ToStringBuilder(this)
+        	.append("protectionElementId", protectionElementId)
+            .append("protectionElementName", protectionElementName)
+            .append("protectionElementType", protectionElementType)
+            .append("attribute", attribute)
+            .append("value", value)            
+            .append("updateDate", updateDate.toString())            
+            .toString();
+	}
+	
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if ((other == null) || (other.getClass() != this.getClass()))
+			return false;
+		ProtectionElement castOther = (ProtectionElement) other;
+		return new EqualsBuilder()
+			.append(this.getProtectionElementId(),castOther.getProtectionElementId())
+			.append(this.getProtectionElementName(),castOther.getProtectionElementName())
+			.append(this.getProtectionElementType(),castOther.getProtectionElementType())
+			.isEquals();
+	}
+
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.protectionElementId)
+				.append(this.protectionElementName)
+				.append(this.protectionElementType)
+				.append(this.attribute)
+				.append(this.value)
+				.toHashCode();
+	}
+
+	
 
 }
