@@ -93,6 +93,7 @@ package test.gov.nih.nci.security.authorization.domainobjects;
 
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
+
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -124,6 +125,88 @@ import junit.framework.TestSuite;
 
 public class PrivilegeTest extends TestCase {
 
+	private Privilege application1;
+	  private Privilege application1copy;
+	  private Privilege application1copy2;
+	  private Privilege application2;
+	  private Privilege application3;
+
+	  protected void setUp() {
+	   application1 = new Privilege();
+	   application1.setId(new Long(1));
+	   application1.setName("Privilege1");
+	   
+	   application1copy = new Privilege();
+	   application1copy.setId(new Long(1));
+	   application1copy.setName("Privilege1");
+	   
+	   application1copy2 = new Privilege();
+	   application1copy2.setId(new Long(1));
+	   application1copy2.setName("Privilege1");
+	   
+	   application2 = new Privilege();
+	   application2.setId(new Long(2));
+	   application2.setName("Privilege2");
+	   
+	   application3 = new Privilege();
+	   application3.setId(new Long(3));
+	   application3.setName("Privilege3");
+	  }
+	
+
+	
+	
+	public void testEquality() {
+		  
+		/*System.out.println(application1.equals(application1copy));
+		assertTrue(application1.equals(application1copy));
+		  */
+		  assertFalse(application1.equals(application2));
+		  assertFalse(application1.equals(application3));
+		  Privilege application1subtype = new Privilege() {};
+		  application1subtype.setId(new Long(4));
+		  application1subtype.setName("Privilege4");
+		  
+		  assertFalse(application1.equals(application1subtype));
+
+		  assertReflexivity();
+		  assertSymmetry();
+		  assertTransitivity();
+		  assertConsistency();
+		  assertNullComparison();
+		}
+
+		private void assertNullComparison() {
+		  assertFalse(application1.equals(null));
+		}
+
+		private void assertConsistency() {
+		  assertTrue(application1.equals(application1copy));
+		  assertFalse(application1.equals(application2));
+		}
+
+		private void assertTransitivity() {
+		  assertTrue(application1copy.equals(application1copy2));
+		  assertTrue(application1.equals(application1copy2));
+		}
+
+		private void assertSymmetry() {
+		  assertTrue(application1.equals(application1copy));
+		  assertTrue(application1copy.equals(application1));
+		}
+
+		private void assertReflexivity() {
+		  assertTrue(application1.equals(application1));
+		}
+
+		public void testHashCode() {
+		  assertHashCodeConsistency();
+		}
+
+		private void assertHashCodeConsistency() {
+		  assertEquals(application1.hashCode(), application1copy.hashCode());
+		}
+	
 	/**
 	 * Constructor (needed for JTest)
 	 * 

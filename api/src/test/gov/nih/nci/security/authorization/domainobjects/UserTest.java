@@ -116,7 +116,87 @@ import junit.framework.TestSuite;
 
 public class UserTest extends TestCase
 {
+	private User user1;
+	  private User user1copy;
+	  private User user1copy2;
+	  private User user2;
+	  private User user3;
 
+	  protected void setUp() {
+	   user1 = new User();
+	   user1.setUserId(new Long(1));
+	   user1.setLoginName("User1");
+	   
+	   user1copy = new User();
+	   user1copy.setUserId(new Long(1));
+	   user1copy.setLoginName("User1");
+	   
+	   user1copy2 = new User();
+	   user1copy2.setUserId(new Long(1));
+	   user1copy2.setLoginName("User1");
+	   
+	   user2 = new User();
+	   user2.setUserId(new Long(2));
+	   user2.setLoginName("User2");
+	   
+	   user3 = new User();
+	   user3.setUserId(new Long(3));
+	   user3.setLoginName("User3");
+	  }
+	
+
+	
+	
+	public void testEquality() {
+		  
+		/*System.out.println(user1.equals(user1copy));
+		assertTrue(user1.equals(user1copy));
+		  */
+		  assertFalse(user1.equals(user2));
+		  assertFalse(user1.equals(user3));
+		  User user1subtype = new User() {};
+		  user1subtype.setUserId(new Long(4));
+		  user1subtype.setLoginName("User4");
+		  
+		  assertFalse(user1.equals(user1subtype));
+
+		  assertReflexivity();
+		  assertSymmetry();
+		  assertTransitivity();
+		  assertConsistency();
+		  assertNullComparison();
+		}
+
+		private void assertNullComparison() {
+		  assertFalse(user1.equals(null));
+		}
+
+		private void assertConsistency() {
+		  assertTrue(user1.equals(user1copy));
+		  assertFalse(user1.equals(user2));
+		}
+
+		private void assertTransitivity() {
+		  assertTrue(user1copy.equals(user1copy2));
+		  assertTrue(user1.equals(user1copy2));
+		}
+
+		private void assertSymmetry() {
+		  assertTrue(user1.equals(user1copy));
+		  assertTrue(user1copy.equals(user1));
+		}
+
+		private void assertReflexivity() {
+		  assertTrue(user1.equals(user1));
+		}
+
+		public void testHashCode() {
+		  assertHashCodeConsistency();
+		}
+
+		private void assertHashCodeConsistency() {
+		  assertEquals(user1.hashCode(), user1copy.hashCode());
+		}
   /**
    * Constructor (needed for JTest)
    * @param name    Name of Object
@@ -125,12 +205,7 @@ public class UserTest extends TestCase
     super(name);
   }
 
-  /**
-   * Used by JUnit (called before each test method)
-   */
-  protected void setUp() {
-    //user = new User();
-  }
+
 
   /**
    * Used by JUnit (called after each test method)
@@ -146,12 +221,7 @@ public class UserTest extends TestCase
 
   }
 
-  /**
-   * Test method: int hashCode()
-   */
-  public void testHashCode() {
 
-  }
 
   /**
    * Test method: void finalize()
@@ -249,16 +319,16 @@ public class UserTest extends TestCase
   }
 
   /**
-   * Test method: java.util.Set getProtectionGroupRoleContexts()
+   * Test method: java.util.Set getProtectionGroupUserContexts()
    */
-  public void testGetProtectionGroupRoleContexts() {
+  public void testGetProtectionGroupUserContexts() {
 
   }
 
   /**
-   * Test method: void setProtectionGroupRoleContexts(Set)
+   * Test method: void setProtectionGroupUserContexts(Set)
    */
-  public void testSetProtectionGroupRoleContexts() {
+  public void testSetProtectionGroupUserContexts() {
     //Must test for the following parameters!
     //Set;
 

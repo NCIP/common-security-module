@@ -115,6 +115,87 @@ import junit.framework.TestSuite;
 
 public class ProtectionGroupTest extends TestCase
 {
+	private ProtectionGroup protectionGroup1;
+
+	private ProtectionGroup protectionGroup1copy;
+
+	private ProtectionGroup protectionGroup1copy2;
+
+	private ProtectionGroup protectionGroup2;
+
+	private ProtectionGroup protectionGroup3;
+
+	protected void setUp() {
+		protectionGroup1 = new ProtectionGroup();
+		protectionGroup1.setProtectionGroupId(new Long(1));
+		protectionGroup1.setProtectionGroupName("ProtectionGroup1");
+
+		protectionGroup1copy = new ProtectionGroup();
+		protectionGroup1copy.setProtectionGroupId(new Long(1));
+		protectionGroup1copy.setProtectionGroupName("ProtectionGroup1");
+
+		protectionGroup1copy2 = new ProtectionGroup();
+		protectionGroup1copy2.setProtectionGroupId(new Long(1));
+		protectionGroup1copy2.setProtectionGroupName("ProtectionGroup1");
+
+		protectionGroup2 = new ProtectionGroup();
+		protectionGroup2.setProtectionGroupId(new Long(2));
+		protectionGroup2.setProtectionGroupName("ProtectionGroup2");
+
+		protectionGroup3 = new ProtectionGroup();
+		protectionGroup3.setProtectionGroupId(new Long(3));
+		protectionGroup3.setProtectionGroupName("ProtectionGroup3");
+	}
+
+	public void testEquality() {
+
+		assertTrue(protectionGroup1.equals(protectionGroup1copy));
+		assertFalse(protectionGroup1.equals(protectionGroup2));
+		assertFalse(protectionGroup1.equals(protectionGroup3));
+		ProtectionGroup protectionGroup1subtype = new ProtectionGroup() {
+		};
+		protectionGroup1subtype.setProtectionGroupId(new Long(4));
+		protectionGroup1subtype.setProtectionGroupName("ProtectionGroup4");
+
+		assertFalse(protectionGroup1.equals(protectionGroup1subtype));
+
+		assertReflexivity();
+		assertSymmetry();
+		assertTransitivity();
+		assertConsistency();
+		assertNullComparison();
+	}
+
+	private void assertNullComparison() {
+		assertFalse(protectionGroup1.equals(null));
+	}
+
+	private void assertConsistency() {
+		assertTrue(protectionGroup1.equals(protectionGroup1copy));
+		assertFalse(protectionGroup1.equals(protectionGroup2));
+	}
+
+	private void assertTransitivity() {
+		assertTrue(protectionGroup1copy.equals(protectionGroup1copy2));
+		assertTrue(protectionGroup1.equals(protectionGroup1copy2));
+	}
+
+	private void assertSymmetry() {
+		assertTrue(protectionGroup1.equals(protectionGroup1copy));
+		assertTrue(protectionGroup1copy.equals(protectionGroup1));
+	}
+
+	private void assertReflexivity() {
+		assertTrue(protectionGroup1.equals(protectionGroup1));
+	}
+
+	public void testHashCode() {
+		assertHashCodeConsistency();
+	}
+
+	private void assertHashCodeConsistency() {
+		assertEquals(protectionGroup1.hashCode(), protectionGroup1copy.hashCode());
+	}
 
   /**
    * Constructor (needed for JTest)
@@ -124,12 +205,7 @@ public class ProtectionGroupTest extends TestCase
     super(name);
   }
 
-  /**
-   * Used by JUnit (called before each test method)
-   */
-  protected void setUp() {
-    //protectiongroup = new ProtectionGroup();
-  }
+ 
 
   /**
    * Used by JUnit (called after each test method)
@@ -154,9 +230,9 @@ public class ProtectionGroupTest extends TestCase
   }
 
   /**
-   * Test method: java.util.Set getProtectionElements()
+   * Test method: java.util.Set getProtectionGroups()
    */
-  public void testGetProtectionElements() {
+  public void testGetProtectionGroups() {
 
   }
 
@@ -168,9 +244,9 @@ public class ProtectionGroupTest extends TestCase
   }
 
   /**
-   * Test method: void setProtectionElements(Set)
+   * Test method: void setProtectionGroups(Set)
    */
-  public void testSetProtectionElements() {
+  public void testSetProtectionGroups() {
     //Must test for the following parameters!
     //Set;
 
@@ -300,11 +376,11 @@ public class ProtectionGroupTest extends TestCase
   }
 
   /**
-   * Test method: void addProtectionElements(ProtectionElement[])
+   * Test method: void addProtectionGroups(ProtectionGroup[])
    */
-  public void testAddProtectionElements() {
+  public void testAddProtectionGroups() {
     //Must test for the following parameters!
-    //ProtectionElement[];
+    //ProtectionGroup[];
 
   }
 
