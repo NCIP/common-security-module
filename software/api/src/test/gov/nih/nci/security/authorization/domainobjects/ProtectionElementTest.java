@@ -90,20 +90,25 @@ package test.gov.nih.nci.security.authorization.domainobjects;
  *
  */
 
-
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * ProtectionElementTest    (Copyright 2001 Your Company)
+ * ProtectionElementTest (Copyright 2001 Your Company)
  * 
- * <p> This class performs unit tests on gov.nih.nci.security.authorization.domainobjects.ProtectionElement </p>
+ * <p>
+ * This class performs unit tests on
+ * gov.nih.nci.security.authorization.domainobjects.ProtectionElement
+ * </p>
  * 
- * <p> Explanation about the tested class and its responsibilities </p>
+ * <p>
+ * Explanation about the tested class and its responsibilities
+ * </p>
  * 
- * <p> Relations:
- *     ProtectionElement extends java.lang.Object <br>
+ * <p>
+ * Relations: ProtectionElement extends java.lang.Object <br>
  * 
  * @author Your Name Your email - Your Company
  * @date $Date: 2005-04-26 17:59:37 $
@@ -113,206 +118,284 @@ import junit.framework.TestSuite;
  * 
  */
 
-public class ProtectionElementTest extends TestCase
-{
+public class ProtectionElementTest extends TestCase {
+	private ProtectionElement protectionElement1;
 
-  /**
-   * Constructor (needed for JTest)
-   * @param name    Name of Object
-   */
-  public ProtectionElementTest(String name) {
-    super(name);
-  }
+	private ProtectionElement protectionElement1copy;
 
-  /**
-   * Used by JUnit (called before each test method)
-   */
-  protected void setUp() {
-    //protectionelement = new ProtectionElement();
-  }
+	private ProtectionElement protectionElement1copy2;
 
-  /**
-   * Used by JUnit (called after each test method)
-   */
-  protected void tearDown() {
-    protectionelement = null;
-  }
+	private ProtectionElement protectionElement2;
 
-  /**
-   * Test the constructor: ProtectionElement()
-   */
-  public void testProtectionElement() {
+	private ProtectionElement protectionElement3;
 
-  }
+	protected void setUp() {
+		protectionElement1 = new ProtectionElement();
+		protectionElement1.setProtectionElementId(new Long(1));
+		protectionElement1.setProtectionElementName("ProtectionElement1");
 
-  /**
-   * Test method: void finalize()
-   * finalize throws java.lang.Throwable
-   */
-  public void testFinalize() {
+		protectionElement1copy = new ProtectionElement();
+		protectionElement1copy.setProtectionElementId(new Long(1));
+		protectionElement1copy.setProtectionElementName("ProtectionElement1");
 
-  }
+		protectionElement1copy2 = new ProtectionElement();
+		protectionElement1copy2.setProtectionElementId(new Long(1));
+		protectionElement1copy2.setProtectionElementName("ProtectionElement1");
 
-  /**
-   * Test method: gov.nih.nci.security.authorization.domainobjects.User getOwner()
-   */
-  public void testGetOwner() {
+		protectionElement2 = new ProtectionElement();
+		protectionElement2.setProtectionElementId(new Long(2));
+		protectionElement2.setProtectionElementName("ProtectionElement2");
 
-  }
+		protectionElement3 = new ProtectionElement();
+		protectionElement3.setProtectionElementId(new Long(3));
+		protectionElement3.setProtectionElementName("ProtectionElement3");
+	}
 
-  /**
-   * Test method: String getAttribute()
-   */
-  public void testGetAttribute() {
+	public void testEquality() {
 
-  }
+		assertTrue(protectionElement1.equals(protectionElement1copy));
+		assertFalse(protectionElement1.equals(protectionElement2));
+		assertFalse(protectionElement1.equals(protectionElement3));
+		ProtectionElement protectionElement1subtype = new ProtectionElement() {
+		};
+		protectionElement1subtype.setProtectionElementId(new Long(4));
+		protectionElement1subtype.setProtectionElementName("ProtectionElement4");
 
-  /**
-   * Test method: java.util.Set getProtectionGroups()
-   */
-  public void testGetProtectionGroups() {
+		assertFalse(protectionElement1.equals(protectionElement1subtype));
 
-  }
+		assertReflexivity();
+		assertSymmetry();
+		assertTransitivity();
+		assertConsistency();
+		assertNullComparison();
+	}
 
-  /**
-   * Test method: java.util.Date getUpdateDate()
-   */
-  public void testGetUpdateDate() {
+	private void assertNullComparison() {
+		assertFalse(protectionElement1.equals(null));
+	}
 
-  }
+	private void assertConsistency() {
+		assertTrue(protectionElement1.equals(protectionElement1copy));
+		assertFalse(protectionElement1.equals(protectionElement2));
+	}
 
-  /**
-   * Test method: void setProtectionGroups(Set)
-   */
-  public void testSetProtectionGroups() {
-    //Must test for the following parameters!
-    //Set;
+	private void assertTransitivity() {
+		assertTrue(protectionElement1copy.equals(protectionElement1copy2));
+		assertTrue(protectionElement1.equals(protectionElement1copy2));
+	}
 
-  }
+	private void assertSymmetry() {
+		assertTrue(protectionElement1.equals(protectionElement1copy));
+		assertTrue(protectionElement1copy.equals(protectionElement1));
+	}
 
-  /**
-   * Test method: void setUpdateDate(Date)
-   */
-  public void testSetUpdateDate() {
-    //Must test for the following parameters!
-    //Date;
+	private void assertReflexivity() {
+		assertTrue(protectionElement1.equals(protectionElement1));
+	}
 
-  }
+	public void testHashCode() {
+		assertHashCodeConsistency();
+	}
 
-  /**
-   * Test method: gov.nih.nci.security.authorization.domainobjects.Application getApplication()
-   */
-  public void testGetApplication() {
+	private void assertHashCodeConsistency() {
+		assertEquals(protectionElement1.hashCode(), protectionElement1copy.hashCode());
+	}
 
-  }
+	/**
+	 * Constructor (needed for JTest)
+	 * 
+	 * @param name
+	 *            Name of Object
+	 */
+	public ProtectionElementTest(String name) {
+		super(name);
+	}
 
-  /**
-   * Test method: void setApplication(Application)
-   */
-  public void testSetApplication() {
-    //Must test for the following parameters!
-    //Application;
+	/**
+	 * Used by JUnit (called after each test method)
+	 */
+	protected void tearDown() {
+		protectionelement = null;
+	}
 
-  }
+	/**
+	 * Test the constructor: ProtectionElement()
+	 */
+	public void testProtectionElement() {
 
-  /**
-   * Test method: String getObjectId()
-   */
-  public void testGetObjectId() {
+	}
 
-  }
+	/**
+	 * Test method: void finalize() finalize throws java.lang.Throwable
+	 */
+	public void testFinalize() {
 
-  /**
-   * Test method: String getProtectionElementDescription()
-   */
-  public void testGetProtectionElementDescription() {
+	}
 
-  }
+	/**
+	 * Test method: gov.nih.nci.security.authorization.domainobjects.User
+	 * getOwner()
+	 */
+	public void testGetOwner() {
 
-  /**
-   * Test method: java.lang.Long getProtectionElementId()
-   */
-  public void testGetProtectionElementId() {
+	}
 
-  }
+	/**
+	 * Test method: String getAttribute()
+	 */
+	public void testGetAttribute() {
 
-  /**
-   * Test method: String getProtectionElementName()
-   */
-  public void testGetProtectionElementName() {
+	}
 
-  }
+	/**
+	 * Test method: java.util.Set getProtectionGroups()
+	 */
+	public void testGetProtectionGroups() {
 
-  /**
-   * Test method: void setAttribute(String)
-   */
-  public void testSetAttribute() {
-    //Must test for the following parameters!
-    String str [] = {null, "\u0000", " "};
+	}
 
-  }
+	/**
+	 * Test method: java.util.Date getUpdateDate()
+	 */
+	public void testGetUpdateDate() {
 
-  /**
-   * Test method: void setObjectId(String)
-   */
-  public void testSetObjectId() {
-    //Must test for the following parameters!
-    String str [] = {null, "\u0000", " "};
+	}
 
-  }
+	/**
+	 * Test method: void setProtectionGroups(Set)
+	 */
+	public void testSetProtectionGroups() {
+		// Must test for the following parameters!
+		// Set;
 
-  /**
-   * Test method: void setOwner(User)
-   */
-  public void testSetOwner() {
-    //Must test for the following parameters!
-    //User;
+	}
 
-  }
+	/**
+	 * Test method: void setUpdateDate(Date)
+	 */
+	public void testSetUpdateDate() {
+		// Must test for the following parameters!
+		// Date;
 
-  /**
-   * Test method: void setProtectionElementDescription(String)
-   */
-  public void testSetProtectionElementDescription() {
-    //Must test for the following parameters!
-    String str [] = {null, "\u0000", " "};
+	}
 
-  }
+	/**
+	 * Test method: gov.nih.nci.security.authorization.domainobjects.ProtectionElement
+	 * getProtectionElement()
+	 */
+	public void testGetProtectionElement() {
 
-  /**
-   * Test method: void setProtectionElementId(Long)
-   */
-  public void testSetProtectionElementId() {
-    //Must test for the following parameters!
-    //Long;
+	}
 
-  }
+	/**
+	 * Test method: void setProtectionElement(ProtectionElement)
+	 */
+	public void testSetProtectionElement() {
+		// Must test for the following parameters!
+		// ProtectionElement;
 
-  /**
-   * Test method: void setProtectionElementName(String)
-   */
-  public void testSetProtectionElementName() {
-    //Must test for the following parameters!
-    String str [] = {null, "\u0000", " "};
+	}
 
-  }
+	/**
+	 * Test method: String getObjectId()
+	 */
+	public void testGetObjectId() {
 
-  /**
-   * Test method: void assignToGroups(ProtectionGroup[])
-   */
-  public void testAssignToGroups() {
-    //Must test for the following parameters!
-    //ProtectionGroup[];
+	}
 
-  }
+	/**
+	 * Test method: String getProtectionElementDescription()
+	 */
+	public void testGetProtectionElementDescription() {
 
-  /**
-   * Main method needed to make a self runnable class
-   * 
-   * @param args This is required for main method
-   */
-  public static void main(String[] args) {
-    junit.textui.TestRunner.run( new TestSuite(ProtectionElementTest.class) );
-  }
-  private ProtectionElement protectionelement;
+	}
+
+	/**
+	 * Test method: java.lang.Long getProtectionElementId()
+	 */
+	public void testGetProtectionElementId() {
+
+	}
+
+	/**
+	 * Test method: String getProtectionElementName()
+	 */
+	public void testGetProtectionElementName() {
+
+	}
+
+	/**
+	 * Test method: void setAttribute(String)
+	 */
+	public void testSetAttribute() {
+		// Must test for the following parameters!
+		String str[] = { null, "\u0000", " " };
+
+	}
+
+	/**
+	 * Test method: void setObjectId(String)
+	 */
+	public void testSetObjectId() {
+		// Must test for the following parameters!
+		String str[] = { null, "\u0000", " " };
+
+	}
+
+	/**
+	 * Test method: void setOwner(User)
+	 */
+	public void testSetOwner() {
+		// Must test for the following parameters!
+		// User;
+
+	}
+
+	/**
+	 * Test method: void setProtectionElementDescription(String)
+	 */
+	public void testSetProtectionElementDescription() {
+		// Must test for the following parameters!
+		String str[] = { null, "\u0000", " " };
+
+	}
+
+	/**
+	 * Test method: void setProtectionElementId(Long)
+	 */
+	public void testSetProtectionElementId() {
+		// Must test for the following parameters!
+		// Long;
+
+	}
+
+	/**
+	 * Test method: void setProtectionElementName(String)
+	 */
+	public void testSetProtectionElementName() {
+		// Must test for the following parameters!
+		String str[] = { null, "\u0000", " " };
+
+	}
+
+	/**
+	 * Test method: void assignToGroups(ProtectionGroup[])
+	 */
+	public void testAssignToGroups() {
+		// Must test for the following parameters!
+		// ProtectionGroup[];
+
+	}
+
+	/**
+	 * Main method needed to make a self runnable class
+	 * 
+	 * @param args
+	 *            This is required for main method
+	 */
+	public static void main(String[] args) {
+		junit.textui.TestRunner.run(new TestSuite(ProtectionElementTest.class));
+	}
+
+	private ProtectionElement protectionelement;
 }

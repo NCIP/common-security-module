@@ -116,20 +116,99 @@ import junit.framework.TestSuite;
 public class ApplicationTest extends TestCase
 {
 
-  /**
+	private Application application1;
+	  private Application application1copy;
+	  private Application application1copy2;
+	  private Application application2;
+	  private Application application3;
+
+	  protected void setUp() {
+	   application1 = new Application();
+	   application1.setApplicationId(new Long(1));
+	   application1.setApplicationName("Application1");
+	   
+	   application1copy = new Application();
+	   application1copy.setApplicationId(new Long(1));
+	   application1copy.setApplicationName("Application1");
+	   
+	   application1copy2 = new Application();
+	   application1copy2.setApplicationId(new Long(1));
+	   application1copy2.setApplicationName("Application1");
+	   
+	   application2 = new Application();
+	   application2.setApplicationId(new Long(2));
+	   application2.setApplicationName("Application2");
+	   
+	   application3 = new Application();
+	   application3.setApplicationId(new Long(3));
+	   application3.setApplicationName("Application3");
+	  }
+	
+
+	
+	
+	public void testEquality() {
+		  
+		/*System.out.println(application1.equals(application1copy));
+		assertTrue(application1.equals(application1copy));
+		  */
+		  assertFalse(application1.equals(application2));
+		  assertFalse(application1.equals(application3));
+		  Application application1subtype = new Application() {};
+		  application1subtype.setApplicationId(new Long(4));
+		  application1subtype.setApplicationName("Application4");
+		  
+		  assertFalse(application1.equals(application1subtype));
+
+		  assertReflexivity();
+		  assertSymmetry();
+		  assertTransitivity();
+		  assertConsistency();
+		  assertNullComparison();
+		}
+
+		private void assertNullComparison() {
+		  assertFalse(application1.equals(null));
+		}
+
+		private void assertConsistency() {
+		  assertTrue(application1.equals(application1copy));
+		  assertFalse(application1.equals(application2));
+		}
+
+		private void assertTransitivity() {
+		  assertTrue(application1copy.equals(application1copy2));
+		  assertTrue(application1.equals(application1copy2));
+		}
+
+		private void assertSymmetry() {
+		  assertTrue(application1.equals(application1copy));
+		  assertTrue(application1copy.equals(application1));
+		}
+
+		private void assertReflexivity() {
+		  assertTrue(application1.equals(application1));
+		}
+
+		public void testHashCode() {
+		  assertHashCodeConsistency();
+		}
+
+		private void assertHashCodeConsistency() {
+		  assertEquals(application1.hashCode(), application1copy.hashCode());
+		}
+	
+	
+	/**
    * Constructor (needed for JTest)
    * @param name    Name of Object
    */
   public ApplicationTest(String name) {
     super(name);
+
   }
 
-  /**
-   * Used by JUnit (called before each test method)
-   */
-  protected void setUp() {
-    //application = new Application();
-  }
+ 
 
   /**
    * Used by JUnit (called after each test method)

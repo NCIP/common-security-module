@@ -90,20 +90,25 @@ package test.gov.nih.nci.security.authorization.domainobjects;
  *
  */
 
-
+import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * RoleTest    (Copyright 2001 Your Company)
+ * RoleTest (Copyright 2001 Your Company)
  * 
- * <p> This class performs unit tests on gov.nih.nci.security.authorization.domainobjects.Role </p>
+ * <p>
+ * This class performs unit tests on
+ * gov.nih.nci.security.authorization.domainobjects.Role
+ * </p>
  * 
- * <p> Explanation about the tested class and its responsibilities </p>
+ * <p>
+ * Explanation about the tested class and its responsibilities
+ * </p>
  * 
- * <p> Relations:
- *     Role extends java.lang.Object <br>
+ * <p>
+ * Relations: Role extends java.lang.Object <br>
  * 
  * @author Your Name Your email - Your Company
  * @date $Date: 2005-04-26 17:59:39 $
@@ -113,165 +118,246 @@ import junit.framework.TestSuite;
  * @see some.other.package
  */
 
-public class RoleTest extends TestCase
-{
+public class RoleTest extends TestCase {
 
-  /**
-   * Constructor (needed for JTest)
-   * @param name    Name of Object
-   */
-  public RoleTest(String name) {
-    super(name);
-  }
+	private Role role1;
 
-  /**
-   * Used by JUnit (called before each test method)
-   */
-  protected void setUp() {
-    //role = new Role();
-  }
+	private Role role1copy;
 
-  /**
-   * Used by JUnit (called after each test method)
-   */
-  protected void tearDown() {
-    role = null;
-  }
+	private Role role1copy2;
 
-  /**
-   * Test the constructor: Role()
-   */
-  public void testRole() {
+	private Role role2;
 
-  }
+	private Role role3;
 
-  /**
-   * Test method: void finalize()
-   * finalize throws java.lang.Throwable
-   */
-  public void testFinalize() {
+	protected void setUp() {
+		role1 = new Role();
+		role1.setId(new Long(1));
+		role1.setName("Role1");
 
-  }
+		role1copy = new Role();
+		role1copy.setId(new Long(1));
+		role1copy.setName("Role1");
 
-  /**
-   * Test method: String getName()
-   */
-  public void testGetName() {
+		role1copy2 = new Role();
+		role1copy2.setId(new Long(1));
+		role1copy2.setName("Role1");
 
-  }
+		role2 = new Role();
+		role2.setId(new Long(2));
+		role2.setName("Role2");
 
-  /**
-   * Test method: void setName(String)
-   */
-  public void testSetName() {
-    //Must test for the following parameters!
-    String str [] = {null, "\u0000", " "};
+		role3 = new Role();
+		role3.setId(new Long(3));
+		role3.setName("Role3");
+	}
 
-  }
+	public void testEquality() {
 
-  /**
-   * Test method: java.util.Date getUpdateDate()
-   */
-  public void testGetUpdateDate() {
+		/*
+		 * System.out.println(role1.equals(role1copy));
+		 * assertTrue(role1.equals(role1copy));
+		 */
+		assertFalse(role1.equals(role2));
+		assertFalse(role1.equals(role3));
+		Role role1subtype = new Role() {
+		};
+		role1subtype.setId(new Long(4));
+		role1subtype.setName("Role4");
 
-  }
+		assertFalse(role1.equals(role1subtype));
 
-  /**
-   * Test method: void setUpdateDate(Date)
-   */
-  public void testSetUpdateDate() {
-    //Must test for the following parameters!
-    //Date;
+		assertReflexivity();
+		assertSymmetry();
+		assertTransitivity();
+		assertConsistency();
+		assertNullComparison();
+	}
 
-  }
+	private void assertNullComparison() {
+		assertFalse(role1.equals(null));
+	}
 
-  /**
-   * Test method: gov.nih.nci.security.authorization.domainobjects.Application getApplication()
-   */
-  public void testGetApplication() {
+	private void assertConsistency() {
+		assertTrue(role1.equals(role1copy));
+		assertFalse(role1.equals(role2));
+	}
 
-  }
+	private void assertTransitivity() {
+		assertTrue(role1copy.equals(role1copy2));
+		assertTrue(role1.equals(role1copy2));
+	}
 
-  /**
-   * Test method: void setApplication(Application)
-   */
-  public void testSetApplication() {
-    //Must test for the following parameters!
-    //Application;
+	private void assertSymmetry() {
+		assertTrue(role1.equals(role1copy));
+		assertTrue(role1copy.equals(role1));
+	}
 
-  }
+	private void assertReflexivity() {
+		assertTrue(role1.equals(role1));
+	}
 
-  /**
-   * Test method: String getDesc()
-   */
-  public void testGetDesc() {
+	public void testHashCode() {
+		assertHashCodeConsistency();
+	}
 
-  }
+	private void assertHashCodeConsistency() {
+		assertEquals(role1.hashCode(), role1copy.hashCode());
+	}
 
-  /**
-   * Test method: java.lang.Long getId()
-   */
-  public void testGetId() {
+	/**
+	 * Constructor (needed for JTest)
+	 * 
+	 * @param name
+	 *            Name of Object
+	 */
+	public RoleTest(String name) {
+		super(name);
+	}
 
-  }
+	/**
+	 * Used by JUnit (called after each test method)
+	 */
+	protected void tearDown() {
+		role = null;
+	}
 
-  /**
-   * Test method: void setDesc(String)
-   */
-  public void testSetDesc() {
-    //Must test for the following parameters!
-    String str [] = {null, "\u0000", " "};
+	/**
+	 * Test the constructor: Role()
+	 */
+	public void testRole() {
 
-  }
+	}
 
-  /**
-   * Test method: void setId(Long)
-   */
-  public void testSetId() {
-    //Must test for the following parameters!
-    //Long;
+	/**
+	 * Test method: void finalize() finalize throws java.lang.Throwable
+	 */
+	public void testFinalize() {
 
-  }
+	}
 
-  /**
-   * Test method: byte getActive_flag()
-   */
-  public void testGetActive_flag() {
+	/**
+	 * Test method: String getName()
+	 */
+	public void testGetName() {
 
-  }
+	}
 
-  /**
-   * Test method: java.util.Set getPrivileges()
-   */
-  public void testGetPrivileges() {
+	/**
+	 * Test method: void setName(String)
+	 */
+	public void testSetName() {
+		// Must test for the following parameters!
+		String str[] = { null, "\u0000", " " };
 
-  }
+	}
 
-  /**
-   * Test method: void setActive_flag(byte)
-   */
-  public void testSetActive_flag() {
-    //Must test for the following parameters!
-    byte bValues [] = { Byte.MAX_VALUE, Byte.MIN_VALUE };
+	/**
+	 * Test method: java.util.Date getUpdateDate()
+	 */
+	public void testGetUpdateDate() {
 
-  }
+	}
 
-  /**
-   * Test method: void setPrivileges(Set)
-   */
-  public void testSetPrivileges() {
-    //Must test for the following parameters!
-    //Set;
+	/**
+	 * Test method: void setUpdateDate(Date)
+	 */
+	public void testSetUpdateDate() {
+		// Must test for the following parameters!
+		// Date;
 
-  }
+	}
 
-  /**
-   * Main method needed to make a self runnable class
-   * 
-   * @param args This is required for main method
-   */
-  public static void main(String[] args) {
-    junit.textui.TestRunner.run( new TestSuite(RoleTest.class) );
-  }
-  private Role role;
+	/**
+	 * Test method: gov.nih.nci.security.authorization.domainobjects.Role
+	 * getRole()
+	 */
+	public void testGetRole() {
+
+	}
+
+	/**
+	 * Test method: void setRole(Role)
+	 */
+	public void testSetRole() {
+		// Must test for the following parameters!
+		// Role;
+
+	}
+
+	/**
+	 * Test method: String getDesc()
+	 */
+	public void testGetDesc() {
+
+	}
+
+	/**
+	 * Test method: java.lang.Long getId()
+	 */
+	public void testGetId() {
+
+	}
+
+	/**
+	 * Test method: void setDesc(String)
+	 */
+	public void testSetDesc() {
+		// Must test for the following parameters!
+		String str[] = { null, "\u0000", " " };
+
+	}
+
+	/**
+	 * Test method: void setId(Long)
+	 */
+	public void testSetId() {
+		// Must test for the following parameters!
+		// Long;
+
+	}
+
+	/**
+	 * Test method: byte getActive_flag()
+	 */
+	public void testGetActive_flag() {
+
+	}
+
+	/**
+	 * Test method: java.util.Set getPrivileges()
+	 */
+	public void testGetPrivileges() {
+
+	}
+
+	/**
+	 * Test method: void setActive_flag(byte)
+	 */
+	public void testSetActive_flag() {
+		// Must test for the following parameters!
+		byte bValues[] = { Byte.MAX_VALUE, Byte.MIN_VALUE };
+
+	}
+
+	/**
+	 * Test method: void setPrivileges(Set)
+	 */
+	public void testSetPrivileges() {
+		// Must test for the following parameters!
+		// Set;
+
+	}
+
+	/**
+	 * Main method needed to make a self runnable class
+	 * 
+	 * @param args
+	 *            This is required for main method
+	 */
+	public static void main(String[] args) {
+		junit.textui.TestRunner.run(new TestSuite(RoleTest.class));
+	}
+
+	private Role role;
 }

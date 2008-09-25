@@ -91,6 +91,8 @@ package test.gov.nih.nci.security.authorization.domainobjects;
  */
 
 
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -115,6 +117,112 @@ import junit.framework.TestSuite;
 
 public class ProtectionGroupRoleContextTest extends TestCase
 {
+	
+	 private ProtectionGroupRoleContext protectionGroupRoleContext1;
+	  private ProtectionGroupRoleContext protectionGroupRoleContext1copy;
+	  private ProtectionGroupRoleContext protectionGroupRoleContext1copy2;
+	  private ProtectionGroupRoleContext protectionGroupRoleContext2;
+	  private ProtectionGroupRoleContext protectionGroupRoleContext3;
+
+	  protected void setUp() {
+	   protectionGroupRoleContext1 = new ProtectionGroupRoleContext();
+	   ProtectionGroup pg1= new ProtectionGroup();
+		  pg1.setProtectionGroupId(new Long(1));
+		  pg1.setProtectionGroupName("PG1");
+	   protectionGroupRoleContext1.setProtectionGroup(pg1);
+	   
+	   
+	   protectionGroupRoleContext1copy = new ProtectionGroupRoleContext();
+	   ProtectionGroup pg2= new ProtectionGroup();
+		  pg2.setProtectionGroupId(new Long(1));
+		  pg2.setProtectionGroupName("PG1");
+		protectionGroupRoleContext1copy.setProtectionGroup(pg2);
+	  
+	   
+	   protectionGroupRoleContext1copy2 = new ProtectionGroupRoleContext();
+	   ProtectionGroup pg3= new ProtectionGroup();
+		  pg3.setProtectionGroupId(new Long(1));
+		  pg3.setProtectionGroupName("PG1");
+		  protectionGroupRoleContext1copy2.setProtectionGroup(pg3);
+		
+
+	   
+	   protectionGroupRoleContext2 = new ProtectionGroupRoleContext();
+	   ProtectionGroup pg4= new ProtectionGroup();
+		  pg4.setProtectionGroupId(new Long(2));
+		  pg4.setProtectionGroupName("PG2");
+		  protectionGroupRoleContext2.setProtectionGroup(pg4);
+
+		  
+		  
+	   
+	   protectionGroupRoleContext3 = new ProtectionGroupRoleContext();
+	   ProtectionGroup pg5= new ProtectionGroup();
+		  pg5.setProtectionGroupId(new Long(3));
+		  pg5.setProtectionGroupName("PG3");
+		  protectionGroupRoleContext3.setProtectionGroup(pg5);
+
+	   
+	  }
+	
+
+	
+	
+	public void testEquality() {
+		  
+		
+		assertTrue(protectionGroupRoleContext1.equals(protectionGroupRoleContext1copy));
+		
+		  assertFalse(protectionGroupRoleContext1.equals(protectionGroupRoleContext2));
+		  assertFalse(protectionGroupRoleContext1.equals(protectionGroupRoleContext3));
+		  ProtectionGroupRoleContext protectionGroupRoleContext1subtype = new ProtectionGroupRoleContext() {};
+		  ProtectionGroup pg4 = new ProtectionGroup();
+		  pg4.setProtectionGroupId(new Long(4));
+		  pg4.setProtectionGroupName("PG4");
+		  protectionGroupRoleContext1subtype.setProtectionGroup(pg4);
+		  
+		  
+		  assertFalse(protectionGroupRoleContext1.equals(protectionGroupRoleContext1subtype));
+
+		  assertReflexivity();
+		  assertSymmetry();
+		  assertTransitivity();
+		  assertConsistency();
+		  assertNullComparison();
+		  
+		  
+		}
+
+		private void assertNullComparison() {
+		  assertFalse(protectionGroupRoleContext1.equals(null));
+		}
+
+		private void assertConsistency() {
+		  assertTrue(protectionGroupRoleContext1.equals(protectionGroupRoleContext1copy));
+		  assertFalse(protectionGroupRoleContext1.equals(protectionGroupRoleContext2));
+		}
+
+		private void assertTransitivity() {
+		  assertTrue(protectionGroupRoleContext1copy.equals(protectionGroupRoleContext1copy2));
+		  assertTrue(protectionGroupRoleContext1.equals(protectionGroupRoleContext1copy2));
+		}
+
+		private void assertSymmetry() {
+		  assertTrue(protectionGroupRoleContext1.equals(protectionGroupRoleContext1copy));
+		  assertTrue(protectionGroupRoleContext1copy.equals(protectionGroupRoleContext1));
+		}
+
+		private void assertReflexivity() {
+		  assertTrue(protectionGroupRoleContext1.equals(protectionGroupRoleContext1));
+		}
+
+		public void testHashCode() {
+		  assertHashCodeConsistency();
+		}
+
+		private void assertHashCodeConsistency() {
+		  assertEquals(protectionGroupRoleContext1.hashCode(), protectionGroupRoleContext1copy.hashCode());
+		}
 
   /**
    * Constructor (needed for JTest)
@@ -124,12 +232,7 @@ public class ProtectionGroupRoleContextTest extends TestCase
     super(name);
   }
 
-  /**
-   * Used by JUnit (called before each test method)
-   */
-  protected void setUp() {
-    //protectiongrouprolecontext = new ProtectionGroupRoleContext();
-  }
+
 
   /**
    * Used by JUnit (called after each test method)
