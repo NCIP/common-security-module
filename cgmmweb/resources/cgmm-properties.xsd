@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="authentication-service-information">
-		<xs:complexType>
+        <xs:annotation>
+        	<xs:documentation>
+        		This Element allows specifying required Authentication
+        		Service Information. Please refer the caGrid Wiki for
+        		more details regarding Authentication Service.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
 			<xs:sequence>
 				<xs:element ref="service-name"/>
 				<xs:element ref="service-url"/>
@@ -10,14 +17,28 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="authentication-service-list">
-		<xs:complexType>
+        <xs:annotation>
+        	<xs:documentation>
+        		This element allows specifying a list of Authentication
+        		Services.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
 			<xs:sequence>
 				<xs:element ref="authentication-service-information" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="dorian-information">
-		<xs:complexType>
+        <xs:annotation>
+        	<xs:documentation>
+        		This element allows specification of caGrid Dorian
+        		related information. Please refer the caGrid Wiki for
+        		more details regarding Dorian.
+
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
 			<xs:sequence>
 				<xs:element ref="service-url"/>
 				<xs:element ref="proxy-lifetime-hours"/>
@@ -28,7 +49,13 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="cgmm-information">
-		<xs:complexType>
+        <xs:annotation>
+        	<xs:documentation>
+        		This element allows specification of CGMM related
+        		information.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
 			<xs:sequence>
 				<xs:element ref="cgmm-context-name"/>
 				<xs:element ref="cgmm-login-config-file-name"/>				
@@ -39,7 +66,13 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="host-application-information">
-		<xs:complexType>
+        <xs:annotation>
+        	<xs:documentation>
+        		This element allows specification of Host Application
+        		related information.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
 			<xs:sequence>
 				<xs:element ref="host-context-name"/>
 				<xs:element ref="host-public-home-page-url"/>
@@ -48,27 +81,66 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="error-messages">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="error-csm-invalid-credentials" type="xs:string"/>
-				<xs:element name="error-grid-invalid-credentials" type="xs:string"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="cgmm-new-grid-user-creation-disabled" type="xs:string"/>
-	<xs:element name="cgmm-new-grid-user-creation-host-redirect-uri" type="xs:string" nillable="true"/>
-	<xs:element name="cgmm-context-name" type="xs:string"/>
-	<xs:element name="cgmm-login-config-file-name" type="xs:string"/>
-	<xs:element name="host-context-name" type="xs:string"/>
+	<xs:element name="cgmm-new-grid-user-creation-disabled" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				This element indicates if the New Grid User Creation
+				workflow is disabled for this installation of CGMM. A
+				value of true indicates the particular workflow is
+				disabled. If disabled the
+				cgmm-new-grid-user-creation-host-redirect-url is
+				ignored. The value of false indicates that the workflow
+				is not disabled. The
+				cgmm-new-grid-user-creation-host-redirect-url is
+				expected to have valid content.
+			</xs:documentation>
+		</xs:annotation></xs:element>
+	<xs:element name="cgmm-new-grid-user-creation-host-redirect-uri" type="xs:string" nillable="true">
+		<xs:annotation>
+			<xs:documentation>
+				This element allows specifying the Hosts Redirect URL
+				once the New Grid User creation workflow is successfully
+				completed. If this workflow is disabled, then the this
+				element is ignored.
+			</xs:documentation>
+		</xs:annotation></xs:element>
+	<xs:element name="cgmm-context-name" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				The Web application context name of CGMM Web
+				Application. The default value is cgmmweb
+			</xs:documentation>
+		</xs:annotation></xs:element>
+	<xs:element name="cgmm-login-config-file-name" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				The JAAS Login Config file name. This file consists the
+				CSM Authentication configuration necessary for
+				authentication of CSM users. If the
+				java.security.auth.login.config JAAS property is set in
+				SystemProperties then this element is ignored and the
+				Login Module Configuration for cgmmweb is obtained from
+				the particular Login Configuration.
+			</xs:documentation>
+		</xs:annotation></xs:element>
+	<xs:element name="host-context-name" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				The Web Application Context name of the Host Web
+				Application.This string value must match the web context
+				name of the host application.
+			</xs:documentation>
+		</xs:annotation></xs:element>
 	<xs:element name="host-public-home-page-url" type="xs:string"/>
 	<xs:element name="host-user-home-page-url" type="xs:string"/>	
-	<xs:element name="host-new-local-user-creation-url" type="xs:string"/>
+	<xs:element name="host-new-local-user-creation-url" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				This element OPTIONAL allows specifying the URL for New
+				Local User creation workflow of the Host application.
+			</xs:documentation>
+		</xs:annotation></xs:element>
 	<xs:element name="start-auto-syncgts" type="xs:string"/>
-	<xs:element name="host-credential-certificate-file-path" type="xs:string"/>
-	<xs:element name="host-credential-key-file-path" type="xs:string"/>
-	<xs:element name="group-name" type="xs:string"/>
-	<xs:element name="host-identity" type="xs:string"/>
 	<xs:element name="service-name" type="xs:string"/>
 	<xs:element name="service-url" type="xs:anyURI"/>
 	<xs:element name="proxy-lifetime-hours" type="xs:integer"/>
@@ -76,7 +148,15 @@
 	<xs:element name="proxy-lifetime-seconds" type="xs:integer"/>
 	<xs:element name="proxy-delegation-path-length" type="xs:integer"/>
 	<xs:element name="cgmm-properties">
-		<xs:complexType>
+        <xs:annotation>
+        	<xs:documentation>
+        		The Root Element of the CGMM Properties. This element
+        		allows specifying the CGMM information, Host Application
+        		Information and Authentication Service/Dorian
+        		Information.
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
 			<xs:sequence>
 				<xs:element ref="cgmm-information"/>
 				<xs:element ref="host-application-information"/>
