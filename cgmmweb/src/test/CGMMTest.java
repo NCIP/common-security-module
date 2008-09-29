@@ -8,6 +8,7 @@ import gov.nih.nci.cagrid.syncgts.core.SyncGTS;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.cgmm.beans.AuthenticationServiceInformation;
 import gov.nih.nci.security.cgmm.constants.CGMMConstants;
+import gov.nih.nci.security.cgmm.exceptions.CGMMAuthenticationURLException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMGridAuthenticationServiceException;
@@ -140,6 +141,8 @@ public class CGMMTest {
 			e.printStackTrace();
 		} catch (CGMMGridAuthenticationServiceException e) {
 		
+			e.printStackTrace();
+		} catch (CGMMAuthenticationURLException e) {
 			e.printStackTrace();
 		}
 		
