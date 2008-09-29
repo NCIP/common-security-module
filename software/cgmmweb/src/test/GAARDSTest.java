@@ -1,6 +1,7 @@
 package test;
 
 import gov.nih.nci.security.cgmm.beans.CGMMUser;
+import gov.nih.nci.security.cgmm.exceptions.CGMMAuthenticationURLException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMGridAuthenticationServiceException;
@@ -62,6 +63,8 @@ public class GAARDSTest {
 		} catch (CGMMGridDorianException e) {
 			e.printStackTrace();
 		} catch (CGMMGridAuthenticationServiceException e) {
+			e.printStackTrace();
+		} catch (CGMMAuthenticationURLException e) {
 			e.printStackTrace();
 		}
 		
