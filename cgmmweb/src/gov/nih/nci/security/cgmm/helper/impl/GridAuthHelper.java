@@ -14,6 +14,7 @@ import gov.nih.nci.security.cgmm.exceptions.CGMMAuthenticationURLException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMGridAuthenticationServiceException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMGridDorianException;
+import gov.nih.nci.security.cgmm.exceptions.CGMMGridDorianUserPropertiesException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMInputException;
 import gov.nih.nci.security.cgmm.helper.AuthenticationServiceHelper;
 import gov.nih.nci.security.cgmm.helper.DorianHelper;
@@ -47,19 +48,19 @@ public class GridAuthHelper {
 	public GridAuthHelper() throws CGMMConfigurationException{
 		ObjectFactory.initialize(CGMMConstants.CGMM_BEAN_CONFIG_FILE);
 		this.cgmmProperties = (CGMMProperties)ObjectFactory.getObject(CGMMConstants.CGMM_PROPERTIES);
-		if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CGMM_CONFIGURATION"));
+		if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_CONFIGURATION);
 	}
 	
-	public GlobusCredential authenticate(String username, String password, String authenticationServiceURL) throws CGMMInputException, CGMMConfigurationException, CGMMGridDorianException, CGMMGridAuthenticationServiceException 
+	public GlobusCredential authenticate(String username, String password, String authenticationServiceURL) throws CGMMInputException, CGMMConfigurationException, CGMMGridDorianException, CGMMGridAuthenticationServiceException, CGMMAuthenticationURLException 
 	{
 		if(StringUtilities.isBlank(username) || StringUtilities.isBlank(password)){
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_EMPTY_USER_PASSWORD"));
+			throw new CGMMInputException(CGMMMessages.EXCEPTION_EMPTY_USER_PASSWORD);
 		}
 		
 		if(StringUtilities.isBlank(authenticationServiceURL) ){
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_INVALID_AUTHENTICATION_URL"));
+			throw new CGMMInputException(CGMMMessages.EXCEPTION_INVALID_AUTHENTICATION_URL);
 		}
-		if (null == cgmmProperties) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CGMM_PROPERTIES"));
+		if (null == cgmmProperties) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_PROPERTIES);
 		
 		
 		// Obtain the implementation for the AuthenticationServiceHelper
@@ -102,13 +103,13 @@ public class GridAuthHelper {
 	 */
 	
 	@SuppressWarnings("static-access")
-	public  SortedMap getAuthenticationServiceURLList() throws CGMMConfigurationException
+	public  SortedMap getAuthenticationServiceURLMap() throws CGMMConfigurationException
 	{
 		if (authenticationServiceURLMap == null)
 		{
 			authenticationServiceURLMap = new TreeMap<String, String>();
 			
-			if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CGMM_CONFIGURATION"));
+			if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_CONFIGURATION);
 			
 			List<AuthenticationServiceInformation> authenticationServiceInformationList = cgmmProperties.getAuthenticationServiceInformationList();
 			Iterator listIterator = authenticationServiceInformationList.iterator();
@@ -121,18 +122,18 @@ public class GridAuthHelper {
 		return  authenticationServiceURLMap;
 	}
 
-	public HashMap<String, String> getAttributesMap(String username, String password, String authenticationServiceURL) throws CGMMInputException, CGMMConfigurationException, CGMMGridDorianException, CGMMGridAuthenticationServiceException 
+	public HashMap<String, String> getAttributesMap(String username, String password, String authenticationServiceURL) throws CGMMInputException, CGMMConfigurationException, CGMMGridDorianException, CGMMGridAuthenticationServiceException, CGMMAuthenticationURLException 
 	{
 		HashMap<String, String> attributesMap=null;
 		
 		if(StringUtilities.isBlank(username) || StringUtilities.isBlank(password)){
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_EMPTY_USER_PASSWORD"));
+			throw new CGMMInputException(CGMMMessages.EXCEPTION_EMPTY_USER_PASSWORD);
 		}
 		
 		if(StringUtilities.isBlank(authenticationServiceURL) ){
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_INVALID_AUTHENTICATION_URL"));
+			throw new CGMMInputException(CGMMMessages.EXCEPTION_INVALID_AUTHENTICATION_URL);
 		}
-		if (null == cgmmProperties) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CGMM_PROPERTIES"));
+		if (null == cgmmProperties) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_PROPERTIES);
 		
 		
 		// Obtain the implementation for the AuthenticationServiceHelper
@@ -163,7 +164,7 @@ public class GridAuthHelper {
 	}
 
 	
-	public String createDorianAccount( CGMMUser cgmmUser, String dorianURL ) throws CGMMAuthenticationURLException, CGMMGridDorianException{
+	public String createDorianAccount( CGMMUser cgmmUser, String dorianURL ) throws CGMMAuthenticationURLException, CGMMGridDorianException, CGMMGridDorianUserPropertiesException{
 		
 		
 		String confirmationMessage = null;
@@ -204,7 +205,7 @@ public class GridAuthHelper {
 				}*/
 			
 			}catch(InvalidUserPropertyFault d){
-				throw new CGMMGridDorianException(d.getFaultString());
+				throw new CGMMGridDorianUserPropertiesException(d.getFaultString());
 			}catch(BaseFaultType bft){
 				throw new CGMMGridDorianException(bft.getFaultString());
 			} catch (RemoteException e) {

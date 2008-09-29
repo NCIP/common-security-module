@@ -43,14 +43,14 @@ public class ProxyValidatorImpl implements ProxyValidator {
 		
 		if (null == globusCredential)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_PROXY_NOT_FOUND"));
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_PROXY_NOT_FOUND);
 		}
     	try
 		{
 			globusCredential.verify();
 		} catch (GlobusCredentialException e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_PROXY_NOT_VERIFICATION")+ e.getMessage());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_PROXY_NOT_VERIFICATION+ e.getMessage());
 		}
 
         X509Certificate[] proxyChain = globusCredential.getCertificateChain();
@@ -83,7 +83,7 @@ public class ProxyValidatorImpl implements ProxyValidator {
 			proxyPathValidator.validate(proxyChain, trustedCerts, crls);
 		} catch (ProxyPathValidatorException e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_PROXY_VALIDATION") + e.getMessage());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_PROXY_VALIDATION + e.getMessage());
 		}
 
         return true;

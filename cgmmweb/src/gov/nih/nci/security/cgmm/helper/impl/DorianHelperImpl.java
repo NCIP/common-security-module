@@ -49,27 +49,27 @@ public class DorianHelperImpl implements DorianHelper
 			globusCredential = ifsUserClient.createProxy(samlAssertion, dorianInformation.getProxyLifeTime(), dorianInformation.getDelegationPathLength());
 		} catch (DorianFault e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_UNAVAILABLE")+ e.getFaultString());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_UNAVAILABLE+ e.getFaultString());
 		} 
 		catch (DorianInternalFault e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_INTERNAL")+ e.getFaultString());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_INTERNAL+ e.getFaultString());
 		} 
 		catch (InvalidAssertionFault e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_SAML_INVALID") + e.getFaultString());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_SAML_INVALID + e.getFaultString());
 		} 
 		catch (InvalidProxyFault e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_PROXY_NONE") + e.getFaultString());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_PROXY_NONE + e.getFaultString());
 		} 
 		catch (UserPolicyFault e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_PROXY_POLICY") + e.getFaultString());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_DORIAN_PROXY_POLICY + e.getFaultString());
 		} 
 		catch (PermissionDeniedFault e)
 		{
-			throw new CGMMGridDorianException(CGMMMessages.getString("EXCEPTION_GRID_AUTHENTICATION_PERMISSION_DENIED") + e.getFaultString());
+			throw new CGMMGridDorianException(CGMMMessages.EXCEPTION_GRID_AUTHENTICATION_PERMISSION_DENIED + e.getFaultString());
 		}
 
 		return globusCredential;

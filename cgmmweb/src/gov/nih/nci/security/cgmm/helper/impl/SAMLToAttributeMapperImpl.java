@@ -40,7 +40,7 @@ public class SAMLToAttributeMapperImpl implements SAMLToAttributeMapper
 		}
 		catch (ParserConfigurationException e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("")+ e.getMessage(), e);
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_DORIAN_SAML_ATTRIBUTES+ e.getMessage(), e);
 		}
 		Document document = null;
 		try
@@ -49,11 +49,11 @@ public class SAMLToAttributeMapperImpl implements SAMLToAttributeMapper
 		}
 		catch (SAXException e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_SAML_PROCESSING") + e.getMessage(), e);
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_DORIAN_SAML_PROCESSING + e.getMessage(), e);
 		}
 		catch (IOException e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_SAML_PROCESSING") + e.getMessage(), e);
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_DORIAN_SAML_PROCESSING + e.getMessage(), e);
 		}
 		
 		XPath xpathEngine = XPathFactory.newInstance().newXPath();
@@ -68,7 +68,7 @@ public class SAMLToAttributeMapperImpl implements SAMLToAttributeMapper
 		}
 		catch (XPathExpressionException e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_GRID_DORIAN_SAML_ATTRIBUTES")+ e.getMessage());
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_DORIAN_SAML_ATTRIBUTES+ e.getMessage());
 		}
 
 		return attributesMap;
