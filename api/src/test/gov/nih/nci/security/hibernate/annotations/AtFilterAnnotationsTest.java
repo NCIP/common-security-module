@@ -15,7 +15,7 @@ import org.hibernate.cfg.Configuration;
 import test.gov.nih.nci.security.instancelevel.domainobjects.Card;
 import test.gov.nih.nci.security.instancelevel.domainobjects.Deck;
 import test.gov.nih.nci.security.instancelevel.domainobjects.Suit;
-import test.gov.nih.nci.security.instancelevel.domainobjects.User;
+import test.gov.nih.nci.security.instancelevel.domainobjects.TestUser;
 
 public class AtFilterAnnotationsTest {
 
@@ -179,7 +179,7 @@ public static void mainCardsNonAnnotated() {
         Iterator results = query.iterate();
         while (results.hasNext())
         {
-            User user = (User) results.next();
+            TestUser user = (TestUser) results.next();
             System.out.print(user.getUsername() + " is ");
             if (user.isActivated())
             {
@@ -201,7 +201,7 @@ public static void mainCardsNonAnnotated() {
         Session session = HibernateUtil.currentSession();
         Transaction trans = session.beginTransaction();
         
-        User user = new User();
+        TestUser user = new TestUser();
         user.setUsername(name);
         user.setActivated(activated);        
         session.save(user);
