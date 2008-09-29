@@ -34,8 +34,8 @@
 
 							<tr>
 								<td class="formMessage" colspan="3">
-									You have successfully migrated your CSM (Local) account login with Grid account login.
-									Select OK to proceed.
+									You have successfully migrated your CSM (Local) account to a caGrid User account. Going forward, use your caGrid User account login credentials. Your CSM (Local) account login credentials are no longer applicable for login to this application.
+									<br>Select OK to proceed.
 								</td>
 							</tr>
 							<tr>
