@@ -28,7 +28,7 @@
 	</property>
         <!-- Mapping files -->
 
-    <mapping class="test.gov.nih.nci.security.instancelevel.domainobjects.User" />
+    <mapping class="test.gov.nih.nci.security.instancelevel.domainobjects.TestUser" />
     <mapping class="test.gov.nih.nci.security.instancelevel.domainobjects.Card" />
 	<mapping class="test.gov.nih.nci.security.instancelevel.domainobjects.Deck" />
 	<mapping class="test.gov.nih.nci.security.instancelevel.domainobjects.Suit" />
