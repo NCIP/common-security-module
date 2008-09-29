@@ -5,11 +5,18 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+
 
 
 
 @Entity
 @Table (name = "card")
+@FilterDef(name="cardNameFilter", parameters=@ParamDef( name="nameParam", type="string" ))
+@Filter(name="cardNameFilter", condition=":nameParam = name")
+
 public class Card  implements Serializable
 {
 	/**
