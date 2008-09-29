@@ -27,7 +27,7 @@
 	<property name="cache.provider_class">org.hibernate.cache.EhCacheProvider
 	</property>
         <!-- Mapping files -->
-		<mapping resource="test/gov/nih/nci/security/instancelevel/domainobjects/User.hbm.xml"/>
+		<mapping resource="test/gov/nih/nci/security/instancelevel/domainobjects/TestUser.hbm.xml"/>
 		<mapping resource="test/gov/nih/nci/security/instancelevel/domainobjects/Card.hbm.xml" />
 		<mapping resource="test/gov/nih/nci/security/instancelevel/domainobjects/Deck.hbm.xml" />
 		<mapping resource="test/gov/nih/nci/security/instancelevel/domainobjects/Suit.hbm.xml" />
