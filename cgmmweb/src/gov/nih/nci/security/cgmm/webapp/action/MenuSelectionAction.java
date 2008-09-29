@@ -56,7 +56,7 @@ public class MenuSelectionAction extends Action
 		
 		SortedMap authenticationServiceURLMap =null;
 		try {
-			 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLList();
+			 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLMap();
 			 
 		} catch (CGMMConfigurationException e) {
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
