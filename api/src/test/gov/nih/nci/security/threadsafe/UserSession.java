@@ -15,7 +15,8 @@ public class UserSession implements Runnable{
           /**
            * Do your work here.
            */
-          SessionCallsPatchTest sc = new SessionCallsPatchTest(name);
+          CSMAPIMySQLDeadLockTest sc = new CSMAPIMySQLDeadLockTest(name);
+          //SessionCallsPatchTest sc = new SessionCallsPatchTest(name);
           sc.doWork();
         } catch (InterruptedException ignored) {
         	ignored.printStackTrace();
