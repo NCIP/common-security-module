@@ -5,7 +5,10 @@ import java.io.Serializable;
 import org.globus.gsi.GlobusCredential;
 
 /**
+ * This class represents the CGMM User. It is a transient object used to provide or receieve User details in CGMM.
+ * The User details can include CSM as well as Grid user details.
  * 
+ * @author Vijay Parmar
  *
  */
 public class CGMMUser implements Serializable{
