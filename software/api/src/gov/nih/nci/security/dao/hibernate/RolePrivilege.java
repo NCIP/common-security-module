@@ -122,7 +122,7 @@ public class RolePrivilege implements Serializable {
     private Role role;
 
     /** full constructor */
-    public RolePrivilege(Long rolePrivilegeId, Date updateDate,Privilege privilege,Role role) {
+    public RolePrivilege(Long rolePrivilegeId,Privilege privilege,Role role) {
         this.rolePrivilegeId = rolePrivilegeId;
         this.privilege = privilege;
         this.role = role;
