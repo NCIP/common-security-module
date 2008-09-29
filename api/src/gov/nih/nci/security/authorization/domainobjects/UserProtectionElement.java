@@ -90,7 +90,7 @@ package gov.nih.nci.security.authorization.domainobjects;
 
 
 import java.io.Serializable;
-import java.util.Date;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 
@@ -112,7 +112,7 @@ public class UserProtectionElement implements Serializable {
     private gov.nih.nci.security.authorization.domainobjects.User user;
 
     /** full constructor */
-    public UserProtectionElement(Long userProtectionElementId, Date updateDate, gov.nih.nci.security.authorization.domainobjects.ProtectionElement protectionElement, gov.nih.nci.security.authorization.domainobjects.User user) {
+    public UserProtectionElement(Long userProtectionElementId,  gov.nih.nci.security.authorization.domainobjects.ProtectionElement protectionElement, gov.nih.nci.security.authorization.domainobjects.User user) {
         this.userProtectionElementId = userProtectionElementId;
         this.protectionElement = protectionElement;
         this.user = user;
