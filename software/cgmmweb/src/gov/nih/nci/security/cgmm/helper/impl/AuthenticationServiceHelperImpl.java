@@ -7,6 +7,7 @@ import gov.nih.nci.cagrid.authentication.stubs.types.AuthenticationProviderFault
 import gov.nih.nci.cagrid.authentication.stubs.types.InsufficientAttributeFault;
 import gov.nih.nci.cagrid.authentication.stubs.types.InvalidCredentialFault;
 import gov.nih.nci.cagrid.opensaml.SAMLAssertion;
+import gov.nih.nci.security.cgmm.exceptions.CGMMAuthenticationURLException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMGridAuthenticationServiceException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMInputException;
 import gov.nih.nci.security.cgmm.helper.AuthenticationServiceHelper;
@@ -23,7 +24,7 @@ public class AuthenticationServiceHelperImpl implements AuthenticationServiceHel
 		super();
 	}
 
-	public SAMLAssertion authenticate(String authenticationServiceURL, String userName, String password) throws  CGMMInputException, CGMMGridAuthenticationServiceException
+	public SAMLAssertion authenticate(String authenticationServiceURL, String userName, String password) throws  CGMMInputException, CGMMGridAuthenticationServiceException, CGMMAuthenticationURLException
 	{
 		SAMLAssertion samlAssertion = null;
 		BasicAuthenticationCredential basicAuthenticationCredential = new BasicAuthenticationCredential();
@@ -39,11 +40,11 @@ public class AuthenticationServiceHelperImpl implements AuthenticationServiceHel
 		} 
 		catch (MalformedURIException e)
 		{
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_INVALID_AUTHENTICATION_URL")+ e.getMessage());
+			throw new CGMMAuthenticationURLException(CGMMMessages.EXCEPTION_INVALID_AUTHENTICATION_URL+ e.getMessage());
 		} 
 		catch (RemoteException e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE") + e.getMessage());
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE + e.getMessage());
 		}
 		try
 		{
@@ -51,19 +52,19 @@ public class AuthenticationServiceHelperImpl implements AuthenticationServiceHel
 		} 
 		catch (InvalidCredentialFault e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_INVALID_CREDENTIALS")+e.getFaultDetails());
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_INVALID_CREDENTIALS+e.getFaultDetails());
 		} 
 		catch (InsufficientAttributeFault e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE_INSUFFICIENT_ATTRIBUTES")+e.getFaultDetails());
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE_INSUFFICIENT_ATTRIBUTES+e.getFaultDetails());
 		} 
 		catch (AuthenticationProviderFault e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE")+e.getFaultDetails());
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE+e.getFaultDetails());
 		} 
 		catch (RemoteException e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.getString("EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE") + e.getMessage());
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_GRID_AUTH_SERVICE_UNAVAILABLE + e.getMessage());
 		}
 		return samlAssertion;
 	}

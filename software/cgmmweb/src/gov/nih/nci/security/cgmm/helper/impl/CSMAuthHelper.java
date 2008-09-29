@@ -6,7 +6,7 @@ import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.cgmm.constants.CGMMConstants;
 import gov.nih.nci.security.cgmm.exceptions.CGMMCSMAuthenticationException;
-import gov.nih.nci.security.cgmm.exceptions.CGMMCSMException;
+import gov.nih.nci.security.cgmm.exceptions.CGMMCSMUserException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMInputException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMMigrationException;
@@ -26,9 +26,9 @@ import java.util.Properties;
 
 /**
  * 
- *  class provides util methods to perform csm login and updating User information as necessary.
+ *  This class provides utility methods to perform csm login and updating User information as necessary.
  * 
- * @author Vijay Parmar 
+ * @author Vijay Parmar
  *
  */
 public class CSMAuthHelper {
@@ -47,7 +47,7 @@ public class CSMAuthHelper {
 	
 		ObjectFactory.initialize(CGMMConstants.CGMM_BEAN_CONFIG_FILE);
 		this.cgmmProperties = (CGMMProperties)ObjectFactory.getObject(CGMMConstants.CGMM_PROPERTIES);
-		if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CGMM_CONFIGURATION"));
+		if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_CONFIGURATION);
 		
 		String appContextName = cgmmProperties.getCGMMInformation().getContextName();
 		String loginConfigFileName = cgmmProperties.getCGMMInformation().getCgmmLoginConfigFileName();
@@ -55,9 +55,9 @@ public class CSMAuthHelper {
 		try {
 			authorizationManager = SecurityServiceProvider.getUserProvisioningManager(appContextName);
 		} catch (CSConfigurationException e) {
-			throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHORIZATION_MANAGER")+appContextName);
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
 		} catch (CSException e) {
-			throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHORIZATION_MANAGER")+appContextName);
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
 		}
 		
 		try {
@@ -71,11 +71,11 @@ public class CSMAuthHelper {
 			authenticationManager = SecurityServiceProvider.getAuthenticationManager(appContextName);
 			
 		} catch (CSConfigurationException e) {
-			throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHENTICATION_MANAGER")+appContextName);
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 		} catch (CSException e) {
-			throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHENTICATION_MANAGER")+appContextName);
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 		} catch (CGMMConfigurationException e) {
-			throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHENTICATION_MANAGER")+appContextName);
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class CSMAuthHelper {
 		if(cgmmProperties==null){
 			ObjectFactory.initialize(CGMMConstants.CGMM_BEAN_CONFIG_FILE);
 			this.cgmmProperties = (CGMMProperties)ObjectFactory.getObject(CGMMConstants.CGMM_PROPERTIES);
-			if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CGMM_CONFIGURATION")); 
+			if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_CONFIGURATION); 
 		}
 		
 		boolean goAhead = true;
@@ -103,10 +103,10 @@ public class CSMAuthHelper {
 				authorizationManager = SecurityServiceProvider.getUserProvisioningManager(appContextName);
 			} catch (CSConfigurationException e) {
 				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHORIZATION_MANAGER")+appContextName);
+				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
 			} catch (CSException e) {
 				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHORIZATION_MANAGER")+appContextName);
+				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
 			}
 		}
 		
@@ -124,13 +124,13 @@ public class CSMAuthHelper {
 			} catch (CSConfigurationException e) {
 
 				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHENTICATION_MANAGER")+appContextName);
+				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 				
 			} catch (CSException e) {
 				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHENTICATION_MANAGER")+appContextName);
+				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 			} catch (CGMMConfigurationException e) {
-				throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_AUTHENTICATION_MANAGER")+appContextName);
+				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 			}
 		}
 		
@@ -141,7 +141,7 @@ public class CSMAuthHelper {
 	
 
 
-	public boolean authenticate(String userName, String password) throws CGMMInputException, CGMMConfigurationException, CGMMMigrationException, CGMMCSMAuthenticationException {
+	public boolean authenticate(String userName, String password) throws CGMMInputException, CGMMConfigurationException, CGMMCSMAuthenticationException {
 		
 		boolean isUserValid=false;
 		isUserValid = isValidCSMUser(userName, password);	
@@ -158,7 +158,7 @@ public class CSMAuthHelper {
 					if(authenticationManager.login(userName, password)){
 						return true;
 					}else{
-						throw new CGMMCSMAuthenticationException(CGMMMessages.getString("EXCEPTION_AUTHENTICATION_FAILURE"));
+						throw new CGMMCSMAuthenticationException(CGMMMessages.EXCEPTION_AUTHENTICATION_FAILURE);
 					}
 				} catch (CSLoginException e) {
 					throw new CGMMCSMAuthenticationException(e.getMessage());
@@ -170,7 +170,7 @@ public class CSMAuthHelper {
 					throw new CGMMCSMAuthenticationException(e.getMessage());
 				}	
 		}else{
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_EMPTY_USER_PASSWORD")); 
+			throw new CGMMInputException(CGMMMessages.EXCEPTION_EMPTY_USER_PASSWORD); 
 		}
 		
 	}
@@ -185,29 +185,29 @@ public class CSMAuthHelper {
 				if(user.getMigratedFlag()==1){
 					return true;
 				}else{
-					throw new CGMMMigrationException(CGMMMessages.getString("EXCEPTION_NOT_MIGRATED"));
+					throw new CGMMMigrationException(CGMMMessages.EXCEPTION_NOT_MIGRATED);
 				}
 			}/*else{
-				throw new CGMMMigrationException(CGMMMessages.getString("EXCEPTION_USER_UNAVAILABLE"));
+				throw new CGMMMigrationException(CGMMMessages.EXCEPTION_USER_UNAVAILABLE);
 			}*/
 			return false;
 		}else{
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_INVALID_USER_NAME")); 
+			throw new CGMMInputException(CGMMMessages.EXCEPTION_INVALID_USER_NAME); 
 		}
 			
 	}
 	
-	public User getUserDetails(String userName) throws CGMMInputException, CGMMConfigurationException, CGMMCSMException{ 
+	public User getUserDetails(String userName) throws CGMMInputException, CGMMConfigurationException, CGMMCSMUserException{ 
 		if(authorizationManager==null) this.initialize();
 		
 		if(!StringUtilities.isBlank(userName)){
 			User user = authorizationManager.getUser(userName);
 			if(user==null){
-				throw new CGMMCSMException(CGMMMessages.getString("EXCEPTION_USER_UNAVAILABLE"));
+				throw new CGMMCSMUserException(CGMMMessages.EXCEPTION_USER_UNAVAILABLE);
 			}
 			return user;		
 		}else{
-			throw new CGMMInputException(CGMMMessages.getString("EXCEPTION_INVALID_USER_NAME")); 
+			throw new CGMMInputException(CGMMMessages.EXCEPTION_INVALID_USER_NAME); 
 		}		
 	}
 
@@ -224,7 +224,7 @@ public class CSMAuthHelper {
 					authorizationManager.modifyUser(user);
 					return true;
 				}else{
-					throw new CGMMMigrationException(CGMMMessages.getString("EXCEPTION_USER_UNAVAILABLE"));
+					throw new CGMMMigrationException(CGMMMessages.EXCEPTION_USER_UNAVAILABLE);
 				}
 			}catch(CSTransactionException e){
 				throw new CGMMMigrationException(e.getMessage());
