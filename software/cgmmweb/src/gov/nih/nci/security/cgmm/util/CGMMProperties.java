@@ -196,12 +196,12 @@ public class CGMMProperties
 	private void validateCGMMProperties() throws CGMMConfigurationException {
 		// Validate cgmminformation
 		CGMMInformation cinf = this.cgmmInformation;
-		if(StringUtils.isBlankOrNull(cinf.getContextName())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_CGMM_INFORMATION_0"));
-		if(StringUtils.isBlankOrNull(cinf.getCgmmLoginConfigFileName())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_CGMM_INFORMATION_1"));
-		if(StringUtils.isBlankOrNull(cinf.getStartAutoSyncGTS())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_CGMM_INFORMATION_2"));
-		if(StringUtils.isBlankOrNull(cinf.getCgmmNewGridUserCreationDisabled())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_CGMM_INFORMATION_3"));
+		if(StringUtils.isBlankOrNull(cinf.getContextName())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_0);
+		if(StringUtils.isBlankOrNull(cinf.getCgmmLoginConfigFileName())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_1);
+		if(StringUtils.isBlankOrNull(cinf.getStartAutoSyncGTS())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_2);
+		if(StringUtils.isBlankOrNull(cinf.getCgmmNewGridUserCreationDisabled())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_3);
 		else if ("true".equalsIgnoreCase(cinf.getCgmmNewGridUserCreationDisabled())){
-				if(StringUtils.isBlankOrNull(cinf.getCgmmNewGridUserCreationHostRedirectURI())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_CGMM_INFORMATION_4"));
+				if(StringUtils.isBlankOrNull(cinf.getCgmmNewGridUserCreationHostRedirectURI())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_4);
 		}
 		
 
@@ -209,22 +209,22 @@ public class CGMMProperties
 		
 		// Validate host application information
 		HostApplicationInformation hinf = this.hostApplicationInformation;
-		if(StringUtils.isBlankOrNull(hinf.getHostContextName())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_HOST_INFORMATION_0"));
-		if(StringUtils.isBlankOrNull(hinf.getHostNewLocalUserCreationURL())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_HOST_INFORMATION_1"));
-		if(StringUtils.isBlankOrNull(hinf.getHostPublicHomePageURL())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_HOST_INFORMATION_2"));
-		if(StringUtils.isBlankOrNull(hinf.getHostUserHomePageURL())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_HOST_INFORMATION_3"));
+		if(StringUtils.isBlankOrNull(hinf.getHostContextName())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_0);
+		if(StringUtils.isBlankOrNull(hinf.getHostNewLocalUserCreationURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_1);
+		if(StringUtils.isBlankOrNull(hinf.getHostPublicHomePageURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_2);
+		if(StringUtils.isBlankOrNull(hinf.getHostUserHomePageURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_3);
 		
 		// Validate Authentication service list information
 		List<AuthenticationServiceInformation> aList = this.authenticationServiceInformationList;
 		Iterator<AuthenticationServiceInformation> it = aList.iterator();
 		while(it.hasNext()){
 			AuthenticationServiceInformation a = (AuthenticationServiceInformation)it.next();
-			if(a==null)  throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_0"));
-			if(StringUtils.isBlankOrNull(a.getAuthenticationServiceName())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_1"));
-			if(StringUtils.isBlankOrNull(a.getAuthenticationServiceURL())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_2"));
-			if(a.getDorianInformation()==null) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_DORIAN_INFORMATION_0"));
+			if(a==null)  throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_0);
+			if(StringUtils.isBlankOrNull(a.getAuthenticationServiceName())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_1);
+			if(StringUtils.isBlankOrNull(a.getAuthenticationServiceURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_2);
+			if(a.getDorianInformation()==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_DORIAN_INFORMATION_0);
 			DorianInformation d = a.getDorianInformation();
-			if(StringUtils.isBlankOrNull(d.getDorianServiceURL())) throw new CGMMConfigurationException(CGMMMessages.getString("EXCEPTION_CONFIGURATION_DORIAN_INFORMATION_1"));
+			if(StringUtils.isBlankOrNull(d.getDorianServiceURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_DORIAN_INFORMATION_1);
 		}
 		
 	}
