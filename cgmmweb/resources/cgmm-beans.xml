@@ -6,7 +6,6 @@
 
 	<bean name="CGMMProperties" class="gov.nih.nci.security.cgmm.util.CGMMProperties" singleton="true">
 		<constructor-arg ref="FileHelper"></constructor-arg>
-		<constructor-arg value="cgmm-properties.xml"></constructor-arg>
 		<constructor-arg value="cgmm-properties.xsd"></constructor-arg>
 	</bean>
 
