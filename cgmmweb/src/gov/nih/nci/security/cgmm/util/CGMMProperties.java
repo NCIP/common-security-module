@@ -4,12 +4,17 @@ import gov.nih.nci.security.cgmm.beans.AuthenticationServiceInformation;
 import gov.nih.nci.security.cgmm.beans.CGMMInformation;
 import gov.nih.nci.security.cgmm.beans.DorianInformation;
 import gov.nih.nci.security.cgmm.beans.HostApplicationInformation;
+import gov.nih.nci.security.cgmm.constants.CGMMConstants;
 import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.helper.impl.CGMMMessages;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -26,9 +31,36 @@ public class CGMMProperties
 	
 	
 	@SuppressWarnings("static-access")
-	public CGMMProperties(final FileHelper fileHelper, final String propertiesFileName, final String schemaFileName) throws CGMMConfigurationException
+	public CGMMProperties(final FileHelper fileHelper, final String schemaFileName) throws CGMMConfigurationException
 	{
-		this.propertiesFile = fileHelper.validateXMLwithSchema(propertiesFileName, schemaFileName);
+		String propertiesFileName = "cgmm-properties.xml";
+		Properties props = System.getProperties();
+		if(props.get(CGMMConstants.CGMM_PROPERTY_CONFIG_FILE)!=null){
+			propertiesFileName = (String)props.get(CGMMConstants.CGMM_PROPERTY_CONFIG_FILE);
+		}
+		
+		File f = null;
+		URL url = null;
+		if(!StringUtils.isBlankOrNull(propertiesFileName)){
+			try {
+				f = new File(propertiesFileName);
+				if(f!=null){
+					
+					if(!f.exists()){
+						throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
+					}
+					
+					url = f.toURL();
+				}
+	
+			} catch (MalformedURLException e) {
+				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
+			}
+		}
+		if(url==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
+
+		
+		this.propertiesFile = fileHelper.validateXMLwithSchema(url, schemaFileName);
 		this.authenticationServiceInformationList = loadAuthenticationServices();
 		this.cgmmInformation = loadCGMMInformation();
 		this.hostApplicationInformation = loadHostApplicationInformation();
