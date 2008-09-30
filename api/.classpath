@@ -3,37 +3,29 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="config"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/acegi-security-1.0.3.jar" sourcepath="/AcegiSource"/>
-	<classpathentry kind="lib" path="lib/antlr-2.7.6rc1.jar"/>
-	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/asm.jar"/>
-	<classpathentry kind="lib" path="lib/aspectjrt-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/acegi-security-1.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="lib/asm-1.5.3.jar"/>
+	<classpathentry kind="lib" path="lib/asm-attrs-1.5.3.jar"/>
 	<classpathentry kind="lib" path="lib/c3p0-0.9.0.jar"/>
-	<classpathentry kind="lib" path="lib/cglib-2.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-2.1_3.jar"/>
+	<classpathentry kind="lib" path="lib/clm-4.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-dbcp-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate3.jar" sourcepath="C:/Documents and Settings/parmarv/Desktop/junk/hibernate-3.2"/>
-	<classpathentry kind="lib" path="lib/jdom.jar"/>
-	<classpathentry kind="lib" path="lib/jta.jar"/>
-	<classpathentry kind="lib" path="lib/jtds-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/junit-4.1.jar"/>
+	<classpathentry kind="lib" path="lib/ehcache-1.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/ejb3-persistence-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-3.2.0.ga.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-annotations-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jdom-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jta-1.0.1B.jar"/>
+	<classpathentry kind="lib" path="lib/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-3.1.11-bin.jar"/>
-	<classpathentry kind="lib" path="lib/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="lib/postgresql-8.2-504.jdbc3.jar"/>
 	<classpathentry kind="lib" path="lib/spring-1.2.8.jar"/>
-	<classpathentry kind="lib" path="lib/xerces-2.6.2.jar"/>
-	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="lib/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="lib/backport-util-concurrent.jar"/>
-	<classpathentry kind="lib" path="lib/clm.jar"/>
-	<classpathentry kind="lib" path="lib/clmwebapp.jar"/>
-	<classpathentry kind="lib" path="lib/ehcache-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/hsqldb.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
