@@ -10,7 +10,7 @@
 		<property name="lib.home"				value="${webinf.home}/lib" />
 		<property name="build.home"				value="${basedir}/build" />
 		<property name="dist.home"				value="${basedir}/dist" />
-		<property name="classes.home"			value="${webinf.home}/classes" />
+		<property name="classes.home"			value="${build.home}/WEB-INF/classes" />
 		<property name="war.file"				value="${dist.home}/${app.name}.war" />
 	</target>
 
@@ -28,7 +28,7 @@
 		<mkdir dir="${build.home}/WEB-INF/conf" />
 		<mkdir dir="${build.home}/WEB-INF/lib" />
 		<mkdir dir="${build.home}/META-INF" />
-		<mkdir dir="${classes.home}" />
+		<mkdir dir="${build.home}/WEB-INF/classes" />
 
 		<mkdir dir="${dist.home}" />
 	</target>
@@ -66,16 +66,29 @@
 	<target name="createJars" depends="compile" description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war">
 		
 		<jar jarfile="${dist.home}/cgmmapi.jar">
-			<fileset dir="${classes.home}" excludes="**/webapp/**/*" excludesfile="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+			<fileset dir="${classes.home}">
+				<exclude name="**/webapp/**/*"/>
+				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
+			</fileset>
 		</jar>
 		<jar jarfile="${build.home}/WEB-INF/lib/cgmmapi.jar">
-			<fileset dir="${classes.home}" excludes="**/webapp/**/*" excludesfile="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+			<fileset dir="${classes.home}">
+				<exclude name="**/webapp/**/*"/>	
+				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
+			</fileset>
 		</jar>
 
 		<jar jarfile="${dist.home}/cgmmfilter.jar">
 			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class"/>
 		</jar>
-		
+
+		<copy todir="${build.home}/WEB-INF/classes" >
+			<fileset dir="${basedir}/resources">
+				<includesfile name="${basedir}/resources/cgmmweb.csm.new.hibernate.cfg.xml"/>
+			</fileset>
+		</copy>
+
+
 		<jar jarfile="${dist.home}/cgmmweb.war">
 			<fileset dir="${build.home}">
 				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/*.class"/>				
@@ -86,9 +99,10 @@
 				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/*.class"/>
 				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/impl/*.*"/>					
 				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/util/*.class"/>				
-				<exclude name="WEB-INF/classes/test/*.class"/>				
-				
+				<exclude name="WEB-INF/classes/test/*.class"/>								
 			</fileset>
+			<fileset dir="${basedir}/resources" includes="cgmmweb.csm.new.hibernate.cfg.xml"/>
+
 		</jar>
 	</target>
 	
