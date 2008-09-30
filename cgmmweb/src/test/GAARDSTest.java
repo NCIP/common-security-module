@@ -25,7 +25,8 @@ public class GAARDSTest {
 			e1.printStackTrace();
 		}
 		try {
-		GlobusCredential gc = 	gah.authenticate("parmarv", "Parmarv123!","https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian");
+//		GlobusCredential gc = 	gah.authenticate("parmarv", "Parmarv123!","https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian");
+		GlobusCredential gc = 	gah.authenticate("cgmmtmpuser2", "Abcdefgh123!","https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian");
 		if(gc==null) System.out.println("GC is null");
 		System.out.println("Got GC!!");
 		
