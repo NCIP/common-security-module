@@ -8,6 +8,10 @@ public class CGMMConstants
 	
 	
 	public static String SYSTEM_PROPERTY_LOGIN_CONFIG="java.security.auth.login.config";
+	public static String CGMM_SYNCGTS_FILE="gov.nih.nci.security.cgmm.syncgts.file";
+	public static String CGMM_PROPERTY_CONFIG_FILE="gov.nih.nci.security.cgmm.properties.file";
+	public static String CGMM_LOGIN_CONFIG_FILE="gov.nih.nci.security.cgmm.login.config.file";
+	
 	public static String CGMM_PROPERTIES = "CGMMProperties";
 	public static final String FILE_HELPER = "FileHelper";
 	public static final String CGMM_BEAN_CONFIG_FILE = "cgmm-beans.xml";
