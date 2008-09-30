@@ -44,7 +44,12 @@ public class CGMMMessages {
 	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_2="Start Auto Synch GTS value flag value is invalid or unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_3="CGMM New Grid User Creation Disabled flag value is invalid or unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_4="CGMM New Grid User Creation Disabled Redirect URL is invalid or unavailable. ";
+	
 
+	public static final String EXCEPTION_CONFIGURATION_PROPERTY_FILE = "The CGMM Properties File does not exist. Verify path configuration.";
+	public static final String EXCEPTION_CONFIGURATION_SYNCGTS_FILE = "The SyncGTS Configuration file does not exist. Verify path configuration.";
+	public static final String EXCEPTION_CONFIGURATION_CGMM_LOGIN_CONFIG_FILE = "The CGMM Login Config file does not exist. Verify path configuration.";
+	
 	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_0="Host Application Context Name unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_1="Host New Local User Creation URL unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_2="Host Public Home Page URL unavailable. ";

@@ -112,5 +112,47 @@ public class FileHelper
 
 		return jdomDocument;
 	}
+	
+	public Document validateXMLwithSchema(URL propertiesFileURL, String schemaFileName) throws CGMMConfigurationException
+	{
+		org.w3c.dom.Document document = null;
+		InputStream schemaFileInputStream = getFileAsStream(schemaFileName);
+		
+		
+    	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    	documentBuilderFactory.setNamespaceAware(true);
+    	documentBuilderFactory.setValidating(true);
+    	documentBuilderFactory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage","http://www.w3.org/2001/XMLSchema");
+    	documentBuilderFactory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource", schemaFileInputStream);
+    	DocumentBuilder documentBuilder = null;
+		try 
+		{
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		} 
+		catch (ParserConfigurationException e) {
+			throw new CGMMConfigurationException("Error in parsing the " + propertiesFileURL.getPath() + " file");
+		}
+    	try 
+    	{
+			document = (org.w3c.dom.Document) documentBuilder.parse(propertiesFileURL.getPath());
+		} 
+    	catch (SAXException e) 
+    	{
+			throw new CGMMConfigurationException("Error in parsing the " + propertiesFileURL.getPath() + " file");
+        } 
+    	catch(DOMException de) 
+    	{
+			throw new CGMMConfigurationException("Error in parsing the " + propertiesFileURL.getPath() + " file");
+        }
+		catch (IOException e) 
+		{
+			throw new CGMMConfigurationException("Error in reading the " + propertiesFileURL.getPath() + " file");
+		}
+		DOMBuilder builder = new DOMBuilder();
+		org.jdom.Document jdomDocument = builder.build(document);
+
+		return jdomDocument;
+	}
+	
 
 }

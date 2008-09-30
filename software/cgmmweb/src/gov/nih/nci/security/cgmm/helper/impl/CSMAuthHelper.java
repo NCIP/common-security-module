@@ -21,6 +21,8 @@ import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.util.StringUtilities;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -62,10 +64,35 @@ public class CSMAuthHelper {
 		
 		try {
 			
+			
 			Properties props = System.getProperties();
-			if(props.get(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG)==null){ 
-				URL url = FileHelper.getFileAsURL(loginConfigFileName);
-				props.setProperty(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG, url.getPath()); 
+			if(props.get(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG)==null){
+				
+				if(props.get(CGMMConstants.CGMM_LOGIN_CONFIG_FILE)!= null){
+					loginConfigFileName = (String)props.get(CGMMConstants.CGMM_LOGIN_CONFIG_FILE);
+				}
+				
+				File f = null;
+				URL url = null;
+				if(!StringUtils.isBlankOrNull(loginConfigFileName)){
+					try {
+						f = new File(loginConfigFileName);
+						if(f!=null){
+							if(!f.exists()){
+								throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_LOGIN_CONFIG_FILE);
+							}
+							
+							url = f.toURL();
+						}
+			
+					} catch (MalformedURLException e) {
+						throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_LOGIN_CONFIG_FILE);
+					}
+				}
+			
+				if(url==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_LOGIN_CONFIG_FILE);
+				
+				props.setProperty(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG, url.getPath());
 			}
 			
 			authenticationManager = SecurityServiceProvider.getAuthenticationManager(appContextName);
