@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="webapp/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/csm_api"/>
 	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/aopalliance-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/aspectjrt-1.2.jar"/>
 	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/backport-util-concurrent.jar"/>
@@ -35,30 +36,5 @@
 	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/xerces-2.6.2.jar"/>
 	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/acegi-security-1.0.3.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/asm-1.5.3.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/asm-attrs-1.5.3.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/c3p0-0.9.0.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/cglib-2.1_3.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/clm-4.0.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/commons-collections-2.1.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/commons-dbcp-1.2.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/commons-lang-1.0.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/dwr-2.0.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/ehcache-1.2.4.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/ejb3-persistence-1.0.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/hibernate-3.2.0.ga.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/hibernate-annotations-1.0.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/jdom-1.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/jta-1.0.1B.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/log4j-1.2.9.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/mysql-connector-java-3.1.11.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/servlet-2.3.1.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/spring-1.2.8.jar"/>
-	<classpathentry kind="lib" path="webapp/public_html/WEB-INF/lib/struts-1.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/csm_api"/>
 	<classpathentry kind="output" path="webapp/public_html/WEB-INF/classes"/>
 </classpath>
