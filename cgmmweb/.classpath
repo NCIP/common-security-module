@@ -85,6 +85,7 @@
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/wss4j.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/xmldsig-1.0.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/xmlsec-1.4.0.jar"/>
-	<classpathentry kind="lib" path="public_html/WEB-INF/lib/csmapi.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/csm_api"/>
+	<classpathentry kind="lib" path="public_html/WEB-INF/lib/csmapi-4.1.beta.jar"/>
 	<classpathentry kind="output" path="public_html/WEB-INF/classes"/>
 </classpath>
