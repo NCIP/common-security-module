@@ -380,7 +380,7 @@ String hostURL = serverPath+"/"+session.getAttribute("HOST_APPLICATION_NAME")+se
 																<li>
 																	User can click on Home Menu tab to start over.
 																<li>
-																    Click here to go to back to <a href="http://www.google.com"><%=hostApplicationName%> Public Home page</a>.
+																    Click here to go to back to <a href="<%=hostURL%>"><%=hostApplicationName%> Public Home page</a>.
 																	
 															</td>
 														</tr>
