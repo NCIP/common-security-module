@@ -16,6 +16,7 @@
 	<property name="local.lib.dir" value="lib" />
 	<property name="base.lib.dir" value="${common.dir}/target/lib" />
 
+	<property name="data.dir" location="${basedir}/data" />
 	<property name="classes.dir" location="${basedir}/classes" />
 	<property name="common.resources" location="../common/resources/jboss-conf" />
 	<property name="jar.name" value="csmapi.jar" />
@@ -117,6 +118,7 @@
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
 		<delete dir="${classes.dir}" quiet="false" />
 		<delete dir="${build.dir}" quiet="false" />
+		<delete dir="${data.dir}" quiet="false" />
 	</target>
 
 	<target name="run" depends="dist, -post-clean" description="Default project target" />
