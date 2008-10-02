@@ -1,0 +1,52 @@
+<Context path="/upt" docBase="upt" debug="1" crossContext="true">
+	<Logger className="org.apache.catalina.logger.FileLogger"
+		prefix="localhost_upt_log." suffix=".txt" timestamp="true" />
+	<Resource name="@application.context.name@" auth="Container" type="javax.sql.DataSource" />
+	<ResourceParams name="@application.context.name@">
+		<parameter>
+			<name>factory</name>
+			<value>org.apache.commons.dbcp.BasicDataSourceFactory
+			</value>
+		</parameter>
+		<parameter>
+			<name>driverClassName</name>
+			<value>@database.driver@</value>
+		</parameter>
+		<parameter>
+			<name>url</name>
+			<value>@database.url@</value>
+		</parameter>
+		<parameter>
+			<name>username</name>
+			<value>@database.user@</value>
+		</parameter>
+		<parameter>
+			<name>password</name>
+			<value>@database.password@</value>
+		</parameter>
+		<parameter>
+			<name>maxActive</name>
+			<value>20</value>
+		</parameter>
+		<parameter>
+			<name>maxIdle</name>
+			<value>10</value>
+		</parameter>
+		<parameter>
+			<name>maxWait</name>
+			<value>-1</value>
+		</parameter>
+		<parameter>
+			<name>removeAbandoned</name>
+			<value>true</value>
+		</parameter>
+		<parameter>
+			<name>removeAbandonedTimeout</name>
+			<value>300</value>
+		</parameter>
+		<parameter>
+			<name>logAbandoned</name>
+			<value>true</value>
+		</parameter>
+	</ResourceParams>
+</Context>
