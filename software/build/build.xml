@@ -458,7 +458,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			</else>
 		</if>		
 	</target>
-	
+
 	<!-- Installs the application locally. Requires a local instance of mysql. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from exec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. This target will use differnt properties based on linux (linux-install.properties) or windows (windows-install.properties) installs. It only supports using those properties files for now, so if you want to change install time properites edit these files. -->
 	<target name="deploy:local:install" depends="dist:installer:prep,dist:server:init" description="Installs the application and required binaries on the local machine, used for developer desktops and ci environments">
 
@@ -538,7 +538,15 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 			<arg value="-D${exclude.server}=true" />
 			<arg value="${upgrade.target}" />
 		</exec>
-		<echo message="The server is not started as part of local deployment.  You will need to run $JBOSS_HOME/bin/run.bat (or run.sh if you are linux)." />
+		<if>
+			<equals arg1="${install.server}" arg2="tomcat"/>
+			<then>
+				<echo message="The server is not started as part of local deployment.  You will need to run $TOMCAT_HOME/bin/startup.bat (or startup.sh if you are linux)." />
+			</then>
+			<else>
+				<echo message="The server is not started as part of local deployment.  You will need to run $JBOSS_HOME/bin/run.bat (or run.sh if you are linux)." />
+			</else>
+		</if>
 	</target>
 
 	<macrodef name="deploy-files">
