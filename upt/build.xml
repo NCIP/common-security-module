@@ -17,6 +17,12 @@
 	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
 	<property name="war.file" value="upt.war" />
 
+	<property name="properties.file" location="../build/project.properties"></property>
+	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2" />
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2" />
+	<property file="${properties.file}" />
+
 	<!-- Paths -->
 	<path id="common.classpath">
 		<fileset dir="${common.dir}/target/lib">
@@ -80,7 +86,11 @@
 	</target>
 
 	<target name="-post-compile" depends="compile" description="Post-compile operations">
-		<copy file="${src.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" />
+		<copy file="${src.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" filtering="true">
+			<filterset>
+				<filtersfile file="${properties.file}" />				
+			</filterset>
+		</copy>
 		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
 		<copy file="${src.dir}/gov/nih/nci/security/upt/resources/ApplicationResources.properties" todir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
 	</target>
