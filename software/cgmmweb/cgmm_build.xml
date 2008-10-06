@@ -101,7 +101,6 @@
 			</fileset>
 			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
 			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>
-			<fileset dir="${basedir}/resources" includes="cgmmweb.csm.new.hibernate.cfg.xml"/>
 
 		</jar>
 	</target>

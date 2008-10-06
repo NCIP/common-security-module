@@ -196,6 +196,7 @@ public class CGMMProperties
 		HostApplicationInformation hostAppInfo= new HostApplicationInformation();
 		
 		hostAppInfo.setHostContextName(this.getHostContextName(hostApplicationInformationElement));
+		hostAppInfo.setHostApplicationName(this.getHostApplicationName(hostApplicationInformationElement));
 		hostAppInfo.setHostNewLocalUserCreationURL(this.gsetHostNewLocalUserCreationURL(hostApplicationInformationElement));
 		hostAppInfo.setHostPublicHomePageURL(this.gethostPublicHomePageURL(hostApplicationInformationElement));
 		hostAppInfo.setHostUserHomePageURL(this.gethostUserHomePageURL(hostApplicationInformationElement));
@@ -224,6 +225,12 @@ public class CGMMProperties
 		return contextName.getText().trim();
 	}
 
+	private String getHostApplicationName(Element hostApplicationInformationElement) {
+		Element contextName = hostApplicationInformationElement.getChild("host-application-name-for-csm");
+		return contextName.getText().trim();
+	}
+
+	
 	@SuppressWarnings("static-access")
 	private void validateCGMMProperties() throws CGMMConfigurationException {
 		// Validate cgmminformation
