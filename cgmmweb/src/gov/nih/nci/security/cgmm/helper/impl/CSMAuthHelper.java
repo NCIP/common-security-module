@@ -51,11 +51,11 @@ public class CSMAuthHelper {
 		this.cgmmProperties = (CGMMProperties)ObjectFactory.getObject(CGMMConstants.CGMM_PROPERTIES);
 		if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_CONFIGURATION);
 		
-		String appContextName = cgmmProperties.getCGMMInformation().getContextName();
-		String loginConfigFileName = cgmmProperties.getCGMMInformation().getCgmmLoginConfigFileName();
+		String appContextName = cgmmProperties.getHostApplicationInformation().getHostApplicationName();
+		
 
 		try {
-			authorizationManager = SecurityServiceProvider.getUserProvisioningManager(appContextName);
+			authorizationManager = SecurityServiceProvider.getAuthorizationManager(appContextName);
 		} catch (CSConfigurationException e) {
 			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
 		} catch (CSException e) {
@@ -67,7 +67,7 @@ public class CSMAuthHelper {
 			
 			Properties props = System.getProperties();
 			if(props.get(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG)==null){
-				
+				String loginConfigFileName = cgmmProperties.getCGMMInformation().getCgmmLoginConfigFileName();
 				if(props.get(CGMMConstants.CGMM_LOGIN_CONFIG_FILE)!= null){
 					loginConfigFileName = (String)props.get(CGMMConstants.CGMM_LOGIN_CONFIG_FILE);
 				}
@@ -96,12 +96,11 @@ public class CSMAuthHelper {
 			}
 			
 			authenticationManager = SecurityServiceProvider.getAuthenticationManager(appContextName);
-			
+		} catch (CGMMConfigurationException e) {
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);	
 		} catch (CSConfigurationException e) {
 			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 		} catch (CSException e) {
-			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
-		} catch (CGMMConfigurationException e) {
 			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 		}
 	}
@@ -113,55 +112,78 @@ public class CSMAuthHelper {
 	@SuppressWarnings("static-access")
 	public boolean initialize() throws  CGMMConfigurationException {
 		
+		boolean goAhead = false;
+		
 		if(cgmmProperties==null){
 			ObjectFactory.initialize(CGMMConstants.CGMM_BEAN_CONFIG_FILE);
 			this.cgmmProperties = (CGMMProperties)ObjectFactory.getObject(CGMMConstants.CGMM_PROPERTIES);
 			if(cgmmProperties==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CGMM_CONFIGURATION); 
 		}
 		
-		boolean goAhead = true;
-		String appContextName = cgmmProperties.getCGMMInformation().getContextName();
-		String loginConfigFileName = cgmmProperties.getCGMMInformation().getCgmmLoginConfigFileName();
-		if(StringUtils.isBlankOrNull(loginConfigFileName) || StringUtils.isBlankOrNull(appContextName))
-			goAhead=false;
 		
-		if(authorizationManager==null){
-			try {
-				authorizationManager = SecurityServiceProvider.getUserProvisioningManager(appContextName);
-			} catch (CSConfigurationException e) {
-				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
-			} catch (CSException e) {
-				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
-			}
+		String appContextName = cgmmProperties.getHostApplicationInformation().getHostApplicationName();
+		
+
+		try {
+			authorizationManager = SecurityServiceProvider.getAuthorizationManager(appContextName);
+			if(authorizationManager !=null) goAhead = true;
+			
+		} catch (CSConfigurationException e) {
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
+		} catch (CSException e) {
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHORIZATION_MANAGER+appContextName);
 		}
 		
-		if(authenticationManager==null){
-			try {
-				
-				Properties props = System.getProperties();
-				if(props.get(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG)==null){ 
-					URL url = FileHelper.getFileAsURL(loginConfigFileName);
-					props.setProperty(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG, url.getPath()); 
+		if(!goAhead) return goAhead;
+		
+		
+		try {
+			
+			
+			Properties props = System.getProperties();
+			if(props.get(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG)==null){
+				String loginConfigFileName = cgmmProperties.getCGMMInformation().getCgmmLoginConfigFileName();
+				if(props.get(CGMMConstants.CGMM_LOGIN_CONFIG_FILE)!= null){
+					loginConfigFileName = (String)props.get(CGMMConstants.CGMM_LOGIN_CONFIG_FILE);
 				}
 				
-				authenticationManager = SecurityServiceProvider.getAuthenticationManager(appContextName);
+				File f = null;
+				URL url = null;
+				if(!StringUtils.isBlankOrNull(loginConfigFileName)){
+					try {
+						f = new File(loginConfigFileName);
+						if(f!=null){
+							if(!f.exists()){
+								throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_LOGIN_CONFIG_FILE);
+							}
+							
+							url = f.toURL();
+						}
+			
+					} catch (MalformedURLException e) {
+						throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_LOGIN_CONFIG_FILE);
+					}
+				}
+			
+				if(url==null) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_LOGIN_CONFIG_FILE);
 				
-			} catch (CSConfigurationException e) {
-
-				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
-				
-			} catch (CSException e) {
-				goAhead = false;
-				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
-			} catch (CGMMConfigurationException e) {
-				throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
+				props.setProperty(CGMMConstants.SYSTEM_PROPERTY_LOGIN_CONFIG, url.getPath());
 			}
+			
+			authenticationManager = SecurityServiceProvider.getAuthenticationManager(appContextName);
+			if(authenticationManager!=null) 
+				goAhead = true;
+			
+			
+		} catch (CGMMConfigurationException e) {
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);	
+		} catch (CSConfigurationException e) {
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
+		} catch (CSException e) {
+			throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_AUTHENTICATION_MANAGER+appContextName);
 		}
 		
-		if(goAhead) initialized = true;
+		
 		return goAhead;	
 	}
 	

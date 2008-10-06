@@ -9,6 +9,7 @@
 	</cgmm-information>
 	<host-application-information>
 		<host-context-name>cgmmhostweb</host-context-name>
+		<host-application-name-for-csm>sampleHostApplicationContextName</host-application-name-for-csm>
 		<host-public-home-page-url>/public/publicHome.jsp</host-public-home-page-url>
 		<host-user-home-page-url>/secured/userHomePage.jsp</host-user-home-page-url>		
 		<host-new-local-user-creation-url>/public/newLocalUserCreation.jsp</host-new-local-user-creation-url>

@@ -8,6 +8,7 @@ public class HostApplicationInformation implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	private String hostContextName = null;
+	private String hostApplicationName = null;	
 	private String hostPublicHomePageURL = null;
 	private String hostUserHomePageURL = null;
 	private String hostNewLocalUserCreationURL = null;
@@ -49,4 +50,13 @@ public class HostApplicationInformation implements Serializable
 		this.hostUserHomePageURL = hostUserHomePageURL;
 	}
 
+	public String getHostApplicationName() {
+		return hostApplicationName;
+	}
+
+	public void setHostApplicationName(String hostApplicationName) {
+		this.hostApplicationName = hostApplicationName;
+	}
+
 }
+
