@@ -108,9 +108,8 @@
 	<target name="dist" depends="init,compile,createJars" description="Creates war file">
 		<copy todir="${dist.home}">
 			<fileset dir="${basedir}/resources">
-				<excludesfile name="cgmm-beans.xml"/>
+				<excludesfile name="${basedir}/resources/cgmm-beans.xml"/>
 			</fileset>
-
 		</copy>
 		<delete quiet="true" file="${dist.home}/cgmm-beans.xml" />		
 	</target>
