@@ -5,7 +5,9 @@ import gov.nih.nci.security.cgmm.webapp.ForwardConstants;
 import gov.nih.nci.security.cgmm.webapp.form.GridLoginForm;
 import gov.nih.nci.security.cgmm.CGMMManager;
 import gov.nih.nci.security.cgmm.CGMMManagerImpl;
+import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMException;
+import gov.nih.nci.security.cgmm.exceptions.CGMMMigrationException;
 import gov.nih.nci.security.cgmm.util.CGMMProperties;
 import gov.nih.nci.security.cgmm.util.StringUtils;
 
@@ -69,7 +71,7 @@ public class GridLoginAction extends Action
 			session.setAttribute(DisplayConstants.LOGIN_WORKFLOW, DisplayConstants.GRID_WORKFLOW);
 			loginWorkflow = DisplayConstants.GRID_WORKFLOW;
 		}
-				
+					
 
 		if(!StringUtils.isBlankOrNull(loginWorkflow) && DisplayConstants.CSM_WORKFLOW.equalsIgnoreCase(loginWorkflow)){
 			// CSM Workflow.  Authenticate Grid User
@@ -121,17 +123,27 @@ public class GridLoginAction extends Action
 
 					//	Migrate User.
 					boolean migrated = false;
-					migrated = cgmmManager.migrateCSMUserIDToGridID((String)session.getAttribute(DisplayConstants.LOGIN_OBJECT), globusCredential.getIdentity());
-
-					if(!migrated){
-						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_MIGRATION_FAILURE));			
+					try{
+						migrated = cgmmManager.migrateCSMUserIDToGridID((String)session.getAttribute(DisplayConstants.LOGIN_OBJECT), globusCredential.getIdentity());
+					}catch(CGMMMigrationException e){
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_GRID_USER_ALREADY_ASSOCIATED));
 						saveErrors( request,errors );
-					}else{
-						
-						// MIGRATION COMPLETE
-						session.setAttribute(DisplayConstants.GRID_WORKFLOW_MIGRATION_COMPLETE, DisplayConstants.GRID_WORKFLOW_MIGRATION_COMPLETE);
-						//Show Migration Success Page
-						return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN_SUCCESS);
+					}catch(CGMMConfigurationException e){
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_MIGRATION_FAILURE));
+						saveErrors( request,errors );
+					}
+
+					if(errors.isEmpty()){
+						if(!migrated){
+							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_MIGRATION_FAILURE));			
+							saveErrors( request,errors );
+						}else{
+							
+							// MIGRATION COMPLETE
+							session.setAttribute(DisplayConstants.GRID_WORKFLOW_MIGRATION_COMPLETE, DisplayConstants.GRID_WORKFLOW_MIGRATION_COMPLETE);
+							//Show Migration Success Page
+							return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN_SUCCESS);
+						}
 					}
 					
 				}else{
@@ -174,7 +186,11 @@ public class GridLoginAction extends Action
 					
 					//2. Check if Grid User exists in CSM Database and is marked as migrated.
 					boolean ismigrated=false;
-					ismigrated=cgmmManager.isUserMigrated(globusCredential.getIdentity());
+					try{
+						ismigrated=cgmmManager.isUserMigrated(globusCredential.getIdentity());
+					}catch(CGMMMigrationException e){
+						ismigrated=false;
+					}
 					if(ismigrated){
 						//2a. If migrated, forward to Host Application User Home Page
 						//populate Request Attributes and Grid Proxy in Request
