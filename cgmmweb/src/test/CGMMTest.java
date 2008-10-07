@@ -14,6 +14,7 @@ import gov.nih.nci.security.cgmm.exceptions.CGMMException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMGridAuthenticationServiceException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMGridDorianException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMInputException;
+import gov.nih.nci.security.cgmm.exceptions.CGMMMigrationException;
 import gov.nih.nci.security.cgmm.helper.impl.CSMAuthHelper;
 import gov.nih.nci.security.cgmm.helper.impl.GridAuthHelper;
 import gov.nih.nci.security.cgmm.util.CGMMProperties;
@@ -25,6 +26,10 @@ import org.globus.gsi.GlobusCredential;
 public class CGMMTest {
 
 	public static void main(String[] args) {
+		System.setProperty("gov.nih.nci.security.cgmm.syncgts.file","C:/Vijay/software/jboss-4.0.5.GA/server/default/cgmm_config/sync-description.xml");
+		System.setProperty("gov.nih.nci.security.cgmm.properties.file","C:/Vijay/software/jboss-4.0.5.GA/server/default/cgmm_config/cgmm-properties.xml");
+		System.setProperty("gov.nih.nci.security.cgmm.login.config.file","C:/Vijay/software/jboss-4.0.5.GA/server/default/cgmm_config/cgmm.login.config");
+		System.setProperty("gov.nih.nci.security.configFile","C:/Vijay/software/jboss-4.0.5.GA/server/default/cgmm_config/ApplicationSecurityConfig.xml");
 
 		
 		/*FileLoader fileLoader = FileLoader.getInstance();
@@ -43,9 +48,9 @@ public class CGMMTest {
 		
 		testGetCSMUser();
 	
-		testCSMAuth();
+		/*testCSMAuth();
 		testGridAuth();
-		testSyncGTS();
+		testSyncGTS();*/
 	}
 
 	private static void testGetCSMUser() {
@@ -64,7 +69,27 @@ public class CGMMTest {
 		}
 		User isValid=null;
 		try {
-			isValid = cah.getUserDetails("parmarv");
+		
+			isValid = cah.getUserDetails("superadmin");
+			isValid = cah.getUserDetails("test49");
+			isValid = cah.getUserDetails("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=qa55");
+			try{
+				boolean b = cah.isUserMigrated("test49");
+			}catch(CGMMMigrationException e){
+				System.out.println("isUserMigrated test success");
+			}
+			try{
+				boolean b= cah.isUserMigrated("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=qa55");
+			}catch(CGMMMigrationException e){
+				System.out.println("isUserMigrated test failure");
+			}
+			
+			try{
+				boolean b= cah.migrateCSMUserIDToGridID("test44","/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=cgmmtmpuser2");
+			}catch(CGMMMigrationException e){
+				System.out.println("isUserMigrated test failure");
+			}
+			
 		} catch (CGMMInputException e) {
 
 			e.printStackTrace();
