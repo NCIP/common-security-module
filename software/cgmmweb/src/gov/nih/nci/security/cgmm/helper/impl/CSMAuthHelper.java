@@ -14,6 +14,7 @@ import gov.nih.nci.security.cgmm.util.CGMMProperties;
 import gov.nih.nci.security.cgmm.util.FileHelper;
 import gov.nih.nci.security.cgmm.util.ObjectFactory;
 import gov.nih.nci.security.cgmm.util.StringUtils;
+import gov.nih.nci.security.dao.UserSearchCriteria;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSInputException;
@@ -24,6 +25,7 @@ import gov.nih.nci.security.util.StringUtilities;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -229,16 +231,23 @@ public class CSMAuthHelper {
 		
 		if(!StringUtilities.isBlank(userName)){
 			User user = null;
-			user = authorizationManager.getUser(userName);
-			if(user!=null){
-				if(user.getMigratedFlag()==1){
-					return true;
-				}else{
-					throw new CGMMMigrationException(CGMMMessages.EXCEPTION_NOT_MIGRATED);
+			User u = new User();
+			u.setLoginName(userName);
+			List objects= authorizationManager.getObjects(new UserSearchCriteria(u));
+			
+			if(objects==null || objects.isEmpty()){
+				throw new CGMMMigrationException(CGMMMessages.EXCEPTION_NOT_MIGRATED);
+			}else{
+				user = (User) objects.get(0);
+				if(user!=null){
+					if(user.getMigratedFlag()==1){
+						return true;
+					}else{
+						throw new CGMMMigrationException(CGMMMessages.EXCEPTION_NOT_MIGRATED);
+					}
 				}
-			}/*else{
-				throw new CGMMMigrationException(CGMMMessages.EXCEPTION_USER_UNAVAILABLE);
-			}*/
+			}
+	
 			return false;
 		}else{
 			throw new CGMMInputException(CGMMMessages.EXCEPTION_INVALID_USER_NAME); 
@@ -250,10 +259,19 @@ public class CSMAuthHelper {
 		if(authorizationManager==null) this.initialize();
 		
 		if(!StringUtilities.isBlank(userName)){
-			User user = authorizationManager.getUser(userName);
-			if(user==null){
+			User user = null;
+			
+			User u = new User();
+			u.setLoginName(userName);
+			List objects= authorizationManager.getObjects(new UserSearchCriteria(u));
+			if(objects==null || objects.isEmpty()){
 				throw new CGMMCSMUserException(CGMMMessages.EXCEPTION_USER_UNAVAILABLE);
+			}else{
+				user = (User) objects.get(0);
 			}
+			
+			
+			
 			return user;		
 		}else{
 			throw new CGMMInputException(CGMMMessages.EXCEPTION_INVALID_USER_NAME); 
@@ -266,15 +284,27 @@ public class CSMAuthHelper {
 		
 		if(!StringUtilities.isBlank(userIDCSM)){
 			try{
-				User user = authorizationManager.getUser(userIDCSM);
-				if(user!=null){
-					user.setLoginName(userIDGrid);
-					user.setMigratedFlag((byte) 1);
-					authorizationManager.modifyUser(user);
-					return true;
-				}else{
+				User user = null;
+				
+				User u = new User();
+				u.setLoginName(userIDCSM);
+				List objects= authorizationManager.getObjects(new UserSearchCriteria(u));
+				
+				if(objects==null || objects.isEmpty()){
 					throw new CGMMMigrationException(CGMMMessages.EXCEPTION_USER_UNAVAILABLE);
+				}else{
+					user = (User) objects.get(0);
+					
+					if(user!=null){
+						user.setLoginName(userIDGrid);
+						user.setMigratedFlag((byte) 1);
+						authorizationManager.modifyUser(user);
+						return true;
+					}else{
+						throw new CGMMMigrationException(CGMMMessages.EXCEPTION_USER_UNAVAILABLE);
+					}
 				}
+				
 			}catch(CSTransactionException e){
 				throw new CGMMMigrationException(e.getMessage());
 			}catch(Exception e){
