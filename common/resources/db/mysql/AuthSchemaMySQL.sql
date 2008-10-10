@@ -1,4 +1,4 @@
-﻿# Replace the <<database_name>> with proper database name that is to be created.
+# Replace the <<database_name>> with proper database name that is to be created.
 
 #CREATE DATABASE <<database_name>>;
 
