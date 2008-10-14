@@ -171,9 +171,9 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		<filter token="database.dialect" value="${database.dialect}"/>
 		<filter token="hibernate.cfg.file.path" value="${hibernate.cfg.file.path}"/>
 		<filter token="application.jndi" value="${application.jndi}"/>
-		<filter token="application.context.name" value="${application.context.name}"/>		
+		<filter token="application.context.name" value="${application.context.name}"/>
 	</filterset>
-	
+
 	<!-- Start logging -->
 	<mkdir dir="${log.dir}" />
 	<tstamp>
@@ -369,7 +369,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		<!-- Replace this with file from ivy when project is ivy'fied -->
 		<copy file="${securityws.dir.dist}/${securityws.war.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 	</target>
-	
+
 	<target name="install:tomcat:upt" description="Deploy upt upt.ear, upt-api.war and common libraries" unless="exclude.tomcat">
 		<!-- added to ensure working.dirs are fresh for our install -->
 		<delete dir="${tomcat.home}/temp"/>
@@ -427,7 +427,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 			</else>
 		</if>
 		<echo message="Inserting ${login-config.block.file} into ${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"/>
-		<xmlconfig in="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml" verbose="false">
+		<xmlconfig in="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml" verbose="true" >
 			<insertbranch path="//policy" srcxmlfile="${login-config.block.file}" srcpath="//application-policy" />
 		</xmlconfig>
 	</target>
@@ -452,7 +452,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		</if>
 		<echo message="Inserting ${login.config path} into ${tomcat.home}/conf/catalina.properties" />
 		<propertyfile file="${tomcat.home}/conf/catalina.properties" comment="append login.config file path">
-			<entry key="java.security.auth.login.config" value="${catalina.home}/conf/login.config" />			
+			<entry key="java.security.auth.login.config" value="${catalina.home}/conf/login.config" />
 		</propertyfile>
 	</target>
 
@@ -496,7 +496,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		</if>
 		<sleep seconds="15"/>
 	</target>
-	<target name="install:validation:pre-install">		
+	<target name="install:validation:pre-install">
 		<validate-pre-install
 			database.version="4.1.19"
 			/>
@@ -668,8 +668,8 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		install:jboss:upt:configure,
 		install:jboss:start
 		" />
-		
-		<!-- Wrapper target to upgrade tomcat container. Does not install or configure binaries -->
+
+	<!-- Wrapper target to upgrade tomcat container. Does not install or configure binaries -->
 	<target name="upgrade:tomcat" description="Wrapper target to call all targets required to upgrade tomcat container." unless="exclude.tomcat"
 		depends="
 		install:validation:pre-install,
@@ -679,7 +679,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 		install:tomcat:upt:configure,
 		install:tomcat:start
 		" />
-		
+
 
 
 	<!-- Wrapper target to upgrade all container. Does not install or configure binaries -->
