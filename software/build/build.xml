@@ -210,7 +210,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 	<target name="ivy:clean" description="Clean">
 		<ivy:settings override="true" file="${common.dir}/${ivy.settings.file}" />
 		<ivy:cleancache />
-		<ant inheritAll="false" inheritRefs="false" antfile="${common.dir}/bda-ivy-build.xml" target="ivy-cleancache">
+		<ant inheritAll="false" inheritRefs="false" antfile="${common.dir}/bda-download/bda-ivy-build.xml" target="ivy-cleancache">
 			<property name="bda-utils.dir" value="${bda-utils.dir}" />
 			<property name="lib.dir" value="${lib.dir}" />
 		</ant>
