@@ -573,22 +573,37 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/generic/trunk/software/build.xml $
 		</sequential>
 	</macrodef>
 
+	<target name="deploy:remote:install:jboss">
+		<antcall target="deploy:remote:install">
+			<param name="install.server" value="jboss"/>
+		</antcall>
+	</target>
+		
+	<target name="deploy:remote:install:tomcat">
+		<antcall target="deploy:remote:install">
+			<param name="install.server" value="tomcat"/>
+		</antcall>
+	</target>	
+		
+	
 	<!-- Install the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point installer to correct enviornment to install into -->
 	<target name="deploy:remote:install" depends="
+		dist:server:init,
 		build:all,
 		dist:installer
 		">
 		<deploy-files dist.file="${csm.install.zip.file}" />
-		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.target}" />
+		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -D${exclude.server}=true -Dforce.reinstall=true ${install.target}" />
 	</target>
 
 	<!-- Upgrades the application remotely. Depends on above targets to copy and extract distribution. Will use the target from install.xml specified in ${upgrade.target} (defaults to upgrade unless passed in on command line).  Calls ant from sshexec task to ensure properties are do not carry over from current ant runtime and also to emulate a manual install. Requires specifying -Dproperties.file=@file@ on the command line to point upgrader to correct enviornment to upgrade -->
 	<target name="deploy:remote:upgrade" depends="
+		dist:server:init,
 		build:all,
 		dist:upgrader
 		">
 		<deploy-files dist.file="${csm.upgrade.zip.file}" />
-		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${upgrade.target}" />
+		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name}  -D${exclude.server}=true -Dforce.reinstall=true ${upgrade.target}" />
 	</target>
 
 	<target name="usage" description="Explains how to use this build script">
