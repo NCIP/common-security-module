@@ -135,6 +135,10 @@ public class User implements Principal, Comparable, Serializable {
 	 */
 	private String loginName;
 	/**
+	 * This string is used to store the pre migration id for CSM.
+	 */
+	private String preMigrationLoginName;	
+	/**
 	 * The first name of the user
 	 */
 	private String firstName;
@@ -508,6 +512,14 @@ public class User implements Principal, Comparable, Serializable {
 		return new HashCodeBuilder().append(this.userId)
 				.append(this.loginName)
 				.toHashCode();
+	}
+
+	public String getPreMigrationLoginName() {
+		return preMigrationLoginName;
+	}
+
+	public void setPreMigrationLoginName(String preMigrationLoginName) {
+		this.preMigrationLoginName = preMigrationLoginName;
 	}
 
 	
