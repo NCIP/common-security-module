@@ -119,6 +119,9 @@ public class UserSearchCriteria extends SearchCriteria{
 		if(user.getLoginName()!=null){
 		ht.put("loginName",user.getLoginName());
 		}
+		if(user.getPreMigrationLoginName()!=null){
+			ht.put("preMigrationLoginName",user.getPreMigrationLoginName());
+		}
 		if(user.getLastName()!=null){
 			ht.put("lastName",user.getLastName());
 			}
