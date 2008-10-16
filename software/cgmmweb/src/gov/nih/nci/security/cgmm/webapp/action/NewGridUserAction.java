@@ -72,6 +72,12 @@ public class NewGridUserAction extends Action
 		}
 		
 		
+		if(session.getAttribute(DisplayConstants.NEW_USER_CREATION_COMPLETE)!=null){
+			// take the user to Confirm Migration Page
+			
+			return mapping.findForward(ForwardConstants.FORWARD_CONFIRM_MIGRATION);
+		}
+		
 		if(!StringUtils.isBlankOrNull(loginWorkflow) && DisplayConstants.CSM_WORKFLOW.equalsIgnoreCase(loginWorkflow)){
 			// CSM Workflow.  Authenticate Grid User
 			
@@ -107,7 +113,7 @@ public class NewGridUserAction extends Action
 				// New Grid User Workflow is NOT disabled.
 				
 
-				if(session.getAttribute("POPULATED_FORM")==null){
+				if(session.getAttribute(DisplayConstants.POPULATED_FORM)==null){
 					/*
 					 * 1. Obtain CSM User Details from csm.
 					 * 2. copy User details to form.
@@ -122,7 +128,7 @@ public class NewGridUserAction extends Action
 							// Populate NewGridUserForm details as much from CSM schema.
 							copyCsmUserDetailsToForm(user,newGridUserForm);
 							session.setAttribute(DisplayConstants.CURRENT_FORM, newGridUserForm);
-							session.setAttribute("POPULATED_FORM", "YES");
+							session.setAttribute(DisplayConstants.POPULATED_FORM, "YES");
 						}catch(CGMMException e){
 							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 							saveErrors( request,errors );
@@ -158,26 +164,36 @@ public class NewGridUserAction extends Action
 					GlobusCredential globusCredential=null;
 					try {
 						globusCredential = cgmmManager.performGridLogin(cgmmUser.getLoginIDGrid(),cgmmUser.getPasswordGrid(), CGMMProperties.getAuthenticationServiceInformationList().get(0).getDorianInformation().getDorianServiceURL());
-						if(globusCredential!=null){
-							//Migrate User.
+						//System.out.println(globusCredential.getIdentity());
+						if(null!=globusCredential){
+							/*//Migrate User.
 							boolean migrated = false;
 							migrated = cgmmManager.migrateCSMUserIDToGridID((String)session.getAttribute(DisplayConstants.LOGIN_OBJECT), globusCredential.getIdentity());
-							
+						
 							if(!migrated){
 								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_MIGRATION_FAILURE));			
 								saveErrors( request,errors );
-							}else{
+							}else{*/
 								
 								HashMap<String, String> attributesMap = cgmmManager.getUserAttributesMap(cgmmUser.getLoginIDGrid(),cgmmUser.getPasswordGrid(),CGMMProperties.getAuthenticationServiceInformationList().get(0).getDorianInformation().getDorianServiceURL());
 								
 								// Populate Request Attributes and Grid Proxy in Request
-								request.setAttribute(DisplayConstants.CGMM_EMAIL_ID, attributesMap.get(DisplayConstants.CGMM_EMAIL_ID));
-								request.setAttribute(DisplayConstants.CGMM_FIRST_NAME, attributesMap.get(DisplayConstants.CGMM_FIRST_NAME));
-								request.setAttribute(DisplayConstants.CGMM_LAST_NAME, attributesMap.get(DisplayConstants.CGMM_LAST_NAME));
-								request.setAttribute(DisplayConstants.GRID_PROXY, globusCredential);
-								session.setAttribute(DisplayConstants.LOGIN_OBJECT, globusCredential.getIdentity());
+								session.setAttribute(DisplayConstants.CGMM_EMAIL_ID, attributesMap.get(DisplayConstants.CGMM_EMAIL_ID));
+								session.setAttribute(DisplayConstants.CGMM_FIRST_NAME, attributesMap.get(DisplayConstants.CGMM_FIRST_NAME));
+								session.setAttribute(DisplayConstants.CGMM_LAST_NAME, attributesMap.get(DisplayConstants.CGMM_LAST_NAME));
+								session.setAttribute(DisplayConstants.GRID_PROXY, globusCredential);
+								session.setAttribute(DisplayConstants.GRID_PROXY_ID, globusCredential.getIdentity());
 								
-								//Forward request to the Host Application URL.
+								
+								
+								
+								session.setAttribute(DisplayConstants.NEW_USER_CREATION_COMPLETE, DisplayConstants.NEW_USER_CREATION_COMPLETE);
+								
+								// Show new grid account creation success page.
+								return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER_SUCCESS);
+								
+								
+								/*//Forward request to the Host Application URL.
 								String hostAppContextName = CGMMProperties.getHostApplicationInformation().getHostContextName();
 								String hostUserHomePageURL = CGMMProperties.getHostApplicationInformation().getHostUserHomePageURL();
 								if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostUserHomePageURL)){
@@ -195,14 +211,14 @@ public class NewGridUserAction extends Action
 										errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 										saveErrors( request,errors );
 									}
-								}
+								}*/
 								
-							}
+							//}
 						}else{
 							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_INVALID_CREDENTIALS));
 							saveErrors( request,errors );
 						}
-					}  catch (CGMMException e) {
+					}  catch (Exception e) {
 						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 						saveErrors( request,errors );
 					}
@@ -252,14 +268,22 @@ public class NewGridUserAction extends Action
 
 	private void copyCsmUserDetailsToForm(CGMMUser user, NewGridUserForm newGridUserForm) {
 		if(user!=null){
+		String abc =(StringUtils.isBlankOrNull(user.getFirstName())==true?"":user.getFirstName());
 			
+		newGridUserForm.setFirstName((StringUtils.isBlankOrNull(user.getFirstName())==true?"":user.getFirstName()));
+		newGridUserForm.setLastName((StringUtils.isBlankOrNull(user.getLastName())==true?"":user.getLastName()));
+		newGridUserForm.setUserName((StringUtils.isBlankOrNull(user.getLoginIDGrid())==true?"":user.getLoginIDGrid()));
+		newGridUserForm.setEmail((StringUtils.isBlankOrNull(user.getEmailId())==true?"":user.getEmailId()));
+		newGridUserForm.setPhone((StringUtils.isBlankOrNull(user.getPhoneNumber())==true?"":user.getPhoneNumber()));
+		newGridUserForm.setOrganization((StringUtils.isBlankOrNull(user.getOrganization())==true?"":user.getOrganization()));
+		newGridUserForm.setAddress1("");
+		newGridUserForm.setAddress2("");
+		newGridUserForm.setCity("");
+		newGridUserForm.setCountry("US");
+		newGridUserForm.setPassword("");
+		newGridUserForm.setPostalCode("");
+		newGridUserForm.setState("AK");
 		
-		newGridUserForm.setFirstName(user.getFirstName());
-		newGridUserForm.setLastName(user.getLastName());
-		newGridUserForm.setUserName(user.getLoginIDGrid());
-		newGridUserForm.setEmail(user.getEmailId());
-		newGridUserForm.setPhone(user.getPhoneNumber());
-		newGridUserForm.setOrganization(user.getOrganization());
 		}
 		
 	}

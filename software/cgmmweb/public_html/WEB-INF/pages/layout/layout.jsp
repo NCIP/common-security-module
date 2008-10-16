@@ -43,26 +43,14 @@
 			<!--_____ main content begins _____-->
 			              <tiles:get name="content"/>
 			<!--_____ main content ends _____-->
-              <tr>
-                <td height="20" width="100%" class="footerMenu">
-                  <!-- application ftr begins -->
-                  <tiles:get name="app_footer" />
-                  <!-- application ftr ends -->  
-                </td>
-              </tr>
+            
             </table>
           </td>
         </tr>
       </table>
     </td>
   </tr>
-  <tr>
-    <td>   
-      <!-- footer begins -->
-      <tiles:get name="nci_footer" />
-      <!-- footer ends -->
-    </td>
-  </tr>
+ 
 </table>
 </body>
 </html:html>

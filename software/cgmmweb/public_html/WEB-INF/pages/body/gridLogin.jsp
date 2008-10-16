@@ -10,126 +10,231 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
-<%@ page import="java.util.*"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 
-
+	String serverPath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort();
+	String hostURL = serverPath + "/"
+			+ session.getAttribute("HOST_APPLICATION_NAME")
+			+ session.getAttribute("HOST_APPLICATION_PUBLIC_HOME_PAGE");
+%>
 <tr>
-	<td valign="top" class="contentPage">
-		&nbsp;&nbsp;&nbsp;
-		<br>
-		<table summary="" cellpadding="3" cellspacing="0" border="0"
-			width="500">
-			<html:form styleId="gridLoginForm" action="/GridLogin"
-				focus="loginID">
-
-
+	<td width="100%" valign="top">
+		<!-- target of anchor to skip menus -->
+		<a name="content" />
+			<table summary="" cellpadding="0" cellspacing="0" border="0"
+				width="600" height="100%">
+				<!-- banner begins -->
 				<tr>
-					<td class="formMessage" colspan="3">
-						Provide your credentials for authentication and select
-						Authentication Source. If you do not have GAARDS based credentials
-						for any of the available Authentication Source then select the
-						Home Menu tab to start over.
-
+					<td class="bannerHome">
+						<img src="images/bannerHome.gif" height="140">
 					</td>
 				</tr>
+				<!-- banner ends -->
 				<tr>
-					<td class="formTitle" height="20" colspan="3">
-						<bean:message key="label.grid_login" />
-					</td>
-				</tr>
-
-				<tr>
-					<td colspan="3">
-						<font color="red""> <html:errors />
-						</font>
-					</td>
-				</tr>
-				<tr>
-
-					<td class=formLabel width="30%">
-						<LABEL for=recordCount>
-							<bean:message key="label.login_id" />
-						</LABEL>
-					</td>
-					<td class=formField>
-						<INPUT class=formField id=loginID size=40 name=loginID>
-					</td>
-				</tr>
-				<tr>
-
-					<td class=formLabel width="30%">
-						<LABEL for=password>
-							<bean:message key="label.login_password" />
-						</LABEL>
-					</td>
-					<td class=formField>
-						<INPUT class=formField id=password size=40 type=password
-							name=password>
-					</td>
-				</tr>
-				<bean:define name="<%=DisplayConstants.AUTHENTICATION_SERVICE_MAP%>"
-					id="authenticationServiceMap" />
-				<tr>
-
-					<td class=formLabel>
-						<LABEL for="field3">
-							<bean:message key="label.authentication_service" />
-						</LABEL>
-					</td>
-					<td class=formField>
-						<html:select property="authenticationServiceURL">
-							<html:options collection="authenticationServiceMap"
-								property="value" labelProperty="key" />
-						</html:select>
-					</td>
-				</tr>
-
-				<tr>
-					<td align="right" colspan="3">
-						<!-- action buttons begins -->
-						<table cellpadding="4" cellspacing="0" border="0" align="right">
-							<tr>
-								<td align="right">
-									<input class="actionButton" type="submit"
-										value='<bean:message key="label.submit_button"/>' />
-								</td>
-								</html:form>
-								<html:form action="/GridLogin">
-									<td align="right">
-										<input class="actionButton" type="submit"
-											value='<bean:message key="label.reset_button"/>' />
+					<td height="100%">
+						<!-- target of anchor to skip menus -->
+						<a name="content" />
+							<table summary="" cellpadding="0" cellspacing="0" border="0"
+								height="100%">
+								<tr>
+									<td class="home" width="5%">
+										&nbsp;
 									</td>
-								</html:form>
-							</tr>
-						</table>
-						<!-- action buttons end -->
+									<td valign="top">
+										<table summary="" cellpadding="0" cellspacing="0" border="0"
+											height="100">
+											<tr>
+												<td valign="top">
+													<table cellpadding="0" cellspacing="0" border="0"
+														class="contentBegins">
+
+														<tr class="home">
+
+															<td class="home" colspan="3">
+																<br>
+																<h3>
+																	CSM to GAARDS Account Migration Module (CGMM)
+																</h3>
+																This text introduces the purpose of the tool: to migrate
+																existing local (CSM) and caGrid accounts so they are
+																linked together.
+																<br>
+																Other important infor goes here as well.
+																<br>
+																<br>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="3" class="txtHighlight">
+																<html:errors />
+															</td>
+														</tr>
+
+														<tr>
+
+															<td class="home" colspan="3" width="90%">
+																<table cellpadding="0" cellspacing="0" border="0"
+																	class="contentBegins">
+																	<tr>
+																		<td valign="top">
+																			<table summary="" cellpadding="0" cellspacing="0"
+																				border="0" width="300" height="100%">
+
+																				<!-- grid login begins -->
+																				<html:form styleId="gridLoginForm"
+																					action="/GridLogin">
+																					<tr>
+																						<td valign="top">
+																							<table summary="" cellpadding="2" cellspacing="0"
+																								border="0" width="100%">
+																								<tr>
+																									<td align="center" height="20">
+																										<h3>
+																											Login to / Migrate a Grid Account
+																										</h3>
+																									</td>
+																								</tr>
+																								<tr>
+																									<td>
+																										<table cellpadding="2" cellspacing="0"
+																											border="0" width="100%">
+																											<%--<tr>
+																												<td colspan="2">
+																													<html:errors />
+																												</td>
+																											</tr>
+																											--%>
+																											<tr>
+																												<td class="sidebarLogin" align="right">
+																													<label for="loginId">
+																														LOGIN ID
+																													</label>
+																												</td>
+																												<td class="formFieldLogin">
+																													<html:text style="formField" size="14"
+																														property="loginID" value="" />
+																												</td>
+																											</tr>
+																											<tr>
+																												<td class="sidebarLogin" align="right">
+																													<label for="password">
+																														PASSWORD
+																													</label>
+																												</td>
+																												<td class="formFieldLogin">
+																													<html:password style="formField" size="14"
+																														property="password" value="" />
+																												</td>
+																											</tr>
+																											<bean:define
+																												name="<%=DisplayConstants.AUTHENTICATION_SERVICE_MAP%>"
+																												id="authenticationServiceMap" />
+																											<tr>
+																												<td class="sidebarLogin" align="right">
+																													<label for="authenticationServiceURL">
+																														AUTHENTICATION
+																														<br>
+																														SOURCE
+																													</label>
+																												</td>
+																												<td class="formFieldLogin">
+																													<html:select
+																														property="authenticationServiceURL">
+																														<html:options
+																															collection="authenticationServiceMap"
+																															property="value" labelProperty="key" />
+																													</html:select>
+																												</td>
+																											</tr>
+																											<tr>
+																												<td>
+																													&nbsp;
+																												</td>
+																												<td>
+																													<html:submit style="actionButton"
+																														value="Login" />
+																												</td>
+																											</tr>
+																										</table>
+																									</td>
+																								</tr>
+																							</table>
+																						</td>
+																					</tr>
+																				</html:form>
+
+																			</table>
+																		</td>
+																		<td valign="top" width="2%"></td>
+																		<td valign="top" align="center">
+																			OR
+																			<br>
+																			<table summary="" cellpadding="0" cellspacing="0"
+																				border="1" width="1" height="100">
+																				<tr>
+																					<td>
+																						<!-- Empty spacer to show vertical line -->
+																					</td>
+																				</tr>
+																			</table>
+																		</td>
+																		<!-- OR Spacers -->
+																		<td valign="top" width="2%"></td>
+																		<td valign="top">
+																			<table summary="" cellpadding="0" cellspacing="0"
+																				border="0" width="300" height="100%">
+
+																				<!-- new Grid account creation begins-->
+
+																				<tr>
+																					<td valign="top">
+																						<table summary="" cellpadding="2" cellspacing="0"
+																							border="0" width="100%">
+																							<tr>
+																								<td align="center" height="20">
+																									<h3>
+																										Create a new Grid Account
+																									</h3>
+																								</td>
+																							</tr>
+																							<tr>
+																								<td class="home" colspan="3">
+																									Dont have a Grid Account?<br> Click the Create new
+																									Grid Account button to proceed.
+																									<html:form action="/NewGridUser">
+																									<html:submit style="actionButton"
+																														value="Create New caGrid Account" />
+																										<%--<input class="actionButton" type="submit"
+																											value='<bean:message key="label.new_grid_user"/>' />
+																									--%></html:form>
+																								</td>
+																							</tr>
+																						</table>
+																					</td>
+																				</tr>
+																			</table>
+																		</td>
+
+																	</tr>
+																</table>
+															</td>
+
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
 					</td>
 				</tr>
-				<tr>
-					<td class="formMessage" colspan="2" align="left">
-						<logic:present name="<%=DisplayConstants.LOGIN_WORKFLOW%>">
-							<%
-										if (DisplayConstants.CSM_WORKFLOW
-										.equalsIgnoreCase((String) request.getSession()
-										.getAttribute(DisplayConstants.LOGIN_WORKFLOW))) {
-							%>
-			OR Proceed to New Dorian Account creation. Click the New User Creation button below.
-			<html:form action="/NewGridUser">
-								<input class="actionButton" type="submit"
-									value='<bean:message key="label.new_grid_user"/>' />
-							</html:form>
-							<%
-							}
-							%>
-						</logic:present>
-					</td>
-
-
-				</tr>
-		</table>
-
+			</table>
 	</td>
 </tr>
-

@@ -52,7 +52,7 @@ public class AuthenticationServiceHelperImpl implements AuthenticationServiceHel
 		} 
 		catch (InvalidCredentialFault e)
 		{
-			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_INVALID_CREDENTIALS+e.getFaultDetails());
+			throw new CGMMGridAuthenticationServiceException(CGMMMessages.EXCEPTION_INVALID_CREDENTIALS+e.getFaultString());
 		} 
 		catch (InsufficientAttributeFault e)
 		{

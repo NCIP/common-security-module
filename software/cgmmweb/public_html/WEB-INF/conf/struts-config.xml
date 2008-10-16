@@ -19,11 +19,11 @@
 		<forward name="MenuSelection" path="/MenuSelection.do" />
 		<forward name="Home" path="/Home.do" redirect="true" />
 		<forward name="showHome" path="page.home" />
-		<forward name="showCsmLogin" path="page.csmLogin" />
+		<forward name="showCsmLogin" path="page.csmLogin" /><!--
 		<forward name="showCsmLoginSuccess" path="page.csmLogin.success" />
-		<forward name="showGridLogin" path="page.gridLogin" />
+		--><forward name="showGridLogin" path="page.gridLogin" /><!--
 		<forward name="showGridLoginSuccess" path="page.gridLogin.success" />		
-		<forward name="showNewGridUser" path="page.newGridUser" />
+		--><forward name="showNewGridUser" path="page.newGridUser" />
 		<forward name="showNewGridUserSuccess" path="page.newGridUser.success" />		
 	</global-forwards>
 
@@ -43,7 +43,14 @@
 			input="/body/home.jsp">
 			<forward name="showHome" path="page.home" />
 		</action>
-
+	
+		<action path="/ConfirmMigration"
+			name="menuForm" scope="session" validate="true" 
+			type="gov.nih.nci.security.cgmm.webapp.action.ConfirmMigratonAction"
+			input="/body/confirmMigration.jsp">
+			<forward name="showHome" path="page.home" />
+			<forward name="showMigrationSuccess" path="page.migration.success" />			
+		</action>
 
 
 		<action attribute="csmLoginForm" input="page.csmLogin"
@@ -51,7 +58,8 @@
 			type="gov.nih.nci.security.cgmm.webapp.action.CsmLoginAction">
 			<forward name="showHome" path="page.home" />
 			<forward name="showCsmLogin" path="page.csmLogin" />
-			<forward name="showCsmLoginSuccess" path="page.csmLogin.success" />			
+			<forward name="showConfirmMigration" path="page.confirmMigration"/>			
+			<forward name="showMigrationSuccess" path="page.migration.success" />			
 			<forward name="showGridLogin" path="page.gridLogin" />
 			
 		</action>
@@ -62,7 +70,8 @@
 			<forward name="showHome" path="page.home" />
 			<forward name="showCsmLogin" path="page.csmLogin" />
 			<forward name="showGridLogin" path="page.gridLogin" />
-			<forward name="showGridLoginSuccess" path="page.gridLogin.success" />			
+			<forward name="showConfirmMigration" path="page.confirmMigration"/>
+			<forward name="showMigrationSuccess" path="page.migration.success" />			
 			<forward name="showNewGridUser" path="page.newGridUser" />
 		</action>
 		<action attribute="newGridUserForm" input="page.newGridUser"
@@ -73,6 +82,7 @@
 			<forward name="showCsmLogin" path="page.csmLogin" />
 			<forward name="showGridLogin" path="page.gridLogin" />
 			<forward name="showNewGridUser" path="page.newGridUser" />
+			<forward name="showConfirmMigration" path="page.confirmMigration"/>			
 			<forward name="showNewGridUserSuccess" path="page.newGridUser.success" />
 		</action>
 
