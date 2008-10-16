@@ -32,8 +32,11 @@
   <definition name="page.gridLogin" extends="HomeLayout">
 	<put name="content"   value="/WEB-INF/pages/body/gridLogin.jsp" />
   </definition>  
-  <definition name="page.gridLogin.success" extends="HomeLayout">
-	<put name="content"   value="/WEB-INF/pages/body/gridLoginMigrationSuccess.jsp" />
+  <definition name="page.confirmMigration" extends="HomeLayout">
+	<put name="content"   value="/WEB-INF/pages/body/confirmMigration.jsp" />
+  </definition>    
+  <definition name="page.migration.success" extends="HomeLayout">
+	<put name="content"   value="/WEB-INF/pages/body/MigrationSuccess.jsp" />
   </definition>    
   <definition name="page.newGridUser" extends="HomeLayout">
 	<put name="content"   value="/WEB-INF/pages/body/newGridUser.jsp" />

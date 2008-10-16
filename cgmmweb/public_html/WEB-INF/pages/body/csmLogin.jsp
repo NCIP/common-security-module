@@ -11,117 +11,210 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 
-
-
+	String serverPath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort();
+	String hostURL = serverPath + "/"
+			+ session.getAttribute("HOST_APPLICATION_NAME")
+			+ session.getAttribute("HOST_APPLICATION_PUBLIC_HOME_PAGE");
+%>
 <tr>
-	<td valign="top" class="contentPage">
-		<table summary="" cellpadding="3" cellspacing="0" border="0"
-			width="500">
+	<td width="100%" valign="top">
+		<!-- target of anchor to skip menus -->
+		<a name="content" />
+			<table summary="" cellpadding="0" cellspacing="0" border="0"
+				width="600" height="100%">
+				<!-- banner begins -->
+				<tr>
+					<td class="bannerHome">
+						<img src="images/bannerHome.gif" height="140">
+					</td>
+				</tr>
+				<!-- banner ends -->
+				<tr>
+					<td height="100%">
+						<!-- target of anchor to skip menus -->
+						<a name="content" />
+							<table summary="" cellpadding="0" cellspacing="0" border="0"
+								height="100%">
+								<tr>
+									<td class="home" width="5%">
+										&nbsp;
+									</td>
+									<td valign="top">
+										<table summary="" cellpadding="0" cellspacing="0" border="0"
+											height="100">
+											<tr>
+												<td valign="top">
+													<table cellpadding="0" cellspacing="0" border="0"
+														class="contentBegins">
 
-			<tr>
-				<td class="formMessage" colspan="1">
-				</td>
-				<td class="formMessage" colspan="3"></td>
-			</tr>
-			<tr>
-				<td class="formMessage" colspan="1"></td>
-				<td class="formMessage" colspan="3">
-					<table summary="" cellpadding="3" cellspacing="0" border="0"
-						width="500">
-						<html:form styleId="CsmLoginForm" action="/CsmLogin"
-							focus="loginID">
-							<%--<html:hidden property="activity" value="submitQuery" />--%>
+														<tr class="home">
 
-							<tr>
-								<td class="formMessage" colspan="3">
-									Have a local CSM account to migrate?. Provide local CSM
-									credentials to login and migrate account information.
-								</td>
-							</tr>
-							<tr>
+															<td class="home" colspan="3">
+																<br>
+																<h3>
+																	GAARDS to CSM Account Migration
+																</h3>
+																This text introduces the purpose of the tool: to migrate
+																existing local (CSM) and caGrid accounts so they are
+																linked together.
+																<br>
+																Other important infor goes here as well.
+																<br>
+																<br>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="3" class="txtHighlight">
+																<html:errors />
+															</td>
+														</tr>
 
-								<td class="formTitle" height="20" colspan="3">
-									<bean:message key="label.csm_login" />
-								</td>
-							</tr>
+														<tr>
 
-							<tr>
-								<td colspan="3">
-									<font color="red""> <html:errors /> </font>
-								</td>
-							</tr>
-							<tr>
+															<td class="home" colspan="3" width="90%">
+																<table cellpadding="0" cellspacing="0" border="0"
+																	class="contentBegins">
+																	<tr>
+																		<td align="left" valign="top">
+																			<table summary="" cellpadding="0" cellspacing="0"
+																				border="0" width="300" height="100%">
+																				<!-- csm login begins -->
+																				<html:form styleId="CsmLoginForm" action="/CsmLogin"
+																					focus="loginID">
+																					<tr>
+																						<td valign="top">
+																							<table summary="" cellpadding="2" cellspacing="0"
+																								border="0" width="100%">
+																								<tr>
+																									<td align="center" height="20">
+																										<h3>
+																											Migrate to existing CSM Account
+																										</h3>
+																									</td>
+																								</tr>
+																								<tr>
+																									<td>
+																										<table cellpadding="2" cellspacing="0"
+																											border="0" width="100%">
+																											<%--
+																											<tr>
+																												<td colspan="2">
+																													<html:errors />
+																												</td>
+																											</tr>
+																											--%>
+																											<tr>
+																												<td class="sidebarLogin" align="right">
+																													<label for="loginId">
+																														LOGIN ID
+																													</label>
+																												</td>
+																												<td class="formFieldLogin">
+																													<html:text style="formField" size="14"
+																														property="loginID" value="" />
+																												</td>
+																											</tr>
+																											<tr>
+																												<td class="sidebarLogin" align="right">
+																													<label for="password">
+																														&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PASSWORD
+																													</label>
+																												</td>
+																												<td class="formFieldLogin">
+																													<html:password style="formField" size="14"
+																														property="password" value="" />
+																												</td>
+																											</tr>
+																											<tr>
+																												<td>
+																													&nbsp;
+																												</td>
+																												<td>
+																													<html:submit style="actionButton"
+																														value="Login" />
+																												</td>
+																											</tr>
+																										</table>
+																									</td>
+																								</tr>
+																							</table>
+																						</td>
+																					</tr>
 
-								<td class=formLabel width="30%">
-									<LABEL for=loginID>
-										<bean:message key="label.login_id" />
-									</LABEL>
-								</td>
-								<td class=formField>
-									<INPUT class=formField id=loginID size=40 name=loginID>
-								</td>
-							</tr>
-							<tr>
+																				</html:form>
+																				<!--  csm login ends -->
 
-								<td class=formLabel width="30%">
-									<LABEL for=password>
-										<bean:message key="label.login_password" />
-									</LABEL>
-								</td>
-								<td class=formField>
-									<INPUT class=formField id=password size=40 type=password
-										name=password>
-								</td>
-							</tr>
-							<tr>
-								<td align="right" colspan="3">
-									<!-- action buttons begins -->
-									<table cellpadding="4" cellspacing="0" border="0">
-										<tr>
-											<td>
-												<input class="actionButton" type="submit"
-													value='<bean:message key="label.submit_button"/>' />
-											</td>
-											</html:form>
-											<html:form action="/CsmLogin">
-												<td>
-													<input class="actionButton" type="submit"
-														value='<bean:message key="label.reset_button"/>' />
+																			</table>
+																		</td>
+																		<td valign="top" width="2%"></td>
+																		<td valign="top" align="center">
+																			OR
+																			<br>
+																			<table summary="" cellpadding="0" cellspacing="0"
+																				border="1" width="1" height="100">
+																				<tr>
+																					<td>
+																						<!-- Empty spacer to show vertical line -->
+																					</td>
+																				</tr>
+																			</table>
+																		</td>
+																		<!-- OR Spacers -->
+																		<td valign="top" width="2%"></td>
+																		<td valign="top">
+																			<table summary="" cellpadding="0" cellspacing="0"
+																				border="0" width="300" height="100%">
+
+																				<!-- new CSM account creation begins-->
+
+																				<tr>
+																					<td valign="top">
+																						<table summary="" cellpadding="2" cellspacing="0"
+																							border="0" width="100%">
+																							<tr>
+																								<td align="center" height="20">
+																									<h3>
+																										Create a new CSM Account
+																									</h3>
+																								</td>
+																							</tr>
+																							<tr>
+																								<td colspan="3">
+																									Dont have a local (CSM) Account?. Click Create New
+																									CSM Account button to proceed to the applications new User account creation workflow.																							
+																									<html:form action="/NewCsmUser">
+																										
+																											<html:submit style="actionButton"
+																														value="Create New CSM Account" />
+																									</html:form>
+																								</td>
+																							</tr>
+																						</table>
+																					</td>
+																				</tr>
+																			</table>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+
+														</tr>
+													</table>
 												</td>
-											</html:form>
-										</tr>
-									</table>
-									<!-- action buttons end -->
-								</td>
-							</tr>
-					</table>
-
-				</td>
-			</tr>
-		<logic:present name="<%=DisplayConstants.LOGIN_WORKFLOW%>">
-			<%
-						if (DisplayConstants.GRID_WORKFLOW.equalsIgnoreCase((String) request
-						.getSession().getAttribute(DisplayConstants.LOGIN_WORKFLOW))) {
-			%>
-			
-			<tr>
-				<td class="formMessage" colspan="1">
-				</td>
-				<td class="formMessage" colspan="3">
-					Dont have a local (CSM) Account?. Click New User Creation button to proceed. 
-					<html:form action="/NewCsmUser">
-						<input class="actionButton" type="submit" value='<bean:message key="label.new_grid_user"/>' />
-					</html:form>
-				</td>
-			</tr>
-			<%
-			}
-			%>
-		</logic:present>
-		
-		</table>
-		
-		
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+					</td>
+				</tr>
+			</table>
 	</td>
 </tr>

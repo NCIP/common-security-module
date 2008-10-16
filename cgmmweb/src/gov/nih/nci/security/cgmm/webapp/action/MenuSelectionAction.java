@@ -43,7 +43,12 @@ public class MenuSelectionAction extends Action
 		session.removeAttribute(DisplayConstants.CGMM_FIRST_NAME);
 		session.removeAttribute(DisplayConstants.CGMM_LAST_NAME);
 		session.removeAttribute(DisplayConstants.GRID_PROXY);
+		session.removeAttribute(DisplayConstants.GRID_PROXY_ID);
 		session.removeAttribute(DisplayConstants.GRID_WORKFLOW_MIGRATION_COMPLETE);
+		session.removeAttribute(DisplayConstants.POPULATED_FORM);
+		session.removeAttribute(DisplayConstants.NEW_USER_CREATION_COMPLETE);
+		
+		
 		
 		//Get AuthenticationService URL Info.
 		CGMMManager cgmmManager=null;

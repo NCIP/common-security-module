@@ -70,7 +70,7 @@
 														<tr>
 															<td class="home" colspan="3" width="100%">
 																<html:form action="/ConfirmMigration">
-																	<input class="actionButton" type="submit" value="Log in to <%=hostApplicationName%>" />
+																	<html:submit style="actionButton">Log in to <bean:write name="hostApplicationName"/></html:submit>
 																</html:form>
 															</td>
 															

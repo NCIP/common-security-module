@@ -20,6 +20,7 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.util.StringEncrypter;
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
@@ -236,7 +237,23 @@ public class CSMAuthHelper {
 			List objects= authorizationManager.getObjects(new UserSearchCriteria(u));
 			
 			if(objects==null || objects.isEmpty()){
-				throw new CGMMMigrationException(CGMMMessages.EXCEPTION_NOT_MIGRATED);
+				u = new User();
+				u.setPreMigrationLoginName(userName);
+				objects= authorizationManager.getObjects(new UserSearchCriteria(u));
+				
+				if(objects!=null && !objects.isEmpty()){
+					user = (User) objects.get(0);
+					if(user!=null){
+							return true;
+					}else{
+							throw new CGMMMigrationException(CGMMMessages.EXCEPTION_NOT_MIGRATED);
+					}
+					
+				}else{
+					throw new CGMMMigrationException(CGMMMessages.EXCEPTION_NOT_MIGRATED);	
+				}
+				
+				
 			}else{
 				user = (User) objects.get(0);
 				if(user!=null){
@@ -297,7 +314,14 @@ public class CSMAuthHelper {
 					
 					if(user!=null){
 						user.setLoginName(userIDGrid);
+						user.setPreMigrationLoginName(userIDCSM);
 						user.setMigratedFlag((byte) 1);
+						//Ensure password is decrypted so when modifying User object it will be encrypted again.
+						StringEncrypter stringEncrypter = new StringEncrypter();
+						user.setPassword(stringEncrypter.decrypt(user.getPassword().trim()));
+						
+						
+						
 						authorizationManager.modifyUser(user);
 						return true;
 					}else{

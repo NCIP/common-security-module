@@ -12,7 +12,8 @@ public interface ForwardConstants
 	public static final String FORWARD_GRID_LOGIN_SUCCESS= "showGridLoginSuccess";
 	public static final String FORWARD_NEW_GRID_USER = "showNewGridUser";
 	public static final String FORWARD_NEW_GRID_USER_SUCCESS = "showNewGridUserSuccess";
-	
+	public static final String FORWARD_CONFIRM_MIGRATION = "showConfirmMigration";
+	public static final String FORWARD_MIGRATION_SUCCESS = "showMigrationSuccess";
 	
 	public static final String CURRENT_TABLE_ID = "CURRENT_TABLE_ID";
 	public static final String HOME_ID = "CURRENT_TABLE_ID";
