@@ -34,8 +34,15 @@
         column="LOGIN_NAME"
         not-null="true"
         length="500"
+    >      
+    </property>
+     <property
+        name="preMigrationLoginName"
+        type="java.lang.String"
+        column="PREMGRT_LOGIN_NAME"
+        not-null="false"
+        length="100"
     >
-        
     </property>
     <property
         name="firstName"
@@ -44,7 +51,6 @@
         not-null="true"
         length="100"
     >
-        
     </property>
     <property
         name="lastName"
