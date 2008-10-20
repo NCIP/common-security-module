@@ -1,4 +1,4 @@
-# Replace the <<database_name>> with proper database name that is to be created.
+﻿# Replace the <<database_name>> with proper database name that is to be created.
 
 #CREATE DATABASE <<database_name>>;
 
@@ -165,6 +165,7 @@ CREATE TABLE CSM_USER (
 	START_DATE DATE,
 	END_DATE DATE,
 	UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00',
+	PREMGRT_LOGIN_NAME VARCHAR(100) ;
 	PRIMARY KEY(USER_ID)
 )Type=InnoDB
 ;
