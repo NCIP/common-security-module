@@ -50,6 +50,16 @@ public class NewGridUserAction extends Action
 
 		HttpSession session = request.getSession();
 		
+		
+		String loginWorkflow = null;
+		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
+		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
+			// No Workflow selected.
+			//Forward to Home page.
+			return mapping.findForward(ForwardConstants.FORWARD_HOME);
+		}
+		
+		
 		NewGridUserForm newGridUserForm = (NewGridUserForm) form;
 
 
@@ -63,13 +73,7 @@ public class NewGridUserAction extends Action
 			return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
 		}
 		
-		String loginWorkflow = null;
-		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
-		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
-			// No Workflow selected.
-			//Forward to Home page.
-			return mapping.findForward(ForwardConstants.FORWARD_HOME);
-		}
+		
 		
 		
 		if(session.getAttribute(DisplayConstants.NEW_USER_CREATION_COMPLETE)!=null){

@@ -50,6 +50,19 @@ public class GridLoginAction extends Action
 		@SuppressWarnings("unused")
 		ActionMessages messages = new ActionMessages();
 		HttpSession session = request.getSession();
+		if(session.isNew() ){
+			// 
+			return mapping.findForward(ForwardConstants.FORWARD_HOME);	
+		}
+		
+		String loginWorkflow = null;
+		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
+		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
+			// No Workflow selected.
+			//
+			session.setAttribute(DisplayConstants.LOGIN_WORKFLOW, DisplayConstants.GRID_WORKFLOW);
+			loginWorkflow = DisplayConstants.GRID_WORKFLOW;
+		}
 		
 		GridLoginForm gridLoginForm = (GridLoginForm) form;
 
@@ -63,14 +76,7 @@ public class GridLoginAction extends Action
 			return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN);
 		}
 
-		String loginWorkflow = null;
-		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
-		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
-			// No Workflow selected.
-			//
-			session.setAttribute(DisplayConstants.LOGIN_WORKFLOW, DisplayConstants.GRID_WORKFLOW);
-			loginWorkflow = DisplayConstants.GRID_WORKFLOW;
-		}
+		
 			
 		session.removeAttribute(DisplayConstants.POPULATED_FORM);
 

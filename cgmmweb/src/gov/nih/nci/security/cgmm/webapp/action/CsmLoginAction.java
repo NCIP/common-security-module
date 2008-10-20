@@ -49,8 +49,18 @@ public class CsmLoginAction extends Action
 		ActionMessages messages = new ActionMessages();
 
 		HttpSession session = request.getSession();
-
+		
+		if(session.isNew() ){
+			// 
+			return mapping.findForward(ForwardConstants.FORWARD_HOME);
+			
+		}
+		
+		
+		
 		CsmLoginForm csmLoginForm = (CsmLoginForm) form;
+		
+		
 
 		// Obtain CGMMManager from CGMM API.
 		CGMMManager cgmmManager = null;

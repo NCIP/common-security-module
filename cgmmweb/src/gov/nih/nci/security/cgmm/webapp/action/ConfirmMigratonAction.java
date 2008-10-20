@@ -53,6 +53,11 @@ public class ConfirmMigratonAction extends Action
 		HttpSession session = request.getSession();
 		
 	
+		if(session.isNew() ){
+			// 
+			return mapping.findForward(ForwardConstants.FORWARD_HOME);	
+		}
+		
 
 		// Obtain CGMMManager from CGMM API.
 		CGMMManager cgmmManager = null;
