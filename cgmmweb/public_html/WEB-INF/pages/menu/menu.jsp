@@ -17,6 +17,7 @@
   <!--
     	function set(tableId)
     	{
+	    	window.location = "index.jsp";
     		document.menuForm.tableId.value=tableId;
     		document.menuForm.submit();
     	}
