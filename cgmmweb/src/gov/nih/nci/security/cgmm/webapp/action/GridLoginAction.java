@@ -1,8 +1,5 @@
 package gov.nih.nci.security.cgmm.webapp.action;
 
-import gov.nih.nci.security.cgmm.webapp.DisplayConstants;
-import gov.nih.nci.security.cgmm.webapp.ForwardConstants;
-import gov.nih.nci.security.cgmm.webapp.form.GridLoginForm;
 import gov.nih.nci.security.cgmm.CGMMManager;
 import gov.nih.nci.security.cgmm.CGMMManagerImpl;
 import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
@@ -10,10 +7,13 @@ import gov.nih.nci.security.cgmm.exceptions.CGMMException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMMigrationException;
 import gov.nih.nci.security.cgmm.util.CGMMProperties;
 import gov.nih.nci.security.cgmm.util.StringUtils;
-
+import gov.nih.nci.security.cgmm.webapp.DisplayConstants;
+import gov.nih.nci.security.cgmm.webapp.ForwardConstants;
+import gov.nih.nci.security.cgmm.webapp.form.GridLoginForm;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.SortedMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -50,9 +50,36 @@ public class GridLoginAction extends Action
 		@SuppressWarnings("unused")
 		ActionMessages messages = new ActionMessages();
 		HttpSession session = request.getSession();
-		if(session.isNew() ){
-			// 
-			return mapping.findForward(ForwardConstants.FORWARD_HOME);	
+		
+//		 Obtain CGMMManager from CGMM API.
+		CGMMManager cgmmManager = null;
+		try {
+			cgmmManager = new CGMMManagerImpl();
+		} catch (CGMMException e1) {
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e1.getMessage()));			
+			saveErrors( request,errors );
+			return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN);
+		}
+		
+		
+		try{
+			if(session.isNew() || session.getAttributeNames().hasMoreElements()==false){
+				//
+				SortedMap authenticationServiceURLMap =null;
+				try {
+					 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLMap();
+					 
+				} catch (CGMMConfigurationException e) {
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+					saveErrors( request,errors );
+					
+				}
+				session.setAttribute(DisplayConstants.AUTHENTICATION_SERVICE_MAP, authenticationServiceURLMap);
+				return mapping.findForward(ForwardConstants.FORWARD_HOME);
+				
+			}
+		}catch(IllegalStateException e){
+				return mapping.findForward(ForwardConstants.FORWARD_HOME);
 		}
 		
 		String loginWorkflow = null;
@@ -66,15 +93,7 @@ public class GridLoginAction extends Action
 		
 		GridLoginForm gridLoginForm = (GridLoginForm) form;
 
-		// Obtain CGMMManager from CGMM API.
-		CGMMManager cgmmManager = null;
-		try {
-			cgmmManager = new CGMMManagerImpl();
-		} catch (CGMMException e1) {
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e1.getMessage()));			
-			saveErrors( request,errors );
-			return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN);
-		}
+		
 
 		
 			

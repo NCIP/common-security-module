@@ -3,6 +3,7 @@ package gov.nih.nci.security.cgmm.webapp.action;
 import gov.nih.nci.security.cgmm.CGMMManager;
 import gov.nih.nci.security.cgmm.CGMMManagerImpl;
 import gov.nih.nci.security.cgmm.beans.CGMMUser;
+import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.exceptions.CGMMException;
 import gov.nih.nci.security.cgmm.util.CGMMProperties;
 import gov.nih.nci.security.cgmm.util.StringUtils;
@@ -12,6 +13,7 @@ import gov.nih.nci.security.cgmm.webapp.form.NewGridUserForm;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.SortedMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -73,7 +75,25 @@ public class NewGridUserAction extends Action
 			return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
 		}
 		
-		
+		try{
+			if(session.isNew() || session.getAttributeNames().hasMoreElements()==false){
+				//
+				SortedMap authenticationServiceURLMap =null;
+				try {
+					 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLMap();
+					 
+				} catch (CGMMConfigurationException e) {
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+					saveErrors( request,errors );
+					
+				}
+				session.setAttribute(DisplayConstants.AUTHENTICATION_SERVICE_MAP, authenticationServiceURLMap);
+				return mapping.findForward(ForwardConstants.FORWARD_HOME);
+				
+			}
+		}catch(IllegalStateException e){
+				return mapping.findForward(ForwardConstants.FORWARD_HOME);
+		}
 		
 		
 		if(session.getAttribute(DisplayConstants.NEW_USER_CREATION_COMPLETE)!=null){
