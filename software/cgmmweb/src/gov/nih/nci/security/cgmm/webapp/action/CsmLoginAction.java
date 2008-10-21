@@ -13,6 +13,7 @@ import gov.nih.nci.security.cgmm.util.CGMMProperties;
 import gov.nih.nci.security.cgmm.util.StringUtils;
 
 import java.io.IOException;
+import java.util.SortedMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -50,18 +51,8 @@ public class CsmLoginAction extends Action
 
 		HttpSession session = request.getSession();
 		
-		if(session.isNew() ){
-			// 
-			return mapping.findForward(ForwardConstants.FORWARD_HOME);
-			
-		}
-		
-		
-		
 		CsmLoginForm csmLoginForm = (CsmLoginForm) form;
 		
-		
-
 		// Obtain CGMMManager from CGMM API.
 		CGMMManager cgmmManager = null;
 		try {
@@ -71,6 +62,29 @@ public class CsmLoginAction extends Action
 			saveErrors( request,errors );
 			return mapping.findForward(ForwardConstants.FORWARD_CSM_LOGIN);
 		}
+		
+		
+		try{
+			if(session.isNew() || session.getAttributeNames().hasMoreElements()==false){
+				//
+				SortedMap authenticationServiceURLMap =null;
+				try {
+					 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLMap();
+					 
+				} catch (CGMMConfigurationException e) {
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+					saveErrors( request,errors );
+					
+				}
+				session.setAttribute(DisplayConstants.AUTHENTICATION_SERVICE_MAP, authenticationServiceURLMap);
+				return mapping.findForward(ForwardConstants.FORWARD_HOME);
+				
+			}
+		}catch(IllegalStateException e){
+				return mapping.findForward(ForwardConstants.FORWARD_HOME);
+		}
+		
+		
 
 		String loginWorkflow = null;
 		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
