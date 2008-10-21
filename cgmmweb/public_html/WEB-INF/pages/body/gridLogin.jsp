@@ -11,18 +11,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
 
-	String serverPath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort();
-	String hostURL = serverPath + "/"
-			+ session.getAttribute("HOST_APPLICATION_NAME")
-			+ session.getAttribute("HOST_APPLICATION_PUBLIC_HOME_PAGE");
-%>
 <tr>
 	<td width="100%" valign="top">
 		<!-- target of anchor to skip menus -->
@@ -59,15 +48,15 @@
 															<td class="home" colspan="3">
 																<br>
 																<h3>
-																	CSM to GAARDS Account Migration Module (CGMM)
+																	CSM to GAARDS Account Migration
 																</h3>
-																This text introduces the purpose of the tool: to migrate
-																existing local (CSM) and caGrid accounts so they are
-																linked together.
-																<br>
-																Other important infor goes here as well.
-																<br>
-																<br>
+																This screen allows the User to migrate to a GAARDS (caGrid) account.
+																<br><br>
+																If you have a GAARDS (caGrid) account already then login using the caGrid Login ID and Password.
+																<br><br>
+																If you do not have any GAARDS (caGrid) account then proceed to create a new caGrid account by clicking on the 'Create a New caGrid Account' button.
+																After creating a new caGrid account a migration confirmation screen will provide an option to migrate the newly created caGrid account.
+																<br><br>
 															</td>
 														</tr>
 														<tr>
@@ -96,7 +85,7 @@
 																								<tr>
 																									<td align="center" height="20">
 																										<h3>
-																											Login to / Migrate a Grid Account
+																											Migrate a Grid Account
 																										</h3>
 																									</td>
 																								</tr>

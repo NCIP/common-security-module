@@ -11,23 +11,18 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-
-	String serverPath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort();
-	String hostURL = serverPath + "/"
-			+ session.getAttribute("HOST_APPLICATION_NAME")
-			+ session.getAttribute("HOST_APPLICATION_PUBLIC_HOME_PAGE");
-%>
-<bean:define name="<%=DisplayConstants.HOST_APPLICATION_NAME%>"
-	id="hostApplicationName" />
+<logic:present name="<%=DisplayConstants.HOST_APPLICATION_NAME%>">
+	<bean:define name="<%=DisplayConstants.HOST_APPLICATION_NAME%>"id="hostApplicationName" />
+</logic:present>
+<logic:present name="<%=DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE%>">
 <bean:define
-	name="<%=DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE%>"
-	id="hostApplicationPublicHomePage" />
+	name="<%=DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE%>" id="hostApplicationPublicHomePage" />
+</logic:present>
+<logic:present name="<%=DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE%>">
+<bean:define
+	name="<%=DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE%>" id="hostApplicationPublicHomePage" />
+</logic:present>
+
 <tr>
 	<td width="100%" valign="top">
 		<!-- target of anchor to skip menus -->
