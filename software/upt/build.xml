@@ -110,7 +110,7 @@
 			<fileset dir="../common/resources/db/postgresql" />
 			<fileset dir="../common/resources/db/sqlserver" />
 		</copy>
-		<copy todir="${target.dir}" file="${lib.dir}/upt/runtime/clm-4.0.jar" />
+		<copy todir="${target.dir}" file="${lib.dir}/upt/runtime/clm-4.1.jar" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
