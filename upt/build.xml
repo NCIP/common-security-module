@@ -76,9 +76,6 @@
 		<copy todir="${build.dir}">
 			<fileset dir="${web.dir}" />
 		</copy>
-		<copy todir="${build.dir}/WEB-INF/lib">
-			<fileset dir="${lib.dir}/upt/runtime" includes="**/*.jar" />
-		</copy>
 	</target>
 
 	<target name="compile" depends="-pre-clean, -init, ivy-compile" description="Compiles all the files in the project">
@@ -96,6 +93,9 @@
 	</target>
 
 	<target name="war" depends="compile, -post-compile, ivy-runtime" description="Generate upt.war">
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}/upt/runtime" includes="**/*.jar" />
+		</copy>
 		<jar jarfile="${target.dir}/${war.file}" basedir="${build.dir}" />
 	</target>
 
