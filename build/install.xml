@@ -49,7 +49,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
 	<property name="upt.war.file" value="upt.war" />
 	<property name="securityws.dir.dist" value="${basedir}/${securityws.dist.relative.dir}" />
 	<property name="securityws.war.file" value="securityws.war" />
-	<property name="clm.jar.file" value="clm-4.0.jar" />
+	<property name="clm.jar.file" value="clm-4.1.jar" />
 
 	<!-- Paths -->
 	<path id="bda-utils.classpath">
