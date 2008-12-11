@@ -94,6 +94,12 @@
 		<!---<copy file="${src.dir}/hibernate.properties" todir="${classes.dir}" />-->
 		<copy file="${common.resources}/ObjectStateLoggerConfig.xml" todir="${classes.dir}" />
 		<copy file="${src.dir}/ApplicationSecurityConfig.xsd" todir="${classes.dir}" />
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+			
 	</target>
 
 	<target name="jar" depends="compile" description="generate the distribution">
