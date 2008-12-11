@@ -179,7 +179,7 @@ public class HibernateHelper
 			Type type = classMetadata.getPropertyType(property);
 			if (!(type instanceof AssociationType))
 			{
-				map.put((type.getReturnedClass()).getName(),property);
+				map.put(property+"-_-"+(type.getReturnedClass()).getName(),property);
 			}
 		}
 		
