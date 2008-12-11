@@ -383,6 +383,13 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		filterClause.setFilterChain(this.filterChain);
 		filterClause.setTargetClassName(this.targetClassName);
 		filterClause.setTargetClassAttributeName(this.targetClassAttributeName);
+		
+		if(this.targetClassAttributeType!=null || this.targetClassAttributeType.length()!=0){
+			if(this.targetClassAttributeType.indexOf("-_-")>0){
+				int index1 = this.targetClassAttributeType.indexOf("-");
+				this.targetClassAttributeType = this.targetClassAttributeType.substring(index1+3); 
+			}
+		}
 		filterClause.setTargetClassAttributeType(this.targetClassAttributeType);
 		filterClause.setTargetClassAlias(this.targetClassAlias);
 		filterClause.setTargetClassAttributeAlias(this.targetClassAttributeAlias);
