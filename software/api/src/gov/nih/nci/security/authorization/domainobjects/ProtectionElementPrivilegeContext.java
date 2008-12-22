@@ -161,6 +161,12 @@ public class ProtectionElementPrivilegeContext implements Comparable, Serializab
 
 	public boolean equals(Object obj){
 		ProtectionElementPrivilegeContext other = (ProtectionElementPrivilegeContext)obj;
+		if(null==other || null==this){
+			return false;
+		}
+		if(null==other.getProtectionElement() || null==this.getProtectionElement()){
+			return false;
+		}
 		if(this.getProtectionElement().getProtectionElementName().equals(other.getProtectionElement().getProtectionElementName())){
 			return true;
 		}else{
@@ -179,7 +185,8 @@ public class ProtectionElementPrivilegeContext implements Comparable, Serializab
 	public int hashCode(){
 		
 		int intNumber = 57 * 5;
-		intNumber = intNumber + ( (null==protectionElement.getProtectionElementId()?0:protectionElement.getProtectionElementId().intValue())  );
+		
+		intNumber = intNumber + ( (null==protectionElement?0:protectionElement.getProtectionElementId().intValue())  );
 		return intNumber;
 	}
 
