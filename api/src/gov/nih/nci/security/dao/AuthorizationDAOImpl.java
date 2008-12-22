@@ -1847,8 +1847,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				//Group group = (Group) this.getObjectByPrimaryKey(session, Group.class, new Long(groupId));
 				//groups.add(group);
 			}
+			
+			
+			
 			resultSet.close();
 			preparedStatement.close();
+			
+			for (int i = 0; i < groupIds.size(); i++) {
+				Group group = (Group) this.getObjectByPrimaryKey(session, Group.class, new Long(groupIds.get(i).toString()));
+				groups.add(group);
+			}
 			
 		}
 		catch (Exception e) {
@@ -1868,10 +1876,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		
 		
-		for (int i = 0; i < groupIds.size(); i++) {
-			Group group = (Group) this.getObjectByPrimaryKey(session, Group.class, new Long(groupIds.get(i).toString()));
-			groups.add(group);
-		}
+		
 		
 		return groups;
 	}
