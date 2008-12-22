@@ -27,8 +27,14 @@
    <formset>
 
   	<form name="LoginForm">
- 		<field property="loginId" depends="required">
-  			<arg0 key="LoginForm.loginId.displayLabel"/>
+ 		<field property="loginId" depends="required,mask">
+			<msg name="mask" key="errors.special.characters"/>  			
+			<arg0 key="LoginForm.loginId.displayLabel"/>
+			<var>
+  				<var-name>mask</var-name>
+  				<var-value>^[0-9a-zA-Z/_]*$</var-value>
+  			</var>
+			
   		</field>
   		<field property="password" depends="required" >
   			<arg0 key="LoginForm.password.displayLabel"/>
@@ -243,52 +249,82 @@
 	</form>
 
     <form name="UserForm">
-		<field property="userLoginName" depends="required,maxlength">
+		<field property="userLoginName" depends="required,maxlength,mask">
+  			<msg name="mask" key="errors.special.characters"/>
   			<arg0 key="UserForm.userLoginName.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
   				<var-name>maxlength</var-name>
   				<var-value>100</var-value>
   			</var>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>^[0-9a-zA-Z/_]*$</var-value>
+  			</var>
   		</field>
-		<field property="userFirstName" depends="required,maxlength">
-  			<arg0 key="UserForm.userFirstName.displayLabel"/>
+		<field property="userFirstName" depends="required,maxlength,mask">
+			<msg name="mask" key="errors.special.characters"/>  			
+			<arg0 key="UserForm.userFirstName.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
   				<var-name>maxlength</var-name>
   				<var-value>100</var-value>
   			</var>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>^[0-9a-zA-Z/_]*$</var-value>
+  			</var>
   		</field>
-		<field property="userLastName" depends="required,maxlength">
-  			<arg0 key="UserForm.userLastName.displayLabel"/>
+		<field property="userLastName" depends="required,maxlength,mask">
+			<msg name="mask" key="errors.special.characters"/>   			
+			<arg0 key="UserForm.userLastName.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
   				<var-name>maxlength</var-name>
   				<var-value>100</var-value>
   			</var>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>^[0-9a-zA-Z/_]*$</var-value>
+  			</var>
   		</field>
-		<field property="userOrganization" depends="maxlength">
+		<field property="userOrganization" depends="maxlength,mask">
+  			<msg name="mask" key="errors.special.characters"/> 
   			<arg0 key="UserForm.userOrganization.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
   				<var-name>maxlength</var-name>
   				<var-value>100</var-value>
   			</var>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>^[0-9a-zA-Z/_]*$</var-value>
+  			</var>
   		</field>
-		<field property="userDepartment" depends="maxlength">
+		<field property="userDepartment" depends="maxlength,mask">
+  			<msg name="mask" key="errors.special.characters"/> 
   			<arg0 key="UserForm.userDepartment.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
   				<var-name>maxlength</var-name>
   				<var-value>100</var-value>
   			</var>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>^[0-9a-zA-Z/_]*$</var-value>
+  			</var>
   		</field>
-		<field property="userTitle" depends="maxlength">
+		<field property="userTitle" depends="maxlength,mask">
+  			<msg name="mask" key="errors.special.characters"/> 
   			<arg0 key="UserForm.userTitle.displayLabel"/>
   			<arg1 name="maxlength" key="${var:maxlength}" resource="false"/>
   			<var>
   				<var-name>maxlength</var-name>
   				<var-value>100</var-value>
+  			</var>
+  			<var>
+  				<var-name>mask</var-name>
+  				<var-value>^[0-9a-zA-Z/_]*$</var-value>
   			</var>
   		</field>
 		<field property="userPhoneNumber" depends="mask">
