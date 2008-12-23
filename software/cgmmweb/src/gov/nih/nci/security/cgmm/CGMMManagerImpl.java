@@ -33,7 +33,7 @@ public class CGMMManagerImpl implements CGMMManager {
 	
 	static final Logger log = Logger.getLogger(CGMMManagerImpl.class.getName());
 	
-	private static final Logger auditLog = Logger.getLogger("CGMM.Audit.Logging.Event.Authentication");
+	private static final Logger auditLog = Logger.getLogger("CGMM.Audit.Logging");
 	private CSMAuthHelper csmAuthHelper;
 
 	private GridAuthHelper gridAuthHelper;
