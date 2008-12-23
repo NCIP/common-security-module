@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -45,7 +46,7 @@ public class NewGridUserAction extends Action
 	 */
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
-
+		final Logger log = Logger.getLogger(NewGridUserAction.class);
 		ActionErrors errors = new ActionErrors();
 		@SuppressWarnings("unused")
 		ActionMessages messages = new ActionMessages();
@@ -57,6 +58,8 @@ public class NewGridUserAction extends Action
 		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
 		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
 			// No Workflow selected.
+			if (log.isDebugEnabled())
+				log.debug("NewGridUserAction|execute|Failure| No workflow selected. Forwarding to Home page");
 			//Forward to Home page.
 			return mapping.findForward(ForwardConstants.FORWARD_HOME);
 		}
@@ -70,6 +73,8 @@ public class NewGridUserAction extends Action
 		try {
 			cgmmManager = new CGMMManagerImpl();
 		} catch (CGMMException e1) {
+			if (log.isDebugEnabled())
+				log.debug("NewGridUserAction|execute|Failure| "+e1.getMessage());
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e1.getMessage()));			
 			saveErrors( request,errors );
 			return mapping.findForward(ForwardConstants.FORWARD_NEW_GRID_USER);
@@ -83,6 +88,8 @@ public class NewGridUserAction extends Action
 					 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLMap();
 					 
 				} catch (CGMMConfigurationException e) {
+					if (log.isDebugEnabled())
+						log.debug("NewGridUserAction|execute|Failure| "+e.getMessage());
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 					saveErrors( request,errors );
 					
@@ -125,9 +132,13 @@ public class NewGridUserAction extends Action
 					try {
 						rd.forward(request, response);
 					} catch (ServletException e) {
+						if (log.isDebugEnabled())
+							log.debug("NewGridUserAction|execute|Failure| "+e.getMessage());
 						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 						saveErrors( request,errors );
 					} catch (IOException e) {
+						if (log.isDebugEnabled())
+							log.debug("NewGridUserAction|execute|Failure| "+e.getMessage());
 						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 						saveErrors( request,errors );
 					}
@@ -154,6 +165,8 @@ public class NewGridUserAction extends Action
 							session.setAttribute(DisplayConstants.CURRENT_FORM, newGridUserForm);
 							session.setAttribute(DisplayConstants.POPULATED_FORM, "YES");
 						}catch(CGMMException e){
+							if (log.isDebugEnabled())
+								log.debug("NewGridUserAction|execute|Failure| "+e.getMessage());
 							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 							saveErrors( request,errors );
 							return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN);
@@ -176,6 +189,8 @@ public class NewGridUserAction extends Action
 					try {
 						cgmmManager.createDorianAccount(cgmmUser , CGMMProperties.getAuthenticationServiceInformationList().get(0).getDorianInformation().getDorianServiceURL());
 					} catch (CGMMException e) {
+						if (log.isDebugEnabled())
+							log.debug("NewGridUserAction|execute|Failure| "+e.getMessage());
 						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));
 						saveErrors( request,errors );
 					}
@@ -239,10 +254,14 @@ public class NewGridUserAction extends Action
 								
 							//}
 						}else{
+							if (log.isDebugEnabled())
+								log.debug("NewGridUserAction|execute|Failure| "+DisplayConstants.EXCEPTION_INVALID_CREDENTIALS);
 							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_INVALID_CREDENTIALS));
 							saveErrors( request,errors );
 						}
 					}  catch (Exception e) {
+						if (log.isDebugEnabled())
+							log.debug("NewGridUserAction|execute|Failure| "+e.getMessage());
 						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 						saveErrors( request,errors );
 					}

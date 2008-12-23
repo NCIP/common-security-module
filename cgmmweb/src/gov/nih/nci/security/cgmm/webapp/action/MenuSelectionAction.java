@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -28,6 +29,9 @@ public class MenuSelectionAction extends Action
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
+		
+		final Logger log = Logger.getLogger(MenuSelectionAction.class);
+		
 		ActionErrors errors = new ActionErrors();
 		
 		HttpSession session = request.getSession();
@@ -55,6 +59,8 @@ public class MenuSelectionAction extends Action
 		try {
 			cgmmManager = new CGMMManagerImpl();
 		} catch (CGMMConfigurationException e) {
+			if (log.isDebugEnabled())
+				log.debug("MenuSelectionAction|execute|Failure||"+e.getMessage());
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 			saveErrors( request,errors );
 		}
@@ -64,6 +70,8 @@ public class MenuSelectionAction extends Action
 			 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLMap();
 			 
 		} catch (CGMMConfigurationException e) {
+			if (log.isDebugEnabled())
+				log.debug("MenuSelectionAction|execute|Failure||"+e.getMessage());
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 			saveErrors( request,errors );
 			
