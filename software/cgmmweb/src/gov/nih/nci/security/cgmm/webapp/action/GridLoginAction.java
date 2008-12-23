@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -45,6 +46,7 @@ public class GridLoginAction extends Action
 	 */
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
+		final Logger log = Logger.getLogger(GridLoginAction.class);
 
 		ActionErrors errors = new ActionErrors();
 		@SuppressWarnings("unused")
@@ -56,6 +58,8 @@ public class GridLoginAction extends Action
 		try {
 			cgmmManager = new CGMMManagerImpl();
 		} catch (CGMMException e1) {
+			if (log.isDebugEnabled())
+				log.debug("GridLoginAction|execute|Failure||"+e1.getMessage());
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e1.getMessage()));			
 			saveErrors( request,errors );
 			return mapping.findForward(ForwardConstants.FORWARD_GRID_LOGIN);
@@ -70,6 +74,8 @@ public class GridLoginAction extends Action
 					 authenticationServiceURLMap =  cgmmManager.getAuthenticationServiceURLMap();
 					 
 				} catch (CGMMConfigurationException e) {
+					if (log.isDebugEnabled())
+						log.debug("GridLoginAction|execute|Failure| Unable to obtain AuthenticationService URL Map|"+e.getMessage());
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 					saveErrors( request,errors );
 					
@@ -79,6 +85,8 @@ public class GridLoginAction extends Action
 				
 			}
 		}catch(IllegalStateException e){
+			if (log.isDebugEnabled())
+				log.debug("GridLoginAction|execute|Failure| IllegalStateException |"+e.getMessage());
 				return mapping.findForward(ForwardConstants.FORWARD_HOME);
 		}
 		
@@ -158,25 +166,31 @@ public class GridLoginAction extends Action
 						saveErrors( request,errors );*/
 					}
 					
-					
 					if(migrated){
+						if (log.isDebugEnabled())
+							log.debug("GridLoginAction|execute|Failure| "+DisplayConstants.EXCEPTION_GRID_USER_ALREADY_ASSOCIATED);
 						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_GRID_USER_ALREADY_ASSOCIATED));
 						saveErrors( request,errors );
 					}else{
 							
 						// CSM Workflow - Grid Authentication complete
 						//session.setAttribute(DisplayConstants.GRID_WORKFLOW_MIGRATION_COMPLETE, DisplayConstants.GRID_WORKFLOW_MIGRATION_COMPLETE);
-						
+						if (log.isDebugEnabled())
+							log.debug("GridLoginAction|execute|Success| Migration succes. Forwarding to Migration Confirmation Page");
 						//Show Confirm Migration Page
 						return mapping.findForward(ForwardConstants.FORWARD_CONFIRM_MIGRATION);
 					}
 						
 				}else{
 					//show authentication failure error message on gridlogin page.
+					if (log.isDebugEnabled())
+						log.debug("GridLoginAction|execute|Failure| "+DisplayConstants.EXCEPTION_INVALID_CREDENTIALS);
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_INVALID_CREDENTIALS));
 					saveErrors( request,errors );
 				}
 			} catch (CGMMException e) {
+				if (log.isDebugEnabled())
+					log.debug("GridLoginAction|execute|Failure| "+e.getMessage());
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 				saveErrors( request,errors );
 			} 
@@ -230,6 +244,9 @@ public class GridLoginAction extends Action
 						String hostAppContextName = CGMMProperties.getHostApplicationInformation().getHostContextName();
 						String hostUserHomePageURL = CGMMProperties.getHostApplicationInformation().getHostUserHomePageURL();
 						if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostUserHomePageURL)){
+							if (log.isDebugEnabled())
+								log.debug("GridLoginAction|execute|Failure|"+DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO);
+								
 							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
 							saveErrors( request,errors );
 						}else{
@@ -238,9 +255,13 @@ public class GridLoginAction extends Action
 							try {
 								rd.forward(request, response);
 							} catch (ServletException e) {
+								if (log.isDebugEnabled())
+									log.debug("GridLoginAction|execute|Failure|"+e.getMessage());
 								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 								saveErrors( request,errors );
 							} catch (IOException e) {
+								if (log.isDebugEnabled())
+									log.debug("GridLoginAction|execute|Failure|"+e.getMessage());
 								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 								saveErrors( request,errors );
 							}
@@ -251,10 +272,14 @@ public class GridLoginAction extends Action
 						return mapping.findForward(ForwardConstants.FORWARD_CSM_LOGIN);
 					}
 				}else{
+					if (log.isDebugEnabled())
+						log.debug("GridLoginAction|execute|Failure|"+DisplayConstants.EXCEPTION_INVALID_CREDENTIALS);
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_INVALID_CREDENTIALS));			
 					saveErrors( request,errors );
 				}
 			} catch (CGMMException e) {
+				if (log.isDebugEnabled())
+					log.debug("GridLoginAction|execute|Failure|"+e.getMessage());
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 				saveErrors( request,errors );
 			} 

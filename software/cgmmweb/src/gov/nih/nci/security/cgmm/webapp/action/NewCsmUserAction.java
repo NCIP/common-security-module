@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -35,6 +36,8 @@ public class NewCsmUserAction extends Action
 	 */
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
+		final Logger log = Logger.getLogger(NewCsmUserAction.class);
+
 		ActionErrors errors = new ActionErrors();
 		HttpSession session = request.getSession();
 		
@@ -42,6 +45,8 @@ public class NewCsmUserAction extends Action
 		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
 		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
 			// No Workflow selected.
+			if (log.isDebugEnabled())
+				log.debug("NewCsmUserAction|execute|Failure| No workflow selected. Forwarding to Home page");
 			return mapping.findForward(ForwardConstants.FORWARD_HOME);
 		}
 				
@@ -64,6 +69,8 @@ public class NewCsmUserAction extends Action
 			String hostAppContextName = CGMMProperties.getHostApplicationInformation().getHostContextName();
 			
 			if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostAppNewCSMUserPageURL)){
+				if (log.isDebugEnabled())
+					log.debug("NewCsmUserAction|execute|Failure||"+DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO);
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
 				saveErrors( request,errors );
 			}else{
@@ -72,9 +79,13 @@ public class NewCsmUserAction extends Action
 				try {
 					rd.forward(request, response);
 				} catch (ServletException e) {
+					if (log.isDebugEnabled())
+						log.debug("NewCsmUserAction|execute|Failure||"+e.getMessage());
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 					saveErrors( request,errors );
 				} catch (IOException e) {
+					if (log.isDebugEnabled())
+						log.debug("NewCsmUserAction|execute|Failure||"+e.getMessage());
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
 					saveErrors( request,errors );
 				}
