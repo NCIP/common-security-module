@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="upt40"
+  id="myeclipse.1191345280743"
+  context-root="/upt40"
+  j2ee-spec="1.4"
+  archive="upt40.war">
+  <attributes>
+    <attribute name="webrootdir" value="/webapp/public_html" />
+  </attributes>
+</project-module>
+

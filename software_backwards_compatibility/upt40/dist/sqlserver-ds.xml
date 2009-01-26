@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id$ -->
+<!-- ==================================================================== -->
+<!--  Datasource config for SQLServer                                     -->
+<!-- ==================================================================== -->
+
+
+<datasources>
+  <local-tx-datasource>
+    <jndi-name><<application_context_name></jndi-name>
+    <connection-url><<database_url></connection-url>
+    <user-name><<database_user_id>></user-name>
+    <password><<database_user_password>></password>
+    <driver-class>net.sourceforge.jtds.jdbc.Driver</driver-class>
+  </local-tx-datasource>
+</datasources>

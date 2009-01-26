@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enterprise-project
+  version="1.0.0"
+  name="uptEAR"
+  id="myeclipse.1232955375531"
+  j2ee-spec="1.4"
+  archive="uptEAR.ear">
+  <project-modules />
+</enterprise-project>
+
