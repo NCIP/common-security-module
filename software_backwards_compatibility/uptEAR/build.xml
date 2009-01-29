@@ -65,7 +65,7 @@
 		<javac srcdir="${src.home41}" destdir="${build.home41}/WEB-INF/classes" debug="true" deprecation="true">
 			<classpath>
 				<fileset dir="${lib.home41}" includes="*.jar" />
-				<fileset dir="${otherlib.home41}" includes="*.jar" />
+				<!--<fileset dir="${otherlib.home41}" includes="*.jar" />-->
 			</classpath>
 		</javac>
 		<copy todir="${build.home41}/WEB-INF/classes">
@@ -322,7 +322,7 @@
 		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true">
 			<classpath>
 				<fileset dir="${lib.home}" includes="*.jar" />
-				<fileset dir="${otherlib.home}" includes="*.jar" />
+				<!--<fileset dir="${otherlib.home}" includes="*.jar" />-->
 			</classpath>
 		</javac>
 		<copy todir="${build.home}/WEB-INF/classes">
