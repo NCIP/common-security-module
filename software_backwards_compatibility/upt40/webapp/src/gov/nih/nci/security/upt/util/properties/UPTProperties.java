@@ -42,17 +42,17 @@ public class UPTProperties
 				if(f!=null){
 					
 					if(!f.exists()){
-						throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
+						throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
 					}
 					
 					url = f.toURL();
 				}
 	
 			} catch (MalformedURLException e) {
-				throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
+				throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
 			}
 		}
-		if(url==null) throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
+		if(url==null) throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_PROPERTY_FILE);
 
 		
 		this.propertiesFile = fileHelper.validateXMLwithSchema(url, schemaFileName);
@@ -146,7 +146,7 @@ public class UPTProperties
 	private void validateUPTProperties() throws UPTConfigurationException {
 
 		BackwardsCompatibilityInformation bci = this.backwardsCompatibilityInformation;
-		if(StringUtils.isBlank(bci.getLoginApplicationContextName())) throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_0);
+		if(StringUtils.isBlank(bci.getLoginApplicationContextName())) throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_UPT_LOGIN_APPLICATION_CONTEXT_NAME_INFORMATION);
 
 		
 		// Validate UPT Applications list information
@@ -154,13 +154,13 @@ public class UPTProperties
 		Iterator<UPTApplication> it = aList.iterator();
 		while(it.hasNext()){
 			UPTApplication a = (UPTApplication)it.next();
-			if(a==null)  throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_0);
-			if(StringUtils.isBlank(a.getContextName())) throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_1);
-			if(StringUtils.isBlank(a.getContextNameURL())) throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_2);
-			if(a.getAuthorizationInformation()==null) throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_DORIAN_INFORMATION_0);
+			if(a==null)  throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_UPT_APPLICATION_INFORMATION_0);
+			if(StringUtils.isBlank(a.getContextName())) throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_UPT_APPLICATION_CONTEXT_NAME_INFORMATION);
+			if(StringUtils.isBlank(a.getContextNameURL())) throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_UPT_APPLICATION_CONTEXT_URL_INFORMATION);
+			if(a.getAuthorizationInformation()==null) throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_UPT_APPLICATION_AUTHORIZATION_INFORMATION);
 			AuthorizationInformation ai= a.getAuthorizationInformation();
-			if(StringUtils.isBlank(ai.getAuthorizationProviderClass())) throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_DORIAN_INFORMATION_1);
-			if(StringUtils.isBlank(ai.getHibernateConfigFile())) throw new UPTConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_DORIAN_INFORMATION_1);
+			if(StringUtils.isBlank(ai.getAuthorizationProviderClass())) throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_AUTHORIZATION_PROVIDER_CLASS_INFORMATION);
+			if(StringUtils.isBlank(ai.getHibernateConfigFile())) throw new UPTConfigurationException(DisplayConstants.EXCEPTION_CONFIGURATION_AUTHORIZATION_PROVIDER_CLASS_INFORMATION);
 		}
 		
 	}
