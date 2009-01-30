@@ -2,15 +2,15 @@
 	<description>UPT Project Build File</description>
 
 	<target name="init" >
-		<property name="app.name"				value="upt" />
+		<property name="app.name"				value="upt32" />
 		<property name="app.path"				value="/${app.name}" />
-		<property name="src.home"				value="${basedir}/upt/webapp/src" />
-		<property name="web.home"				value="${basedir}/upt/webapp/public_html" />
+		<property name="src.home"				value="${basedir}/upt32/webapp/src" />
+		<property name="web.home"				value="${basedir}/upt32/webapp/public_html" />
 		<property name="webinf.home"			value="${web.home}/WEB-INF" />
 		<property name="lib.home"				value="${webinf.home}/lib" />
-		<property name="otherlib.home"			value="${basedir}/upt/otherlib" />
-		<property name="build.home"				value="${basedir}/upt/build" />
-		<property name="dist.home"				value="${basedir}/upt/dist" />
+		<property name="otherlib.home"			value="${basedir}/upt32/otherlib" />
+		<property name="build.home"				value="${basedir}/upt32/build" />
+		<property name="dist.home"				value="${basedir}/upt32/dist" />
 		<property name="classes.home"			value="${webinf.home}/classes" />
 		<property name="war.file"				value="${dist.home}/${app.name}.war" />
 	</target>
@@ -77,7 +77,7 @@
 
 	<target name="dist" depends="init,compile" description="Creates war file">
 		<copy todir="${dist.home}">
-			<fileset dir="${basedir}/upt/resources">
+			<fileset dir="${basedir}/upt32/resources">
 				<exclude name="ObjectStateLoggerConfig.xml" />
 			</fileset>
 		</copy>
