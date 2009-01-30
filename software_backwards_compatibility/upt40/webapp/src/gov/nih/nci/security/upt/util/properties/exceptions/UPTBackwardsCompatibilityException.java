@@ -1,4 +1,4 @@
-package gov.nih.nci.security.loginapp.util.properties.exceptions;
+package gov.nih.nci.security.upt.util.properties.exceptions;
 
 
 /**
