@@ -174,6 +174,25 @@ public class DisplayConstants
 	public static byte ZERO = 0;
 
 
+	public static final String LOGIN_ID = "LOGIN_ID";
+	public static final String APPLICATION_CONTEXT= "APPLICATION_CONTEXT";
+	public static final String UPT_CONTEXT_NAME = "csmupt32";
+	public static final String UPT_AUTHENTICATION_CONTEXT_NAME = "csmupt";
+	public static final String LOGIN_APPLICATION_CONTEXT_NAME = "uptlogin";
+	
+	public static final String EXCEPTION_CSMUPT_CONFIGURATION_DETAILS_LOGIN_APPLICATION_CONTEXT ="Login Application Context Name is invalid in CSM UPT configuration file.";
 
+	public static final String EXCEPTION_CONFIGURATION_UPT_APPLICATION_AUTHORIZATION_INFORMATION="UPT Application Authorization Information unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_AUTHORIZATION_PROVIDER_CLASS_INFORMATION="UPT Application Authorization Provider Class unavailable. ";
+
+	
+	public static final String EXCEPTION_CONFIGURATION_UPT_APPLICATION_INFORMATION_0="UPT Application information unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_UPT_APPLICATION_CONTEXT_NAME_INFORMATION="UPT Application Context Name unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_UPT_APPLICATION_CONTEXT_URL_INFORMATION="UPT Application Context URL unavailable. "; 
+
+	public static final String EXCEPTION_CONFIGURATION_UPT_LOGIN_APPLICATION_CONTEXT_NAME_INFORMATION="UPT Login Application Context Name unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_PROPERTY_FILE = "The UPT Properties File does not exist. Verify path configuration.";
+	
+	
 	
 }
