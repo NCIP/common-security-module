@@ -25,5 +25,11 @@
       <context-root>/upt32</context-root>
     </web>        
   </module>
+  <module >
+     <web>
+      <web-uri>upt31.war</web-uri>
+      <context-root>/upt31</context-root>
+    </web>        
+  </module>
 </application>
 
