@@ -164,7 +164,7 @@ public class LogoutAction extends Action
 		request.removeAttribute(DisplayConstants.CURRENT_FORM);
 		request.removeAttribute(DisplayConstants.SEARCH_RESULT);
 
-		String serverInfoPathPort = "http://" + request.getServerName() + ":"+ request.getServerPort();
+		String serverInfoPathPort = (request.isSecure()?"https://":"http://") + request.getServerName() + ":"+ request.getServerPort();
 
 		ObjectFactory.initialize("upt-beans.xml");
 		UPTProperties uptProperties = null;

@@ -152,7 +152,7 @@ public class LoginAction extends Action
 		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
 				|| StringUtils.isBlank(loginForm.getPassword())){
 			
-			String serverInfoPathPort = "http://"+ request.getServerName()+ ":"+ request.getServerPort();
+			String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
 			ObjectFactory.initialize("upt-beans.xml");
 			UPTProperties uptProperties = null;
 			String urlContextForLoginApp = "";
