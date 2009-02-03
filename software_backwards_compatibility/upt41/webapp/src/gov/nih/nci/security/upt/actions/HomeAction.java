@@ -174,7 +174,7 @@ public class HomeAction extends Action
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null) || (session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER) == null)) {
 			
 			
-			String serverInfoPathPort = "http://" + request.getServerName() + ":"
+			String serverInfoPathPort = (request.isSecure()?"https://":"http://") + request.getServerName() + ":"
 			+ request.getServerPort();
 
 			ObjectFactory.initialize("upt-beans.xml");
