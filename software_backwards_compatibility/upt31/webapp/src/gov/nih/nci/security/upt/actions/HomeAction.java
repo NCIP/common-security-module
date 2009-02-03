@@ -95,9 +95,15 @@ package gov.nih.nci.security.upt.actions;
  */
 
 
+import gov.nih.nci.security.SecurityServiceProvider;
+import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.util.properties.StringUtils;
+import gov.nih.nci.security.upt.util.properties.ObjectFactory;
+import gov.nih.nci.security.upt.util.properties.UPTProperties;
+import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -125,10 +131,61 @@ public class HomeAction extends Action
 			throws Exception 
 	{
 		HttpSession session = request.getSession();
-		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
-			if (log.isDebugEnabled())
-				log.debug("||||Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		if(request.getAttribute(DisplayConstants.LOGIN_ID)!=null && 
+				request.getAttribute(DisplayConstants.APPLICATION_CONTEXT)!=null ){
+			
+			LoginForm form2 = new LoginForm() ;
+			form2.setApplicationContextName((String)request.getAttribute(DisplayConstants.APPLICATION_CONTEXT));
+			form2.setLoginId((String)request.getAttribute(DisplayConstants.LOGIN_ID));
+			
+			session.setAttribute(DisplayConstants.LOGIN_OBJECT,form2);
+		}
+		if(request.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER)!=null ){
+			// Remove from Request.
+			// Get a local copy here if needed.
+			// Set in Session.
+			UserProvisioningManager upm = null;
+			try{
+				upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager("csmupt41");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER,upm);
+		}
+		if(request.getAttribute(DisplayConstants.ADMIN_USER)!=null ){
+			session.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
+		}
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null) || (session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER) == null)) {
+			
+			
+			String serverInfoPathPort = (request.isSecure()?"https://":"http://") + request.getServerName() + ":"
+			+ request.getServerPort();
+
+			ObjectFactory.initialize("upt-beans.xml");
+			UPTProperties uptProperties = null;
+			String urlContextForLoginApp = "";
+			try {
+				uptProperties = (UPTProperties) ObjectFactory.getObject("UPTProperties");
+				urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
+				if (!gov.nih.nci.security.upt.util.properties.StringUtils.isBlank(urlContextForLoginApp)) {
+					serverInfoPathPort = serverInfoPathPort + "/"+ urlContextForLoginApp+"/";
+				} else {
+					serverInfoPathPort = serverInfoPathPort + "/"
+						+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+				}
+		
+			} catch (UPTConfigurationException e) {
+				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+			}
+
+
+			ActionForward newActionForward = new ActionForward() ;
+			newActionForward.setPath(serverInfoPathPort);
+			newActionForward.setRedirect(true);
+		
+
+			return newActionForward;
+
 		}
 		/*
 		 * clear the junk in the session here

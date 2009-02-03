@@ -95,14 +95,17 @@ package gov.nih.nci.security.upt.actions;
  */
 
 
-import java.io.File;
-
 import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
-import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.util.properties.ObjectFactory;
+import gov.nih.nci.security.upt.util.properties.StringUtils;
+import gov.nih.nci.security.upt.util.properties.UPTProperties;
+import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
+
+import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -139,7 +142,7 @@ public class LogoutAction extends Action
 		
 		try
 		{
-			uptContextName = getUPTContextName();
+			uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 			AuthenticationManager authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);
 			authenticationManager.logout(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId());
 		}
@@ -160,9 +163,40 @@ public class LogoutAction extends Action
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 		
-		session.invalidate();
-		
-		return (mapping.findForward(ForwardConstants.LOGOUT_SUCCESS));
+		request.removeAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		request.removeAttribute(DisplayConstants.LOGIN_OBJECT);
+		request.removeAttribute(DisplayConstants.CURRENT_TABLE_ID);
+		request.removeAttribute(DisplayConstants.CURRENT_ACTION);
+		request.removeAttribute(DisplayConstants.CURRENT_FORM);
+		request.removeAttribute(DisplayConstants.SEARCH_RESULT);
+
+		String serverInfoPathPort = (request.isSecure()?"https://":"http://") + request.getServerName() + ":"+ request.getServerPort();
+
+		ObjectFactory.initialize("upt-beans.xml");
+		UPTProperties uptProperties = null;
+		String urlContextForLoginApp = "";
+		try {
+			uptProperties = (UPTProperties) ObjectFactory.getObject("UPTProperties");
+			urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
+			if (!StringUtils.isBlank(urlContextForLoginApp)) {
+				serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
+			} else {
+				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+			}
+			
+		} catch (UPTConfigurationException e) {
+			serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+
+		}
+
+
+		ActionForward newActionForward = new ActionForward();
+		newActionForward.setPath(serverInfoPathPort);
+		newActionForward.setRedirect(true);
+
+		return newActionForward;
+
+
 	}
 	
 	private static String getUPTContextName() throws Exception

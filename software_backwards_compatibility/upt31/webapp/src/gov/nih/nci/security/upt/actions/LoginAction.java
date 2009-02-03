@@ -104,6 +104,11 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.util.properties.ObjectFactory;
+import gov.nih.nci.security.upt.util.properties.StringUtils;
+import gov.nih.nci.security.upt.util.properties.UPTProperties;
+import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
+
 
 import java.io.File;
 
@@ -144,6 +149,37 @@ public class LoginAction extends Action
 		String uptContextName = null;
 		
 		LoginForm loginForm = (LoginForm)form;
+		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
+				|| StringUtils.isBlank(loginForm.getPassword())){
+			
+			String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
+			ObjectFactory.initialize("upt-beans.xml");
+			UPTProperties uptProperties = null;
+			String urlContextForLoginApp = "";
+			try {
+				uptProperties = (UPTProperties) ObjectFactory
+						.getObject("UPTProperties");
+				urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
+				if (!StringUtils.isBlank(urlContextForLoginApp)) {
+					serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
+				} else {
+					serverInfoPathPort = serverInfoPathPort + "/"
+							+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+				}
+				
+			} catch (UPTConfigurationException e) {
+				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+
+			}
+
+		
+			ActionForward newActionForward = new ActionForward();
+			newActionForward.setPath(serverInfoPathPort);
+			newActionForward.setRedirect(true);
+
+			return newActionForward;
+		}
+		
 		UserInfoHelper.setUserInfo(loginForm.getLoginId(), request.getSession().getId());
 		errors.clear();
 		try
