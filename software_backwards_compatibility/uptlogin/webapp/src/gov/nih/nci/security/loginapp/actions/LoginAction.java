@@ -168,7 +168,7 @@ public class LoginAction extends Action
 		Iterator listIterator = lista.iterator();
 		
 		
-			String[] currentUptContextNames = { "csmupt41","csmupt40","csmupt32"};
+			//String[] currentUptContextNames = { "csmupt41","csmupt40","csmupt32"};
 			
 			boolean authorizationSuccess = false;
 			for(int i=0;i<lista.size(); i++){
@@ -178,7 +178,7 @@ public class LoginAction extends Action
 				
 				
 				boolean isLastContext = ((i+1)==lista.size()?true:false);
-				String currentUptContextName = currentUptContextNames[i];
+				String currentUptContextName = null;//currentUptContextNames[i];
 				
 				UPTApplication ua = (UPTApplication) listIterator.next();
 				currentUptContextName = ua.getContextName();
@@ -287,7 +287,7 @@ public class LoginAction extends Action
 		authorizationManager = null;
 		
 		request.setAttribute("LOGIN_OBJECT",loginForm);
-		request.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER,userProvisioningManager);
+		//request.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER,userProvisioningManager);
 		
 		request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
 		
