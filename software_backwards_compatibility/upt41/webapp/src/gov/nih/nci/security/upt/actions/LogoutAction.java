@@ -128,7 +128,7 @@ public class LogoutAction extends Action {
 		
 		HttpSession session = request.getSession();
 		String uptContextName = "";
-		System.out.println("test logout action");
+	
 		
 		UserInfoHelper.setUserInfo(((LoginForm) session
 				.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(),session.getId());
