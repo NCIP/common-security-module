@@ -100,11 +100,11 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
-import gov.nih.nci.security.util.StringUtilities;
 import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.util.properties.ObjectFactory;
 import gov.nih.nci.security.upt.util.properties.UPTProperties;
 import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
+import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
 import java.io.IOException;
@@ -152,7 +152,8 @@ public class LoginAction extends Action
 		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
 				|| StringUtils.isBlank(loginForm.getPassword())){
 			
-			String serverInfoPathPort = "http://"+ request.getServerName()+ ":"+ request.getServerPort();
+			System.out.println(request.getRequestURI());
+			String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
 			ObjectFactory.initialize("upt-beans.xml");
 			UPTProperties uptProperties = null;
 			String urlContextForLoginApp = "";
