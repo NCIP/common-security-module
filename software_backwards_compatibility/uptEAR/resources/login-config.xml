@@ -1,0 +1,57 @@
+<?xml version='1.0'?>
+<!DOCTYPE policy PUBLIC
+      "-//JBoss//DTD JBOSS Security Config 3.0//EN"
+      "http://www.jboss.org/j2ee/dtd/security_config.dtd">
+
+
+
+   <application-policy name = "csmupt">
+	<authentication>
+	  <login-module code = "gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag = "sufficient">
+   	    <module-option name="driver">org.gjt.mm.mysql.Driver</module-option>
+	    <module-option name="url">jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_3_1</module-option>
+	    <module-option name="user">root</module-option>
+	    <module-option name="passwd">admin</module-option>
+	    <module-option name="query">SELECT * FROM csm_user WHERE login_name=? and password=?</module-option>
+	    <module-option name="encryption-enabled">YES</module-option>
+	   </login-module>
+	  <login-module code = "gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag = "sufficient">
+   	    <module-option name="driver">org.gjt.mm.mysql.Driver</module-option>
+	    <module-option name="url">jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_3_2</module-option>
+	    <module-option name="user">root</module-option>
+	    <module-option name="passwd">admin</module-option>
+	    <module-option name="query">SELECT * FROM csm_user WHERE login_name=? and password=?</module-option>
+	    <module-option name="encryption-enabled">YES</module-option>
+	   </login-module>
+	  <login-module code = "gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag = "sufficient">
+   	    <module-option name="driver">org.gjt.mm.mysql.Driver</module-option>
+	    <module-option name="url">jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_4_0</module-option>
+	    <module-option name="user">root</module-option>
+	    <module-option name="passwd">admin</module-option>
+	    <module-option name="query">SELECT * FROM csm_user WHERE login_name=? and password=?</module-option>
+	    <module-option name="encryption-enabled">YES</module-option>
+	   </login-module>
+	  <login-module code = "gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag = "sufficient">
+   	    <module-option name="driver">org.gjt.mm.mysql.Driver</module-option>
+	    <module-option name="url">jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_4_1</module-option>
+	    <module-option name="user">root</module-option>
+	    <module-option name="passwd">admin</module-option>
+	    <module-option name="query">SELECT * FROM csm_user WHERE login_name=? and password=?</module-option>
+	    <module-option name="encryption-enabled">YES</module-option>
+	   </login-module>
+       <login-module code = "gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag = "sufficient">
+   	    <module-option name="driver">org.gjt.mm.mysql.Driver</module-option>
+	    <module-option name="url">jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_4_1_orig</module-option>
+	    <module-option name="user">root</module-option>
+	    <module-option name="passwd">admin</module-option>
+	    <module-option name="query">SELECT * FROM csm_user WHERE login_name=? and password=?</module-option>
+	    <module-option name="encryption-enabled">YES</module-option>
+	   </login-module>
+
+	  </authentication>
+	</application-policy>
+
+
+  
+
+</policy>

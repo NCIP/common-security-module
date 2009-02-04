@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id: mysql-ds.xml,v 1.1 2002/07/22 22:57:24 d_jencks Exp $ -->
+<!-- ==================================================================== -->
+<!--  Datasource config for MySQL using 2.0.11 driver                     -->
+<!-- ==================================================================== -->
+
+
+
+<datasources>
+  <local-tx-datasource>
+    <jndi-name>csmupt31</jndi-name>
+    <driver-class>org.gjt.mm.mysql.Driver</driver-class>
+    <connection-url>jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_3_1</connection-url>
+    <user-name>root</user-name>
+    <password>admin</password>
+  </local-tx-datasource>
+  <local-tx-datasource>
+    <jndi-name>csmupt32</jndi-name>
+    <driver-class>org.gjt.mm.mysql.Driver</driver-class>
+    <connection-url>jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_3_2</connection-url>
+    <user-name>root</user-name>
+    <password>admin</password>
+  </local-tx-datasource>
+  <local-tx-datasource>
+    <jndi-name>csmupt40</jndi-name>
+    <driver-class>org.gjt.mm.mysql.Driver</driver-class>
+    <connection-url>jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_4_0</connection-url>
+    <user-name>root</user-name>
+    <password>admin</password>
+  </local-tx-datasource>
+  <local-tx-datasource>
+    <jndi-name>csmupt41</jndi-name>
+    <driver-class>org.gjt.mm.mysql.Driver</driver-class>
+	<connection-url>jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_4_1</connection-url>
+    <user-name>root</user-name>
+    <password>admin</password>
+  </local-tx-datasource>
+  <local-tx-datasource>
+    <jndi-name>csmupt</jndi-name>
+    <driver-class>org.gjt.mm.mysql.Driver</driver-class>
+	<connection-url>jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_4_1_orig</connection-url>
+    <user-name>root</user-name>
+    <password>admin</password>
+  </local-tx-datasource>
+</datasources>
