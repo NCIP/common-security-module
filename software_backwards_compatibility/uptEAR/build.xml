@@ -479,6 +479,6 @@
 
 	</target>
 
-	<target name="all" depends="dist41,dist40,dist32,dist,dist31,buildEar,cleanup41,cleanup40,cleanup32,cleanup,cleanup31" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+	<target name="all" depends="clean41,clean40,clean32,clean,clean31,dist41,dist40,dist32,dist,dist31,buildEar,cleanup41,cleanup40,cleanup32,cleanup,cleanup31" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
 </project>
