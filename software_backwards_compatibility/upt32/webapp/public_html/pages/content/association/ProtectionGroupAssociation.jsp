@@ -22,11 +22,11 @@
 			}
 		}
     
-    	function opennewwin()
+    	function opennewwin(appContext)
     	{
     		newwin = window.open("about:blank", "PESearchWindow", "left=100,top=190,scrollbars=1,width=790,height=400");
     		newwin.document.open();
-    		newwin.document.writeln('<form name="ProtectionElementForm" method="post" action="/upt/SearchProtectionElementDBOperation.do" id="ProtectionElementForm">');
+    		newwin.document.writeln('<form name="ProtectionElementForm" method="post" action="/'+appContext+'/SearchProtectionElementDBOperation.do" id="ProtectionElementForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
     		newwin.document.writeln('</form>');
     		newwin.document.close();
@@ -204,7 +204,21 @@
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						<td><input type="button" value="Assign PE" style="width:75px;" onclick="closepopup();opennewwin();"></td>
+						<td>
+							<script>
+
+							var tempURL = window.location+"";			
+
+
+							var url_array= tempURL.split("/");
+							var contextTemp = url_array[3]+"";
+							var temp = contextTemp.toLowerCase();
+
+							document.write('<input type="button" value="Assign Admin" style="width:92px;" onclick="closepopup();opennewwin(contextTemp);">');
+
+						
+						</script>
+						</td>
 						<td><input type="button" value="Deassign" style="width:92px;" onclick="selSwitch(this);"></td>
 						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
