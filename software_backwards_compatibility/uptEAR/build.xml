@@ -279,7 +279,7 @@
 		<property name="war.file" value="${dist.home}/${app.name}.war" />
 	</target>
 
-	<target name="clean" depends="init" description="Delete the Build and Dist directories">
+	<target name="cleanLogin" depends="init" description="Delete the Build and Dist directories">
 		<delete dir="${build.home}" />
 		<delete dir="${dist.home}" />
 	</target>
@@ -335,7 +335,7 @@
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/ObjectStateLoggerConfig.xml" />
 	</target>
 
-	<target name="dist" depends="init,compile" description="Creates war file">
+	<target name="distLogin" depends="init,compile" description="Creates war file">
 		<copy todir="${dist.home}">
 			<fileset dir="${basedir}/uptlogin/resources">
 				<exclude name="ObjectStateLoggerConfig.xml" />
@@ -345,7 +345,7 @@
 		<!--<copy todir="${dist.home}" file="${lib.home}/clm.jar"  />-->
 	</target>
 
-	<target name="cleanup" depends="dist" description="Delete the Build directory">
+	<target name="cleanupLogin" depends="distLogin" description="Delete the Build directory">
 		<delete dir="${build.home}" />
 	</target>
 
@@ -436,7 +436,7 @@
 			</fileset>
 		</copy>
 		<jar jarfile="${war.file31}" basedir="${build.home31}" />
-		<copy todir="${dist.home31}" file="${lib.home31}/clm.jar" />
+		<!--<copy todir="${dist.home31}" file="${lib.home31}/clm.jar" />-->
 	</target>
 
 	<target name="cleanup31" depends="dist31" description="Delete the Build directory">
@@ -479,6 +479,9 @@
 
 	</target>
 
-	<target name="all" depends="clean41,clean40,clean32,clean,clean31,dist41,dist40,dist32,dist,dist31,buildEar,cleanup41,cleanup40,cleanup32,cleanup,cleanup31" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+	<target name="clean" depends="clean41,clean40,clean32,cleanLogin,clean31" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+
+
+	<target name="all" depends="clean41,clean40,clean32,cleanLogin,clean31,dist41,dist40,dist32,distLogin,dist31,buildEar,cleanup41,cleanup40,cleanup32,cleanupLogin,cleanup31" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
 </project>
