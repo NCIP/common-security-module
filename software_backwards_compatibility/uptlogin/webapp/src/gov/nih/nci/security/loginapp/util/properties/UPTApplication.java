@@ -1,8 +1,10 @@
 package gov.nih.nci.security.loginapp.util.properties;
 
+
+
 import java.io.Serializable;
 
-public class UPTApplication implements Serializable
+public class UPTApplication implements Serializable,Comparable
 {
 
 	private static final long serialVersionUID = 1L;
@@ -23,9 +25,10 @@ public class UPTApplication implements Serializable
 	@Override
 	public boolean equals(Object arg0)
 	{
-		if (arg0 instanceof UPTApplication)
+		
+		if (arg0 instanceof UPTApplication && arg0!=null)
 		{
-			if (this.contextNameURL.equals(((UPTApplication)arg0).getContextNameURL()))
+			if (this.contextName.equals(((UPTApplication)arg0).getContextName()))
 				return true;
 		}
 		return false;
@@ -56,4 +59,18 @@ public class UPTApplication implements Serializable
 		this.contextNameURL = contextNameURL;
 	}
 
+	public int compareTo(Object arg0) {
+		UPTApplication a = (UPTApplication) arg0;	
+		if(null==this || null==arg0){
+			return 0;
+		}
+		return this.getContextName().compareToIgnoreCase(a.getContextName());
+	}
+
+	
+
+
+
+	
+	
 }
