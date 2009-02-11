@@ -21,6 +21,7 @@ import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -165,6 +166,9 @@ public class LoginAction extends Action
 		}
 		
 		List<UPTApplication> lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
+		Collections.sort(lista);
+		Collections.reverse(lista);
+		
 		Iterator listIterator = lista.iterator();
 		
 		
