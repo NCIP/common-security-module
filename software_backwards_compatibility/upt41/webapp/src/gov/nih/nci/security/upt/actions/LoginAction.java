@@ -361,7 +361,7 @@ public class LoginAction extends Action
 		authenticationManager = null;
 		authorizationManager = null;
 		
-		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
+		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(DisplayConstants.UPT_CONTEXT_NAME))
 		{
 			session.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
 			if (log.isDebugEnabled())
