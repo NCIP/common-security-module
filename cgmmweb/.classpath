@@ -85,7 +85,25 @@
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/wss4j.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/xmldsig-1.0.jar"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/xmlsec-1.4.0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/csm_api"/>
 	<classpathentry kind="lib" path="public_html/WEB-INF/lib/csmapi-4.1.beta.jar"/>
+	<classpathentry kind="lib" path="otherlib/catalina.jar"/>
+	<classpathentry kind="lib" path="otherlib/catalina-manager.jar"/>
+	<classpathentry kind="lib" path="otherlib/catalina-optional.jar"/>
+	<classpathentry kind="lib" path="otherlib/commons-el.jar"/>
+	<classpathentry kind="lib" path="otherlib/commons-modeler.jar"/>
+	<classpathentry kind="lib" path="otherlib/jasper-compiler.jar"/>
+	<classpathentry kind="lib" path="otherlib/jasper-compiler-jdt.jar"/>
+	<classpathentry kind="lib" path="otherlib/jasper-runtime.jar"/>
+	<classpathentry kind="lib" path="otherlib/jbosssx.jar"/>
+	<classpathentry kind="lib" path="otherlib/naming-resources.jar"/>
+	<classpathentry kind="lib" path="otherlib/servlets-default.jar"/>
+	<classpathentry kind="lib" path="otherlib/servlets-invoker.jar"/>
+	<classpathentry kind="lib" path="otherlib/servlets-webdav.jar"/>
+	<classpathentry kind="lib" path="otherlib/tomcat55-service.jar"/>
+	<classpathentry kind="lib" path="otherlib/tomcat-ajp.jar"/>
+	<classpathentry kind="lib" path="otherlib/tomcat-apr.jar"/>
+	<classpathentry kind="lib" path="otherlib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="otherlib/tomcat-http.jar"/>
+	<classpathentry kind="lib" path="otherlib/tomcat-util.jar"/>
 	<classpathentry kind="output" path="public_html/WEB-INF/classes"/>
 </classpath>
