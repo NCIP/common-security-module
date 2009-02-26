@@ -8,6 +8,7 @@
 		<property name="web.home"				value="${basedir}/public_html" />
 		<property name="webinf.home"			value="${web.home}/WEB-INF" />
 		<property name="lib.home"				value="${webinf.home}/lib" />
+		<property name="otherlib.home"			value="${basedir}/otherlib" />
 		<property name="build.home"				value="${basedir}/build" />
 		<property name="dist.home"				value="${basedir}/dist" />
 		<property name="classes.home"			value="${build.home}/WEB-INF/classes" />
@@ -31,6 +32,8 @@
 		<mkdir dir="${build.home}/WEB-INF/classes" />
 
 		<mkdir dir="${dist.home}" />
+		<mkdir dir="${dist.home}/jbossweb-tomcat55-sar-jars" />
+		
 	</target>
 
 
@@ -54,14 +57,17 @@
 
 	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
 		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true" >
+			
 			<classpath>
 				<fileset dir="${lib.home}" includes="*.jar" />
+				<fileset dir="${otherlib.home}" includes="*.jar" />
 			</classpath>
 		</javac>
 		<copy todir="${build.home}/WEB-INF/classes" >
 			<fileset dir="${src.home}" excludes="**/*.java" />
 		</copy>
 	</target>
+		
 
 	<target name="createJars" depends="compile" description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war">
 		
@@ -69,6 +75,7 @@
 			<fileset dir="${classes.home}">
 				<exclude name="**/webapp/**/*"/>
 				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
+
 			</fileset>
 			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
 			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>			
@@ -77,6 +84,7 @@
 			<fileset dir="${classes.home}">
 				<exclude name="**/webapp/**/*"/>	
 				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
+				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class"/>
 			</fileset>
 			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
 			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>
@@ -85,7 +93,16 @@
 		<jar jarfile="${dist.home}/cgmmfilter.jar">
 			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class"/>
 		</jar>
-
+	<!--	<jar jarfile="${dist.home}/cgmm-cagrid-form-authenticator-0.6.jar">	
+			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class"/>
+			<fileset dir="${src.home}"  includes="gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.java"/>			
+		</jar>
+-->
+		<jar jarfile="${dist.home}/nullpasswordstackingloginmodule.jar">	
+			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/loginmodules/NullPasswordStackingLoginModule.class"/>
+			<fileset dir="${src.home}"  includes="gov/nih/nci/security/cgmm/loginmodules/NullPasswordStackingLoginModule.java"/>
+		</jar>
+	
 		
 		<jar jarfile="${dist.home}/cgmmweb.war">
 			<fileset dir="${build.home}">
@@ -110,7 +127,15 @@
 			<fileset dir="${basedir}/resources">
 				<excludesfile name="${basedir}/resources/cgmm-beans.xml"/>
 			</fileset>
+			
 		</copy>
+		<copy todir="${dist.home}/jbossweb-tomcat55-sar-jars">
+			<fileset dir="${basedir}/resources/jbossweb-tomcat55-sar-jars">
+
+			</fileset>
+			
+		</copy>
+
 		<delete quiet="true" file="${dist.home}/cgmm-beans.xml" />		
 	</target>
 
