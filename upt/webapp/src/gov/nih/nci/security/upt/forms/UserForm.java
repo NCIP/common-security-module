@@ -138,6 +138,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	
 	private String userId;
 	private String userLoginName;
+	
+	private String userPreMigratedLogin;
 	private String userFirstName;
 	private String userLastName;
 	private String userOrganization;
@@ -155,7 +157,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	private String[] roleAssociatedIds;
 	private String[] protectionGroupAssociatedIds;
 	private String protectionGroupAssociatedId;
-	
+	private String userMigratedFlag;
 
 	/**
 	 * @return Returns the userDepartment.
@@ -383,10 +385,18 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	}
 	
 	
+	public String getUserMigratedFlag() {
+		return userMigratedFlag;
+	}
+	public void setUserMigratedFlag(String userMigratedFlag) {
+		this.userMigratedFlag = userMigratedFlag;
+	}
+	
 	public void resetForm()
 	{
 		this.userId = "";
 		this.userLoginName = "";
+		this.userPreMigratedLogin = "";
 		this.userFirstName = "";
 		this.userLastName = "";
 		this.userOrganization = "";
@@ -403,11 +413,13 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.protectionGroupAssociatedId = "";		
 		this.protectionGroupAssociatedIds = null;
 		this.roleAssociatedIds = null;
+		this.userMigratedFlag = DisplayConstants.NO;
 	}
 	
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
 		this.userLoginName = "";
+		this.userPreMigratedLogin = "";
 		this.userFirstName = "";
 		this.userLastName = "";
 		this.userOrganization = "";
@@ -420,7 +432,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.userStartDate = "";
 		this.userEndDate = "";
 		this.associatedIds = null;
-		this.roleAssociatedIds = null;	
+		this.roleAssociatedIds = null;
+		this.userMigratedFlag = DisplayConstants.NO;
 	}
 
 	public ArrayList getAddFormElements()
@@ -439,6 +452,9 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		formElementList.add(new FormElement("User Email Id", "userEmailId", getUserEmailId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+
+		formElementList.add(new FormElement("User Pre-Migrated Login", "userPreMigratedLogin", getUserPreMigratedLogin(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
+		formElementList.add(new FormElement("User Migrated Flag", "userMigratedFlag", getUserMigratedFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		
 		return formElementList;	
 	}
@@ -448,6 +464,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		ArrayList formElementList = new ArrayList();
 	
 		formElementList.add(new FormElement("User Login Name", "userLoginName", StringUtils.initString(getUserLoginName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED, DisplayConstants.READONLY));
+		
+		
 		formElementList.add(new FormElement("User First Name", "userFirstName", StringUtils.initString(getUserFirstName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Last Name", "userLastName", StringUtils.initString(getUserLastName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Organization", "userOrganization",StringUtils.initString(getUserOrganization()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
@@ -460,6 +478,12 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Update Date", "userUpdateDate", getUserUpdateDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
+
+		if(getUserMigratedFlag().equalsIgnoreCase(DisplayConstants.YES))
+			formElementList.add(new FormElement("User Pre Migrated Login", "userPreMigratedLogin", StringUtils.initString(getUserPreMigratedLogin()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED, DisplayConstants.READONLY));
+		else
+			formElementList.add(new FormElement("User Pre Migrated Login", "userPreMigratedLogin", StringUtils.initString(getUserPreMigratedLogin()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("User Migrated Flag", "userMigratedFlag", StringUtils.initString(getUserMigratedFlag()), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED, DisplayConstants.READONLY));
 		
 		return formElementList;	
 	}
@@ -486,6 +510,9 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		User user = userProvisioningManager.getUserById(this.userId);
 		
 		this.userLoginName = user.getLoginName();
+		if (user.getMigratedFlag() == DisplayConstants.ONE) this.userMigratedFlag= DisplayConstants.YES;
+		else this.userMigratedFlag = DisplayConstants.NO;
+		this.userPreMigratedLogin= user.getPreMigrationLoginName();
 		this.userFirstName = user.getFirstName();
 		this.userLastName = user.getLastName();
 		this.userOrganization = user.getOrganization();
@@ -503,6 +530,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 			this.userEndDate = simpleDateFormat.format(user.getEndDate());
 		if (user.getUpdateDate() != null)
 			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());
+		
+		
 	}
 	
 	/* (non-Javadoc)
@@ -522,6 +551,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		user.setLoginName(this.getUserLoginName());
 		user.setFirstName(this.getUserFirstName());
 		user.setLastName(this.getUserLastName());
+		user.setPreMigrationLoginName(this.getUserPreMigratedLogin());
 		user.setOrganization(this.getUserOrganization());
 		user.setDepartment(this.getUserDepartment());
 		user.setTitle(this.getUserTitle());
@@ -535,6 +565,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		if (this.userEndDate != null && !this.userEndDate.equalsIgnoreCase(""))
 			user.setEndDate(simpleDateFormat.parse(this.getUserEndDate()));
 
+		if (this.userMigratedFlag.equals(DisplayConstants.YES)) user.setMigratedFlag(DisplayConstants.ONE);
+		else user.setMigratedFlag(DisplayConstants.ZERO);
 		
 		if ((this.userId == null) || ((this.userId).equalsIgnoreCase("")))
 		{
@@ -547,6 +579,9 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 			userProvisioningManager.modifyUser(user);
 			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());			
 		}
+		
+		
+		
 		
 	}
 	/* (non-Javadoc)
@@ -568,6 +603,9 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		
 		if (this.userLoginName != null && !(this.userLoginName.trim().equalsIgnoreCase("")))
 			user.setLoginName(this.userLoginName);
+		
+		if (this.userPreMigratedLogin!= null && !(this.userPreMigratedLogin.trim().equalsIgnoreCase("")))
+			user.setPreMigrationLoginName(this.userPreMigratedLogin);
 		if (this.userFirstName != null && !(this.userFirstName.trim().equalsIgnoreCase("")))
 			user.setFirstName(this.userFirstName);
 		if (this.userLastName != null && !(this.userLastName.trim().equalsIgnoreCase("")))
@@ -578,6 +616,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 			user.setDepartment(this.userDepartment);
 		if (this.userEmailId != null && !(this.userEmailId.trim().equalsIgnoreCase("")))
 			user.setEmailId(this.userEmailId);
+		if (user.getMigratedFlag() == DisplayConstants.ONE) this.userMigratedFlag= DisplayConstants.YES;
+		else this.userMigratedFlag = DisplayConstants.NO;
 		
 		SearchCriteria searchCriteria = new UserSearchCriteria(user);
 		List list = userProvisioningManager.getObjects(searchCriteria);
@@ -776,4 +816,12 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		}
 		return errors;
 	}
+	public String getUserPreMigratedLogin() {
+		return userPreMigratedLogin;
+	}
+	public void setUserPreMigratedLogin(String userPreMigratedLogin) {
+		this.userPreMigratedLogin = userPreMigratedLogin;
+	}
+	
+	
 }
