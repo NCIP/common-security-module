@@ -88,7 +88,7 @@
 				<xs:element ref="host-mail-email-subject" minOccurs="0" maxOccurs="1"/>		
 				<xs:element ref="host-application-logo-url" minOccurs="0" maxOccurs="1"/>		
 				<xs:element ref="host-application-logo-alt-text" minOccurs="0" maxOccurs="1"/>		
-						
+			
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -214,7 +214,7 @@
 				This element OPTIONAL allows specifying the Subject of the emails sent by CGMM to request new accounts.	
 			</xs:documentation>
 		</xs:annotation></xs:element>
-	<xs:element name="host-application-log0o-url" type="xs:string">
+	<xs:element name="host-application-logo-url" type="xs:string">
 		<xs:annotation>
 			<xs:documentation>
 				This element OPTIONAL allows specifying URL for the Application Header Logo.	
