@@ -158,10 +158,21 @@ public class CGMMProperties
 		cgmmInfo.setStartAutoSyncGTS(this.getStartAutoSyncGTS(cgmmInformationElement));
 		cgmmInfo.setCgmmNewGridUserCreationDisabled(this.getCgmmNewGridUserCreationDisabled(cgmmInformationElement));
 		cgmmInfo.setCgmmNewGridUserCreationHostRedirectURI(this.getCgmmNewGridUserCreationHostRedirectURI(cgmmInformationElement));
-
+		cgmmInfo.setCgmmAlternateBehavior(this.getCgmmAlternateBehavior(cgmmInformationElement));
+		cgmmInfo.setCgmmStandaloneMode(this.getCgmmStandaloneMode(cgmmInformationElement));
 		return cgmmInfo;
 	}
 	
+	private String getCgmmStandaloneMode(Element cgmmInformationElement) {
+		Element element = cgmmInformationElement.getChild("cgmm-standalone-mode");
+		return element.getText().trim();
+	}
+
+	private String getCgmmAlternateBehavior(Element cgmmInformationElement) {
+		Element element = cgmmInformationElement.getChild("cgmm-alternate-behavior");
+		return element.getText().trim();
+	}
+
 	private String getCgmmNewGridUserCreationHostRedirectURI(Element cgmmInformationElement) {
 		Element element = cgmmInformationElement.getChild("cgmm-new-grid-user-creation-host-redirect-uri");
 		return element.getText().trim();
@@ -197,16 +208,57 @@ public class CGMMProperties
 		
 		hostAppInfo.setHostContextName(this.getHostContextName(hostApplicationInformationElement));
 		hostAppInfo.setHostApplicationName(this.getHostApplicationName(hostApplicationInformationElement));
-		hostAppInfo.setHostNewLocalUserCreationURL(this.gsetHostNewLocalUserCreationURL(hostApplicationInformationElement));
+		hostAppInfo.setHostNewLocalUserCreationURL(this.getHostNewLocalUserCreationURL(hostApplicationInformationElement));
+		hostAppInfo.setHostUserLoginPageURL(this.gethostUserLoginPageURL(hostApplicationInformationElement));
 		hostAppInfo.setHostPublicHomePageURL(this.gethostPublicHomePageURL(hostApplicationInformationElement));
 		hostAppInfo.setHostUserHomePageURL(this.gethostUserHomePageURL(hostApplicationInformationElement));
+		hostAppInfo.setHostMailJNDIName(this.gethostMailJNDIName(hostApplicationInformationElement));
+		hostAppInfo.setHostMailEmailIdTo(this.gethostMailEmailIdTo(hostApplicationInformationElement));
+		hostAppInfo.setHostMailEmailIdFrom(this.gethostMailEmailIdFrom(hostApplicationInformationElement));
+		hostAppInfo.setHostMailEmailSubject(this.gethostMailEmailSubject(hostApplicationInformationElement));
+		hostAppInfo.setHostApplicationLogoURL(this.gethostApplicationLogoURL(hostApplicationInformationElement));
+		hostAppInfo.setHostApplicationLogoAltText(this.gethostApplicationLogoAltText(hostApplicationInformationElement));
 		
 		return hostAppInfo;
+	}
+
+	private String gethostApplicationLogoAltText(Element hostApplicationInformationElement) {
+		Element contextName = hostApplicationInformationElement.getChild("host-application-logo-alt-text");
+		return contextName.getText().trim();	}
+
+	private String gethostApplicationLogoURL(Element hostApplicationInformationElement) {
+		Element contextName = hostApplicationInformationElement.getChild("host-application-logo-url");
+		return contextName.getText().trim();
+	}
+
+	private String gethostMailEmailSubject(Element hostApplicationInformationElement) {
+		Element contextName = hostApplicationInformationElement.getChild("host-mail-email-subject");
+		return contextName.getText().trim();
+	}
+
+	private String gethostMailEmailIdFrom(Element hostApplicationInformationElement) {
+		Element contextName = hostApplicationInformationElement.getChild("host-mail-email-id-from");
+		return contextName.getText().trim();
+	}
+
+	private String gethostMailEmailIdTo(Element hostApplicationInformationElement) {
+		Element contextName = hostApplicationInformationElement.getChild("host-mail-email-id-to");
+		return contextName.getText().trim();
+	}
+
+	private String gethostMailJNDIName(Element hostApplicationInformationElement) {
+		Element contextName = hostApplicationInformationElement.getChild("host-mail-jndi-name");
+		return contextName.getText().trim();
 	}
 
 	private String gethostPublicHomePageURL(Element hostApplicationInformationElement) {
 		Element contextName = hostApplicationInformationElement.getChild("host-public-home-page-url");
 		return contextName.getText().trim();
+	}
+	
+	private String gethostUserLoginPageURL(Element hostApplicationInformationElement) {
+		Element hostUserLoginPageURL = hostApplicationInformationElement.getChild("host-user-login-page-url");
+		return hostUserLoginPageURL.getText().trim();
 	}
 
 	private String gethostUserHomePageURL(Element hostApplicationInformationElement) {
@@ -215,7 +267,7 @@ public class CGMMProperties
 	}
 
 
-	private String gsetHostNewLocalUserCreationURL(Element hostApplicationInformationElement) {
+	private String getHostNewLocalUserCreationURL(Element hostApplicationInformationElement) {
 		Element contextName = hostApplicationInformationElement.getChild("host-new-local-user-creation-url");
 		return contextName.getText().trim();
 	}
@@ -239,9 +291,11 @@ public class CGMMProperties
 		if(StringUtils.isBlankOrNull(cinf.getCgmmLoginConfigFileName())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_1);
 		if(StringUtils.isBlankOrNull(cinf.getStartAutoSyncGTS())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_2);
 		if(StringUtils.isBlankOrNull(cinf.getCgmmNewGridUserCreationDisabled())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_3);
-		else if ("true".equalsIgnoreCase(cinf.getCgmmNewGridUserCreationDisabled())){
-				if(StringUtils.isBlankOrNull(cinf.getCgmmNewGridUserCreationHostRedirectURI())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_4);
+		else if (CGMMConstants.TRUE.equalsIgnoreCase(cinf.getCgmmNewGridUserCreationDisabled())){
+			if(StringUtils.isBlankOrNull(cinf.getCgmmNewGridUserCreationHostRedirectURI())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_4);
 		}
+		if(StringUtils.isBlankOrNull(cinf.getCgmmAlternateBehavior())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_5);
+		if(StringUtils.isBlankOrNull(cinf.getCgmmStandaloneMode())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_CGMM_INFORMATION_6);
 		
 
 		
@@ -251,7 +305,13 @@ public class CGMMProperties
 		if(StringUtils.isBlankOrNull(hinf.getHostContextName())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_0);
 		if(StringUtils.isBlankOrNull(hinf.getHostNewLocalUserCreationURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_1);
 		if(StringUtils.isBlankOrNull(hinf.getHostPublicHomePageURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_2);
-		if(StringUtils.isBlankOrNull(hinf.getHostUserHomePageURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_3);
+		//if(StringUtils.isBlankOrNull(hinf.getHostUserHomePageURL())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_3);
+		if("true".equalsIgnoreCase(cinf.getCgmmAlternateBehavior())){
+			if(StringUtils.isBlankOrNull(hinf.getHostMailJNDIName())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_4);
+			if(StringUtils.isBlankOrNull(hinf.getHostMailEmailIdTo())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_5);
+			if(StringUtils.isBlankOrNull(hinf.getHostMailEmailIdFrom())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_6);
+			if(StringUtils.isBlankOrNull(hinf.getHostMailEmailSubject())) throw new CGMMConfigurationException(CGMMMessages.EXCEPTION_CONFIGURATION_HOST_INFORMATION_7);
+		}
 		
 		// Validate Authentication service list information
 		List<AuthenticationServiceInformation> aList = this.authenticationServiceInformationList;

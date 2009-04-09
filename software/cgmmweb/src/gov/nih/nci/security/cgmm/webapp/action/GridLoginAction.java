@@ -243,27 +243,60 @@ public class GridLoginAction extends Action
 						//Forward request to the Host Application URL.
 						String hostAppContextName = CGMMProperties.getHostApplicationInformation().getHostContextName();
 						String hostUserHomePageURL = CGMMProperties.getHostApplicationInformation().getHostUserHomePageURL();
-						if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostUserHomePageURL)){
-							if (log.isDebugEnabled())
-								log.debug("GridLoginAction|execute|Failure|"+DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO);
-								
-							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
-							saveErrors( request,errors );
+						boolean isAlternateBehavior = false;
+						String temp = CGMMProperties.getCGMMInformation().getCgmmAlternateBehavior();
+						if(!StringUtils.isBlankOrNull(temp) && "true".equalsIgnoreCase(temp)){
+							// Alternate Behavior for CGMM. Use Redirection instead of RD.forward().
+							isAlternateBehavior = true;
+						}
+						
+						if(isAlternateBehavior){
+							if(StringUtils.isBlankOrNull(hostAppContextName)){
+								if (log.isDebugEnabled())
+									log.debug("GridLoginAction||Failure| "+ DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO);
+								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
+								saveErrors( request,errors );
+							}else{
+								try {
+									String redirectURL = "/"+hostAppContextName;
+									String hostUserLoginPageURL = CGMMProperties.getHostApplicationInformation().getHostUserLoginPageURL();
+									
+									if(!StringUtils.isBlankOrNull(hostUserLoginPageURL)){
+										redirectURL = redirectURL + hostUserLoginPageURL;
+									}
+									
+									response.sendRedirect(redirectURL);
+								} catch (IOException e) {
+									if (log.isDebugEnabled())
+										log.debug("GridLoginAction|execute|Failure||"+e.getMessage());
+									errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+									saveErrors( request,errors );
+								}
+							}
 						}else{
-							ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+hostAppContextName);
-							RequestDispatcher rd = sc.getRequestDispatcher(hostUserHomePageURL);
-							try {
-								rd.forward(request, response);
-							} catch (ServletException e) {
+						
+							if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostUserHomePageURL)){
 								if (log.isDebugEnabled())
-									log.debug("GridLoginAction|execute|Failure|"+e.getMessage());
-								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+									log.debug("GridLoginAction|execute|Failure|"+DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO);
+									
+								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
 								saveErrors( request,errors );
-							} catch (IOException e) {
-								if (log.isDebugEnabled())
-									log.debug("GridLoginAction|execute|Failure|"+e.getMessage());
-								errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
-								saveErrors( request,errors );
+							}else{
+								ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+hostAppContextName);
+								RequestDispatcher rd = sc.getRequestDispatcher(hostUserHomePageURL);
+								try {
+									rd.forward(request, response);
+								} catch (ServletException e) {
+									if (log.isDebugEnabled())
+										log.debug("GridLoginAction|execute|Failure|"+e.getMessage());
+									errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+									saveErrors( request,errors );
+								} catch (IOException e) {
+									if (log.isDebugEnabled())
+										log.debug("GridLoginAction|execute|Failure|"+e.getMessage());
+									errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+									saveErrors( request,errors );
+								}
 							}
 						}
 						

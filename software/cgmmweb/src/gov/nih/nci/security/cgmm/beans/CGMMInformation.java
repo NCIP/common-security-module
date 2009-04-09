@@ -11,6 +11,8 @@ public class CGMMInformation implements Serializable
 	private String cgmmLoginConfigFileName = null;
 	private String cgmmNewGridUserCreationDisabled= null;
 	private String cgmmNewGridUserCreationHostRedirectURI = null;
+	private String cgmmAlternateBehavior = null;
+	private String cgmmStandaloneMode= null;
 	
 	
 	public String getStartAutoSyncGTS()
@@ -60,6 +62,22 @@ public class CGMMInformation implements Serializable
 
 	public void setCgmmLoginConfigFileName(String cgmmLoginConfigFileName) {
 		this.cgmmLoginConfigFileName = cgmmLoginConfigFileName;
+	}
+
+	public String getCgmmAlternateBehavior() {
+		return cgmmAlternateBehavior;
+	}
+
+	public void setCgmmAlternateBehavior(String cgmmAlternateBehavior) {
+		this.cgmmAlternateBehavior = cgmmAlternateBehavior;
+	}
+
+	public String getCgmmStandaloneMode() {
+		return cgmmStandaloneMode;
+	}
+
+	public void setCgmmStandaloneMode(String cgmmStandaloneMode) {
+		this.cgmmStandaloneMode = cgmmStandaloneMode;
 	}
 
 	

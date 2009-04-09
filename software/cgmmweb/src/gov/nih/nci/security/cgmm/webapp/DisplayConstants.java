@@ -3,9 +3,17 @@ package gov.nih.nci.security.cgmm.webapp;
 
 public class DisplayConstants
 {
+	public static final String STANDALONE_MODE = "STANDALONE_MODE";
+	public static final String ALTERNATE_BEHAVIOR = "ALTERNATE_BEHAVIOR";
 	
+	public static final String TOEMAIL = "TOEMAIL";
 	public static final String HOST_APPLICATION_NAME = "HOST_APPLICATION_NAME";
 	public static final String HOST_APPLICATION_PUBLIC_HOME_PAGE = "HOST_APPLICATION_PUBLIC_HOME_PAGE";
+	public static final String HOST_APPLICATION_USER_LOGIN_PAGE = "HOST_APPLICATION_USER_LOGIN_PAGE";
+	public static final String HOST_APPLICATION_LOGO_URL = "HOST_APPLICATION_LOGO_URL";
+	public static final String HOST_APPLICATION_LOGO_ALT_TEXT = "HOST_APPLICATION_LOGO_ALT_TEXT";
+	
+	
 	public static final String GRID_PROXY = "GRID_PROXY";
 	public static final String GRID_PROXY_ID = "GRID_PROXY_ID";
 	public static final String CGMM_EMAIL_ID = "CGMM_EMAIL_ID";

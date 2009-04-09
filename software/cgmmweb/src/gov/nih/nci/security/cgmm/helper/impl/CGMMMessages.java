@@ -44,6 +44,9 @@ public class CGMMMessages {
 	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_2="Start Auto Synch GTS value flag value is invalid or unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_3="CGMM New Grid User Creation Disabled flag value is invalid or unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_4="CGMM New Grid User Creation Disabled Redirect URL is invalid or unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_5="CGMM Alternate Behavior value flag value is invalid or unavailable. Permissible values are 'true' or 'false'";
+	public static final String EXCEPTION_CONFIGURATION_CGMM_INFORMATION_6="CGMM Standalone Mode value flag value is invalid or unavailable. Permissible values are 'true' or 'false'";
+	
 	
 
 	public static final String EXCEPTION_CONFIGURATION_PROPERTY_FILE = "The CGMM Properties File does not exist. Verify path configuration.";
@@ -54,6 +57,11 @@ public class CGMMMessages {
 	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_1="Host New Local User Creation URL unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_2="Host Public Home Page URL unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_3="Host User Home Page URL unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_4="Host Mail JNDI Name unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_5="Host Mail Email ID -TO- unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_6="Host Mail Email ID -FROM- unavailable. ";
+	public static final String EXCEPTION_CONFIGURATION_HOST_INFORMATION_7="Host Mail Email Subject unavailable. ";
+	
 
 	public static final String EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_0="Authentication Service information unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_AUTH_SERVICE_INFORMATION_1="Authentication Service Name unavailable. ";

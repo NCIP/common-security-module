@@ -4,6 +4,7 @@ import gov.nih.nci.security.cgmm.CGMMManager;
 import gov.nih.nci.security.cgmm.CGMMManagerImpl;
 import gov.nih.nci.security.cgmm.exceptions.CGMMConfigurationException;
 import gov.nih.nci.security.cgmm.util.CGMMProperties;
+import gov.nih.nci.security.cgmm.util.StringUtils;
 import gov.nih.nci.security.cgmm.util.SystemManager;
 import gov.nih.nci.security.cgmm.webapp.DisplayConstants;
 import gov.nih.nci.security.cgmm.webapp.ForwardConstants;
@@ -22,7 +23,6 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
 
 public class MenuSelectionAction extends Action 
 {
@@ -53,6 +53,7 @@ public class MenuSelectionAction extends Action
 		session.removeAttribute(DisplayConstants.NEW_USER_CREATION_COMPLETE);
 		
 		
+	
 		
 		//Get AuthenticationService URL Info.
 		CGMMManager cgmmManager=null;
@@ -83,10 +84,21 @@ public class MenuSelectionAction extends Action
 		
 		session.setAttribute(DisplayConstants.HOST_APPLICATION_NAME,CGMMProperties.getHostApplicationInformation().getHostContextName());
 		session.setAttribute(DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE,CGMMProperties.getHostApplicationInformation().getHostPublicHomePageURL());
+		
+		if(!StringUtils.isBlankOrNull(CGMMProperties.getHostApplicationInformation().getHostApplicationLogoURL()) 
+				&& !StringUtils.isBlankOrNull(CGMMProperties.getHostApplicationInformation().getHostApplicationLogoAltText())){
+			session.setAttribute(DisplayConstants.HOST_APPLICATION_LOGO_URL,CGMMProperties.getHostApplicationInformation().getHostApplicationLogoURL());
+			session.setAttribute(DisplayConstants.HOST_APPLICATION_LOGO_ALT_TEXT,CGMMProperties.getHostApplicationInformation().getHostApplicationLogoAltText());
+		}
+		
+		
+		session.setAttribute(DisplayConstants.ALTERNATE_BEHAVIOR, CGMMProperties.getCGMMInformation().getCgmmAlternateBehavior());
+		session.setAttribute(DisplayConstants.STANDALONE_MODE, CGMMProperties.getCGMMInformation().getCgmmStandaloneMode());
 		session.setAttribute(DisplayConstants.AUTHENTICATION_SERVICE_MAP, authenticationServiceURLMap);
 		session.setAttribute(DisplayConstants.USA_STATES_MAP, SystemManager.getUSAStatesMap());
 		session.setAttribute(DisplayConstants.COUNTRY_MAP, SystemManager.getCountryMap());
-	
+		
+		
 		session.setAttribute(ForwardConstants.CURRENT_TABLE_ID,menuSelectionForm.getTableId());
 
 		
@@ -96,5 +108,10 @@ public class MenuSelectionAction extends Action
 		return (mapping.findForward(ForwardConstants.FORWARD_HOME));
 		
 	}
+	
+	
+	
+	
+
 
 }
