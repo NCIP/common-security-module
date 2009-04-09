@@ -32,7 +32,7 @@
 							<tr>
 								<td class="home" colspan="3">
 									Please provide details to create a new caGRID account. Click
-									submit to attempt creation of new account.
+									submit to attempt request/creation of new account.
 									<br>
 								</td>
 							</tr>
