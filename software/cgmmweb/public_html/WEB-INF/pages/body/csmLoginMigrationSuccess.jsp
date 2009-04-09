@@ -11,7 +11,8 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
-
+<bean:define name="<%=DisplayConstants.HOST_APPLICATION_NAME%>"
+	id="hostApplicationName" />
 
 
 <tr>
@@ -34,7 +35,7 @@
 
 							<tr>
 								<td class="formMessage" colspan="3">
-									You have successfully migrated your CSM (Local) account to a caGrid User account. Going forward, use your caGrid User account login credentials. Your CSM (Local) account login credentials are no longer applicable for login to this application.
+									You have successfully migrated your <%=hostApplicationName%> Local (CSM) account to a caGrid User account. Going forward, use your caGrid User account login credentials. Your <%=hostApplicationName%> Local (CSM) account login credentials are no longer applicable for login to <%=hostApplicationName%>.
 									<br><br>Select OK to proceed.
 								</td>
 							</tr>

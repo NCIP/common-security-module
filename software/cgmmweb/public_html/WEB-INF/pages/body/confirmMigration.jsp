@@ -22,7 +22,12 @@
 	String hostURL = serverPath + "/"
 			+ session.getAttribute("HOST_APPLICATION_NAME")
 			+ session.getAttribute("HOST_APPLICATION_PUBLIC_HOME_PAGE");
+			
+
+	String hostApplicationName1 = (String)session.getAttribute("HOST_APPLICATION_NAME") ;
+	hostApplicationName1= hostApplicationName1.toUpperCase();			
 %>
+
 <bean:define name="<%=DisplayConstants.LOGIN_OBJECT%>" id="csmID" />
 <bean:define name="<%=DisplayConstants.GRID_PROXY_ID%>" id="gridID" />
 <tr>
@@ -63,7 +68,7 @@
 														<h3>
 															CSM to GAARDS Account Migration Module (CGMM)
 														</h3>
-														You have requested to migrate your CSM account to GRID
+														You have requested to migrate your <%=hostApplicationName1%> Local (CSM) account to GRID
 														account.
 														<br>
 														<br>
@@ -78,7 +83,7 @@
 												<tr>
 													<td class="home" colspan="3" align="center">
 														<h3>
-															CSM Account:
+															Local (CSM) Account:
 															<%=csmID%>
 														</h3>
 													</td>
