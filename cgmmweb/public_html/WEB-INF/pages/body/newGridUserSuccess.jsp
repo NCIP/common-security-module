@@ -14,8 +14,18 @@
 
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.form.NewGridUserForm"%>
+<logic:present name="<%=DisplayConstants.HOST_APPLICATION_NAME%>">
+	<bean:define name="<%=DisplayConstants.HOST_APPLICATION_NAME%>" id="hostApplicationName" />
+</logic:present>
+<logic:present name="<%=DisplayConstants.TOEMAIL%>">
+	<bean:define name="<%=DisplayConstants.TOEMAIL%>" id="TOEMAIL" />
+</logic:present>
+<%--<%
 
-<tr>
+	String TOEMAIL = (String)session.getAttribute("TOEMAIL") ;
+
+%>
+--%><tr>
 	<td valign="top" class="contentPage">
 		<table summary="" cellpadding="0" cellspacing="0" border="0">
 			<tr>
@@ -26,19 +36,29 @@
 					&nbsp;
 					<table summary="" cellpadding="3" cellspacing="1" border="0"
 						width="500">
+						<logic:equal name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" value="false"> 
 
 						<tr>
 							<td class="home" colspan="3">
-								The new caGrid Account details are shown below.
+								The new Account details are shown below.
 								<br>
 							</td>
 						</tr>
+						</logic:equal>
+						<logic:equal name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" value="true"> 
 
+						<tr>
+							<td class="home" colspan="3">
+								A new account request has been made via email to <bean:write name="TOEMAIL"/>. The requested account details are shown below.
+								<br>
+							</td>
+						</tr>
+						</logic:equal>
 
 						<tr>
 							<td class="home" height="20" colspan="3">
 								<h3>
-									New caGrid Account Details
+									New Account Details
 								</h3>
 							</td>
 						</tr>
@@ -191,19 +211,28 @@
 							</td>
 						</tr>
 						<tr>
+
 							<td align="right" colspan="3">
 								<!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
 										<td>
+											<logic:equal name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" value="true"> 
+											<html:form action="/NewGridUser">
+												<html:submit style="actionButton">Click to go to <bean:write name="hostApplicationName"/> Login page</html:submit>
+											</html:form>
+											</logic:equal>
+											<logic:equal name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" value="false"> 
 											<html:form action="/NewGridUser">
 												<html:submit style="actionButton" value="Confirm Migration" />
 											</html:form>
+											</logic:equal>
 										</td>
 									</tr>
 								</table>
 								<!-- action buttons end -->
 							</td>
+
 						</tr>
 					</table>
 				</td>
