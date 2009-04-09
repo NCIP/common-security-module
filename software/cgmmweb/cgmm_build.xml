@@ -89,18 +89,19 @@
 			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
 			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>
 		</jar>
+		<jar jarfile="${dist.home}/jbossweb-tomcat55-sar-jars/cgmmapi.jar">
+					<fileset dir="${classes.home}">
+						<exclude name="**/webapp/**/*"/>	
+						<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
+						<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class"/>
+					</fileset>
+					<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
+					<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>
+				</jar>
+		
 
 		<jar jarfile="${dist.home}/cgmmfilter.jar">
 			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class"/>
-		</jar>
-	<!--	<jar jarfile="${dist.home}/cgmm-cagrid-form-authenticator-0.6.jar">	
-			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class"/>
-			<fileset dir="${src.home}"  includes="gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.java"/>			
-		</jar>
--->
-		<jar jarfile="${dist.home}/nullpasswordstackingloginmodule.jar">	
-			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/loginmodules/NullPasswordStackingLoginModule.class"/>
-			<fileset dir="${src.home}"  includes="gov/nih/nci/security/cgmm/loginmodules/NullPasswordStackingLoginModule.java"/>
 		</jar>
 	
 		
