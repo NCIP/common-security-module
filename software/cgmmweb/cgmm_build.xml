@@ -9,6 +9,7 @@
 		<property name="webinf.home"			value="${web.home}/WEB-INF" />
 		<property name="lib.home"				value="${webinf.home}/lib" />
 		<property name="otherlib.home"			value="${basedir}/otherlib" />
+		<property name="resources.libs.home"	value="${basedir}/resources/jboss_default_libs"/>
 		<property name="build.home"				value="${basedir}/build" />
 		<property name="dist.home"				value="${basedir}/dist" />
 		<property name="classes.home"			value="${build.home}/WEB-INF/classes" />
@@ -57,10 +58,10 @@
 
 	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
 		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true" >
-			
 			<classpath>
 				<fileset dir="${lib.home}" includes="*.jar" />
 				<fileset dir="${otherlib.home}" includes="*.jar" />
+				<fileset dir="${resources.libs.home}" includes="*.jar" />
 			</classpath>
 		</javac>
 		<copy todir="${build.home}/WEB-INF/classes" >
