@@ -179,7 +179,7 @@
 																							</tr>
 																							<tr>
 																								<td colspan="3">
-																									Dont have a local (CSM) Account?. Click Create New
+																									Don't have a local (CSM) Account?. Click Create New
 																									Local (CSM) Account button to proceed to the <%=hostApplicationName1%> New User account creation workflow.																							
 																									<html:form action="/NewCsmUser">
 																										

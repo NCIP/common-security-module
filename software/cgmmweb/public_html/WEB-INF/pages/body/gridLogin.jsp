@@ -193,7 +193,7 @@
 																							</tr>
 																							<tr>
 																								<td class="home" colspan="3">
-																									Dont have a Grid Account?<br> Click the Request a New
+																									Don't have a Grid Account?<br> Click the Request a New
 																									caGrid Account button to proceed.
 																									<html:form action="/NewGridUser">
 																									<html:submit style="actionButton"
