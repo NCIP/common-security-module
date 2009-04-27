@@ -74,7 +74,7 @@
 																<h3 >
 																	Local (CSM) Account To Grid Account Migration
 																</h3>
-																Welcome to the CSM GAARDS Account Migration Module. The CGMMWeb is a web interface that allows automaticatic
+																Welcome to the CSM GAARDS Account Migration Module. The CGMMWeb is a web interface that allows automatic
 																migration <%=hostApplicationName1%> user's Local (CSM) account to a GAARDS (caGrid) account. 
 																<br><br>
 																<logic:equal name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" value="false"> 
