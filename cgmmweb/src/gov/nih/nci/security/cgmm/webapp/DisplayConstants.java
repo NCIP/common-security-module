@@ -21,7 +21,7 @@ public class DisplayConstants
 	public static final String CGMM_LAST_NAME = "CGMM_LAST_NAME";
 	
 	public static final String EXCEPTION_INVALID_CREDENTIALS = "Invalid Login ID and/or Password. User is not authenticated.";
-	public static final String EXCEPTION_CSM_USER_ALREADY_ASSOCIATED = "Unable to authenticate the User. The Local CSM User account is already migrated to a caGrid Account. <br>Login with caGrid Login ID and Password.";	
+	public static final String EXCEPTION_CSM_USER_ALREADY_ASSOCIATED = "Unable to authenticate the User. The Local CSM User account is already migrated to a caGrid Account.";	
 	public static final String EXCEPTION_GRID_USER_ALREADY_ASSOCIATED = "Unable to migrate User details. The caGrid User account is already associated with another CSM account. <br>Login with caGrid Login ID and Password";
 	public static final String EXCEPTION_AUTHENTICATION_MANAGER = "Unable to obtain AuthenticationManager for Application"; 
 	public static final String EXCEPTION_AUTHORIZATION_MANAGER = "Unable to obtain AuthorizationManager for Application";
