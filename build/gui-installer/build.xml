@@ -1,0 +1,101 @@
+<project name="Installer" default="install" basedir="." >
+
+	<!-- Generic properties -->
+	<property name="application_installer" value="upt_installer" />
+	<property name="application_installer_zip" value="upt_install_3.2.0.zip" />
+	<property name="application_upgrader_zip" value="upt_upgrade_3.2.0.zip" />
+	
+	
+	<!-- TARGETS -->
+	<target name="install" >
+		<echo message="CALL THE INSTALL TARGET"/> 
+		
+		<echo message="${install.path}"/> 
+		<delete dir="${install.path}/${application_installer}" />	
+		<unzip src="${install.path}/${application_installer_zip}" dest="${install.path}/${application_installer}" />
+		
+		<copy file="${install.path}/property-template/installer.template.properties" tofile="${install.path}/${application_installer}/install.properties" overwrite="yes"/>
+
+<!-- try to eliminate all these replaces from the install-->
+
+		<replace dir="${install.path}/${application_installer}" token="basedir}" value="install.path}/${application_installer}">
+			<include name="**/*.xml" />
+			<include name="**/*.properties" />
+		</replace>
+
+		<replace file="${install.path}/${application_installer}/build.xml" token="project.properties" value="${install.path}/${application_installer}/project.properties"/>
+		<replace file="${install.path}/${application_installer}/build.xml" token="install.properties" value="${install.path}/${application_installer}/install.properties"/>
+		<!-- <replace file="${install.path}/${application_installer}/build.xml" token="${properties.file}" value="${install.path}/${application_installer}/${properties.file}"/>-->
+		<replaceregexp file="${install.path}/${application_installer}/build.xml" byline="true"
+			match="^(.*property name=.*properties.template.file.*)(value=.)(.*)(&quot;.*)"
+			replace="\1\2${install.path}/${application_installer}/install-properties.template\4"/>	
+	</target>
+
+
+	<target name="update" >
+		<echo message="CALL THE UPDATE TARGET"/> 
+		
+		<echo message="${install.path}"/> 
+
+		<delete dir="${install.path}/${application_installer}" />
+		
+		<unzip src="${install.path}/${application_upgrader_zip}" dest="${install.path}/${application_installer}" />		
+
+		<copy file="${install.path}/property-template/upgrade.template.properties" tofile="${install.path}/${application_installer}/upgrade.properties" overwrite="yes"/>
+
+		<replace dir="${install.path}/${application_installer}" token="basedir}" value="install.path}/${application_installer}">
+			<include name="**/*.xml" />
+			<include name="**/*.properties" />
+		</replace>
+
+		<replace file="${install.path}/${application_installer}/build.xml" token="project.properties" value="${install.path}/${application_installer}/project.properties"/>
+		<replace file="${install.path}/${application_installer}/build.xml" token="upgrade.properties" value="${install.path}/${application_installer}/upgrade.properties"/>
+		<!--<replace file="${install.path}/${application_installer}/build.xml" token="${properties.file}" value="${install.path}/${application_installer}/${properties.file}"/>-->
+		<replaceregexp file="${install.path}/${application_installer}/build.xml" byline="true"
+			match="^(.*property name=.*properties.template.file.*)(value=.)(.*)(&quot;.*)"
+			replace="\1\2${install.path}/${application_installer}/upgrade-properties.template\4"/>
+	</target>
+	
+	
+	<target name="convert-install-path" >
+		<echo message="${install.base.path}"/>
+		<pathconvert targetos="unix" property="application.base.path.convert">
+			 <path location="${install.base.path}"/>
+		</pathconvert>
+
+		<replaceregexp file="${install.path}/${application_installer}/install.properties" byline="true"
+				match="^(application.base.path)=(.*)"
+				replace="\1=${application.base.path.convert}"/>		
+	</target>	
+	
+	<target name="convert-upgrade-path" >
+	<echo message="${upgrade.base.path}"/>
+		<pathconvert targetos="unix" property="application.base.path.convert">
+			 <path location="${upgrade.base.path}"/>
+		</pathconvert>
+
+		<replaceregexp file="${install.path}/${application_installer}/upgrade.properties" byline="true"
+				match="^(application.base.path)=(.*)"
+				replace="\1=${application.base.path.convert}"/>
+	</target>		
+
+	<target name="set-tomcat-property-jboss" >
+		<property name="exclude.tomcat" value="true"/>
+	</target>	
+
+	<target name="set-tomcat-property-tomcat" >
+		<property name="exclude.jboss" value="true"/>
+	</target>
+
+	<target name="install-application" >
+		<ant inheritAll="false" inheritRefs="false"
+			antfile="build.xml"			
+			dir="${install.path}/${application_installer}"
+			>
+			<property name="install.path" value="${install.path}"/>
+			<property name="force.reinstall" value="true"/>
+			<property name="exclude.tomcat" value="true"/>
+		</ant>
+	</target>
+		
+</project>

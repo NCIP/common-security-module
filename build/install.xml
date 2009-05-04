@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+$Id: install.xml 4757 2008-05-15 20:43:31Z zengje $
+$HeadURL: http://gforge.nci.nih.gov/svnroot/upt/trunk/software/install.xml $
+-->
+<project name="upt-installer" default="upgrade" basedir="." 
+	xmlns:ivy="antlib:org.apache.ivy.ant"
+	>
+	<description>
+		TBD
+	</description>
+
+	<!-- Properties file related properties and tasks -->
+	<property environment="env" />
+	<property file="project.properties"/>
+	<property name="properties.file" value="${basedir}/upgrade.properties"/>
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2"/>
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2"/>
+	<property file="${properties.file}" />
+	
+	
+	<!-- Generic properties -->
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="working.dir" value="${basedir}/working" />
+	<property name="log.dir" value="${basedir}/logs" />
+	<property name="bda-utils.dir" value="${basedir}/bda-utils"/>
+
+	<!-- Install Time properties -->
+	<!-- Source and target directories -->
+	<property name="bda-utils.dir.src" value="${bda-utils.dir}" />
+	<property name="tools.dir.src" value="${basedir}/${tools.dist.relative.dir}" />
+	<property name="common.dir.src" value="${basedir}/${common.dist.relative.dir}" />
+	<property name="common.dir.target" value="${working.dir}/${common.dist.relative.dir}" />
+	<property name="db.dir.src" value="${basedir}/${db.dist.relative.dir}" />
+	<property name="db.dir.dest" value="${working.dir}/${db.dist.relative.dir}" />
+	<property name="db-install.dir.dest" value="${working.dir}/${db-install.dist.relative.dir}" />
+	<property name="db-upgrade.dir.dest" value="${working.dir}/${db-upgrade.dist.relative.dir}" />
+	<property name="jboss-conf.dir.target" value="${working.dir}/${jboss-conf.dist.relative.dir}" />
+
+	<!-- *-ds.xml and WAR -->
+	<property name="upt.dir.dist" value="${basedir}/${upt.dist.relative.dir}" />
+	<property name="upt.ds.file" value="upt-ds.xml" />
+	<property name="upt.app-sec-conf.file" value="ApplicationSecurityConfig.xml" />
+	<property name="upt.hibernate.file" value="hibernate.cfg.xml" />
+	<property name="upt.war.file" value="upt.war" />
+	<property name="clm.jar.file" value="clm-4.0.jar" />
+
+	<!-- Paths -->
+	<path id="bda-utils.classpath">
+		<fileset dir="${bda-utils.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<!-- Task definitions -->
+	<taskdef uri="antlib:org.apache.ant.antunit" resource="org/apache/ant/antunit/antlib.xml">
+		<classpath>
+			<pathelement location="${bda-utils.dir}/antunit-1.0.jar" />
+		</classpath>
+	</taskdef>
+	<taskdef name="xmlconfig" classname="com.xmlconfig.anttask.XmlConfig" classpathref="bda-utils.classpath" />
+	<taskdef name="for" classname="net.sf.antcontrib.logic.ForTask">
+		<classpath>
+			<pathelement location="${bda-utils.dir}/ant-contrib-1.0b3.jar"/>
+		</classpath>
+	</taskdef>
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="${bda-utils.dir}/ant-contrib-1.0b3.jar"/>
+			<pathelement location="${bda-utils.dir}/bcel-5.1.jar"/>
+			<pathelement location="${bda-utils.dir}/commons-httpclient-3.0.1.jar"/>
+			<pathelement location="${bda-utils.dir}/commons-logging-1.0.4.jar"/>
+			<pathelement location="${bda-utils.dir}/ivy-1.3.1.jar"/>
+		</classpath>
+	</taskdef>
+
+	<!-- Conditionals -->
+	<available file="${jboss.home}/server/${jboss.server.name}/conf/jboss-service.xml" property="jboss.exists"/>
+	<!-- upt can use either Oracle or MySQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
+	<switch value="${database.type}">
+		<case value="mysql">
+			<property name="database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			<property name="is.mysql" value="true"/>
+			<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.5.jar"/>
+			<property name="database.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="db-incr.list.file" value="${db-incr.mysql.list.file}"/>
+			<property name="db-incr.conf.file" value="${db-incr.mysql.conf.file}"/>
+		</case>
+		<default>
+			<fail message="Invalid database type ${database.type}"/>
+		</default>
+	</switch>
+
+	<!-- figure out whether to use install-properties.template or upgrade-proprties.template -->
+	<propertyregex property="properties.file.type"
+		input="${properties.file}"
+		regexp=".*(install|upgrade).*"
+		select="\1"
+		/>
+	<echo message="Properties file type = ${properties.file.type}"/>
+	<switch value="${properties.file.type}">
+		<case value="install">
+			<property name="properties.template.file" value="install-properties.template" />
+		</case>
+		<case value="upgrade">
+			<property name="properties.template.file" value="upgrade-properties.template" />
+		</case>
+		<default>
+			<fail message="Property file name must include 'install' or 'upgrade' so it can be determined which properties template should be used. If you are not certain include 'upgrade' in the name of your proeprties file."/>
+		</default>
+	</switch>
+
+	<!-- Includes-->
+	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
+
+	<!-- Read db configs from existing ds.xml if it exists -->
+	<available file="${jboss.home}/server/${jboss.server.name}/deploy/${upt.ds.file}" property="ds.exists"/>
+	<if>
+		<isset property="ds.exists"/>
+		<then>
+			<jboss-read-dbconfig
+				jboss.ds-xml.file="${upt.ds.file}"
+				/>
+		</then>
+		<else>
+			<echo message="Warning- could not find ${jboss.home}/server/${jboss.server.name}/deploy/${upt.ds.file}"/>
+		</else>
+	</if>
+
+	<!-- There is any issue with copying files with a filtersfile, any properties with a value of
+		another property do not get expanded (xx=${yy} @xx@ will be replaced with ${yy} not the
+		value).  I have defined a filter set below for these properties, I then two two copies
+		one to the resource.dir.temp using the filterset and then one to the desired directory 
+		with the filter file.  If you add new properties that refer to other properties in the
+		properties file please add them to the filterset-pre below.
+	     Also you should include properties that are declared in this file, like database info below.
+	-->
+	<property name="resource.dir.temp" value="${working.dir}/tmp" />
+
+	
+	<!-- Start logging -->
+	<mkdir dir="${log.dir}" />
+	<tstamp>
+		<format property="install.time" pattern="yyyy-MM-dd-HH-mm" />
+	</tstamp>
+	<record name="${log.dir}/install-${install.time}.log" action="start"/>
+
+
+	<!-- Installer section -->
+	<target name="diag">
+		<echoproperties/>
+	</target>
+
+	<!-- Clean up destination directory -->
+	<target name="install:clean" description="Removes all files from the local filesystem">
+		<sleep seconds="5" />
+		<delete dir="${application.base.path}" quiet="false" />
+	</target>
+
+	<!-- Does directory management and copy some files with filtering to ensure token expansion -->
+	<target name="install:init" description="Does directory management to initialize install">
+		<filterset id="filterset.pre">
+			<filter token="application.base.path" value="${application.base.path}"/>
+			<filter token="application.url" value="${application.url}"/>
+			<filter token="jboss.home" value="${jboss.home}"/>
+			<filter token="database.url" value="${database.url}"/>
+			<filter token="database.user" value="${database.user}"/>
+			<filter token="database.password" value="${database.password}"/>
+			<filter token="database.system.url" value="${database.system.url}"/>
+			<!-- added internal properties that may be used in a filtered copy -->
+			<filter token="database.driver" value="${database.driver}"/>
+			<filter token="database.dialect" value="${database.dialect}"/>
+			<!-- added for liquibase -->
+			<filter token="db-upgrade.run.dir" value="${db-upgrade.dir.dest}/${database.type}"/>
+		</filterset>
+	
+	
+		<mkdir dir="${working.dir}" />
+		<delete dir="${working.dir}"/>
+		<mkdir dir="${working.dir}" />
+		<mkdir dir="${resource.dir.temp}"/>
+
+		<copy todir="${common.dir.target}" filtering="true">
+			<fileset dir="${common.dir.src}">
+				<include name="**/*"/>
+			</fileset>
+			<filterset refid="filterset.pre"/>
+			<filterset>
+				<filtersfile file="${properties.file}"/>
+				<filtersfile file="project.properties"/>
+			</filterset>
+		</copy>
+	</target>
+
+	<!-- Wrapper install database target, depends on both MySQL and Oracle sub-targets, ifs should ensure only one is run.  Target path can be skipped by exlude.database also calls upgrade:database -->
+	<target name="install:database:prep" description="Copies db files with filtering" unless="exclude.database" depends="install:init">
+		<echoproperties prefix="database"/>
+		<property name="db.dir.temp" value="${working.dir}/tmp"/>
+		<mkdir dir="${db.dir.temp}"/>
+		<copy todir="${db.dir.temp}" filtering="true">
+			<fileset dir="${db.dir.src}">
+				<include name="**/*"/>
+			</fileset>
+			<filterset refid="filterset.pre"/>
+		</copy>
+		<copy todir="${db.dir.dest}" filtering="true">
+			<fileset dir="${db.dir.temp}">
+				<include name="**/*"/>
+			</fileset>
+			<filterset>
+				<filtersfile file="${properties.file}"/>
+				<filtersfile file="project.properties"/>
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="install:database" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database"
+		depends="
+		install:init,
+		install:database:prep
+		">
+		<!-- Drop all schema objects or re-create the db -->
+		<database-clean/>
+		<!-- Run baseline scripts stored in db.install.create.${database.type}.file.list variable -->
+		<switch value="${database.type}">
+			<case value="mysql">
+				<database-install
+					db.install.create.file.list="${db.install.create.mysql.file.list}"
+					/>
+			</case>
+		</switch>
+	</target>
+
+	<target name="install:jboss:binaries" description="Unzip JBoss binary" unless="exclude.jboss">
+		<unzip dest="${application.base.path}" src="${tools.dir.src}/${jboss.binaries.file}" />
+	</target>
+
+
+	<target name="install:jboss:upt" description="Deploy upt upt.ear, upt-api.war and common libraries" unless="exclude.jboss">
+		<!-- added to ensure working.dirs are fresh for our install -->
+		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp"/>
+		<delete dir="${jboss.home}/server/${jboss.server.name}/work"/>
+
+		<copy file="${upt.dir.dist}/${upt.war.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
+		<copy file="${bda-utils.dir}/clm-3.2.jar" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
+		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
+
+	</target>
+	
+	<target name="install:jboss:upt:configure" description="Configure upt application" unless="exclude.jboss">
+		<copy file="${jboss-conf.dir.target}/${upt.ds.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
+	</target>
+
+	<!-- Wrapper target to configure jboss container, not deployed application -->
+	<target name="install:jboss:configure" description="Configure upt" unless="exclude.jboss"
+		depends="install:jboss:binaries,
+		-install:jboss:configure:secure-console,
+		-install:jboss:configure:ports,
+		-install:jboss:configure:login-conf,
+		-install:jboss:configure:log4j,
+		-install:jboss:configure:update-shutdown
+		"/>
+
+	<!-- Configure ports used by JBOSS (either bindings or editing jboss config.files) -->
+	<target name="-install:jboss:configure:ports" description="Configure upt" unless="exclude.jboss">
+		<jboss-bindings
+			jboss.server.bindingfile.location="${jboss.home}/server/${jboss.server.name}/conf/bindings.xml"
+			/>
+	</target>
+
+	<target name="-install:jboss:configure:secure-console" description="Configure JBoss ports using bindings files" unless="exclude.jboss">
+		<secure-jboss-console/>
+	</target>
+
+	<!-- Add custom login-config.xml content from snippet from upt/software/resources/deploy/login-config.${auth.type}-block.xml -->
+	<target name="-install:jboss:configure:login-conf" unless="exclude.jboss">
+		<if>
+			<equals arg1="${authentication.type}" arg2="ldap"/>
+			<then>
+				<property name="login-config.block.file" value="${jboss-conf.dir.target}/login-config.ldap-block.xml"/>
+			</then>
+			<else>
+				<if>
+					<equals arg1="${authentication.type}" arg2="db"/>
+					<then>
+						<property name="login-config.block.file" value="${jboss-conf.dir.target}/login-config.db-block.xml"/>
+					</then>
+					<else>
+						<fail message="${authentication.type} is not a valid authentiation type, please change to db or ldap and re-run the build."/>
+					</else>
+				</if>
+			</else>
+		</if>
+		<echo message="Inserting ${login-config.block.file} into ${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"/>
+		
+		<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
+			dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+			<xmlcatalog refid="bda.xml.catalog"/>
+			<remove path="//policy/application-policy[@name='${application.context.name}']"/>
+		</xmltask>
+		<xmltask failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
+			dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+			<xmlcatalog refid="bda.xml.catalog"/>
+			<insert path="//policy" file="${login-config.block.file}"/>
+		</xmltask>
+<!--		
+		<xmlconfig in="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml" verbose="false">
+			<insertbranch path="//policy" srcxmlfile="${login-config.block.file}" srcpath="//application-policy" />
+		</xmlconfig>
+-->
+	</target>
+
+	<!-- Configure log4j settings based on contents of upt/software/resrouces/deploy/log4j.block.xml -->
+	<target name="-install:jboss:configure:log4j" unless="exclude.jboss">
+		<!--
+		<property name="log4j.block.file" value="${resource.dir.target}/log4j.block.xml"/>
+		<loadfile 
+			property="xml.content"
+			srcFile="${log4j.block.file}"/>
+
+		<replaceregexp file="${jboss.home}/server/default/conf/log4j.xml" byline="true"
+			match="(^.*\/log4j:configuration.)"
+			replace="${xml.content}${line.separator}\1"/>
+		-->
+	</target>
+
+	<!-- Calls to bda macros for basic functionality -->
+	<target name="install:jboss:stop" if="jboss.exists" unless="exclude.jboss">
+		<jboss-stop-jboss jboss.server.jndi.port="${jboss.server.jndi.port}"/>
+		<jboss-stop-jboss />
+	</target>
+
+	<target name="install:jboss:start" unless="exclude.jboss">
+		<if>
+			<not>
+				<isset property="exclude.start.servers"/>
+			</not>
+			<then>
+				<jboss-start-jboss />
+			</then>
+		</if>
+		<sleep seconds="15"/>
+	</target>
+
+	<target name="install:validation:pre-install">		
+		<validate-pre-install />
+	</target>
+	<target name="install:validation:pre-install:ports">
+		<validate-ports-preinstall />
+	</target>
+	<target name="install:validation:post-install">
+		<if>
+			<not>
+				<isset property="exclude.start.servers"/>
+			</not>
+			<then>
+				<validate-post-install />
+			</then>
+		</if>
+	</target>
+	<target name="-install:jboss:configure:update-shutdown" unless="exclude.jboss">
+		<jboss-update-shutdown />
+	</target>
+
+	<!-- Wrapper target to deploy JBOSS container -->
+	<target name="install:jboss" unless="exclude.jboss"
+		depends="
+		install:validation:pre-install,
+		install:jboss:stop,
+		install:validation:pre-install:ports,
+		install:clean,
+		install:init,
+		install:jboss:binaries,
+		install:jboss:upt:re-configure,
+		install:jboss:upt,
+		install:jboss:upt:configure,
+		install:jboss:configure,
+		install:jboss:start
+		" />
+	
+	<!-- Wrapper target to deploy all containers to one server -->
+	<target name="install" description="Installs and configures JBOSS,Tomcat creates database, and deploys application" 
+		depends="
+		install:validation:pre-install,
+		install:jboss:stop,
+		install:validation:pre-install:ports,
+		install:clean,
+		install:init,
+		install:database,
+		install:jboss,
+		install:jboss:start,
+		install:validation:post-install
+		"/>
+
+	<!-- Fixes hibernate dialect and other configurations in code generated at build time.  This is requred because the properties/options selected at build time can be different than those used at install time. -->
+	<target name="install:jboss:upt:re-configure" unless="exclude.jboss">
+		<!-- 
+		<delete dir="${working.dir}/generic-webapp"/>
+		<unzip src="${generic-webapp.dir.dist}/${generic-webapp.war.file}" dest="${working.dir}/generic-webapp"/>
+		<copy todir="${working.dir}/generic-webapp/WEB-INF/classes" file="${jboss-conf.dir.dest}/hibernate.cfg.xml"/>
+
+		<move file="${generic-webapp.dir.dist}/${generic-webapp.war.file}" tofile="${generic-webapp.dir.dist}/${generic-webapp.war.file}.orig"/>
+		<war destfile="${generic-webapp.dir.dist}/${generic-webapp.war.file}" compress="false" webxml="${working.dir}/generic-webapp/WEB-INF/web.xml" >
+			<fileset dir="${working.dir}/generic-webapp">
+				<include name="*/**" />
+			</fileset>
+		</war>  
+		-->
+	</target>
+	
+	<!-- Wrapper target to upgrade jboss container. Does not install or configure binaries -->
+	<target name="upgrade:jboss" unless="exclude.jboss"
+		depends="
+		install:validation:pre-install,
+		install:jboss:stop,
+		install:init,
+		install:jboss:upt:re-configure,
+		install:jboss:upt,
+		install:jboss:upt:configure,
+		install:jboss:start
+		" />
+		
+	<!-- Wrapper target to upgrade all container. Does not install or configure binaries -->
+	<target name="upgrade" description="Deploys application and runs incremental database build" 
+		depends="
+		upgrade:init,
+		install:validation:pre-install,
+		install:jboss:stop,
+		install:init,
+		upgrade:jboss,
+		install:validation:post-install
+		"/>
+
+	<target name="upgrade:init">
+		<jboss-read-dbconfig
+				jboss.ds-xml.file="${upt.ds.file}"
+				/>
+		<jboss-read-ldapconfig
+			/>
+	</target>
+
+</project>
