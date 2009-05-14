@@ -100,7 +100,6 @@ import gov.nih.nci.security.authentication.principal.FirstNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LastNamePrincipal;
 import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.constants.Constants;
-import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
@@ -317,7 +316,15 @@ public class LDAPHelper {
 				
 				subject.getPrincipals().add(new LoginIdPrincipal(userName));
 
-			}else{
+			}
+			else if (  ((String)connectionProperties.get(Constants.USER_FIRST_NAME) == null || ((String)connectionProperties.get(Constants.USER_FIRST_NAME)).trim().equals(""))
+					&& ((String)connectionProperties.get(Constants.USER_LAST_NAME) == null 	|| ((String)connectionProperties.get(Constants.USER_LAST_NAME)).trim().equals(""))
+					&& ((String)connectionProperties.get(Constants.USER_EMAIL_ID) == null 	|| ((String)connectionProperties.get(Constants.USER_EMAIL_ID)).trim().equals("")))
+			{
+				// do nothing;
+			}
+			else
+			{
 				throw new CSInternalConfigurationException("Login Failed : Improper Configuration, Unable to Retrieve User Attributes");
 			}
 			initialDircontext.close();
