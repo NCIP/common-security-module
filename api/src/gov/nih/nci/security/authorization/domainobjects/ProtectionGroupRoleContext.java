@@ -162,11 +162,16 @@ public class ProtectionGroupRoleContext  implements Comparable, Serializable {
 	}
 
 	public boolean equals(Object obj){
-		 if(this == obj)
+		if(this == obj)
 	 			return true;
-	 		 if((obj == null) || (obj.getClass() != this.getClass()))
+	 	if((obj == null) || (obj.getClass() != this.getClass()))
 	 			return false;
+	 		 
+	 		 
 	    ProtectionGroupRoleContext other = (ProtectionGroupRoleContext)obj;
+	    if(null==this.getProtectionGroup() || null==other.getProtectionGroup()){
+	    	return false;
+	    }
 		if(this.getProtectionGroup().getProtectionGroupName().equals(other.getProtectionGroup().getProtectionGroupName())){
 			return true;
 		}else{
