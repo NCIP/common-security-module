@@ -14,7 +14,9 @@
 <%@ page import="java.util.*"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.form.NewGridUserForm"%>
-
+<logic:present name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>">
+	<bean:define name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" id="ALTERNATE_BEHAVIOR" />
+</logic:present>
 <tr>
 	<td valign="top" class="contentPage">
 		<table summary="" cellpadding="0" cellspacing="0" border="0">
@@ -30,7 +32,7 @@
 							<tr>
 								<td class="home" colspan="3">
 									Please provide details to create a new caGRID account. Click
-									submit to attempt creation of new account.
+									submit to attempt request/creation of new account.
 									<br>
 								</td>
 							</tr>
@@ -219,7 +221,7 @@
 									<table cellpadding="4" cellspacing="0" border="0">
 										<tr>
 											<td colspan=2>
-												<html:submit style="actionButton" value="Submit" />
+												<html:submit style="actionButton" value="Request New Account" />
 												<%--
 									<input class="actionButton" type="submit"
 										value='<bean:message key="label.submit_button"/>' />

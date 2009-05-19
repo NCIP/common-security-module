@@ -11,8 +11,11 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
+<%
 
-<tr>
+	String hostApplicationName1 = (String)session.getAttribute("HOST_APPLICATION_NAME") ;
+	hostApplicationName1= hostApplicationName1.toUpperCase();
+%><tr>
 	<td width="100%" valign="top">
 		<!-- target of anchor to skip menus -->
 		<a name="content" />
@@ -50,11 +53,11 @@
 																<h3>
 																	GAARDS to CSM Account Migration
 																</h3>
-																This screen allows the User to migrate to an existing CSM (local) account or proceed to the host application to create a new CSM (local) account.
+																This screen allows the User to migrate to an existing CSM (local) account or proceed to the <%=hostApplicationName1%> application to create a new CSM (local) account.
 																<br><br>
 																If you have a CSM (local) account already then login using the CSM Login ID and Password.
 																<br><br>
-																If you do not have any CSM (local) account then proceed to create a new CSM (local) account by clicking on the 'Create a New CSM Account' button.
+																If you do not have a <%=hostApplicationName1%> Local (CSM) account then proceed to create a new Local (CSM) account by clicking on the 'Request a New CSM Account' button.
 																<br>
 																<br>
 															</td>
@@ -176,12 +179,12 @@
 																							</tr>
 																							<tr>
 																								<td colspan="3">
-																									Dont have a local (CSM) Account?. Click Create New
-																									CSM Account button to proceed to the applications new User account creation workflow.																							
+																									Don't have a local (CSM) Account?. Click Create New
+																									Local (CSM) Account button to proceed to the <%=hostApplicationName1%> New User account creation workflow.																							
 																									<html:form action="/NewCsmUser">
 																										
 																											<html:submit style="actionButton"
-																														value="Create New CSM Account" />
+																														value="Request a New Local (CSM) Account" />
 																									</html:form>
 																								</td>
 																							</tr>

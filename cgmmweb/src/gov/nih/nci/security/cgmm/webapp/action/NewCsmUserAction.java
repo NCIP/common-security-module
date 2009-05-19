@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionError;
 import org.apache.struts.action.ActionErrors;
@@ -35,6 +36,8 @@ public class NewCsmUserAction extends Action
 	 */
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
+		final Logger log = Logger.getLogger(NewCsmUserAction.class);
+
 		ActionErrors errors = new ActionErrors();
 		HttpSession session = request.getSession();
 		
@@ -42,6 +45,8 @@ public class NewCsmUserAction extends Action
 		loginWorkflow = (String) session.getAttribute(DisplayConstants.LOGIN_WORKFLOW);
 		if(session.isNew() || StringUtils.isBlankOrNull(loginWorkflow)){
 			// No Workflow selected.
+			if (log.isDebugEnabled())
+				log.debug("NewCsmUserAction|execute|Failure| No workflow selected. Forwarding to Home page");
 			return mapping.findForward(ForwardConstants.FORWARD_HOME);
 		}
 				
@@ -59,24 +64,63 @@ public class NewCsmUserAction extends Action
 			
 			
 			//Get the URL for Host applications New CSM User Creation workflow page.
-			String hostAppNewCSMUserPageURL = null;			
-			hostAppNewCSMUserPageURL = CGMMProperties.getHostApplicationInformation().getHostNewLocalUserCreationURL();
+			String hostAppNewCSMUserPageURL = CGMMProperties.getHostApplicationInformation().getHostNewLocalUserCreationURL();
 			String hostAppContextName = CGMMProperties.getHostApplicationInformation().getHostContextName();
+			String hostUserHomePageURL = CGMMProperties.getHostApplicationInformation().getHostUserHomePageURL();
+			boolean isAlternateBehavior = false;
+			String temp = CGMMProperties.getCGMMInformation().getCgmmAlternateBehavior();
+			if(!StringUtils.isBlankOrNull(temp) && "true".equalsIgnoreCase(temp)){
+				// Alternate Behavior for CGMM. Use Redirection instead of RD.forward().
+				isAlternateBehavior = true;
+			}
 			
-			if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostAppNewCSMUserPageURL)){
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
-				saveErrors( request,errors );
+			if(isAlternateBehavior){
+				if(StringUtils.isBlankOrNull(hostAppContextName) ){
+					if (log.isDebugEnabled())
+						log.debug("NewCsmUserAction||Failure| "+ DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO);
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
+					saveErrors( request,errors );
+				}else{
+					try {
+						String redirectURL = "/"+hostAppContextName;
+						
+						
+						if(!StringUtils.isBlankOrNull(hostAppNewCSMUserPageURL)){
+							redirectURL = redirectURL + hostAppNewCSMUserPageURL;
+						}
+						
+						response.sendRedirect(redirectURL);
+					} catch (IOException e) {
+						if (log.isDebugEnabled())
+							log.debug("NewCsmUserAction|execute|Failure||"+e.getMessage());
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+						saveErrors( request,errors );
+					}
+				}
 			}else{
-				ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+hostAppContextName);
-				RequestDispatcher rd = sc.getRequestDispatcher(hostAppNewCSMUserPageURL);
-				try {
-					rd.forward(request, response);
-				} catch (ServletException e) {
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+			
+			
+				if(StringUtils.isBlankOrNull(hostAppContextName) || StringUtils.isBlankOrNull(hostAppNewCSMUserPageURL)){
+					if (log.isDebugEnabled())
+						log.debug("NewCsmUserAction|execute|Failure||"+DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO);
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CGMM_CONFIGURATION_DETAILS_HOST_INFO));
 					saveErrors( request,errors );
-				} catch (IOException e) {
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
-					saveErrors( request,errors );
+				}else{
+					ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+hostAppContextName);
+					RequestDispatcher rd = sc.getRequestDispatcher(hostAppNewCSMUserPageURL);
+					try {
+						rd.forward(request, response);
+					} catch (ServletException e) {
+						if (log.isDebugEnabled())
+							log.debug("NewCsmUserAction|execute|Failure||"+e.getMessage());
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+						saveErrors( request,errors );
+					} catch (IOException e) {
+						if (log.isDebugEnabled())
+							log.debug("NewCsmUserAction|execute|Failure||"+e.getMessage());
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
+						saveErrors( request,errors );
+					}
 				}
 			}
 		}

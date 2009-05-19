@@ -48,14 +48,13 @@
 															<td class="home" colspan="3">
 																<br>
 																<h3>
-																	CSM to GAARDS Account Migration
+																	Local Account to Grid Account Migration
 																</h3>
 																This screen allows the User to migrate to a GAARDS (caGrid) account.
 																<br><br>
 																If you have a GAARDS (caGrid) account already then login using the caGrid Login ID and Password.
 																<br><br>
-																If you do not have any GAARDS (caGrid) account then proceed to create a new caGrid account by clicking on the 'Create a New caGrid Account' button.
-																After creating a new caGrid account a migration confirmation screen will provide an option to migrate the newly created caGrid account.
+																If you do not have any GAARDS (caGrid) account then proceed to request a new caGrid account by clicking on the 'Request a New caGrid Account' button.
 																<br><br>
 															</td>
 														</tr>
@@ -85,7 +84,7 @@
 																								<tr>
 																									<td align="center" height="20">
 																										<h3>
-																											Migrate a Grid Account
+																											Migrate to this Grid account
 																										</h3>
 																									</td>
 																								</tr>
@@ -188,17 +187,17 @@
 																							<tr>
 																								<td align="center" height="20">
 																									<h3>
-																										Create a new Grid Account
+																										Request new Grid account
 																									</h3>
 																								</td>
 																							</tr>
 																							<tr>
 																								<td class="home" colspan="3">
-																									Dont have a Grid Account?<br> Click the Create new
-																									Grid Account button to proceed.
+																									Don't have a Grid Account?<br> Click the Request a New
+																									caGrid Account button to proceed.
 																									<html:form action="/NewGridUser">
 																									<html:submit style="actionButton"
-																														value="Create New caGrid Account" />
+																														value="Request a New caGrid Account" />
 																										<%--<input class="actionButton" type="submit"
 																											value='<bean:message key="label.new_grid_user"/>' />
 																									--%></html:form>

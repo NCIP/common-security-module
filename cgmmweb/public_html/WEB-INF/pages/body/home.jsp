@@ -11,8 +11,14 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
+
+<%
+
+	String hostApplicationName1 = (String)session.getAttribute("HOST_APPLICATION_NAME") ;
+	hostApplicationName1= hostApplicationName1.toUpperCase();
+%>
 <logic:present name="<%=DisplayConstants.HOST_APPLICATION_NAME%>">
-	<bean:define name="<%=DisplayConstants.HOST_APPLICATION_NAME%>"id="hostApplicationName" />
+	<bean:define name="<%=DisplayConstants.HOST_APPLICATION_NAME%>" id="hostApplicationName" />
 </logic:present>
 <logic:present name="<%=DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE%>">
 <bean:define
@@ -22,6 +28,13 @@
 <bean:define
 	name="<%=DisplayConstants.HOST_APPLICATION_PUBLIC_HOME_PAGE%>" id="hostApplicationPublicHomePage" />
 </logic:present>
+<logic:present name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>">
+	<bean:define name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" id="ALTERNATE_BEHAVIOR" />
+</logic:present>
+<logic:present name="<%=DisplayConstants.STANDALONE_MODE%>">
+	<bean:define name="<%=DisplayConstants.STANDALONE_MODE%>" id="STANDALONE_MODE" />
+</logic:present>
+
 
 <tr>
 	<td width="100%" valign="top">
@@ -59,17 +72,20 @@
 															<td class="home" colspan="3">
 																<br>
 																<h3 >
-																	Common Security Module - GAARDS Account Migration Module (CGMM)
+																	Local (CSM) Account To Grid Account Migration
 																</h3>
-																Welcome to the CSM GAARDS Account Migration Module. The CGMMWeb is a web interface that allows applications to automatically migrate
-																application users with CSM (Local) account to the GAARDS (caGrid) account.
+																Welcome to the CSM GAARDS Account Migration Module. The CGMMWeb is a web interface that allows automatic
+																migration <%=hostApplicationName1%> user's Local (CSM) account to a GAARDS (caGrid) account. 
 																<br><br>
-																If you have a CSM (local) account then proceed to migrate it to a new or existing GAARDS (caGrid) account.
-																<br><br>
-																Alternatively, if you have a GAARDS (caGrid) account then proceed to migrate it with an existing CSM (local) account.
-																<br><br>
-																If you have already completed the migration process then proceed to Log in to the application using GAARDS (caGrid) account information.
-																<br><br>
+																<logic:equal name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" value="false"> 
+																	
+																	If you have a local <%=hostApplicationName1%> (CSM) account then proceed to migrate it to a new or existing GAARDS (caGrid) account.
+																	<br><br>
+																	Alternatively, if you have a GAARDS (caGrid) account then proceed to migrate it with an existing <%=hostApplicationName1%> local (CSM) account.
+																	<br><br>
+																	If you have already completed the migration process then proceed to Log in to the <%=hostApplicationName1%> application using GAARDS (caGrid) account information.
+																	<br><br>
+																</logic:equal>
 															</td>
 														</tr>
 														<tr>
@@ -98,7 +114,7 @@
 																								<tr>
 																									<td align="center" height="20">
 																										<h3>
-																											Migrate to existing CSM Account
+																											Migrate this local <%=hostApplicationName1%> account
 																										</h3>
 																									</td>
 																								</tr>
@@ -156,6 +172,7 @@
 																				<!--  csm login ends -->
 																			</table>
 																		</td>
+																		<logic:equal name="<%=DisplayConstants.ALTERNATE_BEHAVIOR%>" value="false"> 
 																		<td valign="top" width="2%"></td>
 																		<td valign="top" align="center">
 																			OR
@@ -260,6 +277,7 @@
 
 																			</table>
 																		</td>
+																		</logic:equal>
 
 																	</tr>
 																</table>
