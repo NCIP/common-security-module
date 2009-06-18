@@ -379,7 +379,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<!-- copy over any other files you may need to configure your application -->
 
 		<!-- copy datasource file -->
-		<copy file="${jboss-conf.dist.relative.dir}/${upt.ds.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
+		<copy file="${working.dir}/${jboss-conf.dist.relative.dir}/${upt.ds.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 		<!-- copy JBoss-web.xml file -->
 		<!--
 		<copy file="${jboss-conf.dir.dest}/${jboss.web.xml.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
@@ -488,6 +488,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<target name="install:jboss:start" description="Starts jboss" unless="exclude.jboss" depends="init:install,init:common">
+		<echo message="${exclude.jboss}" />
 		<if>
 			<not>
 				<isset property="exclude.start.servers" />
