@@ -10,7 +10,7 @@
 
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
         <property name="hibernate.show_sql">false</property>
-        <property name="connection.datasource">java:/csmupt</property>
+        <property name="connection.datasource">java:@application.jndi@@application.context.name@</property>
         
 
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml"/>
