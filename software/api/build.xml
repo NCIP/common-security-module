@@ -45,7 +45,7 @@
 	<!-- Targets -->
 
 	<target name="ivy-settings">
-		<ivy:settings override="true" file="${ivy.settings.file}" />
+		<ivy:settings file="${ivy.settings.file}" />
 	</target>
 
 	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
