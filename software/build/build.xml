@@ -30,10 +30,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="securityws.base.dir" location="${software.dir}/securityws" />
 	<property name="csm.base.dir" location="${software.dir}/api" />
 	<property name="upt.base.dir" location="${software.dir}/upt" />
+	<property name="backwards.compatible.upt.base.dir" location="${software.dir}/backwards_compatible_upt" />
 	<property name="cgmm.base.dir" location="${software.dir}/cgmmweb" />
 
 	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
 	<property name="upt.build.file" value="build.xml" />
+    <property name="backwards.compatible.upt.build.file" value="build.xml" />
 	<property name="csm.build.file" value="build.xml" />
 	<property name="securityws.build.file" value="build.xml" />
 	<property name="cgmm.build.file" value="build.xml" />
@@ -42,6 +44,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="securityws.build.target" value="all" />
 	<property name="csm.build.target" value="dist" />
 	<property name="upt.build.target" value="all" />
+    <property name="backwards.compatible.upt.build.target" value="all" />
 	<property name="cgmm.build.target" value="all" />
 
 	<property name="install.upt.target" value="install-upt" />
@@ -54,6 +57,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="csm.dist.dir" location="${dist.exploded.dir}/${csm.dist.relative.dir}" />
 	<property name="securityws.dist.dir" location="${dist.exploded.dir}/${securityws.dist.relative.dir}" />
 	<property name="upt.dist.dir" location="${dist.exploded.dir}/${upt.dist.relative.dir}" />
+	<property name="backwards.compatible.upt.dist.dir" location="${dist.exploded.dir}/${backwards.compatible.upt.dist.relative.dir}" />
 	<property name="cgmm.dist.dir" location="${dist.exploded.dir}/${cgmmweb.dist.relative.dir}" />
 
 	<target name="clean">
@@ -67,6 +71,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<mkdir dir="${dist.exploded.dir}" />
 		<mkdir dir="${csm.dist.dir}" />
 		<mkdir dir="${upt.dist.dir}" />
+		<mkdir dir="${backwards.compatible.upt.dist.dir}" />
 		<mkdir dir="${securityws.dist.dir}" />
 		<mkdir dir="${cgmm.dist.dir}" />
 		<mkdir dir="${common.dist.dir}" />
@@ -125,6 +130,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<ant inheritAll="false" inheritRefs="false" dir="${csm.base.dir}" antfile="${csm.build.file}" target="ivy-clean-cache" />
 		<ant inheritAll="false" inheritRefs="false" dir="${securityws.base.dir}" antfile="${securityws.build.file}" target="ivy-clean-cache" />
 		<ant inheritAll="false" inheritRefs="false" dir="${upt.base.dir}" antfile="${upt.build.file}" target="ivy-clean-cache" />
+		<ant inheritAll="false" inheritRefs="false" dir="${backwards.compatible.upt.base.dir}" antfile="${backwards.compatible.upt.build.file}" target="ivy-clean-cache" />
 		<ant inheritAll="false" inheritRefs="false" dir="${cgmm.base.dir}" antfile="${cgmm.build.file}" target="ivy-clean-cache" />
 	</target>
 
@@ -134,6 +140,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		clean,
 		init,
 		build:upt,
+		build:backwards.compatible.upt,
 		build:securityws,
 		build:cgmm"
 		>
@@ -147,6 +154,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 	<target name="build:upt" depends="init, build:csm">
 		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="${upt.build.target}" dir="${upt.base.dir}">
+		</ant>
+	</target>
+
+	<target name="build:backwards.compatible.upt" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="${backwards.compatible.upt.build.target}" dir="${backwards.compatible.upt.base.dir}">
 		</ant>
 	</target>
 
@@ -164,6 +176,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			init,
 			compile:csm,
 			compile:upt,
+			compile:backwards.compatible.upt,
 			compile:securityws,
 			compile:cgmm
 			" />
@@ -175,6 +188,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 	<target name="compile:upt" depends="init">
 		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="compile" dir="${upt.base.dir}" />
+	</target>
+
+	<target name="compile:backwards.compatible.upt" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="compile" dir="${backwards.compatible.upt.base.dir}" />
 	</target>
 
 	<target name="compile:cgmm" depends="init">
