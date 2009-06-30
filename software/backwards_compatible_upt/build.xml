@@ -303,7 +303,7 @@
 	<!-- -->
 	<!-- -->
 	
-	<target name="init">
+	<target name="initLogin">
 		<property name="app.name" value="uptlogin" />
 		<property name="src.home" value="${basedir}/${app.name}/webapp/src" />
 		<property name="web.home" value="${basedir}/${app.name}/webapp/public_html" />
@@ -316,12 +316,12 @@
 		<property name="war.file" value="${dist.home}/${app.name}.war" />
 	</target>
 
-	<target name="cleanLogin" depends="init" description="Delete the Build and Dist directories">
+	<target name="cleanLogin" depends="initLogin" description="Delete the Build and Dist directories">
 		<delete dir="${build.home}" />
 		<delete dir="${dist.home}" />
 	</target>
 
-	<target name="prepareDir" depends="init">
+	<target name="prepareDirLogin" depends="initLogin">
 		<mkdir dir="${build.home}" />
 		<mkdir dir="${build.home}/WEB-INF" />
 		<mkdir dir="${build.home}/WEB-INF/tld" />
@@ -332,7 +332,7 @@
 		<mkdir dir="${dist.home}" />
 	</target>
 
-	<target name="prepareBuild" depends="prepareDir">
+	<target name="prepareBuildLogin" depends="prepareDirLogin">
 
 		<copy todir="${build.home}">
 			<fileset dir="${basedir}/${app.name}/webapp" />
@@ -353,9 +353,9 @@
 	</target>
 
 
-	<target name="prepare" depends="prepareDir,prepareBuild" />
+	<target name="prepareLogin" depends="prepareDirLogin,prepareBuildLogin" />
 
-	<target name="compile" depends="init,prepare" description="Compiles all the files in the project">
+	<target name="compileLogin" depends="initLogin,prepareLogin" description="Compiles all the files in the project">
 		<javac srcdir="${src.home}" destdir="${build.home}/public_html/WEB-INF/classes" debug="true" deprecation="true">
 			<classpath>
 				<fileset dir="${lib.home}" includes="*.jar" />
@@ -372,7 +372,7 @@
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/ObjectStateLoggerConfig.xml" />
 	</target>
 
-	<target name="distLogin" depends="init,compile" description="Creates war file">
+	<target name="distLogin" depends="initLogin,compileLogin" description="Creates war file">
 		<!--<copy todir="${dist.home}">
 			<fileset dir="${basedir}/build/uptlogin/resources">
 				<exclude name="ObjectStateLoggerConfig.xml" />
@@ -629,9 +629,10 @@
 	<target name="clean" depends="clean41,clean40,clean32,cleanLogin,clean31" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
 
+	<target name="compile" depends="clean41,clean40,clean32,cleanLogin,clean31,updateUPTversions,compile41,compile40,compile32,compile31,compileLogin" description="Compiles the entire application by cleaning and compiling individual subprojects" />
+
 	<target name="all" depends="clean41,clean40,clean32,cleanLogin,clean31,updateUPTversions,dist41,dist40,dist32,distLogin,dist31,buildEar,cleanup41,cleanup40,cleanup32,cleanupLogin,cleanup31" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
-<target name="all2" depends="updateUPTversions" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 
 
 
