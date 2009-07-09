@@ -27,7 +27,7 @@
                 </authorization-provider-class>
                 <hibernate-config-file>
                     <!-- Fully qualified file path -->
-                    C:/Vijay/software/jboss-4.0.5.GA/server/default/cgmm_config/cgmmweb.hibernate.cfg.xml
+                    @jboss.home@/server/@jboss.server.name@/cgmm_config/cgmmweb.hibernate.cfg.xml
                 </hibernate-config-file>
             </authorization>
         </application>
