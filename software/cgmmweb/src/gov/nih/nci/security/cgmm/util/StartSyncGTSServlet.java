@@ -76,7 +76,7 @@ public class StartSyncGTSServlet extends HttpServlet
 		}
 		catch (Exception e) 
 		{
-			throw new ServletException ("Unable to Start Sync GTS Service.");
+			throw new ServletException ("Unable to Start Sync GTS Service.",e);
 		}
 		super.init(config);
 	}

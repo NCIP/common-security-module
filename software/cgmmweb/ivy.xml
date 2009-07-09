@@ -11,34 +11,58 @@
 		<conf name="test-pmd" extends="runtime" />
 		<conf name="master" extends="default" />
 		<conf name="compile" extends="default" />
-		<conf name="runtime" extends="compile" />
+		<conf name="runtime"/>
+		<conf name="jboss-default-lib"/>
 	</configurations>
 
-	<publications>
-		
+	<publications>		
 	</publications>
 
 	<dependencies>
 		<dependency org="springsource" name="acegi-security" rev="1.0.3" conf="compile;runtime"/>
 		<dependency org="springsource" name="spring" rev="1.2.8" conf="compile;runtime"/>
 		<dependency org="javax.servlet" name="servlet" rev="2.3.1" conf="compile;runtime"/>
-		<dependency org="apache" name="log4j" rev="1.2.9" conf="compile;runtime;" />
+		<dependency org="apache" name="log4j" rev="1.2.9" conf="compile" />
 		<dependency org="jakarta" name="commons-lang" rev="1.0.1" conf="compile;runtime;" />
-		<dependency org="jakarta" name="commons-logging" rev="1.0.4" conf="compile;runtime;" />
+		<dependency org="jakarta" name="commons-logging" rev="1.0.4" conf="compile" />
+		<dependency org="jakarta" name="commons-validator" rev="1.3" conf="compile->compile;runtime->compile" />
 		<dependency org="org.jdom" name="jdom" rev="1.1" conf="compile;runtime;" />
-		<dependency org="apache" name="log4j" rev="1.2.9" conf="compile;runtime;" />
 		<dependency org="apache" name="struts" rev="1.1" conf="compile;runtime;" />
-		<dependency org="mysql" name="mysql-connector-java" rev="3.1.11" conf="compile;runtime;" />
+		<dependency org="mysql" name="mysql-connector-java" rev="3.1.11" conf="compile" />
 
 		<dependency org="org.hibernate" name="hibernate" rev="3.2.0.ga" conf="compile;runtime;" />
 		<dependency org="org.hibernate" name="hibernate-annotations" rev="1.0" conf="compile;runtime;" />
 		<dependency org="org.hibernate" name="ejb3-persistence" rev="1.0.1" conf="compile;runtime;" />
 
-		
-
 		<dependency org="ehcache" name="ehcache" rev="1.2.4" conf="compile;runtime;" />
-		<dependency org="ncicb" name="csm" rev="4.1.beta" conf="compile;runtime;" /> 
+		<dependency org="ncicb" name="csm" rev="4.1.0.1" conf="compile;runtime;" /> 
 		<dependency org="ncicb" name="clm" rev="4.0" conf="compile;runtime;" />
+		<dependency org="jboss" name="mail" rev="4.0.5.GA" conf="compile->compile" />
+		
+		<!-- grid 1.2 jars -->
+		<dependency org="globus" name="jcog" rev="1.2" conf="compile->runtime;jboss-default-lib->runtime" />
+		<dependency org="globus" name="jcogfx" rev="noversion" conf="compile->runtime;jboss-default-lib->runtime" />
+		
+		<dependency org="globus" name="puretls" rev="0.9b5" conf="runtime->runtime" />
+		<dependency org="globus" name="ws-addressing" rev="1.0" conf="compile->runtime;runtime->runtime" />
+		<dependency org="caGrid" name="authentication-service" rev="1.2" conf="compile->client;runtime->client"/>
+		<dependency org="caGrid" name="dorian" rev="1.2" conf="compile->client;runtime->client"/>
+		<dependency org="globus" name="axis" rev="1.2RC2" conf="compile->runtime" />
+		<dependency org="globus" name="ws-enumeration" rev="4.0.3" conf="compile;runtime" />
+		<dependency org="caGrid" name="syncgts" rev="1.2" conf="compile->stubs;compile->common;compile->client;compile->service;runtime->stubs;runtime->common;runtime->client;runtime->service"/>
+		<dependency org="caGrid" name="data" rev="1.2" conf="compile->utils;runtime->utils"/>
+		
+		<dependency org="caGrid" name="gts" rev="1.2" conf="runtime->client;runtime->common" />
+		<dependency org="globus" name="ws-core" rev="4.0.3" conf="runtime->runtime" />
+		<dependency org="apache" name="xmlsec" rev="1.2.1" conf="runtime->master" />
+		<!-- grid 1.2 jars -->
+		
+		<!-- local ivy repo jars -->
+		<dependency org="catalina" name="catalina" rev="5.0" conf="compile->compile;runtime->compile" />
+		<dependency org="catalina" name="jbosssx" rev="5.0" conf="compile->compile" />
+		<dependency org="catalina" name="tomcat-coyote" rev="5.0" conf="compile->compile" />
+		<dependency org="catalina" name="tomcat-util" rev="5.0" conf="compile->compile" />
+		<!-- local ivy repo jars -->
 		
 		<dependency org="javancss" name="javancss" rev="29.50" conf="test->runtime"/>
 		<dependency org="junit" name="junit" rev="3.8.1" conf="test->master"/>
@@ -46,7 +70,6 @@
 		<dependency org="checkstyle" name="checkstyle" rev="4.4" conf="test->runtime"/>
 		<dependency org="pmd" name="pmd" rev="4.2.1" conf="test-pmd->runtime"/>
 	</dependencies>
-
 </ivy-module>
 
 

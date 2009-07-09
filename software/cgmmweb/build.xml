@@ -3,23 +3,33 @@
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="common.dir" value="${basedir}/../" />
-	<property name="target.dir" value="${common.dir}/target/cgmmweb" />
+	<property name="target.dir" value="${common.dir}/target/dist/exploded/cgmmweb" />
+	<property name="target.jars.dir" value="${target.dir}/jars" />
 	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
 	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
 
 	<!-- set global properties for this build -->
-	<property name="src.dir" location="webapp/src" />
-	<property name="lib.dir" value="${common.dir}/lib/" />
+	<property name="src.dir" location="src" />
+	<property name="lib.dir" value="${common.dir}/target/lib/" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
-	<property name="web.dir" value="${basedir}/webapp/public_html" />
+	<property name="web.dir" value="${basedir}/public_html" />
 	<property name="build.dir" value="build" />
-	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
-	<property name="war.file" value="cgmmweb.war" />
+	<property name="app.name" value="cgmmweb" />
+	<property name="war.file" value="${app.name}.war" />
+	<property name="build.home" value="${basedir}/build" />
+	<property name="temp.dir" value="${basedir}/temp" />
+
+	<property name="properties.file" location="../build/project.properties">
+	</property>
+	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2" />
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2" />
+	<property file="${properties.file}" />
 
 	<!-- Paths -->
 	<path id="common.classpath">
-		<fileset dir="${common.dir}/lib">
+		<fileset dir="${common.dir}/target/lib">
 			<include name="ivy-core-2.0.0-beta2.jar" />
 			<include name="ivy-2.0.0-beta2.jar" />
 		</fileset>
@@ -27,7 +37,7 @@
 
 	<path id="project.compile.classpath">
 		<fileset dir="${lib.dir}/cgmmweb/compile">
-			<include name="*.jar" />
+			<include name="**/*.jar" />
 		</fileset>
 	</path>
 
@@ -37,17 +47,22 @@
 	<!-- Targets -->
 
 	<target name="ivy-settings" depends="-init">
-		<ivy:settings override="true" file="${ivy.settings.file}" />
+		<ivy:settings file="${ivy.settings.file}" />
 	</target>
 
 	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="compile" />
-		<ivy:retrieve pattern="${common.dir}/lib/cgmmweb/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+		<ivy:retrieve pattern="${lib.dir}/cgmmweb/[conf]/[artifact]-[revision].[ext]" conf="compile" />
 	</target>
 
 	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
 		<ivy:resolve refresh="true" conf="runtime" />
-		<ivy:retrieve pattern="${common.dir}/lib/cgmmweb/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
+		<ivy:retrieve pattern="${lib.dir}/cgmmweb/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
+	</target>
+
+	<target name="ivy-jboss-default-lib" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="jboss-default-lib" />
+		<ivy:retrieve pattern="${lib.dir}/cgmmweb/[conf]/[artifact]-[revision].[ext]" conf="jboss-default-lib" />
 	</target>
 
 	<target name="ivy-clean-cache" description="Cleans project Ivy cache">
@@ -56,40 +71,98 @@
 	</target>
 
 	<target name="-pre-clean" description="Performs all necessary clean-up before a build">
-		<delete dir="${classes.dir}" quiet="false" />
+		<delete dir="${build.dir}" quiet="false" />
 	</target>
 
 	<target name="-init" description="Initializes the system before a build">
 		<!-- Create the time stamp -->
 		<tstamp />
-		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${build.dir}" />
+		<mkdir dir="${target.jars.dir}" />
+		<mkdir dir="${lib.dir}/cgmmweb/jboss-default-lib" />
 		<mkdir dir="${lib.dir}/cgmmweb/compile" />
 		<mkdir dir="${lib.dir}/cgmmweb/runtime" />
-		<!--  MAKE SURE TO REMOVE THE LIB JARS from WEB-INF/lib folder once runtime jars are ivyfied.-->
-		<copy todir="${build.dir}">
-			<fileset dir="${web.dir}" />
-		</copy>
-		<copy todir="${build.dir}/WEB-INF/lib">
-			<fileset dir="${lib.dir}/cgmmweb/runtime" includes="**/*.jar" />
-		</copy>
 	</target>
 
 	<target name="compile" depends="-pre-clean, -init, ivy-compile" description="Compiles all the files in the project">
-		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="true" deprecation="true" classpathref="project.compile.classpath" />
+		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="true" deprecation="true" classpathref="project.compile.classpath" />
 	</target>
 
 	<target name="-post-compile" depends="compile" description="Post-compile operations">
-		<copy file="${src.dir}/cgmmweb.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" />
-		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/cgmmweb/resources" />
-		<copy file="${src.dir}/gov/nih/nci/security/upt/resources/ApplicationResources.properties" todir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/cgmmweb/resources" />
+		<copy file="${src.dir}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" todir="${build.dir}/gov/nih/nci/security/cgmm/webapp" />
 	</target>
 
-	<target name="war" depends="compile, -post-compile, ivy-runtime" description="Generate cgmmweb.war">
-		<jar jarfile="${target.dir}/${war.file}" basedir="${build.dir}" />
+	<target name="dist-cgmmapi-jar" depends="compile">
+		<jar jarfile="${target.jars.dir}/cgmmapi.jar">
+			<fileset dir="${build.dir}">
+				<exclude name="**/webapp/**/*" />
+				<excludesfile name="${build.dir}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+			</fileset>
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
+		</jar>
 	</target>
 
-	<target name="dist" depends="war" description="generate the distribution">
+	<target name="jboss-cgmmapi-jar" depends="compile">
+		<jar jarfile="${target.jars.dir}/jboss-cgmmapi.jar">
+			<fileset dir="${build.dir}">
+				<exclude name="**/webapp/**/*" />
+				<excludesfile name="${build.dir}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+				<excludesfile name="${build.dir}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class" />
+			</fileset>
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
+		</jar>
+	</target>
+
+	<target name="jbosssar-cgmmapi-jar" depends="compile">
+		<jar jarfile="${target.jars.dir}/jbossweb-tomcat55-sar-cgmmapi.jar">
+			<fileset dir="${build.dir}">
+				<exclude name="**/webapp/**/*" />
+				<excludesfile name="${build.dir}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+				<excludesfile name="${build.dir}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class" />
+			</fileset>
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
+		</jar>
+	</target>
+
+	<target name="cgmmfilter-jar" depends="compile">
+		<jar jarfile="${target.jars.dir}/cgmmfilter.jar">
+			<fileset dir="${build.dir}" includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class" />
+		</jar>
+	</target>
+
+
+	<target name="war" depends="compile, -post-compile, ivy-runtime,ivy-jboss-default-lib" description="Generate cgmmweb.war">
+		<copy todir="${temp.dir}/WEB-INF/classes">
+			<fileset dir="${build.dir}">
+				<include name="**/webapp/**/*.class"/>
+			</fileset>
+		</copy>
+		<copy todir="${temp.dir}">
+			<fileset dir="${web.dir}" />
+		</copy>
+		<copy todir="${temp.dir}/WEB-INF/lib" file="${target.jars.dir}/cgmmapi.jar">
+		</copy>
+		<copy todir="${temp.dir}/WEB-INF/">
+			<fileset dir="${web.dir}/WEB-INF" />
+		</copy>
+		<copy todir="${temp.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}/cgmmweb/runtime">
+				<exclude name="*commons-logging*.jar"/>
+				<exclude name="*log4j*.jar"/>
+			</fileset>
+		</copy>
+		<jar jarfile="${target.dir}/${war.file}">
+			<fileset dir="${temp.dir}" />
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
+		</jar>
+		<delete dir="${temp.dir}" />
+	</target>
+
+	<target name="dist" depends="-post-compile,dist-cgmmapi-jar,jboss-cgmmapi-jar,jbosssar-cgmmapi-jar,cgmmfilter-jar,war,-post-clean" description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war. Generates distribution directory. ">
 		<copy todir="${target.dir}">
 			<fileset dir="../common/resources/jboss-conf" />
 			<fileset dir="resources">
@@ -100,14 +173,13 @@
 			<fileset dir="../common/resources/db/postgresql" />
 			<fileset dir="../common/resources/db/sqlserver" />
 		</copy>
-		<copy todir="${target.dir}" file="${common.dir}/lib/cgmmweb/runtime/clm-4.0.jar" />
+		<copy todir="${target.dir}" file="${lib.dir}/cgmmweb/runtime/clm-4.1.jar" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
-		<delete dir="${classes.dir}" quiet="false" />
 		<delete dir="${build.dir}" quiet="false" />
+		<!--<delete dir="${temp.dir}" quiet="false" />-->
 	</target>
 
 	<target name="all" depends="dist, -post-clean" description="Default project target" />
-
 </project>

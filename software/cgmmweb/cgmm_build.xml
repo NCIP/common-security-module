@@ -68,59 +68,65 @@
 			<fileset dir="${src.home}" excludes="**/*.java" />
 		</copy>
 	</target>
-		
-
-	<target name="createJars" depends="compile" description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war">
+	
+	<target name="createJars" depends="compile"
+		description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war">
 		
 		<jar jarfile="${dist.home}/cgmmapi.jar">
 			<fileset dir="${classes.home}">
-				<exclude name="**/webapp/**/*"/>
-				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
-
+				<exclude name="**/webapp/**/*" />
+				<excludesfile
+					name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
 			</fileset>
-			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
-			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>			
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
 		</jar>
+		
 		<jar jarfile="${build.home}/WEB-INF/lib/cgmmapi.jar">
 			<fileset dir="${classes.home}">
-				<exclude name="**/webapp/**/*"/>	
-				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
-				<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class"/>
+				<exclude name="**/webapp/**/*" />
+				<excludesfile
+					name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+				<excludesfile
+					name="${classes.home}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class" />
 			</fileset>
-			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
-			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
 		</jar>
-		<jar jarfile="${dist.home}/jbossweb-tomcat55-sar-jars/cgmmapi.jar">
-					<fileset dir="${classes.home}">
-						<exclude name="**/webapp/**/*"/>	
-						<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties"/>
-						<excludesfile name="${classes.home}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class"/>
-					</fileset>
-					<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
-					<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>
-				</jar>
 		
-
-		<jar jarfile="${dist.home}/cgmmfilter.jar">
-			<fileset dir="${classes.home}"  includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class"/>
+		<jar jarfile="${dist.home}/jbossweb-tomcat55-sar-jars/cgmmapi.jar">
+			<fileset dir="${classes.home}">
+				<exclude name="**/webapp/**/*" />
+				<excludesfile
+					name="${classes.home}/gov/nih/nci/security/cgmm/webapp/ApplicationResources.properties" />
+				<excludesfile
+					name="${classes.home}/gov/nih/nci/security/cgmm/authenticators/CaGridFormAuthenticator.class" />
+			</fileset>
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
 		</jar>
-	
+		
+		<jar jarfile="${dist.home}/cgmmfilter.jar">
+			<fileset dir="${classes.home}"
+				includes="gov/nih/nci/security/cgmm/filters/CGMigrationFilter.class" />
+		</jar>
 		
 		<jar jarfile="${dist.home}/cgmmweb.war">
 			<fileset dir="${build.home}">
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/*.class"/>				
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/beans/*.class"/>
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/constants/*.class"/>
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/exceptions/*.class"/>
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/filters/*.class"/>
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/*.class"/>
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/impl/*.*"/>					
-				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/util/*.class"/>				
-				<exclude name="WEB-INF/classes/test/*.class"/>								
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/*.class" />
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/beans/*.class" />
+				<exclude
+					name="WEB-INF/classes/gov/nih/nci/security/cgmm/constants/*.class" />
+				<exclude
+					name="WEB-INF/classes/gov/nih/nci/security/cgmm/exceptions/*.class" />
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/filters/*.class" />
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/*.class" />
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/helper/impl/*.*" />
+				<exclude name="WEB-INF/classes/gov/nih/nci/security/cgmm/util/*.class" />
+				<exclude name="WEB-INF/classes/test/*.class" />
 			</fileset>
-			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd"/>
-			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml"/>
-
+			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
+			<fileset dir="${basedir}/resources" includes="cgmm-beans.xml" />
 		</jar>
 	</target>
 	
