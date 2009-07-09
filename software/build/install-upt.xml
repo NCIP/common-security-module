@@ -5,7 +5,7 @@ $Id: install.xml 1593 2009-04-27 21:29:25Z saksass $
 $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/install.xml $
 -->
 
-<project name="csm-installer" default="install:jboss:upt" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="upt" default="install:jboss:upt" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="bda-master-install.xml" />
 		
@@ -71,8 +71,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:upt-webapp,
 		install:jboss:upt-webapp:configure,
 		install:jboss:configure,
-		install:jboss:grid,
-		install:jboss:grid:configure,
 		install:post:jboss,
 		install:jboss:start,
 		install:jboss:validation:post-install
