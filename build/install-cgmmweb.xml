@@ -5,15 +5,16 @@ $Id: install.xml 1593 2009-04-27 21:29:25Z saksass $
 $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/install.xml $
 -->
 
-<project name="cgmmweb-installer" default="install:jboss:cgmmweb" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="cgmmweb" default="install:jboss:cgmmweb" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="bda-master-install.xml" />
 	<!-- Generic properties -->
-	<property name="project.name" value="cgmmweb-installer" />	
+	<property name="project.name" value="cgmmweb-installer" />
 
 	<property name="cgmmweb.dir.dist" value="${basedir}/${cgmmweb.dist.relative.dir}" />
 	<property name="cgmm.war.file" value="cgmmweb.war" />
-	
+
+
 	<target name="install:jboss:cgmm-webapp" description="Deploy bda-blueprints-webapp and common libraries to jboss installation" unless="exclude.jboss" depends="common:init">
 		<!-- added to ensure working.dirs are fresh for our install -->
 		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp" />
@@ -38,48 +39,94 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:validation:pre-install:ports,
 		install:jboss:clean,
 		install:jboss:binaries,
-		install:jboss:cgmm-webapp:re-configure,
 		install:jboss:cgmm-webapp,
 		install:jboss:cgmm-webapp:configure,
 		install:jboss:configure,
 		install:post:jboss,
-		install:jboss:start		
+		install:jboss:start
 		">
 	</target>
 	
-	<!-- install:tomcat:validation:post-install -->
-	<target name="install:tomcat:cgmmweb" description="Wrapper scripts that calls all required targets to install the tomcat container" unless="exclude.tomcat" depends="
-		common:tomcat:init,
-		common:init,
-		install:tomcat:validation:pre-install,
-		install:tomcat:stop,
-		install:tomcat:validation:pre-install:ports,
-		install:tomcat:clean,
-		install:tomcat:binaries,
-		install:tomcat:configure,
-		install:tomcat:cgmm-webapp,
-		install:tomcat:cgmm-webapp:configure,
-		install:tomcat:cgmm-webapp:re-configure,
-		install:post:tomcat,
-		install:tomcat:start
-		">
+	<!-- configure target grid -->
+	<target name="install:jboss:configure:target_grid">
+		<!-- configure target grid -->
+		<switch value="${target_grid}">
+			<case value="training-1.2">
+				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian" />
+				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
+			</case>
+			<case value="nci_dev-1.2">
+				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cbiovdev5035.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
+				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
+			</case>
+			<case value="nci_qa-1.2">
+				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian-qa.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
+				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
+			</case>
+			<case value="nci_stage-1.2">
+				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
+				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
+			</case>
+			<case value="nci_prod-1.2">
+				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
+				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
+			</case>
+
+			<default>
+				<fail message="Invalid target grid ${target_grid}." />
+			</default>
+		</switch>
+		
+		<copy todir="${user.home}/.globus/certificates" overwrite="true">
+			<fileset dir="${target_grid.dist.relative.dir}/${target_grid}/gts-rootcertificates"></fileset>
+		</copy>
+		<copy todir="${jboss.home}/server/default/cgmm_config" file="${target_grid.dist.relative.dir}/${target_grid}/sync-description.xml" overwrite="true"/>
+		<copy todir="${jboss.home}/server/default/cgmm_config" overwrite="true">
+			<fileset dir="${cgmmweb.dist.relative.dir}">
+				<include name="*cgmm-properties.xml"/>
+				<include name="*cgmm-properties.xsd"/>
+			</fileset>
+			<filterset>
+				<filter token="CAGRID_AUTHENTICATION_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}"/>
+				<filter token="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_DORIAN_SERVICE_URL}"/>
+			</filterset>
+		</copy>
 	</target>
 
-	<target name="install:tomcat:cgmm-webapp" description="Deploy bda-blueprints-webapp and common libraries to jboss installation" unless="exclude.tomcat" depends="common:init">
-		<delete dir="${tomcat.home}/temp" />
-		<delete dir="${tomcat.home}/work" />
-		<copy file="${cgmmweb.dir.dist}/${cgmm.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
-		<copy file="${database.driver.file}" todir="${tomcat.home}/common/lib" overwrite="true" />
+	<target name="install:jboss:cgmm-webapp:configure" depends="install:jboss:configure:target_grid,install:jboss:jbossweb-tomcat55:configure">
+		<copy todir="${jboss.home}/server/default/cgmm_config" overwrite="true">
+			<fileset dir="${cgmmweb.dist.relative.dir}">
+				<include name="*ApplicationSecurityConfig.xml"/>
+				<include name="*cgmm.login.config"/>
+				<include name="*cgmmweb.hibernate.cfg.xml"/>
+			</fileset>
+			<filterset>
+				<filter token="jboss.home" value="${jboss.home}"/>
+			</filterset>
+		</copy>
+
+		<!-- This code is for updating properties.service.xml, make sure to add ${line.separator} after each property def as the property delimiter, if this is not included you will not get the desired results. If you do not use properties service.xml you can delete this code. -->
+		<var name="property.block" value="gov.nih.nci.security.cgmm.syncgts.file=${jboss.home}/server/default/cgmm_config/sync-description.xml${line.separator}
+			gov.nih.nci.security.cgmm.properties.file=${jboss.home}/server/default/cgmm_config/cgmm-properties.xml${line.separator}
+			gov.nih.nci.security.configFile=${jboss.home}/server/default/cgmm_config/ApplicationSecurityConfig.xml${line.separator}
+			gov.nih.nci.security.cgmm.login.config.file=${jboss.home}/server/default/cgmm_config/cgmm.login.config${line.separator}
+			"/>
+		<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
+		<jboss-update-properties-service property.block="${property.block}" />
 	</target>
 
-	<target name="install:jboss:cgmm-webapp:configure">
+	<target name="install:jboss:jbossweb-tomcat55:configure">
+		<copy todir="${jboss.home}/server/default/lib" overwrite="true">
+			<fileset dir="${cgmmweb.dir.dist}/jboss-default-lib-jars">
+			</fileset>
+		</copy>
+		<copy todir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar" overwrite="true">
+			<fileset dir="${cgmmweb.dir.dist}/jbossweb-tomcat55-sar-jars">
+			</fileset>
+		</copy>
+		<copy tofile="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/cgmmapi.jar" file="${cgmmweb.dir.dist}/jars/jbossweb-tomcat55-sar-cgmmapi.jar" overwrite="true">
+		</copy>
+		<copy todir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar" file="${cgmmweb.dir.dist}/clm-4.1.jar" overwrite="true">
+		</copy>
 	</target>
-	<target name="install:tomcat:cgmm-webapp:configure">
-	</target>
-
-	<target name="install:jboss:cgmm-webapp:re-configure">
-	</target>
-	<target name="install:tomcat:cgmm-webapp:re-configure">
-	</target>
-	
 </project>

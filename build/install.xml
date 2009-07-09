@@ -9,9 +9,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
-
+	
 	<import file="install-cgmmweb.xml"/>
 	<import file="install-upt.xml"/>
+	<import file="install-backwards-compatible-upt.xml"/>
 	
 	<target name="install-upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="
 		common:jboss:init,
@@ -38,25 +39,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<target name="install-cgmmweb" description="Installs and configures JBOSS, creates database, and deploys application" depends="
-		common:jboss:init,
-		common:tomcat:init,
-		
-		common:init,
-		install:jboss:init,
-		install:common:validation:pre-install,
-		install:jboss:validation:pre-install,
-		install:tomcat:validation:pre-install,
-		install:database:validation:pre-install,
-		install:jboss:stop,
-		install:tomcat:stop,
-		install:jboss:validation:pre-install:ports,
-		install:tomcat:validation:pre-install:ports,
-		install:common:clean,
-		install:tomcat:cgmmweb,
-		install:jboss:cgmmweb,
-		install:common:post,
-		install:jboss:start,
-		install:common:validation:post-install
+		install:jboss:cgmmweb
+		">
+	</target>
+	
+	<target name="install-backwards-compatible-upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="
+		install:backwards-compatible-upt:database:validation:pre-install,
+		install:jboss:backwards-compatible-upt,
+		install:backwards-compatible-upt:databases
 		">
 	</target>
 	
