@@ -1,8 +1,8 @@
 # Replace the <<database_name>> with proper database name that is to be created.
 
-CREATE DATABASE <<database_name>>;
+CREATE DATABASE @upt.32.database.name@;
 
-USE <<database_name>>;
+USE @upt.31.database.name@;
 
 DROP TABLE IF EXISTS CSM_APPLICATION
 ;
