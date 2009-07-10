@@ -1,6 +1,6 @@
 # Replace the <<database_name>> with proper database name that is to be created.
 
-CREATE DATABASE @upt.32.database.name@;
+#CREATE DATABASE @upt.32.database.name@;
 
 USE @upt.32.database.name@;
 
