@@ -2,19 +2,6 @@
 <security-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<upt-context-name>csmupt31</upt-context-name>
 	<application-list>
-		<application>
-			<context-name>csmupt31</context-name>
-			<authentication>
-				<authentication-provider-class></authentication-provider-class>
-				<lockout-time>6000</lockout-time>
-				<allowed-login-time>6000</allowed-login-time>
-				<allowed-attempts>3</allowed-attempts>
-			</authentication>
-			<authorization>
-				<authorization-provider-class> <!-- Fully qualified class name--></authorization-provider-class>
-				<hibernate-config-file>@jboss.home@/server/@jboss.server.name@/csmconfig/csmupt31.hibernate.cfg.xml</hibernate-config-file>
-			</authorization>
-		</application>
 	</application-list>
 	<backwards-compatibility>
 		<login-application-context-name>uptlogin</login-application-context-name>

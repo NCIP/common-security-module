@@ -239,13 +239,33 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			unless="exclude.jboss" depends="common:jboss:init,common:init">
 
 		<xmltask preservetype="true"
-					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
-					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+					source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"
+					dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
 			<xmlcatalog refid="bda.xml.catalog" />
 			<remove
-					path="//security/backwards-compatibility/upt-application-list/text()" />
+					path="//security-config/backwards-compatibility/upt-application-list/text()" />
 		</xmltask>
 
+		<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
+			<xmlcatalog refid="bda.xml.catalog" />
+			<insert path="/security-config/application-list" position="under">
+				<![CDATA[
+					<application>
+						<context-name>${upt.31.context.name}</context-name>
+						<authentication>
+							<authentication-provider-class/>
+							<lockout-time>6000</lockout-time>
+							<allowed-login-time>6000</allowed-login-time>
+							<allowed-attempts>3</allowed-attempts>
+						</authentication>
+						<authorization>
+							<authorization-provider-class></authorization-provider-class>
+							<hibernate-config-file>${jboss.home}/server/${jboss.server.name}/conf/csmconfig/${upt.31.hibernate.config.file}</hibernate-config-file>
+						</authorization>
+					</application>
+				]]>
+		     </insert>
+		</xmltask>
 		<if>
 			<equals arg1="${upt.31.installed}" arg2="true" />
 			<then>
@@ -368,7 +388,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					database.name="${upt.31.database.name}" database.type="${upt.31.database.type}"
 					database.schema="${upt.31.database.schema}"  database.re-create="${upt.31.database.re-create}"
 					database.drop-schema="${upt.31.database.drop-schema}"
-					db.install.dir="${basedir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
+					db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
 					db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
 					db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
 					db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
@@ -386,7 +406,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					database.name="${upt.32.database.name}" database.type="${upt.32.database.type}"
 					database.schema="${upt.32.database.schema}" database.re-create="${upt.32.database.re-create}"
 					database.drop-schema="${upt.32.database.drop-schema}"
-					db.install.dir="${basedir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
+					db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
 					db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
 					db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
 					db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
@@ -404,7 +424,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					database.name="${upt.40.database.name}" database.type="${upt.40.database.type}"
 					database.schema="${upt.40.database.schema}" database.re-create="${upt40.database.re-create}"
 					database.drop-schema="${upt.40.database.drop-schema}"
-					db.install.dir="${basedir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
+					db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
 					db.install.create.oracle.file.list="${upt.40.db.install.create.oracle.file.list}"
 					db.install.create.mysql.file.list="${upt.40.db.install.create.mysql.file.list}"
 					db.install.create.postgresql.file.list="${upt.40.db.install.create.postgres.file.list}"
@@ -422,7 +442,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					database.name="${upt.41.database.name}" database.type="${upt.41.database.type}"
 					database.schema="${upt.41.database.schema}"  database.re-create="${upt41.database.re-create}"
 					database.drop-schema="${upt.41.database.drop-schema}"
-					db.install.dir="${basedir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
+					db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
 					db.install.create.oracle.file.list="${upt.41.db.install.create.oracle.file.list}"
 					db.install.create.mysql.file.list="${upt.41.db.install.create.mysql.file.list}"
 					db.install.create.postgresql.file.list="${upt.41.db.install.create.postgres.file.list}"
@@ -440,7 +460,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					database.name="${upt.42.database.name}" database.type="${upt.42.database.type}"
 					database.schema="${upt.42.database.schema}"  database.re-create="true" 
 					database.drop-schema="${upt.42.database.drop-schema}"
-					db.install.dir="${basedir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
+					db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
 					db.install.create.oracle.file.list="${upt.42.db.install.create.oracle.file.list}"
 					db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
 					db.install.create.postgresql.file.list="${upt.42.db.install.create.postgres.file.list}"
@@ -552,7 +572,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			<sequential>
 				<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
 					<xmlcatalog refid="bda.xml.catalog" />
-					<insert path="/security-config/backwards-compatibility/upt-application-list" position="under">
+					<insert path="//security-config/backwards-compatibility/upt-application-list" position="under">
 						<![CDATA[
 						<upt-application>
 						<context-name>@{context.name}</context-name>
