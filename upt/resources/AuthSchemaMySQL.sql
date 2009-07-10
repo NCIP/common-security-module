@@ -2,7 +2,7 @@
 
 CREATE DATABASE @upt.32.database.name@;
 
-USE @upt.31.database.name@;
+USE @upt.32.database.name@;
 
 DROP TABLE IF EXISTS CSM_APPLICATION
 ;
