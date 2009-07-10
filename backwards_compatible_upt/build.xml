@@ -11,7 +11,7 @@
 
 	<!-- set global properties for this build -->
 	<!-- This will be removed once all jars are retrieved from Ivy -->
-
+	<property file="../build/install.properties" />
 	<property name="properties.file" location="../build/project.properties">
 	</property>
 	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
@@ -56,7 +56,7 @@
 				</or>
 				<then>
 					<copy todir="${lib.home}">
-						<fileset dir="${otherlib.home}">							
+						<fileset dir="${otherlib.home}">
 						</fileset>
 					</copy>
 				</then>
@@ -176,7 +176,7 @@
 		</sequential>
 	</macrodef>
 
-	<target name="svnCheckout">		
+	<target name="svnCheckout">
 		<antcall target="svnCheckout41" inheritall="false"/>
 		<antcall target="svnCheckout40" inheritall="false"/>
 		<antcall target="svnCheckout32" inheritall="false"/>
@@ -206,8 +206,6 @@
 		<antcall target="dist31" inheritall="false" />
 		<antcall target="distLogin" inheritall="false" />
 	</target>
-
-
 
 	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 	<!-- seperate targets for upt login no need for macro-->
@@ -303,16 +301,42 @@
 		<copy todir="${build.home.ear}/META-INF">
 			<fileset dir="${basedir}/uptEAR/META-INF" includes="application.xml" />
 			<fileset dir="${basedir}/uptEAR/META-INF" includes="MANIFEST.MF" />
-
 		</copy>
+		<if>
+			<equals arg1="${upt.31.installed}" arg2="true" />
+			<then>
+				<copy todir="${build.home.ear}">
+					<fileset dir="${basedir}/dist/upt31" includes="upt31.war" />
+				</copy>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.32.installed}" arg2="true" />
+			<then>
+				<copy todir="${build.home.ear}">
+					<fileset dir="${basedir}/dist/upt32" includes="upt32.war" />
+				</copy>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.40.installed}" arg2="true" />
+			<then>
+				<copy todir="${build.home.ear}">
+					<fileset dir="${basedir}/dist/upt40" includes="upt40.war" />
+				</copy>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.41.installed}" arg2="true" />
+			<then>
+				<copy todir="${build.home.ear}">
+					<fileset dir="${basedir}/dist/upt41" includes="upt41.war" />
+				</copy>
+			</then>
+		</if>
 		<copy todir="${build.home.ear}">
-			<fileset dir="${basedir}/dist/upt41" includes="upt41.war" />
-			<fileset dir="${basedir}/dist/upt40" includes="upt40.war" />
-			<fileset dir="${basedir}/dist/upt32" includes="upt32.war" />
-			<fileset dir="${basedir}/dist/upt31" includes="upt31.war" />
 			<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
 		</copy>
-
 		<!-- Create ear file and place in ear directory -->
 		<jar jarfile="${dist.home.ear}/uptEAR.ear" basedir="${build.home.ear}" />
 	</target>
