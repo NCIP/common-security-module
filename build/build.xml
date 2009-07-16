@@ -291,7 +291,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<!-- ant -Dproperties.file=C:/devroot/csm-all/software/build/dev-install.properties  deploy:remote:install:backwards-compatible-upt 
 		https://wiki.nci.nih.gov/display/BuildandDeploymentAutomation/AHP+-+Testing+command+line+build  
      -->
-	<target name="deploy:remote:install:backwards-compatible-upt" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="">
+	<target name="deploy:remote:install:backwards-compatible-upt" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
+		build:backwards-compatible-all,
+		-copy-backwards-compatible-files,
+		dist:installer:backwards-compatible">
 		<!-- Call macro to deploy files on desired server -->
 		<deploy-files dist.file="${backwards-compatible-upt.install.zip.file}" />
 		<!-- SSH to machine ant run ant command line to install application-->
