@@ -4,7 +4,8 @@
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="common.dir" value="${basedir}/../" />
-	<property name="target.dir" value="${common.dir}/target/dist/exploded/backwards_compatible_upt" />
+	<property name="target.dir" value="${common.dir}/target/backwards_compatible_upt" />
+	<property name="exploded.dir" value="${common.dir}/target/dist/exploded/backwards_compatible_upt" />
 	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
 	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
 	<property name="bda-utils.dir" location="${common.dir}/build/bda-utils" />
@@ -145,7 +146,7 @@
 	<target name="dist31">
 		<executeUPT app.name="upt31" war.file="upt31"/>
 	</target>
-
+	
 	<macrodef name="executeSVNCheckout">
 		<attribute name="app.name" default="NOT SET"/>
 		<attribute name="tag" default="NOT SET"/>
@@ -239,17 +240,8 @@
 	</target>
 
 	<target name="prepareBuildLogin" depends="prepareDirLogin">
-
 		<copy todir="${build.home}">
-			<fileset dir="${basedir}/${app.name}/webapp" />
-		</copy>
-
-		<copy todir="${webinf.home}">
-			<fileset dir="${webinf.home}" />
-		</copy>
-
-		<copy todir="${lib.home}">
-			<fileset dir="${lib.home}" includes="**/*.jar" />
+			<fileset dir="${web.home}" />
 		</copy>
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/commons-logging.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/commons-logging-1.0.4.jar" />
@@ -262,14 +254,14 @@
 	<target name="prepareLogin" depends="prepareDirLogin,prepareBuildLogin" />
 
 	<target name="compileLogin" depends="initLogin,prepareLogin" description="Compiles all the files in the project">
-		<javac srcdir="${src.home}" destdir="${build.home}/public_html/WEB-INF/classes" debug="true" deprecation="true">
+		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true">
 			<classpath>
 				<fileset dir="${lib.home}" includes="*.jar" />
 			</classpath>
 		</javac>
 		<copy todir="${build.home}/WEB-INF/classes">
 			<fileset dir="${src.home}" excludes="**/*.java" />
-		</copy>
+		</copy>		
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/ApplicationSecurityConfig.xml" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/csmupt.hibernate.cfg.xml" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/security.hibernate.cfg.xml" />
@@ -278,6 +270,8 @@
 	</target>
 
 	<target name="distLogin" depends="initLogin,compileLogin" description="Creates war file">
+		<delete file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+		<delete file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar"/>
 		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
 
@@ -288,7 +282,7 @@
 	<!-- Create the EAR File -->
 	<target name="initEar">
 		<property name="build.home.ear" value="${basedir}/build/uptEAR" />
-		<property name="dist.home.ear" value="${target.dir}/uptEAR" />
+		<property name="dist.home.ear" value="${exploded.dir}/uptEAR" />
 	</target>
 
 	<target name="prepareDirEar" depends="initEar">
@@ -334,6 +328,14 @@
 				</copy>
 			</then>
 		</if>
+		<if>
+			<equals arg1="${upt.42.installed}" arg2="true" />
+			<then>
+				<copy todir="${build.home.ear}">
+					<fileset dir="${basedir}/dist/upt42" includes="upt42.war" />
+				</copy>
+			</then>
+		</if>		
 		<copy todir="${build.home.ear}">
 			<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
 		</copy>

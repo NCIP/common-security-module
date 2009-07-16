@@ -1,4 +1,4 @@
-<application-policy name="csmupt">
+<application-policy name="@application.context.name@">
 	<authentication>
 	
 	</authentication>
