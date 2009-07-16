@@ -372,7 +372,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			install:common:validation:pre-install
 			">
 		<if>
-			<equals arg1="${upt.31.database}" arg2="true" />
+			<equals arg1="${upt.31.installed}" arg2="true" />
 			<then>
 				<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 					<param name="database.driver" value="${upt.31.database.driver.class}"/>
@@ -392,7 +392,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</then>
 		</if>
 		<if>
-			<equals arg1="${upt.32.database}" arg2="true" />
+			<equals arg1="${upt.32.installed}" arg2="true" />
 			<then>
 				<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 					<param name="database.driver" value="${upt.32.database.driver.class}"/>
@@ -412,7 +412,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</then>
 		</if>
 		<if>
-			<equals arg1="${upt.40.database}" arg2="true" />
+			<equals arg1="${upt.40.installed}" arg2="true" />
 			<then>
 				<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 					<param name="database.driver" value="${upt.40.database.driver.class}"/>
@@ -432,7 +432,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</then>
 		</if>
 		<if>
-			<equals arg1="${upt.41.database}" arg2="true" />
+			<equals arg1="${upt.41.installed}" arg2="true" />
 			<then>
 				<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 					<param name="database.driver" value="${upt.41.database.driver.class}"/>
@@ -452,7 +452,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</then>
 		</if>
 		<if>
-			<equals arg1="${upt.42.database}" arg2="true" />
+			<equals arg1="${upt.42.installed}" arg2="true" />
 			<then>
 				<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 					<param name="database.driver" value="${upt.42.database.driver.class}"/>
