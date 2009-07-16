@@ -13,7 +13,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="project.name" value="csm-upt" />
 
 	<!-- *-ds.xml and WAR -->
-	<!-- *-ds.xml and WAR -->
 	<property name="upt.dir.dist" value="${basedir}/${upt.dist.relative.dir}" />
 	<property name="upt.ds.file" value="upt-ds.xml" />
 	<property name="upt.ds.tomcat.file" value="upt.xml" />
@@ -112,14 +111,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		-->
 	</target>
 
-
 	<target name="install:tomcat:upt-webapp" description="Deploy bda-blueprints-webapp and common libraries to tomcat installation" unless="exclude.tomcat" depends="common:init">		
 		<delete dir="${tomcat.home}/temp" />
 		<delete dir="${tomcat.home}/work" />
 		<copy file="${upt.dir.dist}/${upt.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
-		<!--  Many NCI applications require clm for csm, so you can point this to where you have the version you want to use
-		<copy file="${bda-utils.dir}/clm-3.2.jar" todir="${tomcat.home}/server/${tomcat.server.name}/lib" overwrite="true" />
-		-->
 		<copy file="${database.driver.file}" todir="${tomcat.home}/common/lib" overwrite="true" />
 	</target>
 
@@ -127,6 +122,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<!-- configure datasource -->
 		<copy file="${working.dir}/${tomcat-conf.dist.relative.dir}/${upt.ds.tomcat.file}" todir="${tomcat.home}/conf/Catalina/localhost" overwrite="true" />
 	</target>
+
 	<target name="install:tomcat:upt-webapp:re-configure" description="Configure bda-blueprints-webapp application, copies over externalized properties or configurations that are not part of the tomcat configuration" unless="exclude.tomcat" depends="common:init">
 	</target>
 
