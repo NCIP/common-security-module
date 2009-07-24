@@ -46,6 +46,7 @@ public class LoginAction extends Action
 {	
 	private static final Logger log = Logger.getLogger(LoginAction.class);
 	
+	@SuppressWarnings("unchecked")
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
 
@@ -165,30 +166,77 @@ public class LoginAction extends Action
 			e.printStackTrace();
 		}
 		
-		List<UPTApplication> lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
-		Collections.sort(lista);
-		Collections.reverse(lista);
+		boolean isCentralUPTwithCSMUPTContext = false;
+		List<UPTApplication> lista = null;
+		Iterator listIterator = null;
 		
-		Iterator listIterator = lista.iterator();
+		String text1 = uptProperties.getBackwardsCompatibilityInformation().getCentralUPTConfiguration();
+		if("true".equalsIgnoreCase(text1)){
+			isCentralUPTwithCSMUPTContext = true;
+		}else{
+			lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
+			Collections.sort(lista);
+			Collections.reverse(lista);
+			listIterator = lista.iterator();	
+		}
+		
+	
+		int forLoopCount = 0;
+		
+		
+		if(isCentralUPTwithCSMUPTContext){
+			//authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName); - done below
+			// Set currentUptContextName = "csmupt"; done below
+			
+			// Based on the application (non SuperAdmin) context name, determine the version of CSM schema.
+			// a) modify csm_application table and add column to indicate version of the application.
+			// b) in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName), 
+			//    make sure uptApplicationContextName is appropriately set.
+			
+			//set For loop to iterate once.
+			forLoopCount = 1;
+		}else{
+			if(null==lista){
+				forLoopCount = 1;
+			}else{
+				forLoopCount = lista.size();
+			}
+		}
 		
 		
 			//String[] currentUptContextNames = { "csmupt41","csmupt40","csmupt32"};
 			
 			boolean authorizationSuccess = false;
-			for(int i=0;i<lista.size(); i++){
+			for(int i=0;i<forLoopCount; i++){
 				
 				if(authorizationSuccess) continue;
 				
 				
 				
 				boolean isLastContext = ((i+1)==lista.size()?true:false);
+				
 				String currentUptContextName = null;//currentUptContextNames[i];
 				
-				UPTApplication ua = (UPTApplication) listIterator.next();
-				currentUptContextName = ua.getContextName();
-				uptApplicationContextName = ua.getContextNameURL(); 
+				UPTApplication ua;
+				
+				if(isCentralUPTwithCSMUPTContext){
+					currentUptContextName = DisplayConstants.UPT_CONTEXT_NAME;
+				}else{
+					ua = (UPTApplication) listIterator.next();
+					currentUptContextName = ua.getContextName();
+					uptApplicationContextName = ua.getContextNameURL();
+					
+				}
+				
+				 
 				
 				uptContextName = currentUptContextName;
+				
+				
+				/*isLastContext = true;
+				uptContextName = "csmupt31";
+				uptApplicationContextName= "upt31";
+				i=lista.size();*/
 				
 				try
 				{	
@@ -197,6 +245,7 @@ public class LoginAction extends Action
 				catch (CSException cse)
 				{
 					// Probably CSM UPT for this context is not configured correctly or not available.
+					
 					continue; 
 				}
 			
@@ -224,6 +273,7 @@ public class LoginAction extends Action
 										"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");
 							return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 						}else{
+							authorizationManager= null;
 							continue;
 						}
 					}
@@ -239,7 +289,7 @@ public class LoginAction extends Action
 				}		
 				try
 				{
-					//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
+
 					application = authorizationManager.getApplication(loginForm.getApplicationContextName());
 					if (!StringUtilities.isBlank(application.getDatabaseURL()))
 					{
@@ -279,49 +329,32 @@ public class LoginAction extends Action
 				
 			}
 			
-
 		
 		HttpSession session = request.getSession(true);		
-		//session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER, userProvisioningManager);
-		//session.setAttribute(DisplayConstants.LOGIN_OBJECT,form);
-		
-		//session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
 		
 		authenticationManager = null;
 		authorizationManager = null;
 		
 		request.setAttribute("LOGIN_OBJECT",loginForm);
-		//request.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER,userProvisioningManager);
 		
-		request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
+		if(isCentralUPTwithCSMUPTContext){
+			// Based on the application (non SuperAdmin) context name, determine the version of CSM schema.
+			// a) modify csm_application table and add column to indicate version of the application.
+			// b)Retrieve via JDBC the version column details for the 'uptContextName' 
+			// c)in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName), 
+			//    make sure uptApplicationContextName is appropriately set.
+			
+			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
+		}else{
+			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);	
+		}
+		
 		
 		
 		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
 		{
 			request.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
-			//session.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
-			
-			/*String loginApplicationContextName = "upt41";
-			
-			//String loginApplicationContextName = CSMUPTProperties.getLoginApplicationContextName();
-			if(StringUtils.isBlank(loginApplicationContextName) ){
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CSMUPT_CONFIGURATION_DETAILS_LOGIN_APPLICATION_CONTEXT));
-				saveErrors( request,errors );
-			}else{
-				ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+loginApplicationContextName);
-				RequestDispatcher rd = sc.getRequestDispatcher("/index.jsp");
-				try {
-					rd.forward(request, response);
-				} catch (ServletException e) {
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
-					saveErrors( request,errors );
-				} catch (IOException e) {
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
-					saveErrors( request,errors );
-				}
-			}*/
-			
-			//session.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
+
 			if (log.isDebugEnabled())
 				log.debug(session.getId()+"|"+loginForm.getLoginId()+
 				"||Login|Success|Login Successful for user "+loginForm.getLoginId()+" and "+loginForm.getApplicationContextName()+" application, Forwarding to the Super Admin Home Page||");
@@ -330,34 +363,7 @@ public class LoginAction extends Action
 		else
 		{
 			
-			String loginApplicationContextName = "upt41";
-			
-			//String loginApplicationContextName = CSMUPTProperties.getLoginApplicationContextName();
-			if(StringUtils.isBlank(loginApplicationContextName) ){
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXCEPTION_CSMUPT_CONFIGURATION_DETAILS_LOGIN_APPLICATION_CONTEXT));
-				saveErrors( request,errors );
-			}else{
-				
-				
-				
-				/*ServletContext sc = this.getServlet().getServletConfig().getServletContext().getContext("/"+loginApplicationContextName);
-				
-				
-				
-				RequestDispatcher rd = sc.getRequestDispatcher("/index.jsp");
-				try {
-					rd.forward(request, response);
-				} catch (ServletException e) {
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
-					saveErrors( request,errors );
-				} catch (IOException e) {
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, e.getMessage()));			
-					saveErrors( request,errors );
-				}*/
-				
-			}
 
-			
 			
 			if (log.isDebugEnabled())
 				log.debug(session.getId()+"|"+loginForm.getLoginId()+
