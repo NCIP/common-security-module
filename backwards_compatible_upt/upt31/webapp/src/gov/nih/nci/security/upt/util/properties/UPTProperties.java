@@ -5,7 +5,7 @@ package gov.nih.nci.security.upt.util.properties;
 
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
-import gov.nih.nci.security.upt.util.StringUtils;
+import gov.nih.nci.security.upt.util.properties.StringUtils;
 
 import java.io.File;
 import java.net.MalformedURLException;
