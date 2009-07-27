@@ -146,81 +146,99 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</xmltask>
 		<if>
 			<not>
-				<equals arg1="${upt.31.authentication.type}" arg2="NONE" />
+				<equals arg1="${upt.central.authentication.type}" arg2="NONE" />
 			</not>
 			<then>
 				<configure-login-config 
-				 		authentication.type="${upt.31.authentication.type}"
-						database.driver="${upt.31.database.driver.class}" database.url="${upt.31.database.url}"
-						database.user="${upt.31.database.user}" database.password="${upt.31.database.password}"
-						database.encrypt.enabled="${upt.31.database.encrypt.enabled}" 
-						ldaps.url="${upt.31.ldaps.url}" ldaps.basedn="${upt.31.ldaps.basedn}" ldaps.userid.label="${upt.31.ldaps.userid.label}"
-						ldap.url="${upt.31.ldap.url}" ldap.searchable.base="${upt.31.ldap.searchable.base}"	ldap.userid.label="${upt.31.ldap.userid.label}"
-						ldap.admin.user.name="${upt.31.ldap.admin.user.name}" ldap.admin.user.password="${upt.31.ldap.admin.user.password}"
+				 		authentication.type="${upt.central.authentication.type}"
+						database.driver="${upt.central.database.driver.class}" database.url="${upt.central.database.url}"
+						database.user="${upt.central.database.user}" database.password="${upt.central.database.password}"
+						database.encrypt.enabled="${upt.central.database.encrypt.enabled}" 
+						ldaps.url="${upt.central.ldaps.url}" ldaps.basedn="${upt.central.ldaps.basedn}" ldaps.userid.label="${upt.central.ldaps.userid.label}"
+						ldap.url="${upt.central.ldap.url}" ldap.searchable.base="${upt.central.ldap.searchable.base}"	ldap.userid.label="${upt.central.ldap.userid.label}"
+						ldap.admin.user.name="${upt.central.ldap.admin.user.name}" ldap.admin.user.password="${upt.central.ldap.admin.user.password}"
 				/>
 			</then>
-		</if>
-		<if>
-			<not>
-				<equals arg1="${upt.32.authentication.type}" arg2="NONE" />
-			</not>
-			<then>
-				<configure-login-config 
-				 		authentication.type="${upt.32.authentication.type}"
-						database.driver="${upt.32.database.driver.class}" database.url="${upt.32.database.url}"
-						database.user="${upt.32.database.user}" database.password="${upt.32.database.password}"
-						database.encrypt.enabled="${upt.32.database.encrypt.enabled}" 
-						ldaps.url="${upt.32.ldaps.url}" ldaps.basedn="${upt.32.ldaps.basedn}" ldaps.userid.label="${upt.32.ldaps.userid.label}"
-						ldap.url="${upt.32.ldap.url}" ldap.searchable.base="${upt.32.ldap.searchable.base}"	ldap.userid.label="${upt.32.ldap.userid.label}"
-						ldap.admin.user.name="${upt.32.ldap.admin.user.name}" ldap.admin.user.password="${upt.32.ldap.admin.user.password}"
-				/>
-			</then>
-		</if>
-		<if>
-			<not>
-				<equals arg1="${upt.40.authentication.type}" arg2="NONE" />
-			</not>
-			<then>
-				<configure-login-config authentication.type="${upt.40.authentication.type}"
-					database.driver="${upt.40.database.driver.class}" database.url="${upt.40.database.url}"
-					database.user="${upt.40.database.user}" database.password="${upt.40.database.password}"
-					database.encrypt.enabled="${upt.40.database.encrypt.enabled}"
-					ldaps.url="${upt.40.ldaps.url}" ldaps.basedn="${upt.40.ldaps.basedn}" ldaps.userid.label="${upt.40.ldaps.userid.label}"
-					ldap.url="${upt.40.ldap.url}" ldap.searchable.base="${upt.40.ldap.searchable.base}"	ldap.userid.label="${upt.40.ldap.userid.label}"
-					ldap.admin.user.name="${upt.40.ldap.admin.user.name}" ldap.admin.user.password="${upt.40.ldap.admin.user.password}"
+			<else>
+				<if>
+					<not>
+						<equals arg1="${upt.31.authentication.type}" arg2="NONE" />
+					</not>
+					<then>
+						<configure-login-config 
+						 		authentication.type="${upt.31.authentication.type}"
+								database.driver="${upt.31.database.driver.class}" database.url="${upt.31.database.url}"
+								database.user="${upt.31.database.user}" database.password="${upt.31.database.password}"
+								database.encrypt.enabled="${upt.31.database.encrypt.enabled}" 
+								ldaps.url="${upt.31.ldaps.url}" ldaps.basedn="${upt.31.ldaps.basedn}" ldaps.userid.label="${upt.31.ldaps.userid.label}"
+								ldap.url="${upt.31.ldap.url}" ldap.searchable.base="${upt.31.ldap.searchable.base}"	ldap.userid.label="${upt.31.ldap.userid.label}"
+								ldap.admin.user.name="${upt.31.ldap.admin.user.name}" ldap.admin.user.password="${upt.31.ldap.admin.user.password}"
+						/>
+					</then>
+				</if>
+				<if>
+					<not>
+						<equals arg1="${upt.32.authentication.type}" arg2="NONE" />
+					</not>
+					<then>
+						<configure-login-config 
+						 		authentication.type="${upt.32.authentication.type}"
+								database.driver="${upt.32.database.driver.class}" database.url="${upt.32.database.url}"
+								database.user="${upt.32.database.user}" database.password="${upt.32.database.password}"
+								database.encrypt.enabled="${upt.32.database.encrypt.enabled}" 
+								ldaps.url="${upt.32.ldaps.url}" ldaps.basedn="${upt.32.ldaps.basedn}" ldaps.userid.label="${upt.32.ldaps.userid.label}"
+								ldap.url="${upt.32.ldap.url}" ldap.searchable.base="${upt.32.ldap.searchable.base}"	ldap.userid.label="${upt.32.ldap.userid.label}"
+								ldap.admin.user.name="${upt.32.ldap.admin.user.name}" ldap.admin.user.password="${upt.32.ldap.admin.user.password}"
+						/>
+					</then>
+				</if>
+				<if>
+					<not>
+						<equals arg1="${upt.40.authentication.type}" arg2="NONE" />
+					</not>
+					<then>
+						<configure-login-config authentication.type="${upt.40.authentication.type}"
+							database.driver="${upt.40.database.driver.class}" database.url="${upt.40.database.url}"
+							database.user="${upt.40.database.user}" database.password="${upt.40.database.password}"
+							database.encrypt.enabled="${upt.40.database.encrypt.enabled}"
+							ldaps.url="${upt.40.ldaps.url}" ldaps.basedn="${upt.40.ldaps.basedn}" ldaps.userid.label="${upt.40.ldaps.userid.label}"
+							ldap.url="${upt.40.ldap.url}" ldap.searchable.base="${upt.40.ldap.searchable.base}"	ldap.userid.label="${upt.40.ldap.userid.label}"
+							ldap.admin.user.name="${upt.40.ldap.admin.user.name}" ldap.admin.user.password="${upt.40.ldap.admin.user.password}"
 
-				/>
-			</then>
-		</if>
-		<if>
-			<not>
-				<equals arg1="${upt.41.authentication.type}" arg2="NONE" />
-			</not>
-			<then>
-				<configure-login-config authentication.type="${upt.41.authentication.type}"
-					database.driver="${upt.41.database.driver.class}" database.url="${upt.41.database.url}"
-					database.user="${upt.41.database.user}" database.password="${upt.41.database.password}"
-					database.encrypt.enabled="${upt.41.database.encrypt.enabled}"
-					ldaps.url="${upt.41.ldaps.url}" ldaps.basedn="${upt.41.ldaps.basedn}" ldaps.userid.label="${upt.41.ldaps.userid.label}"
-					ldap.url="${upt.41.ldap.url}" ldap.searchable.base="${upt.41.ldap.searchable.base}"	ldap.userid.label="${upt.41.ldap.userid.label}"
-					ldap.admin.user.name="${upt.41.ldap.admin.user.name}" ldap.admin.user.password="${upt.41.ldap.admin.user.password}"
-				/>
-			</then>
-		</if>
-		<if>
-			<not>
-				<equals arg1="${upt.42.authentication.type}" arg2="NONE" />
-			</not>
-			<then>
-				<configure-login-config authentication.type="${upt.42.authentication.type}"
-					database.driver="${upt.42.database.driver.class}" database.url="${upt.42.database.url}"
-					database.user="${upt.42.database.user}" database.password="${upt.42.database.password}"
-					database.encrypt.enabled="${upt.42.database.encrypt.enabled}"
-					ldaps.url="${upt.42.ldaps.url}" ldaps.basedn="${upt.42.ldaps.basedn}" ldaps.userid.label="${upt.42.ldaps.userid.label}"
-					ldap.url="${upt.42.ldap.url}" ldap.searchable.base="${upt.42.ldap.searchable.base}"	ldap.userid.label="${upt.42.ldap.userid.label}"
-					ldap.admin.user.name="${upt.42.ldap.admin.user.name}" ldap.admin.user.password="${upt.42.ldap.admin.user.password}"
-				/>
-			</then>
+						/>
+					</then>
+				</if>
+				<if>
+					<not>
+						<equals arg1="${upt.41.authentication.type}" arg2="NONE" />
+					</not>
+					<then>
+						<configure-login-config authentication.type="${upt.41.authentication.type}"
+							database.driver="${upt.41.database.driver.class}" database.url="${upt.41.database.url}"
+							database.user="${upt.41.database.user}" database.password="${upt.41.database.password}"
+							database.encrypt.enabled="${upt.41.database.encrypt.enabled}"
+							ldaps.url="${upt.41.ldaps.url}" ldaps.basedn="${upt.41.ldaps.basedn}" ldaps.userid.label="${upt.41.ldaps.userid.label}"
+							ldap.url="${upt.41.ldap.url}" ldap.searchable.base="${upt.41.ldap.searchable.base}"	ldap.userid.label="${upt.41.ldap.userid.label}"
+							ldap.admin.user.name="${upt.41.ldap.admin.user.name}" ldap.admin.user.password="${upt.41.ldap.admin.user.password}"
+						/>
+					</then>
+				</if>
+				<if>
+					<not>
+						<equals arg1="${upt.42.authentication.type}" arg2="NONE" />
+					</not>
+					<then>
+						<configure-login-config authentication.type="${upt.42.authentication.type}"
+							database.driver="${upt.42.database.driver.class}" database.url="${upt.42.database.url}"
+							database.user="${upt.42.database.user}" database.password="${upt.42.database.password}"
+							database.encrypt.enabled="${upt.42.database.encrypt.enabled}"
+							ldaps.url="${upt.42.ldaps.url}" ldaps.basedn="${upt.42.ldaps.basedn}" ldaps.userid.label="${upt.42.ldaps.userid.label}"
+							ldap.url="${upt.42.ldap.url}" ldap.searchable.base="${upt.42.ldap.searchable.base}"	ldap.userid.label="${upt.42.ldap.userid.label}"
+							ldap.admin.user.name="${upt.42.ldap.admin.user.name}" ldap.admin.user.password="${upt.42.ldap.admin.user.password}"
+						/>
+					</then>
+				</if>
+			</else>			
 		</if>
 	</target>
 
