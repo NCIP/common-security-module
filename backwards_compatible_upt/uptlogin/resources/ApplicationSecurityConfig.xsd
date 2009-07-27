@@ -55,11 +55,13 @@
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="login-application-context-name"/>
+				<xs:element ref="central-upt-configuration"/>
 				<xs:element ref="upt-application-list"/>
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="login-application-context-name" type="xs:string"/>
+	<xs:element name="central-upt-configuration" type="xs:string"/>	
 	<xs:element name="upt-application-list">
 	<xs:complexType>
 			<xs:sequence>

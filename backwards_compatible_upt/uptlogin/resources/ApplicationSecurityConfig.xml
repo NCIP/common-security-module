@@ -19,8 +19,9 @@
 	</application-list>
 	<backwards-compatibility>
 		<login-application-context-name>uptlogin</login-application-context-name>
+		<central-upt-configuration>true</central-upt-configuration>		
 		<upt-application-list>
-			<upt-application>
+				<upt-application>
 				<context-name>csmupt41</context-name>
 				<url-context-name>upt41</url-context-name>
 				<authorization>
