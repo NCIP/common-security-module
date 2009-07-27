@@ -17,18 +17,30 @@ import gov.nih.nci.security.loginapp.util.properties.ObjectFactory;
 import gov.nih.nci.security.loginapp.util.properties.UPTApplication;
 import gov.nih.nci.security.loginapp.util.properties.UPTProperties;
 import gov.nih.nci.security.loginapp.util.properties.exceptions.UPTConfigurationException;
+
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.Action;
@@ -173,6 +185,18 @@ public class LoginAction extends Action
 		String text1 = uptProperties.getBackwardsCompatibilityInformation().getCentralUPTConfiguration();
 		if("true".equalsIgnoreCase(text1)){
 			isCentralUPTwithCSMUPTContext = true;
+			
+			// Get the UPT Application Context (the superadmin mode Application Context URL).
+			lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
+			Iterator listIterate = lista.iterator();
+			while(listIterate.hasNext()){
+				UPTApplication uptApp = (UPTApplication) listIterate.next();
+				if(DisplayConstants.UPT_CONTEXT_NAME.equalsIgnoreCase(uptApp.getContextName())){
+					uptApplicationContextName = uptApp.getContextNameURL();
+				}
+			}
+			
+			
 		}else{
 			lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
 			Collections.sort(lista);
@@ -213,7 +237,12 @@ public class LoginAction extends Action
 				
 				
 				
-				boolean isLastContext = ((i+1)==lista.size()?true:false);
+				boolean isLastContext = false;
+				if(forLoopCount==1){
+					isLastContext = true;
+				}else{
+					isLastContext = ((i+1)==lista.size()?true:false);
+				}
 				
 				String currentUptContextName = null;//currentUptContextNames[i];
 				
@@ -221,6 +250,7 @@ public class LoginAction extends Action
 				
 				if(isCentralUPTwithCSMUPTContext){
 					currentUptContextName = DisplayConstants.UPT_CONTEXT_NAME;
+					
 				}else{
 					ua = (UPTApplication) listIterator.next();
 					currentUptContextName = ua.getContextName();
@@ -233,10 +263,7 @@ public class LoginAction extends Action
 				uptContextName = currentUptContextName;
 				
 				
-				/*isLastContext = true;
-				uptContextName = "csmupt31";
-				uptApplicationContextName= "upt31";
-				i=lista.size();*/
+				
 				
 				try
 				{	
@@ -291,7 +318,38 @@ public class LoginAction extends Action
 				{
 
 					application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-					if (!StringUtilities.isBlank(application.getDatabaseURL()))
+					
+					if(application!= null && isCentralUPTwithCSMUPTContext){
+
+						// Determine the UPT Application Context Name for the non-superadmin Application.
+						String csmversion = getCSMVersionForApplicationViaJDBC(uptContextName, application.getApplicationName());
+						
+						if(!StringUtilities.isBlank(csmversion)){
+							
+
+							if(csmversion.equalsIgnoreCase("3.1")){
+								uptApplicationContextName = "upt31";	
+							}
+							if(csmversion.equalsIgnoreCase("3.2")){
+								uptApplicationContextName = "upt32";
+							}
+							if(csmversion.equalsIgnoreCase("4.0")){
+								uptApplicationContextName = "upt40";
+							}
+							if(csmversion.equalsIgnoreCase("4.1")){
+								uptApplicationContextName = "upt41";
+							}
+							if(csmversion.equalsIgnoreCase("4.2")){
+								uptApplicationContextName = "upt42";
+							}
+						}else{
+							
+							//Note for Central UPT (backwards version) hosting: If csmversion is not mentioned in the record 
+							// then the UPT Application Context Name (URL Context) shall be same as the 'csmupt' application context.
+						}
+					}
+					
+					if (application!= null && !StringUtilities.isBlank(application.getDatabaseURL()))
 					{
 						HashMap hashMap = new HashMap();
 						hashMap.put("hibernate.connection.url", application.getDatabaseURL());
@@ -340,9 +398,11 @@ public class LoginAction extends Action
 		if(isCentralUPTwithCSMUPTContext){
 			// Based on the application (non SuperAdmin) context name, determine the version of CSM schema.
 			// a) modify csm_application table and add column to indicate version of the application.
-			// b)Retrieve via JDBC the version column details for the 'uptContextName' 
+			// b) Retrieve the version column details for the 'uptContextName' 
 			// c)in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName), 
 			//    make sure uptApplicationContextName is appropriately set.
+			
+			
 			
 			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
 		}else{
@@ -372,6 +432,53 @@ public class LoginAction extends Action
 		}
 	}
 	
+
+	
+	/**
+	 * testConnection method accepts
+	 * @param uptApplicationContextName 
+	 * 
+	 * @param appForm -
+	 *            The ApplicationForm with application database parameters to
+	 *            test connection for.
+	 * @return String - The message indicating that connection and a SQL query
+	 *         was successful
+	 * @throws CSException -
+	 *             The exception message indicates which kind of application
+	 *             database parameters are invalid.
+	 */
+	private static String getCSMVersionForApplicationViaJDBC(String applicationContextName, String applicationName) throws CSException {
+		
+		String version = null;
+		try {
+			
+			Context ctx = new InitialContext();
+			DataSource ds = (DataSource)ctx.lookup("java:"+applicationContextName);
+			Connection con = ds.getConnection();
+			con.setAutoCommit(false);
+			PreparedStatement pstmt = con.prepareStatement(
+			                            "SELECT csm_version FROM csm_application WHERE application_name = ?");
+			pstmt.setString(1, applicationName);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+			        version = rs.getString("csm_version");
+			}
+			
+			rs.close();
+			pstmt.close();
+			con.close();
+
+		} catch (SQLException e) {
+			throw new CSException(
+					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS);
+		} catch (NamingException e) {
+			throw new CSException(
+					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_DRIVER);
+		} 
+
+		return version;
+	}
+
 	private UserProvisioningManager getAuthorizationManager(String contextName) throws CSConfigurationException, CSException {
 		contextName = "csmupt41";
 		if(StringUtilities.isBlank(contextName)){

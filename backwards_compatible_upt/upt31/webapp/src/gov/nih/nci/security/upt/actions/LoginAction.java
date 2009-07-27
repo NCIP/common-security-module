@@ -156,10 +156,12 @@ public class LoginAction extends Action
 			ObjectFactory.initialize("upt-beans.xml");
 			UPTProperties uptProperties = null;
 			String urlContextForLoginApp = "";
+			String centralUPTConfiguration = "";
 			try {
 				uptProperties = (UPTProperties) ObjectFactory
 						.getObject("UPTProperties");
 				urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
+				
 				if (!StringUtils.isBlank(urlContextForLoginApp)) {
 					serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
 				} else {
@@ -167,6 +169,10 @@ public class LoginAction extends Action
 							+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
 				}
 				
+				centralUPTConfiguration = uptProperties.getBackwardsCompatibilityInformation().getCentralUPTConfiguration();
+				if("true".equalsIgnoreCase(centralUPTConfiguration)){
+					uptContextName = DisplayConstants.UPT_AUTHENTICATION_CONTEXT_NAME;
+				}
 			} catch (UPTConfigurationException e) {
 				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
 
