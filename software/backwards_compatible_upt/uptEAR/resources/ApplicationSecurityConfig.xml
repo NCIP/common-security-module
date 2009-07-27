@@ -5,6 +5,7 @@
 	</application-list>
 	<backwards-compatibility>
 		<login-application-context-name>uptlogin</login-application-context-name>
+		<central-upt-configuration>false</central-upt-configuration>
 		<upt-application-list>
 		</upt-application-list>
 	</backwards-compatibility>

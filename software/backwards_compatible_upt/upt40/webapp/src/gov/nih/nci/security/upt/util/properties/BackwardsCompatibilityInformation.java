@@ -9,6 +9,7 @@ public class BackwardsCompatibilityInformation implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	private String loginApplicationContextName = null;
+	private String centralUPTConfiguration = null;
 	
 	private static List <UPTApplication> uptApplicationsList = null;
 		
@@ -42,6 +43,14 @@ public class BackwardsCompatibilityInformation implements Serializable
 
 	public void setLoginApplicationContextName(String loginApplicationContextName) {
 		this.loginApplicationContextName = loginApplicationContextName;
+	}
+
+	public String getCentralUPTConfiguration() {
+		return centralUPTConfiguration;
+	}
+
+	public void setCentralUPTConfiguration(String centralUPTConfiguration) {
+		this.centralUPTConfiguration = centralUPTConfiguration;
 	}
 
 }

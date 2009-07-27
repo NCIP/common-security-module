@@ -5,7 +5,7 @@ package gov.nih.nci.security.upt.util.properties;
 
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
-import gov.nih.nci.security.upt.util.properties.StringUtils;
+import gov.nih.nci.security.upt.util.StringUtils;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -77,12 +77,23 @@ public class UPTProperties
 		Element backwardsCompatibilityInformationElement = uptPropertiesElement.getChild("backwards-compatibility");
 		BackwardsCompatibilityInformation bckcmpInfo = new BackwardsCompatibilityInformation();
 		bckcmpInfo.setLoginApplicationContextName(getLoginApplicationContextName(backwardsCompatibilityInformationElement));
+		bckcmpInfo.setCentralUPTConfiguration(getCentralUPTConfiguration(backwardsCompatibilityInformationElement));
 		bckcmpInfo.setUptApplicationsList(loadUPTApplicationList(backwardsCompatibilityInformationElement));
 		
 
 		return bckcmpInfo;
 	}
 	
+	private String getCentralUPTConfiguration(Element backwardsCompatibilityInformationElement)
+	{
+		Element centralUPTConfiguration = backwardsCompatibilityInformationElement.getChild("central-upt-configuration");
+		if(centralUPTConfiguration!=null){
+			return centralUPTConfiguration.getText().trim();	
+		}else{
+			return null;
+		}
+		
+	}
 	
 
 	private String getLoginApplicationContextName(Element backwardsCompatibilityInformationElement)

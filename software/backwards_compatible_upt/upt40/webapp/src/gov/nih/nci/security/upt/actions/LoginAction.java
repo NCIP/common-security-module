@@ -148,29 +148,38 @@ public class LoginAction extends Action
 		String uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 		Application application = null;
 		
+		
+		String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
+		ObjectFactory.initialize("upt-beans.xml");
+		UPTProperties uptProperties = null;
+		String urlContextForLoginApp = "";
+		String centralUPTConfiguration = "";
+		try {
+			uptProperties = (UPTProperties) ObjectFactory
+					.getObject("UPTProperties");
+			urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
+			
+			if (!StringUtils.isBlank(urlContextForLoginApp)) {
+				serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
+			} else {
+				serverInfoPathPort = serverInfoPathPort + "/"
+						+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+			}
+			
+			centralUPTConfiguration = uptProperties.getBackwardsCompatibilityInformation().getCentralUPTConfiguration();
+			if("true".equalsIgnoreCase(centralUPTConfiguration)){
+				uptContextName = DisplayConstants.UPT_AUTHENTICATION_CONTEXT_NAME;
+			}
+		} catch (UPTConfigurationException e) {
+			serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+
+		}
+		
 		LoginForm loginForm = (LoginForm)form;
 		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
 				|| StringUtils.isBlank(loginForm.getPassword())){
 			
-			String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
-			ObjectFactory.initialize("upt-beans.xml");
-			UPTProperties uptProperties = null;
-			String urlContextForLoginApp = "";
-			try {
-				uptProperties = (UPTProperties) ObjectFactory
-						.getObject("UPTProperties");
-				urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
-				if (!StringUtils.isBlank(urlContextForLoginApp)) {
-					serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
-				} else {
-					serverInfoPathPort = serverInfoPathPort + "/"
-							+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
-				}
-				
-			} catch (UPTConfigurationException e) {
-				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
-
-			}
+			
 
 		
 			ActionForward newActionForward = new ActionForward();
@@ -186,7 +195,7 @@ public class LoginAction extends Action
 
 		try
 		{
-			uptContextName = "csmupt40";
+			
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
@@ -209,7 +218,7 @@ public class LoginAction extends Action
 
 			try
 			{
-				uptContextName = getUPTContextName();
+				
 				if (null == uptContextName || uptContextName.equalsIgnoreCase(""))
 				{
 					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));			
@@ -356,7 +365,7 @@ public class LoginAction extends Action
 		authenticationManager = null;
 		authorizationManager = null;
 		
-		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(DisplayConstants.UPT_CONTEXT_NAME))
+		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
 		{
 			session.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
 			if (log.isDebugEnabled())
