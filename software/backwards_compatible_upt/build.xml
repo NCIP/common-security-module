@@ -12,7 +12,7 @@
 
 	<!-- set global properties for this build -->
 	<!-- This will be removed once all jars are retrieved from Ivy -->
-	<property file="../build/install.properties" />
+	<property file="../build/install-backwards-compatible-upt.properties" />
 	<property name="properties.file" location="../build/project.properties">
 	</property>
 	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
@@ -146,7 +146,7 @@
 	<target name="dist31">
 		<executeUPT app.name="upt31" war.file="upt31"/>
 	</target>
-	
+
 	<macrodef name="executeSVNCheckout">
 		<attribute name="app.name" default="NOT SET"/>
 		<attribute name="tag" default="NOT SET"/>
@@ -261,7 +261,7 @@
 		</javac>
 		<copy todir="${build.home}/WEB-INF/classes">
 			<fileset dir="${src.home}" excludes="**/*.java" />
-		</copy>		
+		</copy>
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/ApplicationSecurityConfig.xml" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/csmupt.hibernate.cfg.xml" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/security.hibernate.cfg.xml" />
@@ -272,6 +272,7 @@
 	<target name="distLogin" depends="initLogin,compileLogin" description="Creates war file">
 		<delete file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
 		<delete file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar"/>
+		
 		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
 
@@ -335,7 +336,7 @@
 					<fileset dir="${basedir}/dist/upt42" includes="upt42.war" />
 				</copy>
 			</then>
-		</if>		
+		</if>
 		<copy todir="${build.home.ear}">
 			<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
 		</copy>
