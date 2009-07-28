@@ -178,10 +178,30 @@
 	</macrodef>
 
 	<target name="svnCheckout">
-		<antcall target="svnCheckout41" inheritall="false"/>
-		<antcall target="svnCheckout40" inheritall="false"/>
-		<antcall target="svnCheckout32" inheritall="false"/>
-		<antcall target="svnCheckout31" inheritall="false"/>
+		<if>
+			<equals arg1="${upt.41.installed}" arg2="true" />
+			<then>
+				<antcall target="svnCheckout41" inheritall="false" />
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.40.installed}" arg2="true" />
+			<then>
+				<antcall target="svnCheckout40" inheritall="false" />
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.32.installed}" arg2="true" />
+			<then>
+				<antcall target="svnCheckout32" inheritall="false" />
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.31.installed}" arg2="true" />
+			<then>
+				<antcall target="svnCheckout31" inheritall="false" />
+			</then>
+		</if>
 	</target>
 
 	<target name="svnCheckout41">
@@ -201,10 +221,32 @@
 	</target>
 
 	<target name="dist">
-		<antcall target="dist41" inheritall="false" />
-		<antcall target="dist40" inheritall="false" />
-		<antcall target="dist32" inheritall="false" />
-		<antcall target="dist31" inheritall="false" />
+		<if>
+			<equals arg1="${upt.41.installed}" arg2="true" />
+			<then>
+				<antcall target="dist41" inheritall="false" />
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.40.installed}" arg2="true" />
+			<then>
+				<antcall target="dist40" inheritall="false" />
+			</then>
+		</if>
+
+		<if>
+			<equals arg1="${upt.32.installed}" arg2="true" />
+			<then>
+				<antcall target="dist32" inheritall="false" />
+			</then>
+		</if>
+
+		<if>
+			<equals arg1="${upt.31.installed}" arg2="true" />
+			<then>
+				<antcall target="dist31" inheritall="false" />
+			</then>
+		</if>
 		<antcall target="distLogin" inheritall="false" />
 	</target>
 
@@ -272,7 +314,7 @@
 	<target name="distLogin" depends="initLogin,compileLogin" description="Creates war file">
 		<delete file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
 		<delete file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar"/>
-		
+
 		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
 
@@ -292,57 +334,85 @@
 		<mkdir dir="${build.home.ear}/META-INF" />
 	</target>
 
-	<target name="buildEar" depends="prepareDirEar">
-		<copy todir="${build.home.ear}/META-INF">
-			<fileset dir="${basedir}/uptEAR/META-INF" includes="application.xml" />
-			<fileset dir="${basedir}/uptEAR/META-INF" includes="MANIFEST.MF" />
-		</copy>
-		<if>
-			<equals arg1="${upt.31.installed}" arg2="true" />
-			<then>
-				<copy todir="${build.home.ear}">
-					<fileset dir="${basedir}/dist/upt31" includes="upt31.war" />
-				</copy>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.32.installed}" arg2="true" />
-			<then>
-				<copy todir="${build.home.ear}">
-					<fileset dir="${basedir}/dist/upt32" includes="upt32.war" />
-				</copy>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.40.installed}" arg2="true" />
-			<then>
-				<copy todir="${build.home.ear}">
-					<fileset dir="${basedir}/dist/upt40" includes="upt40.war" />
-				</copy>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.41.installed}" arg2="true" />
-			<then>
-				<copy todir="${build.home.ear}">
-					<fileset dir="${basedir}/dist/upt41" includes="upt41.war" />
-				</copy>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.42.installed}" arg2="true" />
-			<then>
-				<copy todir="${build.home.ear}">
-					<fileset dir="${basedir}/dist/upt42" includes="upt42.war" />
-				</copy>
-			</then>
-		</if>
-		<copy todir="${build.home.ear}">
-			<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
-		</copy>
-		<!-- Create ear file and place in ear directory -->
-		<jar jarfile="${dist.home.ear}/uptEAR.ear" basedir="${build.home.ear}" />
-	</target>
+	<macrodef name="configure-application-xml">
+		<attribute name="upt.war" default="NOT SET" />
+		<attribute name="context.root" default="NOT SET" />
+		<sequential>
+			<xmltask preservetype="true" failWithoutMatch="true"
+				source="${build.home.ear}/META-INF/application.xml"
+				dest="${build.home.ear}/META-INF/application.xml">
+				<insert
+					path="//application/display-name"
+					position="after">
+					<![CDATA[
+					<module >
+						<web>
+							<web-uri>@{upt.war}</web-uri>
+							<context-root>/@{context.root}</context-root>
+						</web>
+					</module>    
+					]]>
+				</insert>
+			</xmltask>
+	</sequential>
+</macrodef>
 
-	<target name="all" depends="clean,svnCheckout,dist,buildEar,cleanupLogin" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+<target name="buildEar" depends="prepareDirEar">
+	<copy  file="${basedir}/uptEAR/META-INF/application-template.xml" tofile="${build.home.ear}/META-INF/application.xml" overwrite="true"/>
+	<copy todir="${build.home.ear}/META-INF">
+		<fileset dir="${basedir}/uptEAR/META-INF" includes="MANIFEST.MF" />
+	</copy>
+	<if>
+		<equals arg1="${upt.31.installed}" arg2="true" />
+		<then>
+			<configure-application-xml context.root="${upt.31.context.name}" upt.war="upt31.war"/>
+			<copy todir="${build.home.ear}">
+				<fileset dir="${basedir}/dist/upt31" includes="upt31.war" />
+			</copy>
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.32.installed}" arg2="true" />
+		<then>
+			<configure-application-xml context.root="${upt.32.context.name}" upt.war="upt32.war"/>
+			<copy todir="${build.home.ear}">
+				<fileset dir="${basedir}/dist/upt32" includes="upt32.war" />
+			</copy>
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.40.installed}" arg2="true" />
+		<then>
+			<configure-application-xml context.root="${upt.40.context.name}" upt.war="upt40.war"/>
+			<copy todir="${build.home.ear}">
+				<fileset dir="${basedir}/dist/upt40" includes="upt40.war" />
+			</copy>
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.41.installed}" arg2="true" />
+		<then>
+			<configure-application-xml context.root="${upt.41.context.name}" upt.war="upt41.war"/>
+			<copy todir="${build.home.ear}">
+				<fileset dir="${basedir}/dist/upt41" includes="upt41.war" />
+			</copy>
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.42.installed}" arg2="true" />
+		<then>
+			<configure-application-xml context.root="${upt.42.context.name}" upt.war="upt42.war"/>
+			<copy todir="${build.home.ear}">
+				<fileset dir="${basedir}/dist/upt42" includes="upt42.war" />
+			</copy>
+		</then>
+	</if>
+	<copy todir="${build.home.ear}">
+		<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
+	</copy>
+	<!-- Create ear file and place in ear directory -->
+	<jar jarfile="${dist.home.ear}/uptEAR.ear" basedir="${build.home.ear}" />
+</target>
+
+<target name="all" depends="clean,svnCheckout,dist,buildEar,cleanupLogin" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 </project>

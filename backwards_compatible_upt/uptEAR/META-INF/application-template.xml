@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <display-name>uptEAR</display-name>
+  <module id="myeclipse.1231950466406">
+    <web>
+      <web-uri>uptlogin.war</web-uri>
+      <context-root>/uptlogin</context-root>
+    </web>
+  </module>
+</application>
+

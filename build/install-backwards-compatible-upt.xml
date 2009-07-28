@@ -249,7 +249,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 				<configure-datasources 	database.url="${upt.central.database.url}" 
 					database.user="${upt.central.database.user}" 
 					database.password="${upt.central.database.password}" jndi.name="${upt.central.jndi.name}"
-					driver.class="${upt.central.driver.class}"
+					driver.class="${upt.central.database.driver.class}"
 				/>
 			</then>
 			<else>
@@ -527,135 +527,133 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	
 	<target name="install:backwards-compatible-upt:databases" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database">
 		<if>
-			<equals arg1="${upt.31.database.re-create}" arg2="true" />
+			<and>
+				<equals arg1="${upt.central.database.re-create}" arg2="true" />
+				<equals arg1="${upt.central.config}" arg2="true" />
+			</and>
 			<then>
 				<install-backwards-compatible-upt-database 	
-						database.driver="${upt.31.database.driver.class}" database.system.url="${upt.31.database.url}" 
-						database.system.user="${upt.31.database.system.user}" database.system.password="${upt.31.database.system.password}" 
-						database.url="${upt.31.database.url}" database.user="${upt.31.database.user}" 
-						database.password="${upt.31.database.password}" database.version="${upt.31.database.version}" 
-						database.name="${upt.31.database.name}" database.type="${upt.31.database.type}"
-						database.schema="${upt.31.database.schema}"  database.re-create="${upt.31.database.re-create}"
-						database.drop-schema="${upt.31.database.drop-schema}"
-						db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
-						db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
-						db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
-						db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
+						database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.url}" 
+						database.system.user="${upt.central.database.system.user}" database.system.password="${upt.central.database.system.password}" 
+						database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
+						database.password="${upt.central.database.password}" database.version="${upt.central.database.version}" 
+						database.name="${upt.central.database.name}" database.type="${upt.central.database.type}"
+						database.schema="${upt.central.database.schema}"  database.re-create="${upt.central.database.re-create}"
+						database.drop-schema="${upt.central.database.drop-schema}"
+						db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/uptcentral"
+						db.install.create.oracle.file.list="${upt.central.db.install.create.oracle.file.list}"
+						db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
+						db.install.create.postgresql.file.list="${upt.central.db.install.create.postgres.file.list}"
 					/>
 			</then>
+			<else>
+				<if>
+					<and>
+						<equals arg1="${upt.31.database.re-create}" arg2="true" />
+						<equals arg1="${upt.31.installed}" arg2="true" />
+					</and>
+					<then>
+						<install-backwards-compatible-upt-database 	
+								database.driver="${upt.31.database.driver.class}" database.system.url="${upt.31.database.url}" 
+								database.system.user="${upt.31.database.system.user}" database.system.password="${upt.31.database.system.password}" 
+								database.url="${upt.31.database.url}" database.user="${upt.31.database.user}" 
+								database.password="${upt.31.database.password}" database.version="${upt.31.database.version}" 
+								database.name="${upt.31.database.name}" database.type="${upt.31.database.type}"
+								database.schema="${upt.31.database.schema}"  database.re-create="${upt.31.database.re-create}"
+								database.drop-schema="${upt.31.database.drop-schema}"
+								db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
+								db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
+								db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
+								db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
+							/>
+					</then>
+				</if>
+				<if>
+					<and>
+						<equals arg1="${upt.32.database.re-create}" arg2="true" />
+						<equals arg1="${upt.32.installed}" arg2="true" />
+					</and>
+					<then>
+						<install-backwards-compatible-upt-database 	
+								database.driver="${upt.32.database.driver.class}" database.system.url="${upt.32.database.url}" 
+								database.system.user="${upt.32.database.system.user}" database.system.password="${upt.32.database.system.password}" 
+								database.url="${upt.32.database.url}" database.user="${upt.32.database.user}" 
+								database.password="${upt.32.database.password}" database.version="${upt.32.database.version}" 
+								database.name="${upt.32.database.name}" database.type="${upt.32.database.type}"
+								database.schema="${upt.32.database.schema}" database.re-create="${upt.32.database.re-create}"
+								database.drop-schema="${upt.32.database.drop-schema}"
+								db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
+								db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
+								db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
+								db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
+							/>
+					</then>
+				</if>
+				<if>
+					<and>
+						<equals arg1="${upt.40.database.re-create}" arg2="true" />
+						<equals arg1="${upt.40.installed}" arg2="true" />
+					</and>
+					<then>
+						<install-backwards-compatible-upt-database 	
+								database.driver="${upt.40.database.driver.class}" database.system.url="${upt.40.database.url}" 
+								database.system.user="${upt.40.database.system.user}" database.system.password="${upt.40.database.system.password}" 
+								database.url="${upt.40.database.url}" database.user="${upt.40.database.user}" 
+								database.password="${upt.40.database.password}" database.version="${upt.40.database.version}" 
+								database.name="${upt.40.database.name}" database.type="${upt.40.database.type}"
+								database.schema="${upt.40.database.schema}" database.re-create="${upt40.database.re-create}"
+								database.drop-schema="${upt.40.database.drop-schema}"
+								db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
+								db.install.create.oracle.file.list="${upt.40.db.install.create.oracle.file.list}"
+								db.install.create.mysql.file.list="${upt.40.db.install.create.mysql.file.list}"
+								db.install.create.postgresql.file.list="${upt.40.db.install.create.postgres.file.list}"
+							/>
+					</then>
+				</if>
+				<if>
+					<and>
+						<equals arg1="${upt.41.database.re-create}" arg2="true" />
+						<equals arg1="${upt.41.installed}" arg2="true" />
+					</and>
+					<then>
+						<install-backwards-compatible-upt-database 	
+								database.driver="${upt.41.database.driver.class}" database.system.url="${upt.41.database.url}" 
+								database.system.user="${upt.41.database.system.user}" database.system.password="${upt.41.database.system.password}" 
+								database.url="${upt.41.database.url}" database.user="${upt.41.database.user}" 
+								database.password="${upt.41.database.password}" database.version="${upt.41.database.version}" 
+								database.name="${upt.41.database.name}" database.type="${upt.41.database.type}"
+								database.schema="${upt.41.database.schema}"  database.re-create="${upt41.database.re-create}"
+								database.drop-schema="${upt.41.database.drop-schema}"
+								db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
+								db.install.create.oracle.file.list="${upt.41.db.install.create.oracle.file.list}"
+								db.install.create.mysql.file.list="${upt.41.db.install.create.mysql.file.list}"
+								db.install.create.postgresql.file.list="${upt.41.db.install.create.postgres.file.list}"
+							/>
+					</then>
+				</if>
+				<if>
+					<and>
+						<equals arg1="${upt.42.database.re-create}" arg2="true" />
+						<equals arg1="${upt.42.installed}" arg2="true" />
+					</and>
+					<then>
+						<install-backwards-compatible-upt-database 	
+								database.driver="${upt.42.database.driver.class}" database.system.url="${upt.42.database.url}" 
+								database.system.user="${upt.42.database.system.user}" database.system.password="${upt.42.database.system.password}" 
+								database.url="${upt.42.database.url}" database.user="${upt.42.database.user}" 
+								database.password="${upt.42.database.password}" database.version="${upt.42.database.version}" 
+								database.name="${upt.42.database.name}" database.type="${upt.42.database.type}"
+								database.schema="${upt.42.database.schema}"  database.re-create="true" 
+								database.drop-schema="${upt.42.database.drop-schema}"
+								db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
+								db.install.create.oracle.file.list="${upt.42.db.install.create.oracle.file.list}"
+								db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
+								db.install.create.postgresql.file.list="${upt.42.db.install.create.postgres.file.list}"
+							/>
+					</then>
+				</if>
+			</else>
 		</if>
-		<if>
-			<equals arg1="${upt.32.database.re-create}" arg2="true" />
-			<then>
-				<install-backwards-compatible-upt-database 	
-						database.driver="${upt.32.database.driver.class}" database.system.url="${upt.32.database.url}" 
-						database.system.user="${upt.32.database.system.user}" database.system.password="${upt.32.database.system.password}" 
-						database.url="${upt.32.database.url}" database.user="${upt.32.database.user}" 
-						database.password="${upt.32.database.password}" database.version="${upt.32.database.version}" 
-						database.name="${upt.32.database.name}" database.type="${upt.32.database.type}"
-						database.schema="${upt.32.database.schema}" database.re-create="${upt.32.database.re-create}"
-						database.drop-schema="${upt.32.database.drop-schema}"
-						db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
-						db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
-						db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
-						db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
-					/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.40.database.re-create}" arg2="true" />
-			<then>
-				<install-backwards-compatible-upt-database 	
-						database.driver="${upt.40.database.driver.class}" database.system.url="${upt.40.database.url}" 
-						database.system.user="${upt.40.database.system.user}" database.system.password="${upt.40.database.system.password}" 
-						database.url="${upt.40.database.url}" database.user="${upt.40.database.user}" 
-						database.password="${upt.40.database.password}" database.version="${upt.40.database.version}" 
-						database.name="${upt.40.database.name}" database.type="${upt.40.database.type}"
-						database.schema="${upt.40.database.schema}" database.re-create="${upt40.database.re-create}"
-						database.drop-schema="${upt.40.database.drop-schema}"
-						db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
-						db.install.create.oracle.file.list="${upt.40.db.install.create.oracle.file.list}"
-						db.install.create.mysql.file.list="${upt.40.db.install.create.mysql.file.list}"
-						db.install.create.postgresql.file.list="${upt.40.db.install.create.postgres.file.list}"
-					/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt41.database.re-create}" arg2="true" />
-			<then>
-				<install-backwards-compatible-upt-database 	
-						database.driver="${upt.41.database.driver.class}" database.system.url="${upt.41.database.url}" 
-						database.system.user="${upt.41.database.system.user}" database.system.password="${upt.41.database.system.password}" 
-						database.url="${upt.41.database.url}" database.user="${upt.41.database.user}" 
-						database.password="${upt.41.database.password}" database.version="${upt.41.database.version}" 
-						database.name="${upt.41.database.name}" database.type="${upt.41.database.type}"
-						database.schema="${upt.41.database.schema}"  database.re-create="${upt41.database.re-create}"
-						database.drop-schema="${upt.41.database.drop-schema}"
-						db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
-						db.install.create.oracle.file.list="${upt.41.db.install.create.oracle.file.list}"
-						db.install.create.mysql.file.list="${upt.41.db.install.create.mysql.file.list}"
-						db.install.create.postgresql.file.list="${upt.41.db.install.create.postgres.file.list}"
-					/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.42.database.re-create}" arg2="true" />
-			<then>
-				<install-backwards-compatible-upt-database 	
-						database.driver="${upt.42.database.driver.class}" database.system.url="${upt.42.database.url}" 
-						database.system.user="${upt.42.database.system.user}" database.system.password="${upt.42.database.system.password}" 
-						database.url="${upt.42.database.url}" database.user="${upt.42.database.user}" 
-						database.password="${upt.42.database.password}" database.version="${upt.42.database.version}" 
-						database.name="${upt.42.database.name}" database.type="${upt.42.database.type}"
-						database.schema="${upt.42.database.schema}"  database.re-create="true" 
-						database.drop-schema="${upt.42.database.drop-schema}"
-						db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
-						db.install.create.oracle.file.list="${upt.42.db.install.create.oracle.file.list}"
-						db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
-						db.install.create.postgresql.file.list="${upt.42.db.install.create.postgres.file.list}"
-					/>
-			</then>
-		</if>
-	</target>
-	
-	<target name="-copy-backwards-compatible-properties">
-		<echo message="Copying build files" />
-		<copy todir="${dist.exploded.dir}" overwrite="true">
-			<fileset dir="${build.dir}">
-				<include name="bda-master-install.xml" />
-				<include name="install-upt.xml" />
-				<include name="install-cgmmweb.xml" />
-				<include name="install-backwards-compatible-upt.xml" />
-			</fileset>
-			<fileset dir="${backwards.compatible.upt.resources.dir}">
-				<include name="*ApplicationSecurityConfig.xml" />
-				<include name="*backwards_compatible_upt-ds-template.xml" />
-				<include name="*login-config-template.xml" />
-				<include name="*csmupt31.hibernate.cfg.xml" />
-			</fileset>
-			<filterset>
-				<filterset>
-					<filtersfile file="${properties.file}"/>
-					<filtersfile file="project.properties"/>
-				</filterset>
-			</filterset>
-		</copy>
-		<copy tofile="${dist.exploded.dir}/install.properties" file="${build.dir}/install-backwards-compatible-upt.properties" overwrite="true"/>
-		<copySQLFiles upt.version="upt31" />
-		<copySQLFiles upt.version="upt32" />
-		<copySQLFiles upt.version="upt40" />
-		<copySQLFiles upt.version="upt41" />
-	
-		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31/mysql" overwrite="true">
-			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources">
-				<include name="*MySQL.sql" />
-			</fileset>
-		</copy>
-		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31/oracle" overwrite="true">
-			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources">
-				<include name="*Oracle.sql" />
-			</fileset>
-		</copy>
 	</target>
 	
 	<macrodef name="configure-login-config">

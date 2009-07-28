@@ -1,6 +1,6 @@
 
 
-CREATE DATABASE csm_dev_bkwrdscmptbl_central;
+#CREATE DATABASE csm_dev_bkwrdscmptbl_central;
 
 USE csm_dev_bkwrdscmptbl_central;
 
