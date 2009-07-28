@@ -12,12 +12,16 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property file="local.properties" />
 	<property file="project.properties" />
 	<property name="properties.file" value="install.properties"/>
+	<property name="backwards.properties.file" value="install-backwards-compatible-upt.properties"/>
 	<property name="upgrade.properties.file" value="upgrade.properties"/>
 
 	<property name="software.dir" location=".." />
 	<property name="db.src.dir" value="${software.dir}/${db-install.dist.relative.dir}" />
 	<property name="db-install.src.dir" value="${db.src.dir}/db-install" />
 	<property name="db-upgrade.src.dir" value="${db.src.dir}/db-upgrade" />
+	
+	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
+	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
 	
 	<property name="backwards-compatible-upt.install.zip.file" value="backwards-compatible-upt.zip" />
 	<property name="cgmmweb.install.zip.file" value="cgmmweb.zip" />
@@ -193,16 +197,21 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<target name="compile:securityws" depends="init">
 		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}" target="compile" dir="${securityws.base.dir}" />
 	</target>
-
+	
 	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
-		build:all,
+		build:all:cgmmweb,
+		build:backwards-compatible-all,
 		dist:installer,
 		dist:upgrader,
 		dist:src
 		">
 	</target>
 	
-	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
+	<!-- Abstract target -->	
+	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="">
+	</target>
+	
+	<target name="build:all:cgmmweb" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
 		build:upt,
@@ -248,7 +257,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<deploy-local target.name="${upgrade.backwards.compatible.upt.target}" />
 	</target>
 	
-	
+	<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
 	<target name="-copy-backwards-compatible-files">
 		<echo message="Copying build files" />
 		<copy todir="${dist.exploded.dir}" overwrite="true">
@@ -266,16 +275,18 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<filterset>
 				<filterset>
-					<filtersfile file="${properties.file}"/>
+					<filtersfile file="${backwards.properties.file}"/>
 					<filtersfile file="project.properties"/>
 				</filterset>
 			</filterset>
 		</copy>
 		<copy tofile="${dist.exploded.dir}/install.properties" file="${build.dir}/install-backwards-compatible-upt.properties" overwrite="true"/>
-		<copySQLFiles upt.version="upt31" />
-		<copySQLFiles upt.version="upt32" />
-		<copySQLFiles upt.version="upt40" />
-		<copySQLFiles upt.version="upt41" />		
+		<copySQLFiles upt.version="upt31" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources/"/>
+		<copySQLFiles upt.version="upt32" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt32/resources/"/>
+		<copySQLFiles upt.version="upt40" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt40/resources/"/>
+		<copySQLFiles upt.version="upt41" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt41/resources/"/>
+		<copySQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
+		
 		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31/mysql" overwrite="true">
 			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources">
 				<include name="*MySQL.sql" />
@@ -318,7 +329,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	
 
 	<target name="deploy:local:install:cgmmweb" depends="
-		build:all,
+		build:all:cgmmweb,
 		dist:installer:prep,
 		-copy-cgmm-files" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
 		<deploy-local target.name="${install.cgmm.target}" />
@@ -361,7 +372,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	
 	<!-- ant -Dproperties.file=C:/devroot/scm-private/sdk/properties/dev-install.properties  deploy:remote:install -->		
 	<target name="deploy:remote:install:cgmmweb" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
-		build:all,
+		build:all:cgmmweb,
 		-copy-cgmm-files,
 		dist:installer:cgmm	
 		">
@@ -373,19 +384,20 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	
 	<macrodef name="copySQLFiles">
 	   <attribute name="upt.version" default="NOT SET"/>
+	   <attribute name="input.dir" default="NOT SET"/>
 	   <sequential>	   	
 		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
-			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/@{upt.version}/resources">
+			<fileset dir="@{input.dir}">
 				<include name="*MySQL.sql" />
 			</fileset>
 		</copy>
 		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
-			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/@{upt.version}/resources">
+			<fileset dir="@{input.dir}">
 				<include name="*Oracle.sql" />
 			</fileset>
 		</copy>	
 		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/postgres" overwrite="true">
-			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/@{upt.version}/resources">
+			<fileset dir="@{input.dir}">
 				<include name="*Postgres.sql" />
 			</fileset>
 		</copy>
