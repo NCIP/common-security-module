@@ -346,7 +346,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 				<include name="install-backwards-compatible-upt.xml" />
 			</fileset>
 		</copy>
-		<copy tofile="${dist.exploded.dir}/install.properties" file="${build.dir}/install-backwards-compatible-upt.properties" overwrite="true"/>
+		<copy tofile="${dist.exploded.dir}/install.properties" file="${build.dir}/install-cgmm.properties" overwrite="true"/>
 		<copy todir="${dist.exploded.dir}/${cgmmweb.dist.relative.dir}/jbossweb-tomcat55-sar-jars" overwrite="true">
 			<fileset dir="${lib.dir}/cgmmweb/runtime"/>
 		</copy>
