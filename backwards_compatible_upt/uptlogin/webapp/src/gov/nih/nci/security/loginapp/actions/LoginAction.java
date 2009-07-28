@@ -324,29 +324,33 @@ public class LoginAction extends Action
 						// Determine the UPT Application Context Name for the non-superadmin Application.
 						String csmversion = getCSMVersionForApplicationViaJDBC(uptContextName, application.getApplicationName());
 						
-						if(!StringUtilities.isBlank(csmversion)){
-							
-
-							if(csmversion.equalsIgnoreCase("3.1")){
-								uptApplicationContextName = "upt31";	
-							}
-							if(csmversion.equalsIgnoreCase("3.2")){
-								uptApplicationContextName = "upt32";
-							}
-							if(csmversion.equalsIgnoreCase("4.0")){
-								uptApplicationContextName = "upt40";
-							}
-							if(csmversion.equalsIgnoreCase("4.1")){
-								uptApplicationContextName = "upt41";
-							}
-							if(csmversion.equalsIgnoreCase("4.2")){
-								uptApplicationContextName = "upt42";
-							}
+						if(DisplayConstants.UPT_CONTEXT_NAME.equalsIgnoreCase(application.getApplicationName())){
+							// no need to specify the uptApplicationContextName again since its already done above. 
 						}else{
-							
+						
+							if(!StringUtilities.isBlank(csmversion)){
+								
+	
+								if(csmversion.equalsIgnoreCase("3.1")){
+									uptApplicationContextName = "upt31";	
+								}
+								if(csmversion.equalsIgnoreCase("3.2")){
+									uptApplicationContextName = "upt32";
+								}
+								if(csmversion.equalsIgnoreCase("4.0")){
+									uptApplicationContextName = "upt40";
+								}
+								if(csmversion.equalsIgnoreCase("4.1")){
+									uptApplicationContextName = "upt41";
+								}
+								if(csmversion.equalsIgnoreCase("4.2")){
+									uptApplicationContextName = "upt42";
+								}
+							}
+						}	
 							//Note for Central UPT (backwards version) hosting: If csmversion is not mentioned in the record 
 							// then the UPT Application Context Name (URL Context) shall be same as the 'csmupt' application context.
-						}
+						
 					}
 					
 					if (application!= null && !StringUtilities.isBlank(application.getDatabaseURL()))
