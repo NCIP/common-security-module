@@ -56,12 +56,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="backwards.compatible.upt.build.target" value="all" />
 	<property name="cgmm.build.target" value="all" />
 
-	<property name="install.upt.target" value="install-upt" />
-	<property name="upgrade.upt.target" value="upgrade-upt" />
-	<property name="install.cgmm.target" value="install-cgmmweb" />
-	<property name="upgrade.cgmm.target" value="upgrade-cgmmweb" />
-	<property name="install.backwards.compatible.upt.target" value="install-backwards-compatible-upt" />
-	<property name="upgrade.backwards.compatible.upt.target" value="upgrade-backwards-compatible-upt" />
+	<property name="install.upt.target" value="install:upt" />
+	<property name="upgrade.upt.target" value="upgrade:upt" />
+	<property name="install.cgmm.target" value="install:cgmmweb" />
+	<property name="upgrade.cgmm.target" value="upgrade:cgmmweb" />
+	<property name="install.backwards.compatible.upt.target" value="install:backwards-compatible-upt" />
+	<property name="upgrade.backwards.compatible.upt.target" value="upgrade:backwards-compatible-upt" />
 
 	<!-- Distribution Structure properties, used to copy files into the distribution area.
        		Use project.propertie relative dir names becasue they are used by install also-->
