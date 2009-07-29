@@ -83,9 +83,19 @@
 	</target>
 
 	<target name="-post-compile" depends="compile" description="Post-compile operations">
+		<if>
+			<equals arg1="${exclude.tomcat}" arg2="true" />
+			<then>
+				<property name="application.jndi" value="/" />
+			</then>
+			<else>
+				<property name="application.jndi" value="comp/env/" />
+			</else>
+		</if>
 		<copy file="${src.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" filtering="true">
 			<filterset>
-				<filtersfile file="${properties.file}" />				
+				<filter token="application.jndi" value="${application.jndi}"/>
+				<filtersfile file="${properties.file}" />
 			</filterset>
 		</copy>
 		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
