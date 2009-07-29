@@ -17,7 +17,10 @@
 	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
 	<property name="war.file" value="upt.war" />
 
-	<property name="properties.file" location="../build/project.properties"></property>
+	<property file="../build/install.properties">
+	</property>
+	<property name="properties.file" location="../build/project.properties">
+	</property>
 	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2" />
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2" />
@@ -83,9 +86,19 @@
 	</target>
 
 	<target name="-post-compile" depends="compile" description="Post-compile operations">
+		<if>
+			<equals arg1="${exclude.tomcat}" arg2="true" />
+			<then>
+				<property name="application.jndi" value="/" />
+			</then>
+			<else>
+				<property name="application.jndi" value="comp/env/" />
+			</else>
+		</if>
 		<copy file="${src.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" filtering="true">
 			<filterset>
-				<filtersfile file="${properties.file}" />				
+				<filter token="application.jndi" value="${application.jndi}"/>
+				<filtersfile file="${properties.file}" />
 			</filterset>
 		</copy>
 		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
@@ -96,6 +109,16 @@
 		<copy todir="${build.dir}/WEB-INF/lib">
 			<fileset dir="${lib.dir}/upt/runtime" includes="**/*.jar" />
 		</copy>
+		
+		
+		<if>
+			<equals arg1="${exclude.tomcat}" arg2="true"/>
+			<then>
+				<delete  file="${build.dir}/WEB-INF/lib/commons-logging-1.0.4.jar" quiet="true"/>
+				<delete  file="${build.dir}/WEB-INF/lib/log4j-1.2.9.jar" quiet="true"/>
+			</then>
+		</if>
+		
 		<jar jarfile="${target.dir}/${war.file}" basedir="${build.dir}" />
 	</target>
 
