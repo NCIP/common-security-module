@@ -12,17 +12,17 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property file="local.properties" />
 	<property file="project.properties" />
 	<property name="properties.file" value="install.properties"/>
-	<property name="backwards.properties.file" value="install-backwards-compatible-upt.properties"/>
+	<property name="backwards.properties.file" value="install-backwards-compatible-upt.properties" />
 	<property name="upgrade.properties.file" value="upgrade.properties"/>
 
 	<property name="software.dir" location=".." />
 	<property name="db.src.dir" value="${software.dir}/${db-install.dist.relative.dir}" />
 	<property name="db-install.src.dir" value="${db.src.dir}/db-install" />
 	<property name="db-upgrade.src.dir" value="${db.src.dir}/db-upgrade" />
-	
+
 	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
 	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
-	
+
 	<property name="backwards-compatible-upt.install.zip.file" value="backwards-compatible-upt.zip" />
 	<property name="cgmmweb.install.zip.file" value="cgmmweb.zip" />
 	<property name="upt.install.zip.file" value="upt.zip" />
@@ -30,7 +30,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="ivy.settings.file" value="ivysettings.xml" />
 
-	<import file="bda-master-build.xml" id="bda-build" />
+	<import file="bda-master-build.xml"/>
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
@@ -40,7 +40,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="backwards.compatible.upt.base.dir" location="${software.dir}/backwards_compatible_upt" />
 	<property name="backwards.compatible.upt.resources.dir" location="${backwards.compatible.upt.base.dir}/uptEAR/resources" />
 	<property name="cgmm.base.dir" location="${software.dir}/cgmmweb" />
-	
+
 
 	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
 	<property name="upt.build.file" value="build.xml" />
@@ -198,7 +198,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<target name="compile:securityws" depends="init">
 		<ant inheritAll="false" inheritRefs="false" antfile="${securityws.build.file}" target="compile" dir="${securityws.base.dir}" />
 	</target>
-	
+
 	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
 		build:all:cgmmweb,
 		build:backwards-compatible-all,
@@ -207,18 +207,18 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		dist:src
 		">
 	</target>
-	
-	<!-- Abstract target -->	
+
+	<!-- Abstract target -->
 	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="">
 	</target>
-	
+
 	<target name="build:all:upt" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
 		build:upt,
 		build:securityws">
 	</target>
-	
+
 	<target name="build:all:cgmmweb" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
@@ -226,7 +226,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		build:securityws,
 		build:cgmm">
 	</target>
-	
+
 	<target name="build:backwards-compatible-all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
@@ -251,7 +251,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		build:backwards-compatible-all,
 		dist:installer:prep,
 		-copy-backwards-compatible-files" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
-		
+
 		<!-- Copy install related xml and properties files -->
 		<deploy-local target.name="${install.backwards.compatible.upt.target}" />
 	</target>
@@ -260,11 +260,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		build:backwards-compatible-all,
 		dist:installer:prep,
 		-copy-backwards-compatible-files" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
-		
+
 		<!-- Copy install related xml and properties files -->
 		<deploy-local target.name="${upgrade.backwards.compatible.upt.target}" />
 	</target>
-	
+
 	<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
 	<target name="-copy-backwards-compatible-files">
 		<echo message="Copying build files" />
@@ -289,12 +289,13 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</filterset>
 		</copy>
 		<copy tofile="${dist.exploded.dir}/install.properties" file="${build.dir}/install-backwards-compatible-upt.properties" overwrite="true"/>
-		<copySQLFiles upt.version="upt31" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources/"/>
-		<copySQLFiles upt.version="upt32" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt32/resources/"/>
-		<copySQLFiles upt.version="upt40" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt40/resources/"/>
-		<copySQLFiles upt.version="upt41" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt41/resources/"/>
-		<copySQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
-		
+
+		<copySQLFiles upt.version="upt31" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources/" upt.version.installed="${upt.31.installed}"/>
+		<copySQLFiles upt.version="upt32" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt32/resources/" upt.version.installed="${upt.32.installed}"/>
+		<copySQLFiles upt.version="upt40" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt40/resources/" upt.version.installed="${upt.40.installed}"/>
+		<copySQLFiles upt.version="upt41" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt41/resources/" upt.version.installed="${upt.41.installed}"/>
+		<copySQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}" upt.version.installed="${upt.central.config}"/>
+
 		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31/mysql" overwrite="true">
 			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources">
 				<include name="*MySQL.sql" />
@@ -306,7 +307,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<!-- ant -Dproperties.file=C:/devroot/csm-all/software/build/dev-install.properties  deploy:remote:install:backwards-compatible-upt 
 		https://wiki.nci.nih.gov/display/BuildandDeploymentAutomation/AHP+-+Testing+command+line+build  
      -->
@@ -329,7 +330,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<!-- SSH to machine ant run ant command line to install application-->
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.backwards.compatible.upt.target}" />
 	</target>
-	
+
 	<!-- ant -Dproperties.file=C:/devroot/csm-all/software/build/dev-install.properties  deploy:remote:install:upt 
 		https://wiki.nci.nih.gov/display/BuildandDeploymentAutomation/AHP+-+Testing+command+line+build  
      -->
@@ -342,7 +343,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<!-- SSH to machine ant run ant command line to install application-->
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.upt.target}" />
 	</target>
-	
+
 	<target name="dist:installer:backwards-compatible" depends="dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
 		<delete file="${dist.dir}/${project-webapp.install.zip.file}" />
 		<!-- Set environment name to external -->
@@ -355,9 +356,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			delete.property.list="exclude.jboss.backup"
 			/>
 		<zip destfile="${dist.dir}/${backwards-compatible-upt.install.zip.file}" basedir="${dist.exploded.dir}">
-		</zip>		
+		</zip>
 	</target>
-	
+
 
 	<target name="deploy:local:install:cgmmweb" depends="
 		build:all:cgmmweb,
@@ -365,7 +366,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		-copy-cgmm-files" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
 		<deploy-local target.name="${install.cgmm.target}" />
 	</target>
-	
+
 	<target name="-copy-cgmm-files">
 		<!-- Copy install related xml and properties files -->
 		<echo message="Copying build files" />
@@ -385,7 +386,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			<fileset dir="${lib.dir}/cgmmweb/jboss-default-lib"/>
 		</copy>
 	</target>
-	
+
 	<target name="dist:installer:cgmm" depends="dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
 		<delete file="${dist.dir}/${project-webapp.install.zip.file}" />
 		<!-- Set environment name to external -->
@@ -398,10 +399,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			delete.property.list="exclude.jboss.backup"
 			/>
 		<zip destfile="${dist.dir}/${cgmmweb.install.zip.file}" basedir="${dist.exploded.dir}">
-		</zip>		
+		</zip>
 	</target>
-	
-	<!-- ant -Dproperties.file=C:/devroot/scm-private/sdk/properties/dev-install.properties  deploy:remote:install -->		
+
+	<!-- ant -Dproperties.file=C:/devroot/scm-private/sdk/properties/dev-install.properties  deploy:remote:install -->
 	<target name="deploy:remote:install:cgmmweb" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
 		build:all:cgmmweb,
 		-copy-cgmm-files,
@@ -414,24 +415,30 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<macrodef name="copySQLFiles">
-	   <attribute name="upt.version" default="NOT SET"/>
-	   <attribute name="input.dir" default="NOT SET"/>
-	   <sequential>	   	
-		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
-			<fileset dir="@{input.dir}">
-				<include name="*MySQL.sql" />
-			</fileset>
-		</copy>
-		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
-			<fileset dir="@{input.dir}">
-				<include name="*Oracle.sql" />
-			</fileset>
-		</copy>	
-		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/postgres" overwrite="true">
-			<fileset dir="@{input.dir}">
-				<include name="*Postgres.sql" />
-			</fileset>
-		</copy>
-	   </sequential>
+		<attribute name="upt.version" default="NOT SET" />
+		<attribute name="upt.version.installed" default="NOT SET" />
+		<attribute name="input.dir" default="NOT SET" />
+		<sequential>
+			<if>
+				<equals arg1="@{upt.version.installed}" arg2="true" />
+				<then>
+					<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
+						<fileset dir="@{input.dir}">
+							<include name="*MySQL.sql" />
+						</fileset>
+					</copy>
+					<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
+						<fileset dir="@{input.dir}">
+							<include name="*Oracle.sql" />
+						</fileset>
+					</copy>
+					<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/postgres" overwrite="true">
+						<fileset dir="@{input.dir}">
+							<include name="*Postgres.sql" />
+						</fileset>
+					</copy>
+				</then>
+			</if>
+		</sequential>
 	</macrodef>
 </project>
