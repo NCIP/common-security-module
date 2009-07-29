@@ -12,7 +12,6 @@
 
 	<!-- set global properties for this build -->
 	<!-- This will be removed once all jars are retrieved from Ivy -->
-	<property file="../build/install-backwards-compatible-upt.properties" />
 	<property name="properties.file" location="../build/project.properties">
 	</property>
 	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
