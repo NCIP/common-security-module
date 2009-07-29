@@ -609,7 +609,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</then>
 		</if>
 	</target>
-	<target name="install:tomcat:validation:post-install" description="Run post-install checks from bda-utils"
+	<target name="install:tomcat:validation:post-install" description="Run post-install checks from bda-utils" unless="exclude.tomcat"
 		depends="
 		common:tomcat:init,
 		common:init,

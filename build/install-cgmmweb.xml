@@ -14,6 +14,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="cgmmweb.dir.dist" value="${basedir}/${cgmmweb.dist.relative.dir}" />
 	<property name="cgmm.war.file" value="cgmmweb.war" />
 
+	<property name="cgmm-webapp.name" value="cgmmweb" />
 
 	<target name="install:jboss:cgmm-webapp" description="Deploy bda-blueprints-webapp and common libraries to jboss installation" unless="exclude.jboss" depends="common:init">
 		<!-- added to ensure working.dirs are fresh for our install -->
@@ -27,10 +28,15 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		-->
 		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 	</target>
+	
+	<target name="-set:jboss:application:url">
+		<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${cgmm-webapp.name}"/>
+	</target>
 
 	<!-- Wrapper target to deploy JBOSS container 
-		  install:jboss:validation:post-install	-->
+		 removed : install:jboss:validation:post-install	-->
 	<target name="install:jboss:cgmmweb" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss" depends="
+		-set:jboss:application:url,
 		common:jboss:init,
 		common:init,
 		install:jboss:init,

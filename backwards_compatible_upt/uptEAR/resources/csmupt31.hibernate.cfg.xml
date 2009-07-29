@@ -5,11 +5,11 @@
 <hibernate-configuration>
     <session-factory>
         <!-- properties  -->
-        <property name="connection.url">@upt.31.database.url@</property>
-        <property name="connection.username">@upt.31.database.user@</property>
-        <property name="connection.password">@upt.31.database.password@</property>
-        <property name="dialect">@upt.31.database.dialect@</property>
-        <property name="connection.driver_class">@upt.31.database.driver.class@</property>
+        <property name="connection.url">@upt.version.database.url.prefix@://@upt.version.database.server@:@upt.version.database.port@/@upt.version.database.name@</property>
+        <property name="connection.username">@upt.version.database.user@</property>
+        <property name="connection.password">@upt.version.database.password@</property>
+        <property name="dialect">@upt.version.database.dialect@</property>
+        <property name="connection.driver_class">@upt.version.database.driver.class@</property>
         <property name="hibernate.show_sql">false</property>
 
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml"/>
