@@ -5,7 +5,7 @@ $Id: install.xml 1593 2009-04-27 21:29:25Z saksass $
 $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/install.xml $
 -->
 
-<project name="csm-installer" default="install-upt" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csm-installer" default="install:upt" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
@@ -14,11 +14,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<import file="install-upt.xml"/>
 	<import file="install-backwards-compatible-upt.xml"/>
 	
-	<target name="install-upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="
+	<target name="install:upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="
 		common:jboss:init,
 		common:tomcat:init,
-		
 		common:init,
+		
 		install:jboss:init,
 		install:common:validation:pre-install,
 		install:jboss:validation:pre-install,
@@ -38,19 +38,19 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		">
 	</target>
 
-	<target name="install-cgmmweb" description="Installs and configures JBOSS, creates database, and deploys application" depends="
+	<target name="install:cgmmweb" description="Installs and configures JBOSS, creates database, and deploys application" depends="
 		install:jboss:cgmmweb
 		">
 	</target>
 	
 	<!-- validate database -->
-	<target name="upgrade-backwards-compatible-upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="		
+	<target name="upgrade:backwards-compatible-upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="		
 		upgrade:jboss:backwards-compatible-upt
 		">
 	</target>
 
 	
-	<target name="install-backwards-compatible-upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="
+	<target name="install:backwards-compatible-upt" description="Installs and configures JBOSS, creates database, and deploys application" depends="
 		install:backwards-compatible-upt:database:validation:pre-install,
 		install:jboss:backwards-compatible-upt,
 		install:backwards-compatible-upt:databases
