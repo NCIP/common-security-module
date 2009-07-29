@@ -25,6 +25,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	
 	<property name="backwards-compatible-upt.install.zip.file" value="backwards-compatible-upt.zip" />
 	<property name="cgmmweb.install.zip.file" value="cgmmweb.zip" />
+	<property name="upt.install.zip.file" value="upt.zip" />
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="ivy.settings.file" value="ivysettings.xml" />
@@ -211,6 +212,13 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="">
 	</target>
 	
+	<target name="build:all:upt" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
+		clean,
+		init,
+		build:upt,
+		build:securityws">
+	</target>
+	
 	<target name="build:all:cgmmweb" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
@@ -225,7 +233,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		build:backwards:compatible:upt">
 	</target>
 
-	<target name="deploy:local:install:upt"  depends="build:all,dist:installer:prep" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
+	<target name="deploy:local:install:upt"  depends="build:all,build:all:upt,dist:installer:prep" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
 		<!-- Copy install related xml and properties files -->
 		<echo message="Copying build files" />
 		<copy todir="${dist.exploded.dir}" overwrite="true">
@@ -303,13 +311,36 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		https://wiki.nci.nih.gov/display/BuildandDeploymentAutomation/AHP+-+Testing+command+line+build  
      -->
 	<target name="deploy:remote:install:backwards-compatible-upt" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
-		build:backwards-compatible-all,
-		-copy-backwards-compatible-files,
-		dist:installer:backwards-compatible">
+		build:all,
+		build:all:upt,
+		dist:installer:prep
+		">
+		<echo message="Copying build files" />
+		<copy todir="${dist.exploded.dir}" overwrite="true">
+			<fileset dir="${build.dir}">
+				<include name="bda-master-install.xml" />
+				<include name="install-upt.xml" />
+				<include name="install-cgmmweb.xml" />
+				<include name="install-backwards-compatible-upt.xml" />
+			</fileset>
+		</copy>
 		<!-- Call macro to deploy files on desired server -->
 		<deploy-files dist.file="${backwards-compatible-upt.install.zip.file}" />
 		<!-- SSH to machine ant run ant command line to install application-->
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.backwards.compatible.upt.target}" />
+	</target>
+	
+	<!-- ant -Dproperties.file=C:/devroot/csm-all/software/build/dev-install.properties  deploy:remote:install:upt 
+		https://wiki.nci.nih.gov/display/BuildandDeploymentAutomation/AHP+-+Testing+command+line+build  
+     -->
+	<target name="deploy:remote:install:upt" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
+		build:backwards-compatible-all,
+		-copy-backwards-compatible-files,
+		dist:installer:backwards-compatible">
+		<!-- Call macro to deploy files on desired server -->
+		<deploy-files dist.file="${upt.install.zip.file}" />
+		<!-- SSH to machine ant run ant command line to install application-->
+		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.upt.target}" />
 	</target>
 	
 	<target name="dist:installer:backwards-compatible" depends="dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
@@ -381,7 +412,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<!-- SSH to machine ant run ant command line to install application -->
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.cgmm.target}" />
 	</target>
-	
+
 	<macrodef name="copySQLFiles">
 	   <attribute name="upt.version" default="NOT SET"/>
 	   <attribute name="input.dir" default="NOT SET"/>

@@ -1,8 +1,8 @@
+# Replace the <<database_name>> with proper database name that is to be created.
 
+#CREATE DATABASE @upt.40.database.name@;
 
-#CREATE DATABASE csm_dev_bkwrdscmptbl_central;
-
-USE csm_dev_bkwrdscmptbl_central;
+USE @upt.40.database.name@;
 
 DROP TABLE IF EXISTS CSM_APPLICATION
 ;
@@ -50,13 +50,12 @@ CREATE TABLE CSM_APPLICATION (
 	APPLICATION_DESCRIPTION VARCHAR(200) NOT NULL,
 	DECLARATIVE_FLAG BOOL NOT NULL DEFAULT 0,
 	ACTIVE_FLAG BOOL NOT NULL DEFAULT 0,
-	UPDATE_DATE DATE DEFAULT '0000-00-00',
+	UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00',
 	DATABASE_URL VARCHAR(100),
 	DATABASE_USER_NAME VARCHAR(100),
 	DATABASE_PASSWORD VARCHAR(100),
 	DATABASE_DIALECT VARCHAR(100),
 	DATABASE_DRIVER VARCHAR(100),
-	CSM_VERSION VARCHAR(20),
 	PRIMARY KEY(APPLICATION_ID)
 )Type=InnoDB
 ;
@@ -89,8 +88,7 @@ CREATE TABLE CSM_FILTER_CLAUSE (
 	TARGET_CLASS_ATTRIBUTE_TYPE VARCHAR (100) NOT NULL,
 	TARGET_CLASS_ALIAS VARCHAR (100),
 	TARGET_CLASS_ATTRIBUTE_ALIAS VARCHAR (100),
-	GENERATED_SQL_USER VARCHAR (4000) NOT NULL,
-	GENERATED_SQL_GROUP VARCHAR (4000) NOT NULL,
+	GENERATED_SQL VARCHAR (4000) NOT NULL,
 	APPLICATION_ID BIGINT NOT NULL,
 	UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00',
 	PRIMARY KEY(FILTER_CLAUSE_ID)	
@@ -127,7 +125,7 @@ CREATE TABLE CSM_PG_PE (
 	PG_PE_ID BIGINT AUTO_INCREMENT  NOT NULL,
 	PROTECTION_GROUP_ID BIGINT NOT NULL,
 	PROTECTION_ELEMENT_ID BIGINT NOT NULL,
-	UPDATE_DATE DATE DEFAULT '0000-00-00',
+	UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00',
 	PRIMARY KEY(PG_PE_ID)
 )Type=InnoDB
 ;
@@ -147,14 +145,14 @@ CREATE TABLE CSM_ROLE_PRIVILEGE (
 	ROLE_PRIVILEGE_ID BIGINT AUTO_INCREMENT  NOT NULL,
 	ROLE_ID BIGINT NOT NULL,
 	PRIVILEGE_ID BIGINT NOT NULL,
+	UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00',
 	PRIMARY KEY(ROLE_PRIVILEGE_ID)
 )Type=InnoDB
 ;
 
 CREATE TABLE CSM_USER ( 
 	USER_ID BIGINT AUTO_INCREMENT  NOT NULL,
-	LOGIN_NAME VARCHAR(500) NOT NULL,
-	MIGRATED_FLAG BOOL NOT NULL DEFAULT 0,
+	LOGIN_NAME VARCHAR(100) NOT NULL,
 	FIRST_NAME VARCHAR(100) NOT NULL,
 	LAST_NAME VARCHAR(100) NOT NULL,
 	ORGANIZATION VARCHAR(100),
@@ -166,7 +164,6 @@ CREATE TABLE CSM_USER (
 	START_DATE DATE,
 	END_DATE DATE,
 	UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00',
-	PREMGRT_LOGIN_NAME VARCHAR(100) ,
 	PRIMARY KEY(USER_ID)
 )Type=InnoDB
 ;
@@ -194,6 +191,7 @@ CREATE TABLE CSM_USER_PE (
 	USER_PROTECTION_ELEMENT_ID BIGINT AUTO_INCREMENT  NOT NULL,
 	PROTECTION_ELEMENT_ID BIGINT NOT NULL,
 	USER_ID BIGINT NOT NULL,
+	UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00',
 	PRIMARY KEY(USER_PROTECTION_ELEMENT_ID)
 )Type=InnoDB
 ;
@@ -310,7 +308,7 @@ FOREIGN KEY (PRIVILEGE_ID) REFERENCES CSM_PRIVILEGE (PRIVILEGE_ID)
 ON DELETE CASCADE
 ;
 
-ALTER TABLE CSM_ROLE_PRIVILEGE ADD CONSTRAINT FK_ROLE
+ALTER TABLE CSM_ROLE_PRIVILEGE ADD CONSTRAINT FK_ROLE 
 FOREIGN KEY (ROLE_ID) REFERENCES CSM_ROLE (ROLE_ID)
 ON DELETE CASCADE
 ;
@@ -354,194 +352,5 @@ ALTER TABLE CSM_USER_PE ADD CONSTRAINT FK_PROTECTION_ELEMENT_USER
 FOREIGN KEY (PROTECTION_ELEMENT_ID) REFERENCES CSM_PROTECTION_ELEMENT (PROTECTION_ELEMENT_ID)
 ON DELETE CASCADE
 ;
-
-COMMIT;
-
-#
-# The following entries creates a super admin application incase you decide 
-# to use this database to run UPT also. In that case you need to provide
-# the project login id and name for the super admin.
-# However in incase you are using this database just to host the application's
-# authorization schema, these enteries are not used and hence they can be left as 
-# it is.
-#
-
-insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,CSM_VERSION,UPDATE_DATE)
-values ("csmupt","CSM UPT Super Admin Application",0,0,"",sysdate());
-
-insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("superadmin","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
-
-insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=parmarv","Vijay","Parmar","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
-
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("csmupt","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
-
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(1,1);
-
-#
-# The following entry is for your application.
-# Replace <<application_context_name>> with your application name.
-#
-
-
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sampleHostApplicationName","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
-
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sampleHostApplicationName","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
-
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(2,1);
-
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample31","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
-
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample31","Admin Application Protection Element","sample31",1,sysdate());
-
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(3,1);
-
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample32","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
-
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample32","Admin Application Protection Element","sample32",1,sysdate());
-
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(4,1);
-
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample40","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
-
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample40","Admin Application Protection Element","sample40",1,sysdate());
-
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(5,1);
-
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample41","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
-
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample41","Admin Application Protection Element","sample41",1,sysdate());
-
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(6,1);
-
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample42","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
-
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample42","Admin Application Protection Element","sample42",1,sysdate());
-
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(7,1);
-#
-# The following entries are Common Set of Privileges
-#
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("CREATE","This privilege grants permission to a user to create an entity. This entity can be an object, a database entry, or a resource such as a network connection", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("ACCESS","This privilege allows a user to access a particular resource.  Examples of resources include a network or database connection, socket, module of the application, or even the application itself", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("READ","This privilege permits the user to read data from a file, URL, database, an object, etc. This can be used at an entity level signifying that the user is allowed to read data about a particular entry", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("WRITE","This privilege allows a user to write data to a file, URL, database, an object, etc. This can be used at an entity level signifying that the user is allowed to write data about a particular entity", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("UPDATE","This privilege grants permission at an entity level and signifies that the user is allowed to update data for a particular entity. Entities may include an object, object attribute, database row etc", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("DELETE","This privilege permits a user to delete a logical entity. This entity can be an object, a database entry, a resource such as a network connection, etc", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("EXECUTE","This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc", sysdate());
-
 
 COMMIT;

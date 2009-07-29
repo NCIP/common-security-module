@@ -98,7 +98,6 @@
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/clm.jar" />
 	</target>
 
 	<target name="prepare" depends="prepareDir,prepareBuild" />
@@ -365,7 +364,7 @@
 	<if>
 		<equals arg1="${upt.31.installed}" arg2="true" />
 		<then>
-			<configure-application-xml context.root="${upt.31.context.name}" upt.war="upt31.war"/>
+			<configure-application-xml context.root="${upt.31.url.context.name}" upt.war="upt31.war"/>
 			<copy todir="${build.home.ear}">
 				<fileset dir="${basedir}/dist/upt31" includes="upt31.war" />
 			</copy>
@@ -374,7 +373,7 @@
 	<if>
 		<equals arg1="${upt.32.installed}" arg2="true" />
 		<then>
-			<configure-application-xml context.root="${upt.32.context.name}" upt.war="upt32.war"/>
+			<configure-application-xml context.root="${upt.32.url.context.name}" upt.war="upt32.war"/>
 			<copy todir="${build.home.ear}">
 				<fileset dir="${basedir}/dist/upt32" includes="upt32.war" />
 			</copy>
@@ -383,7 +382,7 @@
 	<if>
 		<equals arg1="${upt.40.installed}" arg2="true" />
 		<then>
-			<configure-application-xml context.root="${upt.40.context.name}" upt.war="upt40.war"/>
+			<configure-application-xml context.root="${upt.40.url.context.name}" upt.war="upt40.war"/>
 			<copy todir="${build.home.ear}">
 				<fileset dir="${basedir}/dist/upt40" includes="upt40.war" />
 			</copy>
@@ -392,7 +391,7 @@
 	<if>
 		<equals arg1="${upt.41.installed}" arg2="true" />
 		<then>
-			<configure-application-xml context.root="${upt.41.context.name}" upt.war="upt41.war"/>
+			<configure-application-xml context.root="${upt.41.url.context.name}" upt.war="upt41.war"/>
 			<copy todir="${build.home.ear}">
 				<fileset dir="${basedir}/dist/upt41" includes="upt41.war" />
 			</copy>
@@ -401,7 +400,7 @@
 	<if>
 		<equals arg1="${upt.42.installed}" arg2="true" />
 		<then>
-			<configure-application-xml context.root="${upt.42.context.name}" upt.war="upt42.war"/>
+			<configure-application-xml context.root="${upt.42.url.context.name}" upt.war="upt42.war"/>
 			<copy todir="${build.home.ear}">
 				<fileset dir="${basedir}/dist/upt42" includes="upt42.war" />
 			</copy>
