@@ -149,11 +149,11 @@
 			<fileset dir="${web.dir}/WEB-INF" />
 		</copy>
 		<copy todir="${temp.dir}/WEB-INF/lib">
-			<fileset dir="${lib.dir}/cgmmweb/runtime">
-				<exclude name="*commons-logging*.jar"/>
-				<exclude name="*log4j*.jar"/>
-			</fileset>
+			<fileset dir="${lib.dir}/cgmmweb/runtime"/>
 		</copy>
+		<delete file="${temp.dir}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+		<delete file="${temp.dir}/WEB-INF/lib/log4j-1.2.14.jar"/>
+		
 		<jar jarfile="${target.dir}/${war.file}">
 			<fileset dir="${temp.dir}" />
 			<fileset dir="${basedir}/resources" includes="cgmm-properties.xsd" />
