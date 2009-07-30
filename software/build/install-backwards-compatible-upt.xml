@@ -7,7 +7,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 <project name="backwards-compatible-upt" default="install:jboss:backwards-compatible-upt" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	
-	<property name="properties.file" value="${basedir}/install-backwards-compatible-upt.properties"/>
 	<import file="bda-master-install.xml" />
 
 	<!-- Generic properties -->
@@ -23,15 +22,15 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="securityws.war.file" value="securityws.war" />
 	<property name="clm.jar.file" value="clm-4.1.jar" />
 
-	<property name="upt-webapp.name" value="uptlogin" />
+	<property name="bkwards-upt-webapp.name" value="uptlogin" />
 
-	<target name="-set:jboss:application:url">
-		<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${upt-webapp.name}"/>
+	<target name="-set:jboss:backwards-compatible-upt:application:url">		
+		<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${bkwards-upt-webapp.name}"/>
 	</target>
 
 	<!-- Wrapper target to deploy JBOSS container -->
 	<target name="install:jboss:backwards-compatible-upt" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss" depends="
-		-set:jboss:application:url,
+		-set:jboss:backwards-compatible-upt:application:url,
 		common:jboss:init,
 		common:init,
 		install:jboss:init,
@@ -43,6 +42,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:backwards-compatible-upt-ear:re-configure,
 		install:jboss:backwards-compatible-upt-ear,
 		install:jboss:backwards-compatible-upt-ear:configure,
+		install:jboss:configure,
 		install:jboss:configure:login:config,
 		install:jboss:configure:application:context,
 		install:backwards-compatible-upt:databases,		
@@ -54,7 +54,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>	
 	
 	<target name="upgrade:jboss:backwards-compatible-upt" description="Upgrades JBoss and Database" depends="		
-		-set:jboss:application:url,
+		-set:jboss:backwards-compatible-upt:application:url,
 		common:init,
 		common:jboss:init,
 		install:common:validation:pre-install,
@@ -62,6 +62,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:stop,
 		install:jboss:backwards-compatible-upt-ear,
 		install:jboss:backwards-compatible-upt-ear:configure,
+		install:jboss:configure,
 		install:jboss:configure:login:config,
 		install:jboss:configure:application:context,
 		install:jboss:configure:datasources,

@@ -29,14 +29,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 	</target>
 	
-	<target name="-set:jboss:application:url">
+	<target name="-set:jboss:cgmmweb:application:url">
 		<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${cgmm-webapp.name}"/>
 	</target>
 
 	<!-- Wrapper target to deploy JBOSS container 
 		 removed : install:jboss:validation:post-install	-->
 	<target name="install:jboss:cgmmweb" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss" depends="
-		-set:jboss:application:url,
+		-set:jboss:cgmmweb:application:url,
 		common:jboss:init,
 		common:init,
 		install:jboss:init,
