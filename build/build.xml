@@ -222,8 +222,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<target name="build:all:cgmmweb" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
-		build:upt,
-		build:securityws,
 		build:cgmm">
 	</target>
 
