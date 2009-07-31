@@ -12,7 +12,7 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 	<property name="lib.dir" value="${lib.dir}"/>
 </ant>
 
-<import file="${bda-utils.dir}/bda-build-utils-1.0.xml" />
+<import file="${bda-utils.dir}/bda-build-utils-1.4.0.xml"/>
 -->
 	<!-- Properties -->
 	<property location="${basedir}/lib" name="lib.dir"/>
@@ -21,7 +21,7 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 	<property location="${basedir}/bda-utils" name="bda-utils.dir"/>
 	<property location="" name="commonlibrary.dir"/>
 	<property location="${software.dir}/../../bda-local-ivy-repo" name="bda.local.repo.dir"/>
-	<property name="bda.version" value="1.2.0"/>
+	<property name="bda.version" value="1.4.0"/>
 
 	<property name="ivy.jar.file" value="ivy-2.0.0.jar"/>
 	<property name="ivy.settings.file" value="ivy-bda-settings.xml"/>
@@ -44,6 +44,16 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 			<available file="${ivy.dest.file}"/>
 		</and>
 	</condition>
+	<condition property="local.cbiit-ivy-repo.dir" value="/">
+		<or>
+			<os family="unix"/>
+			<os family="mac"/>
+		</or>
+	</condition>
+	<condition property="local.cbiit-ivy-repo.dir" value="c:/">
+		<os family="windows"/>
+	</condition>
+
 	<available file="${ivy.settings.file}" property="ivy.settings.available"/>
 	<available file="${ivy.bda.file}" property="ivy.bda.available"/>
 	<echo message="comonlibrary.dir=${commonlibrary.dir}"/>
