@@ -357,12 +357,18 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</zip>
 	</target>
 
-
 	<target name="deploy:local:install:cgmmweb" depends="
 		build:all:cgmmweb,
 		dist:installer:prep,
 		-copy-cgmm-files" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
 		<deploy-local target.name="${install.cgmm.target}" />
+	</target>
+	
+	<target name="deploy:local:upgrade:cgmmweb" depends="
+		build:all:cgmmweb,
+		dist:installer:prep,
+		-copy-cgmm-files" description="Upgrades and configures the application and required binaries and upgrades the datbase  on the local machine. Used for developer desktops and ci environments.">
+		<deploy-local target.name="${upgrade.cgmm.target}" />
 	</target>
 
 	<target name="-copy-cgmm-files">
