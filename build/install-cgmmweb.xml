@@ -5,9 +5,10 @@ $Id: install.xml 1593 2009-04-27 21:29:25Z saksass $
 $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/install.xml $
 -->
 
-<project name="cgmmweb" default="install:jboss:cgmmweb" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="cgmmweb" default="-install:jboss:cgmmweb" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<import file="bda-master-install.xml" />
+	
 	<!-- Generic properties -->
 	<property name="project.name" value="cgmmweb-installer" />
 
@@ -33,9 +34,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${cgmm-webapp.name}"/>
 	</target>
 
-	<!-- Wrapper target to deploy JBOSS container 
-		 removed : install:jboss:validation:post-install	-->
-	<target name="install:jboss:cgmmweb" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss" depends="
+	<target name="-install:jboss:cgmmweb" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss" depends="
 		-set:jboss:cgmmweb:application:url,
 		common:jboss:init,
 		common:init,
@@ -48,8 +47,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:cgmm-webapp,
 		install:jboss:cgmm-webapp:configure,
 		install:jboss:configure,
+		install:jboss:configure:log4j,				
 		install:post:jboss,
-		install:jboss:start
+		install:jboss:start,
+		install:jboss:validation:post-install
 		">
 	</target>
 	
@@ -98,6 +99,40 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</filterset>
 		</copy>
 	</target>
+	
+	<target name="install:jboss:configure:log4j" description="Configure custom entries in system wide log4j" unless="exclude.jboss"  depends="common:jboss:init, common:init">
+		<echo message="Configuring Log4J"/>
+		<property name="log4j.file.name" value="log4j.xml"/>
+		<copy file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" tofile="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}.pre"/>
+
+		<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
+			byline="true"
+			match="^(&lt;!DOCTYPE.*)"
+			replace="&lt;!\-\-\1\-\-&gt;"
+			/>
+
+		<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
+			dest="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}">
+			<xmlcatalog refid="bda.xml.catalog"/>
+			<remove path="/log4j:configuration/category[@name='COM.claymoresystems.ptls.SSLDebug']"/>
+			<insert path="/log4j:configuration/root" position="before">
+				<![CDATA[
+				   <category name="COM.claymoresystems.ptls.SSLDebug">
+				     <priority value="OFF" />
+				   </category>
+				]]>
+			</insert>
+		</xmltask>
+		<validate-log4j
+			log4j.file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
+			/>                              
+		<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
+			byline="true"
+			match="^&lt;!\-\-(&lt;!DOCTYPE.*)\-\-&gt;"
+			replace="\1"
+			/>
+	</target>
+
 
 	<target name="install:jboss:cgmm-webapp:configure" depends="install:jboss:configure:target_grid,install:jboss:jbossweb-tomcat55:configure">
 		<copy todir="${jboss.home}/server/default/cgmm_config" overwrite="true">

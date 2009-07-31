@@ -55,6 +55,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	
 	<target name="upgrade:jboss:backwards-compatible-upt" description="Upgrades JBoss and Database" depends="		
 		-set:jboss:backwards-compatible-upt:application:url,
+		upgrade:jboss:init,
 		common:init,
 		common:jboss:init,
 		install:common:validation:pre-install,

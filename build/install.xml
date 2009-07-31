@@ -39,7 +39,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<target name="install:cgmmweb" description="Installs and configures JBOSS, creates database, and deploys application" depends="
-		install:jboss:cgmmweb
+		-install:jboss:cgmmweb
 		">
 	</target>
 	
@@ -55,6 +55,41 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:backwards-compatible-upt,
 		install:backwards-compatible-upt:databases
 		">
+	</target>
+	
+	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
+		<properties-exist
+			properties.list="application.base.path,jboss.home,jboss.server.name"
+			/>
+		<osfamily property="os.family"/>
+		<if>
+			<or>
+				<equals arg1="${os.family}" arg2="unix"/>
+				<equals arg1="${os.family}" arg2="mac"/>
+			</or>
+			<then>
+				<property name="jboss.server.hostname" value="${env.HOSTNAME}"/>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${os.family}" arg2="windows"/>
+			<then>
+				<property name="jboss.server.hostname" value="${env.COMPUTERNAME}"/>
+			</then>
+		</if>
+		<jboss-read-bindings-file-location
+			jboss.home="${read.jboss.home}"
+			/>
+		<jboss-read-ports
+			/>
+		<read-property-from-properties-service
+			jboss.home="${read.jboss.home}"
+			property.name="property1"
+			/>
+		<read-property-from-properties-service
+			jboss.home="${read.jboss.home}"
+			property.name="property2"
+			/>
 	</target>
 	
 </project>
