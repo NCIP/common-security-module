@@ -54,6 +54,24 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		">
 	</target>
 	
+	<target name="-upgrade:jboss:cgmmweb" description="Upgrades JBoss and Database" depends="		
+		-set:jboss:cgmmweb:application:url,
+		upgrade:jboss:init,
+		common:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:cgmm-webapp,
+		install:jboss:cgmm-webapp:configure,
+		install:jboss:configure,
+		install:jboss:configure:log4j,				
+		install:post:jboss,
+		install:jboss:start,
+		install:jboss:validation:post-install
+		">
+	</target>
+	
 	<!-- configure target grid -->
 	<target name="install:jboss:configure:target_grid">
 		<!-- configure target grid -->

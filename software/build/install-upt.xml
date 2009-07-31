@@ -16,11 +16,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="upt.ds.file" value="upt-ds.xml" />
 	<property name="upt.ds.tomcat.file" value="upt.xml" />
 	<property name="upt.app-sec-conf.file" value="ApplicationSecurityConfig.xml" />
-	<property name="upt.hibernate.file" value="hibernate.cfg.xml" />
 	<property name="upt.war.file" value="upt.war" />
-	<property name="securityws.dir.dist" value="${basedir}/${securityws.dist.relative.dir}" />
-	<property name="securityws.war.file" value="securityws.war" />
-	<property name="clm.jar.file" value="clm-4.1.jar" />
 	
 	<property name="upt-webapp.name" value="upt" />
 	<property name="tomcat.application.url" value="http://${tomcat.hostname}:${tomcat.port.http}/${upt-webapp.name}"/>

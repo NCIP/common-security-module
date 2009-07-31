@@ -16,11 +16,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="backwards.compatible.upt.dist" value="${basedir}/${backwards.compatible.upt.dist.relative.dir}" />
 	<property name="backwards-compatible-upt.ds.file" value="mysql-ds.xml" />
 	<property name="upt.app-sec-conf.file" value="ApplicationSecurityConfig.xml" />
-	<property name="upt.hibernate.file" value="hibernate.cfg.xml" />
 	<property name="backwards-compatible.upt.ear.file" value="uptEAR.ear" />
-	<property name="securityws.dir.dist" value="${basedir}/${securityws.dist.relative.dir}" />
-	<property name="securityws.war.file" value="securityws.war" />
-	<property name="clm.jar.file" value="clm-4.1.jar" />
 
 	<property name="bkwards-upt-webapp.name" value="uptlogin" />
 
@@ -39,7 +35,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:validation:pre-install:ports,
 		install:jboss:clean,
 		install:jboss:binaries,
-		install:jboss:backwards-compatible-upt-ear:re-configure,
 		install:jboss:backwards-compatible-upt-ear,
 		install:jboss:backwards-compatible-upt-ear:configure,
 		install:jboss:configure,
@@ -148,21 +143,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 				" />
 		<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
 		<jboss-update-properties-service property.block="${property.block}" />
-	</target>
-
-	<target name="install:jboss:backwards-compatible-upt-ear:re-configure" description="Update contents of artifacts if not all properties have been externalized, by extracting artifact, modify it as needed and re-archive it." unless="exclude.jboss" depends="common:init">
-		<!-- This is only required if configuration files are not externalized, below is a sample of what you may do.
-		<delete dir="${working.dir}/bda-blueprints-webapp"/>
-		<unzip src="${bda-blueprints-webapp.dir.dist}/${bda-blueprints-webapp.war.file}" dest="${working.dir}/bda-blueprints-webapp"/>
-		<copy todir="${working.dir}/bda-blueprints-webapp/WEB-INF/classes" file="${jboss-conf.dir.dest}/hibernate.cfg.xml"/>
-		
-		<move file="${bda-blueprints-webapp.dir.dist}/${bda-blueprints-webapp.war.file}" tofile="${bda-blueprints-webapp.dir.dist}/${bda-blueprints-webapp.war.file}.orig"/>
-		<war destfile="${bda-blueprints-webapp.dir.dist}/${bda-blueprints-webapp.war.file}" compress="false" webxml="${working.dir}/bda-blueprints-webapp/WEB-INF/web.xml" >
-			<fileset dir="${working.dir}/bda-blueprints-webapp">
-				<include name="*/**" />
-			</fileset>
-		</war>  
-		-->
 	</target>
 
 	<target name="install:jboss:configure:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">

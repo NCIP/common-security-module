@@ -57,6 +57,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		">
 	</target>
 	
+	<target name="upgrade:cgmmweb" description="Installs and configures JBOSS, creates database, and deploys application" depends="
+		-upgrade:jboss:cgmmweb		
+		">
+	</target>
+	
 	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
 		<properties-exist
 			properties.list="application.base.path,jboss.home,jboss.server.name"
