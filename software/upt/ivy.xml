@@ -22,7 +22,7 @@
 		<dependency org="springsource" name="acegi-security" rev="1.0.3" conf="compile;runtime"/>
 		<dependency org="springsource" name="spring" rev="1.2.8" conf="compile;runtime"/>
 		<dependency org="javax.servlet" name="servlet" rev="2.3.1" conf="compile;runtime"/>
-		<dependency org="apache" name="log4j" rev="1.2.9" conf="compile;runtime;" />
+		<dependency org="apache" name="log4j" rev="1.2.9" conf="compile" />
 		<dependency org="jakarta" name="commons-lang" rev="1.0.1" conf="compile;runtime;" />
 		<dependency org="jakarta" name="commons-logging" rev="1.0.4" conf="compile" />
 		<dependency org="org.jdom" name="jdom" rev="1.1" conf="compile;runtime;" />
