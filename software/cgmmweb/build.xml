@@ -138,6 +138,10 @@
 		<copy todir="${temp.dir}/WEB-INF/classes">
 			<fileset dir="${build.dir}">
 				<include name="**/webapp/**/*.class"/>
+				<include name="**/webapp/**/*.properties"/>
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/webapp/**/*.properties"/>
 			</fileset>
 		</copy>
 		<copy todir="${temp.dir}">
