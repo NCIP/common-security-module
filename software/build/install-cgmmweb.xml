@@ -161,6 +161,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<filterset>
 				<filter token="jboss.home" value="${jboss.home}"/>
+				<filter token="jboss.server.name" value="${jboss.server.name}"/>
 			</filterset>
 		</copy>
 
