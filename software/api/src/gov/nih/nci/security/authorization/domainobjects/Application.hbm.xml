@@ -18,5 +18,6 @@
 		<property name="databasePassword" type="java.lang.String" column="DATABASE_PASSWORD" length="100" />
 		<property name="databaseDialect" type="java.lang.String" column="DATABASE_DIALECT" length="100" />
 		<property name="databaseDriver" type="java.lang.String" column="DATABASE_DRIVER" length="100" />
+		<property name="csmVersion" type="java.lang.String" column="CSM_VERSION" length="20" />
 	</class>
 </hibernate-mapping>

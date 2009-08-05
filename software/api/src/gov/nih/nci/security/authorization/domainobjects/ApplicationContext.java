@@ -153,6 +153,11 @@ public abstract class ApplicationContext {
 	 */
 	private String databaseDriver;	
 	
+	/**
+	 * Indicate the version of CSM where application's authorization schema is hosted.
+	 */
+	private String csmVersion;
+	
 	public ApplicationContext(){
 
 	}
@@ -348,7 +353,15 @@ public abstract class ApplicationContext {
 		 return new HashCodeBuilder()
 		 	.append(this.applicationName)
 		 	.toHashCode();
-	 }	 
+	 }
+
+	public String getCsmVersion() {
+		return csmVersion;
+	}
+
+	public void setCsmVersion(String csmVersion) {
+		this.csmVersion = csmVersion;
+	}	 
 	 
 	
 }
