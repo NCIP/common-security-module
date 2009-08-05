@@ -144,6 +144,8 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	private String applicationDatabaseDialect;
 	private String applicationDatabaseDriver;
 	
+	private String csmVersion;
+	
 	private String[] associatedIds;
 	private Long associatedProtectionElementId;
 	
@@ -317,8 +319,10 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		this.applicationDatabaseConfirmPassword = "";
 		this.applicationDatabaseDialect = "";
 		this.applicationDatabaseDriver = "";
+		this.csmVersion= "";
 		this.applicationUpdateDate = "";
 		this.associatedIds = null;
+		
 	}
 
 	public void reset(ActionMapping mapping, HttpServletRequest request)
@@ -333,7 +337,9 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		this.applicationDatabaseConfirmPassword = "";
 		this.applicationDatabaseDialect = "";
 		this.applicationDatabaseDriver = "";
-		this.associatedIds = null;		
+		this.csmVersion= "";
+		this.associatedIds = null;
+		
 	}
 	
 	/* (non-Javadoc)
@@ -380,6 +386,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		formElementList.add(new FormElement("Application Database Confirm Password", "applicationDatabaseConfirmPassword", getApplicationDatabaseConfirmPassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Database Dialect", "applicationDatabaseDialect", getApplicationDatabaseDialect(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Database Driver", "applicationDatabaseDriver", getApplicationDatabaseDriver(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("CSM Version", "csmVersion", getCsmVersion(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
 		return formElementList;
 	}
@@ -400,6 +407,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		formElementList.add(new FormElement("Application Database Confirm Password", "applicationDatabaseConfirmPassword", StringUtils.initString(getApplicationDatabaseConfirmPassword()), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Database Dialect", "applicationDatabaseDialect", StringUtils.initString(getApplicationDatabaseDialect()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Database Driver", "applicationDatabaseDriver", StringUtils.initString(getApplicationDatabaseDriver()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("Application CSM Version", "csmVersion", StringUtils.initString(getCsmVersion()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Application Update Date", "applicationUpdateDate", StringUtils.initString(getApplicationUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
 		
 		return formElementList;
@@ -444,6 +452,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		this.applicationDatabaseConfirmPassword = application.getDatabasePassword();
 		this.applicationDatabaseDialect = application.getDatabaseDialect();
 		this.applicationDatabaseDriver = application.getDatabaseDriver();
+		this.csmVersion = application.getCsmVersion();
 		this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 
 	}
@@ -480,6 +489,8 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		application.setDatabasePassword(this.applicationDatabasePassword);
 		application.setDatabaseDialect(this.applicationDatabaseDialect);
 		application.setDatabaseDriver(this.applicationDatabaseDriver);
+		application.setCsmVersion(this.csmVersion);
+		
 		protectionElement.setProtectionElementName(this.applicationName);
 		protectionElement.setObjectId(this.applicationName);
 		
@@ -563,6 +574,12 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		if (this.associatedIds == null)
 			this.associatedIds = new String[0];
 		userProvisioningManager.assignOwners(this.associatedProtectionElementId.toString(), this.associatedIds);
+	}
+	public String getCsmVersion() {
+		return csmVersion;
+	}
+	public void setCsmVersion(String csmVersion) {
+		this.csmVersion = csmVersion;
 	}
 
 }
