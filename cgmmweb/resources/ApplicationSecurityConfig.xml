@@ -6,7 +6,7 @@
         <!-- For every application using the security api an entry should be made here -->
         <application>
             <context-name>
-                sampleHostApplicationContextName
+                @context.name@
             </context-name>
             <authentication>
                 <authentication-provider-class/>
@@ -27,7 +27,7 @@
                 </authorization-provider-class>
                 <hibernate-config-file>
                     <!-- Fully qualified file path -->
-                    @jboss.home@/server/default/cgmm_config/cgmmweb.hibernate.cfg.xml
+                    @jboss.home@/server/@jboss.server.name@/cgmm_config/cgmmweb.hibernate.cfg.xml
                 </hibernate-config-file>
             </authorization>
         </application>
