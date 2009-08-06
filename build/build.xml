@@ -201,7 +201,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
 		build:all:cgmmweb,
-		build:backwards-compatible-all,
+		build::all:backwards-compatible,
 		dist:installer,
 		dist:upgrader,
 		dist:src
@@ -225,7 +225,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		build:cgmm">
 	</target>
 
-	<target name="build:backwards-compatible-all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
+	<target name="build::all:backwards-compatible" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
 		build:backwards:compatible:upt">
@@ -246,7 +246,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<target name="deploy:local:install:backwards-compatible-upt"  depends="
-		build:backwards-compatible-all,
+		build::all:backwards-compatible,
 		dist:installer:prep,
 		-copy-backwards-compatible-files" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
 
@@ -255,7 +255,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<target name="deploy:local:upgrade:backwards-compatible-upt"  depends="
-		build:backwards-compatible-all,
+		build::all:backwards-compatible,
 		dist:installer:prep,
 		-copy-backwards-compatible-files" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
 
@@ -333,7 +333,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		https://wiki.nci.nih.gov/display/BuildandDeploymentAutomation/AHP+-+Testing+command+line+build  
      -->
 	<target name="deploy:remote:install:upt" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
-		build:backwards-compatible-all,
+		build::all:backwards-compatible,
 		-copy-backwards-compatible-files,
 		dist:installer:backwards-compatible">
 		<!-- Call macro to deploy files on desired server -->
