@@ -94,6 +94,7 @@ import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
@@ -106,6 +107,7 @@ import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
+import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -1406,5 +1408,62 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 			throw new CSTransactionException("Failed to find this Filter Clause with filterClauseId : "+ filterClauseId, e);		}
 		authorizationDAO.removeObject(filterClause);
 	}
+
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#createInstanceLevelMappingElement(gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement)
+	 */
+	public void createInstanceLevelMappingElement(InstanceLevelMappingElement instanceLevelMappingElement) throws CSTransactionException {
+		instanceLevelMappingElement.setApplication(authorizationDAO.getApplication());
+		instanceLevelMappingElement.setUpdateDate(new Date());
+		authorizationDAO.createObject(instanceLevelMappingElement);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#getInstanceLevelMappingElementById(java.lang.String)
+	 */
+	public InstanceLevelMappingElement getInstanceLevelMappingElementById(String instanceLevelMappingElementId) throws CSObjectNotFoundException {
+		return (InstanceLevelMappingElement)authorizationDAO.getObjectByPrimaryKey(InstanceLevelMappingElement.class,instanceLevelMappingElementId);
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#modifyInstanceLevelMappingElement(gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement)
+	 */
+	public void modifyInstanceLevelMappingElement(InstanceLevelMappingElement instanceLevelMappingElement) throws CSTransactionException {
+		instanceLevelMappingElement.setUpdateDate(new Date());
+		authorizationDAO.modifyObject(instanceLevelMappingElement);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#removeInstanceLevelMappingElement(java.lang.String)
+	 */
+	public void removeInstanceLevelMappingElement(String instanceLevelMappingElementId) throws CSTransactionException {
+		InstanceLevelMappingElement instanceLevelMappingElement;
+		try{
+			instanceLevelMappingElement= this.getInstanceLevelMappingElementById(instanceLevelMappingElementId);
+		}catch (CSObjectNotFoundException e){
+			throw new CSTransactionException("Failed to find this InstanceLevelMappingElement with Id : "+ instanceLevelMappingElementId, e);	
+		}
+		authorizationDAO.removeObject(instanceLevelMappingElement);		
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.AuthorizationManager#refreshInstanceTables(boolean)
+	 */
+	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException {
+
+		authorizationDAO.refreshInstanceTables(instanceLevelSecurityForUser);
+	}
+
+	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException {
+		authorizationDAO.maintainInstanceTables();
+		
+	}
+
+	
+	
 
 }

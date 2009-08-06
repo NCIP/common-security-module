@@ -93,6 +93,7 @@ import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
@@ -100,6 +101,7 @@ import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -1203,6 +1205,58 @@ public interface AuthorizationManager {
 	 * @throws CSTransactionException if there is any error in the deletion of the Filter CLause Ojbect
 	 */
 	public void removeFilterClause(String filterClauseId) throws CSTransactionException;
+
+	
+	/**
+	 * This method accepts a new InstanceLevelMappingElement and persists it in to the underlying database
+	 * @param instanceLevelMappingElement the InstanceLevelMappingElement which is to be persisted in the database. On successful creation
+	 *        the id attribute will be populated with the database assigned primary key
+	 * @throws CSTransactionException is thrown if there is an error in creating the InstanceLevelMappingElement
+	 */
+	public void createInstanceLevelMappingElement(InstanceLevelMappingElement instanceLevelMappingElement) throws CSTransactionException;
+	
+	
+	/**
+	 * Returns the {@link InstanceLevelMappingElement} Object for the passed InstanceLevelMappingElement Id
+	 * @param instanceLevelMappingElementId The id of the InstanceLevelMappingElement which is to be retrieved
+	 * @return The InstanceLevelMappingElement Ojbect from the database for the passed InstanceLevelMappingElement id
+	 * @throws CSObjectNotFoundException if the Filter InstanceLevelMappingElement is not found for the given id
+	 */
+	public InstanceLevelMappingElement getInstanceLevelMappingElementById(String instanceLevelMappingElementId) throws CSObjectNotFoundException;
+	
+	
+	/**
+	 * This method modifies the data of an existing {@link InstanceLevelMappingElement} object into the database
+	 * @param instanceLevelMappingElement The InstanceLevelMappingElement object containing the updated values which are to be persisted in the database 
+	 * @throws CSTransactionException if there is any error in updation of the passed InstanceLevelMappingElement object
+	 */
+	public void modifyInstanceLevelMappingElement(InstanceLevelMappingElement instanceLevelMappingElement) throws CSTransactionException;
+	
+	
+	/**
+	 * This method removes the InstanceLevelMappingElement object from the database for the passed id.
+	 * @param instanceLevelMappingElementId the id of the InstanceLevelMappingElement object which is to be removed from the database 
+	 * @throws CSTransactionException if there is any error in the deletion of the InstanceLevelMappingElement Ojbect
+	 */
+	public void removeInstanceLevelMappingElement(String instanceLevelMappingElementId) throws CSTransactionException;
+	
+	/**
+	 * This method will create/maintain the Intermediate tables for instance level security performance improvement.
+	 * @throws CSDataAccessException 
+	 */
+	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException;
+	
+	/**
+	 * This method will refresh the Intermediate tables for instance level security performance improvement.
+	 * 
+	 * @param instanceLevelSecurityForUser the boolean flag value to indicate Instance Level Security For User or Group is being used. 
+	 * @throws CSObjectNotFoundException if there is any error in retrieving of the Mapping Element Ojbects
+	 * @throws CSDataAccessException 
+	 */
+	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException;
+
+	
+	
 	
 }
 
