@@ -161,6 +161,24 @@ public class StringUtilities {
 		return temp;
 	}
 
+    
+
+
+    public static boolean isAlphaNumeric(final String s) {
+    	if(isBlank(s)) return false;
+      final char[] chars = s.toCharArray();
+      for (int x = 0; x < chars.length; x++) {      
+        final char c = chars[x];
+        if ((c >= 'a') && (c <= 'z')) continue; // lowercase
+        if ((c >= 'A') && (c <= 'Z')) continue; // uppercase
+        if ((c >= '0') && (c <= '9')) continue; // numeric
+        if (c == '.' ) continue; 				// period
+        return false;
+      }  
+      return true;
+    }
+
+
 	
     
 }
