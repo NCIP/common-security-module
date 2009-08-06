@@ -95,6 +95,7 @@ import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.authorization.domainobjects.Privilege;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElementPrivilegeContext;
@@ -107,6 +108,7 @@ import gov.nih.nci.security.authorization.jaas.AccessPermission;
 import gov.nih.nci.security.dao.hibernate.ProtectionGroupProtectionElement;
 import gov.nih.nci.security.dao.hibernate.UserGroup;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
+import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -122,6 +124,7 @@ import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -5777,7 +5780,393 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return attributeList; 		
 	}
 
+	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException {
 	
+		
+		
+		
+		//Get Mapping Table Entries for Instance Level Security performance.
+		InstanceLevelMappingElement mappingElement = new InstanceLevelMappingElement();
+		List<InstanceLevelMappingElement> mappingElements = getObjects(new InstanceLevelMappingElementSearchCriteria(mappingElement));
+		if (mappingElements== null || mappingElements.size() == 0)
+		{
+			//throw new RuntimeException ("Instance Level Mappging Elements does not exist");
+		}
 
+		Statement statement = null;
+		Transaction transaction = null;
+		Session session = null;
+		Connection connection = null;
+
+		try{
+			
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			transaction = session.beginTransaction();
+			connection = session.connection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			
+			Iterator mappingElementsIterator = mappingElements.iterator();
+			while(mappingElementsIterator.hasNext()){
+				InstanceLevelMappingElement instanceLevelMappingEntry = (InstanceLevelMappingElement) mappingElementsIterator.next();
+				if(instanceLevelMappingEntry !=null ){
+					if(instanceLevelMappingEntry.getActiveFlag()==0){
+						// Not active, so ignore this Object + Attribute from refresh logic.
+						continue;
+					}	
+					if(StringUtilities.isBlank(instanceLevelMappingEntry.getAttributeName()) || StringUtilities.isBlank(instanceLevelMappingEntry.getObjectName()) ||  StringUtilities.isBlank(instanceLevelMappingEntry.getTableName()) 
+								|| StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser()) || StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForUser())){
+							//Mapping Entry is invalid.
+							throw new CSObjectNotFoundException("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
+					}	
+				}else{
+					//Mapping Entry is invalid.
+					continue;
+					//throw new Exception("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
+				}
+				//get the Table Name and View Name for each object.
+				
+				String applicationID = this.application.getApplicationId().toString();
+				String peiTableName,tableNameUser,viewNameUser ,tableNameGroup,viewNameGroup = null;
+				String peiObjectId = null;
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getObjectPackageName())) {
+					peiObjectId = instanceLevelMappingEntry.getObjectName().trim();
+				}else{
+					peiObjectId = instanceLevelMappingEntry.getObjectPackageName().trim() + instanceLevelMappingEntry.getObjectName().trim();
+				}
+				
+				String peiAttribute = instanceLevelMappingEntry.getAttributeName().trim();
+				
+				peiTableName = "CSM_PEI_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();
+				
+				
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser())){
+					tableNameUser= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
+				}else{
+					tableNameUser = instanceLevelMappingEntry.getTableNameForUser();
+				}
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForUser())){
+					viewNameUser= "CSM_VW_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
+				}else{
+					viewNameUser = instanceLevelMappingEntry.getTableNameForUser();
+				}
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForGroup())){
+					tableNameGroup= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_GROUP";
+				}else{
+					tableNameGroup= instanceLevelMappingEntry.getTableNameForGroup();
+				}
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForGroup())){
+					viewNameGroup= "CSM_VW_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_GROUP";
+				}else{
+					viewNameGroup = instanceLevelMappingEntry.getTableNameForGroup();
+				}
+				
+	
+				/* Optional: Add Additional checks regarding Table and View record count. 
+				 * At the time of delete, if the MINUS is close to or greater than 50% of the records of the Table, 
+	             * then truncate table instead of deleting using delete statement.
+	             *
+	             * Note: No buffering until real tests warrant buffering. 
+				 */
+				
+				byte activeFlag = instanceLevelMappingEntry.getActiveFlag();
+				if(activeFlag==1){	
+					
+					//refresh PEI Table
+					statement.addBatch("DELETE FROM "+peiTableName+
+							"	 WHERE application_id = "+applicationID+" AND protection_element_id " +
+							"	 NOT IN (" +
+							"	 SELECT pe.protection_element_id from CSM_PROTECTION_ELEMENT pe" +
+							"    WHERE pe.object_id = '"+peiObjectId+"' AND  pe.attribute = '"+peiAttribute+"' AND  pe.application_id = "+applicationID+" )");
+					
+					statement.addBatch("INSERT INTO "+peiTableName+" (protection_element_id, attribute_value, application_id) " +
+							"		SELECT protection_element_id, attribute_value,application_id from CSM_PROTECTION_ELEMENT pe" +
+							"		WHERE (protection_element_id) " +
+							"			NOT IN (" +
+							"				SELECT protection_element_id from "+peiTableName+" )");
+					
+					
+					statement.executeBatch();
+					
+					
+					if(instanceLevelSecurityForUser){
+						statement.addBatch("DELETE FROM "+tableNameUser+"" +
+								"	 WHERE (user_ID,privilege_name,attribute_value,application_id) " +
+								"	 NOT IN (" +
+								"	 SELECT user_ID,privilege_name,attribute_value,application_id from "+viewNameUser+
+								     ")");
+						
+						statement.addBatch("INSERT INTO "+tableNameUser+" (user_ID,privilege_name,attribute_value,application_id) " +
+								"		SELECT DISTINCT user_ID,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
+								"		WHERE (user_ID,privilege_name,attribute_value,application_id) " +
+								"			NOT IN (" +
+								"				SELECT user_ID,privilege_name,attribute_value,application_id from "+tableNameUser+" )");
+						
+						
+						statement.executeBatch();
+					}else{
+						statement.addBatch("DELETE FROM "+tableNameGroup+"" +
+								"	 WHERE (group_ID,privilege_name,attribute_value,application_id) " +
+								"	 NOT IN (" +
+								"	 SELECT group_ID,privilege_name,attribute_value,application_id from "+viewNameGroup+
+								     ")");
+						
+						statement.addBatch("INSERT INTO "+tableNameGroup+" (group_ID,privilege_name,attribute_value,application_id) " +
+								"		SELECT DISTINCT group_ID,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
+								"		WHERE (group_ID,privilege_name,attribute_value,application_id) " +
+								"			NOT IN (" +
+								"				SELECT group_ID,privilege_name,attribute_value,application_id from "+tableNameGroup+" )");
+
+						statement.executeBatch();
+					}
+				}				
+			}
+				
+			transaction.commit();
+			statement.close();
+		}catch(CSObjectNotFoundException e1){
+			if(transaction!=null){
+				try {
+					transaction.rollback();
+				} catch (Exception ex3) {
+				}
+			}
+			throw new CSObjectNotFoundException(e1.getMessage());
+		} catch (SQLException e1) {
+			if(transaction!=null){
+				try {
+					transaction.rollback();
+				} catch (Exception ex3) {
+				}
+			}
+			throw new CSDataAccessException("Unable to perform data refresh for instance level security.");
+		}catch (Exception e) {
+			if(transaction!=null){
+				try {
+					transaction.rollback();
+				} catch (Exception ex3) {
+				}
+			}
+			throw new CSDataAccessException("Unable to perform data refresh for instance level security.");
+		}
+		finally 
+		{
+			try{
+				connection.close();
+			}catch (Exception ex2) 
+			{ }
+			try{ 
+				session.close();
+			}catch (Exception ex2) 
+			{
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||refreshInstanceTables|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+	}
+	
+	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException {
+		
+		//Get Mapping Table Entries for Instance Level Security performance.
+		InstanceLevelMappingElement mappingElement = new InstanceLevelMappingElement();
+		List<InstanceLevelMappingElement> mappingElements = getObjects(new InstanceLevelMappingElementSearchCriteria(mappingElement));
+		if (mappingElements== null || mappingElements.size() == 0)
+		{
+			// No Mapping Elements. So no tables to maintain
+			return;
+		}
+
+		Statement statement = null;
+		Transaction transaction = null;
+		Session session = null;
+		Connection connection = null;
+
+		try{
+			
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			transaction = session.beginTransaction();
+			connection = session.connection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			
+			//create view CSM_VW_ROLE_PRIV
+			statement.addBatch("   create or replace view csm_vw_role_priv"
+								+" as"
+								+" select crp.role_id, substr(cp.privilege_name, 1, 30) privilege_name, cr.application_id"
+								+" from csm_role_privilege crp, csm_privilege cp, csm_role cr"
+								+" where crp.role_id = cr.role_id and crp.privilege_id = cp.privilege_id" 
+								+" and cr.active_flag = 1");
+
+			
+			Iterator mappingElementsIterator = mappingElements.iterator();
+			while(mappingElementsIterator.hasNext()){
+				InstanceLevelMappingElement instanceLevelMappingEntry = (InstanceLevelMappingElement) mappingElementsIterator.next();
+				if(instanceLevelMappingEntry !=null ){
+					if(instanceLevelMappingEntry.getActiveFlag()==0){
+						// Not active, so ignore this Object + Attribute from table/view maintain logic.
+						continue;
+					}	
+					if(StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getAttributeName()) 
+							|| StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectPackageName())
+							|| StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectName()) 
+							||  StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getTableName())  ){
+							
+						//Mapping Entry is valid.
+						
+					}else{
+						//	Mapping Entry is invalid.
+						//ignore this mapping element.
+						continue;
+					}
+				}else{
+					//Mapping Entry is invalid.
+					continue;
+					//throw new Exception("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
+				}
+				//get the Table Name and View Name for each object.
+				
+				String peiTableName,tableNameUser,viewNameUser ,tableNameGroup,viewNameGroup = null;
+				
+				peiTableName = "CSM_PEI_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();
+				
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser())){
+					tableNameUser= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
+					
+				}else{
+					tableNameUser = instanceLevelMappingEntry.getTableNameForUser();
+				}
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForUser())){
+					viewNameUser= "CSM_VW_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
+				}else{
+					viewNameUser = instanceLevelMappingEntry.getTableNameForUser();
+				}
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForGroup())){
+					tableNameGroup= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_GROUP";
+				}else{
+					tableNameGroup= instanceLevelMappingEntry.getTableNameForGroup();
+				}
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForGroup())){
+					viewNameGroup= "CSM_VW_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_GROUP";
+				}else{
+					viewNameGroup = instanceLevelMappingEntry.getTableNameForGroup();
+				}
+				
+	
+				/* Optional: Add Additional checks regarding Table and View record count. 
+				 * At the time of delete, if the MINUS is close to or greater than 50% of the records of the Table, 
+	             * then truncate table instead of deleting using delete statement.
+	             *
+	             * Note: No buffering until real tests warrant buffering. 
+				 */
+				
+				byte activeFlag = instanceLevelMappingEntry.getActiveFlag();
+				if(activeFlag==1){	
+					
+					
+					
+					//create pei table 
+					statement.addBatch("CREATE TABLE "+peiTableName+" IF NOT EXISTS (" +
+							"  APPLICATION_ID bigint(20) NOT NULL" +
+							"  ATTRIBUTE_VALUE bigint(20) NOT NULL" +
+							"  PROTECTION_ELEMENT_ID bigint(20) NOT NULL," +
+							"  PRIMARY KEY  (PROTECTION_ELEMENT_ID)," +
+							"  UNIQUE KEY UQ_MP_OBJ_NAME_ATTRI_NAME_APP_ID (OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID)," +
+							"  KEY idx_APPLICATION_ID (APPLICATION_ID)," +
+							"  CONSTRAINT FK_PE_APPLICATION FOREIGN KEY (APPLICATION_ID) REFERENCES csm_application (APPLICATION_ID) ON DELETE CASCADE " +
+							"  )");
+					
+					// TODO: Add indexes : 
+					//CSMPROTECTIONELEMENT table with APPID,ATTRIBUTE,OBJECTID in AUTHSCHEMAMYSQL/ORACLe etc
+					
+					
+					
+					//create tableNameForUser							
+					statement.addBatch("CREATE TABLE "+tableNameUser+" IF NOT EXISTS (" +
+							" USER_ID bigint(20) NOT NULL," +
+							" PRIVILEGE_NAME varchar(30) NOT NULL," +
+							" APPLICATION_ID bigint(20) NOT NULL," +
+							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
+							" UNIQUE KEY UQ_OBJ_ATTR_APID (USER_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
+							" KEY idx_USER_ID (USER_ID)," +
+							" KEY idx_APPLICATION_ID (APPLICATION_ID)," +
+							" KEY idx_PRIVILEGE_NAME (PRIVILEGE_NAME)," +
+							" )"); 
+					//create tableNameForGroup
+					statement.addBatch("CREATE TABLE "+tableNameGroup+" IF NOT EXISTS (" +
+							" GROUP_ID bigint(20) NOT NULL," +
+							" PRIVILEGE_NAME varchar(30) NOT NULL," +
+							" APPLICATION_ID bigint(20) NOT NULL," +
+							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
+							" UNIQUE KEY UQ_OBJ_ATTR_APID (GROUP_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
+							" KEY idx_GROUP_ID (GROUP_ID)," +
+							" KEY idx_APPLICATION_ID (APPLICATION_ID)," +
+							" KEY idx_PRIVILEGE_NAME (PRIVILEGE_NAME)," +
+							" )"); 
+					//create viewNameForUser
+					statement.addBatch("create or replace view "+viewNameUser+"_temp" +
+							" as select pr.user_id,pr.role_id,pe.application_id,pe.attribute_value" +
+							" from csm_user_pe cu , "+peiTableName+" pe, csm_user_group_role_pg pr" +
+							" where cu.protection_element_id = pe.protection_element_id and cu.user_id = pr.user_id") ;
+
+					statement.addBatch("create or replace view "+viewNameUser+
+							" as" +
+							" select pe.user_id ,pr.privilege_name,pe.application_id,pe.attribute_value" +
+							" from "+viewNameUser+"_temp pe,csm_vw_role_priv pr" +
+							" where pe.role_id = pr.role_id");
+
+					
+					//create viewNameForGroup
+					statement.addBatch("create or replace view "+viewNameGroup+"_temp" +
+							" as" +
+							" select pr.group_id, pr.role_id, pe.application_id, pe.attribute_value" +
+							"  from csm_pg_pe cp, "+peiTableName+" pe, csm_user_group_role_pg pr" +
+							" where cp.protection_element_id = pe.protection_element_id" +
+							"  and cp.protection_group_id = pr.protection_group_id") ;
+
+					statement.addBatch("create or replace view "+viewNameGroup+
+							" as" +
+							" select pe.group_id, pr.privilege_name, pe.application_id, pe.attribute_value" +
+							" from "+viewNameGroup+"_temp pe, csm_vw_role_priv pr" +
+							" where pe.role_id = pr.role_id");
+					
+				}				
+			}
+				
+			statement.executeBatch();
+			transaction.commit();
+			statement.close();
+		}catch (SQLException e1) {
+			if(transaction!=null){
+				try {
+					transaction.rollback();
+				} catch (Exception ex3) {
+				}
+			}
+			throw new CSDataAccessException("Unable to maintain tables/views for instance level security.");
+		}catch (Exception e) {
+			if(transaction!=null){
+				try {
+					transaction.rollback();
+				} catch (Exception ex3) {
+				}
+			}
+			throw new CSDataAccessException("Unable to maintain tables/views for instance level security.");
+		}
+		finally 
+		{
+			try{
+				connection.close();
+			}catch (Exception ex2) 
+			{ }
+			try{ 
+				session.close();
+			}catch (Exception ex2) 
+			{
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||maintainInstanceTables|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+	}
+	
 	
 }

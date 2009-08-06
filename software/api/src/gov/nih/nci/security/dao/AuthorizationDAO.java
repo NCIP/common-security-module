@@ -91,6 +91,7 @@ package gov.nih.nci.security.dao;
 
 import gov.nih.nci.security.authorization.domainobjects.*;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
+import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
@@ -509,6 +510,10 @@ public interface AuthorizationDAO {
 	public List getAttributeMap(String userName, String className, String privilegeName);
 
 	public List getAttributeMapForGroup(String groupsName, String className, String privilegeName);
+
+	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException;
+
+	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException; 
 
 	
 }
