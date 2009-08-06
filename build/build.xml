@@ -200,10 +200,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
+		build:all:upt,
 		build:all:cgmmweb,
 		build::all:backwards-compatible,
-		dist:installer,
-		dist:upgrader,
 		dist:src
 		">
 	</target>
