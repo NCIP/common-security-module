@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false">
+	<class
+		name="gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement"
+		table="csm_mapping">
+		<id name="mappingId" type="java.lang.Long" column="MAPPING_ID"
+			unsaved-value="0">
+			<generator class="native">
+				<param name="sequence">CSM_MAPPING_MAPPING_SEQ</param>
+			</generator>
+		</id>
+		<property name="activeFlag" 	type="byte" 				column="ACTIVE_FLAG" not-null="true" length="1" />
+		<property name="objectPackageName" type="java.lang.String" 	column="OBJECT_PACKAGE_NAME" length="100" />
+		<property name="objectName" 	type="java.lang.String" 	column="OBJECT_NAME" length="100" />
+		<property name="attributeName" 	type="java.lang.String" 	column="APPLICATION_DESCRIPTION" length="100" />
+		<property name="tableName" 		type="java.lang.String"		column="TABLE_NAME" length="100" />
+		<property name="viewNameForUser" type="java.lang.String"	column="VIEW_NAME_USER" length="100" />
+		<property name="viewNameForGroup" type="java.lang.String"	column="VIEW_NAME_GROUP" length="100" />
+		<property name="tableNameForUser" type="java.lang.String"	column="TABLE_NAME_USER" length="100" />
+		<property name="tableNameForGroup" type="java.lang.String"	column="TABLE_NAME_GROUP" length="100" />
+		<property name="updateDate" 	type="java.sql.Date"	    column="UPDATE_DATE" length="10"/>
+        <!-- Associations -->
+	    <many-to-one
+	        name="application"
+	        class="gov.nih.nci.security.authorization.domainobjects.Application"
+	        not-null="true"
+	    >
+	        <column name="APPLICATION_ID" />
+	    </many-to-one>			
+	</class>
+</hibernate-mapping>
