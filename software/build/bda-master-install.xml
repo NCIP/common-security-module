@@ -5,7 +5,7 @@ $Id: install.xml 1775 2009-06-26 18:34:54Z saksass $
 $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/install.xml $
 -->
 
-<project name="bda-blueprints-installer" default="upgrade" basedir="." 
+<project name="bda-blueprints-installer" default="-upgrade" basedir="." 
 	xmlns:ivy="antlib:org.apache.ivy.ant"
 	>
 	<description>
@@ -670,7 +670,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		">
 	</target>
 
-	<target name="install" description="Installs and configures JBOSS, creates database, and deploys application" 
+	<target name="-install" description="Installs and configures JBOSS, creates database, and deploys application" 
 		depends="
 		common:jboss:init,
 		common:tomcat:init,
@@ -717,7 +717,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<target name="upgrade:tomcat" description="Wrapper target to call all targets required to upgrade tomcat container." unless="exclude.tomcat" depends="upgrade:tomcat:init,common:init,upgrade-ncm:tomcat">
 	</target>
 
-	<target name="upgrade" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-ncm">
+	<target name="-upgrade" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-ncm">
 	</target>
 
 	<target name="upgrade-with-dbinstall" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-ncm:with-dbinstall">

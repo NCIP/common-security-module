@@ -6,7 +6,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 -->
 
 <project name="cgmmweb" default="-install:jboss:cgmmweb" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-
+	
 	<import file="bda-master-install.xml" />
 	
 	<!-- Generic properties -->
@@ -111,6 +111,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 				<include name="*cgmm-properties.xml"/>
 				<include name="*cgmm-properties.xsd"/>
 			</fileset>
+			<filterset refid="embedded.filterset"/>
+			<filterset>
+					<filtersfile file="${properties.file}"/>
+					<filtersfile file="project.properties"/>
+			</filterset>
 			<filterset>
 				<filter token="CAGRID_AUTHENTICATION_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}"/>
 				<filter token="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_DORIAN_SERVICE_URL}"/>
@@ -159,10 +164,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 				<include name="*cgmm.login.config"/>
 				<include name="*cgmmweb.hibernate.cfg.xml"/>
 			</fileset>
+			<filterset refid="embedded.filterset"/>
 			<filterset>
-				<filter token="jboss.home" value="${jboss.home}"/>
-				<filter token="jboss.server.name" value="${jboss.server.name}"/>
-				<filter token="context.name" value="${context.name}"/>
+					<filtersfile file="${properties.file}"/>
+					<filtersfile file="project.properties"/>
 			</filterset>
 		</copy>
 
