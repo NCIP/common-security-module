@@ -11,7 +11,7 @@
 	</cgmm-information>
 	<host-application-information>
 		<host-context-name>cgmmhostweb</host-context-name>
-		<host-application-name-for-csm>sampleHostApplicationName</host-application-name-for-csm>
+		<host-application-name-for-csm>@context.name@</host-application-name-for-csm>
 		<host-public-home-page-url>/public/publicHome.jsp</host-public-home-page-url>
         <host-user-home-page-url>/secured/userHomePage.jsp</host-user-home-page-url>
         <host-user-login-page-url>/protected/project/workspace.action</host-user-login-page-url>
@@ -22,7 +22,6 @@
 		<host-mail-email-subject>Requesting new Account</host-mail-email-subject>
 		<host-application-logo-url>images/appLogo.gif</host-application-logo-url>
 		<host-application-logo-alt-text>caArray Application</host-application-logo-alt-text>
-	
 	</host-application-information>
 
 	<authentication-service-list>

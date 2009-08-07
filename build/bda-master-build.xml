@@ -567,7 +567,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		dist:upgrade:tier:jboss
 		"/>
 
-	<target name="deploy:local:install" depends="build:all,dist:installer:prep" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
+	<target name="-deploy:local:install" depends="build:all,dist:installer:prep" description="Installs and configures the application and required binaries and re-creates the datbase  on the local machine. Used for developer desktops and ci environments.">
 		<!--
 		  * Requires a database installation.
 		  * Will use the target from install.xml specified in ${install.target} (defaults to install unless passed in on command line).
@@ -581,7 +581,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			/>
 	</target>
 
-	<target name="deploy:local:upgrade" depends="build:all,dist:upgrader:prep" description="Upgrades and configures the application and database  on the local machine. Used for developer desktops and ci environments.">
+	<target name="-deploy:local:upgrade" depends="build:all,dist:upgrader:prep" description="Upgrades and configures the application and database  on the local machine. Used for developer desktops and ci environments.">
 		<!--
 		  * Requires a database installation.
 		  * Will use the target from install.xml specified in ${upgrade.target} (defaults to install unless passed in on command line).
@@ -595,7 +595,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			/>
 	</target>
 
-	<target name="deploy:remote:install" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
+	<target name="-deploy:remote:install" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
 		build:all,
 		dist:installer
 		">
@@ -610,7 +610,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<remote-ssh remotesshcommand=". .bash_profile;cd ${ssh.dir.temp}; ant -Dproperties.file=${properties.file.name} -Dforce.reinstall=true ${install.target}" />
 	</target>
 
-	<target name="deploy:remote:upgrade" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
+	<target name="-deploy:remote:upgrade" description="Installs and configures the application and required binaries and re-creates the datbase  on a remote machine. Used for NCI tiers (dev, qa, stg, prod)" depends="
 		build:all,
 		dist:upgrader
 		">
