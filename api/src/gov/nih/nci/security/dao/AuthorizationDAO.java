@@ -513,7 +513,7 @@ public interface AuthorizationDAO {
 
 	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException;
 
-	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException; 
+	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException;
 
 	
 }

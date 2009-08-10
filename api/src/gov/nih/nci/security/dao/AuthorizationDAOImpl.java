@@ -5965,10 +5965,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 	}
 	
-	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException {
-		
-		//Get Mapping Table Entries for Instance Level Security performance.
+	
+
+	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException {
+//		Get Mapping Table Entries for Instance Level Security performance.
 		InstanceLevelMappingElement mappingElement = new InstanceLevelMappingElement();
+		if(!StringUtilities.isBlank(instanceLevelMappingElementId)){
+			mappingElement.setMappingId(new Long(instanceLevelMappingElementId));
+		}
 		List<InstanceLevelMappingElement> mappingElements = getObjects(new InstanceLevelMappingElementSearchCriteria(mappingElement));
 		if (mappingElements== null || mappingElements.size() == 0)
 		{
@@ -6023,6 +6027,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					continue;
 					//throw new Exception("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
 				}
+				//mark this mappging entry is maintained.
+				statement.addBatch("UPDATE csm_mapping SET MAINTAINED_FLAG = '1' " +
+						"WHERE mapping_id = "+instanceLevelMappingEntry.getMappingId());
+				
 				//get the Table Name and View Name for each object.
 				
 				String peiTableName,tableNameUser,viewNameUser ,tableNameGroup,viewNameGroup = null;
@@ -6074,15 +6082,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							"  KEY idx_APPLICATION_ID (APPLICATION_ID)," +
 							"  CONSTRAINT FK_PE_APPLICATION FOREIGN KEY (APPLICATION_ID) REFERENCES csm_application (APPLICATION_ID) ON DELETE CASCADE " +
 							"  )");
-					
-					// TODO: Add indexes : 
-					//CSMPROTECTIONELEMENT table with APPID,ATTRIBUTE,OBJECTID in AUTHSCHEMAMYSQL/ORACLe etc
-					
-					
-					
+						
 					//create tableNameForUser							
 					statement.addBatch("CREATE TABLE "+tableNameUser+" IF NOT EXISTS (" +
 							" USER_ID bigint(20) NOT NULL," +
+							" LOGIN_NAME varchar(200) NOT NULL," +
 							" PRIVILEGE_NAME varchar(30) NOT NULL," +
 							" APPLICATION_ID bigint(20) NOT NULL," +
 							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
@@ -6094,6 +6098,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					//create tableNameForGroup
 					statement.addBatch("CREATE TABLE "+tableNameGroup+" IF NOT EXISTS (" +
 							" GROUP_ID bigint(20) NOT NULL," +
+							" GROUP_NAME varchar(100) NOT NULL," +
 							" PRIVILEGE_NAME varchar(30) NOT NULL," +
 							" APPLICATION_ID bigint(20) NOT NULL," +
 							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
@@ -6104,9 +6109,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" )"); 
 					//create viewNameForUser
 					statement.addBatch("create or replace view "+viewNameUser+"_temp" +
-							" as select pr.user_id,pr.role_id,pe.application_id,pe.attribute_value" +
-							" from csm_user_pe cu , "+peiTableName+" pe, csm_user_group_role_pg pr" +
-							" where cu.protection_element_id = pe.protection_element_id and cu.user_id = pr.user_id") ;
+							" as select pr.user_id,u.login_name,pr.role_id,pe.application_id,pe.attribute_value" +
+							" from csm_user_pe cu , "+peiTableName+" pe, csm_user_group_role_pg pr, csm_user u" +
+							" where cu.protection_element_id = pe.protection_element_id and cu.user_id = pr.user_id and pr.user_id = u.user_id") ;
 
 					statement.addBatch("create or replace view "+viewNameUser+
 							" as" +
@@ -6128,6 +6133,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" select pe.group_id, pr.privilege_name, pe.application_id, pe.attribute_value" +
 							" from "+viewNameGroup+"_temp pe, csm_vw_role_priv pr" +
 							" where pe.role_id = pr.role_id");
+
 					
 				}				
 			}
@@ -6166,6 +6172,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					log.debug("Authorization|||maintainInstanceTables|Failure|Error in Closing Session |" + ex2.getMessage());
 			}
 		}
+		
 	}
 	
 	
