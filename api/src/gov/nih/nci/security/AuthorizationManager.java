@@ -1240,12 +1240,16 @@ public interface AuthorizationManager {
 	 */
 	public void removeInstanceLevelMappingElement(String instanceLevelMappingElementId) throws CSTransactionException;
 	
+
 	/**
 	 * This method will create/maintain the Intermediate tables for instance level security performance improvement.
+	 * 
+	 * @param instanceLevelMappingElementId the id of the InstanceLevelMappingElement object which is to be maintained for 
+	 * 			performance improvement. If this parameter is null or zero valu
 	 * @throws CSDataAccessException 
 	 */
-	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException;
-	
+	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException;
+
 	/**
 	 * This method will refresh the Intermediate tables for instance level security performance improvement.
 	 * 
