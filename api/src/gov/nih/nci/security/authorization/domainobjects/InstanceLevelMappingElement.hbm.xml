@@ -12,6 +12,7 @@
 			</generator>
 		</id>
 		<property name="activeFlag" 	type="byte" 				column="ACTIVE_FLAG" not-null="true" length="1" />
+		<property name="maintainedFlag" type="byte" 				column="MAINTAINED_FLAG" not-null="true" length="1" />
 		<property name="objectPackageName" type="java.lang.String" 	column="OBJECT_PACKAGE_NAME" length="100" />
 		<property name="objectName" 	type="java.lang.String" 	column="OBJECT_NAME" length="100" />
 		<property name="attributeName" 	type="java.lang.String" 	column="APPLICATION_DESCRIPTION" length="100" />
