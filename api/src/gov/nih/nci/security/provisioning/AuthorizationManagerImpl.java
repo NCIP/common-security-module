@@ -1458,11 +1458,11 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		authorizationDAO.refreshInstanceTables(instanceLevelSecurityForUser);
 	}
 
-	public void maintainInstanceTables() throws CSObjectNotFoundException, CSDataAccessException {
-		authorizationDAO.maintainInstanceTables();
+	
+	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException {
+		authorizationDAO.maintainInstanceTables(instanceLevelMappingElementId);
 		
 	}
-
 	
 	
 
