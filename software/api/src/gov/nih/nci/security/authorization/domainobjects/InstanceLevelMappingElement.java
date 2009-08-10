@@ -10,6 +10,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class InstanceLevelMappingElement implements Comparable, Serializable {
 	private Long mappingId;
 	private byte activeFlag;
+	private byte maintainedFlag;
+	
 	private String objectPackageName;
 	private String objectName;
 	private String attributeName;
@@ -131,5 +133,11 @@ public class InstanceLevelMappingElement implements Comparable, Serializable {
 	     	.append(this.getMappingId(), castOther.getMappingId())
 	        .isEquals();
      }
+	public byte getMaintainedFlag() {
+		return maintainedFlag;
+	}
+	public void setMaintainedFlag(byte maintainedFlag) {
+		this.maintainedFlag = maintainedFlag;
+	}
 	
 }
