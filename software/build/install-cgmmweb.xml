@@ -8,7 +8,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 <project name="cgmmweb" default="-install:jboss:cgmmweb" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	
 	<import file="bda-master-install.xml" />
-	
+
 	<!-- Generic properties -->
 	<property name="project.name" value="cgmmweb-installer" />
 
@@ -29,7 +29,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		-->
 		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 	</target>
-	
+
 	<target name="-set:jboss:cgmmweb:application:url">
 		<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${cgmm-webapp.name}"/>
 	</target>
@@ -47,13 +47,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:cgmm-webapp,
 		install:jboss:cgmm-webapp:configure,
 		install:jboss:configure,
-		install:jboss:configure:log4j,				
+		install:jboss:configure:log4j,
+		install:jboss:configure:cgmm:mail-service,
 		install:post:jboss,
 		install:jboss:start,
 		install:jboss:validation:post-install
 		">
 	</target>
-	
+
 	<target name="-upgrade:jboss:cgmmweb" description="Upgrades JBoss and Database" depends="		
 		-set:jboss:cgmmweb:application:url,
 		upgrade:jboss:init,
@@ -65,45 +66,54 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:cgmm-webapp,
 		install:jboss:cgmm-webapp:configure,
 		install:jboss:configure,
-		install:jboss:configure:log4j,				
+		install:jboss:configure:log4j,
+		install:jboss:configure:cgmm:mail-service,
 		install:post:jboss,
 		install:jboss:start,
 		install:jboss:validation:post-install
 		">
 	</target>
-	
+
 	<!-- configure target grid -->
 	<target name="install:jboss:configure:target_grid">
 		<!-- configure target grid -->
 		<switch value="${target_grid}">
 			<case value="training-1.2">
+				<property name="SERVICE_NAME" value="caGrid Training" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
 			<case value="nci_dev-1.2">
+				<property name="SERVICE_NAME" value="caGrid Dev" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cbiovdev5035.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
 			<case value="nci_qa-1.2">
+				<property name="SERVICE_NAME" value="caGrid QA" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian-qa.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
 			<case value="nci_stage-1.2">
+				<property name="SERVICE_NAME" value="caGrid Staging 1.2" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
 			<case value="nci_prod-1.2">
+				<property name="SERVICE_NAME" value="caGrid Prod 1.2" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
-
 			<default>
-				<fail message="Invalid target grid ${target_grid}." />
+				<echo message="target grid ${target_grid}." />
+				<property name="SERVICE_NAME" value="${authentication-service-name}" />
+				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="${authentication-service-url}" />
+				<property name="CAGRID_DORIAN_SERVICE_URL" value="${dorian-service-url}" />
 			</default>
 		</switch>
-		
+
 		<copy todir="${user.home}/.globus/certificates" overwrite="true">
-			<fileset dir="${target_grid.dist.relative.dir}/${target_grid}/gts-rootcertificates"></fileset>
+			<fileset dir="${target_grid.dist.relative.dir}/${target_grid}/gts-rootcertificates">
+			</fileset>
 		</copy>
 		<copy todir="${jboss.home}/server/default/cgmm_config" file="${target_grid.dist.relative.dir}/${target_grid}/sync-description.xml" overwrite="true"/>
 		<copy todir="${jboss.home}/server/default/cgmm_config" overwrite="true">
@@ -113,42 +123,73 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<filterset refid="embedded.filterset"/>
 			<filterset>
-					<filtersfile file="${properties.file}"/>
-					<filtersfile file="project.properties"/>
+				<filtersfile file="${properties.file}"/>
+				<filtersfile file="project.properties"/>
 			</filterset>
 			<filterset>
+				<filter token="SERVICE_NAME" value="${SERVICE_NAME}"/>
 				<filter token="CAGRID_AUTHENTICATION_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}"/>
 				<filter token="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_DORIAN_SERVICE_URL}"/>
 			</filterset>
 		</copy>
 	</target>
-	
-	<target name="install:jboss:configure:log4j" description="Configure custom entries in system wide log4j" unless="exclude.jboss"  depends="common:jboss:init, common:init">
-		<echo message="Configuring Log4J"/>
-		<property name="log4j.file.name" value="log4j.xml"/>
-		<copy file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" tofile="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}.pre"/>
 
-		<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
+	<target name="install:jboss:configure:cgmm:mail-service" description="Configure custom entries in mail-service.xml" unless="exclude.jboss" depends="common:jboss:init, common:init">
+		<echo message="Configuring mailservice" />
+		<property name="mail-service.file.name" value="mail-service.xml" />
+		<copy file="${jboss.home}/server/${jboss.server.name}/deploy/${mail-service.file.name}" tofile="${jboss.home}/server/${jboss.server.name}/deploy/${mail-service.file.name}.pre" />
+
+		<xmltask source="${jboss.home}/server/${jboss.server.name}/deploy/${mail-service.file.name}" dest="${jboss.home}/server/${jboss.server.name}/deploy/${mail-service.file.name}">
+			<xmlcatalog refid="bda.xml.catalog" />
+			<remove path="/server/mbean[@name='jboss:service=Mail']" />
+			<insert path="/server" position="under">
+				<![CDATA[
+					<mbean code="org.jboss.mail.MailService" name="jboss:service=Mail">
+						<attribute name="JNDIName">${mail.jndi.name}</attribute>
+						<attribute name="User">${mail.service.user}</attribute>
+						<attribute name="Password">${mail.service.password}</attribute>
+						<attribute name="Configuration">
+							<configuration>
+								<property name="mail.transport.protocol" value="smtp"/>
+								<property name="mail.smtp.host" value="${mail.smtp.server}"/>
+								<!--        <property name="mail.smtp.port" value="465"/>-->
+								<property name="mail.smtp.auth" value="${mail.smtp.auth}"/>
+								<property name="mail.smtp.starttls.enable" value="${mail.smtp.starttls.enable}"/>
+								<property name="mail.debug" value="${mail.debug}"/>
+							</configuration>
+						</attribute>
+					</mbean>
+				]]>
+			</insert>
+		</xmltask>
+	</target>
+
+	<target name="install:jboss:configure:log4j" description="Configure custom entries in system wide log4j" unless="exclude.jboss" depends="common:jboss:init, common:init">
+			<echo message="Configuring Log4J"/>
+			<property name="log4j.file.name" value="log4j.xml"/>
+			<copy file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" tofile="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}.pre"/>
+
+			<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
 			byline="true"
 			match="^(&lt;!DOCTYPE.*)"
 			replace="&lt;!\-\-\1\-\-&gt;"
 			/>
 
-		<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
+			<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
 			dest="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}">
-			<xmlcatalog refid="bda.xml.catalog"/>
-			<remove path="/log4j:configuration/category[@name='COM.claymoresystems.ptls.SSLDebug']"/>
-			<insert path="/log4j:configuration/root" position="before">
-				<![CDATA[
+				<xmlcatalog refid="bda.xml.catalog"/>
+				<remove path="/log4j:configuration/category[@name='COM.claymoresystems.ptls.SSLDebug']"/>
+				<insert path="/log4j:configuration/root" position="before">
+					<![CDATA[
 				   <category name="COM.claymoresystems.ptls.SSLDebug">
-				     <priority value="OFF" />
-				   </category>
+					<priority value="OFF" />
+				</category>
 				]]>
 			</insert>
 		</xmltask>
 		<validate-log4j
 			log4j.file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
-			/>                              
+			/>
 		<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
 			byline="true"
 			match="^&lt;!\-\-(&lt;!DOCTYPE.*)\-\-&gt;"
@@ -166,8 +207,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<filterset refid="embedded.filterset"/>
 			<filterset>
-					<filtersfile file="${properties.file}"/>
-					<filtersfile file="project.properties"/>
+				<filtersfile file="${properties.file}"/>
+				<filtersfile file="project.properties"/>
 			</filterset>
 		</copy>
 
