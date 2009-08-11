@@ -298,40 +298,48 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<panel classname="UserInputPanel"  id="UserInputPanel.1"/>
 					<!-- Upgrade, specify app homes and read properties -->
 					<panel classname="UserInputPanel"  id="UserInputPanel.2" condition="upgrade"/>
-					<!-- Upgrade, read props -->
+					<!-- Upgrade, read props 
 					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade+container.all"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="upgrade+container.jboss"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="upgrade+container.tomcat"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="upgrade+container.database"/>
+					-->
 					<!-- Jboss Configuration -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="container.jboss|container.all"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="container.jboss|container.all"/>
 					<!-- Jboss Continued -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.8" condition="container.jboss|container.all"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="container.jboss|container.all"/>
 					<!-- Jboss SSL 0.9.0 -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.9" condition="container.jboss|container.all"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="container.jboss|container.all"/>
 					<!-- Authentication Type -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.10" condition="!container.database"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="!container.database"/>
 					<!-- Ldap data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.11" condition="ldap.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="ldap.setup"/>
 					<!-- Database Properties -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.12"/>
-					<!-- Global Configuraiton Options -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.8"/>
+					<!-- Global Configuraiton Options 
 					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="!container.database"/>
-					<!-- Grid Global Configuration -->
+					-->
+					<!-- Grid Global Configuration 
 					<panel classname="UserInputPanel"  id="UserInputPanel.14" condition="!container.database"/>
-					<!-- Grid Research Center -->
+					-->
+					<!-- Grid Research Center 
 					<panel classname="UserInputPanel"  id="UserInputPanel.15" condition="!container.database"/>
-					<!-- Grid Tech Contact -->
+					-->
+					<!-- Grid Tech Contact 
 					<panel classname="UserInputPanel"  id="UserInputPanel.16" condition="!container.database"/>
-					<!-- Grid Science Contact -->
+					-->
+					<!-- Grid Science Contact 
 					<panel classname="UserInputPanel"  id="UserInputPanel.17" condition="!container.database"/>
+					-->
 					<!-- Application Specific Properties -->
-					<!-- Tomcat Base Config 0.9.0 -->
+					<!-- Tomcat Base Config 0.9.0 
 					<panel classname="UserInputPanel"  id="UserInputPanel.18" condition="container.tomcat|container.all"/>
-					<!-- Tomcat SSL 0.9.0 -->
+					-->
+					<!-- Tomcat SSL 0.9.0 
 					<panel classname="UserInputPanel"  id="UserInputPanel.19" condition="container.tomcat|container.all"/>
+					-->
 					<!-- Installation Summary -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.20" />
+					<panel classname="UserInputPanel"  id="UserInputPanel.9" />
 					<panel classname="InstallationGroupPanel"/>
 					<panel classname="ExtendedInstallPanel"/>
 					<panel classname="FinishPanel"/>
