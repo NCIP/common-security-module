@@ -21,7 +21,7 @@ This ant build file downloads the bda project from the official NCICB Ivy Reposi
 	<property location="${basedir}/bda-utils" name="bda-utils.dir"/>
 	<property location="" name="commonlibrary.dir"/>
 	<property location="${software.dir}/../../bda-local-ivy-repo" name="bda.local.repo.dir"/>
-	<property name="bda.version" value="1.4.0"/>
+	<property name="bda.version" value="1.5.0"/>
 
 	<property name="ivy.jar.file" value="ivy-2.0.0.jar"/>
 	<property name="ivy.settings.file" value="ivy-bda-settings.xml"/>
