@@ -2,7 +2,9 @@ package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.FilterClause;
+import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.dao.FilterClauseSearchCriteria;
+import gov.nih.nci.security.dao.InstanceLevelMappingElementSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.util.HibernateHelper;
@@ -12,6 +14,7 @@ import gov.nih.nci.security.upt.viewobjects.SearchResult;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -370,7 +373,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 
 		FilterClause filterClause = null;
 		
-		if ((this.id == null) || ((this.id).equalsIgnoreCase("")))
+		if (StringUtils.isBlank(this.id))
 		{
 			filterClause = new FilterClause();
 		}
@@ -394,10 +397,65 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		filterClause.setTargetClassAlias(this.targetClassAlias);
 		filterClause.setTargetClassAttributeAlias(this.targetClassAttributeAlias);
 
-		if ((this.id == null) || ((this.id).equalsIgnoreCase("")))
+		if (StringUtils.isBlank(this.id))
 		{
-			filterClause.setGeneratedSQLForGroup(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),true));
-			filterClause.setGeneratedSQLForUser(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),false));
+			// Check if InstanceLevelMappingElement for this object exists. If so, ensure the tables are maintained already
+			boolean isActiveInstanceLevelMappingElement = false, isMaintainedAlready = false;
+			boolean isObjectNameEqual = false,isObjectPackageNameEqual = false;
+			InstanceLevelMappingElement ilme = new InstanceLevelMappingElement();
+			
+			String objectName2 = null;
+			String objectPackageName2 = null;
+			if(StringUtils.isBlank(this.className)){
+				int index1 = this.className.lastIndexOf(".");
+				objectPackageName2 = this.targetClassName.substring(0,index1+1);
+				objectName2 = this.targetClassName.substring(index1+1);
+			}
+			
+			String mappingElementId = String.valueOf(0.00);
+			String peiTableOrViewNameUser = "",peiTableOrViewNameGroup = "";
+			
+			
+			ilme.setObjectName(objectName2); 
+			SearchCriteria sc = new InstanceLevelMappingElementSearchCriteria(ilme);
+			List ilmeObjects = userProvisioningManager.getObjects(sc);
+			if(ilmeObjects!=null && ilmeObjects.size()>0){
+					Iterator it = ilmeObjects.iterator();
+					while(it.hasNext()){
+						InstanceLevelMappingElement ilme2 = (InstanceLevelMappingElement)it.next();
+						if(ilme2==null) continue;
+						if(!StringUtils.isBlank(objectName2) && !StringUtils.isBlank(ilme2.getObjectName()) ){
+							if(objectName2.equalsIgnoreCase(ilme2.getObjectName())){
+								isObjectNameEqual = true;
+							}
+						}
+						if(!StringUtils.isBlank(objectPackageName2) && !StringUtils.isBlank(ilme2.getObjectPackageName()) ){
+							if(objectPackageName2.equalsIgnoreCase(ilme2.getObjectPackageName())){
+								isObjectPackageNameEqual = true;
+							}
+						}
+						if(isObjectNameEqual && isObjectPackageNameEqual){
+							isActiveInstanceLevelMappingElement = (ilme2.getActiveFlag()==1?true:false);
+							isMaintainedAlready = (ilme2.getMaintainedFlag()==1?true:false);
+							mappingElementId = Long.toString(ilme2.getMappingId());
+							
+							peiTableOrViewNameUser = ilme2.getTableNameForUser();
+							peiTableOrViewNameGroup = ilme2.getTableNameForGroup();
+							break;
+						}
+					}
+			}
+			
+			if(isActiveInstanceLevelMappingElement){
+				//If so, ensure the tables are maintained already
+								
+				if(!isMaintainedAlready){
+					userProvisioningManager.maintainInstanceTables(mappingElementId);
+				}
+			}
+			
+			filterClause.setGeneratedSQLForGroup(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),true,peiTableOrViewNameUser));
+			filterClause.setGeneratedSQLForUser(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),false,peiTableOrViewNameGroup));
 			userProvisioningManager.createFilterClause(filterClause);
 			this.id = filterClause.getId().toString();
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
