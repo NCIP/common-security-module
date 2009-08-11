@@ -6,7 +6,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 -->
 
 <project name="cgmmweb" default="-install:jboss:cgmmweb" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-	
+
 	<import file="bda-master-install.xml" />
 
 	<!-- Generic properties -->
@@ -47,7 +47,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:cgmm-webapp,
 		install:jboss:cgmm-webapp:configure,
 		install:jboss:configure,
-		install:jboss:configure:log4j,
+		install:jboss:configure:cgmm:log4j,
 		install:jboss:configure:cgmm:mail-service,
 		install:post:jboss,
 		install:jboss:start,
@@ -66,7 +66,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:cgmm-webapp,
 		install:jboss:cgmm-webapp:configure,
 		install:jboss:configure,
-		install:jboss:configure:log4j,
+		install:jboss:configure:cgmm:log4j,
 		install:jboss:configure:cgmm:mail-service,
 		install:post:jboss,
 		install:jboss:start,
@@ -145,56 +145,104 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			<insert path="/server" position="under">
 				<![CDATA[
 					<mbean code="org.jboss.mail.MailService" name="jboss:service=Mail">
-						<attribute name="JNDIName">${mail.jndi.name}</attribute>
-						<attribute name="User">${mail.service.user}</attribute>
-						<attribute name="Password">${mail.service.password}</attribute>
-						<attribute name="Configuration">
-							<configuration>
-								<property name="mail.transport.protocol" value="smtp"/>
-								<property name="mail.smtp.host" value="${mail.smtp.server}"/>
-								<!--        <property name="mail.smtp.port" value="465"/>-->
-								<property name="mail.smtp.auth" value="${mail.smtp.auth}"/>
-								<property name="mail.smtp.starttls.enable" value="${mail.smtp.starttls.enable}"/>
-								<property name="mail.debug" value="${mail.debug}"/>
-							</configuration>
-						</attribute>
-					</mbean>
+				<attribute name="JNDIName">${mail.jndi.name}</attribute>
+				<attribute name="User">${mail.service.user}</attribute>
+				<attribute name="Password">${mail.service.password}</attribute>
+				<attribute name="Configuration">
+					<configuration>
+						<property name="mail.transport.protocol" value="smtp"/>
+						<property name="mail.smtp.host" value="${mail.smtp.server}"/>
+						<!--        <property name="mail.smtp.port" value="465"/>-->
+						<property name="mail.smtp.auth" value="${mail.smtp.auth}"/>
+						<property name="mail.smtp.starttls.enable" value="${mail.smtp.starttls.enable}"/>
+						<property name="mail.debug" value="${mail.debug}"/>
+					</configuration>
+				</attribute>
+			</mbean>
 				]]>
 			</insert>
 		</xmltask>
 	</target>
 
-	<target name="install:jboss:configure:log4j" description="Configure custom entries in system wide log4j" unless="exclude.jboss" depends="common:jboss:init, common:init">
-			<echo message="Configuring Log4J"/>
-			<property name="log4j.file.name" value="log4j.xml"/>
-			<copy file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" tofile="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}.pre"/>
+	<target name="install:jboss:configure:log4j" description="Configure custom entries in system wide log4j" unless="exclude.jboss" depends="">
+		<echo message="abstract install:jboss:configure:log4j target called" />
+	</target>
 
-			<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
-			byline="true"
-			match="^(&lt;!DOCTYPE.*)"
-			replace="&lt;!\-\-\1\-\-&gt;"
-			/>
-
-			<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
-			dest="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}">
-				<xmlcatalog refid="bda.xml.catalog"/>
-				<remove path="/log4j:configuration/category[@name='COM.claymoresystems.ptls.SSLDebug']"/>
+	<target name="install:jboss:configure:cgmm:log4j" description="Configure custom entries in system wide log4j" unless="exclude.jboss" depends="common:jboss:init, common:init">
+		<echo message="Configuring Log4J" />
+		<property name="log4j.file.name" value="log4j.xml" />
+		<copy file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" tofile="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}.pre" />
+	
+		<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" byline="true" match="^(&lt;!DOCTYPE.*)" replace="&lt;!\-\-\1\-\-&gt;" />
+		<if>
+			<equals arg1="${enable.common.logging.module}" arg2="true" casesensitive="false" />
+			<then>
+				<switch value="${clm.database.type}">
+					<case value="oracle">
+						<property name="clm.database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar" />
+						<property name="clm.database.driver" value="oracle.jdbc.driver.OracleDriver" />
+					</case>
+					<case value="mysql">
+						<property name="clm.database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar" />
+						<property name="clm.database.driver" value="com.mysql.jdbc.Driver" />
+					</case>
+					<case value="postgresql">
+						<property name="clm.database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar" />
+						<property name="clm.database.driver" value="org.postgresql.Driver" />
+					</case>
+					<default>
+						<fail message="Invalid database type ${clm.database.type}" />
+					</default>
+				</switch>
+				<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
+				<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" dest="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}">
+					<xmlcatalog refid="bda.xml.catalog" />
+					<remove path="/log4j:configuration/appender[@name='CLM_APPENDER']" />
+					<insert path="/log4j:configuration/appender[last()]" position="after">
+						<![CDATA[
+					<appender name="CLM_APPENDER" class="gov.nih.nci.logging.api.appender.jdbc.JDBCAppender">
+						<param name="application" value="${APPLICATION_NAME}" />
+						<param name="maxBufferSize" value="1" />
+						<param name="dbDriverClass" value="${clm.database.driver}" />
+						<param name="dbUrl" value="${clm.database.url}" />
+						<param name="dbUser" value="${clm.database.user}" />
+						<param name="dbPwd" value="${clm.database.password}" />
+						<param name="useFilter" value="true" />
+	
+						<layout class="org.apache.log4j.PatternLayout">
+							<param name="ConversionPattern" value=":: [%d{ISO8601}] %-5p %c{1}.%M() %x - %m%n" />
+						</layout>
+					</appender>
+					]]>
+		         </insert>
+			</xmltask>
+			<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" dest="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}">
+				<xmlcatalog refid="bda.xml.catalog" />
+				<remove path="/log4j:configuration/category[@name='CGMM.Audit.Logging']" />
 				<insert path="/log4j:configuration/root" position="before">
 					<![CDATA[
-				   <category name="COM.claymoresystems.ptls.SSLDebug">
-					<priority value="OFF" />
+					<category name="CGMM.Audit.Logging">
+					<level value="info" />
+					<appender-ref ref="CLM_APPENDER" />
 				</category>
-				]]>
-			</insert>
+					]]>
+				</insert>
+			</xmltask>
+		</then>
+		</if>
+		<xmltask source="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" dest="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}">
+		<xmlcatalog refid="bda.xml.catalog" />
+		<remove path="/log4j:configuration/category[@name='COM.claymoresystems.ptls.SSLDebug']" />
+		<insert path="/log4j:configuration/root" position="before">
+			<![CDATA[
+					<category name="COM.claymoresystems.ptls.SSLDebug">
+			<priority value="OFF" />
+		</category>
+					]]>
+				</insert>
 		</xmltask>
-		<validate-log4j
-			log4j.file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
-			/>
-		<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}"
-			byline="true"
-			match="^&lt;!\-\-(&lt;!DOCTYPE.*)\-\-&gt;"
-			replace="\1"
-			/>
+		<!--<validate-log4j log4j.file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" />-->
+		<replaceregexp file="${jboss.home}/server/${jboss.server.name}/conf/${log4j.file.name}" byline="true" match="^&lt;!\-\-(&lt;!DOCTYPE.*)\-\-&gt;" replace="\1" />
 	</target>
 
 
@@ -207,17 +255,17 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<filterset refid="embedded.filterset"/>
 			<filterset>
-				<filtersfile file="${properties.file}"/>
-				<filtersfile file="project.properties"/>
+			<filtersfile file="${properties.file}"/>
+			<filtersfile file="project.properties"/>
 			</filterset>
 		</copy>
-
-		<!-- This code is for updating properties.service.xml, make sure to add ${line.separator} after each property def as the property delimiter, if this is not included you will not get the desired results. If you do not use properties service.xml you can delete this code. -->
+	
+	<!-- This code is for updating properties.service.xml, make sure to add ${line.separator} after each property def as the property delimiter, if this is not included you will not get the desired results. If you do not use properties service.xml you can delete this code. -->
 		<var name="property.block" value="gov.nih.nci.security.cgmm.syncgts.file=${jboss.home}/server/default/cgmm_config/sync-description.xml${line.separator}
-			gov.nih.nci.security.cgmm.properties.file=${jboss.home}/server/default/cgmm_config/cgmm-properties.xml${line.separator}
-			gov.nih.nci.security.configFile=${jboss.home}/server/default/cgmm_config/ApplicationSecurityConfig.xml${line.separator}
-			gov.nih.nci.security.cgmm.login.config.file=${jboss.home}/server/default/cgmm_config/cgmm.login.config${line.separator}
-			"/>
+					gov.nih.nci.security.cgmm.properties.file=${jboss.home}/server/default/cgmm_config/cgmm-properties.xml${line.separator}
+					gov.nih.nci.security.configFile=${jboss.home}/server/default/cgmm_config/ApplicationSecurityConfig.xml${line.separator}
+					gov.nih.nci.security.cgmm.login.config.file=${jboss.home}/server/default/cgmm_config/cgmm.login.config${line.separator}
+					"/>
 		<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
 		<jboss-update-properties-service property.block="${property.block}" />
 	</target>
@@ -233,7 +281,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</copy>
 		<copy tofile="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/cgmmapi.jar" file="${cgmmweb.dir.dist}/jars/jbossweb-tomcat55-sar-cgmmapi.jar" overwrite="true">
 		</copy>
-		<copy todir="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar" file="${cgmmweb.dir.dist}/clm-4.1.jar" overwrite="true">
+		<copy todir="${jboss.home}/server/default/lib" file="${cgmmweb.dir.dist}/clm-4.1.jar" overwrite="true">
 		</copy>
 	</target>
 </project>

@@ -164,9 +164,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			<insert path="//policy" file="${login-config-template.xml}" />
 		</xmltask>
 		<if>
-			<not>
-				<equals arg1="${upt.central.authentication.type}" arg2="NONE" />
-			</not>
+			<and>
+				<equals arg1="${upt.central.config}" arg2="true"  casesensitive="false"/>
+				<not>
+					<equals arg1="${upt.central.authentication.type}" arg2="NONE" />
+				</not>
+			</and>
 			<then>
 				<configure-login-config 
 				 		authentication.type="${upt.central.authentication.type}"
@@ -610,9 +613,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 								database.schema="${upt.32.database.schema}" database.re-create="${upt.32.database.re-create}"
 								database.drop-schema="${upt.32.database.drop-schema}"
 								db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
-								db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
-								db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
-								db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
+								db.install.create.oracle.file.list="${upt.32.db.install.create.oracle.file.list}"
+								db.install.create.mysql.file.list="${upt.32.db.install.create.mysql.file.list}"
+								db.install.create.postgresql.file.list="${upt.32.db.install.create.postgres.file.list}"
 							/>
 					</then>
 				</if>
