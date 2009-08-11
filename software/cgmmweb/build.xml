@@ -169,14 +169,10 @@
 
 	<target name="dist" depends="-post-compile,dist-cgmmapi-jar,jboss-cgmmapi-jar,jbosssar-cgmmapi-jar,cgmmfilter-jar,war,-post-clean" description="creates Filter Jar, CGMMAPI jar and CGMMWEB.war. Generates distribution directory. ">
 		<copy todir="${target.dir}">
-			<fileset dir="../common/resources/jboss-conf" />
-			<fileset dir="resources">
-				<exclude name="ObjectStateLoggerConfig.xml" />
+			<fileset dir="../common/resources/jboss-conf">
+				<include name="login-config*.xml"/>
 			</fileset>
-			<fileset dir="../common/resources/db/mysql" />
-			<fileset dir="../common/resources/db/oracle" />
-			<fileset dir="../common/resources/db/postgresql" />
-			<fileset dir="../common/resources/db/sqlserver" />
+			<fileset dir="resources"/>
 		</copy>
 		<copy todir="${target.dir}" file="${lib.dir}/cgmmweb/runtime/clm-4.1.jar" />
 	</target>
