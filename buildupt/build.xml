@@ -45,8 +45,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<mkdir dir="${target.dir}" />
 		<mkdir dir="${dist.dir}" />
 		<mkdir dir="${dist.exploded.dir}" />
-		<mkdir dir="${csm.dist.dir}" />
-		<mkdir dir="${upt.dist.dir}" />
 		<mkdir dir="${backwards.compatible.upt.dist.dir}" />
 		<mkdir dir="${common.dist.dir}" />
 		<mkdir dir="${tools.dist.dir}" />
@@ -105,7 +103,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	</target>
 
 	<target name="build:backwards:compatible:upt" depends="init,clean">
-		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="${backwards.compatible.upt.build.target}" dir="${backwards.compatible.upt.base.dir}">
+		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="all" dir="${backwards.compatible.upt.base.dir}">
 		</ant>
 	</target>
 
