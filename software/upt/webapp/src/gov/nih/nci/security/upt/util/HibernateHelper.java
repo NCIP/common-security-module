@@ -189,12 +189,14 @@ public class HibernateHelper
 		return map;
 	}
 	
-	public static String getGeneratedSQL(FilterClause filterClause, SessionFactory sessionFactory, boolean isSecurityForGroup)
+	public static String getGeneratedSQL(FilterClause filterClause, SessionFactory sessionFactory, 
+			boolean isSecurityForGroup, String peiTableOrViewName)
 	{
+
 		Session session = sessionFactory.openSession();
 		Criteria queryCriteria = createCriterias(filterClause,session);
 
-		String generatedSQL = generateSQL(filterClause, queryCriteria, session, isSecurityForGroup);
+		String generatedSQL = generateSQL(filterClause, queryCriteria, session, isSecurityForGroup, peiTableOrViewName);
 		if(isSecurityForGroup)
 			filterClause.setGeneratedSQLForGroup(generatedSQL);
 		else
@@ -203,7 +205,7 @@ public class HibernateHelper
 		return generatedSQL;
 	}
 	
-	private static String generateSQL(FilterClause filterClause, Criteria criteria, Session session, boolean isSecurityForGroup)
+	private static String generateSQL(FilterClause filterClause, Criteria criteria, Session session, boolean isSecurityForGroup, String peiTableOrViewName)
 	{
 		String capturedSQL = null;
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -233,10 +235,10 @@ public class HibernateHelper
 		
 		String filterSQL;
 		if(isSecurityForGroup){
-			filterSQL = modifySQLForGroup(filterClause, capturedSQL, session);
+			filterSQL = modifySQLForGroup(filterClause, capturedSQL, session,peiTableOrViewName);
 		}
 		else{
-			filterSQL = modifySQLForUser(filterClause, capturedSQL, session);
+			filterSQL = modifySQLForUser(filterClause, capturedSQL, session, peiTableOrViewName);
 		}
 		return filterSQL;
 	}
@@ -309,7 +311,7 @@ public class HibernateHelper
 		return mainCriteria;
 	}
 	
-	private static String modifySQLForUser (FilterClause filterClause, String generatedSQL, Session session)
+	private static String modifySQLForUser (FilterClause filterClause, String generatedSQL, Session session, String peiTableOrViewName)
 	{
 		String targetClassName = null;
 		if (StringUtils.isBlank(filterClause.getTargetClassAlias()))
@@ -351,6 +353,10 @@ public class HibernateHelper
 		"and u.login_name=:USER_NAME " +
 		"and pe.application_id=:APPLICATION_ID" ; 
 		
+		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" where " +
+				"upei.login_name=:USER_NAME and upei.application_id =:APPLICATION_ID and upei.privilege_name=’READ’";
+			
+		
 		StringBuffer result = new StringBuffer();
 		String query = generatedSQL.substring(generatedSQL.indexOf('-')+1, generatedSQL.length());
 		query = query.trim();
@@ -380,11 +386,17 @@ public class HibernateHelper
 	    	String[] columns = abstractEntityPersister.getPropertyColumnNames(Id);
 	    	columnName = columns[0];
 	    }
-	    query = columnName + " in (" +result.toString() + CSM_QUERY + "))";
+	    if(!StringUtils.isBlank(peiTableOrViewName)){
+	    	query = columnName + " in (" +result.toString() + CSM_QUERY_2 + "))";
+		}else{
+	    	query = columnName + " in (" +result.toString() + CSM_QUERY + "))";
+		}
+	    	
+	    	
 		return query.toString();
 	}
 	
-	private static String modifySQLForGroup (FilterClause filterClause, String generatedSQL, Session session)
+	private static String modifySQLForGroup (FilterClause filterClause, String generatedSQL, Session session, String peiTableOrViewName)
 	{
 		String targetClassName = null;
 		if (StringUtils.isBlank(filterClause.getTargetClassAlias()))
@@ -424,7 +436,8 @@ public class HibernateHelper
 				"AND pe.application_id=:APPLICATION_ID";
 
 
-		
+		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" where " +
+		"upei.group_name IN (:GROUP_NAMES) and upei.application_id =:APPLICATION_ID and upei.privilege_name=’READ’";
 		
 		/*String CSM_QUERY = " select pe.attribute_value from " +
 		"csm_protection_group pg, " +
@@ -484,7 +497,12 @@ public class HibernateHelper
 	    	String[] columns = abstractEntityPersister.getPropertyColumnNames(Id);
 	    	columnName = columns[0];
 	    }
-	    query = columnName + " in (" +result.toString() + CSM_QUERY + "))";
+	    if(!StringUtils.isBlank(peiTableOrViewName)){
+	    	query = columnName + " in (" +result.toString() + CSM_QUERY_2+ "))";
+		}else{
+	    	query = columnName + " in (" +result.toString() + CSM_QUERY+ "))";
+		}
+	    
 		return query.toString();
 	}
 	
