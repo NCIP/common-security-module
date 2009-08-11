@@ -1,49 +1,4 @@
 
-
-#CREATE DATABASE csm_dev_bkwrdscmptbl_central;
-
-USE csm_dev_bkwrdscmptbl_central;
-
-DROP TABLE IF EXISTS CSM_APPLICATION
-;
-
-DROP TABLE IF EXISTS CSM_GROUP
-;
-
-DROP TABLE IF EXISTS CSM_PRIVILEGE
-;
-
-DROP TABLE IF EXISTS CSM_FILTER_CLAUSE
-;
-
-DROP TABLE IF EXISTS CSM_PROTECTION_ELEMENT
-;
-
-DROP TABLE IF EXISTS CSM_PROTECTION_GROUP
-;
-
-DROP TABLE IF EXISTS CSM_PG_PE
-;
-
-DROP TABLE IF EXISTS CSM_ROLE
-;
-
-DROP TABLE IF EXISTS CSM_ROLE_PRIVILEGE
-;
-
-DROP TABLE IF EXISTS CSM_USER
-;
-
-DROP TABLE IF EXISTS CSM_USER_GROUP
-;
-
-DROP TABLE IF EXISTS CSM_USER_GROUP_ROLE_PG
-;
-
-DROP TABLE IF EXISTS CSM_USER_PE
-;
-
-
 CREATE TABLE CSM_APPLICATION ( 
 	APPLICATION_ID BIGINT AUTO_INCREMENT  NOT NULL,
 	APPLICATION_NAME VARCHAR(255) NOT NULL,
@@ -367,16 +322,16 @@ COMMIT;
 #
 
 insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,CSM_VERSION,UPDATE_DATE)
-values ("csmupt","CSM UPT Super Admin Application",0,0,"",sysdate());
+values ("@upt.central.context.name@","CSM UPT Super Admin Application",0,0,"",sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("superadmin","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+values ("@super.admin.login.id@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
 values ("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=parmarv","Vijay","Parmar","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
 
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("csmupt","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
+values("@upt.central.context.name@","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
 
 insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
 values(1,1);
@@ -395,7 +350,7 @@ INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 	DATABASE_DRIVER,
 	CSM_VERSION,
 	UPDATE_DATE)
-VALUES ("sampleHostApplicationName","Application Description",0,0,
+VALUES ("@application.context.name@","Application Description",0,0,
 	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
 	"root",
 	"H/2qIBdj9TQ=",
@@ -404,7 +359,7 @@ VALUES ("sampleHostApplicationName","Application Description",0,0,
 	sysdate());
 
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sampleHostApplicationName","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
+values("@application.context.name@","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
 
 insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
 values(2,1);
