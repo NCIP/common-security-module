@@ -37,14 +37,14 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			throw new DataAccessResourceFailureException(e.getMessage());
 		}
 		
-		testCreateInstanceLevelMappingElement();
+/*		testCreateInstanceLevelMappingElement();
 		testGetInstanceLevelMappingElement();
 		testModifyInstanceLevelMappingElement();
 		//testRemoveInstanceLevelMappingElement();
 		testMaintainTablesViews();
 		testRefreshTablesForUser();
 		testRefreshTablesForGroup();
-	}
+*/	}
 
 	public InstanceLevelSecurityv42Enhancements(String arg0) {
 		super(arg0);
@@ -144,7 +144,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	
 	public static void testMaintainTablesViews(){
 	
-		
+		/*
 		try {
 			authorizationManager.maintainInstanceTables();
 		} catch (CSObjectNotFoundException e) {
@@ -154,7 +154,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		//Check for Tables
 		//SELECT table_name FROM information_schema.tables WHERE table_schema = 'databasename' AND table_name = 'tablename';
 		//Check for Views
