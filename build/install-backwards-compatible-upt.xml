@@ -436,7 +436,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			<then>
 				<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 					<param name="database.driver" value="${upt.central.database.driver.class}"/>
-					<param name="database.system.url" value="${upt.central.database.url}"/>
+					<param name="database.system.url" value="${upt.central.database.system.url}"/>
 					<param name="database.system.user" value="${upt.central.database.system.user}"/>
 					<param name="database.system.password" value="${upt.central.database.system.password}"/>
 					<param name="database.url" value="${upt.central.database.url}"/>
@@ -456,7 +456,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					<then>
 						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 							<param name="database.driver" value="${upt.31.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.31.database.url}"/>
+							<param name="database.system.url" value="${upt.31.database.system.url}"/>
 							<param name="database.system.user" value="${upt.31.database.system.user}"/>
 							<param name="database.system.password" value="${upt.31.database.system.password}"/>
 							<param name="database.url" value="${upt.31.database.url}"/>
@@ -476,7 +476,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					<then>
 						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 							<param name="database.driver" value="${upt.32.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.32.database.url}"/>
+							<param name="database.system.url" value="${upt.32.database.system.url}"/>
 							<param name="database.system.user" value="${upt.32.database.system.user}"/>
 							<param name="database.system.password" value="${upt.32.database.system.password}"/>
 							<param name="database.url" value="${upt.32.database.url}"/>
@@ -496,7 +496,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					<then>
 						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
 							<param name="database.driver" value="${upt.40.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.40.database.url}"/>
+							<param name="database.system.url" value="${upt.40.database.system.url}"/>
 							<param name="database.system.user" value="${upt.40.database.system.user}"/>
 							<param name="database.system.password" value="${upt.40.database.system.password}"/>
 							<param name="database.url" value="${upt.40.database.url}"/>
@@ -563,7 +563,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</and>
 			<then>
 				<install-backwards-compatible-upt-database 	
-						database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.url}" 
+						database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.system.url}" 
 						database.system.user="${upt.central.database.system.user}" database.system.password="${upt.central.database.system.password}" 
 						database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
 						database.password="${upt.central.database.password}" database.version="${upt.central.database.version}" 
@@ -584,7 +584,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
-								database.driver="${upt.31.database.driver.class}" database.system.url="${upt.31.database.url}" 
+								database.driver="${upt.31.database.driver.class}" database.system.url="${upt.31.database.system.url}" 
 								database.system.user="${upt.31.database.system.user}" database.system.password="${upt.31.database.system.password}" 
 								database.url="${upt.31.database.url}" database.user="${upt.31.database.user}" 
 								database.password="${upt.31.database.password}" database.version="${upt.31.database.version}" 
@@ -605,7 +605,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
-								database.driver="${upt.32.database.driver.class}" database.system.url="${upt.32.database.url}" 
+								database.driver="${upt.32.database.driver.class}" database.system.url="${upt.32.database.system.url}" 
 								database.system.user="${upt.32.database.system.user}" database.system.password="${upt.32.database.system.password}" 
 								database.url="${upt.32.database.url}" database.user="${upt.32.database.user}" 
 								database.password="${upt.32.database.password}" database.version="${upt.32.database.version}" 
@@ -626,7 +626,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
-								database.driver="${upt.40.database.driver.class}" database.system.url="${upt.40.database.url}" 
+								database.driver="${upt.40.database.driver.class}" database.system.url="${upt.40.database.system.url}" 
 								database.system.user="${upt.40.database.system.user}" database.system.password="${upt.40.database.system.password}" 
 								database.url="${upt.40.database.url}" database.user="${upt.40.database.user}" 
 								database.password="${upt.40.database.password}" database.version="${upt.40.database.version}" 
