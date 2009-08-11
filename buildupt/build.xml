@@ -16,14 +16,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 	<property name="software.dir" location=".." />
 	<property name="db.src.dir" value="${software.dir}/${db-install.dist.relative.dir}" />
-	<property name="db-install.src.dir" value="${db.src.dir}/db-install" />
-	<property name="db-upgrade.src.dir" value="${db.src.dir}/db-upgrade" />
 
 	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
 	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
 
-	<property name="backwards-compatible-upt.install.zip.file" value="backwards-compatible-upt-install.zip" />
-	<property name="bda-blueprints-webapp.install.zip.file" value="${backwards-compatible-upt.install.zip.file}"/>
+	<property name="backwards-compatible-upt.zip.file" value="backwards-compatible-upt.zip" />
+	<property name="bda-blueprints-webapp.install.zip.file" value="${backwards-compatible-upt.zip.file}"/>
 	<property name="bda-blueprints-webapp.upgrade.zip.file" value="${backwards-compatible-upt-upgrade.zip}"/>
 	
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
@@ -33,32 +31,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
-	<property name="securityws.base.dir" location="${software.dir}/securityws" />
-	<property name="csm.base.dir" location="${software.dir}/api" />
-	<property name="upt.base.dir" location="${software.dir}/upt" />
 	<property name="backwards.compatible.upt.base.dir" location="${software.dir}/backwards_compatible_upt" />
 	<property name="backwards.compatible.upt.resources.dir" location="${backwards.compatible.upt.base.dir}/uptEAR/resources" />
-
-	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
-	<property name="upt.build.file" value="build.xml" />
 	<property name="backwards.compatible.upt.build.file" value="build.xml" />
-	<property name="csm.build.file" value="build.xml" />
-	<property name="securityws.build.file" value="build.xml" />
-
-	<!-- The target name that should be called from the sub-project build file -->
-	<property name="securityws.build.target" value="all" />
-	<property name="csm.build.target" value="dist" />
-	<property name="upt.build.target" value="all" />
-	<property name="backwards.compatible.upt.build.target" value="all" />
-
-	<property name="install.backwards.compatible.upt.target" value="install" />
-	<property name="upgrade.backwards.compatible.upt.target" value="upgrade" />
-
-	<!-- Distribution Structure properties, used to copy files into the distribution area.
-       		Use project.propertie relative dir names becasue they are used by install also-->
-	<property name="csm.dist.dir" location="${dist.exploded.dir}/${csm.dist.relative.dir}" />
-	<property name="securityws.dist.dir" location="${dist.exploded.dir}/${securityws.dist.relative.dir}" />
-	<property name="upt.dist.dir" location="${dist.exploded.dir}/${upt.dist.relative.dir}" />
 	<property name="backwards.compatible.upt.dist.dir" location="${dist.exploded.dir}/${backwards.compatible.upt.dist.relative.dir}" />
 
 	<target name="clean">
@@ -126,9 +101,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			<property name="software.dir" value="${software.dir}" />
 		</ant>
 		<!-- Clean subproject ivy caches -->
-		<ant inheritAll="false" inheritRefs="false" dir="${csm.base.dir}" antfile="${csm.build.file}" target="ivy-clean-cache" />
-		<ant inheritAll="false" inheritRefs="false" dir="${securityws.base.dir}" antfile="${securityws.build.file}" target="ivy-clean-cache" />
-		<ant inheritAll="false" inheritRefs="false" dir="${upt.base.dir}" antfile="${upt.build.file}" target="ivy-clean-cache" />
 		<ant inheritAll="false" inheritRefs="false" dir="${backwards.compatible.upt.base.dir}" antfile="${backwards.compatible.upt.build.file}" target="ivy-clean-cache" />
 	</target>
 
@@ -168,9 +140,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 		<antcall target="-copybkwrdsfiles"/>
 		<dist-prep />
-
 	</target>
-	
 	
 	<target name="-copybkwrdsfiles">
 		<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
