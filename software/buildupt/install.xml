@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<project name="csm-installer" default="install" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csmupt-installer" default="install" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
 	
 	<import file="bda-master-install.xml" />
-
-	<!-- Generic properties -->
-	<property name="project.name" value="csm-backwards-compatible-upt" />
 
 	<!-- *-ds.xml and WAR -->
 	<property name="backwards.compatible.upt.dist" value="${basedir}/${backwards.compatible.upt.dist.relative.dir}" />
@@ -862,15 +859,7 @@
 			<attribute name="db.install.create.mysql.file.list" default="NOT SET"/>
 			<attribute name="db.install.create.postgresql.file.list" default="NOT SET"/>
 			
-			<sequential>
-				<!--
-				<antcall target="common:init" inheritall="true">
-					<param name="database.url" value="@{database.url}"/>
-					<param name="database.user" value="@{database.user}"/>
-					<param name="database.password" value="@{database.password}"/>
-					<param name="database.name" value="@{database.name}"/>
-					<param name="database.type" value="@{database.type}"/>					
-				</antcall>	-->			
+			<sequential>		
 				<switch value="${database.type}">
 					<case value="oracle">
 						<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
@@ -980,6 +969,5 @@
 			jboss.home="${read.jboss.home}"
 			property.name="property2"
 			/>
-	</target>
-	
+	</target>	
 </project>
