@@ -36,7 +36,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.post.socket.list" value=""/>
 	</panel>
 
-	<!-- Upgrade, specify app homes and read properties -->
+	<!-- Upgrade, specify app homes and read properties 
 	<panel order="2">
 		<field type="title" txt="Existing Locations" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The password you enter below is the password used to access the JBoss web console. This is a password you are creating, so you must keep track of this password for future use."/>
@@ -62,7 +62,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		</fileextractor>
 		
 	</panel>
-	<!-- Upgrade container.all -->
+	-->
+	<!-- Upgrade container.all 
 	<panel order="3">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:common:init" language="ant">
@@ -174,7 +175,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 	</panel>
-	<!-- Upgrade container.jboss -->
+	-->
+	<!-- Upgrade container.jboss 
 	<panel order="4">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:jboss:init" language="ant">
@@ -262,7 +264,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 	</panel>
-	<!-- Upgrade container.tomcat -->
+	-->
+	<!-- Upgrade container.tomcat 
 	<panel order="5">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:tomcat:init" language="ant">
@@ -325,7 +328,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 	</panel>
-	<!-- Upgrade container.database -->
+	-->
+	<!-- Upgrade container.database 
 	<panel order="6">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:database:init" language="ant">
@@ -346,8 +350,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 	</panel>
+	-->
 	<!-- Jboss Configuration -->
-	<panel order="7">
+	<panel order="3">
 		<field type="title" txt="Configure your JBoss application server" bold="true" size="1" />
 		<field type="divider" align="top"/>
 		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${UserPathPanelVariable}/${jboss.binaries.relative.dir}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to provide the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
@@ -424,7 +429,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 
 	<!-- Jboss Continued -->
-	<panel order="8">
+	<panel order="4">
 		<field type="title" txt="Additional JBoss installation options" bold="true" size="1" />
 		<field type="divider" align="top"/>
 
@@ -488,7 +493,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	-->
 
 	<!-- Jboss SSL 0.9.0 -->
-	<panel order="9">
+	<panel order="5">
 		<field type="title" txt="Configuring JBoss SSL and External Hostnames" bold="true" size="1" />
 		<field type="staticText" align="left" txt="For JBoss SSL configuration details see https://wiki.nci.nih.gov/x/7xWy"/>
 		<field type="divider" align="top"/>
@@ -566,7 +571,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 
 	<!-- Authentication Type -->
-	<panel order="10">
+	<panel order="6">
 		<field type="title" txt="Authentication Type" bold="true" size="1" />
 		<field type="staticText" align="left" txt="There are two types of ways to authenticate users: against database or using an LDAP server. To connect to LDAP, you must have an LDAP server available in your network."/>
 		<field type="divider" align="top"/>
@@ -582,7 +587,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 
 	<!-- Ldap data entry -->
-	<panel order="11">
+	<panel order="7">
 			<field type="title" txt="LDAP Configuration" bold="true" size="1" />
 			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
 			<field type="divider" align="top"/>
@@ -597,7 +602,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 
 	<!-- Database Properties -->
-	<panel order="12">
+	<panel order="8">
 		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
 		<field type="divider" align="top"/>
@@ -629,7 +634,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		</field>
 	</panel>
 
-	<!-- Global Configuraiton Options -->
+	<!-- Global Configuraiton Options -
 	<panel order="13">
 
 		<field type="title" txt="Configure Global Settings" bold="true" size="1" />
@@ -639,8 +644,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" SMTP Relay Host is a required field" />
 		</field>
 	</panel>
-
-	<!-- Grid Global Configuration -->
+-->
+	<!-- Grid Global Configuration 
 	<panel order="14">
 
 		<field type="title" txt="Configure global information for Grid configuration. [NEED MORE INFORMATION]" bold="true" size="1" />
@@ -650,8 +655,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.URLCheckValidator" txt="Please enter a valid Index URL"/>
 		</field>
 	</panel>
-
-	<!-- Grid Research Center -->
+-->
+	<!-- Grid Research Center 
 	<panel order="15">
 		<field type="title" txt="Configure research center contact information for Grid configuration." bold="true" size="1" />
 		<field type="divider" align="top"/>
@@ -687,8 +692,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Country is a required field" />
 		</field>
 	</panel>
-
-	<!-- Grid Tech Contact -->
+-->
+	<!-- Grid Tech Contact 
 	<panel order="16">
 
 		<field type="title" txt="Configure technical contact information for Grid configuration" bold="true" size="1" />
@@ -719,8 +724,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Role is a required field" />
 		</field>
 	</panel>
-
-	<!-- Grid Science Contact -->
+-->
+	<!-- Grid Science Contact 
 	<panel order="17">
 		<field type="title" txt="Configure science contact information for Grid configuration" bold="true" size="1" />
 		<field type="divider" align="top"/>
@@ -749,9 +754,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Role is a required field" />
 		</field>
 	</panel>
+-->
 
-
-	<!-- Tomcat Base Config 0.9.0 -->
+	<!-- Tomcat Base Config 0.9.0 
 	<panel order="18">
 		<field type="title" txt="Tomcat Configuration" bold="true" size="1" />
 		<field type="staticText" align="left" txt="For detailed descriptions on each of the properties below, see the Application Settings section at http://someurl"/>
@@ -791,8 +796,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			</validator>
 		</field>
 	</panel>
-
-	<!-- Tomcat SSL 0.9.0 -->
+-->
+	<!-- Tomcat SSL 0.9.0 
 	<panel order="19">
 		<field type="title" txt="Configuring Tomcat SSL and External Hostnames" bold="true" size="1" />
 		<field type="staticText" align="left" txt="For Tomcat SSL configuration details see https://wiki.nci.nih.gov/x/7xWy"/>
@@ -865,7 +870,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		</field>
 
 	</panel>
-	<panel order="20">
+	-->
+	<panel order="9">
 		<field type="title" txt="Installation Summary" bold="true" size="1" />
 		<field type="staticText" align="left" txt="Below are "/>
 		<field type="divider" align="top"/>
