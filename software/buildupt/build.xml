@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- bda-build-template version 1.0.1 -->
+<!--
+$Id: build.xml 1593 2009-04-27 21:29:25Z saksass $
+$HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/build.xml $
+-->
+
+<project name="csm-bkwrds" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+	<description>
+		Builds the CSM/UPT application.
+	</description>
+	<property file="local.properties" />
+	<property file="project.properties" />
+	<property name="properties.file" value="install.properties"/>
+	<property name="upgrade.properties.file" value="upgrade.properties"/>
+
+	<property name="software.dir" location=".." />
+	<property name="db.src.dir" value="${software.dir}/${db-install.dist.relative.dir}" />
+	<property name="db-install.src.dir" value="${db.src.dir}/db-install" />
+	<property name="db-upgrade.src.dir" value="${db.src.dir}/db-upgrade" />
+
+	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
+	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
+
+	<property name="backwards-compatible-upt.install.zip.file" value="backwards-compatible-upt-install.zip" />
+	<property name="bda-blueprints-webapp.install.zip.file" value="${backwards-compatible-upt.install.zip.file}"/>
+	<property name="bda-blueprints-webapp.upgrade.zip.file" value="${backwards-compatible-upt-upgrade.zip}"/>
+	
+	<property name="ivy.settings.dir" value="${basedir}/../common" />
+	<property name="ivy.settings.file" value="ivysettings.xml" />
+
+	<import file="bda-master-build.xml"/>
+
+	<!-- Properties that relate to how to call build targets from sub-projects-->
+	<!-- Working directory passed to Ant tasks -->
+	<property name="securityws.base.dir" location="${software.dir}/securityws" />
+	<property name="csm.base.dir" location="${software.dir}/api" />
+	<property name="upt.base.dir" location="${software.dir}/upt" />
+	<property name="backwards.compatible.upt.base.dir" location="${software.dir}/backwards_compatible_upt" />
+	<property name="backwards.compatible.upt.resources.dir" location="${backwards.compatible.upt.base.dir}/uptEAR/resources" />
+
+	<!-- Build file names relative working dir above, if the basedir of the sub-project ant script is ".." you should set the *.basdir to and the build file should include the dir and build file name from the *.base.dir -->
+	<property name="upt.build.file" value="build.xml" />
+	<property name="backwards.compatible.upt.build.file" value="build.xml" />
+	<property name="csm.build.file" value="build.xml" />
+	<property name="securityws.build.file" value="build.xml" />
+
+	<!-- The target name that should be called from the sub-project build file -->
+	<property name="securityws.build.target" value="all" />
+	<property name="csm.build.target" value="dist" />
+	<property name="upt.build.target" value="all" />
+	<property name="backwards.compatible.upt.build.target" value="all" />
+
+	<property name="install.backwards.compatible.upt.target" value="install" />
+	<property name="upgrade.backwards.compatible.upt.target" value="upgrade" />
+
+	<!-- Distribution Structure properties, used to copy files into the distribution area.
+       		Use project.propertie relative dir names becasue they are used by install also-->
+	<property name="csm.dist.dir" location="${dist.exploded.dir}/${csm.dist.relative.dir}" />
+	<property name="securityws.dist.dir" location="${dist.exploded.dir}/${securityws.dist.relative.dir}" />
+	<property name="upt.dist.dir" location="${dist.exploded.dir}/${upt.dist.relative.dir}" />
+	<property name="backwards.compatible.upt.dist.dir" location="${dist.exploded.dir}/${backwards.compatible.upt.dist.relative.dir}" />
+
+	<target name="clean">
+		<delete dir="${dist.dir}" />
+		<delete dir="${temp.dir}" />
+	</target>
+
+	<target name="init"  description="Sets up build are and initalizes variables">
+		<mkdir dir="${target.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.exploded.dir}" />
+		<mkdir dir="${csm.dist.dir}" />
+		<mkdir dir="${upt.dist.dir}" />
+		<mkdir dir="${backwards.compatible.upt.dist.dir}" />
+		<mkdir dir="${common.dist.dir}" />
+		<mkdir dir="${tools.dist.dir}" />
+		<mkdir dir="${temp.dir}" />
+		<mkdir dir="${download.dir}" />
+
+		<available file="${jboss.dest.file}" property="jboss.tools.exists" />
+		<available file="${jbosscp.dest.file}" property="jbosscp.tools.exists" />
+		<available file="${tomcat.dest.file}" property="tomcat.tools.exists" />
+		<!-- If jboss is required to build, then check for jboss in jboss.home, then check for in jboss in working directory, if not found then download it into this that directory.  If found at any point set local.jboss.home to where it is found.  This can be passed to sub-projects so then can compile code against distribution.  This is especially important on AntHillPro server which will not have jboss present, thus will have to use a copy in the working area.  This also makes it easier to start the project, if the developer does not yet have jboss installed, build will download it and install it so build can proceed. -->
+		<if>
+			<equals arg1="${require.jboss}" arg2="true" />
+			<then>
+				<available file="${jboss.home}/lib/commons-httpclient.jar" property="rt.jboss.exists" />
+				<if>
+					<isset property="rt.jboss.exists" />
+					<then>
+						<property name="local.jboss.home" location="${jboss.home}" />
+						<echo message="JBOSS_HOME exists ${jboss.home}" />
+					</then>
+					<else>
+						<property name="local.jboss.home" location="${pt.dir}/${jboss.binaries.relative.dir}" />
+						<available file="${local.jboss.home}/lib/commons-httpclient.jar" property="local.jboss.exists" />
+						<echo message="JBOSS_HOME does not exist checking for LOCAL_JBOSS_HOME ${local.jboss.home}" />
+						<if>
+							<not>
+								<isset property="local.jboss.exists" />
+							</not>
+							<then>
+								<echo message="LOCAL_JBOSS_HOME not found downloading." />
+								<antcall target="dist:tools:retrieve:jboss" />
+								<java jar="${tools.dir}/${jboss.binaries.file}" fork="true">
+									<arg line="-installGroup ejb3 installpath=${local.jboss.home}" />
+								</java>
+							</then>
+							<else>
+								<echo message="LOCAL_JBOSS_HOME found ${local.jboss.home}" />
+							</else>
+						</if>
+					</else>
+				</if>
+			</then>
+		</if>
+	</target>
+
+	<target name="ivy:clean" description="Cleans up the ivy cache of this project and all sub-projects">
+		<ivy:settings file="${ivy.settings.dir}/${ivy.settings.file}" />
+		<ivy:cleancache />
+		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml" target="ivy-cleancache" dir="${bda-download.dir}">
+			<property name="bda-utils.dir" value="${bda-utils.dir}" />
+			<property name="lib.dir" value="${lib.dir}" />
+			<property name="software.dir" value="${software.dir}" />
+		</ant>
+		<!-- Clean subproject ivy caches -->
+		<ant inheritAll="false" inheritRefs="false" dir="${csm.base.dir}" antfile="${csm.build.file}" target="ivy-clean-cache" />
+		<ant inheritAll="false" inheritRefs="false" dir="${securityws.base.dir}" antfile="${securityws.build.file}" target="ivy-clean-cache" />
+		<ant inheritAll="false" inheritRefs="false" dir="${upt.base.dir}" antfile="${upt.build.file}" target="ivy-clean-cache" />
+		<ant inheritAll="false" inheritRefs="false" dir="${backwards.compatible.upt.base.dir}" antfile="${backwards.compatible.upt.build.file}" target="ivy-clean-cache" />
+	</target>
+
+	<target name="build:backwards:compatible:upt" depends="init,clean">
+		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="${backwards.compatible.upt.build.target}" dir="${backwards.compatible.upt.base.dir}">
+		</ant>
+	</target>
+
+	<target name="compile:all" description="Used by static-analysis, required since dist target cleans up generated classes that are required by some static analysis tools" depends="
+			init,
+			compile:backwards.compatible.upt
+	"/>
+
+	<target name="compile:backwards.compatible.upt" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="compile" dir="${backwards.compatible.upt.base.dir}" />
+	</target>
+
+	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
+		clean,
+		init,
+		build:backwards:compatible:upt">
+	</target>
+	
+	<target name="dist:installer:prep" depends="build:all,dist:tools:retrieve,dist:tools:retrieve:jboss-bindings" description="Copies artifacts not generated by sub-project builds into the install distribution area">
+
+		<!-- Copy db-install and db-upgrade scripts from source into distribution area. The db files need to be under db-[install/upgard]/${database.type}. Because of this fact these files were not moved to the macro. -->
+		<copy todir="${db-install.dist.dir}" overwrite="true">
+			<fileset dir="${db-install.src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${db-upgrade.dist.dir}" overwrite="true">
+			<fileset dir="${db-upgrade.src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<antcall target="-copybkwrdsfiles"/>
+		<dist-prep />
+
+	</target>
+	
+	
+	<target name="-copybkwrdsfiles">
+		<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
+		<copy todir="${dist.exploded.dir}" overwrite="true">
+			<fileset dir="${build.dir}">
+				<include name="bda-master-install.xml" />
+				<include name="install-backwards-compatible-upt.xml" />
+			</fileset>
+			<fileset dir="${backwards.compatible.upt.resources.dir}">
+				<include name="*ApplicationSecurityConfig.xml" />
+				<include name="*backwards_compatible_upt-ds-template.xml" />
+				<include name="*login-config-template.xml" />
+				<include name="*csmupt31.hibernate.cfg.xml" />
+			</fileset>
+			<filterset>
+				<filterset>
+					<filtersfile file="${properties.file}"/>
+					<filtersfile file="project.properties"/>
+				</filterset>
+			</filterset>
+		</copy>
+
+		<copySQLFiles upt.version="upt31" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources/" upt.version.installed="${upt.31.installed}"/>
+		<copySQLFiles upt.version="upt32" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt32/resources/" upt.version.installed="${upt.32.installed}"/>
+		<copySQLFiles upt.version="upt40" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt40/resources/" upt.version.installed="${upt.40.installed}"/>
+		<copySQLFiles upt.version="upt41" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt41/resources/" upt.version.installed="${upt.41.installed}"/>
+		<copySQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}" upt.version.installed="${upt.central.config}"/>
+
+		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31/mysql" overwrite="true">
+			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources">
+				<include name="*MySQL.sql" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31/oracle" overwrite="true">
+			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt31/resources">
+				<include name="*Oracle.sql" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="dist:upgrader:prep" depends="build:all,dist:tools:retrieve" description="Copies artifacts not generated by sub-project builds into the install distribution area">
+	<!-- for DAC Upgrades (above)  -->
+	<!-- For non DAC upgrades (below)
+	<target name="dist:upgrader:prep" depends="build:all,dist:tools:retrieve:jboss-bindings" description="Copies artifacts not generated by sub-project builds into the install distribution area">
+	-->
+		<!-- Copy db-upgrade scripts from source into distribution area. The db files need to be under db-upgrade/${database.type}. This has not been moved to the macro because the source and dest structure may not be the same and thus this would need to be custom. -->
+		<copy todir="${db-upgrade.dist.dir}" overwrite="true">
+			<fileset dir="${db-upgrade.src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<!-- For non DAC upgrades
+		<dist-prep
+			copy.tools.flag="N"
+			default.target="upgrade"
+			/>
+		-->
+		<antcall target="-copybkwrdsfiles"/>
+		<!-- For DAC upgrades -->
+		<dist-prep
+			copy.tools.flag="Y"
+			default.target="upgrade"
+			/>
+
+	</target>
+
+	<macrodef name="copySQLFiles">
+		<attribute name="upt.version" default="NOT SET" />
+		<attribute name="upt.version.installed" default="NOT SET" />
+		<attribute name="input.dir" default="NOT SET" />
+		<sequential>
+			<if>
+				<equals arg1="@{upt.version.installed}" arg2="true" />
+				<then>
+					<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
+						<fileset dir="@{input.dir}">
+							<include name="*MySQL.sql" />
+						</fileset>
+					</copy>
+					<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
+						<fileset dir="@{input.dir}">
+							<include name="*Oracle.sql" />
+						</fileset>
+					</copy>
+					<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/postgres" overwrite="true">
+						<fileset dir="@{input.dir}">
+							<include name="*Postgres.sql" />
+						</fileset>
+					</copy>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+</project>
