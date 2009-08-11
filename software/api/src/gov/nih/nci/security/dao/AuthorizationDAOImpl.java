@@ -5791,6 +5791,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (mappingElements== null || mappingElements.size() == 0)
 		{
 			//throw new RuntimeException ("Instance Level Mappging Elements does not exist");
+			throw new CSObjectNotFoundException("Instance Level Mapping Elements do not exist.");
 		}
 
 		Statement statement = null;
@@ -5896,8 +5897,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								"	 SELECT user_ID,privilege_name,attribute_value,application_id from "+viewNameUser+
 								     ")");
 						
-						statement.addBatch("INSERT INTO "+tableNameUser+" (user_ID,privilege_name,attribute_value,application_id) " +
-								"		SELECT DISTINCT user_ID,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
+						statement.addBatch("INSERT INTO "+tableNameUser+" (user_ID,login_name,privilege_name,attribute_value,application_id) " +
+								"		SELECT DISTINCT user_ID,login_name,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
 								"		WHERE (user_ID,privilege_name,attribute_value,application_id) " +
 								"			NOT IN (" +
 								"				SELECT user_ID,privilege_name,attribute_value,application_id from "+tableNameUser+" )");
@@ -5911,8 +5912,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								"	 SELECT group_ID,privilege_name,attribute_value,application_id from "+viewNameGroup+
 								     ")");
 						
-						statement.addBatch("INSERT INTO "+tableNameGroup+" (group_ID,privilege_name,attribute_value,application_id) " +
-								"		SELECT DISTINCT group_ID,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
+						statement.addBatch("INSERT INTO "+tableNameGroup+" (group_ID,group_name,privilege_name,attribute_value,application_id) " +
+								"		SELECT DISTINCT group_ID,group_name,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
 								"		WHERE (group_ID,privilege_name,attribute_value,application_id) " +
 								"			NOT IN (" +
 								"				SELECT group_ID,privilege_name,attribute_value,application_id from "+tableNameGroup+" )");
@@ -6090,8 +6091,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" PRIVILEGE_NAME varchar(30) NOT NULL," +
 							" APPLICATION_ID bigint(20) NOT NULL," +
 							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
-							" UNIQUE KEY UQ_OBJ_ATTR_APID (USER_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
+							" UNIQUE KEY UQ_USERID_APID_PRIV (USER_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
+							" UNIQUE KEY UQ_LOGINNAME_APID_PRIV (USER_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
 							" KEY idx_USER_ID (USER_ID)," +
+							" KEY idx_LOGIN_NAME (LOGIN_NAME)," +
 							" KEY idx_APPLICATION_ID (APPLICATION_ID)," +
 							" KEY idx_PRIVILEGE_NAME (PRIVILEGE_NAME)," +
 							" )"); 
@@ -6102,8 +6105,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" PRIVILEGE_NAME varchar(30) NOT NULL," +
 							" APPLICATION_ID bigint(20) NOT NULL," +
 							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
-							" UNIQUE KEY UQ_OBJ_ATTR_APID (GROUP_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
+							" UNIQUE KEY UQ_GRPID_APID_PRIV (GROUP_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
+							" UNIQUE KEY GRPNM_APID_PRIV (GROUP_NAME,APPLICATION_ID, PRIVILEGE_NAME)," +
 							" KEY idx_GROUP_ID (GROUP_ID)," +
+							" KEY idx_GROUP_NAME (GROUP_NAME)," +
 							" KEY idx_APPLICATION_ID (APPLICATION_ID)," +
 							" KEY idx_PRIVILEGE_NAME (PRIVILEGE_NAME)," +
 							" )"); 
@@ -6115,7 +6120,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 					statement.addBatch("create or replace view "+viewNameUser+
 							" as" +
-							" select pe.user_id ,pr.privilege_name,pe.application_id,pe.attribute_value" +
+							" select pe.user_id, pe.login_name ,pr.privilege_name,pe.application_id,pe.attribute_value" +
 							" from "+viewNameUser+"_temp pe,csm_vw_role_priv pr" +
 							" where pe.role_id = pr.role_id");
 
@@ -6123,14 +6128,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					//create viewNameForGroup
 					statement.addBatch("create or replace view "+viewNameGroup+"_temp" +
 							" as" +
-							" select pr.group_id, pr.role_id, pe.application_id, pe.attribute_value" +
-							"  from csm_pg_pe cp, "+peiTableName+" pe, csm_user_group_role_pg pr" +
+							" select pr.group_id, g.group_name,pr.role_id, pe.application_id, pe.attribute_value" +
+							"  from csm_pg_pe cp, "+peiTableName+" pe, csm_user_group_role_pg pr. csm_group g" +
 							" where cp.protection_element_id = pe.protection_element_id" +
-							"  and cp.protection_group_id = pr.protection_group_id") ;
+							"  and cp.protection_group_id = pr.protection_group_id and pr.group_id = g.group_id") ;
 
 					statement.addBatch("create or replace view "+viewNameGroup+
 							" as" +
-							" select pe.group_id, pr.privilege_name, pe.application_id, pe.attribute_value" +
+							" select pe.group_id, pe.group_name pr.privilege_name, pe.application_id, pe.attribute_value" +
 							" from "+viewNameGroup+"_temp pe, csm_vw_role_priv pr" +
 							" where pe.role_id = pr.role_id");
 
@@ -6156,6 +6161,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				} catch (Exception ex3) {
 				}
 			}
+
 			throw new CSDataAccessException("Unable to maintain tables/views for instance level security.");
 		}
 		finally 
