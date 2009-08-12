@@ -6,7 +6,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <userInput>
 	<panel order="0">
 		<field type="title" txt="Install or Upgrade software" bold="true" size="1" />
-		<field type="staticText" align="left" txt="Choose Install if you haven't installed caGWAS on this machine before. Choose Upgrade if caGWAS has previously been installed. WARNING: When choosing Install, the installer will remove any previously installed application servers (using caBIG installers) or databases installed based on the information you provide, so be sure to backup your application server and database instance if they exist. For detailed descriptions on each of the properties in this installer, see http://someurl"/>
+		<field type="staticText" align="left" txt="Choose Install if you haven't installed Common Security Module's User Provisioning Tool (UPT) on this machine before. Choose Upgrade if CSM UPT has previously been installed. WARNING: When choosing Install, the installer will remove any previously installed application servers (using caBIG installers) or databases installed based on the information you provide, so be sure to backup your application server and database instance if they exist. For detailed descriptions on each of the properties in this installer, see https://cabig.nci.nih.gov/tools/CSM"/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="setup.type">
 			<description align="left" txt="Choose a new Install or Upgrade an existing installation"/>
@@ -27,7 +27,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<spec>
 				<choice txt="Everything" value="install.all" set="true" />
 				<choice txt="JBoss" value="install.jboss" />
-				<choice txt="Tomcat" value="install.tomcat" />
 				<choice txt="Database - (must be run on JBoss machine)" value="install.database" />
 			</spec>
 		</field>
@@ -569,14 +568,82 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 
 	</panel>
-
-	<!-- Authentication Type -->
+	
+	<!-- Installation Type -->
 	<panel order="6">
+		<field type="title" txt="Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="There are two types of ways to install CSM UPT: Central (Single CSM UPT container and single UPT Schema) OR Non-Central ( Single CSM UPT Container and multiple UPT schema per CSM version)."/>
+		<field type="divider" align="top"/>
+		<field type="radio" variable="installation.type">
+			<description align="left" txt="Is there a central CSM UPT schema available?"/>
+			<spec>
+				<choice txt="Central" value="central" set="true" />
+				<choice txt="Non Central" value="noncentral"/>
+			</spec>
+		</field>
+		<field type="divider" align="top"/>
+		<field type="radio" variable="upt.31.installed">
+			<description align="left" txt="Would you like to include UPT version 3.1 in this installation?"/>
+			<spec>
+				<choice txt="True"  value="true" />
+				<choice txt="False" value="false" set="true"/>
+			</spec>
+		</field>
+		<field type="radio" variable="upt.32.installed">
+			<description align="left" txt="Would you like to include UPT version 3.2 in this installation?"/>
+			<spec>
+				<choice txt="True"  value="true" />
+				<choice txt="False" value="false" set="true"/>
+			</spec>
+		</field>
+		<field type="radio" variable="upt.40.installed">
+			<description align="left" txt="Would you like to include UPT version 4.0 in this installation?"/>
+			<spec>
+				<choice txt="True"  value="true" />
+				<choice txt="False" value="false" set="true"/>
+			</spec>
+		</field>
+		<field type="radio" variable="upt.41.installed">
+			<description align="left" txt="Would you like to include UPT version 4.1 in this installation?"/>
+			<spec>
+				<choice txt="True"  value="true" />
+				<choice txt="False" value="false" set="true"/>
+			</spec>
+		</field>
+		<field type="radio" variable="upt.42.installed">
+			<description align="left" txt="Would you like to include UPT version 4.2 in this installation?"/>
+			<spec>
+				<choice txt="True"  value="true" />
+				<choice txt="False" value="false" set="true"/>
+			</spec>
+		</field>
+
+
+
+	</panel>
+
+<!-- Installation - Central Type -->
+	<panel order="7">
+		<field type="title" txt="Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Central installation of CSM UPT. more information here.."/>
+		<field type="divider" align="top"/>
+		<field type="radio" variable="upt.central.database.re-create">
+			<description align="left" txt="Would you like to recreate the central UPT database?"/>
+			<spec>
+				<choice txt="True"  value="true" />
+				<choice txt="False" value="false" set="true"/>
+			</spec>
+		</field>
+	</panel>
+
+	
+	<!-- Authentication Type -->
+	<panel order="8">
 		<field type="title" txt="Authentication Type" bold="true" size="1" />
 		<field type="staticText" align="left" txt="There are two types of ways to authenticate users: against database or using an LDAP server. To connect to LDAP, you must have an LDAP server available in your network."/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="authentication.type">
-			<description align="left" txt="Which kind of authentication do you want to use?"/>
+			<description align="left" txt="What kind of authentication do you want to use?"/>
 			<spec>
 				<choice txt="Database" value="db" set="true" />
 				<choice txt="LDAP" value="ldap"/>
@@ -587,7 +654,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 
 	<!-- Ldap data entry -->
-	<panel order="7">
+	<panel order="9">
 			<field type="title" txt="LDAP Configuration" bold="true" size="1" />
 			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
 			<field type="divider" align="top"/>
@@ -602,7 +669,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 
 	<!-- Database Properties -->
-	<panel order="8">
+	<panel order="10">
 		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
 		<field type="divider" align="top"/>
@@ -871,7 +938,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 	</panel>
 	-->
-	<panel order="9">
+	<panel order="11">
 		<field type="title" txt="Installation Summary" bold="true" size="1" />
 		<field type="staticText" align="left" txt="Below are "/>
 		<field type="divider" align="top"/>
