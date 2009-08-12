@@ -1,14 +1,14 @@
-Release Name: bda-blueprints 1.0
+Release Name: CSM UPT 4.2
 
 Notes:
-bda-blueprints Release Name: 1.0
+CSM UPT Release Name: 4.2
 Notes:
 Release Notes
 =============
  
-  #Product:#	caIntegrator-bda-blueprints
-  #Version:#	1.0
-  #Date:#	February 2008
+  #Product:#	csmupt
+  #Version:#	4.2
+  #Date:#	August 2009
 
 Contents
 --------
@@ -28,7 +28,7 @@ Introduction
 Release History
 ------------------------
  
-    * bda-blueprints  v1.0		-- February 2008
+    * CSM UPT v4.2		-- August 2009
 
 
 Features
