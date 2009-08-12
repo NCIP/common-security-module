@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- bda-build-template version 1.0.1 -->
+<!--
+$Id: build.xml 1593 2009-04-27 21:29:25Z saksass $
+$HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/build.xml $
+-->
+
+<project name="csm-cgmm" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+	<description>
+		Builds the CSM/UPT application.
+	</description>
+	<property file="local.properties" />
+	<property file="project.properties" />
+
+	<property name="software.dir" location=".." />
+	<property name="db.src.dir" value="${software.dir}/${db-install.dist.relative.dir}" />
+
+	<property name="bda-blueprints-webapp.install.zip.file" value="${cgmm.install.zip.file}"/>
+	<property name="bda-blueprints-webapp.upgrade.zip.file" value="${cgmm.upgrade.zip.file}"/>
+
+	<property name="ivy.settings.dir" value="${basedir}/../common" />
+	<property name="ivy.settings.file" value="ivysettings.xml" />
+	
+	<import file="bda-master-build.xml"/>
+
+	<!-- Properties that relate to how to call build targets from sub-projects-->
+	<!-- Working directory passed to Ant tasks -->
+	<property name="cgmm.base.dir" location="${software.dir}/cgmmweb" />
+	<property name="cgmm.build.file" value="build.xml" />
+	<property name="cgmm.build.target" value="all" />
+
+	<property name="exploded.cgmm.dist.dir" location="${dist.exploded.dir}/${cgmmweb.dist.relative.dir}" />
+
+	<target name="clean">
+		<delete dir="${dist.dir}" />
+		<delete dir="${temp.dir}" />
+	</target>
+
+	<target name="init"  description="Sets up build are and initalizes variables">
+		<mkdir dir="${target.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.exploded.dir}" />
+		<mkdir dir="${exploded.cgmm.dist.dir}" />
+		<mkdir dir="${common.dist.dir}" />
+		<mkdir dir="${tools.dist.dir}" />
+		<mkdir dir="${temp.dir}" />
+		<mkdir dir="${download.dir}" />
+
+		<available file="${jboss.dest.file}" property="jboss.tools.exists" />
+		<available file="${jbosscp.dest.file}" property="jbosscp.tools.exists" />
+		<available file="${tomcat.dest.file}" property="tomcat.tools.exists" />
+		<!-- If jboss is required to build, then check for jboss in jboss.home, then check for in jboss in working directory, if not found then download it into this that directory.  If found at any point set local.jboss.home to where it is found.  This can be passed to sub-projects so then can compile code against distribution.  This is especially important on AntHillPro server which will not have jboss present, thus will have to use a copy in the working area.  This also makes it easier to start the project, if the developer does not yet have jboss installed, build will download it and install it so build can proceed. -->
+		<if>
+			<equals arg1="${require.jboss}" arg2="true" />
+			<then>
+				<available file="${jboss.home}/lib/commons-httpclient.jar" property="rt.jboss.exists" />
+				<if>
+					<isset property="rt.jboss.exists" />
+					<then>
+						<property name="local.jboss.home" location="${jboss.home}" />
+						<echo message="JBOSS_HOME exists ${jboss.home}" />
+					</then>
+					<else>
+						<property name="local.jboss.home" location="${pt.dir}/${jboss.binaries.relative.dir}" />
+						<available file="${local.jboss.home}/lib/commons-httpclient.jar" property="local.jboss.exists" />
+						<echo message="JBOSS_HOME does not exist checking for LOCAL_JBOSS_HOME ${local.jboss.home}" />
+						<if>
+							<not>
+								<isset property="local.jboss.exists" />
+							</not>
+							<then>
+								<echo message="LOCAL_JBOSS_HOME not found downloading." />
+								<antcall target="dist:tools:retrieve:jboss" />
+								<java jar="${tools.dir}/${jboss.binaries.file}" fork="true">
+									<arg line="-installGroup ejb3 installpath=${local.jboss.home}" />
+								</java>
+							</then>
+							<else>
+								<echo message="LOCAL_JBOSS_HOME found ${local.jboss.home}" />
+							</else>
+						</if>
+					</else>
+				</if>
+			</then>
+		</if>
+	</target>
+
+	<target name="ivy:clean" description="Cleans up the ivy cache of this project and all sub-projects">
+		<ivy:settings file="${ivy.settings.dir}/${ivy.settings.file}" />
+		<ivy:cleancache />
+		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml" target="ivy-cleancache" dir="${bda-download.dir}">
+			<property name="bda-utils.dir" value="${bda-utils.dir}" />
+			<property name="lib.dir" value="${lib.dir}" />
+			<property name="software.dir" value="${software.dir}" />
+		</ant>
+		<!-- Clean subproject ivy caches -->
+		<ant inheritAll="false" inheritRefs="false" dir="${cgmm.base.dir}" antfile="${cgmm.build.file}" target="ivy-clean-cache" />
+	</target>
+
+	<target name="build:cgmm" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${cgmm.build.file}" target="${cgmm.build.target}" dir="${cgmm.base.dir}">
+		</ant>
+	</target>
+
+	<target name="compile:all" description="Used by static-analysis, required since dist target cleans up generated classes that are required by some static analysis tools" depends="
+			init,
+			compile:cgmm
+		"/>
+
+	<target name="compile:cgmm" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${cgmm.build.file}" target="compile" dir="${cgmm.base.dir}" />
+	</target>
+
+	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
+		clean,
+		init,
+		build:cgmm">
+	</target>
+
+	<target name="dist:installer:prep" depends="build:all,dist:tools:retrieve,dist:tools:retrieve:jboss-bindings" description="Copies artifacts not generated by sub-project builds into the install distribution area">
+		<antcall target="-copycgmmfiles"/>
+		<dist-prep />
+	</target>
+
+	<target name="-copycgmmfiles">
+		<!-- Copy install related xml and properties files -->
+		<echo message="Copying build files" />
+		<copy todir="${dist.exploded.dir}" overwrite="true">
+			<fileset dir="${build.dir}">
+			</fileset>
+		</copy>
+		<copy todir="${dist.exploded.dir}/${cgmmweb.dist.relative.dir}/jbossweb-tomcat55-sar-jars" overwrite="true">
+			<fileset dir="${lib.dir}/cgmmweb/runtime"/>
+		</copy>
+		<copy todir="${dist.exploded.dir}/${cgmmweb.dist.relative.dir}/jboss-default-lib-jars" overwrite="true">
+			<fileset dir="${lib.dir}/cgmmweb/jboss-default-lib"/>
+		</copy>
+	</target>
+
+	<target name="dist:upgrader:prep" depends="build:all,dist:tools:retrieve" description="Copies artifacts not generated by sub-project builds into the install distribution area">
+		<antcall target="-copycgmmfiles"/>
+		<!-- For DAC upgrades -->
+		<dist-prep
+			copy.tools.flag="Y"
+			default.target="upgrade"
+			/>
+	</target>
+
+</project>
