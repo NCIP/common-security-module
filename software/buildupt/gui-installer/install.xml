@@ -25,8 +25,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<property name="project.name" value="csmupt"/>
 	<property name="installer.dir" value=".installer-${project.name}"/>
 	<property name="gui-installer.dist.base.name" value="csmupt_gui_distribution_${csm.version}.jar"/>
-	<property name="install.zip.file" value="backwards-compatible-upt.zip"/>
-	<property name="upgrade.zip.file" value="backwards-compatible-upt.zip"/>
+	<property name="install.zip.file" value="csm_install4.2.zip"/>
+	<property name="upgrade.zip.file" value="csm_upgrade4.2.zip"/>
 
 	<echoproperties/>
 <echo message="compile.jar.dir ::: ${compile.jar.dir}"/>
@@ -138,6 +138,17 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 						<name>authentication.type</name>
 						<value>ldap</value>
 					</condition>
+					<!-- UPT Installation Central or non-central -->
+					<condition type="variable" id="central.setup">
+						<name>installation.type</name>
+						<value>central</value>
+					</condition>
+					<condition type="variable" id="noncentral.setup">
+						<name>installation.type</name>
+						<value>noncentral</value>
+					</condition>
+
+
 					<!-- Container selection -->
 					<condition type="variable" id="container.all">
 						<name>install.selection</name>
@@ -237,7 +248,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="tomcat.grid.secure.cert.location" value="" condition="container.database|container.jboss"/>
 					<variable name="tomcat.grid.secure.key.location" value="" condition="container.database|container.jboss"/>
 
-					<variable name="grid.index.url" value="" condition="container.database"/>
+<!--					<variable name="grid.index.url" value="" condition="container.database"/>
 					<variable name="grid.poc.tech.researchCenter.displayname" value="" condition="container.database"/>
 					<variable name="grid.poc.tech.researchCenter.shortname" value="" condition="container.database"/>
 					<variable name="grid.poc.tech.addr.country" value="" condition="container.database"/>
@@ -258,11 +269,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="grid.poc.science.phone" value="" condition="container.database"/>
 					<variable name="grid.poc.science.email" value="" condition="container.database"/>
 					<variable name="grid.poc.science.role" value="" condition="container.database"/>
-
+-->
 					<variable name="ldap.url" value="" condition="container.database"/>
 					<variable name="ldap.basedn" value="" condition="container.database"/>
 					<variable name="mail.smtp.server" value="" condition="container.database"/>
 					<variable name="authentication.type" value="" condition="container.database"/>
+					<variable name="installation.type" value="" condition="noncentral.setup"/>
 				</dynamicvariables>
 
 				<!--
@@ -313,9 +325,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<!-- Authentication Type -->
 					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="!container.database"/>
 					<!-- Ldap data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="ldap.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.7"/>
 					<!-- Database Properties -->
 					<panel classname="UserInputPanel"  id="UserInputPanel.8"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.9"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.10"/>
 					<!-- Global Configuraiton Options 
 					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="!container.database"/>
 					-->
