@@ -62,7 +62,7 @@
 	</target>
 
 	
-	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy bda-blueprints-webapp and common libraries to jboss installation" unless="exclude.jboss" depends="common:init">
+	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy backwards-compatible-upt and common libraries to jboss installation" unless="exclude.jboss" depends="common:init">
 		<!-- added to ensure working.dirs are fresh for our install -->
 		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp" />
 		<delete dir="${jboss.home}/server/${jboss.server.name}/work" />
