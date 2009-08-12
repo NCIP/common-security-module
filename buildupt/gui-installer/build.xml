@@ -4,7 +4,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 -->
 <project name="Installer" default="install" basedir="." >
 	<!-- Generic properties -->
-	<property name="application_installer" value="bda-blueprints_installer" />
+	<property name="application_installer" value="backwards-compatible-upt_installer" />
 	<property name="application_installer_zip" value="backwards-compatible-upt.zip" />
 	<property name="application_upgrader_zip" value="backwards-compatible-upt.zip" />
 	<!-- TARGETS -->
