@@ -20,9 +20,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
 	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
 
-	<property name="backwards-compatible-upt.zip.file" value="backwards-compatible-upt.zip" />
-	<property name="bda-blueprints-webapp.install.zip.file" value="${backwards-compatible-upt.zip.file}"/>
-	<property name="bda-blueprints-webapp.upgrade.zip.file" value="${backwards-compatible-upt-upgrade.zip}"/>
+	<property name="backwards-compatible-upt-install.zip.file" value="backwards-compatible-upt-install.zip" />
+	<property name="backwards-compatible-upt-upgrade.zip.file" value="backwards-compatible-upt-upgrade.zip" />
+	<property name="bda-blueprints-webapp.install.zip.file" value="${backwards-compatible-upt-install.zip.file}"/>
+	<property name="bda-blueprints-webapp.upgrade.zip.file" value="${backwards-compatible-upt-upgrade.zip.file}"/>
 	
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="ivy.settings.file" value="ivysettings.xml" />
