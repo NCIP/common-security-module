@@ -25,9 +25,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="radio" variable="install.selection">
 			<description align="left" txt="Chose what to install"/>
 			<spec>
-				<choice txt="Everything" value="install.all" set="true" />
 				<choice txt="JBoss" value="install.jboss" />
 				<choice txt="Database - (must be run on JBoss machine)" value="install.database" />
+				<choice txt="Both" value="install.all" set="true" />
 			</spec>
 		</field>
 		<variable name="validation.pre.port.list" value=""/>
@@ -425,7 +425,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="log4j.maxDays" value="7"/>
 		<variable name="log4j.level" value="WARN"/>
 
-	</panel>
+	</panel> 	<!-- End of Jboss Configuration panel -->
 
 	<!-- Jboss Continued -->
 	<panel order="4">
@@ -483,7 +483,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<spec txt="JBoss web service port:" size="5" set="30250"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss web service port number is already in use"/>
 		</field>
-	</panel>
+	</panel>  	<!-- End of Jboss Continued panel -->
 	
 	<!-- Installation Type -->
 	<panel order="5">
@@ -533,7 +533,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<choice txt="No" value="false" set="true"/>
 			</spec>
 		</field>
-	</panel>
+	</panel> <!-- End of Installation Type panel--> 
 
 <!--  Central DB Config -->
 	<panel order="6">
@@ -549,6 +549,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			</spec>
 		</field>
 		<!--  DB Config -->
+		<field type="divider" align="top"/>
 		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
 		<field type="divider" align="top"/>
@@ -583,24 +584,23 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<spec txt="Database Type :" size="25" set="mysql"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
 		</field>
-
-		upt.central.database.type=mysql
-upt.central.database.version=5.0.27
-
-upt.central.database.url.prefix=jdbc:mysql
-upt.central.database.system.url=${upt.central.database.url.prefix}://${upt.central.database.server}:${upt.central.database.port}
-upt.central.database.url=${upt.central.database.system.url}/${upt.central.database.name}
-
-upt.central.jndi.name=${application.context.name}
-upt.central.database.driver.class=org.gjt.mm.mysql.Driver
-upt.central.database.encrypt.enabled=YES
-upt.central.database.dialect=org.hibernate.dialect.MySQLDialect
-
-
-	</panel>
-
-
-
+		<field type="text" variable="upt.central.database.version">
+			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
+		</field>
+		<field type="text" variable="upt.central.jndi.name">
+			<spec txt="JNDI Name" size="25" set="csmupt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JNDI Name is a required field" />
+		</field>
+		<field type="text" variable="upt.central.database.driver.class">
+			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
+		</field>
+		<field type="text" variable="upt.central.database.driver.class">
+			<spec txt="Database Dialect:" size="25" set="org.hibernate.dialect.MySQLDialect"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Dialect is a required field" />
+		</field> 
+	</panel> <!-- End of Central DB Config panel--> 
 
 
 	<!--  Central Authentication  -->
@@ -651,6 +651,46 @@ upt.central.database.dialect=org.hibernate.dialect.MySQLDialect
 			</field>
 
 		<!--  Authentication DB  -->
+            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="divider" align="top"/>
+
+            <variable name="install.path" value="$INSTALL_PATH"/>
+            <variable name="baseDir" value="$INSTALL_PATH"/>
+
+            <field type="text" variable="upt.central.database.server">
+                <spec txt="Database Host Name:" size="25" set=""/>
+            </field>
+            <field type="text" variable="upt.central.database.port">
+                <spec txt="Database Port:" size="25" set="3306"/>
+            </field>
+            <field type="text" variable="upt.central.database.name">
+                <spec txt="Database Name:" size="25" set="bda"/>
+            </field>
+            <field type="text" variable="upt.central.database.user">
+                <spec txt="Database Application User:" size="25" set="bdauser"/>
+            </field>
+            <field type="password" allign="left" variable="upt.central.database.password">
+                <spec>
+                     <pwd txt="Database Application User Password:" size="25" set=""/>
+                </spec>
+            </field>
+	</panel> <!-- End of Central Authentication panel--> 
+
+<panel order="8">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Recreate DB? -->
+		<field type="radio" variable="upt.42.database.re-create">
+			<description align="left" txt="Recreate the UPT 4.2 schema?"/>
+			<spec>
+				<choice txt="Yes"  value="true" />
+				<choice txt="No" value="false" set="true"/>
+			</spec>
+		</field>
+		<!--  DB Config -->
+		<field type="divider" align="top"/>
 		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
 		<field type="divider" align="top"/>
@@ -658,27 +698,691 @@ upt.central.database.dialect=org.hibernate.dialect.MySQLDialect
 		<variable name="install.path" value="$INSTALL_PATH"/>
 		<variable name="baseDir" value="$INSTALL_PATH"/>
 
-		<field type="text" variable="upt.central.database.server">
+		<field type="text" variable="upt.42.database.server">
 			<spec txt="Database Host Name:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
 		</field>
-		<field type="text" variable="upt.central.database.port">
+		<field type="text" variable="upt.42.database.port">
 			<spec txt="Database Port:" size="25" set="3306"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Port is a required field" />
 		</field>
-		<field type="text" variable="upt.central.database.name">
+		<field type="text" variable="upt.42.database.name">
 			<spec txt="Database Name:" size="25" set="bda"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
 		</field>
-		<field type="text" variable="upt.central.database.user">
-			<spec txt="Database Application User:" size="25" set="bdauser"/>
+		<field type="text" variable="upt.42.database.system.user">
+			<spec txt="Database Application System User:" size="25" set="bdauser"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
 		</field>
-		<field type="password" allign="left" variable="upt.central.database.password">
+		<field type="password" allign="left" variable="upt.42.database.system.password">
 			<spec>
-				 <pwd txt="Database Application User Password:" size="25" set=""/>
+				 <pwd txt="Database Application System User Password:" size="25" set=""/>
+			</spec>
+			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
+		</field>
+		<!-- Miscellaneous DB properties -->
+		<field type="text" variable="upt.42.database.type">
+			<spec txt="Database Type :" size="25" set="mysql"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
+		</field>
+		<field type="text" variable="upt.42.database.version">
+			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
+		</field>
+		<field type="text" variable="upt.42.jndi.name">
+			<spec txt="JNDI Name" size="25" set="csmupt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JNDI Name is a required field" />
+		</field>
+		<field type="text" variable="upt.42.database.driver.class">
+			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
+		</field>
+		<field type="text" variable="upt.42.database.driver.class">
+			<spec txt="Database Dialect:" size="25" set="org.hibernate.dialect.MySQLDialect"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Dialect is a required field" />
+		</field> 
+	</panel> <!-- End of UPT 42 DB Config panel--> 
+
+
+	<!--  UPT 42 Authentication  -->
+	<panel order="9">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Authentication Type? -->
+		<field type="radio" variable="upt.42.authentication.type">
+			<description align="left" txt="For this UPT installation, select the authentication type"/>
+			<spec>
+				<choice txt="LDAP"  value="ldap" />
+				<choice txt="LDAPS" value="ldaps" set="true"/>
+				<choice txt="DB" value="db"/>
 			</spec>
 		</field>
-	</panel>
+		<!--  Authentication LDAPS -->
+		<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.42.ldaps.url">
+				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.42.ldaps.basedn">
+				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
+			</field>
+			<field type="text" variable="upt.42.ldaps.user.label">
+				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
+			</field>
+        <!-- Authentication LDAP -->
+  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.42.ldap.url">
+				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.42.ldap.searchable.base">
+				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
+			</field>
+			<field type="text" variable="upt.42.ldap.user.label">
+				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.42.ldap.admin.user.name">
+				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.42.ldap.admin.user.password">
+				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
+			</field>
+
+		<!--  Authentication DB  -->
+            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="divider" align="top"/>
+
+            <variable name="install.path" value="$INSTALL_PATH"/>
+            <variable name="baseDir" value="$INSTALL_PATH"/>
+
+            <field type="text" variable="upt.42.database.server">
+                <spec txt="Database Host Name:" size="25" set=""/>
+            </field>
+            <field type="text" variable="upt.42.database.port">
+                <spec txt="Database Port:" size="25" set="3306"/>
+            </field>
+            <field type="text" variable="upt.42.database.name">
+                <spec txt="Database Name:" size="25" set="bda"/>
+            </field>
+            <field type="text" variable="upt.42.database.user">
+                <spec txt="Database Application User:" size="25" set="bdauser"/>
+            </field>
+            <field type="password" allign="left" variable="upt.42.database.password">
+                <spec>
+                     <pwd txt="Database Application User Password:" size="25" set=""/>
+                </spec>
+            </field>
+	</panel> <!-- End of UPT 42 Authentication panel--> 
+
+	<panel order="10">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.1. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Recreate DB? -->
+		<field type="radio" variable="upt.41.database.re-create">
+			<description align="left" txt="Recreate the UPT 4.1 schema?"/>
+			<spec>
+				<choice txt="Yes"  value="true" />
+				<choice txt="No" value="false" set="true"/>
+			</spec>
+		</field>
+		<!--  DB Config -->
+		<field type="divider" align="top"/>
+		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+		<field type="divider" align="top"/>
+
+		<variable name="install.path" value="$INSTALL_PATH"/>
+		<variable name="baseDir" value="$INSTALL_PATH"/>
+
+		<field type="text" variable="upt.41.database.server">
+			<spec txt="Database Host Name:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
+		</field>
+		<field type="text" variable="upt.41.database.port">
+			<spec txt="Database Port:" size="25" set="3306"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Port is a required field" />
+		</field>
+		<field type="text" variable="upt.41.database.name">
+			<spec txt="Database Name:" size="25" set="bda"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
+		</field>
+		<field type="text" variable="upt.41.database.system.user">
+			<spec txt="Database Application System User:" size="25" set="bdauser"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
+		</field>
+		<field type="password" allign="left" variable="upt.41.database.system.password">
+			<spec>
+				 <pwd txt="Database Application System User Password:" size="25" set=""/>
+			</spec>
+			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
+		</field>
+		<!-- Miscellaneous DB properties -->
+		<field type="text" variable="upt.41.database.type">
+			<spec txt="Database Type :" size="25" set="mysql"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
+		</field>
+		<field type="text" variable="upt.41.database.version">
+			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
+		</field>
+		<field type="text" variable="upt.41.jndi.name">
+			<spec txt="JNDI Name" size="25" set="csmupt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JNDI Name is a required field" />
+		</field>
+		<field type="text" variable="upt.41.database.driver.class">
+			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
+		</field>
+		<field type="text" variable="upt.41.database.driver.class">
+			<spec txt="Database Dialect:" size="25" set="org.hibernate.dialect.MySQLDialect"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Dialect is a required field" />
+		</field> 
+	</panel> <!-- End of UPT 41 DB Config panel--> 
 
 
-	<!-- Ldap data entry -->
+	<!--  UPT 41 Authentication  -->
+	<panel order="11">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.1. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Authentication Type? -->
+		<field type="radio" variable="upt.41.authentication.type">
+			<description align="left" txt="For this UPT installation, select the authentication type"/>
+			<spec>
+				<choice txt="LDAP"  value="ldap" />
+				<choice txt="LDAPS" value="ldaps" set="true"/>
+				<choice txt="DB" value="db"/>
+			</spec>
+		</field>
+		<!--  Authentication LDAPS -->
+		<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.41.ldaps.url">
+				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.41.ldaps.basedn">
+				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
+			</field>
+			<field type="text" variable="upt.41.ldaps.user.label">
+				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
+			</field>
+        <!-- Authentication LDAP -->
+  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.41.ldap.url">
+				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.41.ldap.searchable.base">
+				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
+			</field>
+			<field type="text" variable="upt.41.ldap.user.label">
+				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.41.ldap.admin.user.name">
+				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.41.ldap.admin.user.password">
+				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
+			</field>
+
+		<!--  Authentication DB  -->
+            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="divider" align="top"/>
+
+            <variable name="install.path" value="$INSTALL_PATH"/>
+            <variable name="baseDir" value="$INSTALL_PATH"/>
+
+            <field type="text" variable="upt.41.database.server">
+                <spec txt="Database Host Name:" size="25" set=""/>
+            </field>
+            <field type="text" variable="upt.41.database.port">
+                <spec txt="Database Port:" size="25" set="3306"/>
+            </field>
+            <field type="text" variable="upt.41.database.name">
+                <spec txt="Database Name:" size="25" set="bda"/>
+            </field>
+            <field type="text" variable="upt.41.database.user">
+                <spec txt="Database Application User:" size="25" set="bdauser"/>
+            </field>
+            <field type="password" allign="left" variable="upt.41.database.password">
+                <spec>
+                     <pwd txt="Database Application User Password:" size="25" set=""/>
+                </spec>
+            </field>
+	</panel> <!-- End of UPT 41 Authentication panel--> 
+
+	<panel order="12">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.0. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Recreate DB? -->
+		<field type="radio" variable="upt.40.database.re-create">
+			<description align="left" txt="Recreate the UPT 4.0 schema?"/>
+			<spec>
+				<choice txt="Yes"  value="true" />
+				<choice txt="No" value="false" set="true"/>
+			</spec>
+		</field>
+		<!--  DB Config -->
+		<field type="divider" align="top"/>
+		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+		<field type="divider" align="top"/>
+
+		<variable name="install.path" value="$INSTALL_PATH"/>
+		<variable name="baseDir" value="$INSTALL_PATH"/>
+
+		<field type="text" variable="upt.40.database.server">
+			<spec txt="Database Host Name:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
+		</field>
+		<field type="text" variable="upt.40.database.port">
+			<spec txt="Database Port:" size="25" set="3306"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Port is a required field" />
+		</field>
+		<field type="text" variable="upt.40.database.name">
+			<spec txt="Database Name:" size="25" set="bda"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
+		</field>
+		<field type="text" variable="upt.40.database.system.user">
+			<spec txt="Database Application System User:" size="25" set="bdauser"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
+		</field>
+		<field type="password" allign="left" variable="upt.40.database.system.password">
+			<spec>
+				 <pwd txt="Database Application System User Password:" size="25" set=""/>
+			</spec>
+			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
+		</field>
+		<!-- Miscellaneous DB properties -->
+		<field type="text" variable="upt.40.database.type">
+			<spec txt="Database Type :" size="25" set="mysql"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
+		</field>
+		<field type="text" variable="upt.40.database.version">
+			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
+		</field>
+		<field type="text" variable="upt.40.jndi.name">
+			<spec txt="JNDI Name" size="25" set="csmupt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JNDI Name is a required field" />
+		</field>
+		<field type="text" variable="upt.40.database.driver.class">
+			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
+		</field>
+		<field type="text" variable="upt.40.database.driver.class">
+			<spec txt="Database Dialect:" size="25" set="org.hibernate.dialect.MySQLDialect"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Dialect is a required field" />
+		</field> 
+	</panel> <!-- End of UPT 40 DB Config panel--> 
+
+
+	<!--  UPT 40 Authentication  -->
+	<panel order="13">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.0. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Authentication Type? -->
+		<field type="radio" variable="upt.40.authentication.type">
+			<description align="left" txt="For this UPT installation, select the authentication type"/>
+			<spec>
+				<choice txt="LDAP"  value="ldap" />
+				<choice txt="LDAPS" value="ldaps" set="true"/>
+				<choice txt="DB" value="db"/>
+			</spec>
+		</field>
+		<!--  Authentication LDAPS -->
+		<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.40.ldaps.url">
+				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.40.ldaps.basedn">
+				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
+			</field>
+			<field type="text" variable="upt.40.ldaps.user.label">
+				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
+			</field>
+        <!-- Authentication LDAP -->
+  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.40.ldap.url">
+				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.40.ldap.searchable.base">
+				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
+			</field>
+			<field type="text" variable="upt.40.ldap.user.label">
+				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.40.ldap.admin.user.name">
+				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.40.ldap.admin.user.password">
+				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
+			</field>
+
+		<!--  Authentication DB  -->
+            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="divider" align="top"/>
+
+            <variable name="install.path" value="$INSTALL_PATH"/>
+            <variable name="baseDir" value="$INSTALL_PATH"/>
+
+            <field type="text" variable="upt.40.database.server">
+                <spec txt="Database Host Name:" size="25" set=""/>
+            </field>
+            <field type="text" variable="upt.40.database.port">
+                <spec txt="Database Port:" size="25" set="3306"/>
+            </field>
+            <field type="text" variable="upt.40.database.name">
+                <spec txt="Database Name:" size="25" set="bda"/>
+            </field>
+            <field type="text" variable="upt.40.database.user">
+                <spec txt="Database Application User:" size="25" set="bdauser"/>
+            </field>
+            <field type="password" allign="left" variable="upt.40.database.password">
+                <spec>
+                     <pwd txt="Database Application User Password:" size="25" set=""/>
+                </spec>
+            </field>
+	</panel> <!-- End of UPT 40 Authentication panel--> 
+
+	<panel order="14">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 3.2. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Recreate DB? -->
+		<field type="radio" variable="upt.32.database.re-create">
+			<description align="left" txt="Recreate the UPT 3.2 schema?"/>
+			<spec>
+				<choice txt="Yes"  value="true" />
+				<choice txt="No" value="false" set="true"/>
+			</spec>
+		</field>
+		<!--  DB Config -->
+		<field type="divider" align="top"/>
+		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+		<field type="divider" align="top"/>
+
+		<variable name="install.path" value="$INSTALL_PATH"/>
+		<variable name="baseDir" value="$INSTALL_PATH"/>
+
+		<field type="text" variable="upt.32.database.server">
+			<spec txt="Database Host Name:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
+		</field>
+		<field type="text" variable="upt.32.database.port">
+			<spec txt="Database Port:" size="25" set="3306"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Port is a required field" />
+		</field>
+		<field type="text" variable="upt.32.database.name">
+			<spec txt="Database Name:" size="25" set="bda"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
+		</field>
+		<field type="text" variable="upt.32.database.system.user">
+			<spec txt="Database Application System User:" size="25" set="bdauser"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
+		</field>
+		<field type="password" allign="left" variable="upt.32.database.system.password">
+			<spec>
+				 <pwd txt="Database Application System User Password:" size="25" set=""/>
+			</spec>
+			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
+		</field>
+		<!-- Miscellaneous DB properties -->
+		<field type="text" variable="upt.32.database.type">
+			<spec txt="Database Type :" size="25" set="mysql"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
+		</field>
+		<field type="text" variable="upt.32.database.version">
+			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
+		</field>
+		<field type="text" variable="upt.32.jndi.name">
+			<spec txt="JNDI Name" size="25" set="csmupt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JNDI Name is a required field" />
+		</field>
+		<field type="text" variable="upt.32.database.driver.class">
+			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
+		</field>
+		<field type="text" variable="upt.32.database.driver.class">
+			<spec txt="Database Dialect:" size="25" set="org.hibernate.dialect.MySQLDialect"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Dialect is a required field" />
+		</field> 
+	</panel> <!-- End of UPT 32 DB Config panel--> 
+
+
+	<!--  UPT 32 Authentication  -->
+	<panel order="15">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 3.2. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Authentication Type? -->
+		<field type="radio" variable="upt.32.authentication.type">
+			<description align="left" txt="For this UPT installation, select the authentication type"/>
+			<spec>
+				<choice txt="LDAP"  value="ldap" />
+				<choice txt="LDAPS" value="ldaps" set="true"/>
+				<choice txt="DB" value="db"/>
+			</spec>
+		</field>
+		<!--  Authentication LDAPS -->
+		<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.32.ldaps.url">
+				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.32.ldaps.basedn">
+				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
+			</field>
+			<field type="text" variable="upt.32.ldaps.user.label">
+				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
+			</field>
+        <!-- Authentication LDAP -->
+  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.32.ldap.url">
+				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.32.ldap.searchable.base">
+				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
+			</field>
+			<field type="text" variable="upt.32.ldap.user.label">
+				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.32.ldap.admin.user.name">
+				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.32.ldap.admin.user.password">
+				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
+			</field>
+
+		<!--  Authentication DB  -->
+            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="divider" align="top"/>
+
+            <variable name="install.path" value="$INSTALL_PATH"/>
+            <variable name="baseDir" value="$INSTALL_PATH"/>
+
+            <field type="text" variable="upt.32.database.server">
+                <spec txt="Database Host Name:" size="25" set=""/>
+            </field>
+            <field type="text" variable="upt.32.database.port">
+                <spec txt="Database Port:" size="25" set="3306"/>
+            </field>
+            <field type="text" variable="upt.32.database.name">
+                <spec txt="Database Name:" size="25" set="bda"/>
+            </field>
+            <field type="text" variable="upt.32.database.user">
+                <spec txt="Database Application User:" size="25" set="bdauser"/>
+            </field>
+            <field type="password" allign="left" variable="upt.32.database.password">
+                <spec>
+                     <pwd txt="Database Application User Password:" size="25" set=""/>
+                </spec>
+            </field>
+	</panel> <!-- End of UPT 32 Authentication panel--> 
+
+	<panel order="16">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 3.1. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Recreate DB? -->
+		<field type="radio" variable="upt.31.database.re-create">
+			<description align="left" txt="Recreate the UPT 3.1 schema?"/>
+			<spec>
+				<choice txt="Yes"  value="true" />
+				<choice txt="No" value="false" set="true"/>
+			</spec>
+		</field>
+		<!--  DB Config -->
+		<field type="divider" align="top"/>
+		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+		<field type="divider" align="top"/>
+
+		<variable name="install.path" value="$INSTALL_PATH"/>
+		<variable name="baseDir" value="$INSTALL_PATH"/>
+
+		<field type="text" variable="upt.31.database.server">
+			<spec txt="Database Host Name:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
+		</field>
+		<field type="text" variable="upt.31.database.port">
+			<spec txt="Database Port:" size="25" set="3306"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Port is a required field" />
+		</field>
+		<field type="text" variable="upt.31.database.name">
+			<spec txt="Database Name:" size="25" set="bda"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
+		</field>
+		<field type="text" variable="upt.31.database.system.user">
+			<spec txt="Database Application System User:" size="25" set="bdauser"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
+		</field>
+		<field type="password" allign="left" variable="upt.31.database.system.password">
+			<spec>
+				 <pwd txt="Database Application System User Password:" size="25" set=""/>
+			</spec>
+			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
+		</field>
+		<!-- Miscellaneous DB properties -->
+		<field type="text" variable="upt.31.database.type">
+			<spec txt="Database Type :" size="25" set="mysql"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
+		</field>
+		<field type="text" variable="upt.31.database.version">
+			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
+		</field>
+		<field type="text" variable="upt.31.jndi.name">
+			<spec txt="JNDI Name" size="25" set="csmupt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JNDI Name is a required field" />
+		</field>
+		<field type="text" variable="upt.31.database.driver.class">
+			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
+		</field>
+		<field type="text" variable="upt.31.database.driver.class">
+			<spec txt="Database Dialect:" size="25" set="org.hibernate.dialect.MySQLDialect"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Dialect is a required field" />
+		</field> 
+	</panel> <!-- End of UPT 31 DB Config panel--> 
+
+
+	<!--  UPT 31 Authentication  -->
+	<panel order="17">
+		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 3.1. more information here.."/>
+		<field type="divider" align="top"/>
+		<!-- Authentication Type? -->
+		<field type="radio" variable="upt.31.authentication.type">
+			<description align="left" txt="For this UPT installation, select the authentication type"/>
+			<spec>
+				<choice txt="LDAP"  value="ldap" />
+				<choice txt="LDAPS" value="ldaps" set="true"/>
+				<choice txt="DB" value="db"/>
+			</spec>
+		</field>
+		<!--  Authentication LDAPS -->
+		<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.31.ldaps.url">
+				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.31.ldaps.basedn">
+				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
+			</field>
+			<field type="text" variable="upt.31.ldaps.user.label">
+				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
+			</field>
+        <!-- Authentication LDAP -->
+  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.31.ldap.url">
+				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.31.ldap.searchable.base">
+				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
+			</field>
+			<field type="text" variable="upt.31.ldap.user.label">
+				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.31.ldap.admin.user.name">
+				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.31.ldap.admin.user.password">
+				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
+			</field>
+
+		<!--  Authentication DB  -->
+            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="divider" align="top"/>
+
+            <variable name="install.path" value="$INSTALL_PATH"/>
+            <variable name="baseDir" value="$INSTALL_PATH"/>
+
+            <field type="text" variable="upt.31.database.server">
+                <spec txt="Database Host Name:" size="25" set=""/>
+            </field>
+            <field type="text" variable="upt.31.database.port">
+                <spec txt="Database Port:" size="25" set="3306"/>
+            </field>
+            <field type="text" variable="upt.31.database.name">
+                <spec txt="Database Name:" size="25" set="bda"/>
+            </field>
+            <field type="text" variable="upt.31.database.user">
+                <spec txt="Database Application User:" size="25" set="bdauser"/>
+            </field>
+            <field type="password" allign="left" variable="upt.31.database.password">
+                <spec>
+                     <pwd txt="Database Application User Password:" size="25" set=""/>
+                </spec>
+            </field>
+	</panel> <!-- End of UPT 31 Authentication panel--> 
+
+	<!-- Ldap data entry 
 	<panel order="9">
 			<field type="title" txt="LDAP Configuration" bold="true" size="1" />
 			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
@@ -691,9 +1395,10 @@ upt.central.database.dialect=org.hibernate.dialect.MySQLDialect
 				<spec txt="LDAP Search Base DN:" size="25" set=""/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" LDAP Search Base DN is a required field" />
 			</field>
-	</panel>
+	</panel> -->
 
-	<!-- Database Properties -->
+
+	<!-- Database Properties 
 	<panel order="10">
 		<field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
@@ -724,246 +1429,10 @@ upt.central.database.dialect=org.hibernate.dialect.MySQLDialect
 			</spec>
 			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
 		</field>
-	</panel>
+	</panel>  -->
 
-	<!-- Global Configuraiton Options -
-	<panel order="13">
-
-		<field type="title" txt="Configure Global Settings" bold="true" size="1" />
-		<field type="divider" align="top"/>
-		<field type="text" variable="mail.smtp.server">
-			<spec txt="SMTP Relay Host:" size="25" set="localhost"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" SMTP Relay Host is a required field" />
-		</field>
-	</panel>
--->
-	<!-- Grid Global Configuration 
-	<panel order="14">
-
-		<field type="title" txt="Configure global information for Grid configuration. [NEED MORE INFORMATION]" bold="true" size="1" />
-		<field type="divider" align="top"/>
-		<field type="text" variable="grid.index.url">
-			<spec txt="Grid Index Url:" size="35" set="http://cagrid-index.nci.nih.gov:8080/wsrf/services/DefaultIndexService"/>
-			<validator class="com.izforge.izpack.util.URLCheckValidator" txt="Please enter a valid Index URL"/>
-		</field>
-	</panel>
--->
-	<!-- Grid Research Center 
-	<panel order="15">
-		<field type="title" txt="Configure research center contact information for Grid configuration." bold="true" size="1" />
-		<field type="divider" align="top"/>
-		<field type="text" variable="grid.poc.tech.researchCenter.displayname">
-			<spec txt="Research Center Display Name:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Research Center Display Name is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.researchCenter.shortname">
-			<spec txt="Research Center Short Name:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Research Center Short Name is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.addr.street1">
-			<spec txt="Street Address line 1:" size="35" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Street Address line 1 is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.addr.street2">
-			<spec txt="Street Address line 2:" size="35" set=""/>
-		</field>
-		<field type="text" variable="grid.poc.tech.addr.locality">
-			<spec txt="Locality:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Locality is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.addr.stateProvince">
-			<spec txt="State:" size="2" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" State is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.addr.postalCode">
-			<spec txt="Zip code:" size="10" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Zip code is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.addr.country">
-			<spec txt="Country:" size="25" set="USA"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Country is a required field" />
-		</field>
-	</panel>
--->
-	<!-- Grid Tech Contact 
-	<panel order="16">
-
-		<field type="title" txt="Configure technical contact information for Grid configuration" bold="true" size="1" />
-		<field type="divider" align="top"/>
-
-		<field type="text" variable="grid.poc.tech.affiliation">
-			<spec txt="Tech Contact Affiliation:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Tech Contact Affiliation is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.name.last">
-			<spec txt="Last name:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Last name is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.name.first">
-			<spec txt="First name:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" First name is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.phone">
-			<spec txt="Phone Number:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Phone Number is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.email">
-			<spec txt="Email Address:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Email Address is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.tech.role">
-			<spec txt="Role:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Role is a required field" />
-		</field>
-	</panel>
--->
-	<!-- Grid Science Contact 
-	<panel order="17">
-		<field type="title" txt="Configure science contact information for Grid configuration" bold="true" size="1" />
-		<field type="divider" align="top"/>
-		<field type="text" variable="grid.poc.science.affiliation">
-			<spec txt="Science Contact Affiliation :" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Science Contact Affiliation  is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.science.name.last">
-			<spec txt="Last name:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Last name is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.science.name.first">
-			<spec txt="First name:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" First name is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.science.phone">
-			<spec txt="Phone Number:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Phone Number is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.science.email">
-			<spec txt="Email Address:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Email Address is a required field" />
-		</field>
-		<field type="text" variable="grid.poc.science.role">
-			<spec txt="Role:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Role is a required field" />
-		</field>
-	</panel>
--->
-
-	<!-- Tomcat Base Config 0.9.0 
+	<!-- Installation Summary -->
 	<panel order="18">
-		<field type="title" txt="Tomcat Configuration" bold="true" size="1" />
-		<field type="staticText" align="left" txt="For detailed descriptions on each of the properties below, see the Application Settings section at http://someurl"/>
-		<field type="divider" align="top"/>
-		<field type="text" align="left" variable="tomcat.relative.path">
-			<spec txt="Relative Directory for Tomcat (relative from ${UserPathPanelVariable}):" size="25" set="${tomcat.binaries.relative.dir}"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Enter a value for Relative Directory for Tomcat (relative from ${UserPathPanelVariable})" />
-		</field>
-		<field type="text" align="left" variable="tomcat.hostname">
-			<spec txt="Hostname of this Server:" size="20" set="$HOST_NAME"/>
-			<validator
-				class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable">
-			</validator>
-		</field>
-		<field type="text" variable="tomcat.port.http">
-			<spec txt="Tomcat HTTP port:" size="5" set="21080"/>
-			<validator
-				class="com.izforge.izpack.util.PortValidator" txt="The http port number is already in use">
-			</validator>
-		</field>
-		<field type="text" variable="tomcat.port.ajp">
-			<spec txt="Tomcat AJP port:" size="5" set="21009"/>
-			<validator
-				class="com.izforge.izpack.util.PortValidator" txt="The port number is already in use">
-			</validator>
-		</field>
-		<field type="text" variable="tomcat.port.ssl">
-			<spec txt="Tomcat Re-direct port:" size="5" set="21443"/>
-			<validator
-				class="com.izforge.izpack.util.PortValidator" txt="The http port number is already in use">
-			</validator>
-		</field>
-		<field type="text" variable="tomcat.port.shutdown">
-			<spec txt="Tomcat Shutdown port:" size="5" set="21005"/>
-			<validator
-				class="com.izforge.izpack.util.PortValidator" txt="The http port number is already in use">
-			</validator>
-		</field>
-	</panel>
--->
-	<!-- Tomcat SSL 0.9.0 
-	<panel order="19">
-		<field type="title" txt="Configuring Tomcat SSL and External Hostnames" bold="true" size="1" />
-		<field type="staticText" align="left" txt="For Tomcat SSL configuration details see https://wiki.nci.nih.gov/x/7xWy"/>
-		<field type="divider" align="top"/>
-
-		<field type="radio" variable="tomcat.ssl.enable">
-			<description align="left" txt="Enable Tomcat SSL Port (note requires SSL Certificate Keystore and Internet facing DNS "/>
-			<spec>
-				<choice txt="True"  value="true" />
-				<choice txt="False" value="false" set="true"/>
-			</spec>
-		</field>
-		<field type="text" variable="tomcat.ssl.keystore.location">
-			<spec txt="Keystore file location: "  size="75" set=""/>
-		</field>
-		<field type="password" align="left" variable="tomcat.ssl.keystore.pass">
-			<spec>
-				<pwd txt="Keystore file password:" size="25" set=""/>
-				<pwd txt="Confirm keystore file password:" size="25" set=""/>
-			</spec>
-			<validator class="com.izforge.izpack.util.PasswordEqualityValidator" txt="Passwords do not match. Please re-enter your passwords."/>
-		</field>
-		<field type="text" variable="tomcat.ssl.keystore.alias">
-			<spec txt="Keystore alias name: "  size="25" set=""/>
-		</field>
-		<field type="text" variable="tomcat.ssl.fullyqualified.hostname">
-			<spec txt="Fully Qualified Host Name (FQHN) (ie, www.mydomain.com): "  size="50" set=""/>
-		</field>
-		<field type="space" align="top"/>
-		<field type="staticText" align="left" txt="For Tomcat Grid SSL Port, values not required if not used."/>
-		<field type="divider" align="top"/>
-		<field type="radio" variable="tomcat.grid.secure.enable">
-			<description align="left" txt="Enable secure Grid"/>
-			<spec>
-				<choice txt="True"  value="true" />
-				<choice txt="False" value="false" set="true"/>
-			</spec>
-		</field>
-		<field type="text" variable="tomcat.grid.secure.port">
-			<spec txt="Port to run the Grid service on Tomcat:"  size="5" set="21444"/>
-		</field>
-		<field type="text" variable="tomcat.grid.secure.cert.location">
-			<spec txt="caGrid certificate file location: "  size="75" set=""/>
-		</field>
-		<field type="text" variable="tomcat.grid.secure.key.location">
-			<spec txt="caGrid private key file location: "  size="75" set=""/>
-		</field>
-
-		<field type="space" align="top"/>
-		<field type="staticText" align="left" txt="For Tomcat External Hostname configurations see https://wiki.nci.nih.gov/x/8hWy, values not required if not externally accessible"/>
-		<field type="divider" align="top"/>
-		<field type="text" variable="tomcat.external.ssl.host">
-			<spec txt="External Host Name for ssl port(generally same as FQHN): "  size="50" set=""/>
-		</field>
-		<field type="text" variable="tomcat.external.ssl.port">
-			<spec txt="External Port for ssl port"  size="5" set=""/>
-		</field>
-		<field type="text" variable="tomcat.external.http.host">
-			<spec txt="External Host Name for http port (generally same as FQHN): "  size="50" set=""/>
-		</field>
-		<field type="text" variable="tomcat.external.http.port">
-			<spec txt="External Port for http port"  size="5" set=""/>
-		</field>
-		<field type="text" variable="tomcat.external.grid.secure.host">
-			<spec txt="Grid External Hostname:" size="25" set=""/>
-		</field>
-
-		<field type="text" variable="tomcat.external.grid.secure.port">
-			<spec txt="Grid External Port Number:" size="5" set=""/>
-		</field>
-
-	</panel>
-	-->
-	<panel order="11">
 		<field type="title" txt="Installation Summary" bold="true" size="1" />
 		<field type="staticText" align="left" txt="Below are "/>
 		<field type="divider" align="top"/>
