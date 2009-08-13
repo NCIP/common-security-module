@@ -10,8 +10,7 @@
 	<!-- *-ds.xml and WAR -->
 	<property name="backwards.compatible.upt.dist" value="${basedir}/${backwards.compatible.upt.dist.relative.dir}" />
 	<property name="upt.app-sec-conf.file" value="ApplicationSecurityConfig.xml" />
-	<property name="backwards-compatible.upt.ear.file" value="uptEAR.ear" />
-
+	
 	<property name="bkwards-upt-webapp.name" value="uptlogin" />
 
 	<target name="-set:jboss:backwards-compatible-upt:application:url">		
@@ -62,13 +61,13 @@
 	</target>
 
 	
-	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy backwards-compatible-upt and common libraries to jboss installation" unless="exclude.jboss" depends="common:init">
+	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy backwards-compatible-upt and common libraries to jboss installation" unless="exclude.jboss" depends="common:init,re-configure-ear">
 		<!-- added to ensure working.dirs are fresh for our install -->
 		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp" />
 		<delete dir="${jboss.home}/server/${jboss.server.name}/work" />
 		<move file="${jboss.home}/server/${jboss.server.name}/log/server.log" tofile="${jboss.home}/server/${jboss.server.name}/log/server/log.${install.time}" failonerror="false" />
 
-		<copy file="${backwards.compatible.upt.dist}/uptEAR/${backwards-compatible.upt.ear.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
+		<copy file="${backwards.compatible.upt.dist}/${dist.relative.ear.dir}/${upt.ear.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
 		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 	</target>
 
@@ -970,4 +969,61 @@
 			property.name="property2"
 			/>
 	</target>	
+	
+	<target name="re-configure-ear">
+		<property name="temp.ear.dir" value="tempEAR"/>
+		<unzip dest="${temp.ear.dir}" src="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}"/>
+
+		<if>
+			<equals arg1="${upt.31.installed}" arg2="false" />
+			<then>
+				<re-configure-application-xml upt.context.name="${upt.31.url.context.name}" temp.dir="${temp.ear.dir}"/>
+				<delete file="${temp.ear.dir}/${upt.31.url.context.name}.war"/>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.32.installed}" arg2="false" />
+			<then>
+				<re-configure-application-xml upt.context.name="${upt.32.url.context.name}" temp.dir="${temp.ear.dir}"/>
+				<delete file="${temp.ear.dir}/${upt.32.url.context.name}.war"/>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.40.installed}" arg2="false" />
+			<then>
+				<re-configure-application-xml upt.context.name="${upt.40.url.context.name}" temp.dir="${temp.ear.dir}"/>
+				<delete file="${temp.ear.dir}/${upt.40.url.context.name}.war"/>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.41.installed}" arg2="false" />
+			<then>
+				<re-configure-application-xml upt.context.name="${upt.41.url.context.name}" temp.dir="${temp.ear.dir}"/>
+				<delete file="${temp.ear.dir}/${upt.41.url.context.name}.war"/>
+			</then>
+		</if>
+		<!--<if>
+			<equals arg1="${upt.42.installed}" arg2="false" />
+			<then>
+				<re-configure-application-xml upt.context.name="${upt.42.url.context.name}" temp.dir="${temp.ear.dir}"/>
+				<delete quiet="true" file="${temp.ear.dir}/${upt.42.url.context.name}.war"/>
+			</then>
+		</if>-->
+		<!-- Create ear file and place in ear directory -->
+		<jar jarfile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" basedir="${temp.ear.dir}" />
+		<delete dir="${temp.ear.dir}" quiet="true"/>
+	</target>
+	
+	<macrodef name="re-configure-application-xml">
+		<attribute name="upt.context.name" default="NOT SET" />
+		<attribute name="temp.dir" default="NOT SET" />
+		<sequential>
+			<xmltask preservetype="true" failWithoutMatch="true"
+				source="@{temp.dir}/META-INF/application.xml"
+				dest="@{temp.dir}/META-INF/application.xml">
+				<remove path="/application/module[@id='@{upt.context.name}']" />
+			</xmltask>
+		</sequential>
+	</macrodef>
+
 </project>
