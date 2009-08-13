@@ -385,12 +385,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 					<pack name="parse-install" required="no" preselected="no" condition="install">
 					    <description>parse the input values</description>
-					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/bda-csmupt_installer/install.properties" type="javaprop" />
+					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/backwards-compatible-upt_installer/install.properties" type="javaprop" />
 					</pack>
 
 					<pack name="parse-upgrade" required="no" preselected="no" condition="upgrade">
 					    <description>parse the input values</description>
-					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/bda-csmupt_installer/upgrade.properties" type="javaprop" />
+					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/backwards-compatible-upt_installer/upgrade.properties" type="javaprop" />
 					</pack>
 
 					<pack name="convert-install-path" required="no" preselected="no" condition="install">
