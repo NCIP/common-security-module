@@ -162,6 +162,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copySQLFiles upt.version="upt32" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt32/resources/"/>
 		<copySQLFiles upt.version="upt40" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt40/resources/"/>
 		<copySQLFiles upt.version="upt41" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt41/resources/"/>
+		<copySQLFiles upt.version="upt42" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt42/resources/"/>
 		<copySQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
 
 		<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31/mysql" overwrite="true">
