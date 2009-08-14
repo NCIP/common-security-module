@@ -194,7 +194,24 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			default.target="upgrade"
 			/>
 		-->
-		<antcall target="-copybkwrdsfiles"/>
+		<antcall target="-copybkwrdsfiles"/>		
+		
+		<copy todir="${dist.exploded.dir}/common/resources/db/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/upt42/mysql" overwrite="true">
+			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt42/resources/">
+				<include name="*MySQL.sql" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.exploded.dir}/common/resources/db/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/upt42/oracle" overwrite="true">
+			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt42/resources/">
+				<include name="*Oracle.sql" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.exploded.dir}/common/resources/db/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/upt42/postgres" overwrite="true">
+			<fileset dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/upt42/resources/">
+				<include name="*Postgres.sql" />
+			</fileset>
+		</copy>
+		
 		<!-- For DAC upgrades -->
 		<dist-prep
 			copy.tools.flag="Y"
