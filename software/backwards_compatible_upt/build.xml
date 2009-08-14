@@ -11,6 +11,10 @@
 	<property name="bda-utils.dir" location="${common.dir}/build/bda-utils" />
 
 	<!-- set global properties for this build -->
+
+	<property name="dist.relative.ear.dir" value="uptEAR" />
+	<property name="upt.ear.file" value="uptEAR.ear" />
+
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="properties.file" location="../buildupt/project.properties">
 	</property>
@@ -129,6 +133,9 @@
 	</target>
 
 	<!-- -->
+	<target name="dist42">
+		<executeUPT app.name="upt42" war.file="upt42"/>
+	</target>
 	<target name="dist41">
 		<executeUPT app.name="upt41" war.file="upt41"/>
 	</target>
@@ -176,10 +183,15 @@
 	</macrodef>
 
 	<target name="svnCheckout">
+		<antcall target="svnCheckout42" inheritall="false" />
 		<antcall target="svnCheckout41" inheritall="false" />
 		<antcall target="svnCheckout40" inheritall="false" />
 		<antcall target="svnCheckout32" inheritall="false" />
 		<antcall target="svnCheckout31" inheritall="false" />
+	</target>
+
+	<target name="svnCheckout42">
+		<executeSVNCheckout app.name="upt42" tag="CSM_4_2_QA_v5" />
 	</target>
 
 	<target name="svnCheckout41">
@@ -199,6 +211,7 @@
 	</target>
 
 	<target name="dist">
+		<antcall target="dist42" inheritall="false" />
 		<antcall target="dist41" inheritall="false" />
 		<antcall target="dist40" inheritall="false" />
 		<antcall target="dist32" inheritall="false" />
@@ -322,6 +335,7 @@
 	<configure-application-xml context.root="${upt.32.url.context.name}" upt.war="${upt.32.url.context.name}.war" />
 	<configure-application-xml context.root="${upt.40.url.context.name}" upt.war="${upt.40.url.context.name}.war" />
 	<configure-application-xml context.root="${upt.41.url.context.name}" upt.war="${upt.41.url.context.name}.war" />
+	<configure-application-xml context.root="${upt.42.url.context.name}" upt.war="${upt.42.url.context.name}.war" />
 	<copy todir="${build.home.ear}">
 		<fileset dir="${basedir}/dist/upt31" includes="${upt.31.url.context.name}.war" />
 	</copy>
@@ -334,6 +348,10 @@
 	<copy todir="${build.home.ear}">
 		<fileset dir="${basedir}/dist/upt41" includes="${upt.41.url.context.name}.war" />
 	</copy>
+		<copy todir="${build.home.ear}">
+		<fileset dir="${basedir}/dist/upt42" includes="${upt.42.url.context.name}.war" />
+	</copy>
+
 	<copy todir="${build.home.ear}">
 		<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
 	</copy>
