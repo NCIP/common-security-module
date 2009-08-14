@@ -4,16 +4,16 @@
 
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
-	
+
 	<import file="bda-master-install.xml" />
 
 	<!-- *-ds.xml and WAR -->
 	<property name="backwards.compatible.upt.dist" value="${basedir}/${backwards.compatible.upt.dist.relative.dir}" />
 	<property name="upt.app-sec-conf.file" value="ApplicationSecurityConfig.xml" />
-	
+
 	<property name="bkwards-upt-webapp.name" value="uptlogin" />
 
-	<target name="-set:jboss:backwards-compatible-upt:application:url">		
+	<target name="-set:jboss:backwards-compatible-upt:application:url">
 		<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${bkwards-upt-webapp.name}"/>
 	</target>
 
@@ -39,8 +39,8 @@
 		install:jboss:start,
 		install:jboss:validation:post-install
 		">
-	</target>	
-	
+	</target>
+
 	<target name="upgrade" description="Upgrades JBoss and Database" depends="		
 		-set:jboss:backwards-compatible-upt:application:url,
 		upgrade:jboss:init,
@@ -54,13 +54,47 @@
 		install:jboss:configure,
 		install:jboss:configure:login:config,
 		install:jboss:configure:application:context,
+		upgrade:backwards-compatible-upt:databases,		
 		install:jboss:configure:datasources,
 		install:post:jboss,
 		install:jboss:start,
 		install:common:validation:post-install">
 	</target>
 
-	
+	<target name="upgrade:backwards-compatible-upt:databases">
+		<if>
+			<equals arg1="${upt.upt.central.config}" arg2="true" />
+			<then>
+				<if>
+					<equals arg1="${upgrade.upt.central.db.previous.version}" arg2=""/>
+					<then>
+						upt.central.db.install.create.oracle.file.list
+						upt.central.db.install.create.mysql.file.list
+						
+					</then>
+				</if>
+				<install-backwards-compatible-upt-database 	
+					database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.system.url}" 
+					database.system.user="${upt.central.database.system.user}" database.system.password="${upt.central.database.system.password}" 
+					database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
+					database.password="${upt.central.database.password}" database.version="${upt.central.database.version}" 
+					database.name="${upt.central.database.name}" database.type="${upt.central.database.type}"
+					database.schema="${upt.central.database.schema}"  database.re-create="${upt.central.database.re-create}"
+					database.drop-schema="${upt.central.database.drop-schema}"
+					db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/uptcentral"
+					db.install.create.oracle.file.list="${upt.central.db.install.create.oracle.file.list}"
+					db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
+					db.install.create.postgresql.file.list="${upt.central.db.install.create.postgres.file.list}"
+				/>
+			</then>
+		</if>
+		<else>
+			<then>
+				<antcall target="install:backwards-compatible-upt:databases" />
+			</then>
+		</else>
+	</target>
+
 	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy backwards-compatible-upt and common libraries to jboss installation" unless="exclude.jboss" depends="common:init,re-configure-ear">
 		<!-- added to ensure working.dirs are fresh for our install -->
 		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp" />
@@ -75,7 +109,7 @@
 		<available file="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" property="application.security.config.file.present"/>
 		<if>
 			<equals arg1="${application.security.config.file.present}" arg2="true"/>
-			<then>	
+			<then>
 				<move file="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" tofile="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml.orginal" overwrite="true"/>
 			</then>
 		</if>
@@ -93,7 +127,7 @@
 					<filter token="upt.version.database.dialect" value="${upt.central.database.dialect}" />
 					<filter token="upt.version.database.driver.class" value="${upt.central.database.driver.class}" />
 				</filterset>
-			</then>				
+			</then>
 			<else>
 				<filterset id="upt.31.filterset">
 					<filter token="upt.version.database.url.prefix" value="${upt.31.database.url.prefix}" />
@@ -107,7 +141,7 @@
 				</filterset>
 			</else>
 		</if>
-		
+
 		<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="*ApplicationSecurityConfig.xml" />
@@ -121,21 +155,25 @@
 				</filterset>
 			</filterset>
 		</copy>
-		
+
 		<available file="${jboss.home}/server/${jboss.server.name}/deploy/backwards_compatible_upt-ds.xml" property="application.backwards-compatible-upt.ds.file.present"/>
 		<if>
 			<equals arg1="${application.backwards-compatible-upt.ds.file.present}" arg2="true"/>
-			<then>	
+			<then>
 				<move file="${jboss.home}/server/${jboss.server.name}/deploy/backwards_compatible_upt-ds.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/backwards_compatible_upt-ds.xml.orginal" overwrite="true"/>
 			</then>
 		</if>
 		<copy file="${basedir}/backwards_compatible_upt-ds-template.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/backwards_compatible_upt-ds.xml" overwrite="true"/>
 
-		<!-- This code is for updating properties.service.xml, make sure to add ${line.separator} after each property def as the property delimiter, if this is not included you will not get the desired results. If you do not use properties service.xml you can delete this code. -->
-		<var name="property.block" value="gov.nih.nci.security.configFile=${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml${line.separator}
-				" />
-		<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
-		<jboss-update-properties-service property.block="${property.block}" />
+		<if>
+			<equals arg1="${upt.31.installed}" arg2="true" />
+			<then>
+				<var name="property.block" value="gov.nih.nci.security.configFile=${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml${line.separator}
+						" />
+				<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
+				<jboss-update-properties-service property.block="${property.block}" />
+			</then>
+		</if>
 	</target>
 
 	<target name="install:jboss:configure:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
@@ -253,7 +291,7 @@
 						/>
 					</then>
 				</if>
-			</else>			
+			</else>
 		</if>
 	</target>
 
@@ -354,208 +392,208 @@
 			</application>
 				]]>
 		     </insert>
-		</xmltask>
-		<if>
-			<equals arg1="${upt.central.config}" arg2="true" />
-			<then>
-				<configure-application-context
+	</xmltask>
+	<if>
+		<equals arg1="${upt.central.config}" arg2="true" />
+		<then>
+			<configure-application-context
 								context.name="${upt.central.context.name}" url.context.name="${upt.central.url.context.name}"
 								hibernate.config.file="${upt.central.hibernate.config.file}" />
-			</then>
-		</if>	
-		<if>
-			<equals arg1="${upt.31.installed}" arg2="true" />
-			<then>
-				<configure-application-context
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.31.installed}" arg2="true" />
+		<then>
+			<configure-application-context
 								context.name="${upt.31.context.name}" url.context.name="${upt.31.url.context.name}"
 								hibernate.config.file="${upt.31.hibernate.config.file}" />
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.32.installed}" arg2="true" />
-			<then>
-				<configure-application-context
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.32.installed}" arg2="true" />
+		<then>
+			<configure-application-context
 								context.name="${upt.32.context.name}" url.context.name="${upt.32.url.context.name}"
 								hibernate.config.file="${upt.32.hibernate.config.file}" />
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.40.installed}" arg2="true" />
-			<then>
-				<configure-application-context
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.40.installed}" arg2="true" />
+		<then>
+			<configure-application-context
 								context.name="${upt.40.context.name}" url.context.name="${upt.40.url.context.name}"
 								hibernate.config.file="${upt.40.hibernate.config.file}" />
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.41.installed}" arg2="true" />
-			<then>
-				<configure-application-context
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.41.installed}" arg2="true" />
+		<then>
+			<configure-application-context
 								context.name="${upt.41.context.name}" url.context.name="${upt.41.url.context.name}"
 								hibernate.config.file="${upt.41.hibernate.config.file}" />
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.42.installed}" arg2="true" />
-			<then>
-				<configure-application-context
+		</then>
+	</if>
+	<if>
+		<equals arg1="${upt.42.installed}" arg2="true" />
+		<then>
+			<configure-application-context
 								context.name="${upt.42.context.name}" url.context.name="${upt.42.url.context.name}"
 								hibernate.config.file="${upt.42.hibernate.config.file}" />
-			</then>
-		</if>
-	</target>
+		</then>
+	</if>
+</target>
 
-	<target name="install:backwads-compatible-upt:database:validation:pre-install">
-		<property name="database.type" value="${database.type}"/>
-		<property name="database.port" value="${database.port}"/>
-		<property name="database.server" value="${database.server}"/>
-		<property name="database.re-create" value="${database.re-create}"/>
-		
-		<validate-pre-install-database
+<target name="install:backwads-compatible-upt:database:validation:pre-install">
+	<property name="database.type" value="${database.type}"/>
+	<property name="database.port" value="${database.port}"/>
+	<property name="database.server" value="${database.server}"/>
+	<property name="database.re-create" value="${database.re-create}"/>
+
+	<validate-pre-install-database
 				database.driver="${database.driver}" database.system.url="${database.system.url}" 
 				database.system.user="${database.system.user}" database.system.password="${database.system.password}" 
 				database.url="${database.url}" database.user="${database.user}" 
 				database.password="${database.password}" 
 				database.name="${database.name}" database.type="${database.type}"
 			/>
-	</target>
-	<!-- common:init -->
-	<target name="install:backwards-compatible-upt:database:validation:pre-install" description="Runs pre-install validation checks bda-utils" 
+</target>
+<!-- common:init -->
+<target name="install:backwards-compatible-upt:database:validation:pre-install" description="Runs pre-install validation checks bda-utils" 
 			depends="
 			install:common:validation:pre-install
 			">
-		<if>
+	<if>
+		<equals arg1="${upt.central.config}" arg2="true" />
+		<then>
+			<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
+				<param name="database.driver" value="${upt.central.database.driver.class}"/>
+				<param name="database.system.url" value="${upt.central.database.system.url}"/>
+				<param name="database.system.user" value="${upt.central.database.system.user}"/>
+				<param name="database.system.password" value="${upt.central.database.system.password}"/>
+				<param name="database.url" value="${upt.central.database.url}"/>
+				<param name="database.user" value="${upt.central.database.user}"/>
+				<param name="database.password" value="${upt.central.database.password}"/>
+				<param name="database.name" value="${upt.central.database.name}"/>
+				<param name="database.type" value="${upt.central.database.type}"/>
+
+				<param name="database.re-create" value="${upt.central.database.re-create}"/>
+				<param name="database.port" value="${upt.central.database.port}"/>
+				<param name="database.server" value="${upt.central.database.server}"/>
+			</antcall>
+		</then>
+		<else>
+			<if>
+				<equals arg1="${upt.31.installed}" arg2="true" />
+				<then>
+					<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
+						<param name="database.driver" value="${upt.31.database.driver.class}"/>
+						<param name="database.system.url" value="${upt.31.database.system.url}"/>
+						<param name="database.system.user" value="${upt.31.database.system.user}"/>
+						<param name="database.system.password" value="${upt.31.database.system.password}"/>
+						<param name="database.url" value="${upt.31.database.url}"/>
+						<param name="database.user" value="${upt.31.database.user}"/>
+						<param name="database.password" value="${upt.31.database.password}"/>
+						<param name="database.name" value="${upt.31.database.name}"/>
+						<param name="database.type" value="${upt.31.database.type}"/>
+
+						<param name="database.re-create" value="${upt.31.database.re-create}"/>
+						<param name="database.port" value="${upt.31.database.port}"/>
+						<param name="database.server" value="${upt.31.database.server}"/>
+					</antcall>
+				</then>
+			</if>
+			<if>
+				<equals arg1="${upt.32.installed}" arg2="true" />
+				<then>
+					<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
+						<param name="database.driver" value="${upt.32.database.driver.class}"/>
+						<param name="database.system.url" value="${upt.32.database.system.url}"/>
+						<param name="database.system.user" value="${upt.32.database.system.user}"/>
+						<param name="database.system.password" value="${upt.32.database.system.password}"/>
+						<param name="database.url" value="${upt.32.database.url}"/>
+						<param name="database.user" value="${upt.32.database.user}"/>
+						<param name="database.password" value="${upt.32.database.password}"/>
+						<param name="database.name" value="${upt.32.database.name}"/>
+						<param name="database.type" value="${upt.32.database.type}"/>
+
+						<param name="database.re-create" value="${upt.32.database.re-create}"/>
+						<param name="database.port" value="${upt.32.database.port}"/>
+						<param name="database.server" value="${upt.32.database.server}"/>
+					</antcall>
+				</then>
+			</if>
+			<if>
+				<equals arg1="${upt.40.installed}" arg2="true" />
+				<then>
+					<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
+						<param name="database.driver" value="${upt.40.database.driver.class}"/>
+						<param name="database.system.url" value="${upt.40.database.system.url}"/>
+						<param name="database.system.user" value="${upt.40.database.system.user}"/>
+						<param name="database.system.password" value="${upt.40.database.system.password}"/>
+						<param name="database.url" value="${upt.40.database.url}"/>
+						<param name="database.user" value="${upt.40.database.user}"/>
+						<param name="database.password" value="${upt.40.database.password}"/>
+						<param name="database.name" value="${upt.40.database.name}"/>
+						<param name="database.type" value="${upt.40.database.type}"/>
+
+						<param name="database.re-create" value="${upt.40.database.re-create}"/>
+						<param name="database.port" value="${upt.40.database.port}"/>
+						<param name="database.server" value="${upt.40.database.server}"/>
+					</antcall>
+				</then>
+			</if>
+			<if>
+				<equals arg1="${upt.41.installed}" arg2="true" />
+				<then>
+					<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
+						<param name="database.driver" value="${upt.41.database.driver.class}"/>
+						<param name="database.system.url" value="${upt.41.database.url}"/>
+						<param name="database.system.user" value="${upt.41.database.system.user}"/>
+						<param name="database.system.password" value="${upt.41.database.system.password}"/>
+						<param name="database.url" value="${upt.41.database.url}"/>
+						<param name="database.user" value="${upt.41.database.user}"/>
+						<param name="database.password" value="${upt.41.database.password}"/>
+						<param name="database.name" value="${upt.41.database.name}"/>
+						<param name="database.type" value="${upt.41.database.type}"/>
+
+						<param name="database.re-create" value="${upt.41.database.re-create}"/>
+						<param name="database.port" value="${upt.41.database.port}"/>
+						<param name="database.server" value="${upt.41.database.server}"/>
+					</antcall>
+				</then>
+			</if>
+			<if>
+				<equals arg1="${upt.42.installed}" arg2="true" />
+				<then>
+					<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
+						<param name="database.driver" value="${upt.42.database.driver.class}"/>
+						<param name="database.system.url" value="${upt.42.database.url}"/>
+						<param name="database.system.user" value="${upt.42.database.system.user}"/>
+						<param name="database.system.password" value="${upt.42.database.system.password}"/>
+						<param name="database.url" value="${upt.42.database.url}"/>
+						<param name="database.user" value="${upt.42.database.user}"/>
+						<param name="database.password" value="${upt.42.database.password}"/>
+						<param name="database.name" value="${upt.42.database.name}"/>
+						<param name="database.type" value="${upt.42.database.type}"/>
+
+						<param name="database.re-create" value="${upt.42.database.re-create}"/>
+						<param name="database.port" value="${upt.42.database.port}"/>
+						<param name="database.server" value="${upt.42.database.server}"/>
+					</antcall>
+				</then>
+			</if>
+		</else>
+	</if>
+</target>
+
+<target name="install:backwards-compatible-upt:databases" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database">
+	<if>
+		<and>
+			<equals arg1="${upt.central.database.re-create}" arg2="true" />
 			<equals arg1="${upt.central.config}" arg2="true" />
-			<then>
-				<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
-					<param name="database.driver" value="${upt.central.database.driver.class}"/>
-					<param name="database.system.url" value="${upt.central.database.system.url}"/>
-					<param name="database.system.user" value="${upt.central.database.system.user}"/>
-					<param name="database.system.password" value="${upt.central.database.system.password}"/>
-					<param name="database.url" value="${upt.central.database.url}"/>
-					<param name="database.user" value="${upt.central.database.user}"/>
-					<param name="database.password" value="${upt.central.database.password}"/>
-					<param name="database.name" value="${upt.central.database.name}"/>
-					<param name="database.type" value="${upt.central.database.type}"/>
-					
-					<param name="database.re-create" value="${upt.central.database.re-create}"/>
-					<param name="database.port" value="${upt.central.database.port}"/>
-					<param name="database.server" value="${upt.central.database.server}"/>
-				</antcall>
-			</then>
-			<else>
-				<if>
-					<equals arg1="${upt.31.installed}" arg2="true" />
-					<then>
-						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
-							<param name="database.driver" value="${upt.31.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.31.database.system.url}"/>
-							<param name="database.system.user" value="${upt.31.database.system.user}"/>
-							<param name="database.system.password" value="${upt.31.database.system.password}"/>
-							<param name="database.url" value="${upt.31.database.url}"/>
-							<param name="database.user" value="${upt.31.database.user}"/>
-							<param name="database.password" value="${upt.31.database.password}"/>
-							<param name="database.name" value="${upt.31.database.name}"/>
-							<param name="database.type" value="${upt.31.database.type}"/>
-							
-							<param name="database.re-create" value="${upt.31.database.re-create}"/>
-							<param name="database.port" value="${upt.31.database.port}"/>
-							<param name="database.server" value="${upt.31.database.server}"/>
-						</antcall>
-					</then>
-				</if>
-				<if>
-					<equals arg1="${upt.32.installed}" arg2="true" />
-					<then>
-						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
-							<param name="database.driver" value="${upt.32.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.32.database.system.url}"/>
-							<param name="database.system.user" value="${upt.32.database.system.user}"/>
-							<param name="database.system.password" value="${upt.32.database.system.password}"/>
-							<param name="database.url" value="${upt.32.database.url}"/>
-							<param name="database.user" value="${upt.32.database.user}"/>
-							<param name="database.password" value="${upt.32.database.password}"/>
-							<param name="database.name" value="${upt.32.database.name}"/>
-							<param name="database.type" value="${upt.32.database.type}"/>
-			
-							<param name="database.re-create" value="${upt.32.database.re-create}"/>
-							<param name="database.port" value="${upt.32.database.port}"/>
-							<param name="database.server" value="${upt.32.database.server}"/>
-						</antcall>
-					</then>
-				</if>
-				<if>
-					<equals arg1="${upt.40.installed}" arg2="true" />
-					<then>
-						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
-							<param name="database.driver" value="${upt.40.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.40.database.system.url}"/>
-							<param name="database.system.user" value="${upt.40.database.system.user}"/>
-							<param name="database.system.password" value="${upt.40.database.system.password}"/>
-							<param name="database.url" value="${upt.40.database.url}"/>
-							<param name="database.user" value="${upt.40.database.user}"/>
-							<param name="database.password" value="${upt.40.database.password}"/>
-							<param name="database.name" value="${upt.40.database.name}"/>
-							<param name="database.type" value="${upt.40.database.type}"/>
-			
-							<param name="database.re-create" value="${upt.40.database.re-create}"/>
-							<param name="database.port" value="${upt.40.database.port}"/>
-							<param name="database.server" value="${upt.40.database.server}"/>
-						</antcall>
-					</then>
-				</if>
-				<if>
-					<equals arg1="${upt.41.installed}" arg2="true" />
-					<then>
-						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
-							<param name="database.driver" value="${upt.41.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.41.database.url}"/>
-							<param name="database.system.user" value="${upt.41.database.system.user}"/>
-							<param name="database.system.password" value="${upt.41.database.system.password}"/>
-							<param name="database.url" value="${upt.41.database.url}"/>
-							<param name="database.user" value="${upt.41.database.user}"/>
-							<param name="database.password" value="${upt.41.database.password}"/>
-							<param name="database.name" value="${upt.41.database.name}"/>
-							<param name="database.type" value="${upt.41.database.type}"/>
-			
-							<param name="database.re-create" value="${upt.41.database.re-create}"/>
-							<param name="database.port" value="${upt.41.database.port}"/>
-							<param name="database.server" value="${upt.41.database.server}"/>
-						</antcall>
-					</then>
-				</if>
-				<if>
-					<equals arg1="${upt.42.installed}" arg2="true" />
-					<then>
-						<antcall target="install:backwads-compatible-upt:database:validation:pre-install" inheritall="true">
-							<param name="database.driver" value="${upt.42.database.driver.class}"/>
-							<param name="database.system.url" value="${upt.42.database.url}"/>
-							<param name="database.system.user" value="${upt.42.database.system.user}"/>
-							<param name="database.system.password" value="${upt.42.database.system.password}"/>
-							<param name="database.url" value="${upt.42.database.url}"/>
-							<param name="database.user" value="${upt.42.database.user}"/>
-							<param name="database.password" value="${upt.42.database.password}"/>
-							<param name="database.name" value="${upt.42.database.name}"/>
-							<param name="database.type" value="${upt.42.database.type}"/>
-			
-							<param name="database.re-create" value="${upt.42.database.re-create}"/>
-							<param name="database.port" value="${upt.42.database.port}"/>
-							<param name="database.server" value="${upt.42.database.server}"/>
-						</antcall>
-					</then>
-				</if>
-			</else>
-		</if>
-	</target>
-	
-	<target name="install:backwards-compatible-upt:databases" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database">
-		<if>
-			<and>
-				<equals arg1="${upt.central.database.re-create}" arg2="true" />
-				<equals arg1="${upt.central.config}" arg2="true" />
-			</and>
-			<then>
-				<install-backwards-compatible-upt-database 	
+		</and>
+		<then>
+			<install-backwards-compatible-upt-database 	
 						database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.system.url}" 
 						database.system.user="${upt.central.database.system.user}" database.system.password="${upt.central.database.system.password}" 
 						database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
@@ -568,15 +606,15 @@
 						db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
 						db.install.create.postgresql.file.list="${upt.central.db.install.create.postgres.file.list}"
 					/>
-			</then>
-			<else>
-				<if>
-					<and>
-						<equals arg1="${upt.31.database.re-create}" arg2="true" />
-						<equals arg1="${upt.31.installed}" arg2="true" />
-					</and>
-					<then>
-						<install-backwards-compatible-upt-database 	
+		</then>
+		<else>
+			<if>
+				<and>
+					<equals arg1="${upt.31.database.re-create}" arg2="true" />
+					<equals arg1="${upt.31.installed}" arg2="true" />
+				</and>
+				<then>
+					<install-backwards-compatible-upt-database 	
 								database.driver="${upt.31.database.driver.class}" database.system.url="${upt.31.database.system.url}" 
 								database.system.user="${upt.31.database.system.user}" database.system.password="${upt.31.database.system.password}" 
 								database.url="${upt.31.database.url}" database.user="${upt.31.database.user}" 
@@ -589,15 +627,15 @@
 								db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
 								db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
 							/>
-					</then>
-				</if>
-				<if>
-					<and>
-						<equals arg1="${upt.32.database.re-create}" arg2="true" />
-						<equals arg1="${upt.32.installed}" arg2="true" />
-					</and>
-					<then>
-						<install-backwards-compatible-upt-database 	
+				</then>
+			</if>
+			<if>
+				<and>
+					<equals arg1="${upt.32.database.re-create}" arg2="true" />
+					<equals arg1="${upt.32.installed}" arg2="true" />
+				</and>
+				<then>
+					<install-backwards-compatible-upt-database 	
 								database.driver="${upt.32.database.driver.class}" database.system.url="${upt.32.database.system.url}" 
 								database.system.user="${upt.32.database.system.user}" database.system.password="${upt.32.database.system.password}" 
 								database.url="${upt.32.database.url}" database.user="${upt.32.database.user}" 
@@ -610,15 +648,15 @@
 								db.install.create.mysql.file.list="${upt.32.db.install.create.mysql.file.list}"
 								db.install.create.postgresql.file.list="${upt.32.db.install.create.postgres.file.list}"
 							/>
-					</then>
-				</if>
-				<if>
-					<and>
-						<equals arg1="${upt.40.database.re-create}" arg2="true" />
-						<equals arg1="${upt.40.installed}" arg2="true" />
-					</and>
-					<then>
-						<install-backwards-compatible-upt-database 	
+				</then>
+			</if>
+			<if>
+				<and>
+					<equals arg1="${upt.40.database.re-create}" arg2="true" />
+					<equals arg1="${upt.40.installed}" arg2="true" />
+				</and>
+				<then>
+					<install-backwards-compatible-upt-database 	
 								database.driver="${upt.40.database.driver.class}" database.system.url="${upt.40.database.system.url}" 
 								database.system.user="${upt.40.database.system.user}" database.system.password="${upt.40.database.system.password}" 
 								database.url="${upt.40.database.url}" database.user="${upt.40.database.user}" 
@@ -631,15 +669,15 @@
 								db.install.create.mysql.file.list="${upt.40.db.install.create.mysql.file.list}"
 								db.install.create.postgresql.file.list="${upt.40.db.install.create.postgres.file.list}"
 							/>
-					</then>
-				</if>
-				<if>
-					<and>
-						<equals arg1="${upt.41.database.re-create}" arg2="true" />
-						<equals arg1="${upt.41.installed}" arg2="true" />
-					</and>
-					<then>
-						<install-backwards-compatible-upt-database 	
+				</then>
+			</if>
+			<if>
+				<and>
+					<equals arg1="${upt.41.database.re-create}" arg2="true" />
+					<equals arg1="${upt.41.installed}" arg2="true" />
+				</and>
+				<then>
+					<install-backwards-compatible-upt-database 	
 								database.driver="${upt.41.database.driver.class}" database.system.url="${upt.41.database.url}" 
 								database.system.user="${upt.41.database.system.user}" database.system.password="${upt.41.database.system.password}" 
 								database.url="${upt.41.database.url}" database.user="${upt.41.database.user}" 
@@ -652,15 +690,15 @@
 								db.install.create.mysql.file.list="${upt.41.db.install.create.mysql.file.list}"
 								db.install.create.postgresql.file.list="${upt.41.db.install.create.postgres.file.list}"
 							/>
-					</then>
-				</if>
-				<if>
-					<and>
-						<equals arg1="${upt.42.database.re-create}" arg2="true" />
-						<equals arg1="${upt.42.installed}" arg2="true" />
-					</and>
-					<then>
-						<install-backwards-compatible-upt-database 	
+				</then>
+			</if>
+			<if>
+				<and>
+					<equals arg1="${upt.42.database.re-create}" arg2="true" />
+					<equals arg1="${upt.42.installed}" arg2="true" />
+				</and>
+				<then>
+					<install-backwards-compatible-upt-database 	
 								database.driver="${upt.42.database.driver.class}" database.system.url="${upt.42.database.url}" 
 								database.system.user="${upt.42.database.system.user}" database.system.password="${upt.42.database.system.password}" 
 								database.url="${upt.42.database.url}" database.user="${upt.42.database.user}" 
@@ -673,115 +711,115 @@
 								db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
 								db.install.create.postgresql.file.list="${upt.42.db.install.create.postgres.file.list}"
 							/>
-					</then>
-				</if>
-			</else>
-		</if>
-	</target>
-	
-	<macrodef name="configure-login-config">
-		<attribute name="authentication.type" default="NOT SET" />
-		<attribute name="ldaps.url" default="NOT SET" />
-		<attribute name="ldaps.basedn" default="NOT SET" />
-		<attribute name="ldaps.userid.label" default="NOT SET" />
-		<attribute name="ldap.url" default="NOT SET" />
-		<attribute name="ldap.searchable.base" default="NOT SET" />
-		<attribute name="ldap.userid.label" default="NOT SET" />
-		<attribute name="ldap.admin.user.name" default="NOT SET" />
-		<attribute name="ldap.admin.user.password" default="NOT SET" />
-		<attribute name="database.driver" default="NOT SET" />
-		<attribute name="database.url" default="NOT SET" />
-		<attribute name="database.user" default="NOT SET" />
-		<attribute name="database.password" default="NOT SET" />
-		<attribute name="database.encrypt.enabled" default="NOT SET" />
+				</then>
+			</if>
+		</else>
+	</if>
+</target>
 
-		<sequential>
-			<if>
-				<equals arg1="@{authentication.type}" arg2="ldaps" />
-				<then>
-					<xmltask preservetype="true" failWithoutMatch="true"
+<macrodef name="configure-login-config">
+	<attribute name="authentication.type" default="NOT SET" />
+	<attribute name="ldaps.url" default="NOT SET" />
+	<attribute name="ldaps.basedn" default="NOT SET" />
+	<attribute name="ldaps.userid.label" default="NOT SET" />
+	<attribute name="ldap.url" default="NOT SET" />
+	<attribute name="ldap.searchable.base" default="NOT SET" />
+	<attribute name="ldap.userid.label" default="NOT SET" />
+	<attribute name="ldap.admin.user.name" default="NOT SET" />
+	<attribute name="ldap.admin.user.password" default="NOT SET" />
+	<attribute name="database.driver" default="NOT SET" />
+	<attribute name="database.url" default="NOT SET" />
+	<attribute name="database.user" default="NOT SET" />
+	<attribute name="database.password" default="NOT SET" />
+	<attribute name="database.encrypt.enabled" default="NOT SET" />
+
+	<sequential>
+		<if>
+			<equals arg1="@{authentication.type}" arg2="ldaps" />
+			<then>
+				<xmltask preservetype="true" failWithoutMatch="true"
 						source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 						dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-						<xmlcatalog refid="bda.xml.catalog" />
-						<insert
+					<xmlcatalog refid="bda.xml.catalog" />
+					<insert
 							path="//policy/application-policy[@name='${application.context.name}']/authentication"
 							position="under">
-							<![CDATA[
+						<![CDATA[
 								<login-module
 									code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="sufficient">
-									<module-option name="ldapHost">@{ldaps.url}@</module-option>
-									<module-option name="ldapSearchableBase">@{ldaps.basedn}@</module-option>
-									<module-option name="ldapUserIdLabel">@{ldaps.userid.label}@</module-option>
-								</login-module>
+						<module-option name="ldapHost">@{ldaps.url}@</module-option>
+						<module-option name="ldapSearchableBase">@{ldaps.basedn}@</module-option>
+						<module-option name="ldapUserIdLabel">@{ldaps.userid.label}@</module-option>
+					</login-module>
 							]]>
 						</insert>
-					 </xmltask>
-				</then>
-			 <elseif>
-					<equals arg1="@{authentication.type}" arg2="ldap" />
-					<then>
-						<xmltask preservetype="true" failWithoutMatch="true"
+			</xmltask>
+		</then>
+		<elseif>
+			<equals arg1="@{authentication.type}" arg2="ldap" />
+			<then>
+				<xmltask preservetype="true" failWithoutMatch="true"
 								source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 								dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-							<xmlcatalog refid="bda.xml.catalog" />
-							<insert
+					<xmlcatalog refid="bda.xml.catalog" />
+					<insert
 									path="//policy/application-policy[@name='${application.context.name}']/authentication"
 									position="under">
-								<![CDATA[			
+						<![CDATA[			
 								 <login-module
 									code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="sufficient">
-									<module-option name="ldapHost">@{ldap.url}@</module-option>
-									<module-option name="ldapSearchableBase">@{ldap.searchable.base}@</module-option>
-									<module-option name="ldapUserIdLabel">@{ldap.userid.label}</module-option>
-									<module-option name="ldapAdminUserName">@{ldap.userid.label}</module-option>
-									<module-option name="ldapAdminPassword">@{ldap.userid.password}</module-option>
-								</login-module>
+						<module-option name="ldapHost">@{ldap.url}@</module-option>
+						<module-option name="ldapSearchableBase">@{ldap.searchable.base}@</module-option>
+						<module-option name="ldapUserIdLabel">@{ldap.userid.label}</module-option>
+						<module-option name="ldapAdminUserName">@{ldap.userid.label}</module-option>
+						<module-option name="ldapAdminPassword">@{ldap.userid.password}</module-option>
+					</login-module>
 								]]>
 								</insert>
-						</xmltask>
-					</then>
-			</elseif>
-			<elseif>
-					<equals arg1="@{authentication.type}" arg2="db" />
-					<then>
-						<xmltask preservetype="true" failWithoutMatch="true"
+			</xmltask>
+		</then>
+	</elseif>
+	<elseif>
+		<equals arg1="@{authentication.type}" arg2="db" />
+		<then>
+			<xmltask preservetype="true" failWithoutMatch="true"
 								source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 								dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-							<xmlcatalog refid="bda.xml.catalog" />
-							<insert
+				<xmlcatalog refid="bda.xml.catalog" />
+				<insert
 									path="//policy/application-policy[@name='${application.context.name}']/authentication"
 									position="under">
-								<![CDATA[			
+					<![CDATA[			
 								 <login-module
 									code="gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag="sufficient">
-									<module-option name="driver">@{database.driver}</module-option>
-									<module-option name="url">@{database.url}</module-option>
-									<module-option name="user">@{database.user}</module-option>
-									<module-option name="passwd">@{database.password}</module-option>
-									<module-option name="query">SELECT * FROM CSM_USER WHERE LOGIN_NAME=? and PASSWORD=?</module-option>
-									<module-option name="encryption-enabled">@{database.encrypt.enabled}</module-option>
-								</login-module>
+					<module-option name="driver">@{database.driver}</module-option>
+					<module-option name="url">@{database.url}</module-option>
+					<module-option name="user">@{database.user}</module-option>
+					<module-option name="passwd">@{database.password}</module-option>
+					<module-option name="query">SELECT * FROM CSM_USER WHERE LOGIN_NAME=? and PASSWORD=?</module-option>
+					<module-option name="encryption-enabled">@{database.encrypt.enabled}</module-option>
+				</login-module>
 								]]>
 								</insert>
-						</xmltask>
-					</then>
-			 </elseif>
-			 <else>
-					<fail message="@{authentication.type} is not a valid authentiation type, please change to db or ldap and re-run the build." />
-			 </else>
-		   </if>
-		</sequential>
-	</macrodef>
+		</xmltask>
+	</then>
+</elseif>
+<else>
+	<fail message="@{authentication.type} is not a valid authentiation type, please change to db or ldap and re-run the build." />
+</else>
+</if>
+</sequential>
+</macrodef>
 
-	<macrodef name="configure-datasources">
-			<attribute name="database.user" default="NOT SET" />
-			<attribute name="database.password" default="NOT SET" />
-			<attribute name="database.url" default="NOT SET" />
-			<attribute name="jndi.name" default="NOT SET" />
-			<attribute name="driver.class" default="NOT SET" />
-	
-			<sequential>
-				<!-- configure database mysql-ds.xml
+<macrodef name="configure-datasources">
+<attribute name="database.user" default="NOT SET" />
+<attribute name="database.password" default="NOT SET" />
+<attribute name="database.url" default="NOT SET" />
+<attribute name="jndi.name" default="NOT SET" />
+<attribute name="driver.class" default="NOT SET" />
+
+<sequential>
+<!-- configure database mysql-ds.xml
 				<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
@@ -789,109 +827,109 @@
 					<remove
 						path="//policy/application-policy[@name='${application.context.name}']" />
 				</xmltask> -->
-				<xmltask preservetype="true" failWithoutMatch="true"
+<xmltask preservetype="true" failWithoutMatch="true"
 								source="${jboss.home}/server/${jboss.server.name}/deploy/backwards_compatible_upt-ds.xml"
 								dest="${jboss.home}/server/${jboss.server.name}/deploy/backwards_compatible_upt-ds.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
-					<insert path="//datasources" position="under">
-						<![CDATA[						
+<xmlcatalog refid="bda.xml.catalog" />
+<insert path="//datasources" position="under">
+	<![CDATA[						
 						<local-tx-datasource>
-							<jndi-name>@{jndi.name}</jndi-name>
-							<driver-class>@{driver.class}</driver-class>
-							<connection-url>@{database.url}</connection-url>
-							<user-name>@{database.user}</user-name>
-							<password>@{database.password}</password>
-						</local-tx-datasource>
+	<jndi-name>@{jndi.name}</jndi-name>
+	<driver-class>@{driver.class}</driver-class>
+	<connection-url>@{database.url}</connection-url>
+	<user-name>@{database.user}</user-name>
+	<password>@{database.password}</password>
+</local-tx-datasource>
 					   	]]>
 					</insert>
-				</xmltask>
-			</sequential>
-	</macrodef>
+</xmltask>
+</sequential>
+</macrodef>
 
-	<macrodef name="configure-application-context">
-			<attribute name="context.name" default="NOT SET" />
-			<attribute name="url.context.name" default="NOT SET" />
-			<attribute name="hibernate.config.file" default="NOT SET" />
-			
-			<sequential>
-				<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
-					<insert path="//security-config/backwards-compatibility/upt-application-list" position="under">
-						<![CDATA[
+<macrodef name="configure-application-context">
+<attribute name="context.name" default="NOT SET" />
+<attribute name="url.context.name" default="NOT SET" />
+<attribute name="hibernate.config.file" default="NOT SET" />
+
+<sequential>
+<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
+<xmlcatalog refid="bda.xml.catalog" />
+<insert path="//security-config/backwards-compatibility/upt-application-list" position="under">
+<![CDATA[
 						<upt-application>
-						<context-name>@{context.name}</context-name>
-						<url-context-name>@{url.context.name}</url-context-name>
-						<authorization>
-							<authorization-provider-class>String</authorization-provider-class>
-							<hibernate-config-file>@{hibernate.config.file}</hibernate-config-file>
-						</authorization>
-						</upt-application>
+<context-name>@{context.name}</context-name>
+<url-context-name>@{url.context.name}</url-context-name>
+<authorization>
+	<authorization-provider-class>String</authorization-provider-class>
+	<hibernate-config-file>@{hibernate.config.file}</hibernate-config-file>
+</authorization>
+</upt-application>
 						]]>
 				     </insert>
-				</xmltask>
-			</sequential>
-	</macrodef>
-	
-	<!-- <database-upgrade
+</xmltask>
+</sequential>
+</macrodef>
+
+<!-- <database-upgrade
 				database.changelog.file="${os.temp.dir}/${project.name}/db-upgrade.xml"
 		 />
 		 <database-tag/>							
 	-->
-	<macrodef name="install-backwards-compatible-upt-database">
-			<attribute name="database.driver" default="NOT SET" />
-			<attribute name="database.system.url" default="NOT SET" />
-			<attribute name="database.system.user" default="NOT SET" />
-			<attribute name="database.system.password" default="NOT SET" />
-			<attribute name="database.url" default="NOT SET" />
-			<attribute name="database.user" default="NOT SET" />
-			<attribute name="database.password" default="NOT SET" />
-			<attribute name="database.version" default="NOT SET" />
-			<attribute name="database.name" default="NOT SET" />
-			<attribute name="database.type" default="NOT SET"/>
-			
-			<attribute name="database.schema" default="NOT SET"/>
-			<attribute name="database.re-create" default="NOT SET"/>
-			<attribute name="database.drop-schema" default="NOT SET"/>
-			
-			<attribute name="db.install.dir" default="NOT SET"/>
-			<attribute name="db.install.create.oracle.file.list" default="NOT SET"/>
-			<attribute name="db.install.create.mysql.file.list" default="NOT SET"/>
-			<attribute name="db.install.create.postgresql.file.list" default="NOT SET"/>
-			
-			<sequential>		
-				<switch value="${database.type}">
-					<case value="oracle">
-						<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
-						<property name="database.driver" value="oracle.jdbc.driver.OracleDriver"/>
-					</case>
-					<case value="mysql">
-						<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
-						<property name="database.driver" value="com.mysql.jdbc.Driver"/>
-					</case>
-					<case value="postgresql">
-						<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
-						<property name="database.driver" value="org.postgresql.Driver"/>
-					</case>
-					<default>
-						<fail message="Invalid database type ${database.type}"/>
-					</default>
-				</switch>				
-				<antcall target="install:database:prep" inheritall="true">
-					<param name="database.url" value="@{database.url}"/>
-					<param name="database.user" value="@{database.user}"/>
-					<param name="database.password" value="@{database.password}"/>
-					<param name="database.name" value="@{database.name}"/>
-					<param name="database.type" value="@{database.type}"/>
-				</antcall>
-				<antcall target="install:common:validation:pre-install" inheritall="true"/>
-				<validate-pre-install-database 
+<macrodef name="install-backwards-compatible-upt-database">
+<attribute name="database.driver" default="NOT SET" />
+<attribute name="database.system.url" default="NOT SET" />
+<attribute name="database.system.user" default="NOT SET" />
+<attribute name="database.system.password" default="NOT SET" />
+<attribute name="database.url" default="NOT SET" />
+<attribute name="database.user" default="NOT SET" />
+<attribute name="database.password" default="NOT SET" />
+<attribute name="database.version" default="NOT SET" />
+<attribute name="database.name" default="NOT SET" />
+<attribute name="database.type" default="NOT SET"/>
+
+<attribute name="database.schema" default="NOT SET"/>
+<attribute name="database.re-create" default="NOT SET"/>
+<attribute name="database.drop-schema" default="NOT SET"/>
+
+<attribute name="db.install.dir" default="NOT SET"/>
+<attribute name="db.install.create.oracle.file.list" default="NOT SET"/>
+<attribute name="db.install.create.mysql.file.list" default="NOT SET"/>
+<attribute name="db.install.create.postgresql.file.list" default="NOT SET"/>
+
+<sequential>
+<switch value="${database.type}">
+<case value="oracle">
+<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
+<property name="database.driver" value="oracle.jdbc.driver.OracleDriver"/>
+</case>
+<case value="mysql">
+<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+<property name="database.driver" value="com.mysql.jdbc.Driver"/>
+</case>
+<case value="postgresql">
+<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
+<property name="database.driver" value="org.postgresql.Driver"/>
+</case>
+<default>
+<fail message="Invalid database type ${database.type}"/>
+</default>
+</switch>
+<antcall target="install:database:prep" inheritall="true">
+<param name="database.url" value="@{database.url}"/>
+<param name="database.user" value="@{database.user}"/>
+<param name="database.password" value="@{database.password}"/>
+<param name="database.name" value="@{database.name}"/>
+<param name="database.type" value="@{database.type}"/>
+</antcall>
+<antcall target="install:common:validation:pre-install" inheritall="true"/>
+<validate-pre-install-database 
 										database.driver="@{database.driver}" database.system.url="@{database.system.url}" 
 										database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
 										database.url="@{database.url}" database.user="@{database.user}" 
 										database.password="@{database.password}" database.version="@{database.version}" 
 										database.name="@{database.name}" database.type="@{database.type}" />
-				<echo message="${database.driver.file}"/>
-				<database-clean	 
+<echo message="${database.driver.file}"/>
+<database-clean	 
 										database.driver="@{database.driver}" database.system.url="@{database.system.url}" 
 										database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
 										database.url="@{database.url}" database.user="@{database.user}" 
@@ -899,10 +937,10 @@
 										database.name="@{database.name}" database.schema="@{database.schema}" 
 										database.re-create="@{database.re-create}" 
 										database.drop-schema="@{database.drop-schema}" />
-				
-				<switch value="${database.type}">
-					<case value="oracle">
-						<database-install		
+
+<switch value="${database.type}">
+<case value="oracle">
+<database-install		
 										db.install.create.file.list="@{db.install.create.oracle.file.list}"
 										db-install.dir="@{db.install.dir}"
 										sql.delimiter="/" sql.delimitertype="row"
@@ -910,9 +948,9 @@
 										database.user="@{database.user}"
 										database.password="@{database.password}"						
 												  	/>
-					</case>
-					<case value="postgresql">
-						<database-install
+</case>
+<case value="postgresql">
+<database-install
 										db.install.create.file.list="@{db.install.create.postgresql.file.list}"
 										db-install.dir="@{db.install.dir}" 
 										sql.delimiter="/" sql.delimitertype="row"
@@ -920,110 +958,112 @@
 										database.user="@{database.user}"
 										database.password="@{database.password}"							
 													/>
-					</case>
-					<case value="mysql">
-						<database-install
+</case>
+<case value="mysql">
+<database-install
 										db.install.create.file.list="@{db.install.create.mysql.file.list}"
 										db-install.dir="@{db.install.dir}"
 										database.url="@{database.url}"
 										database.user="@{database.user}"
 										database.password="@{database.password}"
 													/>
-					</case>
-				</switch>
-				
-			</sequential>
-	</macrodef>
-	
-	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
-		<properties-exist
+</case>
+</switch>
+
+</sequential>
+</macrodef>
+
+<target name="upgrade:jboss:readers:bda" if="jboss.exists">
+<properties-exist
 			properties.list="application.base.path,jboss.home,jboss.server.name"
 			/>
-		<osfamily property="os.family"/>
-		<if>
-			<or>
-				<equals arg1="${os.family}" arg2="unix"/>
-				<equals arg1="${os.family}" arg2="mac"/>
-			</or>
-			<then>
-				<property name="jboss.server.hostname" value="${env.HOSTNAME}"/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${os.family}" arg2="windows"/>
-			<then>
-				<property name="jboss.server.hostname" value="${env.COMPUTERNAME}"/>
-			</then>
-		</if>
-		<jboss-read-bindings-file-location
+<osfamily property="os.family"/>
+<if>
+<or>
+<equals arg1="${os.family}" arg2="unix"/>
+<equals arg1="${os.family}" arg2="mac"/>
+</or>
+<then>
+<property name="jboss.server.hostname" value="${env.HOSTNAME}"/>
+</then>
+</if>
+<if>
+<equals arg1="${os.family}" arg2="windows"/>
+<then>
+<property name="jboss.server.hostname" value="${env.COMPUTERNAME}"/>
+</then>
+</if>
+<jboss-read-bindings-file-location
 			jboss.home="${read.jboss.home}"
 			/>
-		<jboss-read-ports
+<jboss-read-ports
 			/>
-		<read-property-from-properties-service
+<read-property-from-properties-service
 			jboss.home="${read.jboss.home}"
 			property.name="property1"
 			/>
-		<read-property-from-properties-service
+<read-property-from-properties-service
 			jboss.home="${read.jboss.home}"
 			property.name="property2"
 			/>
-	</target>	
-	
-	<target name="re-configure-ear">
-		<property name="temp.ear.dir" value="tempEAR"/>
-		<unzip dest="${temp.ear.dir}" src="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}"/>
+</target>
 
-		<if>
-			<equals arg1="${upt.31.installed}" arg2="false" />
-			<then>
-				<re-configure-application-xml upt.context.name="${upt.31.url.context.name}" temp.dir="${temp.ear.dir}"/>
-				<delete file="${temp.ear.dir}/${upt.31.url.context.name}.war"/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.32.installed}" arg2="false" />
-			<then>
-				<re-configure-application-xml upt.context.name="${upt.32.url.context.name}" temp.dir="${temp.ear.dir}"/>
-				<delete file="${temp.ear.dir}/${upt.32.url.context.name}.war"/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.40.installed}" arg2="false" />
-			<then>
-				<re-configure-application-xml upt.context.name="${upt.40.url.context.name}" temp.dir="${temp.ear.dir}"/>
-				<delete file="${temp.ear.dir}/${upt.40.url.context.name}.war"/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${upt.41.installed}" arg2="false" />
-			<then>
-				<re-configure-application-xml upt.context.name="${upt.41.url.context.name}" temp.dir="${temp.ear.dir}"/>
-				<delete file="${temp.ear.dir}/${upt.41.url.context.name}.war"/>
-			</then>
-		</if>
-		<!--<if>
+<target name="re-configure-ear">
+<property name="temp.ear.dir" value="tempEAR"/>
+<copy file="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" tofile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}.org"/>
+<unzip dest="${temp.ear.dir}" src="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}"/>
+
+<if>
+<equals arg1="${upt.31.installed}" arg2="false" />
+<then>
+<re-configure-application-xml upt.context.name="${upt.31.url.context.name}" temp.dir="${temp.ear.dir}"/>
+<delete file="${temp.ear.dir}/${upt.31.url.context.name}.war"/>
+</then>
+</if>
+<if>
+<equals arg1="${upt.32.installed}" arg2="false" />
+<then>
+<re-configure-application-xml upt.context.name="${upt.32.url.context.name}" temp.dir="${temp.ear.dir}"/>
+<delete file="${temp.ear.dir}/${upt.32.url.context.name}.war"/>
+</then>
+</if>
+<if>
+<equals arg1="${upt.40.installed}" arg2="false" />
+<then>
+<re-configure-application-xml upt.context.name="${upt.40.url.context.name}" temp.dir="${temp.ear.dir}"/>
+<delete file="${temp.ear.dir}/${upt.40.url.context.name}.war"/>
+</then>
+</if>
+<if>
+<equals arg1="${upt.41.installed}" arg2="false" />
+<then>
+<re-configure-application-xml upt.context.name="${upt.41.url.context.name}" temp.dir="${temp.ear.dir}"/>
+<delete file="${temp.ear.dir}/${upt.41.url.context.name}.war"/>
+</then>
+</if>
+
+<!--<if>
 			<equals arg1="${upt.42.installed}" arg2="false" />
 			<then>
 				<re-configure-application-xml upt.context.name="${upt.42.url.context.name}" temp.dir="${temp.ear.dir}"/>
 				<delete quiet="true" file="${temp.ear.dir}/${upt.42.url.context.name}.war"/>
 			</then>
 		</if>-->
-		<!-- Create ear file and place in ear directory -->
-		<jar jarfile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" basedir="${temp.ear.dir}" />
-		<delete dir="${temp.ear.dir}" quiet="true"/>
-	</target>
-	
-	<macrodef name="re-configure-application-xml">
-		<attribute name="upt.context.name" default="NOT SET" />
-		<attribute name="temp.dir" default="NOT SET" />
-		<sequential>
-			<xmltask preservetype="true" failWithoutMatch="true"
+<!-- Create ear file and place in ear directory -->
+<jar jarfile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" basedir="${temp.ear.dir}" />
+<delete dir="${temp.ear.dir}" quiet="true"/>
+</target>
+
+<macrodef name="re-configure-application-xml">
+<attribute name="upt.context.name" default="NOT SET" />
+<attribute name="temp.dir" default="NOT SET" />
+<sequential>
+<xmltask preservetype="true" failWithoutMatch="true"
 				source="@{temp.dir}/META-INF/application.xml"
 				dest="@{temp.dir}/META-INF/application.xml">
-				<remove path="/application/module[@id='@{upt.context.name}']" />
-			</xmltask>
-		</sequential>
-	</macrodef>
+<remove path="/application/module[@id='@{upt.context.name}']" />
+</xmltask>
+</sequential>
+</macrodef>
 
 </project>

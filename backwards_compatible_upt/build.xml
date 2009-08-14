@@ -132,24 +132,25 @@
 		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
 
-	<!-- -->
+
 	<target name="dist42">
-		<executeUPT app.name="upt42" war.file="upt42"/>
+		<executeUPT app.name="${upt.42.url.context.name}" war.file="${upt.42.url.context.name}"/>
 	</target>
+	
 	<target name="dist41">
-		<executeUPT app.name="upt41" war.file="upt41"/>
+		<executeUPT app.name="${upt.41.url.context.name}" war.file="${upt.41.url.context.name}"/>
 	</target>
 
 	<target name="dist40">
-		<executeUPT app.name="upt40" war.file="upt40"/>
+		<executeUPT app.name="${upt.40.url.context.name}" war.file="${upt.40.url.context.name}"/>
 	</target>
 
 	<target name="dist32">
-		<executeUPT app.name="upt32" war.file="upt32"/>
+		<executeUPT app.name="${upt.32.url.context.name}" war.file="${upt.32.url.context.name}"/>
 	</target>
 
 	<target name="dist31">
-		<executeUPT app.name="upt31" war.file="upt31"/>
+		<executeUPT app.name="${upt.31.url.context.name}" war.file="${upt.31.url.context.name}"/>
 	</target>
 
 	<macrodef name="executeSVNCheckout">
@@ -168,7 +169,7 @@
 				</then>
 				<else>
 					<svn-co 
-						svn.checkout.url="https://gforge.nci.nih.gov/svnroot/security/tags/${tag}/upt"		
+						svn.checkout.url="https://gforge.nci.nih.gov/svnroot/security/${tag}"		
 						svn.checkout.dir="${svn.checkout.home}"
 						svn.checkout.user="anonymous"
 						svn.checkout.pass=""
@@ -181,9 +182,9 @@
 			</copy>
 		</sequential>
 	</macrodef>
-
+	
 	<target name="svnCheckout">
-		<antcall target="svnCheckout42" inheritall="false" />
+   		<antcall target="svnCheckout42" inheritall="false" />
 		<antcall target="svnCheckout41" inheritall="false" />
 		<antcall target="svnCheckout40" inheritall="false" />
 		<antcall target="svnCheckout32" inheritall="false" />
@@ -191,25 +192,25 @@
 	</target>
 
 	<target name="svnCheckout42">
-		<executeSVNCheckout app.name="upt42" tag="CSM_4_2_QA_v5" />
+		<executeSVNCheckout app.name="upt42" tag="tags/CSM_4_2_QA_v5/upt" />
 	</target>
 
 	<target name="svnCheckout41">
-		<executeSVNCheckout app.name="upt41" tag="CSM_4_1_RELEASE_11_14_2008" />
+		<executeSVNCheckout app.name="upt41" tag="tags/CSM_4_1_RELEASE_11_14_2008/upt" />
 	</target>
 
 	<target name="svnCheckout40">
-		<executeSVNCheckout app.name="upt40" tag="CSM_UPT_40_PROD_11022007" />
+		<executeSVNCheckout app.name="upt40" tag="tags/CSM_UPT_40_PROD_11022007/upt" />
 	</target>
 
 	<target name="svnCheckout32">
-		<executeSVNCheckout app.name="upt32" tag="CSM_UPT_32_PROD_12152006_V1" />
+		<executeSVNCheckout app.name="upt32" tag="tags/CSM_UPT_32_PROD_12152006_V1/upt" />
 	</target>
 
 	<target name="svnCheckout31">
-		<executeSVNCheckout app.name="upt31" tag="CSMUPT_31_PROD_03222006_V1" />
+		<executeSVNCheckout app.name="upt31" tag="tags/CSMUPT_31_PROD_03222006_V1/upt" />
 	</target>
-
+	
 	<target name="dist">
 		<antcall target="dist42" inheritall="false" />
 		<antcall target="dist41" inheritall="false" />
@@ -352,6 +353,9 @@
 		<fileset dir="${basedir}/dist/upt42" includes="${upt.42.url.context.name}.war" />
 	</copy>
 
+	<copy todir="${build.home.ear}">
+		<fileset dir="${basedir}/dist/upt42" includes="${upt.42.url.context.name}.war" />
+	</copy>
 	<copy todir="${build.home.ear}">
 		<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
 	</copy>

@@ -350,7 +350,7 @@ INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 	DATABASE_DRIVER,
 	CSM_VERSION,
 	UPDATE_DATE)
-VALUES ("@application.context.name@","Application Description",0,0,
+VALUES ("sampleHostApplicationName","Application Description",0,0,
 	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
 	"root",
 	"H/2qIBdj9TQ=",
@@ -359,7 +359,7 @@ VALUES ("@application.context.name@","Application Description",0,0,
 	sysdate());
 
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("@application.context.name@","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
+values("sampleHostApplicationName","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
 
 insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
 values(2,1);
