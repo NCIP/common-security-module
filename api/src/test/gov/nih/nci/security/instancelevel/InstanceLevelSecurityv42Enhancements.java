@@ -4,6 +4,7 @@ import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
+import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
@@ -25,8 +26,8 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 
 	public static void main(String[] args) {
 		try {
-			//required: file name instance42.csm.new.hibernate.cfg.xml
-			authorizationManager = SecurityServiceProvider.getUserProvisioningManager("instance42");
+			//required: file name sampleHostApplicationName.csm.new.hibernate.cfg.xml
+			authorizationManager = SecurityServiceProvider.getAuthorizationManager("sampleHostApplicationName");
 			System.out.println("Success");
 		} catch (CSConfigurationException e) {
 			e.printStackTrace();
@@ -37,14 +38,15 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			throw new DataAccessResourceFailureException(e.getMessage());
 		}
 		
-/*		testCreateInstanceLevelMappingElement();
+		//testCreateInstanceLevelMappingElement();
 		testGetInstanceLevelMappingElement();
 		testModifyInstanceLevelMappingElement();
-		//testRemoveInstanceLevelMappingElement();
+
 		testMaintainTablesViews();
 		testRefreshTablesForUser();
 		testRefreshTablesForGroup();
-*/	}
+		testRemoveInstanceLevelMappingElement();
+	}
 
 	public InstanceLevelSecurityv42Enhancements(String arg0) {
 		super(arg0);
@@ -52,8 +54,8 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	protected void setUp(){
 		
 		try {
-			//required: file name instance42.csm.new.hibernate.cfg.xml
-			authorizationManager = SecurityServiceProvider.getUserProvisioningManager("instance42");
+			//required: file name sampleHostApplicationName.csm.new.hibernate.cfg.xml
+			authorizationManager = SecurityServiceProvider.getUserProvisioningManager("sampleHostApplicationName");
 		} catch (CSConfigurationException e) {
 			e.printStackTrace();
 			throw new DataRetrievalFailureException(e.getMessage());
@@ -75,7 +77,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	public static void testCreateInstanceLevelMappingElement(){
 		try {
 			
-			Application application = authorizationManager.getApplication("instance42");
+			Application application = authorizationManager.getApplication("sampleHostApplicationName");
 			
 			
 			InstanceLevelMappingElement instanceLevelMappingElement = new InstanceLevelMappingElement();
@@ -85,11 +87,11 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			instanceLevelMappingElement.setAttributeName("ID");
 			instanceLevelMappingElement.setObjectPackageName("gov.nih.nci.caarray.domain.project");
 			instanceLevelMappingElement.setTableName("PROJECT");
-			instanceLevelMappingElement.setTableNameForGroup("CSM_PROJECT_ID_GROUP");
-			instanceLevelMappingElement.setTableNameForUser("CSM_PROJECT_ID_USER");
+			instanceLevelMappingElement.setTableNameForGroup("zCSM_PROJECT_ID_GROUP");
+			instanceLevelMappingElement.setTableNameForUser("zCSM_PROJECT_ID_USER");
 			instanceLevelMappingElement.setUpdateDate(new Date());
-			instanceLevelMappingElement.setViewNameForGroup("CSM_VW_PROJECT_ID_GROUP");
-			instanceLevelMappingElement.setViewNameForUser("CSM_VW_PROJECT_ID_USER");
+			instanceLevelMappingElement.setViewNameForGroup("zCSM_VW_PROJECT_ID_GROUP");
+			instanceLevelMappingElement.setViewNameForUser("zCSM_VW_PROJECT_ID_USER");
 			
 			authorizationManager.createInstanceLevelMappingElement(instanceLevelMappingElement);
 			
@@ -122,7 +124,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			InstanceLevelMappingElement ilme = authorizationManager.getInstanceLevelMappingElementById("1");
 
 			authorizationManager.modifyInstanceLevelMappingElement(ilme);
-			assertNull(ilme);
+			assertNotNull(ilme);
 			
 		} catch (CSObjectNotFoundException e) {
 			fail("\n\nException thrown for modifying the InstanceLevelMappingElementById () \n\n");
@@ -134,6 +136,11 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 
 	public static void testRemoveInstanceLevelMappingElement(){
 		try {
+
+			
+
+			
+
 			authorizationManager.removeInstanceLevelMappingElement("1");
 			
 		} catch (CSTransactionException e) {
@@ -144,17 +151,15 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	
 	public static void testMaintainTablesViews(){
 	
-		/*
+		
 		try {
-			authorizationManager.maintainInstanceTables();
+			authorizationManager.maintainInstanceTables("1");
 		} catch (CSObjectNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("\n\nException thrown for maintainInstanceTables \n\n");
 		} catch (CSDataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("\n\nException thrown for maintainInstanceTables \n\n");
 		}
-		*/
+		
 		//Check for Tables
 		//SELECT table_name FROM information_schema.tables WHERE table_schema = 'databasename' AND table_name = 'tablename';
 		//Check for Views
@@ -168,11 +173,12 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		try {
 			authorizationManager.refreshInstanceTables(true);
 		} catch (CSObjectNotFoundException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
+			fail("\n\nException thrown for refreshInstanceTables(true) \n\n");
 		} catch (CSDataAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail("\n\nException thrown for refreshInstanceTables(true) \n\n");
 		}
 		
 		//Check for Tables
@@ -185,13 +191,13 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	
 		
 		try {
-			authorizationManager.refreshInstanceTables(true);
+			authorizationManager.refreshInstanceTables(false);
 		} catch (CSObjectNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail("\n\nException thrown for refreshInstanceTables(true) \n\n");
 		} catch (CSDataAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail("\n\nException thrown for refreshInstanceTables(true) \n\n");
 		}
 		
 		//Check for Tables
