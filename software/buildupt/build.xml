@@ -133,7 +133,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<fileset dir="${backwards.compatible.upt.resources.dir}">
 				<include name="*ApplicationSecurityConfig.xml" />
-				<include name="*backwards_compatible_upt-ds-template.xml" />
+				<include name="*upt-ds-template.xml" />
 				<include name="*login-config-template.xml" />
 				<include name="*csmupt31.hibernate.cfg.xml" />
 			</fileset>
