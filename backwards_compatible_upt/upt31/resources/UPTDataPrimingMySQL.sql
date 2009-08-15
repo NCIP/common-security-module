@@ -1,7 +1,7 @@
 insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 values ("@upt.31.context.name@","UPT Super Admin Application",0,0,sysdate());
 
-insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,UPDATE_DATE)
+insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
 values ("@super.admin.login.id@","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
