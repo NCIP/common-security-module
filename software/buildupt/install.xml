@@ -40,57 +40,7 @@
 		install:jboss:validation:post-install
 		">
 	</target>
-
-	<target name="upgrade" description="Upgrades JBoss and Database" depends="		
-		-set:jboss:backwards-compatible-upt:application:url,
-		upgrade:jboss:init,
-		common:init,
-		common:jboss:init,
-		install:common:validation:pre-install,
-		install:jboss:validation:pre-install,
-		install:jboss:stop,
-		install:jboss:backwards-compatible-upt-ear,
-		install:jboss:backwards-compatible-upt-ear:configure,
-		install:jboss:configure,
-		install:jboss:configure:login:config,
-		install:jboss:configure:application:context,
-		upgrade:backwards-compatible-upt:databases,		
-		install:jboss:configure:datasources,
-		install:post:jboss,
-		install:jboss:start,
-		install:common:validation:post-install">
-	</target>
-
-	<target name="upgrade:backwards-compatible-upt:databases">
-		<if>
-			<equals arg1="${upt.central.config}" arg2="true" />
-			<then>
-				<property name="upt.central.db.upgrade.create.oracle.file.list" value="upt.central.${upgrade.upt.central.db.previous.version}.upgrade.db.install.create.oracle.file.list}"/>
-				<property name="upt.central.db.upgrade.create.mysql.file.list" value="${upt.central.${upgrade.upt.central.db.previous.version}.upgrade.db.install.create.mysql.file.list}"/>
-				<property name="upt.central.db.upgrade.create.postgres.file.list" value="${upt.central.${upgrade.upt.central.db.previous.version}.upgrade.db.install.create.postgresql.file.list}"/>	
-				
-				<install-backwards-compatible-upt-database 	
-					database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.system.url}" 
-					database.system.user="${upt.central.database.system.user}" database.system.password="${upt.central.database.system.password}" 
-					database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
-					database.password="${upt.central.database.password}" database.version="${upt.central.database.version}" 
-					database.name="${upt.central.database.name}" database.type="${upt.central.database.type}"
-					database.schema="${upt.central.database.schema}"  database.re-create="false"
-					database.drop-schema="false"
-					db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/upt42"
-					db.install.create.oracle.file.list="${upt.central.db.upgrade.create.oracle.file.list}"
-					db.install.create.mysql.file.list="${upt.central.db.upgrade.create.mysql.file.list}"
-					db.install.create.postgresql.file.list="${upt.central.db.upgrade.create.postgres.file.list}"
-				 />
-			</then>
-			<else>
-				<then>
-			  		<antcall target="install:backwards-compatible-upt:databases" />
-				</then>
-			</else>
-		</if>
-	</target>
-
+	
 	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy backwards-compatible-upt and common libraries to jboss installation" unless="exclude.jboss" depends="common:init,re-configure-ear">
 		<!-- added to ensure working.dirs are fresh for our install -->
 		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp" />
@@ -98,7 +48,6 @@
 		<move file="${jboss.home}/server/${jboss.server.name}/log/server.log" tofile="${jboss.home}/server/${jboss.server.name}/log/server/log.${install.time}" failonerror="false" />
 
 		<copy file="${backwards.compatible.upt.dist}/${dist.relative.ear.dir}/${upt.ear.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
-		<copy file="${database.driver.file}" todir="${jboss.home}/server/${jboss.server.name}/lib" overwrite="true" />
 	</target>
 
 	<target name="install:jboss:backwards-compatible-upt-ear:configure" depends="common:init">
@@ -291,7 +240,7 @@
 		</if>
 	</target>
 
-	<target name="install:jboss:configure:datasources" description="Configure login config /deploy/upt-ds.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
+	<target name="install:jboss:configure:datasources" description="Configure login config /deploy/backwards_compatible_upt-ds.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true" />
 			<then>
@@ -598,6 +547,7 @@
 							database.schema="${upt.central.database.schema}"  database.re-create="${upt.central.database.re-create}"
 							database.drop-schema="${upt.central.database.drop-schema}"
 							db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/uptcentral"
+							database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/uptcentral"
 							db.install.create.oracle.file.list="${upt.central.db.install.create.oracle.file.list}"
 							db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
 							db.install.create.postgresql.file.list="${upt.central.db.install.create.postgres.file.list}"
@@ -619,6 +569,7 @@
 									database.schema="${upt.31.database.schema}"  database.re-create="${upt.31.database.re-create}"
 									database.drop-schema="${upt.31.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
+									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
 									db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
@@ -640,6 +591,7 @@
 									database.schema="${upt.32.database.schema}" database.re-create="${upt.32.database.re-create}"
 									database.drop-schema="${upt.32.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
+									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
 									db.install.create.oracle.file.list="${upt.32.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.32.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.32.db.install.create.postgres.file.list}"
@@ -658,9 +610,10 @@
 									database.url="${upt.40.database.url}" database.user="${upt.40.database.user}" 
 									database.password="${upt.40.database.password}" database.version="${upt.40.database.version}" 
 									database.name="${upt.40.database.name}" database.type="${upt.40.database.type}"
-									database.schema="${upt.40.database.schema}" database.re-create="${upt40.database.re-create}"
+									database.schema="${upt.40.database.schema}" database.re-create="${upt.40.database.re-create}"
 									database.drop-schema="${upt.40.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
+									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
 									db.install.create.oracle.file.list="${upt.40.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.40.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.40.db.install.create.postgres.file.list}"
@@ -674,14 +627,15 @@
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
-									database.driver="${upt.41.database.driver.class}" database.system.url="${upt.41.database.url}" 
+									database.driver="${upt.41.database.driver.class}" database.system.url="${upt.41.database.system.url}" 
 									database.system.user="${upt.41.database.system.user}" database.system.password="${upt.41.database.system.password}" 
 									database.url="${upt.41.database.url}" database.user="${upt.41.database.user}" 
 									database.password="${upt.41.database.password}" database.version="${upt.41.database.version}" 
 									database.name="${upt.41.database.name}" database.type="${upt.41.database.type}"
-									database.schema="${upt.41.database.schema}"  database.re-create="${upt41.database.re-create}"
+									database.schema="${upt.41.database.schema}"  database.re-create="${upt.41.database.re-create}"
 									database.drop-schema="${upt.41.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
+									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
 									db.install.create.oracle.file.list="${upt.41.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.41.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.41.db.install.create.postgres.file.list}"
@@ -703,6 +657,7 @@
 									database.schema="${upt.42.database.schema}"  database.re-create="true" 
 									database.drop-schema="${upt.42.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
+									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
 									db.install.create.oracle.file.list="${upt.42.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.42.db.install.create.postgres.file.list}"
@@ -817,20 +772,20 @@
 		<sequential>
 		
 			<xmltask preservetype="true" failWithoutMatch="true"
-										source="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml"
-										dest="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml">
+				source="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml"
+				dest="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml">
 				<xmlcatalog refid="bda.xml.catalog" />
 					<insert path="//datasources" position="under">
 						<![CDATA[						
-											<local-tx-datasource>
-						<jndi-name>@{jndi.name}</jndi-name>
-						<driver-class>@{driver.class}</driver-class>
-						<connection-url>@{database.url}</connection-url>
-						<user-name>@{database.user}</user-name>
-						<password>@{database.password}</password>
-					</local-tx-datasource>
-										   	]]>
-										</insert>
+						<local-tx-datasource>
+							<jndi-name>@{jndi.name}</jndi-name>
+							<driver-class>@{driver.class}</driver-class>
+							<connection-url>@{database.url}</connection-url>
+							<user-name>@{database.user}</user-name>
+							<password>@{database.password}</password>
+						</local-tx-datasource>
+						]]>
+					</insert>
 			</xmltask>
 		</sequential>
 	</macrodef>
@@ -844,21 +799,21 @@
 			<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
 			<xmlcatalog refid="bda.xml.catalog" />
 			<insert path="//security-config/backwards-compatibility/upt-application-list" position="under">
-			<![CDATA[
-									<upt-application>
-			<context-name>@{context.name}</context-name>
-			<url-context-name>@{url.context.name}</url-context-name>
-			<authorization>
-				<authorization-provider-class>String</authorization-provider-class>
-				<hibernate-config-file>@{hibernate.config.file}</hibernate-config-file>
-			</authorization>
-			</upt-application>
-									]]>
-							     </insert>
+				<![CDATA[
+				<upt-application>
+					<context-name>@{context.name}</context-name>
+					<url-context-name>@{url.context.name}</url-context-name>
+					<authorization>
+						<authorization-provider-class>String</authorization-provider-class>
+						<hibernate-config-file>@{hibernate.config.file}</hibernate-config-file>
+					</authorization>
+				</upt-application>
+				]]>
+			</insert>
 			</xmltask>
 		</sequential>
 	</macrodef>
-	
+		
 	<!-- <database-upgrade
 					database.changelog.file="${os.temp.dir}/${project.name}/db-upgrade.xml"
 			 />
@@ -875,6 +830,7 @@
 		<attribute name="database.version" default="NOT SET" />
 		<attribute name="database.name" default="NOT SET" />
 		<attribute name="database.type" default="NOT SET"/>
+		<attribute name="database.dir.src" default="NOT SET"/>
 		
 		<attribute name="database.schema" default="NOT SET"/>
 		<attribute name="database.re-create" default="NOT SET"/>
@@ -888,19 +844,19 @@
 		<sequential>
 			<switch value="${database.type}">
 				<case value="oracle">
-				<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
 				<property name="database.driver" value="oracle.jdbc.driver.OracleDriver"/>
 				</case>
 				<case value="mysql">
-				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
-				<property name="database.driver" value="com.mysql.jdbc.Driver"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+					<property name="database.driver" value="com.mysql.jdbc.Driver"/>
 				</case>
 				<case value="postgresql">
-				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
-				<property name="database.driver" value="org.postgresql.Driver"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
+					<property name="database.driver" value="org.postgresql.Driver"/>
 				</case>
 				<default>
-				<fail message="Invalid database type ${database.type}"/>
+					<fail message="Invalid database type ${database.type}"/>
 				</default>
 			</switch>
 			<antcall target="install:database:prep" inheritall="true">
@@ -909,8 +865,9 @@
 				<param name="database.password" value="@{database.password}"/>
 				<param name="database.name" value="@{database.name}"/>
 				<param name="database.type" value="@{database.type}"/>
+				<param name="db.dir.dest" value="${basedir}/working/@{database.dir.src}"/>
+				<param name="db.dir.src" value="${basedir}/@{database.dir.src}"/>				
 			</antcall>
-			<antcall target="install:common:validation:pre-install" inheritall="true"/>
 			<validate-pre-install-database 
 				database.driver="@{database.driver}" database.system.url="@{database.system.url}" 
 				database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
@@ -961,41 +918,6 @@
 			</switch>	
 		  </sequential>
 	</macrodef>
-	
-	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
-		<properties-exist
-					properties.list="application.base.path,jboss.home,jboss.server.name"
-					/>
-		<osfamily property="os.family"/>
-		<if>
-			<or>
-				<equals arg1="${os.family}" arg2="unix"/>
-				<equals arg1="${os.family}" arg2="mac"/>
-			</or>
-			<then>
-				<property name="jboss.server.hostname" value="${env.HOSTNAME}"/>
-			</then>
-		</if>
-		<if>
-			<equals arg1="${os.family}" arg2="windows"/>
-			<then>
-				<property name="jboss.server.hostname" value="${env.COMPUTERNAME}"/>
-			</then>
-		</if>
-		<jboss-read-bindings-file-location
-					jboss.home="${read.jboss.home}"
-					/>
-		<jboss-read-ports
-					/>
-		<read-property-from-properties-service
-					jboss.home="${read.jboss.home}"
-					property.name="property1"
-					/>
-		<read-property-from-properties-service
-					jboss.home="${read.jboss.home}"
-					property.name="property2"
-					/>
-	</target>
 	
 	<target name="re-configure-ear">
 		<property name="temp.ear.dir" value="tempEAR"/>
@@ -1052,5 +974,140 @@
 				<remove path="/application/module[@id='@{upt.context.name}']" />
 			</xmltask>
 		</sequential>
+	</macrodef>
+
+	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
+	</target>
+
+	<target name="common:init" depends="common:init:pre">
+		<property name="install.running" value="true"/>
+		<!-- bda-blueprints-webapp can use either Oracle or MySQL or PostgreSQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
+		<echoproperties prefix="database"/>
+		<property name="properties.template.file" value="${basedir}/properties.template" />
+		<!--OS Temp dir -->
+		<condition property="os.temp.dir" value="/tmp">
+			<or>
+				<os family="unix" />
+				<os family="mac" />
+			</or>
+		</condition>
+		<condition property="os.temp.dir" value="c:/temp">
+			<os family="windows" />
+		</condition>
+	</target>
+
+	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
+		depends="
+		-set:jboss:backwards-compatible-upt:application:url,
+		upgrade:common:init,
+		common:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:jboss:stop,
+		upgrade:backwards-compatible-upt:databases,
+		upgrade:jboss
+		">
+	</target>
+	
+	<target name="upgrade:database:readers:bda" depends="upgrade:jboss:init:prep" if="jboss.exists">
+
+		<!-- Make sure the ${properties.file} has at least the following props -->
+		<properties-exist
+			properties.list="application.base.path,jboss.home,jboss.server.name"
+			/>
+		<!--<jboss-read-dbconfig
+			jboss.home="${read.jboss.home}"
+			jboss.ds-xml.file="bda-blueprints-ds.xml"
+			/>-->
+	</target>
+	
+	<target name="upgrade:common:init" depends="upgrade:jboss:init" unless="install.running">
+	</target>
+	
+	<!-- Upgrade with No Container Modification (NCM) -->
+	<target name="upgrade-ncm:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
+		depends="
+		upgrade:jboss:init,
+		common:init,
+		common:jboss:init,
+		install:jboss:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:jboss:backwards-compatible-upt-ear,
+		install:jboss:backwards-compatible-upt-ear:configure,
+		install:jboss:configure:login:config,
+		install:jboss:configure:application:context,
+		upgrade:backwards-compatible-upt:databases,		
+		install:jboss:configure:datasources,
+		install:post:jboss,
+		install:jboss:start,
+		install:jboss:validation:post-install
+		">
+	</target>
+	
+	<target name="upgrade:backwards-compatible-upt:databases" description="Upgrades database using BDA Datbase Upgrade process." unless="exclude.database">
+		<if>
+			<equals arg1="${upt.central.config}" arg2="true" />
+			<then>
+				<upgrade-backwards-compatible-upt-database
+					database.system.url="${upt.central.database.type}" database.name="${upt.central.database.name}" 
+				  	database.system.password="${upt.central.database.type}"  
+				  	database.system.user="${upt.central.database.type}"
+				 	database.url="${upt.central.database.type}" 
+					database.user="${upt.central.database.type}" 
+					database.password="${upt.central.database.password}" 
+					database.type="${upt.central.database.type}" 
+					database.upgrade.schema.file="db-upgrade${upgrade.upt.central.db.previous.version}MySQL.xml" />
+			</then>
+			<else>
+				<echo message="execute for non central database"/>				
+			</else>
+		</if>
+	</target>
+	
+	<macrodef name="upgrade-backwards-compatible-upt-database">
+		<attribute name="database.system.url" default="NOT SET" />
+		<attribute name="database.system.user" default="NOT SET" />
+		<attribute name="database.system.password" default="NOT SET" />
+		<attribute name="database.url" default="NOT SET" />
+		<attribute name="database.user" default="NOT SET" />
+		<attribute name="database.password" default="NOT SET" />
+		<attribute name="database.name" default="NOT SET" />
+		<attribute name="database.type" default="NOT SET"/>
+		<attribute name="database.upgrade.schema.file" default="NOT SET"/>
+		
+		<sequential>
+			<switch value="@{database.type}">
+				<case value="oracle">
+					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
+					<property name="database.upgrade.driver" value="oracle.jdbc.driver.OracleDriver"/>
+				</case>
+				<case value="mysql">
+					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+					<property name="database.upgrade.driver" value="com.mysql.jdbc.Driver"/>
+				</case>
+				<case value="postgresql">
+					<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
+					<property name="database.upgrade.driver" value="org.postgresql.Driver"/>
+				</case>
+				<default>
+					<fail message="Invalid database type ${database.type}"/>
+				</default>
+			</switch>
+			<validate-pre-install-database
+						database.driver="${database.upgrade.driver}" database.system.url="@{database.system.url}" 
+						database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
+						database.url="@{database.url}" database.user="@{database.user}" 
+						database.password="@{database.password}" 
+						database.name="@{database.name}" database.type="@{database.type}"
+			/>
+
+			<database-upgrade database.driver="@{database.upgrade.driver}" database.url="@{database.url}" 
+							  database.user="@{database.user}" database.password="@{database.password}" 
+							  database.schema="@{database.schema}"
+							  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
+			<database-tag/>				
+	   </sequential>
 	</macrodef>
 </project>
