@@ -10,7 +10,7 @@ insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 values ("@upt.32.context.name@","UPT Super Admin Application",0,0,sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("@super.admin.login.id@","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+values ("@super.admin.user@","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
 values("@upt.32.context.name@","UPT Super Admin Application","<<upt_context_name>>",1,sysdate());
@@ -53,6 +53,3 @@ VALUES("DELETE","This privilege permits a user to delete a logical entity. This 
 
 INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
 VALUES("EXECUTE","This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc", sysdate());
-
-
-COMMIT;

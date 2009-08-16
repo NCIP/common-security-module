@@ -325,7 +325,7 @@ insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 values ("@upt.central.context.name@","CSM UPT Super Admin Application",0,0,"",sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("@super.admin.login.id@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+values ("@super.admin.user@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
 values ("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=parmarv","Vijay","Parmar","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
@@ -497,6 +497,3 @@ VALUES("DELETE","This privilege permits a user to delete a logical entity. This 
 
 INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
 VALUES("EXECUTE","This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc", sysdate());
-
-
-COMMIT;
