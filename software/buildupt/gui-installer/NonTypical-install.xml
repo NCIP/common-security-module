@@ -138,6 +138,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 						<name>authentication.type</name>
 						<value>ldap</value>
 					</condition>
+
 					<!-- UPT Installation Central or non-central -->
 					<condition type="variable" id="central.installation">
 						<name>installation.type</name>
@@ -147,6 +148,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 						<name>installation.type</name>
 						<value>noncentral</value>
 					</condition>
+
 					<!-- UPT Installation  non-central  - UPT 31,32,40,41,42 installed?-->
 					<condition type="variable" id="install.upt42">
 						<name>upt.42.installed</name>
@@ -168,6 +170,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 						<name>upt.31.installed</name>
 						<value>true</value>
 					</condition>
+
 					<!-- Recreate Schema  - central,31,32,40,41,42 ? -->
 					<condition type="variable" id="recreate.schema.upt42">
 						<name>upt.42.database.re-create</name>
@@ -276,8 +279,23 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 					<variable name="ldap.url" value="" condition="container.database"/>
 					<variable name="ldap.basedn" value="" condition="container.database"/>
-					<variable name="mail.smtp.server" value="" condition="container.database"/>
+					<variable name="mail.smtp.server" value="" 
+					condition="container.database"/>
+
+					<!-- Conditionals for chosen Central Installation -->
+
+
+					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.32.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.31.database.re-create" value="false" condition="central.installation"/>
+
+
+					<!-- Condition to Recreate --> 
 					<variable name="authentication.type" value="" condition="container.database"/>
+
+					<variable name="installation.type" value="central" condition="central.installation"/>
 					<variable name="installation.type" value="noncentral" condition="noncentral.installation"/>
 				</dynamicvariables>
 
@@ -330,27 +348,36 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="central.installation"/>
 					<!-- Central Authentication Info -->								
 					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="central.installation"/>
-					<!-- UPT 42 DB config-->
+					<!-- UPT 42 DB config
 					<panel classname="UserInputPanel"  id="UserInputPanel.8" condition="noncentral.installation+install.upt42"/>
-					<!-- UPT 42 Authentication Info -->								
+					-->
+					<!-- UPT 42 Authentication Info 
 					<panel classname="UserInputPanel"  id="UserInputPanel.9" condition="noncentral.installation+install.upt42"/>
-					<!-- UPT 41 DB config-->
+					-->
+					<!-- UPT 41 DB config
 					<panel classname="UserInputPanel"  id="UserInputPanel.10" condition="noncentral.installation+install.upt41"/>
-					<!-- UPT 41 Authentication Info -->								
+					-->
+					<!-- UPT 41 Authentication Info 
 					<panel classname="UserInputPanel"  id="UserInputPanel.11" condition="noncentral.installation+install.upt41"/>
-					<!-- UPT 40 DB config-->
+					-->
+					<!-- UPT 40 DB config
 					<panel classname="UserInputPanel"  id="UserInputPanel.12" condition="noncentral.installation+install.upt40"/>
-					<!-- UPT 40	Authentication Info -->								
+					-->
+					<!-- UPT 40	Authentication Info 
 					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="noncentral.installation+install.upt40"/>
-					<!-- UPT 32 DB config-->
+					-->
+					<!-- UPT 32 DB config
 					<panel classname="UserInputPanel"  id="UserInputPanel.14" condition="noncentral.installation+install.upt32"/>
-					<!-- UPT 32 Authentication Info -->								
+					-->
+					<!-- UPT 32 Authentication Info 
 					<panel classname="UserInputPanel"  id="UserInputPanel.15" condition="noncentral.installation+install.upt32"/>
-					<!-- UPT 31 DB config-->
+					-->
+					<!-- UPT 31 DB config
 					<panel classname="UserInputPanel"  id="UserInputPanel.16" condition="noncentral.installation+install.upt31"/>
-					<!-- UPT 31 Authentication Info -->										
+					-->
+					<!-- UPT 31 Authentication Info 										
 					<panel classname="UserInputPanel"  id="UserInputPanel.17" condition="noncentral.installation+install.upt31"/>
-
+					-->
 					<!-- Ldap data entry 
 					<panel classname="UserInputPanel"  id="UserInputPanel.18"/>
 					-->
@@ -359,7 +386,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					-->
 				
 					<!-- Installation Summary -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.22" />
+					<panel classname="UserInputPanel"  id="UserInputPanel.8" />
 					<panel classname="InstallationGroupPanel"/>
 					<panel classname="ExtendedInstallPanel"/>
 					<panel classname="FinishPanel"/>
