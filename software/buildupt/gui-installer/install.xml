@@ -138,15 +138,70 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 						<name>authentication.type</name>
 						<value>ldap</value>
 					</condition>
+
+					<condition type="variable" id="ldaps.setup">
+						<name>authentication.type</name>
+						<value>ldaps</value>
+					</condition>
+					<condition type="variable" id="db.setup">
+						<name>authentication.type</name>
+						<value>db</value>
+					</condition>
+
 					<!-- UPT Installation Central or non-central -->
-					<condition type="variable" id="central.setup">
+					<condition type="variable" id="central.installation">
 						<name>installation.type</name>
 						<value>central</value>
 					</condition>
-					<condition type="variable" id="noncentral.setup">
+					<condition type="variable" id="noncentral.installation">
 						<name>installation.type</name>
 						<value>noncentral</value>
 					</condition>
+
+					<!-- UPT Installation  non-central  - UPT 31,32,40,41,42 installed?-->
+					<condition type="variable" id="install.upt42">
+						<name>upt.42.installed</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="install.upt41">
+						<name>upt.41.installed</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="install.upt40">
+						<name>upt.40.installed</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="install.upt32">
+						<name>upt.32.installed</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="install.upt31">
+						<name>upt.31.installed</name>
+						<value>true</value>
+					</condition>
+
+					<!-- Recreate Schema  - central,31,32,40,41,42 ? -->
+					<condition type="variable" id="recreate.schema.upt42">
+						<name>upt.42.database.re-create</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="recreate.schema.upt41">
+						<name>upt.41.database.re-create</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="recreate.schema.upt40">
+						<name>upt.40.database.re-create</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="recreate.schema.upt32">
+						<name>upt.32.database.re-create</name>
+						<value>true</value>
+					</condition>
+					<condition type="variable" id="recreate.schema.upt31">
+						<name>upt.31.database.re-create</name>
+						<value>true</value>
+					</condition>
+
 
 
 					<!-- Container selection -->
@@ -186,6 +241,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="jboss.web.password" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.server.ports.name" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.server.jndi.port" value="" condition="container.database|container.tomcat"/>
+					
 					<!-- Set to zero so math for jboss.ssl.port works -->
 					<variable name="jboss.server.port" value="0" condition="container.database|container.tomcat"/>
 					<variable name="jboss.cobraorb.port" value="" condition="container.database|container.tomcat"/>
@@ -216,11 +272,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="jboss.external.ssl.port" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.external.grid.secure.host" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.external.grid.secure.port" value="" condition="container.database|container.tomcat"/>
-					<variable name="jboss.grid.secure.enable" value="" condition="container.database|container.tomcat"/>
-					<variable name="jboss.grid.secure.port" value="" condition="container.database|container.tomcat"/>
-					<variable name="jboss.grid.secure.cert.location" value="" condition="container.database|container.tomcat"/>
-					<variable name="jboss.grid.secure.key.location" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.server.redirect.port" value="" condition="container.database|container.tomcat"/>
+
 					<variable name="log4j.maxFileSize" value="" condition="container.database|container.tomcat"/>
 					<variable name="log4j.maxDays" value="" condition="container.database|container.tomcat"/>
 					<variable name="log4j.level" value="" condition="container.database|container.tomcat"/>
@@ -232,49 +285,27 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="tomcat.port.ssl" value="" condition="container.database|container.jboss"/>
 					<variable name="tomcat.port.shutdown" value="" condition="container.database|container.jboss"/>
 					<variable name="exclude.tomcat.backup" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.ssl.enable" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.ssl.keystore.location" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.ssl.keystore.pass" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.ssl.keystore.alias" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.ssl.fullyqualified.hostname" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.external.http.host" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.external.http.port" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.external.ssl.host" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.external.ssl.port" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.external.grid.secure.host" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.external.grid.secure.port" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.grid.secure.enable" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.grid.secure.port" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.grid.secure.cert.location" value="" condition="container.database|container.jboss"/>
-					<variable name="tomcat.grid.secure.key.location" value="" condition="container.database|container.jboss"/>
 
-<!--					<variable name="grid.index.url" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.researchCenter.displayname" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.researchCenter.shortname" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.addr.country" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.addr.locality" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.addr.postalCode" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.addr.stateProvince" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.addr.street1" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.addr.street2" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.affiliation" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.name.last" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.name.first" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.phone" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.email" value="" condition="container.database"/>
-					<variable name="grid.poc.tech.role" value="" condition="container.database"/>
-					<variable name="grid.poc.science.affiliation" value="" condition="container.database"/>
-					<variable name="grid.poc.science.name.last" value="" condition="container.database"/>
-					<variable name="grid.poc.science.name.first" value="" condition="container.database"/>
-					<variable name="grid.poc.science.phone" value="" condition="container.database"/>
-					<variable name="grid.poc.science.email" value="" condition="container.database"/>
-					<variable name="grid.poc.science.role" value="" condition="container.database"/>
--->
 					<variable name="ldap.url" value="" condition="container.database"/>
 					<variable name="ldap.basedn" value="" condition="container.database"/>
-					<variable name="mail.smtp.server" value="" condition="container.database"/>
+					<variable name="mail.smtp.server" value=""  condition="container.database"/>
+
+					<!-- Conditionals for chosen Central Installation -->
+					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.32.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.31.database.re-create" value="false" condition="central.installation"/>
+
+
+
+					<!-- Condition to Recreate --> 
 					<variable name="authentication.type" value="" condition="container.database"/>
-					<variable name="installation.type" value="" condition="noncentral.setup"/>
+
+					<variable name="installation.type" value="central" condition="central.installation"/>
+					<variable name="installation.type" value="noncentral" condition="noncentral.installation"/>
+
+
 				</dynamicvariables>
 
 				<!--
@@ -302,61 +333,45 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<panel classname="InfoPanel"/>
 					<panel classname="HTMLLicencePanel"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.0" />
-					<!-- Typical or Custom
+					<!-- Typical or Custom-->
 					<panel classname="UserInputPanel"  id="UserInputPanel.1" condition="never"/>
-					-->
+					<!-- Choose Path -->
 					<panel classname="UserPathPanel" id="UserPathPanelInstallation" condition="install"/>
-					<!-- Contaner selection -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.1"/>
-					<!-- Upgrade, specify app homes and read properties -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.2" condition="upgrade"/>
+					<!-- Component Selection -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.2"/>
+					
+					<!-- Jboss Configuration -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="container.jboss|container.all"/>
+					<!-- Jboss Continued -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="container.jboss|container.all"/>
+					<!-- Typical DB config-->
+					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="central.installation"/>
+					<!-- Choose Authentication Type  -->								
+					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="central.installation"/>
+					
+					<!-- Authentication LDAPS data entry -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="central.installation+ldaps.setup"/>
+					<!-- Authentication LDAP data entry -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.8" condition="central.installation+ldap.setup"/>
+					<!-- Authentication DB Properties -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.9" condition="db.setup"/>
+					
+				
+					<!-- Installation Summary -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.10" />
+					<panel classname="InstallationGroupPanel"/>
+					<panel classname="ExtendedInstallPanel"/>
+					<panel classname="FinishPanel"/>
+
+					<!-- Upgrade, specify app homes and read properties 
+					<panel classname="UserInputPanel"  id="UserInputPanel.2" condition="upgrade"/>-->
 					<!-- Upgrade, read props 
 					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade+container.all"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="upgrade+container.jboss"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="upgrade+container.tomcat"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="upgrade+container.database"/>
 					-->
-					<!-- Jboss Configuration -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="container.jboss|container.all"/>
-					<!-- Jboss Continued -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="container.jboss|container.all"/>
-					<!-- Jboss SSL 0.9.0 -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="container.jboss|container.all"/>
-					<!-- Authentication Type -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="!container.database"/>
-					<!-- Ldap data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.7"/>
-					<!-- Database Properties -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.8"/>
-					<panel classname="UserInputPanel"  id="UserInputPanel.9"/>
-					<panel classname="UserInputPanel"  id="UserInputPanel.10"/>
-					<!-- Global Configuraiton Options 
-					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="!container.database"/>
-					-->
-					<!-- Grid Global Configuration 
-					<panel classname="UserInputPanel"  id="UserInputPanel.14" condition="!container.database"/>
-					-->
-					<!-- Grid Research Center 
-					<panel classname="UserInputPanel"  id="UserInputPanel.15" condition="!container.database"/>
-					-->
-					<!-- Grid Tech Contact 
-					<panel classname="UserInputPanel"  id="UserInputPanel.16" condition="!container.database"/>
-					-->
-					<!-- Grid Science Contact 
-					<panel classname="UserInputPanel"  id="UserInputPanel.17" condition="!container.database"/>
-					-->
-					<!-- Application Specific Properties -->
-					<!-- Tomcat Base Config 0.9.0 
-					<panel classname="UserInputPanel"  id="UserInputPanel.18" condition="container.tomcat|container.all"/>
-					-->
-					<!-- Tomcat SSL 0.9.0 
-					<panel classname="UserInputPanel"  id="UserInputPanel.19" condition="container.tomcat|container.all"/>
-					-->
-					<!-- Installation Summary -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.9" />
-					<panel classname="InstallationGroupPanel"/>
-					<panel classname="ExtendedInstallPanel"/>
-					<panel classname="FinishPanel"/>
+
 				</panels>
 
 				<listeners>
