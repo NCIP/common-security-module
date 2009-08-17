@@ -90,7 +90,6 @@
 		<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="*ApplicationSecurityConfig.xml" />
-				<include name="*csmupt31.hibernate.cfg.xml" />
 			</fileset>
 			<filterset>
 				<filterset refid="upt.31.filterset"/>
@@ -100,7 +99,23 @@
 				</filterset>
 			</filterset>
 		</copy>
-
+		<if>
+			<equals arg1="${upt.31.installed}" arg2="true"/>
+			<then>
+				<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig" overwrite="true">
+					<fileset dir="${basedir}">
+						<include name="*csmupt31.hibernate.cfg.xml" />
+					</fileset>
+					<filterset>
+						<filterset refid="upt.31.filterset"/>
+						<filterset>
+							<filtersfile file="${properties.file}"/>
+							<filtersfile file="project.properties"/>
+						</filterset>
+					</filterset>
+				</copy>
+			</then>
+		</if>
 		<available file="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml" property="application.backwards-compatible-upt.ds.file.present"/>
 		<if>
 			<equals arg1="${application.backwards-compatible-upt.ds.file.present}" arg2="true"/>
@@ -110,15 +125,9 @@
 		</if>
 		<copy file="${basedir}/upt-ds-template.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml" overwrite="true"/>
 
-		<if>
-			<equals arg1="${upt.31.installed}" arg2="true" />
-			<then>
-				<var name="property.block" value="gov.nih.nci.security.configFile=${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml${line.separator}
-						" />
-				<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
-				<jboss-update-properties-service property.block="${property.block}" />
-			</then>
-		</if>
+		<var name="property.block" value="gov.nih.nci.security.configFile=${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml${line.separator}" />
+		<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
+		<jboss-update-properties-service property.block="${property.block}" />
 	</target>
 
 	<target name="install:jboss:configure:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
@@ -159,9 +168,12 @@
 			</then>
 			<else>
 				<if>
-					<not>
-						<equals arg1="${upt.31.authentication.type}" arg2="NONE" />
-					</not>
+					<and>
+						<equals arg1="${upt.31.installed}" arg2="true"  casesensitive="false"/>
+						<not>
+							<equals arg1="${upt.31.authentication.type}" arg2="NONE" />
+						</not>
+					</and>
 					<then>
 						<configure-login-config 
 						 		authentication.type="${upt.31.authentication.type}"
@@ -175,9 +187,12 @@
 					</then>
 				</if>
 				<if>
-					<not>
-						<equals arg1="${upt.32.authentication.type}" arg2="NONE" />
-					</not>
+					<and>
+						<equals arg1="${upt.32.installed}" arg2="true"  casesensitive="false"/>
+						<not>
+							<equals arg1="${upt.32.authentication.type}" arg2="NONE" />
+						</not>
+					</and>
 					<then>
 						<configure-login-config 
 						 		authentication.type="${upt.32.authentication.type}"
@@ -191,9 +206,12 @@
 					</then>
 				</if>
 				<if>
-					<not>
-						<equals arg1="${upt.40.authentication.type}" arg2="NONE" />
-					</not>
+					<and>
+						<equals arg1="${upt.40.installed}" arg2="true"  casesensitive="false"/>
+						<not>
+							<equals arg1="${upt.40.authentication.type}" arg2="NONE" />
+						</not>
+					</and>
 					<then>
 						<configure-login-config authentication.type="${upt.40.authentication.type}"
 								database.driver="${upt.40.database.driver.class}" database.url="${upt.40.database.url}"
@@ -207,9 +225,12 @@
 					</then>
 				</if>
 				<if>
-					<not>
-						<equals arg1="${upt.41.authentication.type}" arg2="NONE" />
-					</not>
+					<and>
+						<equals arg1="${upt.41.installed}" arg2="true"  casesensitive="false"/>
+						<not>
+							<equals arg1="${upt.41.authentication.type}" arg2="NONE" />
+						</not>
+					</and>
 					<then>
 						<configure-login-config authentication.type="${upt.41.authentication.type}"
 								database.driver="${upt.41.database.driver.class}" database.url="${upt.41.database.url}"
@@ -222,9 +243,12 @@
 					</then>
 				</if>
 				<if>
-					<not>
-						<equals arg1="${upt.42.authentication.type}" arg2="NONE" />
-					</not>
+					<and>
+						<equals arg1="${upt.42.installed}" arg2="true"  casesensitive="false"/>
+						<not>
+							<equals arg1="${upt.42.authentication.type}" arg2="NONE" />						
+						</not>
+					</and>
 					<then>
 						<configure-login-config authentication.type="${upt.42.authentication.type}"
 								database.driver="${upt.42.database.driver.class}" database.url="${upt.42.database.url}"
@@ -316,28 +340,32 @@
 			<remove
 					path="//security-config/backwards-compatibility/upt-application-list/text()" />
 		</xmltask>
-
-		<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
-			<xmlcatalog refid="bda.xml.catalog" />
-			<insert path="/security-config/application-list" position="under">
-				<![CDATA[
-					<application>
-				<context-name>${upt.31.context.name}</context-name>
-				<authentication>
-					<authentication-provider-class/>
-					<lockout-time>6000</lockout-time>
-					<allowed-login-time>6000</allowed-login-time>
-					<allowed-attempts>3</allowed-attempts>
-				</authentication>
-				<authorization>
-					<authorization-provider-class>
-					</authorization-provider-class>
-					<hibernate-config-file>${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.31.hibernate.config.file}</hibernate-config-file>
-				</authorization>
-			</application>
-				]]>
-		     </insert>
-		</xmltask>
+		<if>
+			<equals arg1="${upt.31.installed}" arg2="true" />
+			<then>
+				<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
+					<xmlcatalog refid="bda.xml.catalog" />
+					<insert path="/security-config/application-list" position="under">
+						<![CDATA[
+							<application>
+						<context-name>${upt.31.context.name}</context-name>
+						<authentication>
+							<authentication-provider-class/>
+							<lockout-time>6000</lockout-time>
+							<allowed-login-time>6000</allowed-login-time>
+							<allowed-attempts>3</allowed-attempts>
+						</authentication>
+						<authorization>
+							<authorization-provider-class>
+							</authorization-provider-class>
+							<hibernate-config-file>${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.31.hibernate.config.file}</hibernate-config-file>
+						</authorization>
+					</application>
+						]]>
+				     </insert>
+				</xmltask>
+			</then>
+		</if>
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true" />
 			<then>
