@@ -286,6 +286,18 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="tomcat.port.shutdown" value="" condition="container.database|container.jboss"/>
 					<variable name="exclude.tomcat.backup" value="" condition="container.database|container.jboss"/>
 
+
+
+					<variable name="upt.central.ldaps.url" value="" condition="db.setup|ldap.setup"/>
+					<variable name="upt.central.ldaps.basedn=ou=nci,o=nih" value="" condition="db.setup|ldap.setup"/>
+					<variable name="upt.central.ldaps.userid.label=cn" value="" condition="db.setup|ldap.setup"/>
+					<variable name="upt.central.ldap.url" value="" condition="db.setup|ldaps.setup"/>
+					<variable name="upt.central.ldap.searchable.base" value="" condition="db.setup|ldaps.setup"/>
+					<variable name="upt.central.ldap.userid.label=uid" value="" condition="db.setup|ldaps.setup"/>
+					<variable name="upt.central.ldap.admin.user.name" value="" condition="db.setup|ldaps.setup"/>
+					<variable name="upt.central.ldap.admin.user.password=" value="" condition="db.setup|ldaps.setup"/>
+
+					
 					<variable name="ldap.url" value="" condition="container.database"/>
 					<variable name="ldap.basedn" value="" condition="container.database"/>
 					<variable name="mail.smtp.server" value=""  condition="container.database"/>
@@ -298,6 +310,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="upt.31.database.re-create" value="false" condition="central.installation"/>
 
 
+					<variable name="upt.central.authentication.type" value="ldaps" condition="ldaps.setup"/>
+					<variable name="upt.central.authentication.type" value="ldap" condition="ldap.setup"/>
+					<variable name="upt.central.authentication.type" value="db" condition="db.setup"/>
 
 					<!-- Condition to Recreate --> 
 					<variable name="authentication.type" value="" condition="container.database"/>
@@ -334,7 +349,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<panel classname="HTMLLicencePanel"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.0" />
 					<!-- Typical or Custom-->
-					<panel classname="UserInputPanel"  id="UserInputPanel.1" condition="never"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.1"/>
 					<!-- Choose Path -->
 					<panel classname="UserPathPanel" id="UserPathPanelInstallation" condition="install"/>
 					<!-- Component Selection -->
@@ -345,7 +360,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<!-- Jboss Continued -->
 					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="container.jboss|container.all"/>
 					<!-- Typical DB config-->
-					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="central.installation"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.5"/>
 					<!-- Choose Authentication Type  -->								
 					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="central.installation"/>
 					
