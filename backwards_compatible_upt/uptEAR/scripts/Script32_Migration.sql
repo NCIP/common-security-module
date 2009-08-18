@@ -1,4 +1,4 @@
-﻿Use csm_dev_bkwrdscmptbl_3_2;
+#Use csm_dev_bkwrdscmptbl_3_2;
 
 ALTER TABLE csm_application MODIFY COLUMN UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00';
 ALTER TABLE csm_group MODIFY COLUMN UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00';

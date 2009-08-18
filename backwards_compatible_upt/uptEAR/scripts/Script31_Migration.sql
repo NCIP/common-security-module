@@ -1,6 +1,4 @@
-﻿
-
-USE csm_dev_bkwrdscmptbl_3_1;
+#USE csm_dev_bkwrdscmptbl_3_1;
 
 
 ALTER TABLE csm_application ADD COLUMN   DATABASE_URL VARCHAR(100);
