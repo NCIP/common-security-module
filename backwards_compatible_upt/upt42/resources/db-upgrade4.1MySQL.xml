@@ -12,39 +12,26 @@
 		</or>
 	</preConditions>
 
-	<changeSet author="uptdb42" id="1">
-
-		<createTable tableName="CSM_MAPPING">
-			<column name="MAPPING_ID" type="bigint(20)">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
-			<column name="APPLICATION_ID" type="BIGINT">
+	<changeSet author="uptdb41" id="1">
+		<update tableName="CSM_USER">
+			<column name="LOGIN_NAME" type="VARCHAR(500)" />
+		</update>
+		<addColumn tableName="CSM_USER">
+			<column name="MIGRATED_FLAG" type="BOOL" defaultValue="0">
 				<constraints nullable="false" />
 			</column>
-			<column name="OBJECT_NAME" type="varchar(4000)">
+		</addColumn>
+		<addColumn tableName="CSM_USER">
+			<column name="PREMGRT_LOGIN_NAME" type="VARCHAR(100)"></column>
+		</addColumn>
+		<dropColumn tableName="CSM_ROLE_PRIVILEGE" columnName="UPDATE_DATE" />
+		<dropColumn tableName="CSM_USER_PE" columnName="UPDATE_DATE" />
+		<addColumn tableName="CSM_FILTER_CLAUSE">
+			<column name="GENERATED_SQL_GROUP" type="VARCHAR(4000)">
 				<constraints nullable="false" />
 			</column>
-			<column name="ATTRIBUTE_NAME" type="varchar(100)">
-				<constraints nullable="false" />
-			</column>
-			<column name="OBJECT_PACKAGE_NAME" type="varchar(100)">
-				<constraints nullable="false" />
-			</column>
-			<column name="TABLE_NAME" type="varchar(100)" />
-			<column name="TABLE_NAME_GROUP" type="varchar(100)" />
-			<column name="TABLE_NAME_USER" type="varchar(100)" />
-			<column name="VIEW_NAME_GROUP" type="varchar(100)" />
-			<column name="VIEW_NAME_USER" type="varchar(100)" />
-			<column name="ACTIVE_FLAG" type="tinyint" />
-			<column name="MAINTAINED_FLAG" type="tinyint" />
-			<column name="UPDATE_DATE" type="date" />
-		</createTable>
-
-		<!--
-			<addUniqueConstraint tableName="CSM_MAPPING"
-			columnNames="OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID"
-			constraintName="UQ_MP_OBJ_NAME_ATTRI_NAME_APP_ID" />
-		-->
+		</addColumn>
 	</changeSet>
 
 </databaseChangeLog>
+
