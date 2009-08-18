@@ -16,15 +16,16 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			</spec>
 		</field>
 
-	    <!-- GUI installer assumed Central/Typical installation with all CSM versions supported -->
+		 <!-- GUI installer assumed Central/Typical installation with all CSM versions supported -->
 		<variable name="installation.type" value="central"/>
-		<variable name="upt.central.config" vakue="true"/>
+		<variable name="upt.central.config" value="true"/>
 		<variable name="upt.31.installed" value="true"/>
 		<variable name="upt.31.installed" value="true"/>
 		<variable name="upt.32.installed" value="true"/>
 		<variable name="upt.40.installed" value="true"/>
 		<variable name="upt.41.installed" value="true"/>
 		<variable name="upt.42.installed" value="true"/>
+	   
 
 	</panel>
 
@@ -76,6 +77,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<choice txt="No" value="false" set="true"/>
 				</spec>
 			</field>-->
+
+	
 	</panel> <!-- End of Installation Type panel--> 
 
 
@@ -96,6 +99,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.pre.port.list" value=""/>
 		<variable name="validation.post.http.list" value=""/>
 		<variable name="validation.post.socket.list" value=""/>
+
 	</panel>
 
 	
@@ -237,24 +241,22 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
 		</field>
 		<field type="text" variable="upt.central.database.port">
-			<spec txt="Database Port:" size="25" set="3306"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Port is a required field" />
+			<spec txt="Database Port:" size="5" set="3306"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Port is a required field" />
 		</field>
 		<field type="text" variable="upt.central.database.name">
-			<spec txt="Database Name:" size="25" set="bda"/>
+			<spec txt="Database Name:" size="25" set="uptdb"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
 		</field>
-		<field type="text" variable="upt.central.database.user">
-			<spec txt="Database Application User:" size="25" set="bdauser"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application User is a required field" />
+		<field type="text" variable="upt.central.database.system.user">
+			<spec txt="Database Application System User:" size="25" set="upt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
 		</field>
-		<field type="password" allign="left" variable="upt.central.database.password">
-			<spec>
-				 <pwd txt="Database Application User Password:" size="25" set=""/>
-			</spec>
-			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
+		<field type="text" allign="left" variable="upt.central.database.system.password">
+			<spec txt="Database Application System User Password:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database User System Password is a required field" />
 		</field>
-
+		<!-- <validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/> -->
 		<!-- Recreate DB? -->
 		<field type="radio" variable="upt.central.database.re-create">
 			<description align="left" txt="Recreate the CSM UPT database schema?"/>
@@ -276,7 +278,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		
 		<variable name="upt.central.database.type" value="mysql"/>
 		<variable name="upt.central.jndi.name" value="csmupt"/>
-		<variable name="upt.central.database.driver.class" value="org.hibernate.dialect.MySQLDialect"/>
+		<variable name="upt.central.database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 
 	</panel>
 <!-- Choose Authentication Type -->
@@ -307,9 +309,20 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<field type="text" variable="upt.central.ldaps.basedn">
 				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
 			</field>
-			<field type="text" variable="upt.central.ldaps.user.label">
+			<field type="text" variable="upt.central.ldaps.userid.label">
 				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
 			</field>
+
+			<variable name="upt.central.authentication.type" value="ldaps"/>
+
+			<variable name="upt.central.ldap.url" value=""/>
+			<variable name="upt.central.ldap.searchable.base" value=""/>
+			<variable name="upt.central.ldap.userid.label" value=""/>
+			<variable name="upt.central.ldap.admin.user.name" value=""/>
+			<variable name="upt.central.ldap.admin.user.password" value=""/>
+			<variable name="upt.central.database.user.name" value=""/>
+			<variable name="upt.central.database.user.password" value=""/>
+			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
     </panel>
 <!-- Authentication LDAP data entry -->
 	<panel order="8">
@@ -323,7 +336,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<field type="text" variable="upt.central.ldap.searchable.base">
 				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
 			</field>
-			<field type="text" variable="upt.central.ldap.user.label">
+			<field type="text" variable="upt.central.ldap.userid.label">
 				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
 			</field>
 			<field type="text" variable="upt.central.ldap.admin.user.name">
@@ -332,6 +345,16 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<field type="text" variable="upt.central.ldap.admin.user.password">
 				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
 			</field>
+
+			<variable name="upt.central.authentication.type" value="ldap"/>
+
+			<variable name="upt.central.ldaps.url" value=""/>
+			<variable name="upt.central.ldaps.basedn" value=""/>
+			<variable name="upt.central.ldaps.userid.label" value=""/>
+			<variable name="upt.central.database.user.name" value=""/>
+			<variable name="upt.central.database.user.password" value=""/>
+			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
+
 	</panel>
 <!--  Authentication DB data entry-->
 	<panel order="9">
@@ -356,15 +379,27 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database/Schema Name is a required field" />
             </field>
             <field type="text" variable="upt.central.database.user">
-                <spec txt="Database Application User:" size="25" set="${upt.central.database.user}"/>
+                <spec txt="Database Application User:" size="25" set=""/>
 				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database User is a required field" />
             </field>
 
-            <field type="txt" allign="left" variable="upt.central.database.password">
-                <spec txt="Database Application User Password:" size="25" set="${upt.central.database.password}"/>
-                </spec>
+            <field type="text" allign="left" variable="upt.central.database.password">
+                <spec txt="Database Application User Password:" size="25" set=""/>
 				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Password is a required field" />
             </field>
+
+			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
+			<variable name="upt.central.authentication.type" value="db"/>
+			<variable name="upt.central.ldaps.url" value=""/>
+			<variable name="upt.central.ldaps.basedn" value=""/>
+			<variable name="upt.central.ldaps.userid.label" value=""/>
+			<variable name="upt.central.ldap.url" value=""/>
+			<variable name="upt.central.ldap.searchable.base" value=""/>
+			<variable name="upt.central.ldap.userid.label" value=""/>
+			<variable name="upt.central.ldap.admin.user.name" value=""/>
+			<variable name="upt.central.ldap.admin.user.password" value=""/>
+
+
 	</panel>
 <!-- Upgrade, specify app homes and read properties 
 	<panel order="2">
