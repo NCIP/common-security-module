@@ -1,40 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
-<databaseChangeLog
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
-	<preConditions>            
+	<preConditions>
 		<or>
-			<dbms type="oracle" />                     
-			<dbms type="mysql" />                     
-			<dbms type="postgresql" />                     
+			<dbms type="oracle" />
+			<dbms type="mysql" />
+			<dbms type="postgresql" />
 		</or>
-	</preConditions> 
+	</preConditions>
 
-	<include file="@os.temp.dir@/@project.name@/db-upgrade4.2MySQL.xml"/>
-
-	<changeSet author="uptdb41" id="1">
-		<update tableName="CSM_USER">
-			<column name="LOGIN_NAME" type="VARCHAR(500)" />
-		</update>
-		<addColumn tableName="CSM_USER">
-			<column name="MIGRATED_FLAG" type="BOOL" defaultValue="0">
+	<changeSet author="upt40" id="1">
+		<createTable tableName="CSM_FILTER_CLAUSE">
+			<column name="FILTER_CLAUSE_ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="CLASS_NAME" type="varchar(100)">
 				<constraints nullable="false" />
 			</column>
-		</addColumn>
-		<addColumn tableName="CSM_USER">
-			<column name="PREMGRT_LOGIN_NAME" type="VARCHAR(100)"></column>
-		</addColumn>
-		<dropColumn tableName="CSM_ROLE_PRIVILEGE" columnName="UPDATE_DATE" />
-		<dropColumn tableName="CSM_USER_PE" columnName="UPDATE_DATE" />
-		<addColumn tableName="CSM_FILTER_CLAUSE">
-			<column name="GENERATED_SQL_GROUP" type="VARCHAR(4000)">
+			<column name="FILTER_CHAIN" type="varchar(100)">
 				<constraints nullable="false" />
 			</column>
+			<column name="TARGET_CLASS_NAME" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_ATTRIBUTE_NAME" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_ATTRIBUTE_TYPE" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_ALIAS" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_ATTRIBUTE_ALIAS" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="GENERATED_SQL" type="varchar(4000)">
+				<constraints nullable="false" />
+			</column>
+			<column name="APPLICATION_ID" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="UPDATE_DATE" type="date">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<!--
+			<dropColumn tableName="CSM_PROTECTION_ELEMENT"
+			columnName="UQ_PE_PE_NAME_ATTRIBUTE_APP_ID"/>
+		-->
+		<addColumn tableName="CSM_PROTECTION_ELEMENT">
+			<column name="ATTRIBUTE_VALUE" type="VARCHAR(100)"></column>
 		</addColumn>
+		<addUniqueConstraint tableName="CSM_PROTECTION_ELEMENT"
+			columnNames="OBJECT_ID, ATTRIBUTE, ATTRIBUTE_VALUE, APPLICATION_ID"
+			constraintName="UQ_PE_PE_NAME_ATTRIBUTE_VALUE_APP_ID" />
 	</changeSet>
-
 </databaseChangeLog>
 
