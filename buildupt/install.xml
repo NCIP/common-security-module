@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<project name="csmupt-installer" default="install" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-
+<project name="csmupt-installer" default="upgrade" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
 
@@ -1078,15 +1077,27 @@
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true" />
 			<then>
+				<mkdir dir="${os.temp.dir}/${project.name}"/>
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/42">
+						<include name="**/db-upgrade*.xml"/>
+						<include name="**/MigrationScript*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+
 				<upgrade-backwards-compatible-upt-database
-					database.system.url="${upt.central.database.type}" database.name="${upt.central.database.name}" 
-				  	database.system.password="${upt.central.database.type}"  
-				  	database.system.user="${upt.central.database.type}"
-				 	database.url="${upt.central.database.type}" 
-					database.user="${upt.central.database.type}" 
+					database.system.url="${upt.central.database.system.url}" database.name="${upt.central.database.name}" 
+				  	database.system.password="${upt.central.database.system.password}"  
+				  	database.system.user="${upt.central.database.system.user}"
+				 	database.url="${upt.central.database.url}" 
+					database.user="${upt.central.database.user}" 
 					database.password="${upt.central.database.password}" 
 					database.type="${upt.central.database.type}" 
-					database.upgrade.schema.file="db-upgrade${upgrade.upt.central.db.previous.version}MySQL.xml" />
+					database.upgrade.schema.file="MigrationScript${upgrade.upt.central.db.previous.version}MySQL.xml" />
 			</then>
 			<else>
 				<echo message="execute for non central database"/>				
@@ -1127,15 +1138,18 @@
 						database.driver="${database.upgrade.driver}" database.system.url="@{database.system.url}" 
 						database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
 						database.url="@{database.url}" database.user="@{database.user}" 
-						database.password="@{database.password}" 
+						database.password="@{database.password}"
 						database.name="@{database.name}" database.type="@{database.type}"
 			/>
 
-			<database-upgrade database.driver="@{database.upgrade.driver}" database.url="@{database.url}" 
+			<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
 							  database.user="@{database.user}" database.password="@{database.password}" 
-							  database.schema="@{database.schema}"
+							  database.schema="@{database.name}"
 							  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
-			<database-tag/>				
+			
+			<database-tag database.driver="${database.upgrade.driver}" database.url="@{database.url}"
+						  database.user="@{database.user}" database.password="@{database.password}" 
+						  database.schema="@{database.name}" />				
 	   </sequential>
 	</macrodef>
 </project>
