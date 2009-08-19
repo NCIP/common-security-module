@@ -5,6 +5,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 <userInput>
 	<panel order="0">
+
+
 		<field type="title" txt="Install or Upgrade software" bold="true" size="1" />
 		<field type="staticText" align="left" txt="Choose Install if you haven't installed Common Security Module's User Provisioning Tool (UPT) on this machine before. Choose Upgrade if CSM UPT has previously been installed. WARNING: When choosing Install, the installer will remove any previously installed application servers (using caBIG installers) or databases installed based on the information you provide, so be sure to backup your application server and database instance if they exist. For detailed descriptions on each of the properties in this installer, see https://cabig.nci.nih.gov/tools/CSM"/>
 		<field type="divider" align="top"/>
