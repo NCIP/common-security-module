@@ -22,7 +22,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="installation.type" value="central"/>
 		<variable name="upt.central.config" value="true"/>
 		<variable name="upt.31.installed" value="true"/>
-		<variable name="upt.31.installed" value="true"/>
 		<variable name="upt.32.installed" value="true"/>
 		<variable name="upt.40.installed" value="true"/>
 		<variable name="upt.41.installed" value="true"/>
