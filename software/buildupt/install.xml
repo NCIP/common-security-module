@@ -263,7 +263,7 @@
 		</if>
 	</target>
 
-	<target name="install:jboss:configure:datasources" description="Configure login config /deploy/backwards_compatible_upt-ds.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
+	<target name="install:jboss:configure:datasources" description="Configure login config /deploy/upt-ds.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true" />
 			<then>
