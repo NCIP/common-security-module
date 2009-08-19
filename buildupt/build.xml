@@ -155,7 +155,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copyUpgradeSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-
+		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
+			
 		<dist-prep />
 	</target>
 

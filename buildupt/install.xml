@@ -588,6 +588,7 @@
 							db.install.create.oracle.file.list="${upt.central.db.install.create.oracle.file.list}"
 							db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
 							db.install.create.postgresql.file.list="${upt.central.db.install.create.postgres.file.list}"
+							db.upgrade.non-central.file="${upt.central.db.upgrade.file}"
 						/>
 			</then>
 			<else>
