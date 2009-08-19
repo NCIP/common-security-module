@@ -84,7 +84,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			match="(&lt;property name=&quot;properties.file.*)install.properties(.*)"
 			replace="\1upgrade.properties\2"
 				/>
-		<replaceregexp file="${install.path}/${application_installer}/bda-master-install.xml.xml" byline="true"
+		<replaceregexp file="${install.path}/${application_installer}/bda-master-install.xml" byline="true"
 			match="(&lt;property name=&quot;properties.file.*)install.properties(.*)"
 			replace="\1upgrade.properties\2"
 				/>
