@@ -3,6 +3,10 @@
 <!-- The English langpack -->
 
 <langpack>
+
+ 
+	<str id="installer.title" txt="Common Security Module (CSM) User Provisioning Tool 4.2 Installation Wizard: "/>
+    <str id="CheckedHelloPanel.headline" txt="Welcome to CSM UPT 4.2"/>
     <str id="CustomActions.tip" txt="Custom Action log:"/>
     <str id="CustomActions.progress" txt="Custom Action Progress:"/>
     <str id="AntAction.pack" txt="Action Pack: "/>

@@ -330,7 +330,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<resources>
 					<res id="Installer.image"  src="@{this.dir}/logotype.png"/>
 					<res id="AntActionsSpec.xml" src="@{this.dir}/antActionSpec.xml" />
-					<res id="HTMLLicencePanel.licence" src="@{custom.resource.dir}/Licence.html"/>
+					<res id="HTMLLicencePanel.licence" src="@{this.dir}/Licence.html"/>
 					<res id="InfoPanel.info" src="@{this.dir}/Readme.txt"/>
 					<res id="userInputSpec.xml" src="@{this.dir}/userInputSpec.xml" />
 					<res id="CustomActionsLang.xml_eng" src="@{this.dir}/custom_eng.xml"/>
@@ -347,7 +347,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<panel classname="HelloPanel"/>
 					<panel classname="InfoPanel"/>
 					<panel classname="HTMLLicencePanel"/>
-					<panel classname="UserInputPanel"  id="UserInputPanel.0" />
+					<panel classname="UserInputPanel"  id="UserInputPanel.0" >
+						<help iso3="eng" src="@{this.dir}/Licence.html" />
+
+					</panel>
 					<!-- Typical or Custom-->
 					<panel classname="UserInputPanel"  id="UserInputPanel.1"/>
 
