@@ -48,10 +48,7 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<!--
-			<dropColumn tableName="CSM_PROTECTION_ELEMENT"
-			columnName="UQ_PE_PE_NAME_ATTRIBUTE_APP_ID"/>
-		-->
+		<dropUniqueConstraint tableName="CSM_PROTECTION_ELEMENT" constraintName="UQ_PE_PE_NAME_ATTRIBUTE_APP_ID"/>
 		<addColumn tableName="CSM_PROTECTION_ELEMENT">
 			<column name="ATTRIBUTE_VALUE" type="VARCHAR(100)"></column>
 		</addColumn>
