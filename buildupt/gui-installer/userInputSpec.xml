@@ -575,14 +575,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Server Port [${jboss.server.port}] - This is the HTTP port for JBoss.  If you want to make this Application avaliable from the internet you may need to provide this to your network administrator."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/bda-blueprints-webapp] - This will be the url to reach your application when the install is finished."/>
+		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach your application when the install is finished."/>
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Log Dir [${UserPathPanelVariable}/${jboss.binaries.relative.path}/server/${jboss.server.name}] - This is where the logs can be found."/>
 
 		<field type="space"/>
-		<field type="staticText" align="left" txt="Database URL [jdbc:mysql://${database.server}:${database.port}/${database.name}] "/>
+		<field type="staticText" align="left" txt="Database URL [jdbc:mysql://${upt.central.database.server}:${upt.central.database.port}/${database.name}] "/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="Database User [${database.user}] "/>
+		<field type="staticText" align="left" txt="Database User [${upt.central.database.user}] "/>
 	</panel>
 
 </userInput>
