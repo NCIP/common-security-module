@@ -13,9 +13,9 @@
 	</preConditions>
 
 	<changeSet author="uptdb41" id="1">
-		<update tableName="CSM_USER">
+		<modifyColumn tableName="CSM_USER">
 			<column name="LOGIN_NAME" type="VARCHAR(500)" />
-		</update>
+		</modifyColumn>
 		<addColumn tableName="CSM_USER">
 			<column name="MIGRATED_FLAG" type="BOOL" defaultValue="0">
 				<constraints nullable="false" />
@@ -32,6 +32,4 @@
 			</column>
 		</addColumn>
 	</changeSet>
-
 </databaseChangeLog>
-
