@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<preConditions>
+		<or>
+			<dbms type="oracle" />
+			<dbms type="mysql" />
+			<dbms type="postgresql" />
+		</or>
+	</preConditions>
+
+	<changeSet author="upt-bkwrds-31" id="1">
+ 		<sql>update CSM_APPLICATION
+             set APPLICATION_NAME ='csmupt31'
+             where APPLICATION_NAME='csmupt';
+        </sql>
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="DATABASE_URL" type="VARCHAR(100)"></column>
+		</addColumn>
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="DATABASE_USER_NAME" type="VARCHAR(100)"></column>
+		</addColumn>
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="DATABASE_PASSWORD" type="VARCHAR(100)"></column>
+		</addColumn>
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="DATABASE_DIALECT" type="VARCHAR(100)"></column>
+		</addColumn>
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="DATABASE_DRIVER" type="VARCHAR(100)"></column>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>
+

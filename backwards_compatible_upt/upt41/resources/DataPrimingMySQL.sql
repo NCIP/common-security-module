@@ -6,29 +6,48 @@
 # authorization schema, these enteries are not used and hence they can be left as 
 # it is.
 #
+
 insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-values ("csmupt","UPT Super Admin Application",0,0,sysdate());
+values ("csmupt","CSM UPT Super Admin Application",0,0,sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("@super.admin.user@","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+values ("@super.admin.user@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+
+insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
+values ("admin","admin.first.name","adminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("csmupt","UPT Super Admin Application","<<upt_context_name>>",1,sysdate());
+values("csmupt","CSM UPT Super Admin Application Protection Element","csmupt41",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
-values(1,1,sysdate());
+insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
+values(1,1);
 
-# 
-# The following entry is for your application. 
-# Replace <<application_context>> with your application name.
+#
+# The following entry is for your application.
+# Replace <<application_context_name>> with your application name.
 #
 
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-VALUES ("<<application_context_name>>","Application Description",0,0,sysdate());
+
+INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
+	DATABASE_URL,
+	DATABASE_USER_NAME ,
+	DATABASE_PASSWORD,
+	DATABASE_DIALECT,
+	DATABASE_DRIVER,
+	UPDATE_DATE)
+VALUES ("sample41","Application Description",0,0,
+	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_4_1",
+	"root",
+	"H/2qIBdj9TQ=",
+	"org.hibernate.dialect.MySQLDialect",
+	"org.gjt.mm.mysql.Driver",
+	sysdate());
 
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("<<application_context_name>>","<<application_context_name>> Admin Application Protection Element","<<application_context_name>>",1,sysdate());
+values("sample41","Admin Application Protection Element","sample41",1,sysdate());
 
+insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
+values(2,2);
 #
 # The following entries are Common Set of Privileges
 #
