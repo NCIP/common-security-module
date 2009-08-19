@@ -350,42 +350,44 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<panel classname="UserInputPanel"  id="UserInputPanel.0" />
 					<!-- Typical or Custom-->
 					<panel classname="UserInputPanel"  id="UserInputPanel.1"/>
+
 					<!-- Choose Path -->
 					<panel classname="UserPathPanel" id="UserPathPanelInstallation" condition="install"/>
 					<!-- Component Selection -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.2"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.2" condition="install"/>
 					
+					<!-- Upgrade, specify app homes and read properties -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade"/>
+					<!-- Upgrade, read props  -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="never"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="never"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="never"/>
+					
+
 					<!-- Jboss Configuration -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="container.jboss|container.all"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.7"/>
 					<!-- Jboss Continued -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="container.jboss|container.all"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.8"/>
 					<!-- Typical DB config-->
-					<panel classname="UserInputPanel"  id="UserInputPanel.5"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.9" />
 					<!-- Choose Authentication Type  -->								
-					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="central.installation"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.10" condition="central.installation"/>
 					
 					<!-- Authentication LDAPS data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="central.installation+ldaps.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.11" condition="central.installation+ldaps.setup"/>
 					<!-- Authentication LDAP data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.8" condition="central.installation+ldap.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.12" condition="central.installation+ldap.setup"/>
 					<!-- Authentication DB Properties -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.9" condition="db.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="db.setup"/>
+					
 					
 				
 					<!-- Installation Summary -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.10" />
+					<panel classname="UserInputPanel"  id="UserInputPanel.14" />
 					<panel classname="InstallationGroupPanel"/>
 					<panel classname="ExtendedInstallPanel"/>
 					<panel classname="FinishPanel"/>
 
-					<!-- Upgrade, specify app homes and read properties 
-					<panel classname="UserInputPanel"  id="UserInputPanel.2" condition="upgrade"/>-->
-					<!-- Upgrade, read props 
-					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade+container.all"/>
-					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="upgrade+container.jboss"/>
-					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="upgrade+container.tomcat"/>
-					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="upgrade+container.database"/>
-					-->
 
 				</panels>
 
@@ -476,9 +478,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		]]></config>
 		</IzPack>
 		<property name="pre-install.dir" value="${target.location}/working/pre-install"/>
-		<property name="build.dir" value="${software.location}/build"/>
+		<property name="build.dir" value="${software.location}/buildupt"/>
 		<mkdir dir="${pre-install.dir}"/>
 		<copy tofile="${pre-install.dir}/install.xml" file="${build.dir}/install.xml" overwrite="true"/>
+		<copy tofile="${pre-install.dir}/bda-master-install.xml" file="${build.dir}/bda-master-install.xml" overwrite="true"/>
 		<copy tofile="${pre-install.dir}/project.properties" file="${build.dir}/project.properties" overwrite="true"/>
 		<echo file="${pre-install.dir}/install.properties" message=""/>
 

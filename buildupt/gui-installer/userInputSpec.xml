@@ -29,6 +29,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 	</panel>
 
+
+
+
 	<!-- Installation Type -->
 	<panel order="1">
 		<field type="title" txt="Installation Type" bold="true" size="1" />
@@ -41,43 +44,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<!-- <choice txt="Non Central" value="noncentral"/> -->
 			</spec>
 		</field>
-		<!--<field type="divider" align="top"/>
-			<field type="radio" variable="upt.31.installed">
-				<description align="left" txt="Include support for UPT version 3.1?"/>
-				<spec>
-					<choice txt="Yes"  value="true" />
-					<choice txt="No" value="false" set="true"/>
-				</spec>
-			</field>
-			<field type="radio" variable="upt.32.installed">
-				<description align="left" txt="Include support for UPT version 3.2?"/>
-				<spec>
-					<choice txt="Yes"  value="true" />
-					<choice txt="No" value="false" set="true"/>
-				</spec>
-			</field>
-			<field type="radio" variable="upt.40.installed">
-				<description align="left" txt="Include support for UPT version 4.0?"/>
-				<spec>
-					<choice txt="Yes"  value="true" />
-					<choice txt="No" value="false" set="true"/>
-				</spec>
-			</field>
-			<field type="radio" variable="upt.41.installed">
-				<description align="left" txt="Include support for UPT version 4.1?"/>
-				<spec>
-					<choice txt="Yes"  value="true" />
-					<choice txt="No" value="false" set="true"/>
-				</spec>
-			</field>
-			<field type="radio" variable="upt.42.installed">
-				<description align="left" txt="Include support for UPT version 4.2?"/>
-				<spec>
-					<choice txt="Yes"  value="true" />
-					<choice txt="No" value="false" set="true"/>
-				</spec>
-			</field>-->
-
 	
 	</panel> <!-- End of Installation Type panel--> 
 
@@ -102,321 +68,19 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 	</panel>
 
-	
-	<!-- Jboss Configuration -->
+
+<!-- Upgrade, specify app homes and read properties -->
 	<panel order="3">
-		<field type="title" txt="Configure your JBoss application server" bold="true" size="1" />
-		<field type="divider" align="top"/>
-		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${UserPathPanelVariable}/${jboss.binaries.relative.dir}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to provide the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
-		<field type="space"/>
-		<field type="text" align="left" variable="jboss.server.hostname">
-			<spec txt="Hostname of this Server:" size="25" set="$HOST_NAME"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Hostname of this Server is a required field" />
-			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid JBoss Host name or the Host is not reachable"/>
-		</field>
-		<field type="text" variable="jboss.server.name">
-			<spec txt="JBoss Server Name (JBoss_HOME/server/JBoss_SERVER_NAME):" size="15" set="default"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" JBoss Server Name (JBoss_HOME/server/JBoss_SERVER_NAME) is a required field" />
-		</field>
-		<field type="text" variable="jboss.web.user">
-			<spec txt="JBoss Web Console User:" size="15" set="admin"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss web user is a required field" />
-		</field>
-		<field type="password" align="left" variable="jboss.web.password">
-			<spec>
-				<pwd txt="JBoss Web Console Password:" size="25" set=""/>
-				<pwd txt="Confirm JBoss Web Console Password:" size="25" set=""/>
-			</spec>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Web Console Passwords are required fields" />
-			<validator class="com.izforge.izpack.util.PasswordEqualityValidator" txt="Passwords do not match. Please re-enter your JBoss Web Console passwords"/>
-		</field>
-		<field type="text" variable="jboss.java.opts">
-			<spec txt="JBoss Server JAVA_OPTS:" size="135" set="-server -Xms256m -Xmx512m -XX:ThreadStackSize=128 -XX:SurvivorRatio=10 -XX:PermSize=128m -XX:MaxPermSize=128m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.awt.headless=true"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Server JAVA_OPTS is a required field" />
-		</field>
-
-
-		<field type="text" variable="jboss.server.port">
-			<spec txt="JBoss HTTP Port:" size="5" set="30210"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The HTTP port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.server.jndi.port">
-			<spec txt="JBoss JNDI Port:" size="5" set="30200"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JNDI port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.server.rmi.port">
-			<spec txt="JBoss RMI Port:" size="5" set="30230"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss RMI port number is already in use"/>
-		</field>
-
-		<field type="text" variable="jboss.ejbinvoker.port">
-			<spec txt="JBoss EJBInvoker Port:" size="5" set="30150"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The ejbinvoker port number is already in use"/>
-		</field>
-
-		<field type="text" variable="jboss.cobraorb.port">
-			<spec txt="JBoss CORBAORG port:" size="5" set="30350"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The cobraorb port number is already in use"/>
-		</field>
-
-		<field type="text" variable="jboss.hajndi.port">
-			<spec txt="JBoss hajndi port:" size="5" set="30160"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The hajndi port number is already in use"/>
-		</field>
-
-		<field type="text" variable="jboss.hajrmi.port">
-			<spec txt="JBoss hajrmi port:" size="5" set="30260"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The hajrmi port number is already in use"/>
-		</field>
-
-		<field type="text" variable="jboss.jms.port">
-			<spec txt="JBoss JMS port:" size="5" set="30170"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss JMS port number is already in use"/>
-		</field>
-		<!-- Not sure we ant to prompt for these, this page is so big already --> 
-		<variable name="log4j.maxFileSize" value="100MB"/>
-		<variable name="log4j.maxDays" value="7"/>
-		<variable name="log4j.level" value="WARN"/>
-
-	</panel> 	<!-- End of Jboss Configuration panel -->
-
-	<!-- Jboss Continued -->
-	<panel order="4">
-		<field type="title" txt="Additional JBoss installation options" bold="true" size="1" />
-		<field type="divider" align="top"/>
-
-		<field type="text" variable="jboss.jmx-rmi.port">
-			<spec txt="JBoss jmx-rmi port:" size="5" set="30290"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss jmx-rmi port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.messaging.port">
-			<spec txt="JBoss messaging port:" size="5" set="30330"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss messaging port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.pooledha.port">
-			<spec txt="JBoss pooledha port:" size="5" set="30270"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss pooledha port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.remoting.port">
-			<spec txt="JBoss remoting port:" size="5" set="30320"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss remoting port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.server.bind.port">
-			<spec txt="JBoss bind port:" size="5" set="0"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss bind port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.server.redirect.port">
-			<spec txt="JBoss redirect port:" size="5" set="11298"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss redirect port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.service.rmiobject.port">
-			<spec txt="JBoss rmiobject port:" size="5" set="30240"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss rmiobject port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.snmp-trapd.port">
-			<spec txt="JBoss snmp-trapd port:" size="5" set="30300"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss snmp-trapd port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.snmp.port">
-			<spec txt="JBoss SNMP port:" size="5" set="30310"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss SNMP port number is already in use"/>
-		</field>
-		<field type="text" variable="jboss.web.service.port">
-			<spec txt="JBoss web service port:" size="5" set="30250"/>
-			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss web service port number is already in use"/>
-		</field>
-	</panel>  	<!-- End of Jboss Continued panel -->
-
-<!-- Typical Database Properties -->
-	<panel order="5">
-		<field type="title" txt="Configuring your database connection" bold="true" size="1" />
-		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
-		<field type="divider" align="top"/>
-
-		<variable name="install.path" value="$INSTALL_PATH"/>
-		<variable name="baseDir" value="$INSTALL_PATH"/>
-
-		<field type="text" variable="upt.central.database.server">
-			<spec txt="Database Host Name:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
-		</field>
-		<field type="text" variable="upt.central.database.port">
-			<spec txt="Database Port:" size="5" set="3306"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Port is a required field" />
-		</field>
-		<field type="text" variable="upt.central.database.name">
-			<spec txt="Database Name:" size="25" set="uptdb"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
-		</field>
-		<field type="text" variable="upt.central.database.system.user">
-			<spec txt="Database Application System User:" size="25" set="upt"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
-		</field>
-		<field type="text" allign="left" variable="upt.central.database.system.password">
-			<spec txt="Database Application System User Password:" size="25" set=""/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database User System Password is a required field" />
-		</field>
-		<!-- <validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/> -->
-		<!-- Recreate DB? -->
-		<field type="radio" variable="upt.central.database.re-create">
-			<description align="left" txt="Recreate the CSM UPT database schema?"/>
-			<spec>
-				<choice txt="Yes"  value="true"  set="true"/>
-				<choice txt="No" value="false"/>
-			</spec>
-		</field>
-
-		<field type="text" variable="upt.central.database.version">
-			<spec txt="Database Version:" size="25" set="5.0.27"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
-		</field>
-		
-		<field type="text" variable="upt.central.database.driver.class">
-			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
-		</field>
-		
-		<variable name="upt.central.database.type" value="mysql"/>
-		<variable name="upt.central.jndi.name" value="csmupt"/>
-		<variable name="upt.central.database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-
-	</panel>
-<!-- Choose Authentication Type -->
-	<panel order="6">
-		<field type="title" txt="Authentication Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="There are two types of ways to authenticate users: against database or using an LDAP server. To connect to LDAP, you must have an LDAP server available in your network."/>
-		<field type="divider" align="top"/>
-		<field type="radio" variable="authentication.type">
-			<description align="left" txt="Which kind of authentication do you want to use?"/>
-			<spec>
-				<choice txt="Database" value="db" set="true" />
-				<choice txt="LDAP" value="ldap"/>
-				<choice txt="LDAPS" value="ldaps"/>
-			</spec>
-		</field>
-		<variable name="ldap.basedn" value=""/>
-		<variable name="ldap.url" value=""/>
-	</panel>
-
-<!-- Authentication (Secured Ldap) LDAPS data entry -->
-	<panel order="7">
-			<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
-			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
-			<field type="divider" align="top"/>
-			<field type="text" variable="upt.central.ldaps.url">
-				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
-			</field>
-			<field type="text" variable="upt.central.ldaps.basedn">
-				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
-			</field>
-			<field type="text" variable="upt.central.ldaps.userid.label">
-				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
-			</field>
-
-			<variable name="upt.central.authentication.type" value="ldaps"/>
-
-			<variable name="upt.central.ldap.url" value=""/>
-			<variable name="upt.central.ldap.searchable.base" value=""/>
-			<variable name="upt.central.ldap.userid.label" value=""/>
-			<variable name="upt.central.ldap.admin.user.name" value=""/>
-			<variable name="upt.central.ldap.admin.user.password" value=""/>
-			<variable name="upt.central.database.user.name" value=""/>
-			<variable name="upt.central.database.user.password" value=""/>
-			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
-    </panel>
-<!-- Authentication LDAP data entry -->
-	<panel order="8">
-	
-  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
-			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
-			<field type="divider" align="top"/>
-			<field type="text" variable="upt.central.ldap.url">
-				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
-			</field>
-			<field type="text" variable="upt.central.ldap.searchable.base">
-				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
-			</field>
-			<field type="text" variable="upt.central.ldap.userid.label">
-				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
-			</field>
-			<field type="text" variable="upt.central.ldap.admin.user.name">
-				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
-			</field>
-			<field type="text" variable="upt.central.ldap.admin.user.password">
-				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
-			</field>
-
-			<variable name="upt.central.authentication.type" value="ldap"/>
-
-			<variable name="upt.central.ldaps.url" value=""/>
-			<variable name="upt.central.ldaps.basedn" value=""/>
-			<variable name="upt.central.ldaps.userid.label" value=""/>
-			<variable name="upt.central.database.user.name" value=""/>
-			<variable name="upt.central.database.user.password" value=""/>
-			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
-
-	</panel>
-<!--  Authentication DB data entry-->
-	<panel order="9">
-
-            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
-            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
-            <field type="divider" align="top"/>
-
-            <variable name="install.path" value="$INSTALL_PATH"/>
-            <variable name="baseDir" value="$INSTALL_PATH"/>
-
-            <field type="text" variable="upt.central.database.server">
-                <spec txt="Database Host Name:" size="25" set="${upt.central.database.server}"/>
-				<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
-            </field>
-            <field type="text" variable="upt.central.database.port">
-                <spec txt="Database Port:" size="25" set="${upt.central.database.port}"/>
-				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Port is a required field" />
-            </field>
-            <field type="text" variable="upt.central.database.name">
-                <spec txt="Database Name:" size="25" set="${upt.central.database.name}"/>
-				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database/Schema Name is a required field" />
-            </field>
-            <field type="text" variable="upt.central.database.user">
-                <spec txt="Database Application User:" size="25" set=""/>
-				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database User is a required field" />
-            </field>
-
-            <field type="text" allign="left" variable="upt.central.database.password">
-                <spec txt="Database Application User Password:" size="25" set=""/>
-				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Password is a required field" />
-            </field>
-
-			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
-			<variable name="upt.central.authentication.type" value="db"/>
-			<variable name="upt.central.ldaps.url" value=""/>
-			<variable name="upt.central.ldaps.basedn" value=""/>
-			<variable name="upt.central.ldaps.userid.label" value=""/>
-			<variable name="upt.central.ldap.url" value=""/>
-			<variable name="upt.central.ldap.searchable.base" value=""/>
-			<variable name="upt.central.ldap.userid.label" value=""/>
-			<variable name="upt.central.ldap.admin.user.name" value=""/>
-			<variable name="upt.central.ldap.admin.user.password" value=""/>
-
-
-	</panel>
-<!-- Upgrade, specify app homes and read properties 
-	<panel order="2">
 		<field type="title" txt="Existing Locations" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The password you enter below is the password used to access the JBoss web console. This is a password you are creating, so you must keep track of this password for future use."/>
 		<field type="divider" align="top"/>
 		<field type="dir" variable="application.base.path">
-			<spec txt="Application Root Directory:" size="25" set="c:/apps/bda"/>
+			<spec txt="Application Root Directory:" size="25" set="c:/apps/upt"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Application Root Directory is a required field" />
 		</field>
 		<field type="dir" variable="jboss.home">
-			<spec txt="JBoss Home:" size="25" set="c:/apps/bda/${jboss.binaries.relative.dir}"/>
+			<spec txt="JBoss Home:" size="25" set="c:/apps/upt/${jboss.binaries.relative.dir}"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Home is a required field" />
-		</field>
-		<field type="dir" variable="tomcat.home">
-			<spec txt="Tomcat Home:" size="25" set="c:/apps/bda/${tomcat.binaries.relative.dir}"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Tomcat Home is a required field" />
 		</field>
 		<field type="text" variable="jboss.server.name">
 			<spec txt="JBoss Server name:" size="15" set="default"/>
@@ -427,36 +91,29 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		</fileextractor>
 		
 	</panel>
-	-->
-	<!-- Upgrade container.all 
-	<panel order="3">
+
+	<!-- Upgrade container.all -->
+	<panel order="4">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:common:init" language="ant">
 			<inpropertymap inpropertyname="application.base.path" inpropertyvalue="application.base.path"/>
 			<inpropertymap inpropertyname="jboss.home" inpropertyvalue="jboss.home"/>
 			<inpropertymap inpropertyname="jboss.server.name" inpropertyvalue="jboss.server.name"/>
-			<inpropertymap inpropertyname="tomcat.home" inpropertyvalue="tomcat.home"/>
 			<propertymap propertyname="authentication.type" mapname="authentication.type"/>
 			<propertymap propertyname="database.name" mapname="database.name"/>
 			<propertymap propertyname="database.password" mapname="database.password"/>
-			<propertymap propertyname="database.port" mapname="database.port"/>
+			<propertymap propertyname="database.port" mapname="upt.central.database.port"/>
 			<propertymap propertyname="database.schema" mapname="database.schema"/>
 			<propertymap propertyname="database.server" mapname="database.server"/>
 			<propertymap propertyname="database.type" mapname="database.type"/>
 			<propertymap propertyname="database.url" mapname="database.url"/>
 			<propertymap propertyname="database.user" mapname="database.user"/>
-			<propertymap propertyname="grid.index.url" mapname="grid.index.url"/>
 			<propertymap propertyname="jboss.external.grid.secure.host" mapname="jboss.external.grid.secure.host"/>
 			<propertymap propertyname="jboss.external.grid.secure.port" mapname="jboss.external.grid.secure.port"/>
 			<propertymap propertyname="jboss.external.http.host" mapname="jboss.external.http.host"/>
 			<propertymap propertyname="jboss.external.http.port" mapname="jboss.external.http.port"/>
 			<propertymap propertyname="jboss.external.ssl.host" mapname="jboss.external.ssl.host"/>
 			<propertymap propertyname="jboss.external.ssl.port" mapname="jboss.external.ssl.port"/>
-			<propertymap propertyname="jboss.grid.secure.cert.file" mapname="jboss.grid.secure.cert.file"/>
-			<propertymap propertyname="jboss.grid.secure.dir" mapname="jboss.grid.secure.dir"/>
-			<propertymap propertyname="jboss.grid.secure.enable" mapname="jboss.grid.secure.enable"/>
-			<propertymap propertyname="jboss.grid.secure.key.file" mapname="jboss.grid.secure.key.file"/>
-			<propertymap propertyname="jboss.grid.secure.port" mapname="jboss.grid.secure.port"/>
 			<propertymap propertyname="jboss.java.opts" mapname="jboss.java.opts"/>
 			<propertymap propertyname="jboss.server.bindingfile.location" mapname="jboss.server.bindingfile.location"/>
 			<propertymap propertyname="jboss.server.hostname" mapname="jboss.server.hostname"/>
@@ -464,55 +121,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<propertymap propertyname="jboss.server.port" mapname="jboss.server.port"/>
 			<propertymap propertyname="jboss.server.ports.name" mapname="jboss.server.ports.name"/>
 			<propertymap propertyname="jboss.ssl.enable" mapname="jboss.ssl.enable"/>
-			<propertymap propertyname="jboss.ssl.fullyqualified.hostname" mapname="jboss.ssl.fullyqualified.hostname"/>
-			<propertymap propertyname="jboss.ssl.keystore.alias" mapname="jboss.ssl.keystore.alias"/>
-			<propertymap propertyname="jboss.ssl.keystore.dir" mapname="jboss.ssl.keystore.dir"/>
-			<propertymap propertyname="jboss.ssl.keystore.file" mapname="jboss.ssl.keystore.file"/>
-			<propertymap propertyname="jboss.ssl.keystore.pass" mapname="jboss.ssl.keystore.pass"/>
-			<propertymap propertyname="jboss.ssl.port" mapname="jboss.ssl.port"/>
 			<propertymap propertyname="ldap.basedn" mapname="ldap.basedn"/>
 			<propertymap propertyname="ldap.searchprefix" mapname="ldap.searchprefix"/>
 			<propertymap propertyname="ldap.url" mapname="ldap.url"/>
-			<propertymap propertyname="tomcat.external.grid.secure.host" mapname="tomcat.external.grid.secure.host"/>
-			<propertymap propertyname="tomcat.external.grid.secure.port" mapname="tomcat.external.grid.secure.port"/>
-			<propertymap propertyname="tomcat.external.http.host" mapname="tomcat.external.http.host"/>
-			<propertymap propertyname="tomcat.external.http.port" mapname="tomcat.external.http.port"/>
-			<propertymap propertyname="tomcat.external.ssl.host" mapname="tomcat.external.ssl.host"/>
-			<propertymap propertyname="tomcat.external.ssl.port" mapname="tomcat.external.ssl.port"/>
-			<propertymap propertyname="tomcat.grid.secure.cert.file" mapname="tomcat.grid.secure.cert.file"/>
-			<propertymap propertyname="tomcat.grid.secure.enable" mapname="tomcat.grid.secure.enable"/>
-			<propertymap propertyname="tomcat.grid.secure.key.file" mapname="tomcat.grid.secure.key.file"/>
-			<propertymap propertyname="tomcat.grid.secure.port" mapname="tomcat.grid.secure.port"/>
-			<propertymap propertyname="tomcat.hostname" mapname="tomcat.hostname"/>
-			<propertymap propertyname="tomcat.port.ajp" mapname="tomcat.port.ajp"/>
-			<propertymap propertyname="tomcat.port.http" mapname="tomcat.port.http"/>
-			<propertymap propertyname="tomcat.port.shutdown" mapname="tomcat.port.shutdown"/>
-			<propertymap propertyname="tomcat.port.ssl" mapname="tomcat.port.ssl"/>
-			<propertymap propertyname="tomcat.ssl.enable" mapname="tomcat.ssl.enable"/>
-			<propertymap propertyname="tomcat.ssl.fullyqualified.hostname" mapname="tomcat.ssl.fullyqualified.hostname"/>
-			<propertymap propertyname="tomcat.ssl.keystore.alias" mapname="tomcat.ssl.keystore.alias"/>
-			<propertymap propertyname="tomcat.ssl.keystore.file" mapname="tomcat.ssl.keystore.file"/>
-			<propertymap propertyname="tomcat.ssl.keystore.pass" mapname="tomcat.ssl.keystore.pass"/>
-			<propertymap propertyname="grid.poc.tech.researchCenter.displayname" mapname="grid.poc.tech.researchCenter.displayname"/>
-			<propertymap propertyname="grid.poc.tech.researchCenter.shortname" mapname="grid.poc.tech.researchCenter.shortname"/>
-			<propertymap propertyname="grid.poc.tech.addr.country" mapname="grid.poc.tech.addr.country"/>
-			<propertymap propertyname="grid.poc.tech.addr.locality" mapname="grid.poc.tech.addr.locality"/>
-			<propertymap propertyname="grid.poc.tech.addr.postalCode" mapname="grid.poc.tech.addr.postalCode"/>
-			<propertymap propertyname="grid.poc.tech.addr.stateProvince" mapname="grid.poc.tech.addr.stateProvince"/>
-			<propertymap propertyname="grid.poc.tech.addr.street1" mapname="grid.poc.tech.addr.street1"/>
-			<propertymap propertyname="grid.poc.tech.addr.street2" mapname="grid.poc.tech.addr.street2"/>
-			<propertymap propertyname="grid.poc.tech.affiliation" mapname="grid.poc.tech.affiliation"/>
-			<propertymap propertyname="grid.poc.tech.name.last" mapname="grid.poc.tech.name.last"/>
-			<propertymap propertyname="grid.poc.tech.name.first" mapname="grid.poc.tech.name.first"/>
-			<propertymap propertyname="grid.poc.tech.phone" mapname="grid.poc.tech.phone"/>
-			<propertymap propertyname="grid.poc.tech.email" mapname="grid.poc.tech.email"/>
-			<propertymap propertyname="grid.poc.tech.role" mapname="grid.poc.tech.role"/>
-			<propertymap propertyname="grid.poc.science.affiliation" mapname="grid.poc.science.affiliation"/>
-			<propertymap propertyname="grid.poc.science.name.last" mapname="grid.poc.science.name.last"/>
-			<propertymap propertyname="grid.poc.science.name.first" mapname="grid.poc.science.name.first"/>
-			<propertymap propertyname="grid.poc.science.phone" mapname="grid.poc.science.phone"/>
-			<propertymap propertyname="grid.poc.science.email" mapname="grid.poc.science.email"/>
-			<propertymap propertyname="grid.poc.science.role" mapname="grid.poc.science.role"/>
 			<propertymap propertyname="jboss.ejbinvoker.port" mapname="jboss.ejbinvoker.port"/>
 			<propertymap propertyname="jboss.server.rmi.port" mapname="jboss.server.rmi.port"/>
 			<propertymap propertyname="jboss.web.service.port" mapname="jboss.web.service.port"/>
@@ -530,19 +141,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<propertymap propertyname="jboss.remoting.port" mapname="jboss.remoting.port"/>
 			<propertymap propertyname="jboss.messaging.port" mapname="jboss.messaging.port"/>
 			<propertymap propertyname="jboss.ssl.keystore.location" mapname="jboss.ssl.keystore.location"/>
-			<propertymap propertyname="jboss.grid.secure.cert.location" mapname="jboss.grid.secure.cert.location"/>
-			<propertymap propertyname="jboss.grid.secure.key.location" mapname="jboss.grid.secure.key.location"/>
-			<propertymap propertyname="tomcat.ssl.keystore.location" mapname="tomcat.ssl.keystore.location"/>
-			<propertymap propertyname="tomcat.grid.secure.cert.location" mapname="tomcat.grid.secure.cert.location"/>
-			<propertymap propertyname="tomcat.grid.secure.key.location" mapname="tomcat.grid.secure.key.location"/>
 		</panelreader>
 		<variable name="validation.pre.port.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.server.port},${jboss.web.service.port}"/>
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 	</panel>
-	-->
-	<!-- Upgrade container.jboss 
-	<panel order="4">
+	
+	<!-- Upgrade container.jboss -->
+	<panel order="5">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:jboss:init" language="ant">
 			<inpropertymap inpropertyname="application.base.path" inpropertyvalue="application.base.path"/>
@@ -629,72 +235,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 	</panel>
-	-->
-	<!-- Upgrade container.tomcat 
-	<panel order="5">
-		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
-		<panelreader classname="pre-install/install.xml" methodname="upgrade:tomcat:init" language="ant">
-			<inpropertymap inpropertyname="application.base.path" inpropertyvalue="application.base.path"/>
-			<inpropertymap inpropertyname="tomcat.home" inpropertyvalue="tomcat.home"/>
-			<propertymap propertyname="database.name" mapname="database.name"/>
-			<propertymap propertyname="database.password" mapname="database.password"/>
-			<propertymap propertyname="database.port" mapname="database.port"/>
-			<propertymap propertyname="database.schema" mapname="database.schema"/>
-			<propertymap propertyname="database.server" mapname="database.server"/>
-			<propertymap propertyname="database.type" mapname="database.type"/>
-			<propertymap propertyname="database.url" mapname="database.url"/>
-			<propertymap propertyname="database.user" mapname="database.user"/>
-			<propertymap propertyname="grid.index.url" mapname="grid.index.url"/>
-			<propertymap propertyname="tomcat.external.grid.secure.host" mapname="tomcat.external.grid.secure.host"/>
-			<propertymap propertyname="tomcat.external.grid.secure.port" mapname="tomcat.external.grid.secure.port"/>
-			<propertymap propertyname="tomcat.external.http.host" mapname="tomcat.external.http.host"/>
-			<propertymap propertyname="tomcat.external.http.port" mapname="tomcat.external.http.port"/>
-			<propertymap propertyname="tomcat.external.ssl.host" mapname="tomcat.external.ssl.host"/>
-			<propertymap propertyname="tomcat.external.ssl.port" mapname="tomcat.external.ssl.port"/>
-			<propertymap propertyname="tomcat.grid.secure.cert.file" mapname="tomcat.grid.secure.cert.file"/>
-			<propertymap propertyname="tomcat.grid.secure.enable" mapname="tomcat.grid.secure.enable"/>
-			<propertymap propertyname="tomcat.grid.secure.key.file" mapname="tomcat.grid.secure.key.file"/>
-			<propertymap propertyname="tomcat.grid.secure.port" mapname="tomcat.grid.secure.port"/>
-			<propertymap propertyname="tomcat.hostname" mapname="tomcat.hostname"/>
-			<propertymap propertyname="tomcat.port.ajp" mapname="tomcat.port.ajp"/>
-			<propertymap propertyname="tomcat.port.http" mapname="tomcat.port.http"/>
-			<propertymap propertyname="tomcat.port.shutdown" mapname="tomcat.port.shutdown"/>
-			<propertymap propertyname="tomcat.port.ssl" mapname="tomcat.port.ssl"/>
-			<propertymap propertyname="tomcat.ssl.enable" mapname="tomcat.ssl.enable"/>
-			<propertymap propertyname="tomcat.ssl.fullyqualified.hostname" mapname="tomcat.ssl.fullyqualified.hostname"/>
-			<propertymap propertyname="tomcat.ssl.keystore.alias" mapname="tomcat.ssl.keystore.alias"/>
-			<propertymap propertyname="tomcat.ssl.keystore.file" mapname="tomcat.ssl.keystore.file"/>
-			<propertymap propertyname="tomcat.ssl.keystore.pass" mapname="tomcat.ssl.keystore.pass"/>
-			<propertymap propertyname="grid.poc.tech.researchCenter.displayname" mapname="grid.poc.tech.researchCenter.displayname"/>
-			<propertymap propertyname="grid.poc.tech.researchCenter.shortname" mapname="grid.poc.tech.researchCenter.shortname"/>
-			<propertymap propertyname="grid.poc.tech.addr.country" mapname="grid.poc.tech.addr.country"/>
-			<propertymap propertyname="grid.poc.tech.addr.locality" mapname="grid.poc.tech.addr.locality"/>
-			<propertymap propertyname="grid.poc.tech.addr.postalCode" mapname="grid.poc.tech.addr.postalCode"/>
-			<propertymap propertyname="grid.poc.tech.addr.stateProvince" mapname="grid.poc.tech.addr.stateProvince"/>
-			<propertymap propertyname="grid.poc.tech.addr.street1" mapname="grid.poc.tech.addr.street1"/>
-			<propertymap propertyname="grid.poc.tech.addr.street2" mapname="grid.poc.tech.addr.street2"/>
-			<propertymap propertyname="grid.poc.tech.affiliation" mapname="grid.poc.tech.affiliation"/>
-			<propertymap propertyname="grid.poc.tech.name.last" mapname="grid.poc.tech.name.last"/>
-			<propertymap propertyname="grid.poc.tech.name.first" mapname="grid.poc.tech.name.first"/>
-			<propertymap propertyname="grid.poc.tech.phone" mapname="grid.poc.tech.phone"/>
-			<propertymap propertyname="grid.poc.tech.email" mapname="grid.poc.tech.email"/>
-			<propertymap propertyname="grid.poc.tech.role" mapname="grid.poc.tech.role"/>
-			<propertymap propertyname="grid.poc.science.affiliation" mapname="grid.poc.science.affiliation"/>
-			<propertymap propertyname="grid.poc.science.name.last" mapname="grid.poc.science.name.last"/>
-			<propertymap propertyname="grid.poc.science.name.first" mapname="grid.poc.science.name.first"/>
-			<propertymap propertyname="grid.poc.science.phone" mapname="grid.poc.science.phone"/>
-			<propertymap propertyname="grid.poc.science.email" mapname="grid.poc.science.email"/>
-			<propertymap propertyname="grid.poc.science.role" mapname="grid.poc.science.role"/>
-			<propertymap propertyname="tomcat.ssl.keystore.location" mapname="tomcat.ssl.keystore.location"/>
-			<propertymap propertyname="tomcat.grid.secure.cert.location" mapname="tomcat.grid.secure.cert.location"/>
-			<propertymap propertyname="tomcat.grid.secure.key.location" mapname="tomcat.grid.secure.key.location"/>
-		</panelreader>
-		<variable name="validation.pre.port.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.server.port},${jboss.web.service.port}"/>
-		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
-		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
-	</panel>
-	-->
-	<!-- Upgrade container.database 
+	
+	
+	<!-- Upgrade container.database -->
 	<panel order="6">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:database:init" language="ant">
@@ -702,23 +245,324 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<inpropertymap inpropertyname="jboss.home" inpropertyvalue="jboss.home"/>
 			<inpropertymap inpropertyname="jboss.server.name" inpropertyvalue="jboss.server.name"/>
 			<propertymap propertyname="authentication.type" mapname="authentication.type"/>
-			<propertymap propertyname="database.name" mapname="database.name"/>
-			<propertymap propertyname="database.password" mapname="database.password"/>
-			<propertymap propertyname="database.port" mapname="database.port"/>
-			<propertymap propertyname="database.schema" mapname="database.schema"/>
-			<propertymap propertyname="database.server" mapname="database.server"/>
-			<propertymap propertyname="database.type" mapname="database.type"/>
-			<propertymap propertyname="database.url" mapname="database.url"/>
-			<propertymap propertyname="database.user" mapname="database.user"/>
+			<propertymap propertyname="upt.central.database.name" mapname="database.name"/>
+			<propertymap propertyname="upt.central.database.password" mapname="database.password"/>
+			<propertymap propertyname="upt.central.database.port" mapname="database.port"/>
+			<propertymap propertyname="upt.central.database.schema" mapname="database.schema"/>
+			<propertymap propertyname="upt.central.database.server" mapname="database.server"/>
+			<propertymap propertyname="upt.central.database.type" mapname="database.type"/>
+			<propertymap propertyname="upt.central.database.url" mapname="database.url"/>
+			<propertymap propertyname="upt.central.database.user" mapname="database.user"/>
 		</panelreader>
 		<variable name="validation.pre.port.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.server.port},${jboss.web.service.port}"/>
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
 	</panel>
-	-->
+	
+
+	
+	<!-- Jboss Configuration -->
+	<panel order="7">
+		<field type="title" txt="Configure your JBoss application server" bold="true" size="1" />
+		<field type="divider" align="top"/>
+		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${UserPathPanelVariable}/${jboss.binaries.relative.dir}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to provide the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
+		<field type="space"/>
+		<field type="text" align="left" variable="jboss.server.hostname">
+			<spec txt="Hostname of this Server:" size="25" set="$HOST_NAME"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Hostname of this Server is a required field" />
+			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid JBoss Host name or the Host is not reachable"/>
+		</field>
+		<field type="text" variable="jboss.server.name">
+			<spec txt="JBoss Server Name (JBoss_HOME/server/JBoss_SERVER_NAME):" size="15" set="default"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" JBoss Server Name (JBoss_HOME/server/JBoss_SERVER_NAME) is a required field" />
+		</field>
+		<field type="text" variable="jboss.web.user">
+			<spec txt="JBoss Web Console User:" size="15" set="admin"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss web user is a required field" />
+		</field>
+		<field type="password" align="left" variable="jboss.web.password">
+			<spec>
+				<pwd txt="JBoss Web Console Password:" size="25" set=""/>
+				<pwd txt="Confirm JBoss Web Console Password:" size="25" set=""/>
+			</spec>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Web Console Passwords are required fields" />
+			<validator class="com.izforge.izpack.util.PasswordEqualityValidator" txt="Passwords do not match. Please re-enter your JBoss Web Console passwords"/>
+		</field>
+		<field type="text" variable="jboss.java.opts">
+			<spec txt="JBoss Server JAVA_OPTS:" size="135" set="-server -Xms256m -Xmx512m -XX:ThreadStackSize=128 -XX:SurvivorRatio=10 -XX:PermSize=128m -XX:MaxPermSize=128m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.awt.headless=true"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Server JAVA_OPTS is a required field" />
+		</field>
+
+
+		<field type="text" variable="jboss.server.port">
+			<spec txt="JBoss HTTP Port:" size="5" set="30210"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The HTTP port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.server.jndi.port">
+			<spec txt="JBoss JNDI Port:" size="5" set="30200"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JNDI port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.server.rmi.port">
+			<spec txt="JBoss RMI Port:" size="5" set="30230"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss RMI port number is already in use"/>
+		</field>
+
+		<field type="text" variable="jboss.ejbinvoker.port">
+			<spec txt="JBoss EJBInvoker Port:" size="5" set="30150"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The ejbinvoker port number is already in use"/>
+		</field>
+
+		<field type="text" variable="jboss.cobraorb.port">
+			<spec txt="JBoss CORBAORG port:" size="5" set="30350"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The cobraorb port number is already in use"/>
+		</field>
+
+		<field type="text" variable="jboss.hajndi.port">
+			<spec txt="JBoss hajndi port:" size="5" set="30160"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The hajndi port number is already in use"/>
+		</field>
+
+		<field type="text" variable="jboss.hajrmi.port">
+			<spec txt="JBoss hajrmi port:" size="5" set="30260"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The hajrmi port number is already in use"/>
+		</field>
+
+		<field type="text" variable="jboss.jms.port">
+			<spec txt="JBoss JMS port:" size="5" set="30170"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss JMS port number is already in use"/>
+		</field>
+		<!-- Not sure we ant to prompt for these, this page is so big already --> 
+		<variable name="log4j.maxFileSize" value="100MB"/>
+		<variable name="log4j.maxDays" value="7"/>
+		<variable name="log4j.level" value="WARN"/>
+
+	</panel> 	<!-- End of Jboss Configuration panel -->
+
+	<!-- Jboss Continued -->
+	<panel order="8">
+		<field type="title" txt="Additional JBoss installation options" bold="true" size="1" />
+		<field type="divider" align="top"/>
+
+		<field type="text" variable="jboss.jmx-rmi.port">
+			<spec txt="JBoss jmx-rmi port:" size="5" set="30290"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss jmx-rmi port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.messaging.port">
+			<spec txt="JBoss messaging port:" size="5" set="30330"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss messaging port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.pooledha.port">
+			<spec txt="JBoss pooledha port:" size="5" set="30270"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss pooledha port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.remoting.port">
+			<spec txt="JBoss remoting port:" size="5" set="30320"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss remoting port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.server.bind.port">
+			<spec txt="JBoss bind port:" size="5" set="0"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss bind port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.server.redirect.port">
+			<spec txt="JBoss redirect port:" size="5" set="11298"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss redirect port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.service.rmiobject.port">
+			<spec txt="JBoss rmiobject port:" size="5" set="30240"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss rmiobject port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.snmp-trapd.port">
+			<spec txt="JBoss snmp-trapd port:" size="5" set="30300"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss snmp-trapd port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.snmp.port">
+			<spec txt="JBoss SNMP port:" size="5" set="30310"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss SNMP port number is already in use"/>
+		</field>
+		<field type="text" variable="jboss.web.service.port">
+			<spec txt="JBoss web service port:" size="5" set="30250"/>
+			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss web service port number is already in use"/>
+		</field>
+	</panel>  	<!-- End of Jboss Continued panel -->
+
+<!-- Typical Database Properties -->
+	<panel order="9">
+		<field type="title" txt="Configuring your database connection" bold="true" size="1" />
+		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+		<field type="divider" align="top"/>
+
+		<variable name="install.path" value="$INSTALL_PATH"/>
+		<variable name="baseDir" value="$INSTALL_PATH"/>
+
+		<field type="text" variable="upt.central.database.server">
+			<spec txt="Database Host Name:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
+		</field>
+		<field type="text" variable="upt.central.database.port">
+			<spec txt="Database Port:" size="5" set="3306"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Port is a required field" />
+		</field>
+		<field type="text" variable="upt.central.database.name">
+			<spec txt="Database Name:" size="25" set="uptdb"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
+		</field>
+		<field type="text" variable="upt.central.database.system.user">
+			<spec txt="Database Application System User:" size="25" set="upt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
+		</field>
+		<field type="text" allign="left" variable="upt.central.database.system.password">
+			<spec txt="Database Application System User Password:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database User System Password is a required field" />
+		</field>
+		<!-- <validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/> -->
+		<!-- Recreate DB? -->
+		<field type="radio" variable="upt.central.database.re-create">
+			<description align="left" txt="Recreate the CSM UPT database schema?"/>
+			<spec>
+				<choice txt="Yes"  value="true"  set="true"/>
+				<choice txt="No" value="false"/>
+			</spec>
+		</field>
+
+		<field type="text" variable="upt.central.database.version">
+			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
+		</field>
+		
+		<field type="text" variable="upt.central.database.driver.class">
+			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
+		</field>
+		
+		<variable name="upt.central.database.type" value="mysql"/>
+		<variable name="upt.central.jndi.name" value="csmupt"/>
+		<variable name="upt.central.database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+
+	</panel>
+<!-- Choose Authentication Type -->
+	<panel order="10">
+		<field type="title" txt="Authentication Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="There are two types of ways to authenticate users: against database or using an LDAP server. To connect to LDAP, you must have an LDAP server available in your network."/>
+		<field type="divider" align="top"/>
+		<field type="radio" variable="authentication.type">
+			<description align="left" txt="Which kind of authentication do you want to use?"/>
+			<spec>
+				<choice txt="Database" value="db" set="true" />
+				<choice txt="LDAP" value="ldap"/>
+				<choice txt="LDAPS" value="ldaps"/>
+			</spec>
+		</field>
+		<variable name="ldap.basedn" value=""/>
+		<variable name="ldap.url" value=""/>
+	</panel>
+
+<!-- Authentication (Secured Ldap) LDAPS data entry -->
+	<panel order="11">
+			<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.central.ldaps.url">
+				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.central.ldaps.basedn">
+				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
+			</field>
+			<field type="text" variable="upt.central.ldaps.userid.label">
+				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
+			</field>
+
+			<variable name="upt.central.authentication.type" value="ldaps"/>
+
+			<variable name="upt.central.ldap.url" value=""/>
+			<variable name="upt.central.ldap.searchable.base" value=""/>
+			<variable name="upt.central.ldap.userid.label" value=""/>
+			<variable name="upt.central.ldap.admin.user.name" value=""/>
+			<variable name="upt.central.ldap.admin.user.password" value=""/>
+			<variable name="upt.central.database.user.name" value=""/>
+			<variable name="upt.central.database.user.password" value=""/>
+			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
+    </panel>
+<!-- Authentication LDAP data entry -->
+	<panel order="12">
+	
+  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
+			<field type="divider" align="top"/>
+			<field type="text" variable="upt.central.ldap.url">
+				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
+			</field>
+			<field type="text" variable="upt.central.ldap.searchable.base">
+				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
+			</field>
+			<field type="text" variable="upt.central.ldap.userid.label">
+				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.central.ldap.admin.user.name">
+				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
+			</field>
+			<field type="text" variable="upt.central.ldap.admin.user.password">
+				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
+			</field>
+
+			<variable name="upt.central.authentication.type" value="ldap"/>
+
+			<variable name="upt.central.ldaps.url" value=""/>
+			<variable name="upt.central.ldaps.basedn" value=""/>
+			<variable name="upt.central.ldaps.userid.label" value=""/>
+			<variable name="upt.central.database.user.name" value=""/>
+			<variable name="upt.central.database.user.password" value=""/>
+			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
+
+	</panel>
+<!--  Authentication DB data entry-->
+	<panel order="13">
+
+            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="divider" align="top"/>
+
+            <variable name="install.path" value="$INSTALL_PATH"/>
+            <variable name="baseDir" value="$INSTALL_PATH"/>
+
+            <field type="text" variable="upt.central.database.server">
+                <spec txt="Database Host Name:" size="25" set="${upt.central.database.server}"/>
+				<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
+            </field>
+            <field type="text" variable="upt.central.database.port">
+                <spec txt="Database Port:" size="25" set="${upt.central.database.port}"/>
+				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Port is a required field" />
+            </field>
+            <field type="text" variable="upt.central.database.name">
+                <spec txt="Database Name:" size="25" set="${upt.central.database.name}"/>
+				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database/Schema Name is a required field" />
+            </field>
+            <field type="text" variable="upt.central.database.user">
+                <spec txt="Database Application User:" size="25" set=""/>
+				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database User is a required field" />
+            </field>
+
+            <field type="text" allign="left" variable="upt.central.database.password">
+                <spec txt="Database Application User Password:" size="25" set=""/>
+				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Password is a required field" />
+            </field>
+
+			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
+			<variable name="upt.central.authentication.type" value="db"/>
+			<variable name="upt.central.ldaps.url" value=""/>
+			<variable name="upt.central.ldaps.basedn" value=""/>
+			<variable name="upt.central.ldaps.userid.label" value=""/>
+			<variable name="upt.central.ldap.url" value=""/>
+			<variable name="upt.central.ldap.searchable.base" value=""/>
+			<variable name="upt.central.ldap.userid.label" value=""/>
+			<variable name="upt.central.ldap.admin.user.name" value=""/>
+			<variable name="upt.central.ldap.admin.user.password" value=""/>
+
+
+	</panel>
+	
 
 	<!-- Installation Summary -->
-	<panel order="10">
+	<panel order="14">
 		<field type="title" txt="Installation Summary" bold="true" size="1" />
 		<field type="staticText" align="left" txt="Below are "/>
 		<field type="divider" align="top"/>
