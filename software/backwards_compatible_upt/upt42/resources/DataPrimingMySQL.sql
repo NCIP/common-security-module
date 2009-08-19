@@ -7,16 +7,16 @@
 # it is.
 #
 insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-values ("@upt.42.context.name@","UPT Super Admin Application",0,0,sysdate());
+values ("csmupt","UPT Super Admin Application",0,0,sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
 values ("@super.admin.user@","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("@upt.42.context.name@","UPT Super Admin Application","<<upt_context_name>>",1,sysdate());
+values("csmupt","UPT Super Admin Application","<<upt_context_name>>",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
-values(1,1,sysdate());
+insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
+values(1,1);
 
 # 
 # The following entry is for your application. 

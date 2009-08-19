@@ -559,6 +559,16 @@
 	</target>
 	
 	<target name="install:backwards-compatible-upt:databases" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database">
+		
+		<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+			<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}">
+				<include name="**/db-upgrade*.xml"/>
+			</fileset>
+			<filterset>
+				<filter token="os.temp.dir" value="${os.temp.dir}" />
+				<filter token="project.name" value="${project.name}" />
+			</filterset>
+		</copy>		
 		<if>
 			<and>
 				<equals arg1="${upt.central.database.re-create}" arg2="true" />
@@ -600,6 +610,7 @@
 									db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
+									db.upgrade.non-central.file="${upt.31.db.upgrade.file}"
 								/>
 					</then>
 				</if>
@@ -622,6 +633,7 @@
 									db.install.create.oracle.file.list="${upt.32.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.32.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.32.db.install.create.postgres.file.list}"
+									db.upgrade.non-central.file="${upt.32.db.upgrade.file}"
 								/>
 					</then>
 				</if>
@@ -644,6 +656,7 @@
 									db.install.create.oracle.file.list="${upt.40.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.40.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.40.db.install.create.postgres.file.list}"
+									db.upgrade.non-central.file="${upt.40.db.upgrade.file}"
 								/>
 					</then>
 				</if>
@@ -666,6 +679,7 @@
 									db.install.create.oracle.file.list="${upt.41.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.41.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.41.db.install.create.postgres.file.list}"
+									db.upgrade.non-central.file="${upt.41.db.upgrade.file}"
 								/>
 					</then>
 				</if>
@@ -688,6 +702,7 @@
 									db.install.create.oracle.file.list="${upt.42.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.42.db.install.create.postgres.file.list}"
+									db.upgrade.non-central.file="${upt.42.db.upgrade.file}"
 								/>
 					</then>
 				</if>
@@ -744,16 +759,16 @@
 										path="//policy/application-policy[@name='${application.context.name}']/authentication"
 										position="under">
 							<![CDATA[			
-									 <login-module
-										code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="sufficient">
-							<module-option name="ldapHost">@{ldap.url}@</module-option>
-							<module-option name="ldapSearchableBase">@{ldap.searchable.base}@</module-option>
-							<module-option name="ldapUserIdLabel">@{ldap.userid.label}</module-option>
-							<module-option name="ldapAdminUserName">@{ldap.userid.label}</module-option>
-							<module-option name="ldapAdminPassword">@{ldap.userid.password}</module-option>
-						</login-module>
-									]]>
-									</insert>
+							<login-module
+								code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="sufficient">
+								<module-option name="ldapHost">@{ldap.url}@</module-option>
+								<module-option name="ldapSearchableBase">@{ldap.searchable.base}@</module-option>
+								<module-option name="ldapUserIdLabel">@{ldap.userid.label}</module-option>
+								<module-option name="ldapAdminUserName">@{ldap.userid.label}</module-option>
+								<module-option name="ldapAdminPassword">@{ldap.userid.password}</module-option>
+							</login-module>
+							]]>
+						</insert>
 				</xmltask>
 			</then>
 		</elseif>
@@ -768,17 +783,17 @@
 										path="//policy/application-policy[@name='${application.context.name}']/authentication"
 										position="under">
 						<![CDATA[			
-									 <login-module
-										code="gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag="sufficient">
-						<module-option name="driver">@{database.driver}</module-option>
-						<module-option name="url">@{database.url}</module-option>
-						<module-option name="user">@{database.user}</module-option>
-						<module-option name="passwd">@{database.password}</module-option>
-						<module-option name="query">SELECT * FROM CSM_USER WHERE LOGIN_NAME=? and PASSWORD=?</module-option>
-						<module-option name="encryption-enabled">@{database.encrypt.enabled}</module-option>
-					</login-module>
-									]]>
-									</insert>
+						<login-module
+							code="gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule" flag="sufficient">
+							<module-option name="driver">@{database.driver}</module-option>
+							<module-option name="url">@{database.url}</module-option>
+							<module-option name="user">@{database.user}</module-option>
+							<module-option name="passwd">@{database.password}</module-option>
+							<module-option name="query">SELECT * FROM CSM_USER WHERE LOGIN_NAME=? and PASSWORD=?</module-option>
+							<module-option name="encryption-enabled">@{database.encrypt.enabled}</module-option>
+						</login-module>
+						]]>
+					</insert>
 				</xmltask>
 			</then>
 		</elseif>
@@ -840,12 +855,7 @@
 			</xmltask>
 		</sequential>
 	</macrodef>
-		
-	<!-- <database-upgrade
-					database.changelog.file="${os.temp.dir}/${project.name}/db-upgrade.xml"
-			 />
-			 <database-tag/>							
-		-->
+
 	<macrodef name="install-backwards-compatible-upt-database">
 		<attribute name="database.driver" default="NOT SET" />
 		<attribute name="database.system.url" default="NOT SET" />
@@ -867,6 +877,7 @@
 		<attribute name="db.install.create.oracle.file.list" default="NOT SET"/>
 		<attribute name="db.install.create.mysql.file.list" default="NOT SET"/>
 		<attribute name="db.install.create.postgresql.file.list" default="NOT SET"/>
+		<attribute name="db.upgrade.non-central.file" default="NOT SET"/>
 	
 		<sequential>
 			<switch value="${database.type}">
@@ -942,7 +953,16 @@
 						database.password="@{database.password}"
 					 />
 				</case>
-			</switch>	
+			</switch>
+			
+			<database-upgrade database.driver="@{database.driver}" database.url="@{database.url}" 
+							  database.user="@{database.user}" database.password="@{database.password}" 
+							  database.schema="@{database.name}"
+							  database.changelog.file="${os.temp.dir}/${project.name}/@{db.upgrade.non-central.file}"/>
+			
+			<database-tag database.driver="@{database.driver}" database.url="@{database.url}"
+						  database.user="@{database.user}" database.password="@{database.password}" 
+						  database.schema="@{database.name}" />		
 		  </sequential>
 	</macrodef>
 	
@@ -1074,12 +1094,13 @@
 	</target>
 	
 	<target name="upgrade:backwards-compatible-upt:databases" description="Upgrades database using BDA Datbase Upgrade process." unless="exclude.database">
+		<echo message="execute for non central database"/>		
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true" />
 			<then>
 				<mkdir dir="${os.temp.dir}/${project.name}"/>
 				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
-					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/42">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/${upt.42.url.context.name}">
 						<include name="**/db-upgrade*.xml"/>
 						<include name="**/MigrationScript*.xml"/>
 					</fileset>
@@ -1100,7 +1121,85 @@
 					database.upgrade.schema.file="MigrationScript${upgrade.upt.central.db.previous.version}MySQL.xml" />
 			</then>
 			<else>
-				<echo message="execute for non central database"/>				
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}">
+						<include name="**/db-upgrade*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+				<if>
+					<equals arg1="${upt.31.installed}" arg2="true"/>
+					<then>						
+						<upgrade-backwards-compatible-upt-database
+							database.system.url="${upt.31.database.system.url}" database.name="${upt.31.database.name}" 
+						  	database.system.password="${upt.31.database.system.password}"  
+						  	database.system.user="${upt.31.database.system.user}"
+						 	database.url="${upt.31.database.url}" 
+							database.user="${upt.31.database.user}" 
+							database.password="${upt.31.database.password}" 
+							database.type="${upt.31.database.type}" 
+							database.upgrade.schema.file="${upt.30.db.upgrade.file}" />
+					</then>
+				</if>
+				<if>
+					<equals arg1="${upt.32.installed}" arg2="true"/>
+					<then>						
+						<upgrade-backwards-compatible-upt-database
+							database.system.url="${upt.32.database.system.url}" database.name="${upt.32.database.name}" 
+						  	database.system.password="${upt.32.database.system.password}"  
+						  	database.system.user="${upt.32.database.system.user}"
+						 	database.url="${upt.32.database.url}" 
+							database.user="${upt.32.database.user}" 
+							database.password="${upt.32.database.password}" 
+							database.type="${upt.32.database.type}" 
+							database.upgrade.schema.file="${upt.32.db.upgrade.file}" />
+					</then>
+				</if>
+				<if>
+					<equals arg1="${upt.40.installed}" arg2="true"/>
+					<then>						
+						<upgrade-backwards-compatible-upt-database
+							database.system.url="${upt.40.database.system.url}" database.name="${upt.40.database.name}" 
+						  	database.system.password="${upt.40.database.system.password}"  
+						  	database.system.user="${upt.40.database.system.user}"
+						 	database.url="${upt.40.database.url}" 
+							database.user="${upt.40.database.user}" 
+							database.password="${upt.40.database.password}" 
+							database.type="${upt.40.database.type}" 
+							database.upgrade.schema.file="${upt.40.db.upgrade.file}" />
+					</then>
+				</if>
+				<if>
+					<equals arg1="${upt.41.installed}" arg2="true"/>
+					<then>						
+						<upgrade-backwards-compatible-upt-database
+							database.system.url="${upt.41.database.system.url}" database.name="${upt.41.database.name}" 
+						  	database.system.password="${upt.41.database.system.password}"  
+						  	database.system.user="${upt.41.database.system.user}"
+						 	database.url="${upt.41.database.url}" 
+							database.user="${upt.41.database.user}" 
+							database.password="${upt.41.database.password}" 
+							database.type="${upt.41.database.type}" 
+							database.upgrade.schema.file="${upt.41.db.upgrade.file}" />
+					</then>
+				</if>
+				<if>
+					<equals arg1="${upt.42.installed}" arg2="true"/>
+					<then>						
+						<upgrade-backwards-compatible-upt-database
+							database.system.url="${upt.42.database.system.url}" database.name="${upt.42.database.name}" 
+						  	database.system.password="${upt.42.database.system.password}"  
+						  	database.system.user="${upt.42.database.system.user}"
+						 	database.url="${upt.42.database.url}" 
+							database.user="${upt.42.database.user}" 
+							database.password="${upt.42.database.password}" 
+							database.type="${upt.42.database.type}" 
+							database.upgrade.schema.file="${upt.42.db.upgrade.file}" />
+					</then>
+				</if>				
 			</else>
 		</if>
 	</target>

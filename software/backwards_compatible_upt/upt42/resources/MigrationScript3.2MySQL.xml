@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 
-	<include file="@os.temp.dir@/@project.name@/db-upgrade4.0MySQL.xml"/>
-	<include file="@os.temp.dir@/@project.name@/db-upgrade4.1MySQL.xml"/>
-	<include file="@os.temp.dir@/@project.name@/db-upgrade4.2MySQL.xml"/>
+	<include file="@os.temp.dir@/@project.name@/db-upgrade-central-bkwrds-4.0.xml"/>
+	<include file="@os.temp.dir@/@project.name@/db-upgrade-central-bkwrds-4.1.xml"/>
+	<include file="@os.temp.dir@/@project.name@/db-upgrade-central-bkwrds-4.2.xml"/>
 </databaseChangeLog>
 
