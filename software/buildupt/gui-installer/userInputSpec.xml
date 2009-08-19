@@ -58,9 +58,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="radio" variable="install.selection">
 			<description align="left" txt="Chose what to install"/>
 			<spec>
-				<choice txt="JBoss" value="install.jboss" />
-				<choice txt="Database - (must be run on JBoss machine)" value="install.database" />
-				<choice txt="Both" value="install.all" set="true" />
+				<!--<choice txt="JBoss" value="install.jboss" />
+				<choice txt="Database - (must be run on JBoss machine)" value="install.database" />-->
+				<choice txt="Jboss and Database" value="install.all" set="true" />
 			</spec>
 		</field>
 

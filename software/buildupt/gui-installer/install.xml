@@ -229,9 +229,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="build.file.target" value="install:jboss" condition="install+container.jboss" />
 					<variable name="build.file.target" value="install:tomcat" condition="install+container.tomcat" />
 					<variable name="build.file.target" value="install:database" condition="install+container.database" />
-					<variable name="build.file.target" value="upgrade" condition="upgrade+container.all" />
+					<variable name="build.file.target" value="upgrade" condition="upgrade" />
 					<variable name="build.file.target" value="upgrade:jboss" condition="upgrade+container.jboss" />
-					<variable name="build.file.target" value="upgrade:tomcat" condition="upgrade+container.tomcat" />
 					<variable name="build.file.target" value="upgrade:database" condition="upgrade+container.database" />
 
 					<!-- conditionals for containers not chosen -->
@@ -320,6 +319,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="installation.type" value="central" condition="central.installation"/>
 					<variable name="installation.type" value="noncentral" condition="noncentral.installation"/>
 
+					<variable name="validation.pre.port.list" value="" condition="central.installation"/>
+					<variable name="validation.post.http.list" value="" condition="central.installation"/>
+					<variable name="validation.post.socket.list" value="" condition="central.installation"/>
 
 				</dynamicvariables>
 
@@ -357,7 +359,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<!-- Choose Path -->
 					<panel classname="UserPathPanel" id="UserPathPanelInstallation" condition="install"/>
 					<!-- Component Selection -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.2" condition="install"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.2" />
 					
 					<!-- Upgrade, specify app homes and read properties -->
 					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade"/>
