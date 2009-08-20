@@ -5882,9 +5882,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					statement.executeBatch();
 					statement.addBatch("INSERT INTO "+peiTableName+" (protection_element_id, attribute_value, application_id) " +
 							"		SELECT protection_element_id, attribute_value,application_id from CSM_PROTECTION_ELEMENT pe" +
-							"		WHERE attribute_value !=null AND (protection_element_id) " +
-							"			NOT IN (" +
-							"				SELECT protection_element_id from "+peiTableName+" )");
+							"		WHERE ( pe.object_id = '"+peiObjectId+"' AND  pe.attribute = '"+peiAttribute+"' AND  pe.application_id = "+applicationID+
+							" 		) AND pe.attribute_value !=null AND (protection_element_id) NOT IN (SELECT protection_element_id from "+peiTableName+" )");
 					
 					
 					statement.executeBatch();
