@@ -1245,8 +1245,8 @@ public interface AuthorizationManager {
 	 * This method will create/maintain the Intermediate tables for instance level security performance improvement.
 	 * 
 	 * @param instanceLevelMappingElementId the id of the InstanceLevelMappingElement object which is to be maintained for 
-	 * 			performance improvement. If this parameter is null or zero valu
-	 * @throws CSDataAccessException 
+	 * 			performance improvement. 
+	 * @throws CSDataAccessException if there is any error in the maintaining Instance tables for the InstanceLevelMappingElement Ojbect
 	 */
 	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException;
 
@@ -1255,7 +1255,7 @@ public interface AuthorizationManager {
 	 * 
 	 * @param instanceLevelSecurityForUser the boolean flag value to indicate Instance Level Security For User or Group is being used. 
 	 * @throws CSObjectNotFoundException if there is any error in retrieving of the Mapping Element Ojbects
-	 * @throws CSDataAccessException 
+	 * @throws CSDataAccessException if there is any error in the refreshing Instance tables for the InstanceLevelMappingElement Ojbect
 	 */
 	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException;
 
