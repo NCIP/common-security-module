@@ -40,21 +40,17 @@
 			<column name="UPDATE_DATE" type="date" />
 		</createTable>
 
-<!--		<addForeignKeyConstraint baseTableName="CSM_MAPPING"
+		<addForeignKeyConstraint baseTableName="CSM_MAPPING"
 			referencedTableName="csm_application" baseColumnNames="APPLICATION_ID"
-			referencedColumnNames="APPLICATION_ID" constraintName="FK_PE_APPLICATION" />
--->
+			referencedColumnNames="APPLICATION_ID" constraintName="FK_PE_APPLICA" />
+
 
 		<addUniqueConstraint tableName="CSM_MAPPING"
 			columnNames="OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID"
 			constraintName="UQMP_OBNMATTRNAM_APID" />
 	
 	</changeSet>
-	<changeSet>
-		<sql>ALTER TABLE csm_mapping ADD CONSTRAINT FK_PE_APPLICATION FOREIGN KEY FK_PE_APPLICATION (APPLICATION_ID)
-				REFERENCES csm_application (APPLICATION_ID) ON DELETE CASCADE ON UPDATE CASCADE;
-		</sql>
-	</changeSet>
+	
 	
 
 </databaseChangeLog>
