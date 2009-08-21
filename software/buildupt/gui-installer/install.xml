@@ -347,23 +347,36 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<panel classname="PacksPanel" id="myuserinput" condition="pack2selected" />
 				-->
 				<panels>
-					<panel classname="HelloPanel"/>
-					<panel classname="InfoPanel"/>
-					<panel classname="HTMLLicencePanel"/>
+					<panel classname="HelloPanel">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
+					<panel classname="InfoPanel">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
+					<panel classname="HTMLLicencePanel">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<panel classname="UserInputPanel"  id="UserInputPanel.0" >
-						<help iso3="eng" src="@{this.dir}/Licence.html" />
-
+						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Typical or Custom-->
-					<panel classname="UserInputPanel"  id="UserInputPanel.1"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.1">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 
 					<!-- Choose Path -->
-					<panel classname="UserPathPanel" id="UserPathPanelInstallation" condition="install"/>
+					<panel classname="UserPathPanel" id="UserPathPanelInstallation" condition="install">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<!-- Component Selection -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.2" />
+					<panel classname="UserInputPanel"  id="UserInputPanel.2" >
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					
 					<!-- Upgrade, specify app homes and read properties -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<!-- Upgrade, read props  -->
 					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="never"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="never"/>
@@ -371,27 +384,47 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					
 
 					<!-- Jboss Configuration -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.7"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.7">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<!-- Jboss Continued -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.8"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.8">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<!-- Typical DB config-->
-					<panel classname="UserInputPanel"  id="UserInputPanel.9" />
+					<panel classname="UserInputPanel"  id="UserInputPanel.9" >
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<!-- Choose Authentication Type  -->								
-					<panel classname="UserInputPanel"  id="UserInputPanel.10" condition="central.installation"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.10" condition="central.installation">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					
 					<!-- Authentication LDAPS data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.11" condition="central.installation+ldaps.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.11" condition="central.installation+ldaps.setup">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<!-- Authentication LDAP data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.12" condition="central.installation+ldap.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.12" condition="central.installation+ldap.setup">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<!-- Authentication DB Properties -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="db.setup"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="db.setup">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					
 					
 				
 					<!-- Installation Summary -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.14" />
-					<panel classname="InstallationGroupPanel"/>
-					<panel classname="ExtendedInstallPanel"/>
+					<panel classname="UserInputPanel"  id="UserInputPanel.14" >
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
+					<panel classname="InstallationGroupPanel">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
+					<panel classname="ExtendedInstallPanel">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
 					<panel classname="FinishPanel"/>
 
 
