@@ -47,7 +47,7 @@
 
 		<addUniqueConstraint tableName="CSM_MAPPING"
 			columnNames="OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID"
-			constraintName="UQ_MP_OBJ_NAME_ATTRI_NAME_APP_ID" />
+			constraintName="UQMP_OBNMATTRNAM_APID" />
 	
 	</changeSet>
 	<changeSet>
