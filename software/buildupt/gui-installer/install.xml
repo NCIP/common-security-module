@@ -65,12 +65,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				The meaning of the tags should be natural ...
 				-->
 				<info>
-					<appname>csmupt</appname>
+					<appname>CSM UPT</appname>
 					<appversion>@{csm.version}</appversion>
 					<authors>
-					    <author name="NCI" email=""/>
+					    <author name="NCI CBIIT" email=""/>
 					</authors>
-					<url>http://www.cancer.org/</url>
+					<url>https://cabig.nci.nih.gov/tools/CSM</url>
 					<javaversion>1.5</javaversion>
 				</info>
 
@@ -302,6 +302,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="mail.smtp.server" value=""  condition="container.database"/>
 
 					<!-- Conditionals for chosen Central Installation -->
+
 					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>

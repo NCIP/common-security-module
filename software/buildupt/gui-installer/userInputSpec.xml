@@ -8,7 +8,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 
 		<field type="title" txt="Install or Upgrade software" bold="true" size="1" />
-		<field type="staticText" align="left" txt="Choose Install if you haven't installed Common Security Module's User Provisioning Tool (UPT) on this machine before. Choose Upgrade if CSM UPT has previously been installed. WARNING: When choosing Install, the installer will remove any previously installed application servers (using caBIG installers) or databases installed based on the information you provide, so be sure to backup your application server and database instance if they exist. For detailed descriptions on each of the properties in this installer, see https://cabig.nci.nih.gov/tools/CSM"/>
+		<field type="staticText" align="left" txt="Choose Install if you haven't installed Common Security Module's User Provisioning Tool (UPT) on this machine before."/>
+		<field type="space"/>
+		<field type="staticText" align="left" txt="Choose Upgrade if CSM UPT has previously been installed."/>
+		<field type="space"/>
+		<field type="staticText" align="left" txt="WARNING: When choosing Install, the installer will remove any previously installed application servers (using caBIG installers) or databases installed based on the information you specify, so be sure to backup your application server and database instance if they exist. For detailed descriptions on each of the properties in this installer, see https://cabig.nci.nih.gov/tools/CSM"/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="setup.type">
 			<description align="left" txt="Choose a new Install or Upgrade an existing installation"/>
@@ -36,10 +40,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<!-- Installation Type -->
 	<panel order="1">
 		<field type="title" txt="Installation Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="There are two types of ways to install CSM UPT: Typical (Single CSM UPT in a container that refers to a  corresponding single UPT Schema) OR Non-Typical ( Single CSM UPT in a Container that refers to multiple UPT schema per CSM version)."/>
+		<field type="staticText" align="left" txt="This installation wizard allows Typical installation of UPT v4.2 (Single CSM UPT in a container that refers to a single CSM UPT Schema)."/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="installation.type">
-			<description align="left" txt="Is there a central CSM UPT schema available?"/>
+			<description align="left" txt="Installation Type?"/>
 			<spec>
 				<choice txt="Typical" value="central" set="true" />
 				<!-- <choice txt="Non Central" value="noncentral"/> -->
@@ -51,8 +55,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 	<!-- Select component -->
 	<panel order="2">
-		<field type="title" txt="Choose what to install" bold="true" size="1" />
-		<field type="staticText" align="left" txt="A Typical install requires you to enter an essential minimum number of values to successfully install the software. A Typical install configures ports and other required values. A Custom install allows you to modify all of the configurable values such as port numbers."/>
+		<field type="title" txt="Choose Server Components to Install" bold="true" size="1" />
+		<field type="staticText" align="left" txt="A Typical installation configures JBoss and Database and requires you to enter an essential minimum number of values to successfully install the UPT software."/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="install.selection">
 			<description align="left" txt="Chose what to install"/>
@@ -72,13 +76,18 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 <!-- Upgrade, specify app homes and read properties -->
 	<panel order="3">
-		<field type="title" txt="Existing Locations" bold="true" size="1" />
-		<field type="staticText" align="left" txt="The password you enter below is the password used to access the JBoss web console. This is a password you are creating, so you must keep track of this password for future use."/>
+		<field type="title" txt="Upgrade configuration" bold="true" size="1" />
+		
 		<field type="divider" align="top"/>
+		<field type="staticText" align="left" txt="Select existing location where the UPT application is installed. The existing location is the directory where the JBoss is installed."/>
 		<field type="dir" variable="application.base.path">
 			<spec txt="Application Root Directory:" size="25" set="c:/apps/upt"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Application Root Directory is a required field" />
 		</field>
+		
+		<field type="space"/>
+		<field type="divider" align="top"/>
+		<field type="staticText" align="left" txt="Select existing location of the JBoss application server where UPT is installed. Specify the JBoss Server Name."/>
 		<field type="dir" variable="jboss.home">
 			<spec txt="JBoss Home:" size="25" set="c:/apps/upt/${jboss.binaries.relative.dir}"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Home is a required field" />
@@ -87,6 +96,15 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<spec txt="JBoss Server name:" size="15" set="default"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Server Name is a required field" />
 		</field>
+
+		<field type="space"/>
+		<field type="divider" align="top"/>
+		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing (Original) CSM UPT Schema to CSM UPT Schema version 4.2. Specify current original CSM UPT Schema version."/>
+		<field type="text" variable="upgrade.upt.central.db.previous.version">
+			<spec txt="Original CSM Schema Version" size="15" set="3.1"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Original CSM Schema Version is a required field" />
+		</field>
+
 		<fileextractor>
 			<extractfile filename="pre-install" toDirName="."/>
 		</fileextractor>
@@ -266,7 +284,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<panel order="7">
 		<field type="title" txt="Configure your JBoss application server" bold="true" size="1" />
 		<field type="divider" align="top"/>
-		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${UserPathPanelVariable}/${jboss.binaries.relative.dir}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to provide the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
+		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${UserPathPanelVariable}/${jboss.binaries.relative.dir}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to specfify the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
 		<field type="space"/>
 		<field type="text" align="left" variable="jboss.server.hostname">
 			<spec txt="Hostname of this Server:" size="25" set="$HOST_NAME"/>
@@ -389,7 +407,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <!-- Typical Database Properties -->
 	<panel order="9">
 		<field type="title" txt="Configuring your database connection" bold="true" size="1" />
-		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database System User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. "/>
+		<field type="space"/>
+		<field type="staticText" align="left" txt="NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section of the Help page"/>
 		<field type="divider" align="top"/>
 
 		<variable name="install.path" value="$INSTALL_PATH"/>
@@ -417,6 +437,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		</field>
 		<!-- <validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/> -->
 		<!-- Recreate DB? -->
+		<field type="space"/>
+		<field type="staticText" align="left" txt="Select Yes if you want the installer to re-create the CSM UPT Schema in the 'Database Name' database. Select No, if you do not want the installer to re-create the CSM UPT schema. NOTE: If you choose 'Yes' then all database objects for 'Database Name' will be dropped and recreated."/>
+
 		<field type="radio" variable="upt.central.database.re-create">
 			<description align="left" txt="Recreate the CSM UPT database schema?"/>
 			<spec>
@@ -424,17 +447,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<choice txt="No" value="false"/>
 			</spec>
 		</field>
-
-		<field type="text" variable="upt.central.database.version">
-			<spec txt="Database Version:" size="25" set="5.0.27"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
-		</field>
 		
-		<field type="text" variable="upt.central.database.driver.class">
-			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
-		</field>
-		
+		<variable name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver"/>
+		<variable name="upt.central.database.version" value="5.0.27"/>
 		<variable name="upt.central.database.type" value="mysql"/>
 		<variable name="upt.central.jndi.name" value="csmupt"/>
 		<variable name="upt.central.database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
@@ -442,8 +457,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 <!-- Choose Authentication Type -->
 	<panel order="10">
-		<field type="title" txt="Authentication Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="There are two types of ways to authenticate users: against database or using an LDAP server. To connect to LDAP, you must have an LDAP server available in your network."/>
+		<field type="title" txt="Choose Authentication Type" bold="true" size="1" />
+		<field type="staticText" align="left" txt="There are three types of user authentication allowed for CSM UPT:  against database or using a LDAP server or using a LDAPS server. To connect to LDAP/LDAPS, you must have an LDAP/LDAPS server available in your network."/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="authentication.type">
 			<description align="left" txt="Which kind of authentication do you want to use?"/>
@@ -460,7 +475,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <!-- Authentication (Secured Ldap) LDAPS data entry -->
 	<panel order="11">
 			<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
-			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
+			<field type="staticText" align="left" txt="Specify the URL for the LDAPS server, the Base DN and the User ID Label for authenticating users."/>
 			<field type="divider" align="top"/>
 			<field type="text" variable="upt.central.ldaps.url">
 				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
@@ -486,8 +501,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <!-- Authentication LDAP data entry -->
 	<panel order="12">
 	
-  		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
-			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
+  		    <field type="title" txt="LDAP Configuration" bold="true" size="1" />
+			<field type="staticText" align="left" txt="Specify the URL for the LDAP server, Searchable Base DN, User ID Lable, LDAP Admin User Name and the LDAP Admin User Password."/>
 			<field type="divider" align="top"/>
 			<field type="text" variable="upt.central.ldap.url">
 				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
@@ -518,8 +533,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <!--  Authentication DB data entry-->
 	<panel order="13">
 
-            <field type="title" txt="Configuring your MySQL database connection" bold="true" size="1" />
-            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section at http://someurl"/>
+            <field type="title" txt="MySQL Database Connection configuration" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information."/>
             <field type="divider" align="top"/>
 
             <variable name="install.path" value="$INSTALL_PATH"/>
@@ -570,13 +585,13 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 		<field type="staticText" align="left" txt="JBoss Home [${UserPathPanelVariable}/${jboss.binaries.relative.dir}] - This is where JBoss is installed."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="JBoss Server Name [${jboss.server.hostname}] - This is the hostname where jboss is running.  If you want to make this Application avaliable from the internet you may need to provide this to your network administrator."/>
+		<field type="staticText" align="left" txt="JBoss Server Name [${jboss.server.hostname}] - This is the hostname where jboss is running.  If you want to make this Application available from the internet you may need to provide this to your network administrator."/>
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Server Port [${jboss.server.port}] - This is the HTTP port for JBoss.  If you want to make this Application avaliable from the internet you may need to provide this to your network administrator."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach your application when the install is finished."/>
+		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach CSM UPT 4.2 application when the installation process is finished."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="JBoss Log Dir [${UserPathPanelVariable}/${jboss.binaries.relative.path}/server/${jboss.server.name}] - This is where the logs can be found."/>
+		<field type="staticText" align="left" txt="JBoss Log Dir [${UserPathPanelVariable}/${jboss.binaries.relative.dir}/server/${jboss.server.name}] - This is where the logs can be found."/>
 
 		<field type="space"/>
 		<field type="staticText" align="left" txt="Database URL [jdbc:mysql://${upt.central.database.server}:${upt.central.database.port}/${database.name}] "/>
