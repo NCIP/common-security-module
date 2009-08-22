@@ -47,6 +47,22 @@
 		<move file="${jboss.home}/server/${jboss.server.name}/log/server.log" tofile="${jboss.home}/server/${jboss.server.name}/log/server/log.${install.time}" failonerror="false" />
 
 		<copy file="${backwards.compatible.upt.dist}/${dist.relative.ear.dir}/${upt.ear.file}" todir="${jboss.home}/server/${jboss.server.name}/deploy" overwrite="true" />
+		
+		<switch value="${database.type}">
+			<case value="oracle">
+				<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
+			</case>
+			<case value="mysql">
+				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+			</case>
+			<case value="postgresql">
+				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
+			</case>
+			<default>
+				<fail message="Invalid database type ${database.type}"/>
+			</default>
+		</switch>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${database.driver.file}"/>
 	</target>
 
 	<target name="install:jboss:backwards-compatible-upt-ear:configure" depends="common:init">
@@ -913,7 +929,6 @@
 				database.url="@{database.url}" database.user="@{database.user}" 
 				database.password="@{database.password}" database.version="@{database.version}" 
 				database.name="@{database.name}" database.type="@{database.type}" />
-			<echo message="${database.driver.file}"/>
 			<database-clean	 
 				database.driver="@{database.driver}" database.system.url="@{database.system.url}" 
 				database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
@@ -1241,15 +1256,21 @@
 						database.password="@{database.password}"
 						database.name="@{database.name}" database.type="@{database.type}"
 			/>
-
-			<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
-							  database.user="@{database.user}" database.password="@{database.password}" 
-							  database.schema="@{database.name}"
-							  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
-			
-			<database-tag database.driver="${database.upgrade.driver}" database.url="@{database.url}"
-						  database.user="@{database.user}" database.password="@{database.password}" 
-						  database.schema="@{database.name}" />				
+			<if>
+				<not>
+					<equals arg1="${upgrade.upt.central.db.previous.version}"  arg2="4.2"/>
+				</not>
+				<then>
+					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
+									  database.user="@{database.user}" database.password="@{database.password}" 
+									  database.schema="@{database.name}"
+									  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
+					
+					<database-tag database.driver="${database.upgrade.driver}" database.url="@{database.url}"
+								  database.user="@{database.user}" database.password="@{database.password}" 
+								  database.schema="@{database.name}" />
+				</then>
+			</if>
 	   </sequential>
 	</macrodef>
 </project>
