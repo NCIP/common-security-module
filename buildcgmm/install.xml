@@ -34,18 +34,19 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:validation:post-install
 		">
 	</target>
-
-	<target name="upgrade" description="Upgrades JBoss and Database" depends="		
+	
+	<!-- Upgrade with No Container Modification (NCM) -->
+	<target name="upgrade-ncm:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
+		depends="
 		-set:jboss:cgmmweb:application:url,
 		upgrade:jboss:init,
 		common:init,
 		common:jboss:init,
-		install:common:validation:pre-install,
 		install:jboss:validation:pre-install,
 		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
 		install:jboss:cgmm-webapp,
 		install:jboss:cgmm-webapp:configure,
-		install:jboss:configure,
 		install:jboss:configure:cgmm:log4j,
 		install:jboss:configure:cgmm:mail-service,
 		install:post:jboss,
@@ -53,6 +54,42 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		install:jboss:validation:post-install
 		">
 	</target>
+	
+	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
+		<properties-exist
+			properties.list="application.base.path,jboss.home,jboss.server.name"
+			/>
+		<osfamily property="os.family"/>
+		<if>
+			<or>
+				<equals arg1="${os.family}" arg2="unix"/>
+				<equals arg1="${os.family}" arg2="mac"/>
+			</or>
+			<then>
+				<property name="jboss.server.hostname" value="${env.HOSTNAME}"/>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${os.family}" arg2="windows"/>
+			<then>
+				<property name="jboss.server.hostname" value="${env.COMPUTERNAME}"/>
+			</then>
+		</if>
+		<jboss-read-bindings-file-location
+			jboss.home="${read.jboss.home}"
+			/>
+		<jboss-read-ports
+			/>
+		<read-property-from-properties-service
+			jboss.home="${read.jboss.home}"
+			property.name="property1"
+			/>
+		<read-property-from-properties-service
+			jboss.home="${read.jboss.home}"
+			property.name="property2"
+			/>
+	</target>
+
 
 	<target name="install:jboss:cgmm-webapp" description="Deploy bda-blueprints-webapp and common libraries to jboss installation" unless="exclude.jboss" depends="common:init">
 		<delete dir="${jboss.home}/server/${jboss.server.name}/tmp" />
