@@ -21,6 +21,9 @@
 			<column name="UPDATE_DATE" type="DATE" defaultValue="0000-00-00">
 			</column>
 		</modifyColumn>
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="CSM_VERSION" type="VARCHAR(20)"></column>
+		</addColumn>
 		<modifyColumn tableName="csm_group">
 			<column name="UPDATE_DATE" type="DATE" defaultValue="0000-00-00">
 			</column>
@@ -52,7 +55,8 @@
 		<modifyColumn tableName="csm_user_pe">
 			<column name="UPDATE_DATE" type="DATE" defaultValue="0000-00-00">
 			</column>
-		</modifyColumn>											
+		</modifyColumn>		
+		
 	</changeSet>
 </databaseChangeLog>
 
