@@ -111,7 +111,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		
 	</panel>
 
-	<!-- Upgrade container.all -->
+	<!-- Upgrade container.all 
 	<panel order="4">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:common:init" language="ant">
@@ -164,9 +164,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.pre.port.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.server.port},${jboss.web.service.port}"/>
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
-	</panel>
+	</panel>-->
 	
-	<!-- Upgrade container.jboss -->
+	<!-- Upgrade container.jboss 
 	<panel order="5">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:jboss:init" language="ant">
@@ -253,10 +253,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.pre.port.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.server.port},${jboss.web.service.port}"/>
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
-	</panel>
+	</panel>-->
 	
 	
-	<!-- Upgrade container.database -->
+	<!-- Upgrade container.database 
 	<panel order="6">
 		<field type="title" txt="Reading property values from installations specified in previous screen." bold="true" size="1" />
 		<panelreader classname="pre-install/install.xml" methodname="upgrade:database:init" language="ant">
@@ -276,12 +276,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="validation.pre.port.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.server.port},${jboss.web.service.port}"/>
 		<variable name="validation.post.http.list" value="${jboss.server.port}"/>
 		<variable name="validation.post.socket.list" value="${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
-	</panel>
+	</panel>-->
 	
 
 	
 	<!-- Jboss Configuration -->
-	<panel order="7">
+	<panel order="4">
 		<field type="title" txt="Configure your JBoss application server" bold="true" size="1" />
 		<field type="divider" align="top"/>
 		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${UserPathPanelVariable}/${jboss.binaries.relative.dir}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to specfify the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
@@ -358,7 +358,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel> 	<!-- End of Jboss Configuration panel -->
 
 	<!-- Jboss Continued -->
-	<panel order="8">
+	<panel order="5">
 		<field type="title" txt="Additional JBoss installation options" bold="true" size="1" />
 		<field type="divider" align="top"/>
 
@@ -405,7 +405,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>  	<!-- End of Jboss Continued panel -->
 
 <!-- Typical Database Properties -->
-	<panel order="9">
+	<panel order="6">
 		<field type="title" txt="Configuring your database connection" bold="true" size="1" />
 		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database System User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. "/>
 		<field type="space"/>
@@ -456,7 +456,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 	</panel>
 <!-- Choose Authentication Type -->
-	<panel order="10">
+	<panel order="7">
 		<field type="title" txt="Choose Authentication Type" bold="true" size="1" />
 		<field type="staticText" align="left" txt="There are three types of user authentication allowed for CSM UPT:  against database or using a LDAP server or using a LDAPS server. To connect to LDAP/LDAPS, you must have an LDAP/LDAPS server available in your network."/>
 		<field type="divider" align="top"/>
@@ -473,7 +473,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	</panel>
 
 <!-- Authentication (Secured Ldap) LDAPS data entry -->
-	<panel order="11">
+	<panel order="8">
 			<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
 			<field type="staticText" align="left" txt="Specify the URL for the LDAPS server, the Base DN and the User ID Label for authenticating users."/>
 			<field type="divider" align="top"/>
@@ -499,7 +499,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<variable name="upt.central.database.encrypt.enabled" value="YES"/>
     </panel>
 <!-- Authentication LDAP data entry -->
-	<panel order="12">
+	<panel order="9">
 	
   		    <field type="title" txt="LDAP Configuration" bold="true" size="1" />
 			<field type="staticText" align="left" txt="Specify the URL for the LDAP server, Searchable Base DN, User ID Lable, LDAP Admin User Name and the LDAP Admin User Password."/>
@@ -531,7 +531,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 	</panel>
 <!--  Authentication DB data entry-->
-	<panel order="13">
+	<panel order="10">
 
             <field type="title" txt="MySQL Database Connection configuration" bold="true" size="1" />
             <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information."/>
@@ -578,7 +578,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	
 
 	<!-- Installation Summary -->
-	<panel order="14">
+	<panel order="11">
 		<field type="title" txt="Installation Summary" bold="true" size="1" />
 		<field type="staticText" align="left" txt="Below are "/>
 		<field type="divider" align="top"/>
