@@ -670,7 +670,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		">
 	</target>
 
-	<target name="install" description="Installs and configures JBOSS, creates database, and deploys application" 
+	<target name="-install" description="Installs and configures JBOSS, creates database, and deploys application" 
 		depends="
 		common:jboss:init,
 		common:tomcat:init,
