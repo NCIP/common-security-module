@@ -347,44 +347,36 @@
 	<target name="install:jboss:configure:application:context"
 			description="Configure application context config ${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"
 			unless="exclude.jboss" depends="common:jboss:init,common:init">
-
 		<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
 			<xmlcatalog refid="bda.xml.catalog" />
 			<remove
+					path="//security-config/application-list/text()" />
+			<remove
 					path="//security-config/backwards-compatibility/upt-application-list/text()" />
 		</xmltask>
 		<if>
-			<equals arg1="${upt.31.installed}" arg2="true" />
+			<equals arg1="${upt.central.config}" arg2="true" />
 			<then>
-				<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
-					<insert path="/security-config/application-list" position="under">
-						<![CDATA[
-							<application>
-						<context-name>${upt.31.context.name}</context-name>
-						<authentication>
-							<authentication-provider-class/>
-							<lockout-time>6000</lockout-time>
-							<allowed-login-time>6000</allowed-login-time>
-							<allowed-attempts>3</allowed-attempts>
-						</authentication>
-						<authorization>
-							<authorization-provider-class>
-							</authorization-provider-class>
-							<hibernate-config-file>${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.31.hibernate.config.file}</hibernate-config-file>
-						</authorization>
-					</application>
-						]]>
-				     </insert>
-				</xmltask>
+				<configure-application-context-application context.name="${upt.central.context.name}" hibernate.config.file="" />
 			</then>
-		</if>
+			<else>
+				<if>
+					<equals arg1="${upt.31.installed}" arg2="true" />
+					<then>
+						<configure-application-context-application context.name="${upt.31.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.31.hibernate.config.file}" />
+					</then>
+					<else>
+						<configure-application-context-application context.name="${upt.31.context.name}" hibernate.config.file="" />
+					</else>
+			    </if>
+			</else>
+		</if>			
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true" />
 			<then>
-				<configure-application-context
+				<configure-application-context-upt-application
 						context.name="${upt.central.context.name}" url.context.name="${upt.central.url.context.name}"
 						hibernate.config.file="${upt.central.hibernate.config.file}" />
 			</then>
@@ -392,7 +384,7 @@
 		<if>
 			<equals arg1="${upt.31.installed}" arg2="true" />
 			<then>
-				<configure-application-context
+				<configure-application-context-upt-application
 						context.name="${upt.31.context.name}" url.context.name="${upt.31.url.context.name}"
 						hibernate.config.file="${upt.31.hibernate.config.file}" />
 			</then>
@@ -400,7 +392,7 @@
 		<if>
 			<equals arg1="${upt.32.installed}" arg2="true" />
 			<then>
-				<configure-application-context
+				<configure-application-context-upt-application
 						context.name="${upt.32.context.name}" url.context.name="${upt.32.url.context.name}"
 						hibernate.config.file="${upt.32.hibernate.config.file}" />
 			</then>
@@ -408,7 +400,7 @@
 		<if>
 			<equals arg1="${upt.40.installed}" arg2="true" />
 			<then>
-				<configure-application-context
+				<configure-application-context-upt-application
 						context.name="${upt.40.context.name}" url.context.name="${upt.40.url.context.name}"
 						hibernate.config.file="${upt.40.hibernate.config.file}" />
 			</then>
@@ -416,7 +408,7 @@
 		<if>
 			<equals arg1="${upt.41.installed}" arg2="true" />
 			<then>
-				<configure-application-context
+				<configure-application-context-upt-application
 						context.name="${upt.41.context.name}" url.context.name="${upt.41.url.context.name}"
 						hibernate.config.file="${upt.41.hibernate.config.file}" />
 			</then>
@@ -424,7 +416,7 @@
 		<if>
 			<equals arg1="${upt.42.installed}" arg2="true" />
 			<then>
-				<configure-application-context
+				<configure-application-context-upt-application
 						context.name="${upt.42.context.name}" url.context.name="${upt.42.url.context.name}"
 						hibernate.config.file="${upt.42.hibernate.config.file}" />
 			</then>
@@ -849,7 +841,35 @@
 		</sequential>
 	</macrodef>
 	
-	<macrodef name="configure-application-context">
+	<macrodef name="configure-application-context-application">
+		<attribute name="context.name" default="NOT SET" />
+		<attribute name="hibernate.config.file" default="NOT SET" />
+		<sequential>
+			<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
+			<xmlcatalog refid="bda.xml.catalog" />
+				<insert path="/security-config/application-list" position="under">
+				<![CDATA[
+					<application>
+						<context-name>@{context.name}</context-name>
+							<authentication>
+								<authentication-provider-class/>
+								<lockout-time>6000</lockout-time>
+								<allowed-login-time>6000</allowed-login-time>
+								<allowed-attempts>3</allowed-attempts>
+							</authentication>
+							<authorization>
+								<authorization-provider-class>
+								</authorization-provider-class>
+								<hibernate-config-file>@{hibernate.config.file}</hibernate-config-file>
+							</authorization>
+					</application>
+				]]>
+			    </insert>
+	      </xmltask>		    
+	  </sequential>
+ 	</macrodef>
+			
+	<macrodef name="configure-application-context-upt-application">
 		<attribute name="context.name" default="NOT SET" />
 		<attribute name="url.context.name" default="NOT SET" />
 		<attribute name="hibernate.config.file" default="NOT SET" />
