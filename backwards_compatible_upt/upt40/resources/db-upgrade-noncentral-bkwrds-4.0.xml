@@ -17,6 +17,10 @@
              set APPLICATION_NAME ='csmupt40'
              where APPLICATION_NAME='csmupt';
         </sql>
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="CSM_VERSION" type="VARCHAR(20)"></column>
+		</addColumn>
+
 	</changeSet>
 </databaseChangeLog>
 
