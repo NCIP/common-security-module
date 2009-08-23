@@ -17,6 +17,10 @@
              set APPLICATION_NAME ='csmupt31'
              where APPLICATION_NAME='csmupt';
         </sql>
+	 	<sql>update CSM_PROTECTION_ELEMENT
+             set PROTECTION_ELEMENT_NAME ='csmupt31', OBJECT_ID='csmupt31'
+             where PROTECTION_ELEMENT_NAME='csmupt';
+        </sql>
 		<addColumn tableName="CSM_APPLICATION">
 			<column name="DATABASE_URL" type="VARCHAR(100)"></column>
 		</addColumn>
