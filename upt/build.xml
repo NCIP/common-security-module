@@ -17,15 +17,8 @@
 	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
 	<property name="war.file" value="upt.war" />
 
-	<property file="../build/install.properties">
-	</property>
-	<property name="properties.file" location="../build/project.properties">
-	</property>
-	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
-	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2" />
-	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2" />
-	<property file="${properties.file}" />
-
+	<property file="../build/project.properties"/>
+	
 	<!-- Paths -->
 	<path id="common.classpath">
 		<fileset dir="${common.dir}/target/lib">
@@ -86,20 +79,7 @@
 	</target>
 
 	<target name="-post-compile" depends="compile" description="Post-compile operations">
-		<if>
-			<equals arg1="${exclude.tomcat}" arg2="true" />
-			<then>
-				<property name="application.jndi" value="/" />
-			</then>
-			<else>
-				<property name="application.jndi" value="comp/env/" />
-			</else>
-		</if>
 		<copy file="${src.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" filtering="true">
-			<filterset>
-				<filter token="application.jndi" value="${application.jndi}"/>
-				<filtersfile file="${properties.file}" />
-			</filterset>
 		</copy>
 		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
 		<copy file="${src.dir}/gov/nih/nci/security/upt/resources/ApplicationResources.properties" todir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
@@ -108,32 +88,11 @@
 	<target name="war" depends="compile, -post-compile, ivy-runtime" description="Generate upt.war">
 		<copy todir="${build.dir}/WEB-INF/lib">
 			<fileset dir="${lib.dir}/upt/runtime" includes="**/*.jar" />
-		</copy>
-		
-		
-		<if>
-			<equals arg1="${exclude.tomcat}" arg2="true"/>
-			<then>
-				<delete  file="${build.dir}/WEB-INF/lib/commons-logging-1.0.4.jar" quiet="true"/>
-				<delete  file="${build.dir}/WEB-INF/lib/log4j-1.2.9.jar" quiet="true"/>
-			</then>
-		</if>
-		
+		</copy>		
 		<jar jarfile="${target.dir}/${war.file}" basedir="${build.dir}" />
 	</target>
 
 	<target name="dist" depends="war" description="generate the distribution">
-		<copy todir="${target.dir}">
-			<fileset dir="../common/resources/jboss-conf" />
-			<fileset dir="resources">
-				<exclude name="ObjectStateLoggerConfig.xml" />
-			</fileset>
-			<fileset dir="../common/resources/db/mysql" />
-			<fileset dir="../common/resources/db/oracle" />
-			<fileset dir="../common/resources/db/postgresql" />
-			<fileset dir="../common/resources/db/sqlserver" />
-		</copy>
-		<copy todir="${target.dir}" file="${lib.dir}/upt/runtime/clm-4.1.jar" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
@@ -142,5 +101,4 @@
 	</target>
 
 	<target name="all" depends="dist, -post-clean" description="Default project target" />
-
 </project>
