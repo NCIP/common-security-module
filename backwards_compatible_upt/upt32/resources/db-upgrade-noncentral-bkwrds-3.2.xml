@@ -17,6 +17,10 @@
              set APPLICATION_NAME ='csmupt32'
              where APPLICATION_NAME='csmupt';
         </sql>
+	 	<sql>update CSM_PROTECTION_ELEMENT
+             set PROTECTION_ELEMENT_NAME ='csmupt32', OBJECT_ID='csmupt32'
+             where PROTECTION_ELEMENT_NAME='csmupt';
+        </sql>
 		<modifyColumn tableName="csm_application">
 			<column name="UPDATE_DATE" type="DATE" defaultValue="0000-00-00">
 			</column>
