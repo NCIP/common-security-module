@@ -18,8 +18,8 @@
              where APPLICATION_NAME='csmupt';
         </sql>
 	 	<sql>update CSM_PROTECTION_ELEMENT
-             set PROTECT_ELEMENT_NAME ='csmupt42', OBJECT_ID='csmupt42'
-             where PROTECT_ELEMENT_NAME='csmupt';
+             set PROTECTION_ELEMENT_NAME ='csmupt42', OBJECT_ID='csmupt42'
+             where PROTECTION_ELEMENT_NAME='csmupt';
         </sql>
 
 	</changeSet>
