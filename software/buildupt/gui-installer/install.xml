@@ -377,46 +377,46 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<panel classname="UserInputPanel"  id="UserInputPanel.3" condition="upgrade">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
-					<!-- Upgrade, read props  -->
+					<!-- Upgrade, read props  
 					<panel classname="UserInputPanel"  id="UserInputPanel.4" condition="never"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.5" condition="never"/>
 					<panel classname="UserInputPanel"  id="UserInputPanel.6" condition="never"/>
-					
+					-->
 
 					<!-- Jboss Configuration -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.7">
+					<panel classname="UserInputPanel"  id="UserInputPanel.4">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Jboss Continued -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.8">
+					<panel classname="UserInputPanel"  id="UserInputPanel.5">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Typical DB config-->
-					<panel classname="UserInputPanel"  id="UserInputPanel.9" >
+					<panel classname="UserInputPanel"  id="UserInputPanel.6" >
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Choose Authentication Type  -->								
-					<panel classname="UserInputPanel"  id="UserInputPanel.10" condition="central.installation">
+					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="central.installation">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					
 					<!-- Authentication LDAPS data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.11" condition="central.installation+ldaps.setup">
+					<panel classname="UserInputPanel"  id="UserInputPanel.8" condition="central.installation+ldaps.setup">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Authentication LDAP data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.12" condition="central.installation+ldap.setup">
+					<panel classname="UserInputPanel"  id="UserInputPanel.9" condition="central.installation+ldap.setup">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Authentication DB Properties -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.13" condition="db.setup">
+					<panel classname="UserInputPanel"  id="UserInputPanel.10" condition="db.setup">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					
 					
 				
 					<!-- Installation Summary -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.14" >
+					<panel classname="UserInputPanel"  id="UserInputPanel.11" >
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<panel classname="InstallationGroupPanel">
