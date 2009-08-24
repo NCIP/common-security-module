@@ -18,7 +18,7 @@
 		</update>
 		<dropColumn tableName="CSM_PROTECTION_ELEMENT" columnName="PROTECTION_ELEMENT_TYPE_ID" />
 		<addColumn tableName="CSM_PROTECTION_ELEMENT">
-			<column name="COLUMN PROTECTION_ELEMENT_TYPE" type="VARCHAR(100)"></column>
+			<column name="PROTECTION_ELEMENT_TYPE" type="VARCHAR(100)"></column>
 		</addColumn>
 		<renameColumn tableName="CSM_PG_PE" oldColumnName="UPDATE_DATE"
 			newColumnName="DATE" columnDataType="date" />
