@@ -145,5 +145,13 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			default.target="upgrade"
 			/>
 	</target>
+	
+	<target name="dist" description="Makes all distributions: installer, upgrader and source" depends="
+		build:all,
+		dist:installer,
+		dist:upgrader,
+		dist:src
+		">
+	</target>
 
 </project>
