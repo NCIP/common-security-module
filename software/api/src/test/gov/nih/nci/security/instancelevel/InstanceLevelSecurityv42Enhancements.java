@@ -27,7 +27,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	public static void main(String[] args) {
 		try {
 			//required: file name sampleHostApplicationName.csm.new.hibernate.cfg.xml
-			authorizationManager = SecurityServiceProvider.getAuthorizationManager("sampleHostApplicationName");
+			authorizationManager = SecurityServiceProvider.getAuthorizationManager("caarray");
 			System.out.println("Success");
 		} catch (CSConfigurationException e) {
 			e.printStackTrace();
@@ -42,10 +42,10 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		testGetInstanceLevelMappingElement();
 		testModifyInstanceLevelMappingElement();
 
-		testMaintainTablesViews();
+		//testMaintainTablesViews();
 		testRefreshTablesForUser();
 		testRefreshTablesForGroup();
-		testRemoveInstanceLevelMappingElement();
+		//testRemoveInstanceLevelMappingElement();
 	}
 
 	public InstanceLevelSecurityv42Enhancements(String arg0) {
@@ -55,7 +55,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		
 		try {
 			//required: file name sampleHostApplicationName.csm.new.hibernate.cfg.xml
-			authorizationManager = SecurityServiceProvider.getUserProvisioningManager("sampleHostApplicationName");
+			authorizationManager = SecurityServiceProvider.getUserProvisioningManager("caarray");
 		} catch (CSConfigurationException e) {
 			e.printStackTrace();
 			throw new DataRetrievalFailureException(e.getMessage());
@@ -77,7 +77,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	public static void testCreateInstanceLevelMappingElement(){
 		try {
 			
-			Application application = authorizationManager.getApplication("sampleHostApplicationName");
+			Application application = authorizationManager.getApplication("caarray");
 			
 			
 			InstanceLevelMappingElement instanceLevelMappingElement = new InstanceLevelMappingElement();
@@ -122,7 +122,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	public static void testModifyInstanceLevelMappingElement(){
 		try {
 			InstanceLevelMappingElement ilme = authorizationManager.getInstanceLevelMappingElementById("1");
-
+			ilme.setTableName("CSM_PEI_PROJECT_ID");
 			authorizationManager.modifyInstanceLevelMappingElement(ilme);
 			assertNotNull(ilme);
 			
