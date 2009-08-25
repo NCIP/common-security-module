@@ -5815,8 +5815,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						// Not active, so ignore this Object + Attribute from refresh logic.
 						continue;
 					}	
-					if(StringUtilities.isBlank(instanceLevelMappingEntry.getAttributeName()) || StringUtilities.isBlank(instanceLevelMappingEntry.getObjectName()) ||  StringUtilities.isBlank(instanceLevelMappingEntry.getTableName()) 
-								|| StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser()) || StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForUser())){
+					if( !StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getAttributeName()) || !StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectName()) ){
 							//Mapping Entry is invalid.
 							throw new CSObjectNotFoundException("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
 					}	
@@ -5833,13 +5832,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getObjectPackageName())) {
 					peiObjectId = instanceLevelMappingEntry.getObjectName().trim();
 				}else{
-					peiObjectId = instanceLevelMappingEntry.getObjectPackageName().trim() + instanceLevelMappingEntry.getObjectName().trim();
+					peiObjectId = instanceLevelMappingEntry.getObjectPackageName().trim()+"."+ instanceLevelMappingEntry.getObjectName().trim();
 				}
 				
 				String peiAttribute = instanceLevelMappingEntry.getAttributeName().trim();
 				
-				peiTableName = "CSM_PEI_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();
 				
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableName())){
+					peiTableName = "CSM_PEI_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();
+				}else{
+					peiTableName = instanceLevelMappingEntry.getTableName();
+				}
 				
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser())){
 					tableNameUser= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
@@ -5874,48 +5877,51 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				if(activeFlag==1){	
 					
 					//refresh PEI Table
-					statement.addBatch("DELETE FROM "+peiTableName+
-							"	 WHERE application_id = "+applicationID+" AND protection_element_id " +
-							"	 NOT IN (" +
-							"	 SELECT pe.protection_element_id from CSM_PROTECTION_ELEMENT pe" +
-							"    WHERE pe.object_id = '"+peiObjectId+"' AND  pe.attribute = '"+peiAttribute+"' AND  pe.application_id = "+applicationID+" )");
+					statement.addBatch("alter table "+peiTableName+" disable keys");
+					statement.addBatch("delete from "+peiTableName+
+							"	 where application_id = "+applicationID+" and protection_element_id " +
+							"	 not in (" +
+							"	 select pe.protection_element_id from csm_protection_element pe" +
+							"    where pe.object_id = '"+peiObjectId+"' and  pe.attribute = '"+peiAttribute+"' and  pe.application_id = "+applicationID+" )");
 					statement.executeBatch();
-					statement.addBatch("INSERT INTO "+peiTableName+" (protection_element_id, attribute_value, application_id) " +
-							"		SELECT protection_element_id, attribute_value,application_id from CSM_PROTECTION_ELEMENT pe" +
-							"		WHERE ( pe.object_id = '"+peiObjectId+"' AND  pe.attribute = '"+peiAttribute+"' AND  pe.application_id = "+applicationID+
-							" 		) AND pe.attribute_value !=null AND (protection_element_id) NOT IN (SELECT protection_element_id from "+peiTableName+" )");
-					
+					statement.addBatch("insert into "+peiTableName+" (protection_element_id, attribute_value, application_id) " +
+							"		select protection_element_id, attribute_value,application_id from csm_protection_element pe" +
+							"		where  pe.object_id = '"+peiObjectId+"' and  pe.attribute = '"+peiAttribute+"' and  pe.application_id = "+applicationID+
+							" 		 and pe.attribute_value is not null and protection_element_id not in (select protection_element_id from "+peiTableName+" )");
+					statement.addBatch("alter table "+peiTableName+" enable keys");
 					
 					statement.executeBatch();
 					
 					
 					if(instanceLevelSecurityForUser){
-						statement.addBatch("DELETE FROM "+tableNameUser+"" +
-								"	 WHERE (user_ID,privilege_name,attribute_value,application_id) " +
-								"	 NOT IN (" +
-								"	 SELECT user_ID,privilege_name,attribute_value,application_id from "+viewNameUser+
+						statement.addBatch("alter table "+tableNameUser+" disable keys");
+						statement.addBatch("delete from "+tableNameUser+"" +
+								"	 where (user_id,privilege_name,attribute_value,application_id) " +
+								"	 not in (" +
+								"	 select user_id,privilege_name,attribute_value,application_id from "+viewNameUser+
 								     ");");
 						statement.executeBatch();
-						statement.addBatch("INSERT INTO "+tableNameUser+" (user_ID,login_name,privilege_name,attribute_value,application_id) " +
-								"		SELECT DISTINCT user_ID,login_name,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
-								"		WHERE attribute_value!=null AND (user_ID,privilege_name,attribute_value,application_id) " +
-								"			NOT IN ( SELECT user_ID,privilege_name,attribute_value,application_id from "+tableNameUser+" )");
-						
+						statement.addBatch("insert into "+tableNameUser+" (user_id,login_name,privilege_name,attribute_value,application_id) " +
+								"		select distinct user_id,login_name,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
+								"		where attribute_value is not null and (user_id,privilege_name,attribute_value,application_id) " +
+								"			not in ( select user_id,privilege_name,attribute_value,application_id from "+tableNameUser+" )");
+						statement.addBatch("alter table "+tableNameUser+" enable keys");
 						
 						statement.executeBatch();
 					}else{
-						statement.addBatch("DELETE FROM "+tableNameGroup+"" +
-								"	 WHERE (group_ID,privilege_name,attribute_value,application_id) " +
-								"	 NOT IN (" +
-								"	 SELECT group_ID,privilege_name,attribute_value,application_id from "+viewNameGroup+
+						statement.addBatch("alter table "+tableNameGroup+" disable keys");
+						statement.addBatch("delete from "+tableNameGroup+"" +
+								"	 where (group_id,privilege_name,attribute_value,application_id) " +
+								"	 not in (" +
+								"	 select group_id,privilege_name,attribute_value,application_id from "+viewNameGroup+
 								     ")");
 						
-						statement.addBatch("INSERT INTO "+tableNameGroup+" (group_ID,group_name,privilege_name,attribute_value,application_id) " +
-								"		SELECT DISTINCT group_ID,group_name,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
-								"		WHERE (group_ID,privilege_name,attribute_value,application_id) " +
-								"			NOT IN (" +
-								"				SELECT group_ID,privilege_name,attribute_value,application_id from "+tableNameGroup+" )");
-
+						statement.addBatch("insert into "+tableNameGroup+" (group_id,group_name,privilege_name,attribute_value,application_id) " +
+								"		select distinct group_id,group_name,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
+								"		where (group_ID,privilege_name,attribute_value,application_id) " +
+								"			not in (" +
+								"				select group_id,privilege_name,attribute_value,application_id from "+tableNameGroup+" )");
+						statement.addBatch("alter table "+tableNameGroup+" enable keys");
 						statement.executeBatch();
 					}
 				}				
@@ -6009,11 +6015,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						// Not active, so ignore this Object + Attribute from table/view maintain logic.
 						continue;
 					}	
-					if(StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getAttributeName()) 
-							|| StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectPackageName())
-							|| StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectName()) 
-							||  StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getTableName())  ){
-							
+					if( StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getAttributeName()) && StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectName()) ){ 
 						//Mapping Entry is valid.
 						
 					}else{
@@ -6027,33 +6029,37 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					//throw new Exception("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
 				}
 				//mark this mappging entry is maintained.
-				statement.addBatch("UPDATE csm_mapping SET MAINTAINED_FLAG = '1' " +
-						"WHERE mapping_id = "+instanceLevelMappingEntry.getMappingId());
+				statement.addBatch("update csm_mapping set maintained_flag = '1' " +
+						"where mapping_id = "+instanceLevelMappingEntry.getMappingId());
 							
 				//get the Table Name and View Name for each object.
 				
 				String peiTableName,tableNameUser,viewNameUser ,tableNameGroup,viewNameGroup = null;
 				
-				peiTableName = "CSM_PEI_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();
 				
+				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableName())){
+					peiTableName = "csm_pei_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();	
+				}else{
+					peiTableName = instanceLevelMappingEntry.getTableName();
+				}			
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser())){
-					tableNameUser= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
+					tableNameUser= "csm_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_user";
 					
 				}else{
 					tableNameUser = instanceLevelMappingEntry.getTableNameForUser();
 				}
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForUser())){
-					viewNameUser= "CSM_VW_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
+					viewNameUser= "csm_vw_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_user";
 				}else{
 					viewNameUser = instanceLevelMappingEntry.getViewNameForUser();
 				}
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForGroup())){
-					tableNameGroup= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_GROUP";
+					tableNameGroup= "csm_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_group";
 				}else{
 					tableNameGroup= instanceLevelMappingEntry.getTableNameForGroup();
 				}
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getViewNameForGroup())){
-					viewNameGroup= "CSM_VW_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_GROUP";
+					viewNameGroup= "csm_vw_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_group";
 				}else{
 					viewNameGroup = instanceLevelMappingEntry.getViewNameForGroup();
 				}
@@ -6072,51 +6078,54 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					
 					
 					//create pei table
-					statement.addBatch("CREATE TABLE IF NOT EXISTS "+peiTableName+"  (" +
-							"  APPLICATION_ID bigint(20) NOT NULL," +
-							"  ATTRIBUTE_VALUE bigint(20) NOT NULL," +
-							"  PROTECTION_ELEMENT_ID bigint(20) NOT NULL," +
-							"  PRIMARY KEY  (PROTECTION_ELEMENT_ID)," +
-							"  UNIQUE KEY UQ_MP_OBJ_NAME_ATTRI_VAL_APP_ID (PROTECTION_ELEMENT_ID,ATTRIBUTE_VALUE,APPLICATION_ID)," +
-							"  KEY idx_APPLICATION_ID (APPLICATION_ID)," +
-							"  CONSTRAINT FK_PE_APPLICATION1 FOREIGN KEY FK_PE_APPLICATION1 (APPLICATION_ID) REFERENCES csm_application (APPLICATION_ID) ON DELETE CASCADE ON UPDATE CASCADE" +
+					statement.addBatch("create table if not exists "+peiTableName+" (" +
+							" application_id bigint(20) not null," +
+							" attribute_value bigint(20) not null," +
+							" protection_element_id bigint(20) not null," +
+							" primary key (protection_element_id)," +
+							" unique key uq_mp_obj_name_attri_val_app_id (protection_element_id,attribute_value,application_id)," +
+							" key idx_application_id (application_id)," +
+							" constraint fk_pe_application1 foreign key fk_pe_application1 (application_id) references csm_application (application_id) on delete cascade on update cascade"+
 							"  );");
 					
 					//create tableNameForUser							
-					statement.addBatch("CREATE TABLE IF NOT EXISTS "+tableNameUser+" (" +
-							" USER_ID bigint(20) NOT NULL," +
-							" LOGIN_NAME varchar(200) NOT NULL," +
-							" PRIVILEGE_NAME varchar(30) NOT NULL," +
-							" APPLICATION_ID bigint(20) NOT NULL," +
-							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
-							" UNIQUE KEY UQ_USERID_APID_PRIV (USER_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
-							" UNIQUE KEY UQ_LOGINNAME_APID_PRIV (LOGIN_NAME,APPLICATION_ID, PRIVILEGE_NAME)," +
-							" KEY idx_USER_ID (USER_ID)," +
-							" KEY idx_LOGIN_NAME (LOGIN_NAME)," +
-							" KEY idx_APPLICATION_ID (APPLICATION_ID)," +
-							" KEY idx_PRIVILEGE_NAME (PRIVILEGE_NAME)" +
+					statement.addBatch("create table if not exists "+tableNameUser+" (" +
+							" user_id bigint(20) not null," +
+							" login_name varchar(200) not null," +
+							" privilege_name varchar(30) not null," +
+							" application_id bigint(20) not null," +
+							" attribute_value bigint(20) not null," +
+							" unique key uq_userid_aid_pri_atr (user_id,application_id, privilege_name,attribute_value)," +
+							" unique key uq_lgnnam_aid_pri_atr (login_name,application_id, privilege_name,attribute_value)," +
+							" key idx_user_id (user_id)," +
+							" key idx_login_name (login_name)," +
+							" key idx_application_id (application_id)," +
+							" key idx_privilege_name (privilege_name)," +
+							" key idx_attribute_value(attribute_value)" +
 							" );"); 
 					
 					//create tableNameForGroup
-					statement.addBatch("CREATE TABLE IF NOT EXISTS "+tableNameGroup+" (" +
-							" GROUP_ID bigint(20) NOT NULL," +
-							" GROUP_NAME varchar(100) NOT NULL," +
-							" PRIVILEGE_NAME varchar(30) NOT NULL," +
-							" APPLICATION_ID bigint(20) NOT NULL," +
-							" ATTRIBUTE_VALUE bigint(20) NOT NULL," +
-							" UNIQUE KEY UQ_GRPID_APID_PRIV (GROUP_ID,APPLICATION_ID, PRIVILEGE_NAME)," +
-							" UNIQUE KEY GRPNM_APID_PRIV (GROUP_NAME,APPLICATION_ID, PRIVILEGE_NAME)," +
-							" KEY idx_GROUP_ID (GROUP_ID)," +
-							" KEY idx_GROUP_NAME (GROUP_NAME)," +
-							" KEY idx_APPLICATION_ID (APPLICATION_ID)," +
-							" KEY idx_PRIVILEGE_NAME (PRIVILEGE_NAME)" +
+					statement.addBatch("create table if not exists "+tableNameGroup+" (" +
+							" group_id bigint(20) not null," +
+							" group_name varchar(100) not null," +
+							" privilege_name varchar(30) not null," +
+							" application_id bigint(20) not null," +
+							" attribute_value bigint(20) not null," +
+							" unique key uq_grpid_aid_pri_atr (group_id,application_id, privilege_name,attribute_value)," +
+							" unique key grpnm_aid_pri_atr (group_name,application_id, privilege_name,attribute_value)," +
+							" key idx_group_id (group_id)," +
+							" key idx_group_name (group_name)," +
+							" key idx_application_id (application_id)," +
+							" key idx_privilege_name (privilege_name)," +
+							" key idx_attribute_value(attribute_value)" +
 							" );");
-					
+					statement.executeBatch();
 					//create viewNameForUser
+					//Note: the User level view does not consider 'Owner' users in this View/ Filter Query.
 					statement.addBatch("create or replace view "+viewNameUser+"_temp" +
 							" as select pr.user_id,u.login_name,pr.role_id,pe.application_id,pe.attribute_value" +
-							" from csm_user_pe cu , "+peiTableName+" pe, csm_user_group_role_pg pr, csm_user u" +
-							" where cu.protection_element_id = pe.protection_element_id and cu.user_id = pr.user_id and pr.user_id = u.user_id;") ;
+							" from csm_pg_pe cp, "+peiTableName+" pe, csm_user_group_role_pg pr, csm_user u" +
+							" where cp.protection_element_id = pe.protection_element_id and and cp.protection_group_id = pr.protection_group_id and pr.user_id = u.user_id;") ;
 					
 					statement.addBatch("create or replace view "+viewNameUser+
 							" as" +
