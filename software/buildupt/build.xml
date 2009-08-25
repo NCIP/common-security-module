@@ -135,7 +135,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<filterset>
 				<filterset>
-					<filtersfile file="${properties.file}"/>
 					<filtersfile file="project.properties"/>
 				</filterset>
 			</filterset>
@@ -177,7 +176,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 			<filterset>
 				<filterset>
-					<filtersfile file="${properties.file}"/>
 					<filtersfile file="project.properties"/>
 				</filterset>
 			</filterset>
