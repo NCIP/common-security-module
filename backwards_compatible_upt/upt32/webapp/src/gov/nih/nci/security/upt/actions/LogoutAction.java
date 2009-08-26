@@ -153,6 +153,7 @@ public class LogoutAction extends Action
 					"||Logout|Success|Logout Called and Forwarding to the Login Page||");		
 		session.removeAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		session.removeAttribute(DisplayConstants.LOGIN_OBJECT);
+		session.removeAttribute(DisplayConstants.ADMIN_USER);
 		session.removeAttribute(DisplayConstants.CURRENT_TABLE_ID);
 		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
