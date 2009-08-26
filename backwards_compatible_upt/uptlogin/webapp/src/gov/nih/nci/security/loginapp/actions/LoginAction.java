@@ -353,7 +353,7 @@ public class LoginAction extends Action
 						
 					}
 					
-					if (application!= null && !StringUtilities.isBlank(application.getDatabaseURL()))
+					/*if (application!= null && !StringUtilities.isBlank(application.getDatabaseURL()))
 					{
 						HashMap hashMap = new HashMap();
 						hashMap.put("hibernate.connection.url", application.getDatabaseURL());
@@ -375,7 +375,7 @@ public class LoginAction extends Action
 							log.debug("|"+loginForm.getLoginId()+
 									"||Login|Failure|Unable to instantiate User Provisioning Manager for "+loginForm.getApplicationContextName()+" application||");
 						return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
-					}
+					}*/
 				}
 				catch (CSException cse)
 				{
