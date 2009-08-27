@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <security-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<upt-context-name>csmupt</upt-context-name>
+	<upt-context-name>@upt.context.name@</upt-context-name>
 	<application-list>
 	</application-list>
 	<backwards-compatibility>
