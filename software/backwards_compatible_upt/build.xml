@@ -42,6 +42,7 @@
 		<attribute name="war.file" default="@{app.name}"/>
 		<sequential>
 			<property name="app.name" value="@{app.name}" />
+			<property name="resources.home" value="${target.dir}/svncheckout/${app.name}/resources" />
 			<property name="src.home" value="${target.dir}/svncheckout/${app.name}/webapp/src" />
 			<property name="web.home" value="${target.dir}/svncheckout/${app.name}/webapp/public_html" />
 			<property name="webinf.home" value="${web.home}/WEB-INF" />
@@ -121,6 +122,13 @@
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/security.hibernate.cfg.xml" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/hibernate.properties" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/ObjectStateLoggerConfig.xml" />
+		
+		<if>
+			<equals arg1="${app.name}" arg2="upt31"/>
+			<then>
+				<copy todir="${build.home}/WEB-INF/classes" file="${resources.home}/ObjectStateLoggerConfig.xml"/>
+			</then>
+		</if>		
 	</target>
 
 	<target name="build" depends="compile" description="Creates war file">
