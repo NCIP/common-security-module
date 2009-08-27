@@ -22,7 +22,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="bda-blueprints-webapp.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
 
 	<property name="db-upgrade.dist.dir" value="${dist.exploded.dir}/${db-upgrade.dist.relative.dir}" />
-	
+
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="ivy.settings.file" value="ivysettings.xml" />
 
@@ -154,7 +154,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
-			
+
 		<dist-prep />
 	</target>
 
@@ -192,14 +192,49 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			copy.tools.flag="N"
 			default.target="upgrade"
 		/>
-		
-	
+
+
 		<!-- For DAC upgrades 
 		<dist-prep
 			copy.tools.flag="Y"
 			default.target="upgrade"
 			/>
-		-->	
+		-->
+	</target>
+
+	<!-- Adding the dist:gui-installer target here to copy over eng.xml in izpack -->
+	<target name="dist:gui-installer" description="Makes Gui-Installer distribution">
+		<delete>
+			<fileset dir="${dist.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</delete>
+
+		<gui-installer-prep product.name="${bda-blueprints-webapp.install.name}" product.version="${bda-blueprints-webapp.version}" />
+		<!-- <delete file="${target.dir}/izpack-4.3/src/lib/resources/eng.xml"/>-->
+		<copy todir="${target.dir}/izpack-4.3/src/lib/resources" overwrite="true">
+			<fileset dir="${build.dir}/gui-installer">
+				<include name="eng.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${target.dir}/izpack-4.3/bin/langpacks/installer" overwrite="true">
+			<fileset dir="${build.dir}/gui-installer">
+				<include name="eng.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${target.dir}/izpack-4.3/bin/lib/resources" overwrite="true">
+			<fileset dir="${build.dir}/gui-installer">
+				<include name="eng.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${target.dir}/izpack-custom/resources" overwrite="true">
+			<fileset dir="${build.dir}/gui-installer">
+				<include name="eng.xml" />
+			</fileset>
+		</copy>
+		<ant inheritAll="false" inheritRefs="false" antfile="install.xml" target="build:installer" dir="${build.dir}/gui-installer">
+			<property name="compile.jar.dir" value="${target.dir}/izpack-4.3" />
+		</ant>
 	</target>
 
 	<macrodef name="copyInstallSQLFiles">
@@ -226,7 +261,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</copy>
 		</sequential>
 	</macrodef>
-	
+
 
 	<macrodef name="copyUpgradeSQLFiles">
 		<attribute name="upt.version" default="NOT SET" />
