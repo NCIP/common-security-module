@@ -4,6 +4,7 @@ import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
+import gov.nih.nci.security.dao.InstanceLevelMappingElementSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSDataAccessException;
@@ -12,6 +13,7 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
 import java.util.Date;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -40,12 +42,38 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		
 		//testCreateInstanceLevelMappingElement();
 		testGetInstanceLevelMappingElement();
+		testInstancewLevelMappingElementSearchCriteria();
 		testModifyInstanceLevelMappingElement();
 
-		//testMaintainTablesViews();
+		/*testMaintainTablesViews();
 		testRefreshTablesForUser();
 		testRefreshTablesForGroup();
-		//testRemoveInstanceLevelMappingElement();
+*/		//testRemoveInstanceLevelMappingElement();
+	}
+
+	private static void testInstancewLevelMappingElementSearchCriteria() {
+		try {
+			
+			Application application = authorizationManager.getApplication("caarray");
+			
+			
+			InstanceLevelMappingElement instanceLevelMappingElement = new InstanceLevelMappingElement();
+			//instanceLevelMappingElement.setActiveFlag((byte) 1);
+			instanceLevelMappingElement.setObjectName("Project");
+			//instanceLevelMappingElement.setApplication(application);
+			instanceLevelMappingElement.setAttributeName("ID");
+			
+			SearchCriteria sc  = new InstanceLevelMappingElementSearchCriteria(instanceLevelMappingElement);
+			
+			List l = authorizationManager.getObjects(sc);
+			if(l==null || l.size()==0)
+				fail("\n\nNo Results found for InstanceLevelMappingElement \n\n");
+			
+		} catch (CSObjectNotFoundException e) {
+			fail("\n\nException thrown for creating the InstanceLevelMappingElement() \n\n");
+		}
+		
+		
 	}
 
 	public InstanceLevelSecurityv42Enhancements(String arg0) {
