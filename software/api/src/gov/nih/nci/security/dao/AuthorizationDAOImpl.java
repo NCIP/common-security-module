@@ -5803,6 +5803,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			transaction = session.beginTransaction();
+			//transaction.setTimeout(10000);
 			connection = session.connection();
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
@@ -5877,39 +5878,44 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				if(activeFlag==1){	
 					
 					//refresh PEI Table
-					statement.addBatch("alter table "+peiTableName+" disable keys");
+					//statement.addBatch("alter table "+peiTableName+" disable keys");
+					
 					statement.addBatch("delete from "+peiTableName+
 							"	 where application_id = "+applicationID+" and protection_element_id " +
 							"	 not in (" +
 							"	 select pe.protection_element_id from csm_protection_element pe" +
 							"    where pe.object_id = '"+peiObjectId+"' and  pe.attribute = '"+peiAttribute+"' and  pe.application_id = "+applicationID+" )");
+					
 					statement.executeBatch();
 					statement.addBatch("insert into "+peiTableName+" (protection_element_id, attribute_value, application_id) " +
 							"		select protection_element_id, attribute_value,application_id from csm_protection_element pe" +
 							"		where  pe.object_id = '"+peiObjectId+"' and  pe.attribute = '"+peiAttribute+"' and  pe.application_id = "+applicationID+
 							" 		 and pe.attribute_value is not null and protection_element_id not in (select protection_element_id from "+peiTableName+" )");
-					statement.addBatch("alter table "+peiTableName+" enable keys");
+					//statement.addBatch("alter table "+peiTableName+" enable keys");
 					
 					statement.executeBatch();
 					
 					
 					if(instanceLevelSecurityForUser){
-						statement.addBatch("alter table "+tableNameUser+" disable keys");
+						//statement.addBatch("alter table "+tableNameUser+" disable keys");
+						
 						statement.addBatch("delete from "+tableNameUser+"" +
 								"	 where (user_id,privilege_name,attribute_value,application_id) " +
 								"	 not in (" +
 								"	 select user_id,privilege_name,attribute_value,application_id from "+viewNameUser+
 								     ");");
+						
 						statement.executeBatch();
 						statement.addBatch("insert into "+tableNameUser+" (user_id,login_name,privilege_name,attribute_value,application_id) " +
 								"		select distinct user_id,login_name,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
 								"		where attribute_value is not null and (user_id,privilege_name,attribute_value,application_id) " +
 								"			not in ( select user_id,privilege_name,attribute_value,application_id from "+tableNameUser+" )");
-						statement.addBatch("alter table "+tableNameUser+" enable keys");
+						//statement.addBatch("alter table "+tableNameUser+" enable keys");
 						
 						statement.executeBatch();
 					}else{
-						statement.addBatch("alter table "+tableNameGroup+" disable keys");
+						//statement.addBatch("alter table "+tableNameGroup+" disable keys");
+						
 						statement.addBatch("delete from "+tableNameGroup+"" +
 								"	 where (group_id,privilege_name,attribute_value,application_id) " +
 								"	 not in (" +
@@ -5921,7 +5927,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								"		where (group_ID,privilege_name,attribute_value,application_id) " +
 								"			not in (" +
 								"				select group_id,privilege_name,attribute_value,application_id from "+tableNameGroup+" )");
-						statement.addBatch("alter table "+tableNameGroup+" enable keys");
+						//statement.addBatch("alter table "+tableNameGroup+" enable keys");
 						statement.executeBatch();
 					}
 				}				
@@ -6125,8 +6131,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					statement.addBatch("create or replace view "+viewNameUser+"_temp" +
 							" as select pr.user_id,u.login_name,pr.role_id,pe.application_id,pe.attribute_value" +
 							" from csm_pg_pe cp, "+peiTableName+" pe, csm_user_group_role_pg pr, csm_user u" +
-							" where cp.protection_element_id = pe.protection_element_id and and cp.protection_group_id = pr.protection_group_id and pr.user_id = u.user_id;") ;
-					
+							" where cp.protection_element_id = pe.protection_element_id and cp.protection_group_id = pr.protection_group_id and pr.user_id = u.user_id;") ;
+					statement.executeBatch();
 					statement.addBatch("create or replace view "+viewNameUser+
 							" as" +
 							" select pe.user_id, pe.login_name ,pr.privilege_name,pe.application_id,pe.attribute_value" +
@@ -6141,7 +6147,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							"  from csm_pg_pe cp, "+peiTableName+" pe, csm_user_group_role_pg pr, csm_group g" +
 							" where cp.protection_element_id = pe.protection_element_id" +
 							"  and cp.protection_group_id = pr.protection_group_id and pr.group_id = g.group_id") ;
-					
+					statement.executeBatch();
 					statement.addBatch("create or replace view "+viewNameGroup+
 							" as" +
 							" select pe.group_id, pe.group_name, pr.privilege_name, pe.application_id, pe.attribute_value" +
