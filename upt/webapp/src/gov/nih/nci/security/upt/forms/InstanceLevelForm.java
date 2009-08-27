@@ -367,7 +367,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		
 	}
 
-	public void buildDBObject(HttpServletRequest request) throws Exception
+public void buildDBObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 
@@ -402,50 +402,55 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 			// Check if InstanceLevelMappingElement for this object exists. If so, ensure the tables are maintained already
 			boolean isActiveInstanceLevelMappingElement = false, isMaintainedAlready = false;
 			boolean isObjectNameEqual = false,isObjectPackageNameEqual = false;
-			InstanceLevelMappingElement ilme = new InstanceLevelMappingElement();
 			
+			
+			String targetClassAttributeName= this.targetClassAttributeName; 
+			String className = this.className ;
 			String objectName2 = null;
 			String objectPackageName2 = null;
-			if(StringUtils.isBlank(this.className)){
-				int index1 = this.className.lastIndexOf(".");
-				objectPackageName2 = this.targetClassName.substring(0,index1+1);
-				objectName2 = this.targetClassName.substring(index1+1);
+			if(!StringUtils.isBlank(className)){
+				int index1 = className.lastIndexOf(".");
+				objectPackageName2 = className.substring(0,index1);
+				objectName2 = className.substring(index1+1);
 			}
 			
 			String mappingElementId = String.valueOf(0.00);
 			String peiTableOrViewNameUser = "",peiTableOrViewNameGroup = "";
 			
 			
-			ilme.setObjectName(objectName2); 
-			SearchCriteria sc = new InstanceLevelMappingElementSearchCriteria(ilme);
-			List ilmeObjects = userProvisioningManager.getObjects(sc);
-			if(ilmeObjects!=null && ilmeObjects.size()>0){
-					Iterator it = ilmeObjects.iterator();
-					while(it.hasNext()){
-						InstanceLevelMappingElement ilme2 = (InstanceLevelMappingElement)it.next();
-						if(ilme2==null) continue;
-						if(!StringUtils.isBlank(objectName2) && !StringUtils.isBlank(ilme2.getObjectName()) ){
-							if(objectName2.equalsIgnoreCase(ilme2.getObjectName())){
-								isObjectNameEqual = true;
+			if(!StringUtils.isBlank(targetClassAttributeName) && !StringUtils.isBlank(objectName2) ){
+				InstanceLevelMappingElement ilme = new InstanceLevelMappingElement();
+				ilme.setObjectName(objectName2);
+				ilme.setAttributeName(targetClassAttributeName);
+				SearchCriteria sc = new InstanceLevelMappingElementSearchCriteria(ilme);
+				List ilmeObjects = userProvisioningManager.getObjects(sc);
+				if(ilmeObjects!=null && ilmeObjects.size()>0){
+						Iterator it = ilmeObjects.iterator();
+						while(it.hasNext()){
+							InstanceLevelMappingElement ilme2 = (InstanceLevelMappingElement)it.next();
+							if(ilme2==null) continue;
+							if(!StringUtils.isBlank(objectName2) && !StringUtils.isBlank(ilme2.getObjectName()) ){
+								if(objectName2.equalsIgnoreCase(ilme2.getObjectName())){
+									isObjectNameEqual = true;
+								}
+							}
+							if(!StringUtils.isBlank(objectPackageName2) && !StringUtils.isBlank(ilme2.getObjectPackageName()) ){
+								if(objectPackageName2.equalsIgnoreCase(ilme2.getObjectPackageName())){
+									isObjectPackageNameEqual = true;
+								}
+							}
+							if(isObjectNameEqual && isObjectPackageNameEqual){
+								isActiveInstanceLevelMappingElement = (ilme2.getActiveFlag()==1?true:false);
+								isMaintainedAlready = (ilme2.getMaintainedFlag()==1?true:false);
+								mappingElementId = Long.toString(ilme2.getMappingId());
+								
+								peiTableOrViewNameUser = ilme2.getTableNameForUser();
+								peiTableOrViewNameGroup = ilme2.getTableNameForGroup();
+								break;
 							}
 						}
-						if(!StringUtils.isBlank(objectPackageName2) && !StringUtils.isBlank(ilme2.getObjectPackageName()) ){
-							if(objectPackageName2.equalsIgnoreCase(ilme2.getObjectPackageName())){
-								isObjectPackageNameEqual = true;
-							}
-						}
-						if(isObjectNameEqual && isObjectPackageNameEqual){
-							isActiveInstanceLevelMappingElement = (ilme2.getActiveFlag()==1?true:false);
-							isMaintainedAlready = (ilme2.getMaintainedFlag()==1?true:false);
-							mappingElementId = Long.toString(ilme2.getMappingId());
-							
-							peiTableOrViewNameUser = ilme2.getTableNameForUser();
-							peiTableOrViewNameGroup = ilme2.getTableNameForGroup();
-							break;
-						}
-					}
+				}
 			}
-			
 			if(isActiveInstanceLevelMappingElement){
 				//If so, ensure the tables are maintained already
 								
