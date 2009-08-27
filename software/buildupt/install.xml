@@ -31,6 +31,7 @@
 		install:jboss:backwards-compatible-upt-ear:configure,
 		install:jboss:configure,
 		install:jboss:configure:login:config,
+		install:jboss:configure:csmupt31:login:config,
 		install:jboss:configure:application:context,
 		install:backwards-compatible-upt:databases,		
 		install:jboss:configure:datasources,
@@ -73,7 +74,6 @@
 				<move file="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" tofile="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml.orginal" overwrite="true"/>
 			</then>
 		</if>
-
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true"/>
 			<then>
@@ -101,13 +101,29 @@
 				</filterset>
 			</else>
 		</if>
-
+		<if>
+			<and>
+				<equals arg1="${upt.31.installed}" arg2="true"/>
+				<equals arg1="${upt.central.config}" arg2="false"/>
+			</and>
+			<then>
+				<filterset id="upt.context.filterset">
+					<filter token="upt.context.name" value="csmupt31" />
+				</filterset>
+			</then>
+			<else>
+				<filterset id="upt.context.filterset">
+					<filter token="upt.context.name" value="csmupt" />
+				</filterset>
+			</else>
+		</if>
 		<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="*ApplicationSecurityConfig.xml" />
 			</fileset>
 			<filterset>
 				<filterset refid="upt.31.filterset"/>
+				<filterset refid="upt.context.filterset"/>				
 				<filterset>
 					<filtersfile file="${properties.file}"/>
 					<filtersfile file="project.properties"/>
@@ -144,8 +160,56 @@
 		<copy file="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml" tofile="${jboss.home}/server/${jboss.server.name}/deploy/properties-service.xml.orig" overwrite="true" />
 		<jboss-update-properties-service property.block="${property.block}" />
 	</target>
-
+	
+	<target name="install:jboss:configure:csmupt31:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
+		<if>
+			<and>
+				<equals arg1="${upt.central.config}" arg2="false"  casesensitive="false"/>
+				<equals arg1="${upt.31.installed}" arg2="true" />
+				<not>
+					<equals arg1="${upt.31.authentication.type}" arg2="NONE" />
+				</not>
+			</and>
+			<then>
+				<property name="login-config-template.xml" value="${basedir}/login-config-template.xml"/>
+				<echo
+					message="Inserting ${login-config-template.xml} into ${jboss.home}/server/${jboss.server.name}/conf/login-config.xml" />							
+				<xmltask preservetype="true"
+					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
+					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+					<xmlcatalog refid="bda.xml.catalog" />
+					<remove
+						path="//policy/application-policy[@name='${upt.31.context.name}']" />
+				</xmltask>
+				<xmltask preservetype="true" failWithoutMatch="true"
+					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
+					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+					<xmlcatalog refid="bda.xml.catalog" />
+					<insert path="//policy">
+						<![CDATA[
+							<application-policy name="${upt.31.context.name}">  
+								<authentication>
+									
+								</authentication>  
+							</application-policy>
+						]]>
+					</insert>
+				</xmltask>
+				<configure-login-config 
+				 		authentication.type="${upt.31.authentication.type}" application.context.name="${upt.31.context.name}"
+						database.driver="${upt.31.database.driver.class}" database.url="${upt.31.database.url}"
+						database.user="${upt.31.database.user}" database.password="${upt.31.database.password}"
+						database.encrypt.enabled="${upt.31.database.encrypt.enabled}" 
+						ldaps.url="${upt.31.ldaps.url}" ldaps.basedn="${upt.31.ldaps.basedn}" ldaps.userid.label="${upt.31.ldaps.userid.label}"
+						ldap.url="${upt.31.ldap.url}" ldap.searchable.base="${upt.31.ldap.searchable.base}"	ldap.userid.label="${upt.31.ldap.userid.label}"
+						ldap.admin.user.name="${upt.31.ldap.admin.user.name}" ldap.admin.user.password="${upt.31.ldap.admin.user.password}"
+				/>
+			</then>
+		</if>
+	</target>
+	
 	<target name="install:jboss:configure:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
+		
 		<property name="login-config-template.xml" value="${basedir}/login-config-template.xml"/>
 		<copy file="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml" tofile="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml.orginal" overwrite="true"/>
 		<echo
@@ -172,7 +236,7 @@
 			</and>
 			<then>
 				<configure-login-config 
-				 		authentication.type="${upt.central.authentication.type}"
+				 		authentication.type="${upt.central.authentication.type}" application.context.name="${application.context.name}"
 						database.driver="${upt.central.database.driver.class}" database.url="${upt.central.database.url}"
 						database.user="${upt.central.database.user}" database.password="${upt.central.database.password}"
 						database.encrypt.enabled="${upt.central.database.encrypt.enabled}" 
@@ -191,7 +255,7 @@
 					</and>
 					<then>
 						<configure-login-config 
-						 		authentication.type="${upt.31.authentication.type}"
+						 		authentication.type="${upt.31.authentication.type}" application.context.name="${application.context.name}"
 								database.driver="${upt.31.database.driver.class}" database.url="${upt.31.database.url}"
 								database.user="${upt.31.database.user}" database.password="${upt.31.database.password}"
 								database.encrypt.enabled="${upt.31.database.encrypt.enabled}" 
@@ -210,7 +274,7 @@
 					</and>
 					<then>
 						<configure-login-config 
-						 		authentication.type="${upt.32.authentication.type}"
+						 		authentication.type="${upt.32.authentication.type}" application.context.name="${application.context.name}"
 								database.driver="${upt.32.database.driver.class}" database.url="${upt.32.database.url}"
 								database.user="${upt.32.database.user}" database.password="${upt.32.database.password}"
 								database.encrypt.enabled="${upt.32.database.encrypt.enabled}" 
@@ -228,7 +292,7 @@
 						</not>
 					</and>
 					<then>
-						<configure-login-config authentication.type="${upt.40.authentication.type}"
+						<configure-login-config authentication.type="${upt.40.authentication.type}" application.context.name="${application.context.name}"
 								database.driver="${upt.40.database.driver.class}" database.url="${upt.40.database.url}"
 								database.user="${upt.40.database.user}" database.password="${upt.40.database.password}"
 								database.encrypt.enabled="${upt.40.database.encrypt.enabled}"
@@ -247,7 +311,7 @@
 						</not>
 					</and>
 					<then>
-						<configure-login-config authentication.type="${upt.41.authentication.type}"
+						<configure-login-config authentication.type="${upt.41.authentication.type}" application.context.name="${application.context.name}"
 								database.driver="${upt.41.database.driver.class}" database.url="${upt.41.database.url}"
 								database.user="${upt.41.database.user}" database.password="${upt.41.database.password}"
 								database.encrypt.enabled="${upt.41.database.encrypt.enabled}"
@@ -265,7 +329,7 @@
 						</not>
 					</and>
 					<then>
-						<configure-login-config authentication.type="${upt.42.authentication.type}"
+						<configure-login-config authentication.type="${upt.42.authentication.type}" application.context.name="${application.context.name}"
 								database.driver="${upt.42.database.driver.class}" database.url="${upt.42.database.url}"
 								database.user="${upt.42.database.user}" database.password="${upt.42.database.password}"
 								database.encrypt.enabled="${upt.42.database.encrypt.enabled}"
@@ -578,6 +642,7 @@
 	
 	<macrodef name="configure-login-config">
 		<attribute name="authentication.type" default="NOT SET" />
+		<attribute name="application.context.name" default="NOT SET" />
 		<attribute name="ldaps.url" default="NOT SET" />
 		<attribute name="ldaps.basedn" default="NOT SET" />
 		<attribute name="ldaps.userid.label" default="NOT SET" />
@@ -591,7 +656,7 @@
 		<attribute name="database.user" default="NOT SET" />
 		<attribute name="database.password" default="NOT SET" />
 		<attribute name="database.encrypt.enabled" default="NOT SET" />
-	
+			
 		<sequential>
 			<if>
 				<equals arg1="@{authentication.type}" arg2="ldaps" />
@@ -601,7 +666,7 @@
 							dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
 						<xmlcatalog refid="bda.xml.catalog" />
 						<insert
-								path="//policy/application-policy[@name='${application.context.name}']/authentication"
+								path="//policy/application-policy[@name='@{application.context.name}']/authentication"
 								position="under">
 							<![CDATA[
 									<login-module
@@ -622,7 +687,7 @@
 									dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
 						<xmlcatalog refid="bda.xml.catalog" />
 						<insert
-										path="//policy/application-policy[@name='${application.context.name}']/authentication"
+										path="//policy/application-policy[@name='@{application.context.name}']/authentication"
 										position="under">
 							<![CDATA[			
 							<login-module
@@ -646,7 +711,7 @@
 									dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
 					<xmlcatalog refid="bda.xml.catalog" />
 					<insert
-										path="//policy/application-policy[@name='${application.context.name}']/authentication"
+										path="//policy/application-policy[@name='@{application.context.name}']/authentication"
 										position="under">
 						<![CDATA[			
 						<login-module
@@ -977,8 +1042,9 @@
 		install:jboss:backwards-compatible-upt-ear,
 		install:jboss:backwards-compatible-upt-ear:configure,
 		install:jboss:configure:login:config,
+		install:jboss:configure:csmupt31:login:config,
 		install:jboss:configure:application:context,
-		upgrade:backwards-compatible-upt:databases,		
+		upgrade:backwards-compatible-upt:databases,
 		install:jboss:configure:datasources,
 		install:post:jboss,
 		install:jboss:start,
