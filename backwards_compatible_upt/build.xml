@@ -192,7 +192,7 @@
 	</target>
 
 	<target name="svnCheckout42">
-		<executeSVNCheckout app.name="upt42" tag="tags/CSM_4_2_QA_v5/upt" />
+		<executeSVNCheckout app.name="upt42" tag="tags/CSM_4_2_QA_V11/upt" />
 	</target>
 
 	<target name="svnCheckout41">
