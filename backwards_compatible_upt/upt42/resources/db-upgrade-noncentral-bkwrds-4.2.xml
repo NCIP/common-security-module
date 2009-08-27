@@ -13,9 +13,6 @@
 	</preConditions>
 
 	<changeSet author="upt-bkwrds-42" id="1">
-		<addColumn tableName="CSM_APPLICATION">
-			<column name="CSM_VERSION" type="VARCHAR(20)"></column>
-		</addColumn>
 		<sql>update CSM_APPLICATION
 			set APPLICATION_NAME ='csmupt42'
 			where APPLICATION_NAME='csmupt';
