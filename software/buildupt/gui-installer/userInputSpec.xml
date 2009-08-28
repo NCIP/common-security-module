@@ -435,6 +435,15 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<spec txt="Database Application System User Password:" size="25" set=""/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database User System Password is a required field" />
 		</field>
+		<field type="text" variable="upt.central.database.user">
+			<spec txt="Database Application User:" size="25" set="upt"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application User is a required field" />
+		</field>
+		<field type="text" allign="left" variable="upt.central.database.password">
+			<spec txt="Database Application User Password:" size="25" set=""/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database User Password is a required field" />
+		</field>
+
 		<!-- <validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/> -->
 		<!-- Recreate DB? -->
 		<field type="space"/>
@@ -553,12 +562,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database/Schema Name is a required field" />
             </field>
             <field type="text" variable="upt.central.database.user">
-                <spec txt="Database Application User:" size="25" set=""/>
+                <spec txt="Database Application User:" size="25" set="${upt.central.database.user}"/>
 				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database User is a required field" />
             </field>
 
             <field type="text" allign="left" variable="upt.central.database.password">
-                <spec txt="Database Application User Password:" size="25" set=""/>
+                <spec txt="Database Application User Password:" size="25" set="${upt.central.database.password}"/>
 				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Password is a required field" />
             </field>
 
