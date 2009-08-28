@@ -17,7 +17,7 @@ insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
 values ("admin","admin.first.name","adminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("csmupt","CSM UPT Super Admin Application Protection Element","csmupt41",1,sysdate());
+values("csmupt","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
 
 insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
 values(1,1);
