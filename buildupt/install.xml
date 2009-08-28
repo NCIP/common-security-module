@@ -671,9 +671,9 @@
 							<![CDATA[
 									<login-module
 										code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="sufficient">
-							<module-option name="ldapHost">@{ldaps.url}@</module-option>
-							<module-option name="ldapSearchableBase">@{ldaps.basedn}@</module-option>
-							<module-option name="ldapUserIdLabel">@{ldaps.userid.label}@</module-option>
+							<module-option name="ldapHost">@{ldaps.url}</module-option>
+							<module-option name="ldapSearchableBase">@{ldaps.basedn}</module-option>
+							<module-option name="ldapUserIdLabel">@{ldaps.userid.label}</module-option>
 						</login-module>
 								]]>
 							</insert>
@@ -692,11 +692,11 @@
 							<![CDATA[			
 							<login-module
 								code="gov.nih.nci.security.authentication.loginmodules.LDAPLoginModule" flag="sufficient">
-								<module-option name="ldapHost">@{ldap.url}@</module-option>
-								<module-option name="ldapSearchableBase">@{ldap.searchable.base}@</module-option>
+								<module-option name="ldapHost">@{ldap.url}</module-option>
+								<module-option name="ldapSearchableBase">@{ldap.searchable.base}</module-option>
 								<module-option name="ldapUserIdLabel">@{ldap.userid.label}</module-option>
-								<module-option name="ldapAdminUserName">@{ldap.userid.label}</module-option>
-								<module-option name="ldapAdminPassword">@{ldap.userid.password}</module-option>
+								<module-option name="ldapAdminUserName">@{ldap.admin.user.name}</module-option>
+								<module-option name="ldapAdminPassword">@{ldap.admin.user.password}</module-option>
 							</login-module>
 							]]>
 						</insert>
