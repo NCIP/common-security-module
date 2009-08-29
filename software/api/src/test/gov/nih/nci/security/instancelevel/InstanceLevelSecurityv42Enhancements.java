@@ -14,6 +14,8 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import org.springframework.dao.DataRetrievalFailureException;
 
 public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	
-
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	static AuthorizationManager authorizationManager=null;
 	
 
@@ -49,9 +51,14 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		testInstancewLevelMappingElementSearchCriteria();
 		testModifyInstanceLevelMappingElement();
 
+		System.out.println("Starting MaintainInstanceTablesViews : " + dateFormat.format(new java.util.Date()));
 		testMaintainTablesViews();
+		System.out.println("Starting Refresh Tables for User : " + dateFormat.format(new java.util.Date()));
 		testRefreshTablesForUser();
+		System.out.println("Done Refresh Tables for User: " + dateFormat.format(new java.util.Date()));
+		System.out.println("Starting Refresh Tables for Group : " + dateFormat.format(new java.util.Date()));
 		testRefreshTablesForGroup();
+		System.out.println("Done Refresh Tables for Group: " + dateFormat.format(new java.util.Date()));
 		//testRemoveInstanceLevelMappingElement();
 	}
 
