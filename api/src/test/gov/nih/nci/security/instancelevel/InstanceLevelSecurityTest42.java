@@ -66,7 +66,7 @@ public class InstanceLevelSecurityTest42 extends TestCase {
 		super.tearDown();
 	}
 	
-	public void testUnSecured(){
+	private void testUnSecured(){
 		SessionFactory sf=null;
 		Configuration configuration = null;
 		if(null == sf || sf.isClosed()){
