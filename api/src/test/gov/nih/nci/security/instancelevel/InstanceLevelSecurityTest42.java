@@ -11,6 +11,8 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.util.StringUtilities;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,6 +29,7 @@ import test.gov.nih.nci.security.instancelevel.domainobjects.Card;
 
 public class InstanceLevelSecurityTest42 extends TestCase {
 	
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	// properties for configuration
 	String csmApplicationContext = "instance42";
@@ -142,6 +145,9 @@ public class InstanceLevelSecurityTest42 extends TestCase {
 			}
 		}
 		Criteria criteria = session.createCriteria(Card.class);
+		
+		
+		
 		List results = criteria.list();
 		int size = results.size();
 		System.out.println("============= INSTANCE LEVEL  -  FOR GROUPS ONLY ==================");
