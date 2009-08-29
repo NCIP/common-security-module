@@ -5,6 +5,7 @@
 			<xs:all>
 				<xs:element ref="upt-context-name"/>
 				<xs:element ref="application-list"/>
+				<xs:element ref="backwards-compatibility"/>
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
@@ -40,7 +41,6 @@
 	<xs:element name="lockout-time" type="xs:string"/>
 	<xs:element name="allowed-attempts" type="xs:string"/>
 	<xs:element name="allowed-login-time" type="xs:string"/>
-	
 	<xs:element name="authorization">
 		<xs:complexType>
 			<xs:all>
@@ -51,4 +51,32 @@
 	</xs:element>
 	<xs:element name="authorization-provider-class" type="xs:string"/>
 	<xs:element name="hibernate-config-file" type="xs:string"/>
+	<xs:element name="backwards-compatibility">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="login-application-context-name"/>
+				<xs:element ref="central-upt-configuration"/>
+				<xs:element ref="upt-application-list"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="login-application-context-name" type="xs:string"/>
+	<xs:element name="central-upt-configuration" type="xs:string"/>	
+	<xs:element name="upt-application-list">
+	<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="upt-application" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="url-context-name" type="xs:string"/>
+	<xs:element name="upt-application">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="context-name"/>
+				<xs:element ref="url-context-name"/>
+				<xs:element ref="authorization"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
