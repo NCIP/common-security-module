@@ -26,7 +26,7 @@ import org.springframework.dao.DataRetrievalFailureException;
 
 public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	
-	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
 		static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		static AuthorizationManager authorizationManager=null;
 	
