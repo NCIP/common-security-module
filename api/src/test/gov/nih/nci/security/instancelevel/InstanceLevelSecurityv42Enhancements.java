@@ -42,16 +42,17 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			throw new DataAccessResourceFailureException(e.getMessage());
 		}
 		
-		//testCreateInstanceLevelMappingElement();
-		//testGetInstanceLevelMappingElement();
 		
+		
+		//testCreateInstanceLevelMappingElement();
+		testGetInstanceLevelMappingElement();
 		testInstancewLevelMappingElementSearchCriteria();
-		//testModifyInstanceLevelMappingElement();
+		testModifyInstanceLevelMappingElement();
 
-		/*testMaintainTablesViews();
+		testMaintainTablesViews();
 		testRefreshTablesForUser();
 		testRefreshTablesForGroup();
-*/		//testRemoveInstanceLevelMappingElement();
+		//testRemoveInstanceLevelMappingElement();
 	}
 
 	
@@ -199,10 +200,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			fail("\n\nException thrown for maintainInstanceTables \n\n");
 		}
 		
-		//Check for Tables
-		//SELECT table_name FROM information_schema.tables WHERE table_schema = 'databasename' AND table_name = 'tablename';
-		//Check for Views
-		//assertEquals("Incorrect number of cards retrieved",size, 53); // Expecting all cards in the deck including the joker.
+
 	}
 	
 	
@@ -220,10 +218,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			fail("\n\nException thrown for refreshInstanceTables(true) \n\n");
 		}
 		
-		//Check for Tables
-		//SELECT table_name FROM information_schema.tables WHERE table_schema = 'databasename' AND table_name = 'tablename';
-		//Check for Views
-		//assertEquals("Incorrect number of cards retrieved",size, 53); // Expecting all cards in the deck including the joker.
+		
 	}
 	
 	public static void testRefreshTablesForGroup(){
@@ -239,10 +234,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 			fail("\n\nException thrown for refreshInstanceTables(true) \n\n");
 		}
 		
-		//Check for Tables
-		//SELECT table_name FROM information_schema.tables WHERE table_schema = 'databasename' AND table_name = 'tablename';
-		//Check for Views
-		//assertEquals("Incorrect number of cards retrieved",size, 53); // Expecting all cards in the deck including the joker.
+		
 	}
 	
 	
