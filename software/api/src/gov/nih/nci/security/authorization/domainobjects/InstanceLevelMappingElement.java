@@ -8,6 +8,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class InstanceLevelMappingElement implements Comparable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2097096500735936404L;
 	private Long mappingId;
 	private byte activeFlag;
 	private byte maintainedFlag;
@@ -23,7 +27,7 @@ public class InstanceLevelMappingElement implements Comparable, Serializable {
 	private String tableNameForGroup;
 	
 	private Application application;
-	private Date updateDate;
+	private java.util.Date updateDate;
 	
 	
 	
