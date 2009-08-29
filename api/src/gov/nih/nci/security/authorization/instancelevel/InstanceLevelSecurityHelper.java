@@ -3,8 +3,10 @@ package gov.nih.nci.security.authorization.instancelevel;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.authorization.domainobjects.ApplicationContext;
 import gov.nih.nci.security.authorization.domainobjects.FilterClause;
+import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.FilterClauseSearchCriteria;
+import gov.nih.nci.security.dao.InstanceLevelMappingElementSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSException;
 
@@ -56,7 +58,11 @@ public class InstanceLevelSecurityHelper
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
-		needsOptimisation = isMySQLDatabase(props,true);
+		
+		
+		//If using InstanceLevel Query Performance Enhancements of 4.2, then no need to optimize query for MySQL Db.
+		if(!isExistActiveMappingElement(authorizationManager))	
+			needsOptimisation = isMySQLDatabase(props,true);
 		
 		// Inject/Remove Defined Filters in HBM/Classes/Package.
 		if(null!=definedFilterNamesList && !definedFilterNamesList.isEmpty()){
@@ -112,6 +118,8 @@ public class InstanceLevelSecurityHelper
 		}
 	}
 	
+	
+
 	/**
 	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
 	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
@@ -125,7 +133,9 @@ public class InstanceLevelSecurityHelper
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
-		needsOptimisation = isMySQLDatabase(props,true);
+		
+		if(!isExistActiveMappingElement(authorizationManager))
+			needsOptimisation = isMySQLDatabase(props,true);
 		
 		FilterClause searchFilterClause = new FilterClause();
 		searchFilterClause.setClassName("*");
@@ -168,7 +178,8 @@ public class InstanceLevelSecurityHelper
 		
 
 		boolean needsOptimisation = false;
-		needsOptimisation = isMySQLDatabase(props,false);
+		if(!isExistActiveMappingElement(authorizationManager))
+			needsOptimisation = isMySQLDatabase(props,false);
 		
 
 		List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>();
@@ -221,7 +232,9 @@ public class InstanceLevelSecurityHelper
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
-		needsOptimisation = isMySQLDatabase(props,true);
+		
+		if(!isExistActiveMappingElement(authorizationManager))
+			needsOptimisation = isMySQLDatabase(props,true);
 		
 		// Add/Remove Non-CSM defined filters.
 		if(null!=definedFilterNamesList && !definedFilterNamesList.isEmpty()){
@@ -289,7 +302,9 @@ public class InstanceLevelSecurityHelper
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
-		needsOptimisation = isMySQLDatabase(props,true);
+		
+		if(!isExistActiveMappingElement(authorizationManager))
+			needsOptimisation = isMySQLDatabase(props,true);
 		
 		
 		FilterClause searchFilterClause = new FilterClause();
@@ -335,7 +350,8 @@ public class InstanceLevelSecurityHelper
 		
 
 		boolean needsOptimisation = false;
-		needsOptimisation = isMySQLDatabase(props,false);
+		if(!isExistActiveMappingElement(authorizationManager))		
+			needsOptimisation = isMySQLDatabase(props,false);
 		
 		List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>();
 		
@@ -698,4 +714,19 @@ public class InstanceLevelSecurityHelper
 		return returnval;
 	}	
 
+	private static boolean isExistActiveMappingElement(AuthorizationManager authorizationManager) {
+		InstanceLevelMappingElement ilme = new InstanceLevelMappingElement();
+		SearchCriteria searchCriteria = new InstanceLevelMappingElementSearchCriteria(ilme);
+		List list = authorizationManager.getObjects(searchCriteria);
+		Iterator iterator = list.iterator();
+		while(iterator.hasNext()){
+			ilme = null;
+			ilme=(InstanceLevelMappingElement) iterator.next();
+			if(ilme!=null){
+				if(ilme.getActiveFlag()==1) return true;
+			}
+		}
+		return false;
+	}
+	
 }
