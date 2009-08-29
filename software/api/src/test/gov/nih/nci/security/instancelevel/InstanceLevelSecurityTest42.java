@@ -108,9 +108,11 @@ public class InstanceLevelSecurityTest42 extends TestCase {
 		if(session==null){
 			session = sf.openSession();
 		}
+		System.out.println("Starting Instance Level Security Query for User : " + dateFormat.format(new java.util.Date()));
 		Criteria criteria = session.createCriteria(Card.class);
 		List results = criteria.list();
 		int size =results.size();
+		System.out.println("Done Instance Level Security Query for User : " + dateFormat.format(new java.util.Date()));
 		System.out.println("============= INSTANCE LEVEL ONLY - FOR USER ONLY ==================");
 		System.out.println("Total no of Cards on which user has access= "+results.size());
 		System.out.println("------------------------------------------------------");
@@ -130,6 +132,7 @@ public class InstanceLevelSecurityTest42 extends TestCase {
 	
 
 	public void testInstanceLevelSecurityForGroups() throws Exception {
+
 		SessionFactory sf=null;
 		Configuration configuration = null;
 		if(null == sf || sf.isClosed()){
@@ -144,12 +147,15 @@ public class InstanceLevelSecurityTest42 extends TestCase {
 				InstanceLevelSecurityHelper.initializeFiltersForGroups(groupNames, session, authorizationManager);
 			}
 		}
+
+		System.out.println("Starting Instance Level Security Query for Groups : " + dateFormat.format(new java.util.Date()));
+		
 		Criteria criteria = session.createCriteria(Card.class);
-		
-		
 		
 		List results = criteria.list();
 		int size = results.size();
+
+		System.out.println("Done Instance Level Security Query for Groups : " + dateFormat.format(new java.util.Date()));
 		System.out.println("============= INSTANCE LEVEL  -  FOR GROUPS ONLY ==================");
 		System.out.println("Total no of Cards on which groups have access : " + results.size());
 		System.out.println("------------------------------------------------------");
