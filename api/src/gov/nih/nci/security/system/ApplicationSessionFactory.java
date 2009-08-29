@@ -149,6 +149,7 @@ public class ApplicationSessionFactory {
 			try
 			{
 				Configuration configuration = new Configuration();
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/InstanceLevelMappingElement.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Application.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/FilterClause.hbm.xml");
