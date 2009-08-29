@@ -3,7 +3,9 @@ package test.gov.nih.nci.security.instancelevel;
 import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
+import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.dao.InstanceLevelMappingElementSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
@@ -29,7 +31,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	public static void main(String[] args) {
 		try {
 			//required: file name sampleHostApplicationName.csm.new.hibernate.cfg.xml
-			authorizationManager = SecurityServiceProvider.getAuthorizationManager("caarray");
+			authorizationManager = SecurityServiceProvider.getAuthorizationManager("instance42");
 			System.out.println("Success");
 		} catch (CSConfigurationException e) {
 			e.printStackTrace();
@@ -41,9 +43,10 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		}
 		
 		//testCreateInstanceLevelMappingElement();
-		testGetInstanceLevelMappingElement();
+		//testGetInstanceLevelMappingElement();
+		
 		testInstancewLevelMappingElementSearchCriteria();
-		testModifyInstanceLevelMappingElement();
+		//testModifyInstanceLevelMappingElement();
 
 		/*testMaintainTablesViews();
 		testRefreshTablesForUser();
@@ -51,21 +54,29 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 */		//testRemoveInstanceLevelMappingElement();
 	}
 
+	
+	
+
 	private static void testInstancewLevelMappingElementSearchCriteria() {
 		try {
 			
-			Application application = authorizationManager.getApplication("caarray");
+			Application application = authorizationManager.getApplication("instance42");
 			
 			
 			InstanceLevelMappingElement instanceLevelMappingElement = new InstanceLevelMappingElement();
 			//instanceLevelMappingElement.setActiveFlag((byte) 1);
-			instanceLevelMappingElement.setObjectName("Project");
+			instanceLevelMappingElement.setObjectName("Card");
 			//instanceLevelMappingElement.setApplication(application);
-			instanceLevelMappingElement.setAttributeName("ID");
+			instanceLevelMappingElement.setAttributeName("id");
 			
 			SearchCriteria sc  = new InstanceLevelMappingElementSearchCriteria(instanceLevelMappingElement);
-			
 			List l = authorizationManager.getObjects(sc);
+			Group g = new Group();
+			g.setGroupName("Group0");
+			sc= new GroupSearchCriteria(g);
+			
+			l = authorizationManager.getObjects(sc);
+			
 			if(l==null || l.size()==0)
 				fail("\n\nNo Results found for InstanceLevelMappingElement \n\n");
 			
@@ -83,7 +94,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		
 		try {
 			//required: file name sampleHostApplicationName.csm.new.hibernate.cfg.xml
-			authorizationManager = SecurityServiceProvider.getUserProvisioningManager("caarray");
+			authorizationManager = SecurityServiceProvider.getUserProvisioningManager("instance42");
 		} catch (CSConfigurationException e) {
 			e.printStackTrace();
 			throw new DataRetrievalFailureException(e.getMessage());
@@ -105,21 +116,21 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	public static void testCreateInstanceLevelMappingElement(){
 		try {
 			
-			Application application = authorizationManager.getApplication("caarray");
+			Application application = authorizationManager.getApplication("instance42");
 			
 			
 			InstanceLevelMappingElement instanceLevelMappingElement = new InstanceLevelMappingElement();
 			instanceLevelMappingElement.setActiveFlag((byte) 1);
-			instanceLevelMappingElement.setObjectName("Project");
+			instanceLevelMappingElement.setObjectName("Card");
 			instanceLevelMappingElement.setApplication(application);
-			instanceLevelMappingElement.setAttributeName("ID");
-			instanceLevelMappingElement.setObjectPackageName("gov.nih.nci.caarray.domain.project");
-			instanceLevelMappingElement.setTableName("PROJECT");
-			instanceLevelMappingElement.setTableNameForGroup("zCSM_PROJECT_ID_GROUP");
-			instanceLevelMappingElement.setTableNameForUser("zCSM_PROJECT_ID_USER");
+			instanceLevelMappingElement.setAttributeName("id");
+			instanceLevelMappingElement.setObjectPackageName("test.gov.nih.nci.security.instancelevel.domainobjects");
+			instanceLevelMappingElement.setTableName("zcsm_pei_card_id");
+			instanceLevelMappingElement.setTableNameForGroup("zCSM_card_ID_GROUP");
+			instanceLevelMappingElement.setTableNameForUser("zCSM_card_ID_USER");
 			instanceLevelMappingElement.setUpdateDate(new Date());
-			instanceLevelMappingElement.setViewNameForGroup("zCSM_VW_PROJECT_ID_GROUP");
-			instanceLevelMappingElement.setViewNameForUser("zCSM_VW_PROJECT_ID_USER");
+			instanceLevelMappingElement.setViewNameForGroup("zCSM_VW_card_iD_GROUP");
+			instanceLevelMappingElement.setViewNameForUser("zCSM_VW_card_ID_USER");
 			
 			authorizationManager.createInstanceLevelMappingElement(instanceLevelMappingElement);
 			
@@ -150,7 +161,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	public static void testModifyInstanceLevelMappingElement(){
 		try {
 			InstanceLevelMappingElement ilme = authorizationManager.getInstanceLevelMappingElementById("1");
-			ilme.setTableName("CSM_PEI_PROJECT_ID");
+			ilme.setTableName("zcsm_pei_card_id");
 			authorizationManager.modifyInstanceLevelMappingElement(ilme);
 			assertNotNull(ilme);
 			
