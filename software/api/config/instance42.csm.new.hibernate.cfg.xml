@@ -21,7 +21,7 @@
         <property name="connection.password">csm41</property>
       -->
 
-       <property name="connection.url">jdbc:mysql://localhost:3306/deleteme</property>
+       <property name="connection.url">jdbc:mysql://localhost:3306/instance42</property>
        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>        
         <property name="connection.username">upt</property>
