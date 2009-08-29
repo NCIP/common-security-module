@@ -1,6 +1,7 @@
 package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.dao.FilterClauseSearchCriteria;
@@ -367,9 +368,10 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		
 	}
 
-public void buildDBObject(HttpServletRequest request) throws Exception
+	public void buildDBObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
 
 		FilterClause filterClause = null;
 		
@@ -422,6 +424,7 @@ public void buildDBObject(HttpServletRequest request) throws Exception
 				InstanceLevelMappingElement ilme = new InstanceLevelMappingElement();
 				ilme.setObjectName(objectName2);
 				ilme.setAttributeName(targetClassAttributeName);
+				
 				SearchCriteria sc = new InstanceLevelMappingElementSearchCriteria(ilme);
 				List ilmeObjects = userProvisioningManager.getObjects(sc);
 				if(ilmeObjects!=null && ilmeObjects.size()>0){
@@ -459,8 +462,8 @@ public void buildDBObject(HttpServletRequest request) throws Exception
 				}
 			}
 			
-			filterClause.setGeneratedSQLForGroup(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),true,peiTableOrViewNameUser));
-			filterClause.setGeneratedSQLForUser(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),false,peiTableOrViewNameGroup));
+			filterClause.setGeneratedSQLForGroup(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),true,peiTableOrViewNameGroup));
+			filterClause.setGeneratedSQLForUser(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),false,peiTableOrViewNameUser));
 			userProvisioningManager.createFilterClause(filterClause);
 			this.id = filterClause.getId().toString();
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
