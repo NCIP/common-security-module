@@ -353,8 +353,8 @@ public class HibernateHelper
 		"and u.login_name=:USER_NAME " +
 		"and pe.application_id=:APPLICATION_ID" ; 
 		
-		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" where " +
-				"upei.login_name=:USER_NAME and upei.application_id =:APPLICATION_ID and upei.privilege_name=’READ’";
+		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" upei where " +
+				"upei.login_name=:USER_NAME and upei.application_id =:APPLICATION_ID and upei.privilege_name='READ'";
 			
 		
 		StringBuffer result = new StringBuffer();
@@ -436,8 +436,8 @@ public class HibernateHelper
 				"AND pe.application_id=:APPLICATION_ID";
 
 
-		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" where " +
-		"upei.group_name IN (:GROUP_NAMES) and upei.application_id =:APPLICATION_ID and upei.privilege_name=’READ’";
+		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" upei where " +
+		"upei.group_name IN (:GROUP_NAMES) and upei.application_id =:APPLICATION_ID and upei.privilege_name='READ'";
 		
 		/*String CSM_QUERY = " select pe.attribute_value from " +
 		"csm_protection_group pg, " +
