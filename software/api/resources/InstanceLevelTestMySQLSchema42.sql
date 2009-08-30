@@ -478,11 +478,14 @@ insert into csm_pg_pe (protection_group_id,protection_element_id,update_date)
 
 insert into csm_role(role_name,application_id,active_flag,update_date) value ('READ',2,1,sysdate());
 
+insert into csm_role_privilege(role_id,privilege_id) value (1,3);
+
 insert into csm_user_group_role_pg (user_id,protection_group_id, role_id ,update_date) 
 	select u.user_id,pg.protection_group_id,1,sysdate() from csm_user u, csm_protection_group pg ORDER By rand();
 
 insert into csm_user_group_role_pg (group_id,protection_group_id, role_id ,update_date) 
 	select g.group_id,pg.protection_group_id,1,sysdate() from csm_group g, csm_protection_group pg ORDER By rand();
+
 
 COMMIT;
 
