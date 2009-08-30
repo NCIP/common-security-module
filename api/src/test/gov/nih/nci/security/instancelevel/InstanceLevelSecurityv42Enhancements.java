@@ -47,7 +47,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		
 		
 		
-		//testCreateInstanceLevelMappingElement();
+		testCreateInstanceLevelMappingElement();
 		testGetInstanceLevelMappingElement();
 		testInstancewLevelMappingElementSearchCriteria();
 		testModifyInstanceLevelMappingElement();
@@ -60,7 +60,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		System.out.println("Starting Refresh Tables for Group : " + dateFormat.format(new java.util.Date()));
 		testRefreshTablesForGroup();
 		System.out.println("Done Refresh Tables for Group: " + dateFormat.format(new java.util.Date()));
-		//testRemoveInstanceLevelMappingElement();
+		testRemoveInstanceLevelMappingElement();
 	}
 
 	
