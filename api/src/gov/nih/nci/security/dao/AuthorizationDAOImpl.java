@@ -5878,8 +5878,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				if(activeFlag==1){	
 					
 					//refresh PEI Table
-					//statement.addBatch("alter table "+peiTableName+" disable keys");
-					
+					statement.addBatch("alter table "+peiTableName+" disable keys");
+					statement.addBatch("truncate "+peiTableName);
 					statement.addBatch("delete from "+peiTableName+
 							"	 where application_id = "+applicationID+" and protection_element_id " +
 							"	 not in (" +
@@ -5891,43 +5891,43 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							"		select protection_element_id, attribute_value,application_id from csm_protection_element pe" +
 							"		where  pe.object_id = '"+peiObjectId+"' and  pe.attribute = '"+peiAttribute+"' and  pe.application_id = "+applicationID+
 							" 		 and pe.attribute_value is not null and protection_element_id not in (select protection_element_id from "+peiTableName+" )");
-					//statement.addBatch("alter table "+peiTableName+" enable keys");
+					statement.addBatch("alter table "+peiTableName+" enable keys");
 					
 					statement.executeBatch();
 					
 					
 					if(instanceLevelSecurityForUser){
-						//statement.addBatch("alter table "+tableNameUser+" disable keys");
-						
-						statement.addBatch("delete from "+tableNameUser+"" +
+						statement.addBatch("alter table "+tableNameUser+" disable keys");
+						statement.addBatch("truncate "+tableNameUser);
+						/*statement.addBatch("delete from "+tableNameUser+"" +
 								"	 where (user_id,privilege_name,attribute_value,application_id) " +
 								"	 not in (" +
 								"	 select user_id,privilege_name,attribute_value,application_id from "+viewNameUser+
-								     ");");
+								     ");");*/
 						
 						statement.executeBatch();
 						statement.addBatch("insert into "+tableNameUser+" (user_id,login_name,privilege_name,attribute_value,application_id) " +
 								"		select distinct user_id,login_name,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
 								"		where attribute_value is not null and (user_id,privilege_name,attribute_value,application_id) " +
 								"			not in ( select user_id,privilege_name,attribute_value,application_id from "+tableNameUser+" )");
-						//statement.addBatch("alter table "+tableNameUser+" enable keys");
+						statement.addBatch("alter table "+tableNameUser+" enable keys");
 						
 						statement.executeBatch();
 					}else{
-						//statement.addBatch("alter table "+tableNameGroup+" disable keys");
-						
-						statement.addBatch("delete from "+tableNameGroup+"" +
+						statement.addBatch("alter table "+tableNameGroup+" disable keys");
+						statement.addBatch("truncate "+tableNameGroup);
+						/*statement.addBatch("delete from "+tableNameGroup+"" +
 								"	 where (group_id,privilege_name,attribute_value,application_id) " +
 								"	 not in (" +
 								"	 select group_id,privilege_name,attribute_value,application_id from "+viewNameGroup+
-								     ")");
+								     ")");*/
 						
 						statement.addBatch("insert into "+tableNameGroup+" (group_id,group_name,privilege_name,attribute_value,application_id) " +
 								"		select distinct group_id,group_name,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
 								"		where (group_ID,privilege_name,attribute_value,application_id) " +
 								"			not in (" +
 								"				select group_id,privilege_name,attribute_value,application_id from "+tableNameGroup+" )");
-						//statement.addBatch("alter table "+tableNameGroup+" enable keys");
+						statement.addBatch("alter table "+tableNameGroup+" enable keys");
 						statement.executeBatch();
 					}
 				}				
