@@ -5890,7 +5890,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					statement.addBatch("insert into "+peiTableName+" (protection_element_id, attribute_value, application_id) " +
 							"		select protection_element_id, attribute_value,application_id from csm_protection_element pe" +
 							"		where  pe.object_id = '"+peiObjectId+"' and  pe.attribute = '"+peiAttribute+"' and  pe.application_id = "+applicationID+
-							" 		 and pe.attribute_value is not null )");
+							" 		 and pe.attribute_value is not null ");
 							//"and protection_element_id not in (select protection_element_id from "+peiTableName+" )");
 					statement.addBatch("alter table "+peiTableName+" enable keys");
 					
@@ -5909,7 +5909,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						statement.executeBatch();
 						statement.addBatch("insert into "+tableNameUser+" (user_id,login_name,privilege_name,attribute_value,application_id) " +
 								"		select distinct user_id,login_name,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
-								"		where attribute_value is not null )");
+								"		where attribute_value is not null ");
 						/*and (user_id,privilege_name,attribute_value,application_id) " +
 								"			not in ( select user_id,privilege_name,attribute_value,application_id from "+tableNameUser+" )");*/
 						statement.addBatch("alter table "+tableNameUser+" enable keys");
@@ -5926,7 +5926,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						
 						statement.addBatch("insert into "+tableNameGroup+" (group_id,group_name,privilege_name,attribute_value,application_id) " +
 								"		select distinct group_id,group_name,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
-								"		where attribute_value is not null)");
+								"		where attribute_value is not null");
 								/*(group_ID,privilege_name,attribute_value,application_id) " +
 								"			not in (" +
 								"				select group_id,privilege_name,attribute_value,application_id from "+tableNameGroup+" )");*/
