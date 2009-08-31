@@ -453,12 +453,12 @@ insert into integers(i) values (0), (1), (2), (3), (4), (5), (6), (7), (8), (9);
 #insert into numbers
 #select (tenthousands.i * 1000) +(thousands.i * 1000) + (hundreds.i * 100) + (tens.i * 10) + units.i as iii
 insert into numbers
-select (tenthousands.i * 1) +(thousands.i * 1000) + (hundreds.i * 100) + (tens.i * 10) + units.i as iii
+select (thousands.i * 1000) + (hundreds.i * 100) + (tens.i * 10) + units.i as iii
 from integers as units
     cross join integers as tens
     cross join integers as hundreds
-    cross join integers as thousands
-		cross join integers as tenthousands;
+    cross join integers as thousands;
+#		cross join integers as tenthousands;
 		
 insert into Card (name) select concat('Card',  i) from numbers where i < 40000;
 insert into Suit (name) select concat('Suit',  i) from numbers where i < 10;
