@@ -26,14 +26,14 @@ import org.springframework.dao.DataRetrievalFailureException;
 
 public class InstanceLevelSecurityv42Enhancements extends TestCase {
 	
-
-		static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		static AuthorizationManager authorizationManager=null;
+	static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	static AuthorizationManager authorizationManager=null;
 	
 
 	public static void main(String[] args) {
 		try {
-			//required: file name sampleHostApplicationName.csm.new.hibernate.cfg.xml
+			//required: file name resources/instance42.csm.new.hibernate.cfg.xml
+			// Use the InstanceLevelTestMySQLSchema42.sql to generate test data.
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager("instance42");
 			System.out.println("Success");
 		} catch (CSConfigurationException e) {
@@ -46,8 +46,8 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		}
 		
 		
-		
-		testCreateInstanceLevelMappingElement();
+		// Uncomment the following statement to test creating an InstanceLevelMappingElement
+		//testCreateInstanceLevelMappingElement();
 		testGetInstanceLevelMappingElement();
 		testInstancewLevelMappingElementSearchCriteria();
 		testModifyInstanceLevelMappingElement();
@@ -60,7 +60,7 @@ public class InstanceLevelSecurityv42Enhancements extends TestCase {
 		System.out.println("Starting Refresh Tables for Group : " + dateFormat.format(new java.util.Date()));
 		testRefreshTablesForGroup();
 		System.out.println("Done Refresh Tables for Group: " + dateFormat.format(new java.util.Date()));
-		testRemoveInstanceLevelMappingElement();
+		//testRemoveInstanceLevelMappingElement();
 	}
 
 	
