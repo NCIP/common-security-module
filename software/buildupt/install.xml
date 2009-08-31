@@ -926,7 +926,16 @@
 	
 	<target name="re-configure-ear">
 		<property name="temp.ear.dir" value="tempEAR"/>
-		<copy file="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" tofile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}.org"/>
+		<available file="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}.org" property="upt.ear.org.present"/>
+		<if>
+			<equals arg1="${upt.ear.org.present}" arg2="true"/>
+			<then>
+				<copy file="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}.org" tofile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" overwrite="true"/>
+			</then>
+			<else>
+				<copy file="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" tofile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}.org"/>
+			</else>
+		</if>
 		<unzip dest="${temp.ear.dir}" src="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}"/>
 	
 		<if>
