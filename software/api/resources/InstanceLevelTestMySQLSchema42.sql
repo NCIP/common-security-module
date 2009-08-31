@@ -453,7 +453,7 @@ insert into integers(i) values (0), (1), (2), (3), (4), (5), (6), (7), (8), (9);
 #insert into numbers
 #select (tenthousands.i * 1000) +(thousands.i * 1000) + (hundreds.i * 100) + (tens.i * 10) + units.i as iii
 insert into numbers
-select (tenthousands.i * 10) +(thousands.i * 1000) + (hundreds.i * 100) + (tens.i * 10) + units.i as iii
+select (tenthousands.i * 1) +(thousands.i * 1000) + (hundreds.i * 100) + (tens.i * 10) + units.i as iii
 from integers as units
     cross join integers as tens
     cross join integers as hundreds
