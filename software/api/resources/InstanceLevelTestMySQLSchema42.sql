@@ -1,4 +1,4 @@
-use instance42;
+
 CREATE TABLE CSM_APPLICATION ( 
 	APPLICATION_ID BIGINT AUTO_INCREMENT  NOT NULL,
 	APPLICATION_NAME VARCHAR(255) NOT NULL,
@@ -486,6 +486,14 @@ insert into csm_user_group_role_pg (user_id,protection_group_id, role_id ,update
 
 insert into csm_user_group_role_pg (group_id,protection_group_id, role_id ,update_date) 
 	select g.group_id,pg.protection_group_id,1,sysdate() from csm_group g, csm_protection_group pg ORDER By rand();
+
+INSERT INTO csm_filter_clause (CLASS_NAME, FILTER_CHAIN, TARGET_CLASS_NAME, TARGET_CLASS_ATTRIBUTE_NAME, TARGET_CLASS_ATTRIBUTE_TYPE, TARGET_CLASS_ALIAS, TARGET_CLASS_ATTRIBUTE_ALIAS, GENERATED_SQL_USER, GENERATED_SQL_GROUP, APPLICATION_ID, UPDATE_DATE) 
+VALUES ('test.gov.nih.nci.security.instancelevel.domainobjects.Card', 'test.gov.nih.nci.security.instancelevel.domainobjects.Card', 'test.gov.nih.nci.security.instancelevel.domainobjects.Card - self', 'id', 'java.lang.Integer', '', '', 'ID in (select table_name_csm_.ID   from CARD table_name_csm_ where table_name_csm_.ID in (select upei.attribute_value from zCSM_card_ID_USER upei where upei.login_name=:USER_NAME and upei.application_id =:APPLICATION_ID and upei.privilege_name=\'READ\'))', 'ID in (select table_name_csm_.ID   from CARD table_name_csm_ where table_name_csm_.ID in (select upei.attribute_value from zCSM_card_ID_GROUP upei where upei.group_name IN (:GROUP_NAMES) and upei.application_id =:APPLICATION_ID and upei.privilege_name=\'READ\'))', 2,sysdate());
+
+
+INSERT csm_mapping (APPLICATION_ID,OBJECT_NAME,ATTRIBUTE_NAME,OBJECT_PACKAGE_NAME,TABLE_NAME,TABLE_NAME_GROUP,TABLE_NAME_USER,VIEW_NAME_GROUP,VIEW_NAME_USER,ACTIVE_FLAG,MAINTAINED_FLAG,UPDATE_DATE)
+   VALUES (	2,	'Card',	'id','test.gov.nih.nci.security.instancelevel.domainobjects','zcsm_pei_card_id',	'zCSM_card_ID_GROUP',	'zCSM_card_ID_USER',	'zCSM_VW_card_iD_GROUP','zCSM_VW_card_ID_USER',	'1',	'0',	sysdate());
+	 
 
 
 COMMIT;
