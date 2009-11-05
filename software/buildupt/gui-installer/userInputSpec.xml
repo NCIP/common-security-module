@@ -87,10 +87,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		
 		<field type="space"/>
 		<field type="divider" align="top"/>
-		<field type="staticText" align="left" txt="Select existing location of the JBoss application server where UPT is installed. Specify the JBoss Server Name."/>
-		<field type="dir" variable="jboss.home">
-			<spec txt="JBoss Home:" size="25" set="c:/apps/upt/${jboss.binaries.relative.dir}"/>
-			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Home is a required field" />
+		<field type="staticText" align="left" txt="Select existing name of the JBoss server folder where UPT is installed. Specify the JBoss Server Name."/>
+		<field type="text" variable="jboss.relative.path">
+			<spec txt="JBoss Folder Name:" size="25" set="jboss-4.0.5.GA"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Folder Name is a required field" />
 		</field>
 		<field type="text" variable="jboss.server.name">
 			<spec txt="JBoss Server name:" size="15" set="default"/>
@@ -108,6 +108,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<fileextractor>
 			<extractfile filename="pre-install" toDirName="."/>
 		</fileextractor>
+
+		
+		
 		
 	</panel>
 
@@ -282,9 +285,13 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	
 	<!-- Jboss Configuration -->
 	<panel order="4">
+
+		<variable name="jboss.home" value="${application.base.path}/${jboss.relative.path}"/>
+		<variable name="jboss.binaries.relative.dir" value="${jboss.relative.path}"/>
+
 		<field type="title" txt="Configure your JBoss application server" bold="true" size="1" />
 		<field type="divider" align="top"/>
-		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${UserPathPanelVariable}/${jboss.binaries.relative.dir}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to specfify the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
+		<field type="staticText" align="left" txt="As part of this installation, JBoss will be installed in ${jboss.home}.  It will be configured based on the values you enter below.  NOTE: The Hostname below (and on other panels of this installer) is the host name accesible from this machine and others on the local network. To access this JBoss application server from the Internet, you may need to specfify the JBoss HTTP Port to your Network administrator to allow access through the firewall."/>
 		<field type="space"/>
 		<field type="text" align="left" variable="jboss.server.hostname">
 			<spec txt="Hostname of this Server:" size="25" set="$HOST_NAME"/>
@@ -314,40 +321,40 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 
 		<field type="text" variable="jboss.server.port">
-			<spec txt="JBoss HTTP Port:" size="5" set="30210"/>
+			<spec txt="JBoss HTTP Port:" size="5" set="46210"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The HTTP port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.server.jndi.port">
-			<spec txt="JBoss JNDI Port:" size="5" set="30200"/>
+			<spec txt="JBoss JNDI Port:" size="5" set="46200"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JNDI port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.server.rmi.port">
-			<spec txt="JBoss RMI Port:" size="5" set="30230"/>
+			<spec txt="JBoss RMI Port:" size="5" set="46230"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss RMI port number is already in use"/>
 		</field>
 
 		<field type="text" variable="jboss.ejbinvoker.port">
-			<spec txt="JBoss EJBInvoker Port:" size="5" set="30150"/>
+			<spec txt="JBoss EJBInvoker Port:" size="5" set="46150"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The ejbinvoker port number is already in use"/>
 		</field>
 
 		<field type="text" variable="jboss.cobraorb.port">
-			<spec txt="JBoss CORBAORG port:" size="5" set="30350"/>
+			<spec txt="JBoss CORBAORG port:" size="5" set="46350"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The cobraorb port number is already in use"/>
 		</field>
 
 		<field type="text" variable="jboss.hajndi.port">
-			<spec txt="JBoss hajndi port:" size="5" set="30160"/>
+			<spec txt="JBoss hajndi port:" size="5" set="46160"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The hajndi port number is already in use"/>
 		</field>
 
 		<field type="text" variable="jboss.hajrmi.port">
-			<spec txt="JBoss hajrmi port:" size="5" set="30260"/>
+			<spec txt="JBoss hajrmi port:" size="5" set="46260"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The hajrmi port number is already in use"/>
 		</field>
 
 		<field type="text" variable="jboss.jms.port">
-			<spec txt="JBoss JMS port:" size="5" set="30170"/>
+			<spec txt="JBoss JMS port:" size="5" set="46170"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss JMS port number is already in use"/>
 		</field>
 		<!-- Not sure we ant to prompt for these, this page is so big already --> 
@@ -363,19 +370,19 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="divider" align="top"/>
 
 		<field type="text" variable="jboss.jmx-rmi.port">
-			<spec txt="JBoss jmx-rmi port:" size="5" set="30290"/>
+			<spec txt="JBoss jmx-rmi port:" size="5" set="46290"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss jmx-rmi port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.messaging.port">
-			<spec txt="JBoss messaging port:" size="5" set="30330"/>
+			<spec txt="JBoss messaging port:" size="5" set="46330"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss messaging port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.pooledha.port">
-			<spec txt="JBoss pooledha port:" size="5" set="30270"/>
+			<spec txt="JBoss pooledha port:" size="5" set="46270"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss pooledha port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.remoting.port">
-			<spec txt="JBoss remoting port:" size="5" set="30320"/>
+			<spec txt="JBoss remoting port:" size="5" set="46320"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss remoting port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.server.bind.port">
@@ -383,23 +390,23 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss bind port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.server.redirect.port">
-			<spec txt="JBoss redirect port:" size="5" set="11298"/>
+			<spec txt="JBoss redirect port:" size="5" set="46298"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss redirect port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.service.rmiobject.port">
-			<spec txt="JBoss rmiobject port:" size="5" set="30240"/>
+			<spec txt="JBoss rmiobject port:" size="5" set="46240"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss rmiobject port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.snmp-trapd.port">
-			<spec txt="JBoss snmp-trapd port:" size="5" set="30300"/>
+			<spec txt="JBoss snmp-trapd port:" size="5" set="46300"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss snmp-trapd port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.snmp.port">
-			<spec txt="JBoss SNMP port:" size="5" set="30310"/>
+			<spec txt="JBoss SNMP port:" size="5" set="46310"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss SNMP port number is already in use"/>
 		</field>
 		<field type="text" variable="jboss.web.service.port">
-			<spec txt="JBoss web service port:" size="5" set="30250"/>
+			<spec txt="JBoss web service port:" size="5" set="46250"/>
 			<validator class="com.izforge.izpack.util.PortValidator" txt="The JBoss web service port number is already in use"/>
 		</field>
 	</panel>  	<!-- End of Jboss Continued panel -->
@@ -428,7 +435,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
 		</field>
 		<field type="text" variable="upt.central.database.system.user">
-			<spec txt="Database Application System User:" size="25" set="upt"/>
+			<spec txt="Database Application System User:" size="25" set=""/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
 		</field>
 		<field type="text" allign="left" variable="upt.central.database.system.password">
@@ -436,7 +443,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database User System Password is a required field" />
 		</field>
 		<field type="text" variable="upt.central.database.user">
-			<spec txt="Database Application User:" size="25" set="upt"/>
+			<spec txt="Database Application User:" size="25" set=""/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application User is a required field" />
 		</field>
 		<field type="text" allign="left" variable="upt.central.database.password">
@@ -592,7 +599,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="staticText" align="left" txt="Below are "/>
 		<field type="divider" align="top"/>
 
-		<field type="staticText" align="left" txt="JBoss Home [${UserPathPanelVariable}/${jboss.binaries.relative.dir}] - This is where JBoss is installed."/>
+		<field type="staticText" align="left" txt="JBoss Home [${jboss.home}] - This is where JBoss is installed."/>
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Server Name [${jboss.server.hostname}] - This is the hostname where jboss is running.  If you want to make this Application available from the internet you may need to provide this to your network administrator."/>
 		<field type="space"/>
@@ -600,7 +607,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach CSM UPT 4.2 application when the installation process is finished."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="JBoss Log Dir [${UserPathPanelVariable}/${jboss.binaries.relative.dir}/server/${jboss.server.name}] - This is where the logs can be found."/>
+		<field type="staticText" align="left" txt="JBoss Log Dir [${jboss.home}/server/${jboss.server.name}] - This is where the logs can be found."/>
 
 		<field type="space"/>
 		<field type="staticText" align="left" txt="Database URL [jdbc:mysql://${upt.central.database.server}:${upt.central.database.port}/${upt.central.database.name}] "/>
