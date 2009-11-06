@@ -416,9 +416,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					
 				
 					<!-- Installation Summary -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.11" >
+					<panel classname="UserInputPanel"  id="UserInputPanel.11" condition="install">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
+					<!-- Upgrade Summary -->
+					<panel classname="UserInputPanel"  id="UserInputPanel.12" condition="upgrade">
+						<help iso3="eng" src="@{this.dir}/Help.html" />
+					</panel>
+
 					<panel classname="InstallationGroupPanel">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
