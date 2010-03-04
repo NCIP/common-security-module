@@ -314,7 +314,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</copy>
 		<copy tofile="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/cgmmapi.jar" file="${cgmmweb.dir.dist}/jars/jbossweb-tomcat55-sar-cgmmapi.jar" overwrite="true">
 		</copy>
-		<copy todir="${jboss.home}/server/default/lib" file="${cgmmweb.dir.dist}/clm-4.1.jar" overwrite="true">
+		<copy todir="${jboss.home}/server/default/lib" file="${cgmmweb.dir.dist}/clm-4.2.beta.jar" overwrite="true">
 		</copy>
 	</target>
 </project>
