@@ -174,7 +174,7 @@
 			</fileset>
 			<fileset dir="resources"/>
 		</copy>
-		<copy todir="${target.dir}" file="${lib.dir}/cgmmweb/runtime/clm-4.1.jar" />
+		<copy todir="${target.dir}" file="${lib.dir}/cgmmweb/runtime/clm-4.2.beta.jar" />
 	</target>
 
 	<target name="-post-clean" description="Performs necessary clean-up after a build">
