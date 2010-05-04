@@ -759,7 +759,7 @@ $HeadURL$
 			<else>
 				<echo message="jar-signing.execution.time not set to install, not signing jars"/>
 			</else>
-		</if>
+		</if>-->
 		<!-- This is only required if configuration files are not externalized, below is a sample of what you may do.
 		<delete dir="${working.dir}/bda-blueprints-webapp"/>
 		<unzip src="${bda-blueprints-webapp.dir.dist}/${bda-blueprints-webapp.war.file}" dest="${working.dir}/bda-blueprints-webapp"/>
