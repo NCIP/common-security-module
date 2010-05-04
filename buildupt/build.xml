@@ -18,8 +18,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
 	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
 
-	<property name="csmupt.install.zip.file" value="${csm.install.zip.file}"/>
-	<property name="csmupt.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
+	<property name="bda-blueprints-webapp.install.zip.file" value="${csm.install.zip.file}"/>
+    <property name="bda-blueprints-webapp.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
+    <property name="csmupt.install.zip.file" value="${csm.install.zip.file}"/>
+    <property name="csmupt.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
+
 
 	<property name="db-upgrade.dist.dir" value="${dist.exploded.dir}/${db-upgrade.dist.relative.dir}" />
 
