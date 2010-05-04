@@ -404,7 +404,8 @@ $HeadURL$
 		init,
 		dist:tools:retrieve:jboss,
 		dist:tools:retrieve:jbosscp,
-		dist:tools:retrieve:tomcat
+		dist:tools:retrieve:tomcat,
+		dist:tools:retrieve:jboss-bindings
 		" >
 	</target>
 
