@@ -16,13 +16,15 @@
 	<property name="upt.ear.file" value="uptEAR.ear" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
-<!--	<property name="properties.file" location="../buildupt/project.properties">
-	</property> -->
+	<!--
+	<property name="properties.file" location="../buildupt/project.properties">
+	
 	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2" />
 	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2" />
-	<property file="../buildupt/project.properties"/>
 	<property file="${properties.file}" />
+	-->
+	<property file="../buildupt/project.properties"/>
 
 
 	<!-- Paths -->

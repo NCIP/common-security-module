@@ -177,10 +177,10 @@ $HeadURL$
 		<if>
 			<equals arg1="${jboss.http-connector.remove}" arg2="true"/>
 			<then>
-				<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${bda-blueprints-webapp.name}"/>
+				<property name="jboss.application.url" value="https://${jboss.server.hostname}:${jboss.grid.secure.port}/${bda-blueprints-webapp.name}"/>
 			</then>
 			<else>
-				<property name="jboss.application.url" value="https://${jboss.server.hostname}:${jboss.grid.secure.port}/${bda-blueprints-webapp.name}"/>
+				<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${bda-blueprints-webapp.name}"/>
 			</else>
 		</if>
 		<available file="${jboss.home}/server/${jboss.server.name}/conf/jboss-service.xml" property="jboss.exists"/>
