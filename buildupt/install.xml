@@ -995,7 +995,7 @@
 
 	<target name="common:init" depends="common:init:pre">
 		<property name="install.running" value="true"/>
-		<!-- bda-blueprints-webapp can use either Oracle or MySQL or PostgreSQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
+		<!-- backwards-compatible-upt-ear can use either Oracle or MySQL or PostgreSQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
 		<echoproperties prefix="database"/>
 		<property name="properties.template.file" value="${basedir}/properties.template" />
 		<!--OS Temp dir -->
@@ -1225,4 +1225,10 @@
 			</if>
 	   </sequential>
 	</macrodef>
+
+
+<target name="install:jboss:backwards-compatible-upt-ear:re-configure" description="Update contents of artifacts if not all properties have been externalized, by extracting artifact, modify it as needed and re-archive it." unless="exclude.jboss"  depends="common:init"/>
+
+
+
 </project>
