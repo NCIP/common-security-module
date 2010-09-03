@@ -1218,7 +1218,12 @@
 			/>
 			<if>
 				<not>
-					<equals arg1="${upgrade.upt.central.db.previous.version}"  arg2="4.2"/>
+					<and>
+						<equals arg1="${upt.central.config}"  arg2="true"/>					
+						<not>
+							<equals arg1="${upgrade.upt.central.db.previous.version}"  arg2="4.2"/>
+						</not>
+					</and>
 				</not>
 				<then>
 					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
@@ -1270,7 +1275,6 @@
 		common:jboss:init,
 		install:common:validation:pre-install,
 		install:jboss:validation:pre-install,
-		install:database:validation:pre-install,
 		install:jboss:stop,
 		install:jboss:validation:pre-install:ports,
 		install:common:clean,
@@ -1301,6 +1305,7 @@
 		install:jboss:configure:login:config,
 		install:jboss:configure:csmupt31:login:config,
 		install:jboss:configure:application:context,
+		upgrade:backwards-compatible-upt:databases,
 		install:jboss:configure:datasources,
 		upgrade:post:jboss,
 		install:post:jboss,
@@ -1315,11 +1320,10 @@
 		common:jboss:init,
 		install:common:validation:pre-install,
 		install:jboss:validation:pre-install,
-		install:database:validation:pre-install,
 		install:jboss:stop,
 		install:jboss:validation:pre-install:ports,
 		install:common:clean,
-		upgrade:database,
+		upgrade:backwards-compatible-upt:databases,
 		upgrade:jboss,
 		install:common:post,
 		install:jboss:start,
