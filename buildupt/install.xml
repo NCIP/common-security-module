@@ -1209,6 +1209,15 @@
 					<fail message="Invalid database type ${database.type}"/>
 				</default>
 			</switch>
+			<echo message="database.driver=${database.upgrade.driver}"/>
+            <echo message="database.system.url=@{database.system.url} "/>
+            <echo message="database.system.user=@{database.system.user}"/>
+            <echo message="database.system.password=@{database.system.password} "/>
+            <echo message="database.url=@{database.url}"/>
+            <echo message="database.user=@{database.user} "/>
+            <echo message="database.password=@{database.password}"/>
+            <echo message="database.name=@{database.name}"/>
+            <echo message="database.type=@{database.type}"/>
 			<validate-pre-install-database
 						database.driver="${database.upgrade.driver}" database.system.url="@{database.system.url}" 
 						database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
