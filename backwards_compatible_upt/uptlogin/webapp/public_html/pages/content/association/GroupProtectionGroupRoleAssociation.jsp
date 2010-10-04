@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
 	prefix="bean"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
@@ -28,7 +29,7 @@
 		class="contentPage" width="100%" height="100%">
 		
 		<html:form styleId="GroupForm"
-	action="<%="/GroupDBOperation"%>">
+	action='<%="/GroupDBOperation"%>'>
 	<html:hidden property="operation" value="read" />
 		
 		<tr>
