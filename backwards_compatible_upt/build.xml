@@ -106,6 +106,17 @@
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta-1.0.1B.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jaas.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xerces-2.6.2.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xercesImpl.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xml-apis.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jdbc2_0-stdext.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/mysql-connector-java-3.1.11.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.2-504.jdbc3.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-2.3.1.jar" />
+
 	</target>
 
 	<target name="prepare" depends="prepareDir,prepareBuild" />
@@ -272,6 +283,19 @@
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/log4j-1.2.9.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/jta.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/clm.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta-1.0.1B.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jaas.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xerces-2.6.2.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xercesImpl.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xml-apis.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jdbc2_0-stdext.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/mysql-connector-java-3.1.11.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.2-504.jdbc3.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-2.3.1.jar" />
+
+
+
 	</target>
 
 
