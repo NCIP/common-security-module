@@ -116,81 +116,116 @@ $HeadURL$
 	</tstamp>
 	<record name="${install-logs.dir}/install-${install.time}.log" action="start"/>
 
-	<target name="common:init:pre">
-		<!-- Set application.base.path based on platform -->
-		<condition property="application.base.path" value="${application.base.path.linux}">
-			<or>
-				<os family="unix" />
-				<os family="mac" />
-			</or>
-		</condition>
+    <target name="common:init:pre">
+        <!-- Set application.base.path based on platform -->
+        <condition property="application.base.path" value="${application.base.path.linux}">
+            <or>
+                <os family="unix"/>
+                <os family="mac"/>
+            </or>
+        </condition>
 
-		<condition property="application.base.path" value="${application.base.path.windows}">
-			<os family="windows" />
-		</condition>
-		<echo message="application.base.path=${application.base.path}"/>
-		<property name="jboss.home" value="${application.base.path}/${jboss.relative.path}"/>
-		<jboss-version
-			/>
-		<property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
-		<tomcat-version
-			/>
-	</target>
+        <condition property="application.base.path" value="${application.base.path.windows}">
+            <os family="windows"/>
+        </condition>
+        <echo message="application.base.path=${application.base.path}"/>
+        <property name="jboss.home" value="${application.base.path}/${jboss.relative.path}"/>
+        <jboss-version/>
+        <property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
+        <tomcat-version/>
+        <!-- Disable container.grid if container excluded or jdk is 1.6-->
+        <if>
+            <or>
+                <equals arg1="${exclude.jboss}" arg2="true"/>
+                <equals arg1="${jboss.major.version}" arg2="5"/>
+            </or>
+            <then>
+                <property name="exclude.jboss.grid" value="true"/>
+            </then>
+        </if>
+        <if>
+            <or>
+                <equals arg1="${exclude.tomcat}" arg2="true"/>
+                <equals arg1="${tomcat.major.version}" arg2="6"/>
+            </or>
+            <then>
+                <property name="exclude.tomcat.grid" value="true"/>
+            </then>
+        </if>
+    </target>
 	<!-- Targets begin -->
-	<target name="install:jboss:init" depends="common:init:pre">
-		<!-- determine if port configurations or port lists are being called -->
-		<if>
-			<isset property="jboss.ncicb-standard.port-config"/>
-			<then>
-				<!-- Read some port properties from standard bindings file -->
-				<echo message="Using JBoss NCICB Standard port configurations"/>
-				<property name="jboss.server.binding.template.location" value="${basedir}/${jboss-bindings.file}"/>
-				<jboss-read-ports
-					jboss.server.bindingfile.location="${jboss.server.binding.template.location}"
-					/>
-				<echo message="http -${jboss.server.port} "/>
-				<echo message="http -${jboss.server.jndi.port} "/>
-				<properties-exist
-					properties.list="jboss.server.jndi.port,jboss.server.port,jboss.server.ports.name"
-					/>
-				<!-- Make sure there are not unexpanded tokens and that the jboss.server.ports.name is a configuration in the bindings file. -->
-				<jboss-bindings-validate
-					jboss.server.bindingfile.location="${jboss.server.binding.template.location}"
-					/>
+    <target depends="common:init:pre" name="install:jboss:init" unless="exclude.jboss">
+        <!-- determine if port configurations or port lists are being called -->
+        <if>
+            <isset property="jboss.ncicb-standard.port-config"/>
+            <then>
+                <!-- Read some port properties from standard bindings file -->
+                <echo message="Using JBoss NCICB Standard port configurations"/>
+                <if>
+                    <equals arg1="${jboss.major.version}" arg2="4"/>
+                    <then>
+                        <property name="jboss.server.binding.template.location" value="${basedir}/${jboss-bindings.file}"/>
+                        <jboss-read-ports jboss.server.bindingfile.location="${jboss.server.binding.template.location}"/>
+                        <jboss-bindings-validate jboss.server.bindingfile.location="${jboss.server.binding.template.location}"/>
+                    </then>
+                    <elseif>
+                        <equals arg1="${jboss.major.version}" arg2="5"/>
+                        <then>
+                            <property name="jboss.server.binding.template.location" value="${basedir}/${jboss-bindings.file}"/>
+                            <property name="jboss.server.bindingfile.location" value="${jboss.home}/server/${jboss.server.name}/conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml"/>
+                            <property name="temp.ejb.file" value="${temp.dir}/ejb3-connectors-jboss-beans.xml"/>
+                            <copy file="${bda-utils.dir}/resource/jboss-5.1.0.GA/ejb3-connectors-jboss-beans.xml" tofile="${temp.ejb.file}"/>
+                            <!--
+                            <jboss51-bindings-nci
+                                jboss.server.bindingfile.location="${jboss-bindings.file}"
+                                />
+                            -->
+                            <jboss51-read-ports-nci jboss.server.bindingfile.location="${jboss-bindings.file}" jboss.server.ejbfile.location="${temp.ejb.file}"/>
+                        </then>
+                    </elseif>
+                </if>
+                <echo message="http -${jboss.server.port} "/>
+                <echo message="http -${jboss.server.jndi.port} "/>
+                <properties-exist properties.list="jboss.server.jndi.port,jboss.server.port,jboss.server.ports.name"/>
+            </then>
+            <else>
+                <!-- else ensure that all ports are set, since these will be removed from install-properties.template we will verify here.  They have to be removed so the validator works with or without the properties or we have to change the format of the file. -->
+                <echo message="Using custom JBoss port configurations"/>
+                <if>
+                    <equals arg1="${jboss.major.version}" arg2="4"/>
+                    <then>
+                        <property name="jboss.server.binding.template.location" value="${bda-utils.dir}/resource/${jboss.binaries.relative.dir}/bindings.xml"/>
+                    </then>
+                    <else>
+                        <property name="jboss.server.binding.template.location" value="${bda-utils.dir}/resource/${jboss.binaries.relative.dir}/bindings-jboss-beans.xml"/>
 
-			</then>
-			<else>
-				<!-- else ensure that all ports are set, since these will be removed from install-properties.template we will verify here.  They have to be removed so the validator works with or without the properties or we have to change the format of the file. -->
-				<echo message="Using custom JBoss port configurations"/>
-				<property name="jboss.server.binding.template.location" value="${bda-utils.dir}/resource/${jboss.binaries.relative.dir}/bindings.xml"/>
-				<properties-exist
-					properties.list="jboss.server.jndi.port,jboss.server.port,jboss.cobraorb.port,jboss.hajndi.port,jboss.hajrmi.port,jboss.jmx-rmi.port,jboss.messaging.port,jboss.pooledha.port,jboss.server.bind.port,jboss.server.rmi.port,jboss.service.rmiobject.port,jboss.snmp.port,jboss.snmp-trapd.port,jboss.web.service.port,jboss.unifiedinvoker.port,jboss.hajndi.auto.port,jboss.ssl.port,jboss.jms2.netty.port,jboss.jms2.netty-ssl.port,jboss.transaction.recovery.port,jboss.transaction.status.port,jboss.transaction.processid.port"
-					/>
-			</else>
-		</if>
-	</target>
-	<target name="common:jboss:init" depends="common:init:pre" unless="exclude.jboss">
-		<property name="jboss.ssl.enable" value="false"/>
-		<property name="jboss.home" value="${application.base.path}/${jboss.relative.path}"/>
-		<jboss-version
-			/>
-		<if>
-			<equals arg1="${jboss.http-connector.remove}" arg2="true"/>
-			<then>
-				<property name="jboss.application.url" value="https://${jboss.server.hostname}:${jboss.grid.secure.port}/${bda-blueprints-webapp.name}"/>
-			</then>
-			<else>
-				<property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${bda-blueprints-webapp.name}"/>
-			</else>
-		</if>
-		<available file="${jboss.home}/server/${jboss.server.name}/conf/jboss-service.xml" property="jboss.exists"/>
-		<basename file="${jboss.ssl.keystore.location}" property="jboss.ssl.keystore.file"/>
-		<dirname file="${jboss.ssl.keystore.location}" property="jboss.ssl.keystore.dir"/>
-		<basename file="${jboss.grid.secure.cert.location}" property="jboss.grid.secure.cert.file"/>
-		<dirname file="${jboss.grid.secure.cert.location}" property="jboss.grid.secure.dir"/>
-		<basename file="${jboss.grid.secure.key.location}" property="jboss.grid.secure.key.file"/>
-		<property name="jboss.socket.ports" value="${jboss.server.port},${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
-	</target>
+                    </else>
+                </if>
+                <properties-exist properties.list="jboss.server.jndi.port,jboss.server.port,jboss.cobraorb.port,jboss.hajndi.port,jboss.hajrmi.port,jboss.jmx-rmi.port,jboss.messaging.port,jboss.pooledha.port,jboss.server.bind.port,jboss.server.rmi.port,jboss.service.rmiobject.port,jboss.snmp.port,jboss.snmp-trapd.port,jboss.web.service.port,jboss.unifiedinvoker.port,jboss.hajndi.auto.port,jboss.ssl.port,jboss.jms2.netty.port,jboss.jms2.netty-ssl.port,jboss.transaction.recovery.port,jboss.transaction.status.port,jboss.transaction.processid.port"/>
+            </else>
+        </if>
+        <if>
+            <equals arg1="${jboss.http-connector.remove}" arg2="true"/>
+            <then>
+                <property name="jboss.application.url" value="https://${jboss.server.hostname}:${jboss.grid.secure.port}/${bda-blueprints-webapp.name}"/>
+            </then>
+            <else>
+                <property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${bda-blueprints-webapp.name}"/>
+            </else>
+        </if>
+    </target>
+    <target depends="common:init:pre" name="common:jboss:init" unless="exclude.jboss">
+        <property name="jboss.ssl.enable" value="false"/>
+        <property name="jboss.home" value="${application.base.path}/${jboss.relative.path}"/>
+        <jboss-version/>
+        <available file="${jboss.home}/server/${jboss.server.name}/conf/jboss-service.xml" property="jboss.exists"/>
+        <basename file="${jboss.ssl.keystore.location}" property="jboss.ssl.keystore.file"/>
+        <dirname file="${jboss.ssl.keystore.location}" property="jboss.ssl.keystore.dir"/>
+        <!--<basename file="${jboss.grid.secure.cert.location}" property="jboss.grid.secure.cert.file"/>-->
+        <!--<dirname file="${jboss.grid.secure.cert.location}" property="jboss.grid.secure.dir"/>-->
+        <!--<basename file="${jboss.grid.secure.key.location}" property="jboss.grid.secure.key.file"/>-->
+        <property name="jboss.socket.ports" value="${jboss.server.port},${jboss.server.rmi.port},${jboss.server.jndi.port},${jboss.service.rmiobject.port},${jboss.jms.port},${jboss.web.service.port}"/>
+    </target>
 	<target name="common:tomcat:init" depends="common:init:pre" unless="exclude.tomcat">
 		<property name="tomcat.ssl.enable" value="false"/>
 		<property name="tomcat.home" value="${application.base.path}/${tomcat.relative.path}"/>
@@ -227,7 +262,7 @@ $HeadURL$
 			</case>
 			<case value="mysql">
 				<property name="database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 				<property name="database.driver" value="com.mysql.jdbc.Driver"/>
 				<property name="database.schema" value="${database.name}"/>
 			</case>
@@ -538,14 +573,12 @@ $HeadURL$
 		<if>
 			<equals arg1="${jboss.major.version}" arg2="5"/>
 			<then>
-				<jboss-configure
-					jboss.grid.configure="true"
-					jboss.server.bindingfile.location="${jboss.home}/server/${jboss.server.name}/conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml"
-					jboss.server.binding.template.location="${bda-utils.dir}/resource/${jboss.binaries.relative.dir}/bindings-jboss-beans.xml"
-					jboss.server-xml.file="${jboss.home}/server/${jboss.server.name}/deploy/jbossweb.sar/server.xml"
-					jboss.server.ports.name="PortsDefaultBindings"
-					proxy.update.connector.port.ssl="${jboss.ssl.port}"
-					/>
+                <jboss-configure
+                        jboss.grid.configure="false"
+                        jboss.server-xml.file="${jboss.home}/server/${jboss.server.name}/deploy/jbossweb.sar/server.xml"
+                        jboss.server.binding.template.location="${jboss.server.binding.template.location}"
+                        jboss.server.bindingfile.location="${jboss.home}/server/${jboss.server.name}/conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml"
+                        proxy.update.connector.port.ssl="${jboss.ssl.port}"/>
 			</then>
 		</if>
 	</target>
@@ -775,16 +808,16 @@ $HeadURL$
 	</target>
 
 	<!-- Generic targets to call appropriate upgrade path targets, just change the depends to use alternate ugprade path -->
-	<target name="upgrade:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss" depends="upgrade:jboss:init,common:init,upgrade-dac:jboss">
+	<target name="upgrade:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss" depends="upgrade:jboss:init,common:init,upgrade-ncm:jboss">
 	</target>
 
-	<target name="upgrade:tomcat" description="Wrapper target to call all targets required to upgrade tomcat container." unless="exclude.tomcat" depends="upgrade:tomcat:init,common:init,upgrade-dac:tomcat">
+	<target name="upgrade:tomcat" description="Wrapper target to call all targets required to upgrade tomcat container." unless="exclude.tomcat" depends="upgrade:tomcat:init,common:init,upgrade-ncm:tomcat">
 	</target>
 
-	<target name="upgrade" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-dac">
+	<target name="upgrade" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-ncm">
 	</target>
 
-	<target name="upgrade-with-dbinstall" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-dac:with-dbinstall">
+	<target name="upgrade-with-dbinstall" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-ncm:with-dbinstall">
 	</target>
 
 	<!-- Upgrade with Disposable Application Conttainer (DAC) -->
@@ -1297,6 +1330,15 @@ $HeadURL$
 		<properties-write
 			properties.list="${read.properties.list}"
 			/>
+        <if>
+            <equals arg1="${jboss.http-connector.remove}" arg2="true"/>
+            <then>
+                <property name="jboss.application.url" value="https://${jboss.server.hostname}:${jboss.grid.secure.port}/${bda-blueprints-webapp.name}"/>
+            </then>
+            <else>
+                <property name="jboss.application.url" value="http://${jboss.server.hostname}:${jboss.server.port}/${bda-blueprints-webapp.name}"/>
+            </else>
+        </if>
 	</target>
 	<target name="upgrade:tomcat:init"
 		depends="
