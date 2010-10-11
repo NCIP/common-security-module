@@ -978,11 +978,15 @@
 					<unzip dest="${temp.ear.dir}/tempupt32" src="${temp.ear.dir}/upt32.war"/>
 					<mkdir dir="${temp.ear.dir}/upt32"/>
 					<copy todir="${temp.ear.dir}/upt32" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt32"/>
+	y					</copy>
+					<copy todir="${temp.ear.dir}/upt32" overwrite="true">
 						<fileset dir="${temp.ear.dir}/tempupt32">
-							<include name="*.csm.new.hibernate.cfg.xml" />
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
 						</fileset>
 						<filterset refid="upt.32.database.dialect.filterset"/>
 					</copy>
+
 					<jar jarfile="${temp.ear.dir}/upt32.war" basedir="${temp.ear.dir}/upt32" />
 					<delete dir="${temp.ear.dir}/tempupt32" quiet="true"/>
 					<delete dir="${temp.ear.dir}/upt32" quiet="true"/>
@@ -1013,11 +1017,13 @@
 					<unzip dest="${temp.ear.dir}/tempupt40" src="${temp.ear.dir}/upt40.war"/>
 					<mkdir dir="${temp.ear.dir}/upt40"/>
 					<copy todir="${temp.ear.dir}/upt40" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt40"/>
+					</copy>
+					<copy todir="${temp.ear.dir}/upt40" overwrite="true">
 						<fileset dir="${temp.ear.dir}/tempupt40">
-							<include name="*.csm.new.hibernate.cfg.xml" />
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
 						</fileset>
 						<filterset refid="upt.40.database.dialect.filterset"/>
-
 					</copy>
 					<jar jarfile="${temp.ear.dir}/upt40.war" basedir="${temp.ear.dir}/upt40" />
 					<delete dir="${temp.ear.dir}/tempupt40" quiet="true"/>
@@ -1050,8 +1056,11 @@
 					<unzip dest="${temp.ear.dir}/tempupt41" src="${temp.ear.dir}/upt41.war"/>
 					<mkdir dir="${temp.ear.dir}/upt41"/>
 					<copy todir="${temp.ear.dir}/upt41" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt41"/>
+					</copy>
+					<copy todir="${temp.ear.dir}/upt41" overwrite="true">
 						<fileset dir="${temp.ear.dir}/tempupt41">
-							<include name="*.csm.new.hibernate.cfg.xml" />
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
 						</fileset>
 						<filterset refid="upt.41.database.dialect.filterset"/>
 					</copy>
@@ -1088,7 +1097,11 @@
 					<mkdir dir="${temp.ear.dir}/upt42"/>
 					<copy todir="${temp.ear.dir}/upt42" overwrite="true">
 						<fileset dir="${temp.ear.dir}/tempupt42"/>
-
+					</copy>
+					<copy todir="${temp.ear.dir}/upt42" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt42">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
 						<filterset refid="upt.42.database.dialect.filterset"/>
 					</copy>
 					<jar jarfile="${temp.ear.dir}/upt42.war" basedir="${temp.ear.dir}/upt42" />
@@ -1103,8 +1116,14 @@
 		<mkdir dir="${temp.ear.dir}/uptlogin"/>
 		<copy todir="${temp.ear.dir}/uptlogin" overwrite="true">
 				<fileset dir="${temp.ear.dir}/tempuptlogin"/>
+		</copy>
+		<copy todir="${temp.ear.dir}/uptlogin" overwrite="true">
+				<fileset dir="${temp.ear.dir}/tempuptlogin">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
 				<filterset refid="upt.42.database.dialect.filterset"/>
 		</copy>
+
 		<jar jarfile="${temp.ear.dir}/uptlogin.war" basedir="${temp.ear.dir}/uptlogin" />
 		<delete dir="${temp.ear.dir}/tempuptlogin" quiet="true"/>
 		<delete dir="${temp.ear.dir}/uptlogin" quiet="true"/>
