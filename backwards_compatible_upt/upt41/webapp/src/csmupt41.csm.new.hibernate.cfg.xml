@@ -8,7 +8,7 @@
     <session-factory>
         <!-- properties  -->
 
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
+        <property name="dialect">@database.dialect@</property>	
         <property name="hibernate.show_sql">false</property>
         <property name="connection.datasource">java:/csmupt41</property>
 		<property name="connection.zeroDateTimeBehavior">convertToNull</property>
