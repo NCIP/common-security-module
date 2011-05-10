@@ -229,7 +229,7 @@
 					</logic:present> -->
 					
 					<html:form styleId="UserForm"
-						action="<%="/UserDBOperation"%>">
+						action='<%="/UserDBOperation"%>'>
 						<html:hidden property="operation" value="read" />
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 							<tr>

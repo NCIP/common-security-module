@@ -231,7 +231,7 @@
 					
 					
 					<html:form styleId="GroupForm"
-						action="<%="/GroupDBOperation"%>">
+						action='<%="/GroupDBOperation"%>'>
 						<html:hidden property="operation" value="read" />
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 							
