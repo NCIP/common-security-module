@@ -81,7 +81,7 @@
 <table summary="" cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<html:form styleId="ProtectionElementForm"
-		action="<%="/SearchProtectionElementDBOperation"%>">
+		action='<%="/SearchProtectionElementDBOperation"%>'>
 		<html:hidden property="operation" value="read" />
 		<tr>
 			<td>

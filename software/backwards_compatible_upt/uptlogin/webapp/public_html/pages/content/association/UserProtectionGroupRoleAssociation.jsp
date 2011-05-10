@@ -28,7 +28,7 @@
 		class="contentPage" width="100%" height="100%">
 		
 		<html:form styleId="UserForm"
-	action="<%="/UserDBOperation"%>">
+	action='<%="/UserDBOperation"%>'>
 	<html:hidden property="operation" value="read" />
 		
 		<tr>

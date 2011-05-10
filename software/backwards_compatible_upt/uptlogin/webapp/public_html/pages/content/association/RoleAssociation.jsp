@@ -186,7 +186,7 @@
 					
 					
 					<td width="100%" valign="top">
-					<html:form styleId="RoleForm" action = "<%="/RoleDBOperation"%>">
+					<html:form styleId="RoleForm" action = '<%="/RoleDBOperation"%>'>
 					<html:hidden property="operation" value="read"/>
 					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
