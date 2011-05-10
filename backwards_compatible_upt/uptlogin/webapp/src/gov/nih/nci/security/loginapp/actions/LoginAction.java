@@ -457,7 +457,20 @@ public class LoginAction extends Action
 		try {
 			
 			Context ctx = new InitialContext();
-			DataSource ds = (DataSource)ctx.lookup("java:"+applicationContextName);
+			DataSource ds = null;
+			//System.out.println("Looking up initial context for: "+applicationContextName);
+            if (gov.nih.nci.security.loginapp.util.ServerDetector.isJBoss()) {  
+            	ds = (DataSource)ctx.lookup("java:"+applicationContextName);  
+            } else if (gov.nih.nci.security.loginapp.util.ServerDetector.isTomcat()) {
+            	ds = (DataSource)ctx.lookup("java:/comp/env/"+applicationContextName);
+            	System.out.println("Looking up initial context for tomcat ");
+            }
+
+			
+            if(ds == null)
+    			throw new CSException(
+    					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_DRIVER);
+            
 			Connection con = ds.getConnection();
 			con.setAutoCommit(false);
 			PreparedStatement pstmt = con.prepareStatement(
