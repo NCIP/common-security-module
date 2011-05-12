@@ -60,6 +60,7 @@
 					<equals arg1="${app.name}" arg2="upt31" />
 				</or>
 				<then>
+				<echo message="copying from ${otherlib.home} to ${lib.home}" />
 					<copy todir="${lib.home}">
 						<fileset dir="${otherlib.home}">
 						</fileset>
@@ -95,6 +96,7 @@
 			<fileset dir="${webinf.home}" />
 		</copy>
 		<echo message="${lib.home}" />
+		<echo message="copying from ${lib.home} to ${build.home}/WEB-INF/lib" />
 		<copy todir="${build.home}/WEB-INF/lib">
 			<fileset dir="${lib.home}" includes="**/*.jar" />
 		</copy>
@@ -177,7 +179,7 @@
 				</then>
 				<else>
 					<svn-co 
-						svn.checkout.url="https://gforge.nci.nih.gov/svnroot/security/${tag}"		
+						svn.checkout.url="https://ncisvn.nci.nih.gov/svn/security/${tag}"		
 						svn.checkout.dir="${svn.checkout.home}"
 						svn.checkout.user="anonymous"
 						svn.checkout.pass=""
@@ -200,7 +202,7 @@
 	</target>
 
 	<target name="svnCheckout42">
-		<executeSVNCheckout app.name="upt42" tag="tags/CSM_4_2_RELEASE_V3/upt" />
+		<executeSVNCheckout app.name="upt42" tag="trunk/software/upt" />
 	</target>
 
 	<target name="svnCheckout41">
