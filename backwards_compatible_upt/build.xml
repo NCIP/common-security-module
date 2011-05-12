@@ -202,7 +202,7 @@
 	</target>
 
 	<target name="svnCheckout42">
-		<executeSVNCheckout app.name="upt42" tag="trunk/software/upt" />
+		<executeSVNCheckout app.name="upt42" tag="branches/CSM_422_BRANCH" />
 	</target>
 
 	<target name="svnCheckout41">
