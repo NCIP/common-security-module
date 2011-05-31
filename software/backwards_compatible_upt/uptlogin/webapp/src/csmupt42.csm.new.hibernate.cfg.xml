@@ -7,6 +7,7 @@
 
     <session-factory>
         <!-- properties  --><property name="hibernate.show_sql">false</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
         <property name="connection.datasource">java:/csmupt42</property>
 
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/InstanceLevelMappingElement.hbm.xml"/>

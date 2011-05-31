@@ -54,17 +54,17 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-public class LoginAction extends Action 
-{	
+public class LoginAction extends Action
+{
 	private static final Logger log = Logger.getLogger(LoginAction.class);
-	
+
 	@SuppressWarnings("unchecked")
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
 
-		
-		
-		ActionErrors errors = new ActionErrors();		
+
+
+		ActionErrors errors = new ActionErrors();
 
 		AuthenticationManager authenticationManager = null;
 		AuthorizationManager authorizationManager = null;
@@ -73,9 +73,9 @@ public class LoginAction extends Action
 		boolean hasPermission = false;
 		String uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 		String uptApplicationContextName = "";
-		
+
 		Application application = null;
-		
+
 		LoginForm loginForm = (LoginForm)form;
 		UserInfoHelper.setUserInfo(loginForm.getLoginId(), request.getSession().getId());
 		errors.clear();
@@ -95,7 +95,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-//			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+//			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 //			saveErrors( request,errors );
 //			if (log.isDebugEnabled())
 //				log.debug("|"+loginForm.getLoginId()+
@@ -112,7 +112,7 @@ public class LoginAction extends Action
 				uptContextName = getUPTContextName();
 				if (null == uptContextName || uptContextName.equalsIgnoreCase(""))
 				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));			
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
@@ -122,7 +122,7 @@ public class LoginAction extends Action
 			}
 			catch (Exception ex)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, ex.getMessage()));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, ex.getMessage()));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
@@ -132,11 +132,11 @@ public class LoginAction extends Action
 		}*/
 		try
 		{
-			
+
 			authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);
 			if (null == authenticationManager)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authentication Manager for the given application context"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authentication Manager for the given application context"));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
@@ -146,7 +146,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -166,26 +166,26 @@ public class LoginAction extends Action
 						"||Login|Failure|Login Failed for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
-		
-		
-		
+
+
+
 		ObjectFactory.initialize("upt-beans.xml");
 		UPTProperties uptProperties = null;
 		try {
 			uptProperties = (UPTProperties)ObjectFactory.getObject("UPTProperties");
 		} catch (UPTConfigurationException e) {
-		
+
 			e.printStackTrace();
 		}
-		
+
 		boolean isCentralUPTwithCSMUPTContext = false;
 		List<UPTApplication> lista = null;
 		Iterator listIterator = null;
-		
+
 		String text1 = uptProperties.getBackwardsCompatibilityInformation().getCentralUPTConfiguration();
 		if("true".equalsIgnoreCase(text1)){
 			isCentralUPTwithCSMUPTContext = true;
-			
+
 			// Get the UPT Application Context (the superadmin mode Application Context URL).
 			lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
 			Iterator listIterate = lista.iterator();
@@ -195,28 +195,28 @@ public class LoginAction extends Action
 					uptApplicationContextName = uptApp.getContextNameURL();
 				}
 			}
-			
-			
+
+
 		}else{
 			lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
 			Collections.sort(lista);
 			Collections.reverse(lista);
-			listIterator = lista.iterator();	
+			listIterator = lista.iterator();
 		}
-		
-	
+
+
 		int forLoopCount = 0;
-		
-		
+
+
 		if(isCentralUPTwithCSMUPTContext){
 			//authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName); - done below
 			// Set currentUptContextName = "csmupt"; done below
-			
+
 			// Based on the application (non SuperAdmin) context name, determine the version of CSM schema.
 			// a) modify csm_application table and add column to indicate version of the application.
-			// b) in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName), 
+			// b) in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName),
 			//    make sure uptApplicationContextName is appropriately set.
-			
+
 			//set For loop to iterate once.
 			forLoopCount = 1;
 		}else{
@@ -226,74 +226,74 @@ public class LoginAction extends Action
 				forLoopCount = lista.size();
 			}
 		}
-		
-		
+
+
 			//String[] currentUptContextNames = { "csmupt41","csmupt40","csmupt32"};
-			
+
 			boolean authorizationSuccess = false;
 			for(int i=0;i<forLoopCount; i++){
-				
+
 				if(authorizationSuccess) continue;
-				
-				
-				
+
+
+
 				boolean isLastContext = false;
 				if(forLoopCount==1){
 					isLastContext = true;
 				}else{
 					isLastContext = ((i+1)==lista.size()?true:false);
 				}
-				
+
 				String currentUptContextName = null;//currentUptContextNames[i];
-				
+
 				UPTApplication ua;
-				
+
 				if(isCentralUPTwithCSMUPTContext){
 					currentUptContextName = DisplayConstants.UPT_CONTEXT_NAME;
-					
+
 				}else{
 					ua = (UPTApplication) listIterator.next();
 					currentUptContextName = ua.getContextName();
 					uptApplicationContextName = ua.getContextNameURL();
-					
+
 				}
-				
-				 
-				
+
+
+
 				uptContextName = currentUptContextName;
-				
-				
-				
-				
+
+
+
+
 				try
-				{	
+				{
 					authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 				}
 				catch (CSException cse)
 				{
 					// Probably CSM UPT for this context is not configured correctly or not available.
-					
-					continue; 
+
+					continue;
 				}
-			
-			
+
+
 				if (null == authorizationManager)
 				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
 								"||Login|Failure|Unable to instantiate Authorization Manager for UPT application||");
 					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 				}
-			
+
 				try
 				{
 					hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
 					if (!hasPermission)
 					{
 						if(isLastContext){
-							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));				
+							errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
 							saveErrors( request,errors );
 							if (log.isDebugEnabled())
 								log.debug("|"+loginForm.getLoginId()+
@@ -307,32 +307,32 @@ public class LoginAction extends Action
 				}
 				catch (CSException cse)
 				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
 								"||Login|Failure|Error in checking permission|"+loginForm.toString()+"|"+cse.getMessage());
-					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			
-				}		
+					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+				}
 				try
 				{
 
 					application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-					
+
 					if(application!= null && isCentralUPTwithCSMUPTContext){
 
 						// Determine the UPT Application Context Name for the non-superadmin Application.
 						String csmversion = getCSMVersionForApplicationViaJDBC(uptContextName, application.getApplicationName());
-						
+
 						if(DisplayConstants.UPT_CONTEXT_NAME.equalsIgnoreCase(application.getApplicationName())){
-							// no need to specify the uptApplicationContextName again since its already done above. 
+							// no need to specify the uptApplicationContextName again since its already done above.
 						}else{
-						
+
 							if(!StringUtilities.isBlank(csmversion)){
-								
-	
+
+
 								if(csmversion.equalsIgnoreCase("3.1")){
-									uptApplicationContextName = "upt31";	
+									uptApplicationContextName = "upt31";
 								}
 								if(csmversion.equalsIgnoreCase("3.2")){
 									uptApplicationContextName = "upt32";
@@ -346,13 +346,16 @@ public class LoginAction extends Action
 								if(csmversion.equalsIgnoreCase("4.2")){
 									uptApplicationContextName = "upt42";
 								}
+								if(csmversion.equalsIgnoreCase("4.3")){
+									uptApplicationContextName = "upt43";
+								}
 							}
-						}	
-							//Note for Central UPT (backwards version) hosting: If csmversion is not mentioned in the record 
+						}
+							//Note for Central UPT (backwards version) hosting: If csmversion is not mentioned in the record
 							// then the UPT Application Context Name (URL Context) shall be same as the 'csmupt' application context.
-						
+
 					}
-					
+
 					/*if (application!= null && !StringUtilities.isBlank(application.getDatabaseURL()))
 					{
 						HashMap hashMap = new HashMap();
@@ -365,11 +368,11 @@ public class LoginAction extends Action
 					}
 					else
 					{
-						userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());				
+						userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());
 					}
 					if (null == userProvisioningManager)
 					{
-						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
 						saveErrors( request,errors );
 						if (log.isDebugEnabled())
 							log.debug("|"+loginForm.getLoginId()+
@@ -379,42 +382,42 @@ public class LoginAction extends Action
 				}
 				catch (CSException cse)
 				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
 								"||Login|Failure|Unable to instantiate User Provisioning Manager for |"+loginForm.toString()+"|"+cse.getMessage());
-					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			
+					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 				}
-				
+
 				authorizationSuccess=true;
-				
+
 			}
-			
-		
-		HttpSession session = request.getSession(true);		
-		
+
+
+		HttpSession session = request.getSession(true);
+
 		authenticationManager = null;
 		authorizationManager = null;
-		
+
 		request.setAttribute("LOGIN_OBJECT",loginForm);
-		
+
 		if(isCentralUPTwithCSMUPTContext){
 			// Based on the application (non SuperAdmin) context name, determine the version of CSM schema.
 			// a) modify csm_application table and add column to indicate version of the application.
-			// b) Retrieve the version column details for the 'uptContextName' 
-			// c)in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName), 
+			// b) Retrieve the version column details for the 'uptContextName'
+			// c)in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName),
 			//    make sure uptApplicationContextName is appropriately set.
-			
-			
-			
+
+
+
 			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
 		}else{
-			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);	
+			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
 		}
-		
-		
-		
+
+
+
 		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
 		{
 			request.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
@@ -426,22 +429,22 @@ public class LoginAction extends Action
 		}
 		else
 		{
-			
 
-			
+
+
 			if (log.isDebugEnabled())
 				log.debug(session.getId()+"|"+loginForm.getLoginId()+
 				"||Login|Success|Login Successful for user "+loginForm.getLoginId()+" and "+loginForm.getApplicationContextName()+" application, Forwarding to the Home Page||");
 			return (mapping.findForward("LoginSuccessBounce"));
 		}
 	}
-	
 
-	
+
+
 	/**
 	 * testConnection method accepts
-	 * @param uptApplicationContextName 
-	 * 
+	 * @param uptApplicationContextName
+	 *
 	 * @param appForm -
 	 *            The ApplicationForm with application database parameters to
 	 *            test connection for.
@@ -452,25 +455,25 @@ public class LoginAction extends Action
 	 *             database parameters are invalid.
 	 */
 	private static String getCSMVersionForApplicationViaJDBC(String applicationContextName, String applicationName) throws CSException {
-		
+
 		String version = null;
 		try {
-			
+
 			Context ctx = new InitialContext();
 			DataSource ds = null;
 			//System.out.println("Looking up initial context for: "+applicationContextName);
-            if (gov.nih.nci.security.loginapp.util.ServerDetector.isJBoss()) {  
-            	ds = (DataSource)ctx.lookup("java:"+applicationContextName);  
+            if (gov.nih.nci.security.loginapp.util.ServerDetector.isJBoss()) {
+            	ds = (DataSource)ctx.lookup("java:"+applicationContextName);
             } else if (gov.nih.nci.security.loginapp.util.ServerDetector.isTomcat()) {
             	ds = (DataSource)ctx.lookup("java:/comp/env/"+applicationContextName);
             	System.out.println("Looking up initial context for tomcat ");
             }
 
-			
+
             if(ds == null)
     			throw new CSException(
     					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_DRIVER);
-            
+
 			Connection con = ds.getConnection();
 			con.setAutoCommit(false);
 			PreparedStatement pstmt = con.prepareStatement(
@@ -480,7 +483,7 @@ public class LoginAction extends Action
 			while (rs.next()) {
 			        version = rs.getString("csm_version");
 			}
-			
+
 			rs.close();
 			pstmt.close();
 			con.close();
@@ -491,7 +494,7 @@ public class LoginAction extends Action
 		} catch (NamingException e) {
 			throw new CSException(
 					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_DRIVER);
-		} 
+		}
 
 		return version;
 	}
@@ -500,11 +503,11 @@ public class LoginAction extends Action
 		contextName = "csmupt41";
 		if(StringUtilities.isBlank(contextName)){
 			return null;
-			
+
 		}
 		// TODO Auto-generated method stub
 		HashMap<String,String> connectionProperties = new HashMap<String, String>();
-		
+
 		if("csmupt41".equalsIgnoreCase(contextName))
 			connectionProperties.put("hibernate.connection.url","jdbc:mysql://localhost:3306/csmauthschema_dev_bkwrdscmptbl_4_1");
 		if("csmupt40".equalsIgnoreCase(contextName))
@@ -513,40 +516,40 @@ public class LoginAction extends Action
 			connectionProperties.put("hibernate.connection.url","jdbc:mysql://localhost:3306/csmauthschema_dev_bkwrdscmptbl_3_2");
 		/*if("csmupt31".equalsIgnoreCase(contextName))
 			connectionProperties.put("hibernate.connection.url","jdbc:mysql://localhost:3306/csmauthschema_dev_bkwrdscmptbl_3_1");*/
-		
-		
+
+
 		connectionProperties.put("hibernate.connection.username","root");
 		connectionProperties.put("hibernate.connection.password","admin");
 		connectionProperties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
 		connectionProperties.put("hibernate.connection.driver_class","org.gjt.mm.mysql.Driver");
-		
-		
+
+
 	/*	connectionProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 		connectionProperties.put("hibernate.connection.datasource", "java:/"+contextName);*/
-		
+
 		UserProvisioningManager upm = null;
-	  
+
 			upm = 	SecurityServiceProvider.getUserProvisioningManager(contextName,connectionProperties );
-		
-		
-		
-		
-		
+
+
+
+
+
 	return upm;
-		
-		
+
+
 	}
 
 	private static String getUPTContextName() throws Exception
 	{
-	
+
 		//TODO : Get UPT Context Name from upt-properties.xml
 		Document configDocument = null;
 		String uptContextNameValue = null;
 		String configFilePath = System.getProperty(DisplayConstants.CONFIG_FILE_PATH_PROPERTY_NAME);
 		if (null == configFilePath || configFilePath.trim().equals(""))
 			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
-		
+
 		SAXBuilder builder = new SAXBuilder();
 		try
 		{
@@ -568,5 +571,5 @@ public class LoginAction extends Action
 		}
 		return uptContextNameValue;
 	}
-	
+
 }
