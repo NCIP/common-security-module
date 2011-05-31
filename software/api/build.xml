@@ -39,33 +39,6 @@
 		</fileset>
 	</path>
 
-	<!-- Task definitions -->
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="common.classpath" />
-
-	<!-- Targets -->
-
-	<target name="ivy-settings">
-		<ivy:settings file="${ivy.settings.file}" />
-	</target>
-
-	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
-		<ivy:resolve refresh="true" conf="compile" />
-		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="compile" />
-	</target>
-
-	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
-		<ivy:resolve refresh="true" conf="runtime" />
-		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
-	</target>
-
-	<target name="ivy-clean-cache" description="Cleans project Ivy cache">
-		<ivy:settings file="${ivy.settings.file}" />
-		<ivy:cleancache />
-	</target>
-
-	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
-		<delete dir="${classes.dir}" quiet="false" />
-	</target>
 
 	<target name="-init" description="Initializes the system before a build">
 		<!-- Create the time stamp -->
@@ -74,7 +47,7 @@
 		<mkdir dir="${local.repo.dir}" />
 	</target>
 
-	<target name="compile" depends="-pre-clean, -init, ivy-compile" description="compile the source ">
+	<target name="compile" depends="-init" description="compile the source ">
 
 		<!-- Compile the java code from ${src.dir} into ${classes.dir} -->
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" deprecation="true" classpathref="project.compile.classpath" />
@@ -106,7 +79,7 @@
 		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
 	</target>
 
-	<target name="dist" depends="jar, ivy-runtime" description="generate the distribution">
+	<target name="dist" depends="jar" description="generate the distribution">
 		<copy todir="${target.dir}">
 			<fileset dir="${lib.dir}">
 				<include name="**/*.jar" />
