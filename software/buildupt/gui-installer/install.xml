@@ -25,8 +25,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<property name="project.name" value="csmupt"/>
 	<property name="installer.dir" value=".installer-${project.name}"/>
 	<property name="gui-installer.dist.base.name" value="csmupt_gui_distribution_${csm.version}.jar"/>
-	<property name="install.zip.file" value="csm_install4.2.zip"/>
-	<property name="upgrade.zip.file" value="csm_upgrade4.2.zip"/>
+	<property name="install.zip.file" value="csm_install4.3.zip"/>
+	<property name="upgrade.zip.file" value="csm_upgrade4.3.zip"/>
 
 	<echoproperties/>
 <echo message="compile.jar.dir ::: ${compile.jar.dir}"/>
@@ -481,9 +481,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<jar src="@{bda-utils.dir}/ant-launcher-1.7.0.jar" stage="both"/>
 				<jar src="@{bda-utils.dir}/ant-nodeps-1.7.0.jar" stage="both"/>
 				<jar src="@{bda-utils.dir}/xml-commons-resolver-1.2.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/mysql-connector-java-5.0.8.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/ojdbc14-10.2.0.4.0.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/postgresql-jdbc3-8.3-604.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/mysql-connector-java-5.1.13.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/ojdbc14-10.2.0.3.0.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/postgresql-8.4-701.jdbc3.jar" stage="both"/>
 				<!-- added to address issues with missing libraries -->
 				<jar src="@{ant.lib.dir}/ant-antlr.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-apache-bcel.jar" stage="both" />

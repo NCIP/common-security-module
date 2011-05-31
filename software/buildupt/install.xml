@@ -17,6 +17,7 @@
 	</target>
 
 	<!-- Wrapper target to deploy JBOSS container -->
+	<!--
 	<target name="install" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss" depends="
 		-set:jboss:backwards-compatible-upt:application:url,
 		common:jboss:init,
@@ -40,6 +41,7 @@
 		install:jboss:validation:post-install
 		">
 	</target>
+	-->
 	
 	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy backwards-compatible-upt and common libraries to jboss installation" unless="exclude.jboss" depends="common:init,re-configure-ear">
 		<!-- added to ensure working.dirs are fresh for our install -->
@@ -51,10 +53,11 @@
 		
 		<switch value="${database.type}">
 			<case value="oracle">
-				<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
+				<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+				<property name="database.schema" value="${database.user}"/>
 			</case>
 			<case value="mysql">
-				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 			</case>
 			<case value="postgresql">
 				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
@@ -841,11 +844,11 @@
 		<sequential>
 			<switch value="${database.type}">
 				<case value="oracle">
-					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
 				<property name="database.driver" value="oracle.jdbc.driver.OracleDriver"/>
 				</case>
 				<case value="mysql">
-					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 					<property name="database.driver" value="com.mysql.jdbc.Driver"/>
 				</case>
 				<case value="postgresql">
@@ -937,6 +940,10 @@
 			</else>
 		</if>
 		<unzip dest="${temp.ear.dir}" src="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}"/>
+		
+
+
+
 	
 		<if>
 			<equals arg1="${upt.31.installed}" arg2="false" />
@@ -944,6 +951,7 @@
 				<re-configure-application-xml upt.context.name="${upt.31.url.context.name}" temp.dir="${temp.ear.dir}"/>
 				<delete file="${temp.ear.dir}/${upt.31.url.context.name}.war"/>
 			</then>
+			
 		</if>
 		<if>
 			<equals arg1="${upt.32.installed}" arg2="false" />
@@ -951,6 +959,39 @@
 				<re-configure-application-xml upt.context.name="${upt.32.url.context.name}" temp.dir="${temp.ear.dir}"/>
 				<delete file="${temp.ear.dir}/${upt.32.url.context.name}.war"/>
 			</then>
+			<else>
+					<if>
+						<equals arg1="${upt.central.config}" arg2="true"/>
+						<then>
+							<filterset id="upt.32.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.central.database.dialect}" />
+							</filterset>
+						</then>
+						<else>
+							<filterset id="upt.32.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.32.database.dialect}" />
+							</filterset>
+						</else>
+					</if>
+
+					<!-- unzip upt32.war and replace dialect, repackage war and delete temp dirs -->
+					<unzip dest="${temp.ear.dir}/tempupt32" src="${temp.ear.dir}/upt32.war"/>
+					<mkdir dir="${temp.ear.dir}/upt32"/>
+					<copy todir="${temp.ear.dir}/upt32" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt32"/>
+	y					</copy>
+					<copy todir="${temp.ear.dir}/upt32" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt32">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
+						<filterset refid="upt.32.database.dialect.filterset"/>
+					</copy>
+
+					<jar jarfile="${temp.ear.dir}/upt32.war" basedir="${temp.ear.dir}/upt32" />
+					<delete dir="${temp.ear.dir}/tempupt32" quiet="true"/>
+					<delete dir="${temp.ear.dir}/upt32" quiet="true"/>
+			</else>
+
 		</if>
 		<if>
 			<equals arg1="${upt.40.installed}" arg2="false" />
@@ -958,6 +999,37 @@
 				<re-configure-application-xml upt.context.name="${upt.40.url.context.name}" temp.dir="${temp.ear.dir}"/>
 				<delete file="${temp.ear.dir}/${upt.40.url.context.name}.war"/>
 			</then>
+			<else>
+					<if>
+						<equals arg1="${upt.central.config}" arg2="true"/>
+						<then>
+							<filterset id="upt.40.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.central.database.dialect}" />
+							</filterset>
+						</then>
+						<else>
+							<filterset id="upt.40.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.40.database.dialect}" />
+							</filterset>
+						</else>
+					</if>
+					<!-- unzip upt40.war and replace dialect, repackage war and delete temp dirs -->
+					<unzip dest="${temp.ear.dir}/tempupt40" src="${temp.ear.dir}/upt40.war"/>
+					<mkdir dir="${temp.ear.dir}/upt40"/>
+					<copy todir="${temp.ear.dir}/upt40" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt40"/>
+					</copy>
+					<copy todir="${temp.ear.dir}/upt40" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt40">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
+						<filterset refid="upt.40.database.dialect.filterset"/>
+					</copy>
+					<jar jarfile="${temp.ear.dir}/upt40.war" basedir="${temp.ear.dir}/upt40" />
+					<delete dir="${temp.ear.dir}/tempupt40" quiet="true"/>
+					<delete dir="${temp.ear.dir}/upt40" quiet="true"/>
+			</else>
+
 		</if>
 		<if>
 			<equals arg1="${upt.41.installed}" arg2="false" />
@@ -965,6 +1037,39 @@
 				<re-configure-application-xml upt.context.name="${upt.41.url.context.name}" temp.dir="${temp.ear.dir}"/>
 				<delete file="${temp.ear.dir}/${upt.41.url.context.name}.war"/>
 			</then>
+			<else>
+					<if>
+						<equals arg1="${upt.central.config}" arg2="true"/>
+						<then>
+							<filterset id="upt.41.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.central.database.dialect}" />
+							</filterset>
+						</then>
+						<else>
+							<filterset id="upt.41.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.41.database.dialect}" />
+							</filterset>
+						</else>
+					</if>
+
+					<!-- unzip upt41.war and replace dialect, repackage war and delete temp dirs -->
+					<unzip dest="${temp.ear.dir}/tempupt41" src="${temp.ear.dir}/upt41.war"/>
+					<mkdir dir="${temp.ear.dir}/upt41"/>
+					<copy todir="${temp.ear.dir}/upt41" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt41"/>
+					</copy>
+					<copy todir="${temp.ear.dir}/upt41" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt41">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
+						<filterset refid="upt.41.database.dialect.filterset"/>
+					</copy>
+					<jar jarfile="${temp.ear.dir}/upt41.war" basedir="${temp.ear.dir}/upt41" />
+					<delete dir="${temp.ear.dir}/tempupt41" quiet="true"/>
+					<delete dir="${temp.ear.dir}/upt41" quiet="true"/>
+
+			</else>
+
 		</if>
 		<if>
 			<equals arg1="${upt.42.installed}" arg2="false" />
@@ -972,10 +1077,60 @@
 				<re-configure-application-xml upt.context.name="${upt.42.url.context.name}" temp.dir="${temp.ear.dir}"/>
 				<delete quiet="true" file="${temp.ear.dir}/${upt.42.url.context.name}.war"/>
 			</then>
+			<else>
+					<if>
+						<equals arg1="${upt.central.config}" arg2="true"/>
+						<then>
+							<filterset id="upt.42.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.central.database.dialect}" />
+							</filterset>
+						</then>
+						<else>
+							<filterset id="upt.42.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.42.database.dialect}" />
+							</filterset>
+						</else>
+					</if>
+
+					<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
+					<unzip dest="${temp.ear.dir}/tempupt42" src="${temp.ear.dir}/upt42.war"/>
+					<mkdir dir="${temp.ear.dir}/upt42"/>
+					<copy todir="${temp.ear.dir}/upt42" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt42"/>
+					</copy>
+					<copy todir="${temp.ear.dir}/upt42" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt42">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
+						<filterset refid="upt.42.database.dialect.filterset"/>
+					</copy>
+					<jar jarfile="${temp.ear.dir}/upt42.war" basedir="${temp.ear.dir}/upt42" />
+					<delete dir="${temp.ear.dir}/tempupt42" quiet="true"/>
+					<delete dir="${temp.ear.dir}/upt42" quiet="true"/>
+			</else>
+
 		</if>
+
+		<!-- unzip uptlogin.war and replace dialect, repackage war and delete temp dirs -->
+		<unzip dest="${temp.ear.dir}/tempuptlogin" src="${temp.ear.dir}/uptlogin.war"/>
+		<mkdir dir="${temp.ear.dir}/uptlogin"/>
+		<copy todir="${temp.ear.dir}/uptlogin" overwrite="true">
+				<fileset dir="${temp.ear.dir}/tempuptlogin"/>
+		</copy>
+		<copy todir="${temp.ear.dir}/uptlogin" overwrite="true">
+				<fileset dir="${temp.ear.dir}/tempuptlogin">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
+				<filterset refid="upt.42.database.dialect.filterset"/>
+		</copy>
+
+		<jar jarfile="${temp.ear.dir}/uptlogin.war" basedir="${temp.ear.dir}/uptlogin" />
+		<delete dir="${temp.ear.dir}/tempuptlogin" quiet="true"/>
+		<delete dir="${temp.ear.dir}/uptlogin" quiet="true"/>
+
 		<!-- Create ear file and place in ear directory -->
 		<jar jarfile="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}" basedir="${temp.ear.dir}" />
-		<delete dir="${temp.ear.dir}" quiet="true"/>
+		<!--<delete dir="${temp.ear.dir}" quiet="true"/>-->
 	</target>
 	
 	<macrodef name="re-configure-application-xml">
@@ -990,12 +1145,14 @@
 		</sequential>
 	</macrodef>
 
+	<!--
 	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
 	</target>
+	-->
 
 	<target name="common:init" depends="common:init:pre">
 		<property name="install.running" value="true"/>
-		<!-- bda-blueprints-webapp can use either Oracle or MySQL or PostgreSQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
+		<!-- backwards-compatible-upt-ear can use either Oracle or MySQL or PostgreSQL as its database platform, this is controled by the database.type property.  Based on the value of this property sent several variables for use during install -->
 		<echoproperties prefix="database"/>
 		<property name="properties.template.file" value="${basedir}/properties.template" />
 		<!--OS Temp dir -->
@@ -1010,6 +1167,7 @@
 		</condition>
 	</target>
 
+	<!--
 	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
 		depends="
 		-set:jboss:backwards-compatible-upt:application:url,
@@ -1023,6 +1181,7 @@
 		upgrade:jboss
 		">
 	</target>
+	-->
 	
 	<target name="upgrade:database:readers:bda" depends="upgrade:jboss:init:prep" if="jboss.exists">
 
@@ -1040,6 +1199,7 @@
 	</target>
 	
 	<!-- Upgrade with No Container Modification (NCM) -->
+	<!--
 	<target name="upgrade-ncm:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
 		depends="
 		upgrade:jboss:init,
@@ -1060,6 +1220,7 @@
 		install:jboss:validation:post-install
 		">
 	</target>
+	-->
 	
 	<target name="upgrade:backwards-compatible-upt:databases" description="Upgrades database using BDA Datbase Upgrade process." unless="exclude.database">
 		<echo message="execute for non central database"/>		
@@ -1186,11 +1347,11 @@
 		<sequential>
 			<switch value="@{database.type}">
 				<case value="oracle">
-					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
 					<property name="database.upgrade.driver" value="oracle.jdbc.driver.OracleDriver"/>
 				</case>
 				<case value="mysql">
-					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.0.8.jar"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 					<property name="database.upgrade.driver" value="com.mysql.jdbc.Driver"/>
 				</case>
 				<case value="postgresql">
@@ -1201,6 +1362,15 @@
 					<fail message="Invalid database type ${database.type}"/>
 				</default>
 			</switch>
+			<echo message="database.driver=${database.upgrade.driver}"/>
+            <echo message="database.system.url=@{database.system.url} "/>
+            <echo message="database.system.user=@{database.system.user}"/>
+            <echo message="database.system.password=@{database.system.password} "/>
+            <echo message="database.url=@{database.url}"/>
+            <echo message="database.user=@{database.user} "/>
+            <echo message="database.password=@{database.password}"/>
+            <echo message="database.name=@{database.name}"/>
+            <echo message="database.type=@{database.type}"/>
 			<validate-pre-install-database
 						database.driver="${database.upgrade.driver}" database.system.url="@{database.system.url}" 
 						database.system.user="@{database.system.user}" database.system.password="@{database.system.password}" 
@@ -1210,7 +1380,12 @@
 			/>
 			<if>
 				<not>
-					<equals arg1="${upgrade.upt.central.db.previous.version}"  arg2="4.2"/>
+					<and>
+						<equals arg1="${upt.central.config}"  arg2="true"/>					
+						<not>
+							<equals arg1="${upgrade.upt.central.db.previous.version}"  arg2="4.2"/>
+						</not>
+					</and>
 				</not>
 				<then>
 					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
@@ -1225,4 +1400,234 @@
 			</if>
 	   </sequential>
 	</macrodef>
+
+
+<target name="install:jboss:backwards-compatible-upt-ear:re-configure" description="Update contents of artifacts if not all properties have been externalized, by extracting artifact, modify it as needed and re-archive it." unless="exclude.jboss"  depends="common:init"/>
+
+<!-- Wrapper target to deploy JBOSS container -->
+	<target name="install:jboss" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss"
+		depends="
+		common:init,
+		install:jboss:init,
+		common:jboss:init,
+		-set:jboss:backwards-compatible-upt:application:url,
+		install:jboss:validation:pre-install,
+		install:common:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:jboss:clean,
+		install:jboss:binaries,
+		install:jboss:backwards-compatible-upt-ear,
+		install:jboss:backwards-compatible-upt-ear:configure,
+		install:jboss:configure,
+		install:jboss:configure:login:config,
+		install:jboss:configure:csmupt31:login:config,
+		install:jboss:configure:application:context,
+		install:jboss:configure:datasources,
+		install:post:jboss,
+		install:jboss:start,
+		install:jboss:validation:post-install
+		" >
+	</target>
+
+	<target name="install" description="Installs and configures JBOSS, creates database, and deploys application"
+		depends="
+		common:init,
+		install:jboss:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:common:clean,
+		install:backwards-compatible-upt:databases,
+		install:jboss,
+		install:common:post,
+		install:jboss:start,
+		install:common:validation:post-install
+		">
+	</target>
+
+	<!-- Upgrade with Disposable Application Conttainer (DAC) -->
+	<target name="upgrade-dac:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
+		depends="
+		upgrade:jboss:init,
+		common:init,
+		common:jboss:init,
+		-set:jboss:backwards-compatible-upt:application:url,
+		install:jboss:validation:pre-install,
+		install:common:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:jboss:clean,
+		install:jboss:binaries,
+		install:jboss:backwards-compatible-upt-ear,
+		install:jboss:backwards-compatible-upt-ear:configure,
+		install:jboss:configure,
+		install:jboss:configure:login:config,
+		install:jboss:configure:csmupt31:login:config,
+		install:jboss:configure:application:context,
+		upgrade:backwards-compatible-upt:databases,
+		install:jboss:configure:datasources,
+		upgrade:post:jboss,
+		install:post:jboss,
+		install:jboss:start,
+		install:jboss:validation:post-install
+		" >
+	</target>
+	<target name="upgrade-dac" description="Upgrades JBoss and Database"
+		depends="
+		upgrade:common:init,
+		common:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:common:clean,
+		upgrade:backwards-compatible-upt:databases,
+		upgrade:jboss,
+		install:common:post,
+		install:jboss:start,
+		install:common:validation:post-install
+		">
+	</target>
+	<!-- Upgrade with Container Modification(CM) -->
+	<target name="upgrade-cm:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
+		depends="
+		upgrade:jboss:init,
+		common:init,
+		common:jboss:init,
+		-set:jboss:backwards-compatible-upt:application:url,
+		install:jboss:validation:pre-install,
+		install:common:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:jboss:backwards-compatible-upt-ear,
+		install:jboss:backwards-compatible-upt-ear:configure,
+		install:jboss:configure,
+		install:jboss:configure:login:config,
+		install:jboss:configure:csmupt31:login:config,
+		install:jboss:configure:application:context,
+		install:jboss:configure:datasources,
+		upgrade:post:jboss,
+		install:post:jboss,
+		install:jboss:start,
+		install:jboss:validation:post-install
+		" >
+	</target>
+	<target name="upgrade-cm" description="Upgrades JBoss and Database"
+		depends="
+		upgrade:common:init,
+		common:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:database:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:common:clean,
+		upgrade:database,
+		upgrade:jboss,
+		install:common:post,
+		install:jboss:start,
+		install:common:validation:post-install
+		">
+	</target>
+	<!-- Upgrade with No Container Modification (NCM) -->
+	<target name="upgrade-ncm:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
+		depends="
+		upgrade:jboss:init,
+		common:init,
+		common:jboss:init,
+		-set:jboss:backwards-compatible-upt:application:url,
+		install:jboss:validation:pre-install,
+		install:common:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:jboss:backwards-compatible-upt-ear,
+		install:jboss:backwards-compatible-upt-ear:configure,
+		install:jboss:configure:application:context,
+		install:jboss:configure:datasources,
+		upgrade:post:jboss,
+		install:post:jboss,
+		install:jboss:start,
+		install:jboss:validation:post-install
+		" >
+	</target>
+	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
+		depends="
+		upgrade:common:init,
+		common:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:database:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		upgrade:database,
+		upgrade:jboss,
+		install:common:post,
+		install:jboss:start,
+		install:common:validation:post-install
+		">
+	</target>
+	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
+
+		<!-- Make sure the ${properties.file} has at least the following props -->
+		<properties-exist
+			properties.list="application.base.path,jboss.home,jboss.server.name"
+			/>
+		<!-- Set these -->
+		<osfamily property="os.family"/>
+		<if>
+			<or>
+				<equals arg1="${os.family}" arg2="unix"/>
+				<equals arg1="${os.family}" arg2="mac"/>
+			</or>
+			<then>
+				<property name="jboss.server.hostname" value="${env.HOSTNAME}"/>
+			</then>
+		</if>
+		<if>
+			<equals arg1="${os.family}" arg2="windows"/>
+			<then>
+				<property name="jboss.server.hostname" value="${env.COMPUTERNAME}"/>
+			</then>
+		</if>
+		<!-- Begin JBoss Readers -->
+		<!-- Reader reqiures that you have only one data source defined in each *-ds.xml file -->
+		<!--
+		<jboss-read-dbconfig
+			jboss.home="${read.jboss.home}"
+			jboss.ds-xml.file="bda-blueprints-ds.xml"
+			/>
+		<jboss-read-ldapconfig
+			jboss.home="${read.jboss.home}"
+			/>
+		-->
+        <if>
+            <equals arg1="${jboss.major.version}" arg2="4"/>
+            <then>
+                <jboss-read-bindings-file-location jboss.home="${read.jboss.home}"/>
+                <jboss-read-ports/>
+            </then>
+        </if>
+        <if>
+            <equals arg1="${jboss.major.version}" arg2="5"/>
+            <then>
+                <jboss51-read-default-portconfig/>
+                <jboss51-read-ports-nci/>
+            </then>
+        </if>
+		<!-- for tier installs, should be done first, since it is set first it will be the one used if it exists -->
+		<jboss-read-java_opts
+			jboss.bin.dir="${read.jboss.home}/server/${jboss.server.name}/bin"
+			/>
+		<jboss-read-java_opts
+			jboss.home="${read.jboss.home}"
+			/>
+	</target>
+	 <target name="upgrade:post:jboss">
+	 </target>
 </project>
