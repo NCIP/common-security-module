@@ -519,7 +519,7 @@
 							database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/uptcentral"
 							db.install.create.oracle.file.list="${upt.central.db.install.create.oracle.file.list}"
 							db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
-							db.install.create.postgresql.file.list="${upt.central.db.install.create.postgres.file.list}"
+							db.install.create.postgresql.file.list="${upt.central.db.install.create.postgresql.file.list}"
 							db.upgrade.non-central.file="${upt.central.db.upgrade.file}"
 						/>
 			</then>
@@ -542,7 +542,7 @@
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
 									db.install.create.oracle.file.list="${upt.31.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.31.db.install.create.mysql.file.list}"
-									db.install.create.postgresql.file.list="${upt.31.db.install.create.postgres.file.list}"
+									db.install.create.postgresql.file.list="${upt.31.db.install.create.postgresql.file.list}"
 									db.upgrade.non-central.file="${upt.31.db.upgrade.file}"
 								/>
 					</then>
@@ -565,7 +565,7 @@
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
 									db.install.create.oracle.file.list="${upt.32.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.32.db.install.create.mysql.file.list}"
-									db.install.create.postgresql.file.list="${upt.32.db.install.create.postgres.file.list}"
+									db.install.create.postgresql.file.list="${upt.32.db.install.create.postgresql.file.list}"
 									db.upgrade.non-central.file="${upt.32.db.upgrade.file}"
 								/>
 					</then>
@@ -588,7 +588,7 @@
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
 									db.install.create.oracle.file.list="${upt.40.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.40.db.install.create.mysql.file.list}"
-									db.install.create.postgresql.file.list="${upt.40.db.install.create.postgres.file.list}"
+									db.install.create.postgresql.file.list="${upt.40.db.install.create.postgresql.file.list}"
 									db.upgrade.non-central.file="${upt.40.db.upgrade.file}"
 								/>
 					</then>
@@ -611,7 +611,7 @@
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
 									db.install.create.oracle.file.list="${upt.41.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.41.db.install.create.mysql.file.list}"
-									db.install.create.postgresql.file.list="${upt.41.db.install.create.postgres.file.list}"
+									db.install.create.postgresql.file.list="${upt.41.db.install.create.postgresql.file.list}"
 									db.upgrade.non-central.file="${upt.41.db.upgrade.file}"
 								/>
 					</then>
@@ -634,7 +634,7 @@
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
 									db.install.create.oracle.file.list="${upt.42.db.install.create.oracle.file.list}"
 									db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
-									db.install.create.postgresql.file.list="${upt.42.db.install.create.postgres.file.list}"
+									db.install.create.postgresql.file.list="${upt.42.db.install.create.postgresql.file.list}"
 									db.upgrade.non-central.file="${upt.42.db.upgrade.file}"
 								/>
 					</then>

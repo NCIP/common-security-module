@@ -225,7 +225,7 @@
 	</target>
 
 	<target name="svnCheckout43">
-		<executeSVNCheckout app.name="upt43" tag="trunk/software/upt" />
+		<executeSVNCheckout app.name="upt43" tag="branches/CSM_4_3_TECH_STACK_2011_CURRENT/software/upt" />
 	</target>
 	<target name="svnCheckout42">
 		<executeSVNCheckout app.name="upt42" tag="tags/CSM_4_2_1_RELEASE_V2/upt" />
