@@ -1,6 +1,11 @@
-<%@ taglib uri="/WEB-INF/tld/struts-html.tld" prefix="html"%>
-<%@ taglib uri="/WEB-INF/tld/struts-tiles.tld" prefix="tiles"%>
-<%@ taglib uri="/WEB-INF/tld/struts-logic.tld" prefix="logic"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
+	prefix="html"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
+	prefix="logic"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
+	prefix="tiles"%>
+
+
 <html:html locale="en">
 <head>
 <title><tiles:getAsString name="title" /></title>

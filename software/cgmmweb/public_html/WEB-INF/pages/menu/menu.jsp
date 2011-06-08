@@ -1,17 +1,6 @@
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
-<%@ page
-	import="gov.nih.nci.security.cgmm.webapp.ForwardConstants"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
+<%@ page import="gov.nih.nci.security.cgmm.webapp.ForwardConstants"%>
 
 <script>
   <!--
@@ -26,7 +15,7 @@
 </script>
 <table summary="" cellpadding="0" cellspacing="0" border="0" height="20">
 	<tr>
-<html:form styleId="menuForm" action="<%="/MenuSelection"%>">
+<html:form styleId="menuForm" action='<%="/MenuSelection"%>'>
 <%
 	String tableId;
 	try {

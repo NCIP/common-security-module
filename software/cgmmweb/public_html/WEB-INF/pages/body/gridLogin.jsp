@@ -6,10 +6,6 @@
 	prefix="logic"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
 	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
 <%@ page import="gov.nih.nci.security.cgmm.webapp.DisplayConstants"%>
 
 <tr>
