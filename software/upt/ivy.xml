@@ -36,8 +36,8 @@
 		<dependency org="org.directwebremoting" name="dwr" rev="2.0.1" conf="compile;runtime;" />
 
 		<dependency org="ehcache" name="ehcache" rev="2.4.2" conf="compile;runtime;" />
-		<dependency org="ncicb" name="csm" rev="4.3" conf="compile;runtime;" /> 
-		<dependency org="ncicb" name="clm" rev="4.2" conf="compile;runtime;" />
+		<dependency org="ncicb" name="csm" rev="4.2.3" conf="compile;runtime;" /> 
+		<dependency org="ncicb" name="clm" rev="4.1.1" conf="compile;runtime;" />
 		
 		<dependency org="javancss" name="javancss" rev="29.50" conf="test->runtime"/>
 		<dependency org="junit" name="junit" rev="4.7" conf="test->master"/>
