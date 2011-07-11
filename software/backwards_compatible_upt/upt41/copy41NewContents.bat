@@ -1,4 +1,4 @@
-SET TEMP_HOME_41=C:\Vijay\projects\security\software\backwards_compatible_upt\build\upt41
+SET TEMP_HOME_41=C:\Prasad\OM\CSM_423_BRANCH\backwards_compatible_upt\upt41
 
 mkdir webapp
 mkdir webapp\public_html
@@ -10,12 +10,12 @@ copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\asm-1.5.3.jar webapp\public_h
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\asm-attrs-1.5.3.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\c3p0-0.9.0.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\cglib-2.1_3.jar webapp\public_html\WEB-INF\lib
-copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\clm-4.1.jar webapp\public_html\WEB-INF\lib
+copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\clm-4.1.1.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\commons-collections-2.1.1.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\commons-dbcp-1.2.1.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\commons-lang-1.0.1.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\commons-logging-1.0.4.jar webapp\public_html\WEB-INF\lib
-copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\csmapi-4.1.jar webapp\public_html\WEB-INF\lib
+copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\csmapi-4.2.3.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\dom4j-1.6.1.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\dwr-2.0.1.jar webapp\public_html\WEB-INF\lib
 copy %TEMP_HOME_41%\webapp\public_html\WEB-INF\lib\ehcache-1.2.4.jar webapp\public_html\WEB-INF\lib

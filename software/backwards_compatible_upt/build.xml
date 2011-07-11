@@ -145,7 +145,7 @@
 			</then>
 		</if>		
 		<if>
-			<equals arg1="${app.name}" arg2="upt43"/>
+			<equals arg1="${app.name}" arg2="upt423"/>
 			<then>
 				<delete quiet="true" file="${build.home}/WEB-INF/lib/csmapi-4.2.jar" />
 			</then>
@@ -162,8 +162,8 @@
 	</target>
 
 
-	<target name="dist43">
-		<executeUPT app.name="${upt.43.url.context.name}" war.file="${upt.43.url.context.name}"/>
+	<target name="dist423">
+		<executeUPT app.name="${upt.423.url.context.name}" war.file="${upt.423.url.context.name}"/>
 	</target>
 	<target name="dist42">
 		<executeUPT app.name="${upt.42.url.context.name}" war.file="${upt.42.url.context.name}"/>
@@ -216,7 +216,7 @@
 	</macrodef>
 	
 	<target name="svnCheckout">
-   		<antcall target="svnCheckout43" inheritall="false" />
+   		<antcall target="svnCheckout423" inheritall="false" />
    		<antcall target="svnCheckout42" inheritall="false" />
 		<antcall target="svnCheckout41" inheritall="false" />
 		<antcall target="svnCheckout40" inheritall="false" />
@@ -224,8 +224,8 @@
 		<antcall target="svnCheckout31" inheritall="false" />
 	</target>
 
-	<target name="svnCheckout43">
-		<executeSVNCheckout app.name="upt43" tag="branches/CSM_4_3_TECH_STACK_2011_CURRENT/software/upt" />
+	<target name="svnCheckout423">
+		<executeSVNCheckout app.name="upt423" tag="branches/CSM_423_BRANCH/software/upt" />
 	</target>
 	<target name="svnCheckout42">
 		<executeSVNCheckout app.name="upt42" tag="tags/CSM_4_2_1_RELEASE_V2/upt" />
@@ -248,7 +248,7 @@
 	</target>
 	
 	<target name="dist">
-		<antcall target="dist43" inheritall="false" />
+		<antcall target="dist423" inheritall="false" />
 		<antcall target="dist42" inheritall="false" />
 		<antcall target="dist41" inheritall="false" />
 		<antcall target="dist40" inheritall="false" />
@@ -387,7 +387,7 @@
 	<configure-application-xml context.root="${upt.40.url.context.name}" upt.war="${upt.40.url.context.name}.war" />
 	<configure-application-xml context.root="${upt.41.url.context.name}" upt.war="${upt.41.url.context.name}.war" />
 	<configure-application-xml context.root="${upt.42.url.context.name}" upt.war="${upt.42.url.context.name}.war" />
-	<configure-application-xml context.root="${upt.43.url.context.name}" upt.war="${upt.43.url.context.name}.war" />
+	<configure-application-xml context.root="${upt.423.url.context.name}" upt.war="${upt.423.url.context.name}.war" />
 	<copy todir="${build.home.ear}">
 		<fileset dir="${basedir}/dist/upt31" includes="${upt.31.url.context.name}.war" />
 	</copy>
@@ -408,7 +408,7 @@
 		<fileset dir="${basedir}/dist/upt42" includes="${upt.42.url.context.name}.war" />
 	</copy>
 	<copy todir="${build.home.ear}">
-		<fileset dir="${basedir}/dist/upt43" includes="${upt.43.url.context.name}.war" />
+		<fileset dir="${basedir}/dist/upt423" includes="${upt.423.url.context.name}.war" />
 	</copy>
 	<copy todir="${build.home.ear}">
 		<fileset dir="${basedir}/dist/uptlogin" includes="uptlogin.war" />
