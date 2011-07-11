@@ -23,15 +23,14 @@
 		<dependency org="jcp" name="jaxrpc" rev="1.1" conf="compile;runtime"/>
 
 		
-		<dependency org="springsource" name="spring" rev="1.2.8" conf="compile;runtime"/>
+		<dependency org="springsource" name="spring" rev="2.5.6" conf="compile;runtime"/>
 	
-		<dependency org="apache" name="log4j" rev="1.2.9" conf="compile;runtime;" />
-		<dependency org="jakarta" name="commons-lang" rev="1.0.1" conf="compile;runtime;" />
-		<dependency org="jakarta" name="commons-logging" rev="1.0.4" conf="compile;runtime;" />
+		<dependency org="apache" name="log4j" rev="1.2.16" conf="compile;runtime;" />
+		<dependency org="jakarta" name="commons-lang" rev="2.6" conf="compile;runtime;" />
+		<dependency org="jakarta" name="commons-logging" rev="1.1.1" conf="compile;runtime;" />
 		<dependency org="org.jdom" name="jdom" rev="1.1" conf="compile;runtime;" />
-		<dependency org="apache" name="log4j" rev="1.2.9" conf="compile;runtime;" />
-		<dependency org="apache" name="struts" rev="1.1" conf="compile;runtime;" />
-		<dependency org="mysql" name="mysql-connector-java" rev="5.1.5" conf="compile;runtime;" />
+		<dependency org="apache" name="struts" rev="1.2.7" conf="compile;runtime;" />
+		<dependency org="mysql" name="mysql-connector-java" rev="5.1.13" conf="compile;runtime;" />
 
 		<dependency org="org.hibernate" name="hibernate" rev="3.2.0.ga" conf="compile;runtime;" />
 		<dependency org="org.hibernate" name="hibernate-annotations" rev="1.0" conf="compile;runtime;" />
@@ -39,10 +38,10 @@
 
 		<dependency org="org.directwebremoting" name="dwr" rev="2.0.1" conf="compile;runtime;" />
 
-		<dependency org="ehcache" name="ehcache" rev="1.2.4" conf="compile;runtime;" />
-		<dependency org="ncicb" name="csm" rev="4.2" conf="compile;runtime;" /> 
-		<dependency org="ncicb" name="clm" rev="4.2.beta" conf="compile;runtime;" />
-		<dependency org="junit" name="junit" rev="4.4" conf="compile,runtime"/>		
+		<dependency org="ehcache" name="ehcache" rev="2.4.2" conf="compile;runtime;" />
+		<dependency org="ncicb" name="csm" rev="4.2.3" conf="compile;runtime;" /> 
+		<dependency org="ncicb" name="clm" rev="4.1.1" conf="compile;runtime;" />
+		<dependency org="junit" name="junit" rev="4.7" conf="compile,runtime"/>		
 		<dependency org="javancss" name="javancss" rev="29.50" conf="test->runtime"/>
 		<dependency org="cobertura" name="cobertura" rev="1.9" conf="test->runtime"/>
 		<dependency org="checkstyle" name="checkstyle" rev="4.4" conf="test->runtime"/>
