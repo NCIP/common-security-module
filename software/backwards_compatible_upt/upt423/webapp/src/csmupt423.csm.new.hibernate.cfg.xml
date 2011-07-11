@@ -10,7 +10,7 @@
 
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
         <property name="hibernate.show_sql">false</property>
-        <property name="connection.datasource">java:/csmupt43</property>
+        <property name="connection.datasource">java:/csmupt423</property>
 		<property name="connection.zeroDateTimeBehavior">convertToNull</property>
 
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/InstanceLevelMappingElement.hbm.xml"/>
