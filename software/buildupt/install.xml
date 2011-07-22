@@ -342,6 +342,24 @@
 						/>
 					</then>
 				</if>
+				<if>
+					<and>
+						<equals arg1="${upt.423.installed}" arg2="true"  casesensitive="false"/>
+						<not>
+							<equals arg1="${upt.423.authentication.type}" arg2="NONE" />						
+						</not>
+					</and>
+					<then>
+						<configure-login-config authentication.type="${upt.423.authentication.type}" application.context.name="${application.context.name}"
+								database.driver="${upt.423.database.driver.class}" database.url="${upt.423.database.url}"
+								database.user="${upt.423.database.user}" database.password="${upt.423.database.password}"
+								database.encrypt.enabled="${upt.423.database.encrypt.enabled}"
+								ldaps.url="${upt.423.ldaps.url}" ldaps.basedn="${upt.423.ldaps.basedn}" ldaps.userid.label="${upt.423.ldaps.userid.label}"
+								ldap.url="${upt.423.ldap.url}" ldap.searchable.base="${upt.423.ldap.searchable.base}"	ldap.userid.label="${upt.423.ldap.userid.label}"
+								ldap.admin.user.name="${upt.423.ldap.admin.user.name}" ldap.admin.user.password="${upt.423.ldap.admin.user.password}"
+						/>
+					</then>
+				</if>
 			</else>
 		</if>
 	</target>
@@ -356,10 +374,16 @@
 					driver.class="${upt.central.database.driver.class}"
 				/>
 			</then>
-			<else>
+		<else>
 				<if>
 					<equals arg1="${upt.31.installed}" arg2="true" />
 					<then>
+						<configure-datasources 	database.url="${upt.31.database.url}"
+							database.user="${upt.31.database.user}"
+							database.password="${upt.31.database.password}" jndi.name="csmupt"
+							driver.class="${upt.31.database.driver.class}"
+						/>
+
 						<configure-datasources 	database.url="${upt.31.database.url}"
 							database.user="${upt.31.database.user}"
 							database.password="${upt.31.database.password}" jndi.name="${upt.31.jndi.name}"
@@ -372,6 +396,12 @@
 					<then>
 						<configure-datasources 	database.url="${upt.32.database.url}" 
 							database.user="${upt.32.database.user}"
+							database.password="${upt.32.database.password}" jndi.name="csmupt"
+							driver.class="${upt.32.database.driver.class}"
+						/>
+
+						<configure-datasources 	database.url="${upt.32.database.url}" 
+							database.user="${upt.32.database.user}"
 							database.password="${upt.32.database.password}" jndi.name="${upt.32.jndi.name}"
 							driver.class="${upt.32.database.driver.class}"
 						/>
@@ -380,6 +410,11 @@
 				<if>
 					<equals arg1="${upt.40.installed}" arg2="true" />
 					<then>
+						<configure-datasources 	database.url="${upt.40.database.url}"
+							database.user="${upt.40.database.user}"
+							database.password="${upt.40.database.password}" jndi.name="csmupt"
+							driver.class="${upt.40.database.driver.class}"
+						/>
 						<configure-datasources 	database.url="${upt.40.database.url}"
 							database.user="${upt.40.database.user}"
 							database.password="${upt.40.database.password}" jndi.name="${upt.40.jndi.name}"
@@ -392,6 +427,11 @@
 					<then>
 						<configure-datasources 	database.url="${upt.41.database.url}"
 							database.user="${upt.41.database.user}"
+							database.password="${upt.41.database.password}" jndi.name="csmupt"
+							driver.class="${upt.41.database.driver.class}"
+						/>
+						<configure-datasources 	database.url="${upt.41.database.url}"
+							database.user="${upt.41.database.user}"
 							database.password="${upt.41.database.password}" jndi.name="${upt.41.jndi.name}"
 							driver.class="${upt.41.database.driver.class}"
 						/>
@@ -402,12 +442,32 @@
 					<then>
 						<configure-datasources database.url="${upt.42.database.url}"
 							database.user="${upt.42.database.user}"
+							database.password="${upt.42.database.password}" jndi.name="csmupt"
+							driver.class="${upt.42.database.driver.class}"
+						/>
+						<configure-datasources database.url="${upt.42.database.url}"
+							database.user="${upt.42.database.user}"
 							database.password="${upt.42.database.password}" jndi.name="${upt.42.jndi.name}"
 							driver.class="${upt.42.database.driver.class}"
 						/>
 					</then>
 				</if>
-			</else>
+				<if>
+					<equals arg1="${upt.423.installed}" arg2="true" />
+					<then>
+						<configure-datasources database.url="${upt.423.database.url}"
+							database.user="${upt.423.database.user}"
+							database.password="${upt.423.database.password}" jndi.name="csmupt"
+							driver.class="${upt.423.database.driver.class}"
+						/>
+						<configure-datasources database.url="${upt.423.database.url}"
+							database.user="${upt.423.database.user}"
+							database.password="${upt.423.database.password}" jndi.name="${upt.423.jndi.name}"
+							driver.class="${upt.423.database.driver.class}"
+						/>
+					</then>
+				</if>
+		</else>
 		</if>
 	</target>
 
@@ -434,10 +494,37 @@
 					<then>
 						<configure-application-context-application context.name="${upt.31.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.31.hibernate.config.file}" />
 					</then>
-					<else>
-						<configure-application-context-application context.name="${upt.31.context.name}" hibernate.config.file="" />
-					</else>
-			    </if>
+				</if>
+				<if>
+					<equals arg1="${upt.32.installed}" arg2="true" />
+					<then>
+						<configure-application-context-application context.name="${upt.32.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.32.hibernate.config.file}" />
+					</then>
+			        </if>
+				<if>
+					<equals arg1="${upt.40.installed}" arg2="true" />
+					<then>
+						<configure-application-context-application context.name="${upt.40.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.40.hibernate.config.file}" />
+					</then>
+			        </if>
+				<if>
+					<equals arg1="${upt.41.installed}" arg2="true" />
+					<then>
+						<configure-application-context-application context.name="${upt.41.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.41.hibernate.config.file}" />
+					</then>
+			        </if>
+				<if>
+					<equals arg1="${upt.42.installed}" arg2="true" />
+					<then>
+						<configure-application-context-application context.name="${upt.42.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.42.hibernate.config.file}" />
+					</then>
+			        </if>
+				<if>
+					<equals arg1="${upt.423.installed}" arg2="true" />
+					<then>
+						<configure-application-context-application context.name="${upt.423.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.423.hibernate.config.file}" />
+					</then>
+			        </if>
 			</else>
 		</if>			
 		<if>
@@ -486,6 +573,14 @@
 				<configure-application-context-upt-application
 						context.name="${upt.42.context.name}" url.context.name="${upt.42.url.context.name}"
 						hibernate.config.file="${upt.42.hibernate.config.file}" />
+			</then>
+		</if>
+		<if>
+			<equals arg1="${upt.423.installed}" arg2="true" />
+			<then>
+				<configure-application-context-upt-application
+						context.name="${upt.423.context.name}" url.context.name="${upt.423.url.context.name}"
+						hibernate.config.file="${upt.423.hibernate.config.file}" />
 			</then>
 		</if>
 	</target>
@@ -636,6 +731,29 @@
 									db.install.create.mysql.file.list="${upt.42.db.install.create.mysql.file.list}"
 									db.install.create.postgresql.file.list="${upt.42.db.install.create.postgresql.file.list}"
 									db.upgrade.non-central.file="${upt.42.db.upgrade.file}"
+								/>
+					</then>
+				</if>
+				<if>
+					<and>
+						<equals arg1="${upt.423.database.re-create}" arg2="true" />
+						<equals arg1="${upt.423.installed}" arg2="true" />
+					</and>
+					<then>
+						<install-backwards-compatible-upt-database 	
+									database.driver="${upt.423.database.driver.class}" database.system.url="${upt.423.database.system.url}"
+									database.system.user="${upt.423.database.system.user}" database.system.password="${upt.423.database.system.password}" 
+									database.url="${upt.423.database.url}" database.user="${upt.423.database.user}" 
+									database.password="${upt.423.database.password}" database.version="${upt.423.database.version}" 
+									database.name="${upt.423.database.name}" database.type="${upt.423.database.type}"
+									database.schema="${upt.423.database.schema}"  database.re-create="true" 
+									database.drop-schema="${upt.423.database.drop-schema}"
+									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt423"
+									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt423"
+									db.install.create.oracle.file.list="${upt.423.db.install.create.oracle.file.list}"
+									db.install.create.mysql.file.list="${upt.423.db.install.create.mysql.file.list}"
+									db.install.create.postgresql.file.list="${upt.423.db.install.create.postgresql.file.list}"
+									db.upgrade.non-central.file="${upt.423.db.upgrade.file}"
 								/>
 					</then>
 				</if>
@@ -1110,6 +1228,45 @@
 			</else>
 
 		</if>
+		<if>
+			<equals arg1="${upt.423.installed}" arg2="false" />
+			<then>
+				<re-configure-application-xml upt.context.name="${upt.423.url.context.name}" temp.dir="${temp.ear.dir}"/>
+				<delete quiet="true" file="${temp.ear.dir}/${upt.423.url.context.name}.war"/>
+			</then>
+			<else>
+					<if>
+						<equals arg1="${upt.central.config}" arg2="true"/>
+						<then>
+							<filterset id="upt.423.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.central.database.dialect}" />
+							</filterset>
+						</then>
+						<else>
+							<filterset id="upt.423.database.dialect.filterset">
+								<filter token="database.dialect" value="${upt.423.database.dialect}" />
+							</filterset>
+						</else>
+					</if>
+
+					<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
+					<unzip dest="${temp.ear.dir}/tempupt423" src="${temp.ear.dir}/upt423.war"/>
+					<mkdir dir="${temp.ear.dir}/upt423"/>
+					<copy todir="${temp.ear.dir}/upt423" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt423"/>
+					</copy>
+					<copy todir="${temp.ear.dir}/upt423" overwrite="true">
+						<fileset dir="${temp.ear.dir}/tempupt423">
+							<include name="**/*.csm.new.hibernate.cfg.xml" />
+						</fileset>
+						<filterset refid="upt.423.database.dialect.filterset"/>
+					</copy>
+					<jar jarfile="${temp.ear.dir}/upt423.war" basedir="${temp.ear.dir}/upt423" />
+					<delete dir="${temp.ear.dir}/tempupt423" quiet="true"/>
+					<delete dir="${temp.ear.dir}/upt423" quiet="true"/>
+			</else>
+
+		</if>
 
 		<!-- unzip uptlogin.war and replace dialect, repackage war and delete temp dirs -->
 		<unzip dest="${temp.ear.dir}/tempuptlogin" src="${temp.ear.dir}/uptlogin.war"/>
@@ -1327,6 +1484,20 @@
 							database.password="${upt.42.database.password}" 
 							database.type="${upt.42.database.type}" 
 							database.upgrade.schema.file="${upt.42.db.upgrade.file}" />
+					</then>
+				</if>				
+				<if>
+					<equals arg1="${upt.423.installed}" arg2="true"/>
+					<then>						
+						<upgrade-backwards-compatible-upt-database
+							database.system.url="${upt.423.database.system.url}" database.name="${upt.423.database.name}" 
+						  	database.system.password="${upt.423.database.system.password}"  
+						  	database.system.user="${upt.423.database.system.user}"
+						 	database.url="${upt.423.database.url}" 
+							database.user="${upt.423.database.user}" 
+							database.password="${upt.423.database.password}" 
+							database.type="${upt.423.database.type}" 
+							database.upgrade.schema.file="${upt.423.db.upgrade.file}" />
 					</then>
 				</if>				
 			</else>
