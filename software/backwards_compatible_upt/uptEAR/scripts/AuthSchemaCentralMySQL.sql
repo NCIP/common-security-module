@@ -348,20 +348,20 @@ ON DELETE CASCADE
 # it is.
 #
 
-insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,CSM_VERSION,UPDATE_DATE)
-values ("@upt.central.context.name@","CSM UPT Super Admin Application",0,0,"",sysdate());
+INSERT INTO CSM_APPLICATION(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,CSM_VERSION,UPDATE_DATE)
+VALUES ("@upt.central.context.name@","CSM UPT Super Admin Application",0,0,"",sysdate());
 
-insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("@super.admin.user@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+INSERT INTO CSM_USER (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
+VALUES ("@super.admin.user@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
 
-insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=parmarv","Vijay","Parmar","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+INSERT INTO CSM_USER (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
+VALUES ("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=parmarv","Vijay","Parmar","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
 
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("@upt.central.context.name@","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
+INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+VALUES("@upt.central.context.name@","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(1,1);
+INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
+VALUES(1,1);
 
 #
 # The following entry is for your application.
@@ -385,11 +385,11 @@ VALUES ("sampleHostApplicationName","Application Description",0,0,
 	"org.gjt.mm.mysql.Driver","",
 	sysdate());
 
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sampleHostApplicationName","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
+INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+VALUES("sampleHostApplicationName","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(2,1);
+INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
+VALUES(2,1);
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
 	DATABASE_URL,
@@ -407,11 +407,11 @@ VALUES ("sample31","Application Description",0,0,
 	"org.gjt.mm.mysql.Driver","",
 	sysdate());
 
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample31","Admin Application Protection Element","sample31",1,sysdate());
+INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+VALUES("sample31","Admin Application Protection Element","sample31",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(3,1);
+INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
+VALUES(3,1);
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
 	DATABASE_URL,
@@ -429,11 +429,11 @@ VALUES ("sample32","Application Description",0,0,
 	"org.gjt.mm.mysql.Driver","",
 	sysdate());
 
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample32","Admin Application Protection Element","sample32",1,sysdate());
+INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+VALUES("sample32","Admin Application Protection Element","sample32",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(4,1);
+INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
+VALUES(4,1);
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
 	DATABASE_URL,
@@ -451,11 +451,11 @@ VALUES ("sample40","Application Description",0,0,
 	"org.gjt.mm.mysql.Driver","",
 	sysdate());
 
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample40","Admin Application Protection Element","sample40",1,sysdate());
+INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+VALUES("sample40","Admin Application Protection Element","sample40",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(5,1);
+INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
+VALUES(5,1);
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
 	DATABASE_URL,
@@ -473,11 +473,11 @@ VALUES ("sample41","Application Description",0,0,
 	"org.gjt.mm.mysql.Driver","",
 	sysdate());
 
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample41","Admin Application Protection Element","sample41",1,sysdate());
+INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+VALUES("sample41","Admin Application Protection Element","sample41",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(6,1);
+INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
+VALUES(6,1);
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
 	DATABASE_URL,
@@ -487,7 +487,7 @@ INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 	DATABASE_DRIVER,
 	CSM_VERSION,
 	UPDATE_DATE)
-VALUES ("sample42","Application Description",0,0,
+VALUES ("sample423","Application Description",0,0,
 	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
 	"root",
 	"H/2qIBdj9TQ=",
@@ -495,11 +495,11 @@ VALUES ("sample42","Application Description",0,0,
 	"org.gjt.mm.mysql.Driver","",
 	sysdate());
 
-insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("sample42","Admin Application Protection Element","sample42",1,sysdate());
+INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+VALUES("sample423","Admin Application Protection Element","sample423",1,sysdate());
 
-insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
-values(7,1);
+INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
+VALUES(7,1);
 #
 # The following entries are Common Set of Privileges
 #
