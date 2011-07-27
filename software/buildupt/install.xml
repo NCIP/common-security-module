@@ -60,7 +60,7 @@
 				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 			</case>
 			<case value="postgresql">
-				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
+				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
 			</case>
 			<default>
 				<fail message="Invalid database type ${database.type}"/>
@@ -970,7 +970,7 @@
 					<property name="database.driver" value="com.mysql.jdbc.Driver"/>
 				</case>
 				<case value="postgresql">
-					<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
 					<property name="database.driver" value="org.postgresql.Driver"/>
 				</case>
 				<default>
@@ -1034,14 +1034,6 @@
 				</case>
 			</switch>
 			
-			<database-upgrade database.driver="@{database.driver}" database.url="@{database.url}" 
-							  database.user="@{database.user}" database.password="@{database.password}" 
-							  database.schema="@{database.name}"
-							  database.changelog.file="${os.temp.dir}/${project.name}/@{db.upgrade.non-central.file}"/>
-			
-			<database-tag database.driver="@{database.driver}" database.url="@{database.url}"
-						  database.user="@{database.user}" database.password="@{database.password}" 
-						  database.schema="@{database.name}" />		
 		  </sequential>
 	</macrodef>
 	
@@ -1526,7 +1518,7 @@
 					<property name="database.upgrade.driver" value="com.mysql.jdbc.Driver"/>
 				</case>
 				<case value="postgresql">
-					<property name="database.driver.file" value="${bda-utils.dir}/postgresql-jdbc3-8.3-604.jar"/>
+					<property name="database.driver.file" value="${bda-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
 					<property name="database.upgrade.driver" value="org.postgresql.Driver"/>
 				</case>
 				<default>

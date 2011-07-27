@@ -297,7 +297,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 					<exclude name="*Migration*Oracle.sql" />
 				</fileset>
 			</copy>
-			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/postgres" overwrite="true">
+			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/postgresql" overwrite="true">
 				<fileset dir="@{input.dir}">
 					<include name="*Postgres.sql" />
 					<exclude name="*Migration*Postgres.sql" />
