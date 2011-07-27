@@ -1,84 +1,101 @@
-DROP SEQUENCE CSM_APPLICATI_APPLICATION__SEQ;
+DROP SEQUENCE CSM_APPLICATI_APPLICATION__SEQ
+/
 
 DROP TABLE CSM_APPLICATION CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_GROUP_GROUP_ID_SEQ;
+DROP SEQUENCE CSM_GROUP_GROUP_ID_SEQ
+/
 
 DROP TABLE CSM_GROUP CASCADE CONSTRAINTS
-;
+/
 
-DROP TRIGGER SET_CSM_PG_PE_PG_PE_ID;
+DROP TRIGGER SET_CSM_PG_PE_PG_PE_ID
+/
 
-DROP TRIGGER SET_CSM_PG_PE_UPDATE_DATE;
+DROP TRIGGER SET_CSM_PG_PE_UPDATE_DATE
+/
 
-DROP SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ;
+DROP SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ
+/
 
 DROP TABLE CSM_PG_PE CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_PRIVILEGE_PRIVILEGE_ID_SEQ;
+DROP SEQUENCE CSM_PRIVILEGE_PRIVILEGE_ID_SEQ
+/
 
 DROP TABLE CSM_PRIVILEGE CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_FILTER_CLAUSE_FILTE_ID_SEQ;
+DROP SEQUENCE CSM_FILTER_CLAUSE_FILTE_ID_SEQ
+/
 
 DROP TABLE CSM_FILTER_CLAUSE CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_PROTECTIO_PROTECTION_E_SEQ;
+DROP SEQUENCE CSM_PROTECTIO_PROTECTION_E_SEQ
+/
 
 DROP TABLE CSM_PROTECTION_ELEMENT CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_PROTECTIO_PROTECTION_G_SEQ;
+DROP SEQUENCE CSM_PROTECTIO_PROTECTION_G_SEQ
+/
 
 DROP TABLE CSM_PROTECTION_GROUP CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_ROLE_ROLE_ID_SEQ;
+DROP SEQUENCE CSM_ROLE_ROLE_ID_SEQ
+/
 
 DROP TABLE CSM_ROLE CASCADE CONSTRAINTS
-;
+/
 
-DROP TRIGGER SET_CSM_ROLE_PRIV_ROLE_PRIVILE;
+DROP TRIGGER SET_CSM_ROLE_PRIV_ROLE_PRIVILE
+/
 
-
-DROP SEQUENCE CSM_ROLE_PRIV_ROLE_PRIVILE_SEQ;
+DROP SEQUENCE CSM_ROLE_PRIV_ROLE_PRIVILE_SEQ
+/
 
 DROP TABLE CSM_ROLE_PRIVILEGE CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_USER_USER_ID_SEQ;
+DROP SEQUENCE CSM_USER_USER_ID_SEQ
+/
 
 DROP TABLE CSM_USER CASCADE CONSTRAINTS
-;
+/
 
-DROP TRIGGER SET_CSM_USER_GROU_USER_GROUP_I;
+DROP TRIGGER SET_CSM_USER_GROU_USER_GROUP_I
+/
 
-DROP SEQUENCE CSM_USER_GROU_USER_GROUP_I_SEQ;
+DROP SEQUENCE CSM_USER_GROU_USER_GROUP_I_SEQ
+/
 
 DROP TABLE CSM_USER_GROUP CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ;
+DROP SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ
+/
 
 DROP TABLE CSM_USER_GROUP_ROLE_PG CASCADE CONSTRAINTS
-;
+/
 
-DROP TRIGGER SET_CSM_USER_PE_USER_PROTECTIO;
+DROP TRIGGER SET_CSM_USER_PE_USER_PROTECTIO
+/
 
-
-DROP SEQUENCE CSM_USER_PE_USER_PROTECTIO_SEQ;
+DROP SEQUENCE CSM_USER_PE_USER_PROTECTIO_SEQ
+/
 
 DROP TABLE CSM_USER_PE CASCADE CONSTRAINTS
-;
+/
 
-DROP SEQUENCE CSM_MAPPING_SEQ;
+DROP SEQUENCE CSM_MAPPING_SEQ
+/
 
 DROP TABLE CSM_MAPPING CASCADE CONSTRAINTS
-;
+/
 
 CREATE TABLE CSM_APPLICATION ( 
 	APPLICATION_ID NUMBER(38) NOT NULL,
@@ -93,7 +110,8 @@ CREATE TABLE CSM_APPLICATION (
 	DATABASE_DIALECT VARCHAR2(100),
 	DATABASE_DRIVER VARCHAR2(100)
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_APPLICATI_APPLICATION__SEQ
 increment by 1
 start with 1
@@ -101,8 +119,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
-
+noorder
+/
 
 CREATE TABLE CSM_GROUP ( 
 	GROUP_ID NUMBER(38) NOT NULL,
@@ -111,7 +129,8 @@ CREATE TABLE CSM_GROUP (
 	UPDATE_DATE DATE NOT NULL,
 	APPLICATION_ID NUMBER(38) NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_GROUP_GROUP_ID_SEQ
 increment by 1
 start with 1
@@ -119,7 +138,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 
 CREATE TABLE CSM_PG_PE ( 
@@ -128,7 +148,8 @@ CREATE TABLE CSM_PG_PE (
 	PROTECTION_ELEMENT_ID NUMBER(38) NOT NULL,
 	UPDATE_DATE DATE DEFAULT sysdate NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ
 increment by 1
 start with 1
@@ -136,7 +157,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 CREATE OR REPLACE TRIGGER SET_CSM_PG_PE_PG_PE_ID
 BEFORE INSERT
@@ -144,7 +166,7 @@ ON CSM_PG_PE
 FOR EACH ROW
 BEGIN
   SELECT CSM_PG_PE_PG_PE_ID_SEQ.NEXTVAL
-  INTO NEW.PG_PE_ID
+  INTO :NEW.PG_PE_ID
   FROM DUAL;
 END;
 /
@@ -156,7 +178,7 @@ ON CSM_PG_PE
 FOR EACH ROW
 BEGIN
   SELECT SYSDATE
-  INTO NEW.UPDATE_DATE
+  INTO :NEW.UPDATE_DATE
   FROM DUAL;
 END;
 /
@@ -168,7 +190,8 @@ CREATE TABLE CSM_PRIVILEGE (
 	PRIVILEGE_DESCRIPTION VARCHAR2(200),
 	UPDATE_DATE DATE NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_PRIVILEGE_PRIVILEGE_ID_SEQ
 increment by 1
 start with 1
@@ -176,7 +199,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 CREATE TABLE CSM_FILTER_CLAUSE ( 
 	FILTER_CLAUSE_ID NUMBER(38) NOT NULL,
@@ -192,7 +216,7 @@ CREATE TABLE CSM_FILTER_CLAUSE (
 	APPLICATION_ID NUMBER(38) NOT NULL,
 	UPDATE_DATE DATE NOT NULL	
 ) 
-;
+/
 
 CREATE SEQUENCE CSM_FILTER_CLAUSE_FILTE_ID_SEQ
 increment by 1
@@ -201,7 +225,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 
 CREATE TABLE CSM_PROTECTION_ELEMENT ( 
@@ -215,7 +240,8 @@ CREATE TABLE CSM_PROTECTION_ELEMENT (
 	APPLICATION_ID NUMBER(38) NOT NULL,
 	UPDATE_DATE DATE NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_PROTECTIO_PROTECTION_E_SEQ
 increment by 1
 start with 1
@@ -223,8 +249,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
-
+noorder
+/
 
 CREATE TABLE CSM_PROTECTION_GROUP ( 
 	PROTECTION_GROUP_ID NUMBER(38) NOT NULL,
@@ -235,7 +261,8 @@ CREATE TABLE CSM_PROTECTION_GROUP (
 	UPDATE_DATE DATE NOT NULL,
 	PARENT_PROTECTION_GROUP_ID NUMBER(38)
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_PROTECTIO_PROTECTION_G_SEQ
 increment by 1
 start with 1
@@ -243,7 +270,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 
 CREATE TABLE CSM_ROLE ( 
@@ -254,7 +282,8 @@ CREATE TABLE CSM_ROLE (
 	ACTIVE_FLAG NUMBER(1) NOT NULL,
 	UPDATE_DATE DATE NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_ROLE_ROLE_ID_SEQ
 increment by 1
 start with 1
@@ -262,7 +291,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 
 CREATE TABLE CSM_ROLE_PRIVILEGE ( 
@@ -270,7 +300,8 @@ CREATE TABLE CSM_ROLE_PRIVILEGE (
 	ROLE_ID NUMBER(38) NOT NULL,
 	PRIVILEGE_ID NUMBER(38) NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_ROLE_PRIV_ROLE_PRIVILE_SEQ
 increment by 1
 start with 1
@@ -278,7 +309,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 CREATE OR REPLACE TRIGGER SET_CSM_ROLE_PRIV_ROLE_PRIVILE
 BEFORE INSERT
@@ -286,7 +318,7 @@ ON CSM_ROLE_PRIVILEGE
 FOR EACH ROW
 BEGIN
   SELECT CSM_ROLE_PRIV_ROLE_PRIVILE_SEQ.NEXTVAL
-  INTO NEW.ROLE_PRIVILEGE_ID
+  INTO :NEW.ROLE_PRIVILEGE_ID
   FROM DUAL;
 END;
 /
@@ -308,7 +340,8 @@ CREATE TABLE CSM_USER (
 	UPDATE_DATE DATE NOT NULL,
 	PREMGRT_LOGIN_NAME VARCHAR2(100)
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_USER_USER_ID_SEQ
 increment by 1
 start with 1
@@ -316,15 +349,16 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
-
+noorder
+/
 
 CREATE TABLE CSM_USER_GROUP ( 
 	USER_GROUP_ID NUMBER(38) NOT NULL,
 	USER_ID NUMBER(38) NOT NULL,
 	GROUP_ID NUMBER(38) NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_USER_GROU_USER_GROUP_I_SEQ
 increment by 1
 start with 1
@@ -332,7 +366,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 CREATE OR REPLACE TRIGGER SET_CSM_USER_GROU_USER_GROUP_I
 BEFORE INSERT
@@ -340,7 +375,7 @@ ON CSM_USER_GROUP
 FOR EACH ROW
 BEGIN
   SELECT CSM_USER_GROU_USER_GROUP_I_SEQ.NEXTVAL
-  INTO NEW.USER_GROUP_ID
+  INTO :NEW.USER_GROUP_ID
   FROM DUAL;
 END;
 /
@@ -354,7 +389,8 @@ CREATE TABLE CSM_USER_GROUP_ROLE_PG (
 	PROTECTION_GROUP_ID NUMBER(38) NOT NULL,
 	UPDATE_DATE DATE NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ
 increment by 1
 start with 1
@@ -362,15 +398,16 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
-
+noorder
+/
 
 CREATE TABLE CSM_USER_PE ( 
 	USER_PROTECTION_ELEMENT_ID NUMBER(38) NOT NULL,
 	PROTECTION_ELEMENT_ID NUMBER(38) NOT NULL,
 	USER_ID NUMBER(38) NOT NULL
 ) 
-;
+/
+
 CREATE SEQUENCE CSM_USER_PE_USER_PROTECTIO_SEQ
 increment by 1
 start with 1
@@ -378,7 +415,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
+noorder
+/
 
 CREATE TABLE CSM_MAPPING (
   MAPPING_ID NUMBER(38) NOT NULL ,
@@ -395,7 +433,8 @@ CREATE TABLE CSM_MAPPING (
   MAINTAINED_FLAG NUMBER(1) default '0' NOT NULL,    
   UPDATE_DATE DATE
 )
-;
+/
+
 CREATE SEQUENCE CSM_MAPPING_SEQ
 increment by 1
 start with 1
@@ -403,8 +442,8 @@ NOMAXVALUE
 minvalue 1
 nocycle
 nocache
-noorder;
-
+noorder
+/
 
 CREATE OR REPLACE TRIGGER SET_CSM_USER_PE_USER_PROTECTIO
 BEFORE INSERT
@@ -412,388 +451,314 @@ ON CSM_USER_PE
 FOR EACH ROW
 BEGIN
   SELECT CSM_USER_PE_USER_PROTECTIO_SEQ.NEXTVAL
-  INTO NEW.USER_PROTECTION_ELEMENT_ID
+  INTO :NEW.USER_PROTECTION_ELEMENT_ID
   FROM DUAL;
 END;
 /
 
 ALTER TABLE CSM_APPLICATION ADD CONSTRAINT PK_APPLICATION 
 PRIMARY KEY (APPLICATION_ID) 
-;
+/
 
 ALTER TABLE CSM_GROUP ADD CONSTRAINT PK_GROUP 
 PRIMARY KEY (GROUP_ID) 
-;
+/
 
 ALTER TABLE CSM_PG_PE ADD CONSTRAINT PK_PG_PE 
 PRIMARY KEY (PG_PE_ID) 
-;
+/
 
 ALTER TABLE CSM_PRIVILEGE ADD CONSTRAINT PK_PRIVILEGE 
 PRIMARY KEY (PRIVILEGE_ID) 
-;
+/
 
 ALTER TABLE CSM_PROTECTION_ELEMENT ADD CONSTRAINT PK_PROTECTION_ELEMENT 
 PRIMARY KEY (PROTECTION_ELEMENT_ID) 
-;
+/
 
 ALTER TABLE CSM_PROTECTION_GROUP ADD CONSTRAINT PK_PROTECTION_GROUP 
 PRIMARY KEY (PROTECTION_GROUP_ID) 
-;
+/
 
 ALTER TABLE CSM_ROLE ADD CONSTRAINT PK_ROLE 
 PRIMARY KEY (ROLE_ID) 
-;
+/
 
 ALTER TABLE CSM_FILTER_CLAUSE ADD CONSTRAINT PK_FILTER_CLAUSE 
 PRIMARY KEY (FILTER_CLAUSE_ID) 
-;
+/
 
 ALTER TABLE CSM_ROLE_PRIVILEGE ADD CONSTRAINT PK_ROLE_PRIVILEGE 
 PRIMARY KEY (ROLE_PRIVILEGE_ID) 
-;
+/
 
 ALTER TABLE CSM_USER ADD CONSTRAINT PK_USER 
 PRIMARY KEY (USER_ID) 
-;
+/
 
 ALTER TABLE CSM_USER_GROUP ADD CONSTRAINT PK_USER_GROUP 
 PRIMARY KEY (USER_GROUP_ID) 
-;
+/
 
 ALTER TABLE CSM_USER_GROUP_ROLE_PG ADD CONSTRAINT PK_USER_GROUP_ROLE_PG 
 PRIMARY KEY (USER_GROUP_ROLE_PG_ID) 
-;
+/
 
 ALTER TABLE CSM_USER_PE ADD CONSTRAINT PK_USER_PROTECTION_ELEMENT 
 PRIMARY KEY (USER_PROTECTION_ELEMENT_ID) 
-;
+/
 
 
 ALTER TABLE CSM_APPLICATION
 ADD CONSTRAINT UQ_APPLICATION_NAME UNIQUE (APPLICATION_NAME)
-;
+/
 ALTER TABLE CSM_GROUP
 ADD CONSTRAINT UQ_GROUP_GROUP_NAME UNIQUE (APPLICATION_ID, GROUP_NAME)
-;
+/
+
 ALTER TABLE CSM_PG_PE
 ADD CONSTRAINT UQ_PG_PE_PG_PE_ID UNIQUE (PROTECTION_ELEMENT_ID, PROTECTION_GROUP_ID)
-;
+/
+
 ALTER TABLE CSM_PRIVILEGE
 ADD CONSTRAINT UQ_PRIVILEGE_NAME UNIQUE (PRIVILEGE_NAME)
-;
+/
 
-ALTER TABLE CSM_PROTECTION_ELEMENT ADD CONSTRAINT UQ_PE_OBJ_ATT_VAL_APP_ID UNIQUE (OBJECT_ID, ATTRIBUTE, ATTRIBUTE_VALUE, APPLICATION_ID);
+ALTER TABLE CSM_PROTECTION_ELEMENT ADD CONSTRAINT UQ_PE_OBJ_ATT_VAL_APP_ID UNIQUE (OBJECT_ID, ATTRIBUTE, ATTRIBUTE_VALUE, APPLICATION_ID)
+/
 
 ALTER TABLE CSM_PROTECTION_GROUP
 ADD CONSTRAINT UQ_PG_PG_NAME UNIQUE (APPLICATION_ID, PROTECTION_GROUP_NAME)
-;
+/
+
 ALTER TABLE CSM_ROLE
 ADD CONSTRAINT UQ_ROLE_ROLE_NAME UNIQUE (APPLICATION_ID, ROLE_NAME)
-;
+/
+
 ALTER TABLE CSM_ROLE_PRIVILEGE
 ADD CONSTRAINT UQ_ROLE_ID_PRIVILEGE_ID UNIQUE (PRIVILEGE_ID, ROLE_ID)
-;
+/
+
 ALTER TABLE CSM_USER
 ADD CONSTRAINT UQ_LOGIN_NAME UNIQUE (LOGIN_NAME)
-;
+/
+
 ALTER TABLE CSM_USER_PE
 ADD CONSTRAINT UQ_USER_PE_PE_ID UNIQUE (USER_ID, PROTECTION_ELEMENT_ID)
-;
-
+/
 
 ALTER TABLE CSM_GROUP ADD CONSTRAINT FK_CSM_GROUP_CSM_APPLICATION 
 FOREIGN KEY (APPLICATION_ID) REFERENCES CSM_APPLICATION (APPLICATION_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_FILTER_CLAUSE ADD CONSTRAINT FK_CSM_FC_CSM_APPLICATION 
 FOREIGN KEY (APPLICATION_ID) REFERENCES CSM_APPLICATION (APPLICATION_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_PG_PE ADD CONSTRAINT FK_PG_PE_PE 
 FOREIGN KEY (PROTECTION_ELEMENT_ID) REFERENCES CSM_PROTECTION_ELEMENT (PROTECTION_ELEMENT_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_PG_PE ADD CONSTRAINT FK_PG_PE_PG 
 FOREIGN KEY (PROTECTION_GROUP_ID) REFERENCES CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_PROTECTION_ELEMENT ADD CONSTRAINT FK_PE_APPLICATION 
 FOREIGN KEY (APPLICATION_ID) REFERENCES CSM_APPLICATION (APPLICATION_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_PROTECTION_GROUP ADD CONSTRAINT FK_PG_APPLICATION 
 FOREIGN KEY (APPLICATION_ID) REFERENCES CSM_APPLICATION (APPLICATION_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_PROTECTION_GROUP ADD CONSTRAINT FK_PG_PG 
 FOREIGN KEY (PARENT_PROTECTION_GROUP_ID) REFERENCES CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID)
-;
+/
 
 ALTER TABLE CSM_ROLE ADD CONSTRAINT FK_ROLE_APPLICATION 
 FOREIGN KEY (APPLICATION_ID) REFERENCES CSM_APPLICATION (APPLICATION_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_ROLE_PRIVILEGE ADD CONSTRAINT FK_ROLE_PRIVILEGE_PRIVILEGE 
 FOREIGN KEY (PRIVILEGE_ID) REFERENCES CSM_PRIVILEGE (PRIVILEGE_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_ROLE_PRIVILEGE ADD CONSTRAINT FK_ROLE_PRIVILEGE_ROLE 
 FOREIGN KEY (ROLE_ID) REFERENCES CSM_ROLE (ROLE_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_GROUP ADD CONSTRAINT FK_USER_GROUP_GROUP 
 FOREIGN KEY (GROUP_ID) REFERENCES CSM_GROUP (GROUP_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_GROUP ADD CONSTRAINT FK_USER_GROUP_USER 
 FOREIGN KEY (USER_ID) REFERENCES CSM_USER (USER_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_GROUP_ROLE_PG ADD CONSTRAINT FK_USER_GROUP_ROLE_PG_GROUP 
 FOREIGN KEY (GROUP_ID) REFERENCES CSM_GROUP (GROUP_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_GROUP_ROLE_PG ADD CONSTRAINT FK_USER_GROUP_ROLE_PG_PG 
 FOREIGN KEY (PROTECTION_GROUP_ID) REFERENCES CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_GROUP_ROLE_PG ADD CONSTRAINT FK_USER_GROUP_ROLE_PG_ROLE 
 FOREIGN KEY (ROLE_ID) REFERENCES CSM_ROLE (ROLE_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_GROUP_ROLE_PG ADD CONSTRAINT FK_USER_GROUP_ROLE_PG_USER 
 FOREIGN KEY (USER_ID) REFERENCES CSM_USER (USER_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_PE ADD CONSTRAINT FK_USER_PE_USER 
 FOREIGN KEY (USER_ID) REFERENCES CSM_USER (USER_ID)
 ON DELETE CASCADE
-;
+/
 
 ALTER TABLE CSM_USER_PE ADD CONSTRAINT FK_USER_PE_PE 
 FOREIGN KEY (PROTECTION_ELEMENT_ID) REFERENCES CSM_PROTECTION_ELEMENT (PROTECTION_ELEMENT_ID)
 ON DELETE CASCADE
-;
-
-
+/
 
 ALTER TABLE CSM_MAPPING ADD CONSTRAINT PK_MAPPING 
 PRIMARY KEY (MAPPING_ID) 
-;
+/
 
 ALTER TABLE CSM_MAPPING
 ADD CONSTRAINT UQ_MP_OBJ_NAME_ATTRNAME_APP_ID UNIQUE (OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID)
-;
-
+/
 
 ALTER TABLE CSM_MAPPING ADD CONSTRAINT FK_MAPPING_APPLICATION  
 FOREIGN KEY (APPLICATION_ID) REFERENCES CSM_APPLICATION (APPLICATION_ID)
 ON DELETE CASCADE
-;
+/
 
+ALTER TABLE CSM_APPLICATION ADD ( CSM_VERSION VARCHAR2(20))
+/
 
-ALTER TABLE CSM_APPLICATION ADD ( CSM_VERSION VARCHAR2(20));
+COMMIT
+/
 
-COMMIT;
+-- 
+-- The following entries creates a super admin application incase you decide 
+-- to use this database to run UPT also. In that case you need to provide
+-- the project login id and name for the super admin.
+-- However in incase you are using this database just to host the application's
+-- authorization schema, these enteries are not used and hence they can be left as 
+-- it is.
+--
 
-#
-# The following entries creates a super admin application incase you decide 
-# to use this database to run UPT also. In that case you need to provide
-# the project login id and name for the super admin.
-# However in incase you are using this database just to host the application's
-# authorization schema, these enteries are not used and hence they can be left as 
-# it is.
-#
+insert into csm_application(APPLICATION_ID, APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
+values (1, 'csmupt','UPT Super Admin Application',0,0,sysdate)
+/
 
-INSERT INTO CSM_APPLICATION(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,CSM_VERSION,UPDATE_DATE)
-VALUES ("@upt.central.context.name@","CSM UPT Super Admin Application",0,0,"",sysdate());
+select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual
+/
 
-INSERT INTO CSM_USER (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-VALUES ("@super.admin.user@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
+values (1, '<<SuperAdmin>>','<<super_admin_first_name>>','<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',sysdate)
+/
 
-INSERT INTO CSM_USER (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-VALUES ("/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=parmarv","Vijay","Parmar","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+select CSM_USER_USER_ID_SEQ.nextval from dual
+/
+ 
+insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+values(1, 'csmupt','UPT Super Admin Application','csmupt',1,sysdate)
+/
 
-INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-VALUES("@upt.central.context.name@","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual
+/
 
-INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
-VALUES(1,1);
+insert into csm_user_pe(USER_PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_ID,USER_ID)
+values(1,1,1)
+/
 
-#
-# The following entry is for your application.
-# Replace <<application_context_name>> with your application name.
-#
+select CSM_USER_PE_USER_PROTECTIO_SEQ.nextval from dual
+/
 
+-- 
+-- The following entry is for your application. 
+-- Replace <<application_context>> with your application's context name.
+--
 
-INSERT INTO CSM_APPLICATION(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sampleHostApplicationName","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
+INSERT INTO csm_application(APPLICATION_ID, APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
+VALUES (2, '<<application_context_name>>','Application Description',0,0,sysdate)
+/
 
-INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-VALUES("sampleHostApplicationName","Admin Application Protection Element","sampleHostApplicationName",1,sysdate());
+select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual
+/
 
-INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
-VALUES(2,1);
+insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+values(2, '<<application_context_name>>','<<application_context_name>> Admin Application','<<application_context_name>>',1,sysdate)
+/
 
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample31","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual
+/
 
-INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-VALUES("sample31","Admin Application Protection Element","sample31",1,sysdate());
+--
+-- The following entries are Common Set of Privileges
+--
 
-INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
-VALUES(3,1);
+INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
+VALUES(1,'CREATE','This privilege grants permission to a user to create an entity. This entity can be an object, a database entry, or a resource such as a network connection', sysdate)
+/
 
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample32","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
+SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual
+/
 
-INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-VALUES("sample32","Admin Application Protection Element","sample32",1,sysdate());
+INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
+VALUES(2,'ACCESS','This privilege allows a user to access a particular resource.  Eg. network connection, database connection, socket, module of the application, or even the application itself', sysdate)
+/
 
-INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
-VALUES(4,1);
+SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual
+/
 
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample40","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
+INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
+VALUES(3,'READ','This privilege permits the user to read data from a file, URL, socket, database, or an object. This can be used at an entity level signifying that the user is allowed to read a data row or object', sysdate)
+/
 
-INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-VALUES("sample40","Admin Application Protection Element","sample40",1,sysdate());
+SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual
+/
 
-INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
-VALUES(5,1);
+INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
+VALUES(4,'WRITE','This privilege allows a user to write data to a file, URL, socket, database, or object. At an entity level it signified if user is allowed to write a data database row or object', sysdate)
+/
+SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual
+/
 
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample41","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
+INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
+VALUES(5,'UPDATE','This privilege grants permission At an entity level it signified if user is allowed to update and modify data for a particular entity.', sysdate)
+/
+SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual
+/
 
-INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-VALUES("sample41","Admin Application Protection Element","sample41",1,sysdate());
+INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
+VALUES(6,'DELETE','This privilege permits a user to delete a logical entity. This entity can be an object, a database entry, a resource such as a network connection, etc', sysdate)
+/
+SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual
+/
 
-INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
-VALUES(6,1);
+INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
+VALUES(7,'EXECUTE','This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc', sysdate)
+/
+SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual
+/
 
-INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,
-	DATABASE_URL,
-	DATABASE_USER_NAME ,
-	DATABASE_PASSWORD,
-	DATABASE_DIALECT,
-	DATABASE_DRIVER,
-	CSM_VERSION,
-	UPDATE_DATE)
-VALUES ("sample423","Application Description",0,0,
-	"jdbc:mysql://localhost:3306/csm_dev_bkwrdscmptbl_central",
-	"root",
-	"H/2qIBdj9TQ=",
-	"org.hibernate.dialect.MySQLDialect",
-	"org.gjt.mm.mysql.Driver","",
-	sysdate());
-
-INSERT INTO CSM_PROTECTION_ELEMENT(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-VALUES("sample423","Admin Application Protection Element","sample423",1,sysdate());
-
-INSERT INTO CSM_USER_PE(PROTECTION_ELEMENT_ID,USER_ID)
-VALUES(7,1);
-#
-# The following entries are Common Set of Privileges
-#
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("CREATE","This privilege grants permission to a user to create an entity. This entity can be an object, a database entry, or a resource such as a network connection", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("ACCESS","This privilege allows a user to access a particular resource.  Examples of resources include a network or database connection, socket, module of the application, or even the application itself", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("READ","This privilege permits the user to read data from a file, URL, database, an object, etc. This can be used at an entity level signifying that the user is allowed to read data about a particular entry", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("WRITE","This privilege allows a user to write data to a file, URL, database, an object, etc. This can be used at an entity level signifying that the user is allowed to write data about a particular entity", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("UPDATE","This privilege grants permission at an entity level and signifies that the user is allowed to update data for a particular entity. Entities may include an object, object attribute, database row etc", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("DELETE","This privilege permits a user to delete a logical entity. This entity can be an object, a database entry, a resource such as a network connection, etc", sysdate());
-
-INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
-VALUES("EXECUTE","This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc", sysdate());
+COMMIT
+/
