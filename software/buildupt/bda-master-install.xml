@@ -601,7 +601,23 @@ $HeadURL$
 		<if>
 			<isset property="jboss.exists"/>
 			<then>
-				<jboss-stop-jboss jboss.server.jndi.port="${jboss.server.jndi.port}"/>
+				<if>
+				    <equals arg1="${jboss.server.hostname}" arg2="localhost"/>
+				    <then>
+				    	<jboss-stop-jboss jboss.server.hostname="http://${jboss.server.hostname}" jboss.server.jndi.port="${jboss.server.port}"/>
+				    </then>
+				    <elseif>
+					 <equals arg1="${jboss.server.hostname}" arg2="127.0.0.1"/>
+					 <then>
+					 <jboss-stop-jboss jboss.server.hostname="http://${jboss.server.hostname}" jboss.server.jndi.port="${jboss.server.port}"/>
+					 </then>
+				    </elseif>
+				    <else>
+					<jboss-stop-jboss jboss.server.jndi.port="${jboss.server.port}"/>				    
+				    </else>
+				   </if>
+			
+				
 			</then>
 		</if>
 	</target>
@@ -657,9 +673,29 @@ $HeadURL$
 		common:init,
 		install:jboss:stop
 		">
+		
+	<if>
+            <equals arg1="${jboss.server.hostname}" arg2="localhost"/>
+            <then>
 		<validate-pre-jboss-ports
+			hostname="http://${jboss.server.hostname}"
+		/>
+	    </then>
+            <elseif>
+                 <equals arg1="${jboss.server.hostname}" arg2="127.0.0.1"/>
+	         <then>
+	         <validate-pre-jboss-ports
+			hostname="http://${jboss.server.hostname}"
 			/>
+	    	 </then>
+	    </elseif>
+	    <else>
+	         <validate-pre-jboss-ports
+			/>
+	    </else>
+	   </if>
 	</target>
+	
 	<target name="install:tomcat:validation:pre-install:ports" description="Checks to see if configured ports are listenting and fails buld, meant to be run after jboss:stop"
 		depends="
 		common:init,
