@@ -37,7 +37,7 @@
      </init-param>
      <init-param>
         <param-name>config</param-name>
-        <param-value>WEB-INF/conf/dwr.xml</param-value>
+        <param-value>/WEB-INF/conf/dwr.xml</param-value>
      </init-param>
    </servlet>
    
