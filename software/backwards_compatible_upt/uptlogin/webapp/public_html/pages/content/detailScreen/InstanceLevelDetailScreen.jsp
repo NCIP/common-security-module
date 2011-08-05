@@ -309,7 +309,7 @@
 												<input type="hidden" id="targetClassAttributeName" name="targetClassAttributeName" />
 												<input type="hidden" id="targetClassAttributeType" name="targetClassAttributeType" />
 												<td class="formField">
-													<html:select styleId="<%=formElement.getPropertyName() + "List"%>" style="formFieldSized" property="<%=formElement.getPropertyName() + "List"%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>">
+													<html:select styleId='<%=formElement.getPropertyName() + "List"%>' style="formFieldSized" property='<%=formElement.getPropertyName() + "List"%>' value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>">
 													</html:select>
 												</td>
 											</logic:equal>
