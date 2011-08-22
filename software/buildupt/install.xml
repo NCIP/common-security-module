@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<project name="csmupt-installer" default="upgrade" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csmupt-installer" default="install" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
 
@@ -1070,36 +1070,60 @@
 				<delete file="${temp.ear.dir}/${upt.32.url.context.name}.war"/>
 			</then>
 			<else>
-					<if>
-						<equals arg1="${upt.central.config}" arg2="true"/>
+				<if>
+				<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+					<then>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
 						<then>
-							<filterset id="upt.32.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.central.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 						</then>
 						<else>
-							<filterset id="upt.32.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.32.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.32.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.32.database.dialect}"/>
 						</else>
-					</if>
+						</if>
+					</then>
+					<else>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+						<then>
+							<property name="upt.jndi.name" value="comp/env/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+						</then>
+						<else>
+							<property name="upt.jndi.name" value="comp/env/${upt.32.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.32.database.dialect}"/>
+						</else>
+						</if>
+					</else>
+				</if>
+				<filterset id="upt.32.database.dialect.filterset">
+					<filter token="database.dialect" value="${upt.database.dialect}" />
+				</filterset>
+				<filterset id="upt.32.database.jndi.filterset">
+					<filter token="datasource.jndi.name" value="${upt.jndi.name}" />
+				</filterset>			
+				
 
-					<!-- unzip upt32.war and replace dialect, repackage war and delete temp dirs -->
-					<unzip dest="${temp.ear.dir}/tempupt32" src="${temp.ear.dir}/upt32.war"/>
-					<mkdir dir="${temp.ear.dir}/upt32"/>
-					<copy todir="${temp.ear.dir}/upt32" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt32"/>
-	y					</copy>
-					<copy todir="${temp.ear.dir}/upt32" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt32">
-							<include name="**/*.csm.new.hibernate.cfg.xml" />
-						</fileset>
-						<filterset refid="upt.32.database.dialect.filterset"/>
+				<!-- unzip upt32.war and replace dialect, repackage war and delete temp dirs -->
+				<unzip dest="${temp.ear.dir}/tempupt32" src="${temp.ear.dir}/upt32.war"/>
+				<mkdir dir="${temp.ear.dir}/upt32"/>
+				<copy todir="${temp.ear.dir}/upt32" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt32"/>
 					</copy>
+				<copy todir="${temp.ear.dir}/upt32" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt32">
+						<include name="**/*.csm.new.hibernate.cfg.xml" />
+					</fileset>
+					<filterset refid="upt.32.database.dialect.filterset"/>
+					<filterset refid="upt.32.database.jndi.filterset"/>
+				</copy>
 
-					<jar jarfile="${temp.ear.dir}/upt32.war" basedir="${temp.ear.dir}/upt32" />
-					<delete dir="${temp.ear.dir}/tempupt32" quiet="true"/>
-					<delete dir="${temp.ear.dir}/upt32" quiet="true"/>
+				<jar jarfile="${temp.ear.dir}/upt32.war" basedir="${temp.ear.dir}/upt32" />
+				<delete dir="${temp.ear.dir}/tempupt32" quiet="true"/>
+				<delete dir="${temp.ear.dir}/upt32" quiet="true"/>
 			</else>
 
 		</if>
@@ -1110,34 +1134,58 @@
 				<delete file="${temp.ear.dir}/${upt.40.url.context.name}.war"/>
 			</then>
 			<else>
-					<if>
-						<equals arg1="${upt.central.config}" arg2="true"/>
+				<if>
+				<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+					<then>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
 						<then>
-							<filterset id="upt.40.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.central.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 						</then>
 						<else>
-							<filterset id="upt.40.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.40.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.40.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.40.database.dialect}"/>
 						</else>
-					</if>
-					<!-- unzip upt40.war and replace dialect, repackage war and delete temp dirs -->
-					<unzip dest="${temp.ear.dir}/tempupt40" src="${temp.ear.dir}/upt40.war"/>
-					<mkdir dir="${temp.ear.dir}/upt40"/>
-					<copy todir="${temp.ear.dir}/upt40" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt40"/>
-					</copy>
-					<copy todir="${temp.ear.dir}/upt40" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt40">
-							<include name="**/*.csm.new.hibernate.cfg.xml" />
-						</fileset>
-						<filterset refid="upt.40.database.dialect.filterset"/>
-					</copy>
-					<jar jarfile="${temp.ear.dir}/upt40.war" basedir="${temp.ear.dir}/upt40" />
-					<delete dir="${temp.ear.dir}/tempupt40" quiet="true"/>
-					<delete dir="${temp.ear.dir}/upt40" quiet="true"/>
+						</if>
+					</then>
+					<else>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+						<then>
+							<property name="upt.jndi.name" value="comp/env/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+						</then>
+						<else>
+							<property name="upt.jndi.name" value="comp/env/${upt.40.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.40.database.dialect}"/>
+						</else>
+						</if>
+					</else>
+				</if>
+				<filterset id="upt.40.database.dialect.filterset">
+					<filter token="database.dialect" value="${upt.database.dialect}" />
+				</filterset>
+				<filterset id="upt.40.database.jndi.filterset">
+					<filter token="datasource.jndi.name" value="${upt.jndi.name}" />
+				</filterset>			
+				
+				<!-- unzip upt40.war and replace dialect, repackage war and delete temp dirs -->
+				<unzip dest="${temp.ear.dir}/tempupt40" src="${temp.ear.dir}/upt40.war"/>
+				<mkdir dir="${temp.ear.dir}/upt40"/>
+				<copy todir="${temp.ear.dir}/upt40" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt40"/>
+				</copy>
+				<copy todir="${temp.ear.dir}/upt40" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt40">
+						<include name="**/*.csm.new.hibernate.cfg.xml" />
+					</fileset>
+					<filterset refid="upt.40.database.dialect.filterset"/>
+					<filterset refid="upt.40.database.jndi.filterset"/>
+				</copy>
+				<jar jarfile="${temp.ear.dir}/upt40.war" basedir="${temp.ear.dir}/upt40" />
+				<delete dir="${temp.ear.dir}/tempupt40" quiet="true"/>
+				<delete dir="${temp.ear.dir}/upt40" quiet="true"/>
 			</else>
 
 		</if>
@@ -1148,35 +1196,58 @@
 				<delete file="${temp.ear.dir}/${upt.41.url.context.name}.war"/>
 			</then>
 			<else>
-					<if>
-						<equals arg1="${upt.central.config}" arg2="true"/>
+				<if>
+				<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+					<then>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
 						<then>
-							<filterset id="upt.41.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.central.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 						</then>
 						<else>
-							<filterset id="upt.41.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.41.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.41.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.41.database.dialect}"/>
 						</else>
-					</if>
+						</if>
+					</then>
+					<else>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+						<then>
+							<property name="upt.jndi.name" value="comp/env/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+						</then>
+						<else>
+							<property name="upt.jndi.name" value="comp/env/${upt.41.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.41.database.dialect}"/>
+						</else>
+						</if>
+					</else>
+				</if>
+				<filterset id="upt.41.database.dialect.filterset">
+					<filter token="database.dialect" value="${upt.database.dialect}" />
+				</filterset>
+				<filterset id="upt.41.database.jndi.filterset">
+					<filter token="datasource.jndi.name" value="${upt.jndi.name}" />
+				</filterset>
 
-					<!-- unzip upt41.war and replace dialect, repackage war and delete temp dirs -->
-					<unzip dest="${temp.ear.dir}/tempupt41" src="${temp.ear.dir}/upt41.war"/>
-					<mkdir dir="${temp.ear.dir}/upt41"/>
-					<copy todir="${temp.ear.dir}/upt41" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt41"/>
-					</copy>
-					<copy todir="${temp.ear.dir}/upt41" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt41">
-							<include name="**/*.csm.new.hibernate.cfg.xml" />
-						</fileset>
-						<filterset refid="upt.41.database.dialect.filterset"/>
-					</copy>
-					<jar jarfile="${temp.ear.dir}/upt41.war" basedir="${temp.ear.dir}/upt41" />
-					<delete dir="${temp.ear.dir}/tempupt41" quiet="true"/>
-					<delete dir="${temp.ear.dir}/upt41" quiet="true"/>
+				<!-- unzip upt41.war and replace dialect, repackage war and delete temp dirs -->
+				<unzip dest="${temp.ear.dir}/tempupt41" src="${temp.ear.dir}/upt41.war"/>
+				<mkdir dir="${temp.ear.dir}/upt41"/>
+				<copy todir="${temp.ear.dir}/upt41" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt41"/>
+				</copy>
+				<copy todir="${temp.ear.dir}/upt41" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt41">
+						<include name="**/*.csm.new.hibernate.cfg.xml" />
+					</fileset>
+					<filterset refid="upt.41.database.dialect.filterset"/>
+					<filterset refid="upt.41.database.jndi.filterset"/>
+				</copy>
+				<jar jarfile="${temp.ear.dir}/upt41.war" basedir="${temp.ear.dir}/upt41" />
+				<delete dir="${temp.ear.dir}/tempupt41" quiet="true"/>
+				<delete dir="${temp.ear.dir}/upt41" quiet="true"/>
 
 			</else>
 
@@ -1188,35 +1259,58 @@
 				<delete quiet="true" file="${temp.ear.dir}/${upt.42.url.context.name}.war"/>
 			</then>
 			<else>
-					<if>
-						<equals arg1="${upt.central.config}" arg2="true"/>
+				<if>
+				<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+					<then>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
 						<then>
-							<filterset id="upt.42.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.central.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 						</then>
 						<else>
-							<filterset id="upt.42.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.42.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.42.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.42.database.dialect}"/>
 						</else>
-					</if>
+						</if>
+					</then>
+					<else>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+						<then>
+							<property name="upt.jndi.name" value="comp/env/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+						</then>
+						<else>
+							<property name="upt.jndi.name" value="comp/env/${upt.42.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.42.database.dialect}"/>
+						</else>
+						</if>
+					</else>
+				</if>
+				<filterset id="upt.42.database.dialect.filterset">
+					<filter token="database.dialect" value="${upt.database.dialect}" />
+				</filterset>
+				<filterset id="upt.42.database.jndi.filterset">
+					<filter token="datasource.jndi.name" value="${upt.jndi.name}" />
+				</filterset>
 
-					<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
-					<unzip dest="${temp.ear.dir}/tempupt42" src="${temp.ear.dir}/upt42.war"/>
-					<mkdir dir="${temp.ear.dir}/upt42"/>
-					<copy todir="${temp.ear.dir}/upt42" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt42"/>
-					</copy>
-					<copy todir="${temp.ear.dir}/upt42" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt42">
-							<include name="**/*.csm.new.hibernate.cfg.xml" />
-						</fileset>
-						<filterset refid="upt.42.database.dialect.filterset"/>
-					</copy>
-					<jar jarfile="${temp.ear.dir}/upt42.war" basedir="${temp.ear.dir}/upt42" />
-					<delete dir="${temp.ear.dir}/tempupt42" quiet="true"/>
-					<delete dir="${temp.ear.dir}/upt42" quiet="true"/>
+				<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
+				<unzip dest="${temp.ear.dir}/tempupt42" src="${temp.ear.dir}/upt42.war"/>
+				<mkdir dir="${temp.ear.dir}/upt42"/>
+				<copy todir="${temp.ear.dir}/upt42" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt42"/>
+				</copy>
+				<copy todir="${temp.ear.dir}/upt42" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt42">
+						<include name="**/*.csm.new.hibernate.cfg.xml" />
+					</fileset>
+					<filterset refid="upt.42.database.dialect.filterset"/>
+					<filterset refid="upt.42.database.jndi.filterset"/>
+				</copy>
+				<jar jarfile="${temp.ear.dir}/upt42.war" basedir="${temp.ear.dir}/upt42" />
+				<delete dir="${temp.ear.dir}/tempupt42" quiet="true"/>
+				<delete dir="${temp.ear.dir}/upt42" quiet="true"/>
 			</else>
 
 		</if>
@@ -1227,40 +1321,107 @@
 				<delete quiet="true" file="${temp.ear.dir}/${upt.423.url.context.name}.war"/>
 			</then>
 			<else>
-					<if>
-						<equals arg1="${upt.central.config}" arg2="true"/>
+				<if>
+				<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+					<then>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
 						<then>
-							<filterset id="upt.423.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.central.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 						</then>
 						<else>
-							<filterset id="upt.423.database.dialect.filterset">
-								<filter token="database.dialect" value="${upt.423.database.dialect}" />
-							</filterset>
+							<property name="upt.jndi.name" value="/${upt.423.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
 						</else>
-					</if>
+						</if>
+					</then>
+					<else>
+						<if>
+						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+						<then>
+							<property name="upt.jndi.name" value="comp/env/${upt.central.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+						</then>
+						<else>
+							<property name="upt.jndi.name" value="comp/env/${upt.423.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
+						</else>
+						</if>
+					</else>
+				</if>
+				<filterset id="upt.423.database.dialect.filterset">
+					<filter token="database.dialect" value="${upt.database.dialect}" />
+				</filterset>
+				<filterset id="upt.423.database.jndi.filterset">
+					<filter token="datasource.jndi.name" value="${upt.jndi.name}" />
+				</filterset>
 
-					<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
-					<unzip dest="${temp.ear.dir}/tempupt423" src="${temp.ear.dir}/upt423.war"/>
-					<mkdir dir="${temp.ear.dir}/upt423"/>
-					<copy todir="${temp.ear.dir}/upt423" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt423"/>
-					</copy>
-					<copy todir="${temp.ear.dir}/upt423" overwrite="true">
-						<fileset dir="${temp.ear.dir}/tempupt423">
-							<include name="**/*.csm.new.hibernate.cfg.xml" />
-						</fileset>
-						<filterset refid="upt.423.database.dialect.filterset"/>
-					</copy>
-					<jar jarfile="${temp.ear.dir}/upt423.war" basedir="${temp.ear.dir}/upt423" />
-					<delete dir="${temp.ear.dir}/tempupt423" quiet="true"/>
-					<delete dir="${temp.ear.dir}/upt423" quiet="true"/>
+				<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
+				<unzip dest="${temp.ear.dir}/tempupt423" src="${temp.ear.dir}/upt423.war"/>
+				<mkdir dir="${temp.ear.dir}/upt423"/>
+				<copy todir="${temp.ear.dir}/upt423" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt423"/>
+				</copy>
+				<copy todir="${temp.ear.dir}/upt423" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt423">
+						<include name="**/*.csm.new.hibernate.cfg.xml" />
+					</fileset>
+					<filterset refid="upt.423.database.dialect.filterset"/>
+					<filterset refid="upt.423.database.jndi.filterset"/>
+				</copy>
+				<if>
+				<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+				<then>
+					<delete file="${temp.ear.dir}/upt423/WEB-INF/lib/log4j-1.2.16.jar"/>
+				</then>
+				</if>
+				<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/upt423/WEB-INF/lib/clm-4.1.1.jar"/>
+				<jar jarfile="${temp.ear.dir}/upt423.war" basedir="${temp.ear.dir}/upt423" />
+				<delete dir="${temp.ear.dir}/tempupt423" quiet="true"/>
+				<delete dir="${temp.ear.dir}/upt423" quiet="true"/>
 			</else>
 
 		</if>
 
-		<!-- unzip uptlogin.war and replace dialect, repackage war and delete temp dirs -->
+		<!-- unzip uptlogin.war and replace dialect, jndi, repackage war and delete temp dirs -->
+		<if>
+		<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+			<then>
+				<if>
+				<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+				<then>
+					<property name="upt.jndi.name" value="/${upt.central.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+				</then>
+				<else>
+					<property name="upt.jndi.name" value="/${upt.423.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
+				</else>
+				</if>
+			</then>
+			<else>
+				<if>
+				<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+				<then>
+					<property name="upt.jndi.name" value="comp/env/${upt.central.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+				</then>
+				<else>
+					<property name="upt.jndi.name" value="comp/env/${upt.423.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
+				</else>
+				</if>
+			</else>
+		</if>
+
+		<filterset id="upt.423.database.dialect.filterset">
+			<filter token="database.dialect" value="${upt.database.dialect}" />
+		</filterset>
+		<filterset id="upt.423.database.jndi.filterset">
+			<filter token="datasource.jndi.name" value="${upt.jndi.name}" />
+		</filterset>
+
 		<unzip dest="${temp.ear.dir}/tempuptlogin" src="${temp.ear.dir}/uptlogin.war"/>
 		<mkdir dir="${temp.ear.dir}/uptlogin"/>
 		<copy todir="${temp.ear.dir}/uptlogin" overwrite="true">
@@ -1270,9 +1431,16 @@
 				<fileset dir="${temp.ear.dir}/tempuptlogin">
 							<include name="**/*.csm.new.hibernate.cfg.xml" />
 						</fileset>
-				<filterset refid="upt.42.database.dialect.filterset"/>
+				<filterset refid="upt.423.database.dialect.filterset"/>
+				<filterset refid="upt.423.database.jndi.filterset"/>
 		</copy>
-
+		<if>
+		<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+		<then>
+			<delete file="${temp.ear.dir}/uptlogin/WEB-INF/lib/log4j-1.2.16.jar"/>
+		</then>
+		</if>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/uptlogin/WEB-INF/lib/clm-4.1.1.jar"/>
 		<jar jarfile="${temp.ear.dir}/uptlogin.war" basedir="${temp.ear.dir}/uptlogin" />
 		<delete dir="${temp.ear.dir}/tempuptlogin" quiet="true"/>
 		<delete dir="${temp.ear.dir}/uptlogin" quiet="true"/>

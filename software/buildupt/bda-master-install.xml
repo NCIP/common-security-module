@@ -268,7 +268,7 @@ $HeadURL$
 			</case>
 			<case value="postgresql">
 				<property name="database.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-8.3-603.jdbc3.jar"/>
+				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
 				<property name="database.driver" value="org.postgresql.Driver"/>
 				<property name="database.schema" value="public"/>
 			</case>
