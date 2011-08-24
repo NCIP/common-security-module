@@ -39,6 +39,20 @@
 		</fileset>
 	</path>
 
+	<target name="ivy-settings" depends="-init">
+		<ivy:settings file="${ivy.settings.file}" />
+	</target>
+
+	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="compile" />
+		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+	</target>
+
+	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
+		<ivy:resolve refresh="true" conf="runtime" />
+		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
+	</target>
+
 
 	<target name="-init" description="Initializes the system before a build">
 		<!-- Create the time stamp -->
@@ -47,7 +61,7 @@
 		<mkdir dir="${local.repo.dir}" />
 	</target>
 
-	<target name="compile" depends="-init" description="compile the source ">
+	<target name="compile" depends="ivy-compile" description="compile the source ">
 
 		<!-- Compile the java code from ${src.dir} into ${classes.dir} -->
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" deprecation="true" classpathref="project.compile.classpath" />
