@@ -149,7 +149,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copyInstallSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.423.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.423.url.context.name}/resources/"/>
+		<copyInstallSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
 
 		<copyUpgradeSQLFiles upt.version="${upt.31.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.31.url.context.name}/resources/"/>
@@ -157,7 +157,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copyUpgradeSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.423.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.423.url.context.name}/resources/"/>
+		<copyUpgradeSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
 
 		<dist-prep />
@@ -205,7 +205,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copyUpgradeSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.423.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.423.url.context.name}/resources/"/>
+		<copyUpgradeSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
 
 		<!-- For non DAC upgrades -->
 		<dist-prep
