@@ -222,28 +222,28 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<target name="install:jboss:configure:target_grid">
 		<!-- configure target grid -->
 		<switch value="${target_grid}">
-			<case value="training-1.3">
+			<case value="training-1.4">
 				<property name="SERVICE_NAME" value="caGrid Training" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://dorian.training.cagrid.org:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
-			<case value="nci_dev-1.3">
+			<case value="nci_dev-1.4">
 				<property name="SERVICE_NAME" value="caGrid Dev" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cbiovdev5035.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
-			<case value="nci_qa-1.3">
+			<case value="nci_qa-1.4">
 				<property name="SERVICE_NAME" value="caGrid QA" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian-qa.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
-			<case value="nci_stage-1.3">
-				<property name="SERVICE_NAME" value="caGrid Staging 1.3" />
+			<case value="nci_stage-1.4">
+				<property name="SERVICE_NAME" value="caGrid Staging 1.4" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
-			<case value="nci_prod-1.3">
-				<property name="SERVICE_NAME" value="caGrid Prod 1.3" />
+			<case value="nci_prod-1.4">
+				<property name="SERVICE_NAME" value="caGrid Prod 1.4" />
 				<property name="CAGRID_AUTHENTICATION_SERVICE_URL" value="https://cagrid-dorian.nci.nih.gov:8443/wsrf/services/cagrid/Dorian" />
 				<property name="CAGRID_DORIAN_SERVICE_URL" value="${CAGRID_AUTHENTICATION_SERVICE_URL}" />
 			</case>
@@ -425,7 +425,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</copy>
 		<copy tofile="${jboss.home}/server/default/deploy/jbossweb-tomcat55.sar/cgmmapi.jar" file="${cgmmweb.dir.dist}/jars/jbossweb-tomcat55-sar-cgmmapi.jar" overwrite="true">
 		</copy>
-		<copy todir="${jboss.home}/server/default/lib" file="${cgmmweb.dir.dist}/clm-4.2.jar" overwrite="true">
+		<copy todir="${jboss.home}/server/default/lib" file="${cgmmweb.dir.dist}/clm-4.1.1.jar" overwrite="true">
 		</copy>
 	</target>
 </project>
