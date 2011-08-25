@@ -173,6 +173,7 @@ $HeadURL$
 	-->
 	<ant inheritAll="false" inheritRefs="false" antfile="${bda-download.file}" target="retrieve-bda" dir="${bda-download.dir}">
 		<property name="bda.version" value="${bda.version}" />
+		<property name="ant.lib.dir" value="${env.ANT_HOME}/lib" />
 		<property name="bda-utils.dir" location="${bda-utils.dir}" />
 		<property name="lib.dir" location="${lib.dir}" />
 		<property name="software.dir" location="${software.dir}" />
@@ -184,6 +185,7 @@ $HeadURL$
 		<property name="target.dir" location="${target.dir}"/>
 		<property name="local.cbiit-ivy-repo.dir" value="${local.cbiit-ivy-repo.dir}"/>
 	</ant>
+	
 	
 	<!-- Paths -->
 	<path id="bda-utils.classpath">
@@ -238,6 +240,7 @@ $HeadURL$
 		<delete dir="${dist.dir}" />
 		<delete dir="${temp.dir}" />
 	</target>
+
 
 	<target name="init" description="Sets up build are and initalizes variables">
 		<echo message=" ______   ______   _______ " />

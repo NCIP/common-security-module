@@ -389,6 +389,27 @@ $HeadURL$
 		<property name="db.prop.list" value="database.url,database.user,database.password,database.name"/>
 		<echo  message="Checking if database properties exist: ${db.prop.list}"/>
 		<properties-exist properties.list="${db.prop.list}"/>
+		<filterset id="embedded.filterset">
+			<filter token="application.base.path" value="${application.base.path}"/>
+			<filter token="application.url" value="${application.url}"/>
+			<filter token="database.url" value="${database.url}"/>
+			<filter token="database.user" value="${database.user}"/>
+			<filter token="database.password" value="${database.password}"/>
+			<filter token="database.system.url" value="${database.system.url}"/>
+			<!-- added internal properties that may be used in a filtered copy -->
+			<filter token="database.driver" value="${database.driver}"/>
+			<!-- added for liquibase -->
+			<filter token="db-upgrade.run.dir" value="${db-upgrade.dir.dest}/${database.type}"/>
+			<filter token="jboss.home" value="${jboss.home}"/>
+			<filter token="tomcat.home" value="${tomcat.home}"/>
+			<filter token="database.dialect" value="${database.dialect}"/>
+			<filter token="hibernate.cfg.file.path" value="${hibernate.cfg.file.path}"/>
+			<filter token="env.LOGNAME" value="${env.LOGNAME}"/>
+			<filter token="env.JAVA_HOME" value="${env.JAVA_HOME}"/>
+			<filter token="project.name" value="project.name"/>
+			<filter token="" value=""/>
+		</filterset>
+
 		<echoproperties prefix="database"/>
 		<copy todir="${db.dir.dest}" filtering="true">
 			<fileset dir="${db.dir.src}">

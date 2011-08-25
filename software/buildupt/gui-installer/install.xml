@@ -20,13 +20,13 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<property name="target.location" location="${software.location}/target" />
 	<property name="dist.location" location="${target.location}/dist" />
 	<property name="bda-utils.dir" location="${target.location}/bda-utils" />
-	<property name="ant.lib.dir" location="${target.location}/apache-ant-1.7.0/lib" />
+	<property name="ant.lib.dir" location="${target.location}/apache-ant-1.8.0/lib" />
 	<property name="custom.resource.dir" location="${target.location}/izpack-custom/resources"/>
 	<property name="project.name" value="csmupt"/>
 	<property name="installer.dir" value=".installer-${project.name}"/>
 	<property name="gui-installer.dist.base.name" value="csmupt_gui_distribution_${csm.version}.jar"/>
-	<property name="install.zip.file" value="csm_install4.2.3.zip"/>
-	<property name="upgrade.zip.file" value="csm_upgrade4.2.3.zip"/>
+	<property name="install.zip.file" value="csm_install4.2.4.zip"/>
+	<property name="upgrade.zip.file" value="csm_upgrade4.2.4.zip"/>
 
 	<echoproperties/>
 <echo message="compile.jar.dir ::: ${compile.jar.dir}"/>
@@ -477,9 +477,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</pack>
 
 				</packs>
-				<jar src="@{bda-utils.dir}/ant-1.7.0.jar" stage="both" />
-				<jar src="@{bda-utils.dir}/ant-launcher-1.7.0.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/ant-nodeps-1.7.0.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/ant-1.8.0.jar" stage="both" />
+				<jar src="@{bda-utils.dir}/ant-launcher-1.8.0.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/ant-nodeps-1.8.0.jar" stage="both"/>
 				<jar src="@{bda-utils.dir}/xml-commons-resolver-1.2.jar" stage="both"/>
 				<jar src="@{bda-utils.dir}/mysql-connector-java-5.1.13.jar" stage="both"/>
 				<jar src="@{bda-utils.dir}/ojdbc14-10.2.0.3.0.jar" stage="both"/>
