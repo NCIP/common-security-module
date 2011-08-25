@@ -159,6 +159,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</condition>
 
 					<!-- UPT Installation  non-central  - UPT 31,32,40,41,42 installed?-->
+					<condition type="variable" id="install.upt423">
+						<name>upt.423.installed</name>
+						<value>true</value>
+					</condition>
 					<condition type="variable" id="install.upt42">
 						<name>upt.42.installed</name>
 						<value>true</value>
@@ -181,6 +185,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</condition>
 
 					<!-- Recreate Schema  - central,31,32,40,41,42 ? -->
+					<condition type="variable" id="recreate.schema.upt423">
+						<name>upt.423.database.re-create</name>
+						<value>true</value>
+					</condition>
 					<condition type="variable" id="recreate.schema.upt42">
 						<name>upt.42.database.re-create</name>
 						<value>true</value>
@@ -302,7 +310,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="mail.smtp.server" value=""  condition="container.database"/>
 
 					<!-- Conditionals for chosen Central Installation -->
-
+					<variable name="upt.423.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>
