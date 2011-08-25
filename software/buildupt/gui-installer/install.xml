@@ -492,6 +492,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<jar src="@{ant.lib.dir}/ant-apache-oro.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-apache-regexp.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-apache-resolver.jar" stage="both" />
+				<jar src="@{ant.lib.dir}/ant-apache-xalan2.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-commons-logging.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-commons-net.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-jai.jar" stage="both" />
@@ -504,12 +505,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<jar src="@{ant.lib.dir}/ant-launcher.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-netrexx.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-nodeps.jar" stage="both" />
-				<jar src="@{ant.lib.dir}/ant-starteam.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-stylebook.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-swing.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-testutil.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-trax.jar" stage="both" />
-				<jar src="@{ant.lib.dir}/ant-weblogic.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/xercesImpl.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/xml-apis.jar" stage="both" />
 

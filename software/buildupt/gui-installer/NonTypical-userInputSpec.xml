@@ -540,7 +540,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			</spec>
 		</field>
 		<field type="radio" variable="upt.42.installed">
-			<description align="left" txt="Include support for UPT version 4.2?"/>
+			<description align="left" txt="Include support for UPT version 4.2.1?"/>
+			<spec>
+				<choice txt="Yes"  value="true" />
+				<choice txt="No" value="false" set="true"/>
+			</spec>
+		</field>
+		<field type="radio" variable="upt.424.installed">
+			<description align="left" txt="Include support for UPT version 4.2.4?"/>
 			<spec>
 				<choice txt="Yes"  value="true" />
 				<choice txt="No" value="false" set="true"/>
@@ -689,11 +696,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 <panel order="8">
 		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2. more information here.."/>
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2.4. more information here.."/>
 		<field type="divider" align="top"/>
 		<!-- Recreate DB? -->
 		<field type="radio" variable="upt.42.database.re-create">
-			<description align="left" txt="Recreate the UPT 4.2 schema?"/>
+			<description align="left" txt="Recreate the UPT 4.2.4 schema?"/>
 			<spec>
 				<choice txt="Yes"  value="true" />
 				<choice txt="No" value="false" set="true"/>
@@ -757,7 +764,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<!--  UPT 42 Authentication  -->
 	<panel order="9">
 		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2. more information here.."/>
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2.4. more information here.."/>
 		<field type="divider" align="top"/>
 		<!-- Authentication Type? -->
 		<field type="radio" variable="upt.42.authentication.type">

@@ -40,7 +40,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<!-- Installation Type -->
 	<panel order="1">
 		<field type="title" txt="Installation Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="This installation wizard allows Typical installation of UPT v4.2 (Single CSM UPT in a container that refers to a single CSM UPT Schema)."/>
+		<field type="staticText" align="left" txt="This installation wizard allows Typical installation of UPT v4.2.4 (Single CSM UPT in a container that refers to a single CSM UPT Schema)."/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="installation.type">
 			<description align="left" txt="Installation Type?"/>
@@ -99,7 +99,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 		<field type="space"/>
 		<field type="divider" align="top"/>
-		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing (Original) CSM UPT Schema to CSM UPT Schema version 4.2. Specify current original CSM UPT Schema version."/>
+		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing (Original) CSM UPT Schema to CSM UPT Schema version 4.2.4. Specify current original CSM UPT Schema version."/>
 		<field type="text" variable="upgrade.upt.central.db.previous.version">
 			<spec txt="Original CSM Schema Version" size="15" set="3.1"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Original CSM Schema Version is a required field" />
@@ -605,7 +605,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Server Port [${jboss.server.port}] - This is the HTTP port for JBoss.  If you want to make this Application avaliable from the internet you may need to provide this to your network administrator."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach CSM UPT 4.2 application when the installation process is finished."/>
+		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach CSM UPT 4.2.4 application when the installation process is finished."/>
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Log Dir [${jboss.home}/server/${jboss.server.name}] - This is where the logs can be found."/>
 

@@ -1,14 +1,14 @@
-Release Name: CSM UPT 4.2
+Release Name: CSM UPT 4.2.4
 
 Notes:
-CSM UPT Release Name: 4.2
+CSM UPT Release Name: 4.2.4
 Notes:
 Release Notes
 =============
  
   #Product:#	csmupt
-  #Version:#	4.2
-  #Date:#	August 2009
+  #Version:#	4.2.4
+  #Date:#	September 2011
 
 Contents
 --------
@@ -23,12 +23,13 @@ Contents
 
 Introduction
 ---------------------------
- 
+CSM/UPT 4.2.4 release is to support NCI CBIIT 2011 technology stack - Future . 
+Please see https://wiki.nci.nih.gov/display/TechStack/Technology+Stack+Overview for details on technology stack
 
 Release History
 ------------------------
  
-    * CSM UPT v4.2		-- August 2009
+    * CSM UPT v4.2.4		-- September 2011
 
 
 Features
@@ -52,6 +53,7 @@ NCICB Web Pages
     * The NCI Center for Bioinformatics, http://ncicb.nci.nih.gov/
     * NCICB Application Support, http://ncicb.nci.nih.gov/NCICB/support
     * NCICB Download Center, http://ncicb.nci.nih.gov/download/
+    * CSM Knowledge Center Forum, https://cabig-kc.nci.nih.gov/CaGrid/forums/viewforum.php?f=26&sid=0fa2833fb89cbc1deb1eb3f4a50fe5b1
 
 
 
