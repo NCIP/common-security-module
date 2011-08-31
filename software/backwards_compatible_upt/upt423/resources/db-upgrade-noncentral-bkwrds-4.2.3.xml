@@ -12,16 +12,7 @@
 		</or>
 	</preConditions>
 
-	<changeSet author="upt-bkwrds-42" id="1">
-		<sql>update CSM_APPLICATION
-			set APPLICATION_NAME ='csmupt42'
-			where APPLICATION_NAME='csmupt';
-        </sql>
-		<sql>update CSM_PROTECTION_ELEMENT
-			set PROTECTION_ELEMENT_NAME ='csmupt42', OBJECT_ID='csmupt42'
-			where PROTECTION_ELEMENT_NAME='csmupt';
-        </sql>
-
+	<changeSet author="upt-bkwrds-423" id="1">
 	</changeSet>
 </databaseChangeLog>
 
