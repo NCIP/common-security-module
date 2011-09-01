@@ -12,8 +12,7 @@
 		</or>
 	</preConditions>
 
-	<changeSet author="upt-bkwrds-423" id="1">
+	<changeSet author="uptdb423" id="1">
 
 	</changeSet>
 </databaseChangeLog>
-
