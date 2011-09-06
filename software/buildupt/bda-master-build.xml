@@ -583,7 +583,7 @@ $HeadURL$
 
 		<obfuscate-properties-file
 			properties.file="${dist.exploded.dir}/upgrade.properties"
-			comment.property.list="application.base.path.windows,application.base.path.linux,jboss.relative.path,tomcat.relative.path"
+			comment.property.list="application.base.path.windows,application.base.path.linux"
 			uncomment.property.list="application.base.path,tomcat.home,jboss.home"
 			required.property.list="application.base.path,jboss.home,jboss.server.name,tomcat.home"
 			optional.property.list=""
