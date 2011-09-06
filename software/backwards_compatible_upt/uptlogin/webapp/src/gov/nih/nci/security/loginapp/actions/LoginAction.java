@@ -62,8 +62,6 @@ public class LoginAction extends Action
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
 
-
-
 		ActionErrors errors = new ActionErrors();
 
 		AuthenticationManager authenticationManager = null;
@@ -231,11 +229,9 @@ public class LoginAction extends Action
 			//String[] currentUptContextNames = { "csmupt41","csmupt40","csmupt32"};
 
 			boolean authorizationSuccess = false;
-			for(int i=0;i<forLoopCount; i++){
-
+			for(int i=0;i<forLoopCount; i++)
+			{
 				if(authorizationSuccess) continue;
-
-
 
 				boolean isLastContext = false;
 				if(forLoopCount==1){
@@ -258,12 +254,7 @@ public class LoginAction extends Action
 
 				}
 
-
-
 				uptContextName = currentUptContextName;
-
-
-
 
 				try
 				{
@@ -271,6 +262,7 @@ public class LoginAction extends Action
 				}
 				catch (CSException cse)
 				{
+					cse.printStackTrace();
 					// Probably CSM UPT for this context is not configured correctly or not available.
 
 					continue;
@@ -318,13 +310,13 @@ public class LoginAction extends Action
 				{
 
 					application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-
 					if(application!= null && isCentralUPTwithCSMUPTContext){
 
 						// Determine the UPT Application Context Name for the non-superadmin Application.
 						String csmversion = getCSMVersionForApplicationViaJDBC(uptContextName, application.getApplicationName());
 
 						if(DisplayConstants.UPT_CONTEXT_NAME.equalsIgnoreCase(application.getApplicationName())){
+							//uptApplicationContextName = "uptlogin";
 							// no need to specify the uptApplicationContextName again since its already done above.
 						}else{
 
@@ -346,8 +338,8 @@ public class LoginAction extends Action
 								if(csmversion.equalsIgnoreCase("4.2")){
 									uptApplicationContextName = "upt42";
 								}
-								if(csmversion.equalsIgnoreCase("4.3")){
-									uptApplicationContextName = "upt43";
+								if(csmversion.equalsIgnoreCase("4.2.3")){
+									uptApplicationContextName = "upt423";
 								}
 							}
 						}
@@ -394,7 +386,6 @@ public class LoginAction extends Action
 
 			}
 
-
 		HttpSession session = request.getSession(true);
 
 		authenticationManager = null;
@@ -403,13 +394,12 @@ public class LoginAction extends Action
 		request.setAttribute("LOGIN_OBJECT",loginForm);
 
 		if(isCentralUPTwithCSMUPTContext){
+
 			// Based on the application (non SuperAdmin) context name, determine the version of CSM schema.
 			// a) modify csm_application table and add column to indicate version of the application.
 			// b) Retrieve the version column details for the 'uptContextName'
 			// c)in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName),
 			//    make sure uptApplicationContextName is appropriately set.
-
-
 
 			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
 		}else{
@@ -429,9 +419,6 @@ public class LoginAction extends Action
 		}
 		else
 		{
-
-
-
 			if (log.isDebugEnabled())
 				log.debug(session.getId()+"|"+loginForm.getLoginId()+
 				"||Login|Success|Login Successful for user "+loginForm.getLoginId()+" and "+loginForm.getApplicationContextName()+" application, Forwarding to the Home Page||");
@@ -461,12 +448,10 @@ public class LoginAction extends Action
 
 			Context ctx = new InitialContext();
 			DataSource ds = null;
-			//System.out.println("Looking up initial context for: "+applicationContextName);
             if (gov.nih.nci.security.loginapp.util.ServerDetector.isJBoss()) {
             	ds = (DataSource)ctx.lookup("java:"+applicationContextName);
             } else if (gov.nih.nci.security.loginapp.util.ServerDetector.isTomcat()) {
             	ds = (DataSource)ctx.lookup("java:/comp/env/"+applicationContextName);
-            	System.out.println("Looking up initial context for tomcat ");
             }
 
 
@@ -500,7 +485,7 @@ public class LoginAction extends Action
 	}
 
 	private UserProvisioningManager getAuthorizationManager(String contextName) throws CSConfigurationException, CSException {
-		contextName = "csmupt41";
+		contextName = "csmupt423";
 		if(StringUtilities.isBlank(contextName)){
 			return null;
 
