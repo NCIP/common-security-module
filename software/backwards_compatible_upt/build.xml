@@ -209,6 +209,17 @@
 						/>
 				</else>
 			</if>
+			<if>
+				<or>
+					<equals arg1="${app.name}" arg2="upt40" />
+					<equals arg1="${app.name}" arg2="upt32" />
+					<equals arg1="${app.name}" arg2="upt31" />
+				</or>
+				<then>
+				<delete dir="${target.dir}/svncheckout/${app.name}/webapp/public_html/WEB-INF/lib" />
+				</then>
+			</if>
+			
 			<copy todir="${svn.checkout.home}" overwrite="true">
 				<fileset dir="${basedir}/${app.name}" />
 			</copy>
@@ -219,9 +230,6 @@
    		<antcall target="svnCheckout424" inheritall="false" />
    		<antcall target="svnCheckout42" inheritall="false" />
 		<antcall target="svnCheckout41" inheritall="false" />
-		<antcall target="svnCheckout40" inheritall="false" />
-		<antcall target="svnCheckout32" inheritall="false" />
-		<antcall target="svnCheckout31" inheritall="false" />
 	</target>
 
 	<target name="svnCheckout424">
@@ -251,9 +259,11 @@
 		<antcall target="dist424" inheritall="false" />
 		<antcall target="dist42" inheritall="false" />
 		<antcall target="dist41" inheritall="false" />
+		<!--
 		<antcall target="dist40" inheritall="false" />
 		<antcall target="dist32" inheritall="false" />
 		<antcall target="dist31" inheritall="false" />
+		-->
 		<antcall target="distLogin" inheritall="false" />
 	</target>
 
@@ -382,21 +392,9 @@
 	<copy todir="${build.home.ear}/META-INF">
 		<fileset dir="${basedir}/uptEAR/META-INF" includes="MANIFEST.MF" />
 	</copy>
-	<configure-application-xml context.root="${upt.31.url.context.name}" upt.war="${upt.31.url.context.name}.war" />
-	<configure-application-xml context.root="${upt.32.url.context.name}" upt.war="${upt.32.url.context.name}.war" />
-	<configure-application-xml context.root="${upt.40.url.context.name}" upt.war="${upt.40.url.context.name}.war" />
 	<configure-application-xml context.root="${upt.41.url.context.name}" upt.war="${upt.41.url.context.name}.war" />
 	<configure-application-xml context.root="${upt.42.url.context.name}" upt.war="${upt.42.url.context.name}.war" />
 	<configure-application-xml context.root="${upt.424.url.context.name}" upt.war="${upt.424.url.context.name}.war" />
-	<copy todir="${build.home.ear}">
-		<fileset dir="${basedir}/dist/upt31" includes="${upt.31.url.context.name}.war" />
-	</copy>
-	<copy todir="${build.home.ear}">
-		<fileset dir="${basedir}/dist/upt32" includes="${upt.32.url.context.name}.war" />
-	</copy>
-	<copy todir="${build.home.ear}">
-		<fileset dir="${basedir}/dist/upt40" includes="${upt.40.url.context.name}.war" />
-	</copy>
 	<copy todir="${build.home.ear}">
 		<fileset dir="${basedir}/dist/upt41" includes="${upt.41.url.context.name}.war" />
 	</copy>
