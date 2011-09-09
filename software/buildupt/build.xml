@@ -134,7 +134,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 				<include name="*ApplicationSecurityConfig.xml" />
 				<include name="*upt-ds-template.xml" />
 				<include name="*login-config-template.xml" />
-				<include name="*csmupt31.hibernate.cfg.xml" />
+				<!--<include name="*csmupt*.csm.hibernate.cfg.xml" />-->
 			</fileset>
 			<filterset>
 				<filterset>
@@ -144,17 +144,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</copy>
 
 		<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
-		<copyInstallSQLFiles upt.version="${upt.31.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.31.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.32.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.32.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
 
-		<copyUpgradeSQLFiles upt.version="${upt.31.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.31.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.32.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.32.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
@@ -191,7 +185,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 				<include name="*ApplicationSecurityConfig.xml" />
 				<include name="*upt-ds-template.xml" />
 				<include name="*login-config-template.xml" />
-				<include name="*csmupt31.hibernate.cfg.xml" />
+				<!--<include name="*csmupt*.csm.hibernate.cfg.xml" />-->
 			</fileset>
 			<filterset>
 				<filterset>
@@ -200,9 +194,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</filterset>
 		</copy>
 
-		<copyUpgradeSQLFiles upt.version="${upt.31.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.31.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.32.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.32.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
