@@ -165,23 +165,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</condition>
 					<condition type="variable" id="install.upt42">
 						<name>upt.42.installed</name>
-						<value>true</value>
+						<value>false</value>
 					</condition>
 					<condition type="variable" id="install.upt41">
 						<name>upt.41.installed</name>
-						<value>true</value>
-					</condition>
-					<condition type="variable" id="install.upt40">
-						<name>upt.40.installed</name>
-						<value>true</value>
-					</condition>
-					<condition type="variable" id="install.upt32">
-						<name>upt.32.installed</name>
-						<value>true</value>
-					</condition>
-					<condition type="variable" id="install.upt31">
-						<name>upt.31.installed</name>
-						<value>true</value>
+						<value>false</value>
 					</condition>
 
 					<!-- Recreate Schema  - central,31,32,40,41,42 ? -->
@@ -191,25 +179,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</condition>
 					<condition type="variable" id="recreate.schema.upt42">
 						<name>upt.42.database.re-create</name>
-						<value>true</value>
+						<value>false</value>
 					</condition>
 					<condition type="variable" id="recreate.schema.upt41">
 						<name>upt.41.database.re-create</name>
-						<value>true</value>
+						<value>false</value>
 					</condition>
-					<condition type="variable" id="recreate.schema.upt40">
-						<name>upt.40.database.re-create</name>
-						<value>true</value>
-					</condition>
-					<condition type="variable" id="recreate.schema.upt32">
-						<name>upt.32.database.re-create</name>
-						<value>true</value>
-					</condition>
-					<condition type="variable" id="recreate.schema.upt31">
-						<name>upt.31.database.re-create</name>
-						<value>true</value>
-					</condition>
-
 
 
 					<!-- Container selection -->
@@ -242,7 +217,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="build.file.target" value="upgrade:database" condition="upgrade+container.database" />
 
 					<!-- conditionals for containers not chosen -->
-					<variable name="jboss.relative.path" value="" condition="container.database|container.tomcat"/>
+					<variable name="jboss.relative.path" value="jboss.binaries.relative.dir" condition="container.database|container.tomcat"/>
 					<variable name="jboss.server.hostname" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.user" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.password" value="" condition="container.database|container.tomcat"/>
@@ -313,9 +288,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="upt.424.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.32.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.31.database.re-create" value="false" condition="central.installation"/>
 
 
 					<variable name="upt.central.authentication.type" value="ldaps" condition="ldaps.setup"/>
