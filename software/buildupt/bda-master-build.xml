@@ -240,12 +240,6 @@ $HeadURL$
 	</target>
 
 	<target name="init" description="Sets up build are and initalizes variables">
-		<echo message=" ______   ______   _______ " />
-		<echo message="(____  \ (______) (_______)" />
-		<echo message=" ____)  ) _     _  _______ " />
-		<echo message="|  __  ( | |   | ||  ___  |" />
-		<echo message="| |__)  )| |__/ / | |   | |" />
-		<echo message="|______/ |_____/  |_|   |_|" />
 		<mkdir dir="${target.dir}" />
 		<mkdir dir="${dist.dir}" />
 		<mkdir dir="${dist.exploded.dir}" />

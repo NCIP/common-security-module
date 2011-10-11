@@ -234,7 +234,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="build.file.target" value="upgrade:database" condition="upgrade+container.database" />
 
 					<!-- conditionals for containers not chosen -->
-					<variable name="jboss.relative.path" value="" condition="container.database|container.tomcat"/>
+					<variable name="jboss.relative.path" value="jboss.binaries.relative.dir" condition="container.database|container.tomcat"/>
 					<variable name="jboss.server.hostname" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.user" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.password" value="" condition="container.database|container.tomcat"/>
@@ -295,9 +295,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="upt.423.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.32.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.31.database.re-create" value="false" condition="central.installation"/>
 
 
 					<!-- Condition to Recreate --> 

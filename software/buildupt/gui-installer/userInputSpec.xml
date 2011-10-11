@@ -25,9 +25,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		 <!-- GUI installer assumed Central/Typical installation with all CSM versions supported -->
 		<variable name="installation.type" value="central"/>
 		<variable name="upt.central.config" value="true"/>
-		<variable name="upt.31.installed" value="true"/>
-		<variable name="upt.32.installed" value="true"/>
-		<variable name="upt.40.installed" value="true"/>
 		<variable name="upt.41.installed" value="true"/>
 		<variable name="upt.42.installed" value="true"/>
 		<variable name="upt.423.installed" value="true"/>
@@ -287,7 +284,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<panel order="4">
 
 		<variable name="jboss.home" value="${application.base.path}/${jboss.relative.path}"/>
-		<variable name="jboss.binaries.relative.dir" value="${jboss.relative.path}"/>
+		<variable name="jboss.binaries.relative.dir" value="${jboss.binaries.relative.dir}"/>
 
 		<field type="title" txt="Configure your JBoss application server" bold="true" size="1" />
 		<field type="divider" align="top"/>
@@ -465,7 +462,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		</field>
 		
 		<variable name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver"/>
-		<variable name="upt.central.database.version" value="5.0.27"/>
+		<variable name="upt.central.database.version" value="5.1.0"/>
 		<variable name="upt.central.database.type" value="mysql"/>
 		<variable name="upt.central.jndi.name" value="csmupt"/>
 		<variable name="upt.central.database.dialect" value="org.hibernate.dialect.MySQLDialect"/>

@@ -872,6 +872,7 @@
 			<then>
 				<install-backwards-compatible-upt-database 	
 							database.driver="${upt.central.database.driver.class}" database.system.url="${upt.central.database.system.url}" 
+							database.server="${upt.central.database.server}"
 							database.system.user="${upt.central.database.system.user}" database.system.password="${upt.central.database.system.password}" 
 							database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
 							database.password="${upt.central.database.password}" database.version="${upt.central.database.version}" 
@@ -895,6 +896,7 @@
 					<then>
 						<install-backwards-compatible-upt-database 	
 									database.driver="${upt.31.database.driver.class}" database.system.url="${upt.31.database.system.url}" 
+									database.server="${upt.31.database.server}"
 									database.system.user="${upt.31.database.system.user}" database.system.password="${upt.31.database.system.password}" 
 									database.url="${upt.31.database.url}" database.user="${upt.31.database.user}" 
 									database.password="${upt.31.database.password}" database.version="${upt.31.database.version}" 
@@ -918,6 +920,7 @@
 					<then>
 						<install-backwards-compatible-upt-database 	
 									database.driver="${upt.32.database.driver.class}" database.system.url="${upt.32.database.system.url}" 
+									database.server="${upt.32.database.server}"
 									database.system.user="${upt.32.database.system.user}" database.system.password="${upt.32.database.system.password}" 
 									database.url="${upt.32.database.url}" database.user="${upt.32.database.user}" 
 									database.password="${upt.32.database.password}" database.version="${upt.32.database.version}" 
@@ -941,6 +944,7 @@
 					<then>
 						<install-backwards-compatible-upt-database 	
 									database.driver="${upt.40.database.driver.class}" database.system.url="${upt.40.database.system.url}" 
+									database.server="${upt.40.database.server}"
 									database.system.user="${upt.40.database.system.user}" database.system.password="${upt.40.database.system.password}" 
 									database.url="${upt.40.database.url}" database.user="${upt.40.database.user}" 
 									database.password="${upt.40.database.password}" database.version="${upt.40.database.version}" 
@@ -964,6 +968,7 @@
 					<then>
 						<install-backwards-compatible-upt-database 	
 									database.driver="${upt.41.database.driver.class}" database.system.url="${upt.41.database.system.url}" 
+									database.server="${upt.41.database.server}"
 									database.system.user="${upt.41.database.system.user}" database.system.password="${upt.41.database.system.password}" 
 									database.url="${upt.41.database.url}" database.user="${upt.41.database.user}" 
 									database.password="${upt.41.database.password}" database.version="${upt.41.database.version}" 
@@ -987,6 +992,7 @@
 					<then>
 						<install-backwards-compatible-upt-database 	
 									database.driver="${upt.42.database.driver.class}" database.system.url="${upt.42.database.system.url}"
+									database.server="${upt.42.database.server}"
 									database.system.user="${upt.42.database.system.user}" database.system.password="${upt.42.database.system.password}" 
 									database.url="${upt.42.database.url}" database.user="${upt.42.database.user}" 
 									database.password="${upt.42.database.password}" database.version="${upt.42.database.version}" 
@@ -1010,6 +1016,7 @@
 					<then>
 						<install-backwards-compatible-upt-database 	
 									database.driver="${upt.423.database.driver.class}" database.system.url="${upt.423.database.system.url}"
+									database.server="${upt.423.database.server}"
 									database.system.user="${upt.423.database.system.user}" database.system.password="${upt.423.database.system.password}" 
 									database.url="${upt.423.database.url}" database.user="${upt.423.database.user}" 
 									database.password="${upt.423.database.password}" database.version="${upt.423.database.version}" 
@@ -1216,6 +1223,7 @@
 		<attribute name="database.name" default="NOT SET" />
 		<attribute name="database.type" default="NOT SET"/>
 		<attribute name="database.dir.src" default="NOT SET"/>
+		<attribute name="database.server" default="NOT SET"/>
 		
 		<attribute name="database.schema" default="NOT SET"/>
 		<attribute name="database.re-create" default="NOT SET"/>
@@ -1267,6 +1275,7 @@
 				database.password="@{database.password}" database.version="@{database.version}" 
 				database.name="@{database.name}" database.schema="@{database.schema}" 
 				database.re-create="@{database.re-create}" 
+				database.server="@{database.server}"
 				database.drop-schema="@{database.drop-schema}" 
 				/>
 			
