@@ -21,7 +21,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<replace file="${install.path}/${application_installer}/build.xml" token="project.properties" value="${install.path}/${application_installer}/project.properties"/>
 		<replace file="${install.path}/${application_installer}/build.xml" token="install-properties.template" value="${install.path}/${application_installer}/install-properties.template"/>
 		<replace file="${install.path}/${application_installer}/build.xml" token="upgrade-properties.template" value="${install.path}/${application_installer}/upgrade-properties.template"/>
-		<replace dir="${install.path}/${application_installer}/bda-utils" token="bda-utils&quot;&gt;" value="${bda-utils.lib.dir}&quot;&gt;">
+		<replace dir="${install.path}/${application_installer}/build-utils" token="build-utils&quot;&gt;" value="${build-utils.lib.dir}&quot;&gt;">
 			<include name="bda-build-utils*.xml" />
 		</replace>
 	</target>
@@ -39,7 +39,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<replace file="${install.path}/${application_installer}/build.xml" token="project.properties" value="${install.path}/${application_installer}/project.properties"/>
 		<replace file="${install.path}/${application_installer}/build.xml" token="install-properties.template" value="${install.path}/${application_installer}/install-properties.template"/>
 		<replace file="${install.path}/${application_installer}/build.xml" token="upgrade-properties.template" value="${install.path}/${application_installer}/upgrade-properties.template"/>
-		<replace dir="${install.path}/${application_installer}/bda-utils/" token="bda-utils&quot;&gt;" value="${bda-utils.lib.dir}&quot;&gt;">
+		<replace dir="${install.path}/${application_installer}/build-utils/" token="build-utils&quot;&gt;" value="${bda-utils.lib.dir}&quot;&gt;">
 			<include name="bda-build-utils*.xml" />
 		</replace>
 	</target>

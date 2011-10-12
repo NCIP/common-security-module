@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- bda-build-template version 1.0.1 -->
 <!--
 $Id: build.xml 1593 2009-04-27 21:29:25Z saksass $
 $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/build.xml $
@@ -18,8 +17,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
 	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
 
-	<property name="bda-blueprints-webapp.install.zip.file" value="${csm.install.zip.file}"/>
-    <property name="bda-blueprints-webapp.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
+	<property name="build-blueprints-webapp.install.zip.file" value="${csm.install.zip.file}"/>
+    <property name="build-blueprints-webapp.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
     <property name="csmupt.install.zip.file" value="${csm.install.zip.file}"/>
     <property name="csmupt.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
 
@@ -29,7 +28,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="ivy.settings.file" value="ivysettings.xml" />
 
-	<import file="bda-master-build.xml"/>
+	<import file="build-master-build.xml"/>
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
@@ -92,18 +91,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</if>
 	</target>
 
-	<target name="ivy:clean" description="Cleans up the ivy cache of this project and all sub-projects">
-		<ivy:settings file="${ivy.settings.dir}/${ivy.settings.file}" />
-		<ivy:cleancache />
-		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml" target="ivy-cleancache" dir="${bda-download.dir}">
-			<property name="bda-utils.dir" value="${bda-utils.dir}" />
-			<property name="lib.dir" value="${lib.dir}" />
-			<property name="software.dir" value="${software.dir}" />
-		</ant>
-		<!-- Clean subproject ivy caches -->
-		<ant inheritAll="false" inheritRefs="false" dir="${backwards.compatible.upt.base.dir}" antfile="${backwards.compatible.upt.build.file}" target="cleanupLogin" />
-	</target>
-
 	<target name="build:backwards:compatible:upt" depends="init,clean">
 		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="all" dir="${backwards.compatible.upt.base.dir}">
 		</ant>
@@ -128,7 +115,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 		<copy todir="${dist.exploded.dir}" overwrite="true">
 			<fileset dir="${build.dir}">
-				<include name="bda-master-install.xml" />
+				<include name="build-master-install.xml" />
 			</fileset>
 			<fileset dir="${backwards.compatible.upt.resources.dir}">
 				<include name="*ApplicationSecurityConfig.xml" />
@@ -153,7 +140,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.423.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.423.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
-
 		<dist-prep />
 	</target>
 
@@ -179,7 +165,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 		<copy todir="${dist.exploded.dir}" overwrite="true">
 			<fileset dir="${build.dir}">
-				<include name="bda-master-install.xml" />
+				<include name="build-master-install.xml" />
 			</fileset>
 			<fileset dir="${backwards.compatible.upt.resources.dir}">
 				<include name="*ApplicationSecurityConfig.xml" />
@@ -245,7 +231,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 		</delete>
 
-		<gui-installer-prep product.name="${csmupt.install.name}" product.version="${bda-blueprints-webapp.version}" />
+		<gui-installer-prep product.name="${csmupt.install.name}" product.version="${build-blueprints-webapp.version}" build-utils.dir="${build-utils.dir}"/>
 		<!-- <delete file="${target.dir}/izpack-4.3/src/lib/resources/eng.xml"/>-->
 		<copy todir="${target.dir}/izpack-4.3/src/lib/resources" overwrite="true">
 			<fileset dir="${build.dir}/gui-installer">

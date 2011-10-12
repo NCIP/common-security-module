@@ -4,7 +4,7 @@
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
 
-	<import file="bda-master-install.xml" />
+	<import file="build-master-install.xml" />
 
 	<!-- *-ds.xml and WAR -->
 	<property name="backwards.compatible.upt.dist" value="${basedir}/${backwards.compatible.upt.dist.relative.dir}" />
@@ -55,14 +55,14 @@
 		
 		<switch value="${database.type}">
 			<case value="oracle">
-				<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+				<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
 				<property name="database.schema" value="${database.user}"/>
 			</case>
 			<case value="mysql">
-				<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
+				<property name="database.driver.file" value="${build-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 			</case>
 			<case value="postgresql">
-				<property name="database.driver.file" value="${bda-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
+				<property name="database.driver.file" value="${build-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
 			</case>
 			<default>
 				<fail message="Invalid database type ${database.type}"/>
@@ -183,14 +183,14 @@
 				<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<remove
 						path="//policy/application-policy[@name='${upt.31.context.name}']" />
 				</xmltask>
 				<xmltask preservetype="true" failWithoutMatch="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//policy">
 						<![CDATA[
 							<application-policy name="${upt.31.context.name}">  
@@ -230,14 +230,14 @@
 				<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<remove
 						path="//policy/application-policy[@name='${upt.32.context.name}']" />
 				</xmltask>
 				<xmltask preservetype="true" failWithoutMatch="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//policy">
 						<![CDATA[
 							<application-policy name="${upt.32.context.name}">  
@@ -276,14 +276,14 @@
 				<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<remove
 						path="//policy/application-policy[@name='${upt.40.context.name}']" />
 				</xmltask>
 				<xmltask preservetype="true" failWithoutMatch="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//policy">
 						<![CDATA[
 							<application-policy name="${upt.40.context.name}">  
@@ -322,14 +322,14 @@
 				<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<remove
 						path="//policy/application-policy[@name='${upt.41.context.name}']" />
 				</xmltask>
 				<xmltask preservetype="true" failWithoutMatch="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//policy">
 						<![CDATA[
 							<application-policy name="${upt.41.context.name}">  
@@ -368,14 +368,14 @@
 				<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<remove
 						path="//policy/application-policy[@name='${upt.42.context.name}']" />
 				</xmltask>
 				<xmltask preservetype="true" failWithoutMatch="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//policy">
 						<![CDATA[
 							<application-policy name="${upt.42.context.name}">  
@@ -414,14 +414,14 @@
 				<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<remove
 						path="//policy/application-policy[@name='${upt.423.context.name}']" />
 				</xmltask>
 				<xmltask preservetype="true" failWithoutMatch="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//policy">
 						<![CDATA[
 							<application-policy name="${upt.423.context.name}">  
@@ -454,14 +454,14 @@
 		<xmltask preservetype="true"
 			source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 			dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-			<xmlcatalog refid="bda.xml.catalog" />
+			<xmlcatalog refid="build.xml.catalog" />
 			<remove
 				path="//policy/application-policy[@name='${application.context.name}']" />
 		</xmltask>
 		<xmltask preservetype="true" failWithoutMatch="true"
 			source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 			dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-			<xmlcatalog refid="bda.xml.catalog" />
+			<xmlcatalog refid="build.xml.catalog" />
 			<insert path="//policy" file="${login-config-template.xml}" />
 		</xmltask>
 		<if>
@@ -745,7 +745,7 @@
 		<xmltask preservetype="true"
 					source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
-			<xmlcatalog refid="bda.xml.catalog" />
+			<xmlcatalog refid="build.xml.catalog" />
 			<remove
 					path="//security-config/application-list/text()" />
 			<remove
@@ -1060,7 +1060,7 @@
 					<xmltask preservetype="true" failWithoutMatch="true"
 							source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 							dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-						<xmlcatalog refid="bda.xml.catalog" />
+						<xmlcatalog refid="build.xml.catalog" />
 						<insert
 								path="//policy/application-policy[@name='@{application.context.name}']/authentication"
 								position="under">
@@ -1081,7 +1081,7 @@
 					<xmltask preservetype="true" failWithoutMatch="true"
 									source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 									dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-						<xmlcatalog refid="bda.xml.catalog" />
+						<xmlcatalog refid="build.xml.catalog" />
 						<insert
 										path="//policy/application-policy[@name='@{application.context.name}']/authentication"
 										position="under">
@@ -1105,7 +1105,7 @@
 				<xmltask preservetype="true" failWithoutMatch="true"
 									source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
 									dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
-					<xmlcatalog refid="bda.xml.catalog" />
+					<xmlcatalog refid="build.xml.catalog" />
 					<insert
 										path="//policy/application-policy[@name='@{application.context.name}']/authentication"
 										position="under">
@@ -1143,7 +1143,7 @@
 			<xmltask preservetype="true" failWithoutMatch="true"
 				source="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml"
 				dest="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml">
-				<xmlcatalog refid="bda.xml.catalog" />
+				<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//datasources" position="under">
 						<![CDATA[						
 						<local-tx-datasource>
@@ -1164,7 +1164,7 @@
 		<attribute name="hibernate.config.file" default="NOT SET" />
 		<sequential>
 			<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
-			<xmlcatalog refid="bda.xml.catalog" />
+			<xmlcatalog refid="build.xml.catalog" />
 				<insert path="/security-config/application-list" position="under">
 				<![CDATA[
 					<application>
@@ -1194,7 +1194,7 @@
 	
 		<sequential>
 			<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
-			<xmlcatalog refid="bda.xml.catalog" />
+			<xmlcatalog refid="build.xml.catalog" />
 			<insert path="//security-config/backwards-compatibility/upt-application-list" position="under">
 				<![CDATA[
 				<upt-application>
@@ -1238,15 +1238,15 @@
 		<sequential>
 			<switch value="${database.type}">
 				<case value="oracle">
-					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+					<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
 				<property name="database.driver" value="oracle.jdbc.driver.OracleDriver"/>
 				</case>
 				<case value="mysql">
-					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
+					<property name="database.driver.file" value="${build-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 					<property name="database.driver" value="com.mysql.jdbc.Driver"/>
 				</case>
 				<case value="postgresql">
-					<property name="database.driver.file" value="${bda-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
+					<property name="database.driver.file" value="${build-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
 					<property name="database.driver" value="org.postgresql.Driver"/>
 				</case>
 				<default>
@@ -1622,7 +1622,7 @@
 	</macrodef>
 
 	<!--
-	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
+	<target name="upgrade:jboss:readers:build" if="jboss.exists">
 	</target>
 	-->
 
@@ -1658,7 +1658,7 @@
 	</target>
 	
 	
-	<target name="upgrade:database:readers:bda" depends="upgrade:jboss:init:prep" if="jboss.exists">
+	<target name="upgrade:database:readers:build" depends="upgrade:jboss:init:prep" if="jboss.exists">
 
 		<!-- Make sure the ${properties.file} has at least the following props -->
 		<properties-exist
@@ -1666,7 +1666,7 @@
 			/>
 		<!--<jboss-read-dbconfig
 			jboss.home="${read.jboss.home}"
-			jboss.ds-xml.file="bda-blueprints-ds.xml"
+			jboss.ds-xml.file="build-blueprints-ds.xml"
 			/>-->
 	</target>
 	
@@ -1699,7 +1699,7 @@
 	</target>
 	-->
 	
-	<target name="upgrade:backwards-compatible-upt:databases" description="Upgrades database using BDA Datbase Upgrade process." unless="exclude.database">
+	<target name="upgrade:backwards-compatible-upt:databases" description="Upgrades database using build Datbase Upgrade process." unless="exclude.database">
 		<echo message="execute for non central database"/>		
 		<if>
 			<equals arg1="${upt.central.config}" arg2="true" />
@@ -1838,11 +1838,11 @@
 		<sequential>
 			<switch value="@{database.type}">
 				<case value="oracle">
-					<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
+					<property name="database.driver.file" value="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
 					<property name="database.upgrade.driver" value="oracle.jdbc.driver.OracleDriver"/>
 				</case>
 				<case value="mysql">
-					<property name="database.driver.file" value="${bda-utils.dir}/mysql-connector-java-5.1.13.jar"/>
+					<property name="database.driver.file" value="${build-utils.dir}/mysql-connector-java-5.1.13.jar"/>
 					<property name="database.upgrade.driver" value="com.mysql.jdbc.Driver"/>
 				</case>
 				<case value="postgresql">
@@ -2072,7 +2072,7 @@
 		">
 	</target>
 -->	
-	<target name="upgrade:jboss:readers:bda" if="jboss.exists">
+	<target name="upgrade:jboss:readers:build" if="jboss.exists">
 
 		<!-- Make sure the ${properties.file} has at least the following props -->
 		<properties-exist
@@ -2100,7 +2100,7 @@
 		<!--
 		<jboss-read-dbconfig
 			jboss.home="${read.jboss.home}"
-			jboss.ds-xml.file="bda-blueprints-ds.xml"
+			jboss.ds-xml.file="build-blueprints-ds.xml"
 			/>
 		<jboss-read-ldapconfig
 			jboss.home="${read.jboss.home}"
