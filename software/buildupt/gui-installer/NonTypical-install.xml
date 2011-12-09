@@ -19,7 +19,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<property name="software.location" location="${this.dir}/../.." />
 	<property name="target.location" location="${software.location}/target" />
 	<property name="dist.location" location="${target.location}/dist" />
-	<property name="bda-utils.dir" location="${target.location}/bda-utils" />
+	<property name="bda-utils.dir" location="${software.location}/common/build-utils" />
 	<property name="ant.lib.dir" location="${target.location}/apache-ant-1.8.0/lib" />
 	<property name="custom.resource.dir" location="${target.location}/izpack-custom/resources"/>
 	<property name="project.name" value="csmupt"/>
@@ -295,9 +295,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="upt.423.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.32.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.31.database.re-create" value="false" condition="central.installation"/>
 
 
 					<!-- Condition to Recreate --> 
@@ -492,7 +489,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<copy tofile="${pre-install.dir}/project.properties" file="${build.dir}/project.properties" overwrite="true"/>
 		<echo file="${pre-install.dir}/install.properties" message=""/>
 
-		<copy todir="${pre-install.dir}/bda-utils" overwrite="true">
+		<copy todir="${pre-install.dir}/build-utils" overwrite="true">
 			<fileset dir="${bda-utils.dir}">
 				<include name="**/*" />                 
 			</fileset>                      
