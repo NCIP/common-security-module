@@ -176,6 +176,10 @@ public class LoginAction extends Action
 
 		}
 
+		System.out.println("centralUPTConfiguration: "+centralUPTConfiguration);
+		System.out.println("urlContextForLoginApp: "+urlContextForLoginApp);
+		System.out.println("serverInfoPathPort: "+serverInfoPathPort);
+
 		LoginForm loginForm = (LoginForm)form;
 		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
 				|| StringUtils.isBlank(loginForm.getPassword())){
@@ -196,6 +200,7 @@ public class LoginAction extends Action
 
 		try
 		{
+			System.out.println("uptContextName1: "+uptContextName);
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
@@ -218,6 +223,7 @@ public class LoginAction extends Action
 
 			try
 			{
+				System.out.println("uptContextName2: "+uptContextName);
 
 				if (null == uptContextName || uptContextName.equalsIgnoreCase(""))
 				{
@@ -265,6 +271,7 @@ public class LoginAction extends Action
 		try
 		{
 			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),loginForm.getPassword());
+			System.out.println("loginSuccessful: "+loginSuccessful);
 		}
 		catch (CSException cse)
 		{
@@ -278,6 +285,7 @@ public class LoginAction extends Action
 
 		try
 		{
+			System.out.println("uptContextName3: "+uptContextName);
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
@@ -301,6 +309,7 @@ public class LoginAction extends Action
 		try
 		{
 			hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
+			System.out.println("hasPermission: "+hasPermission);
 			if (!hasPermission)
 			{
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
@@ -324,6 +333,7 @@ public class LoginAction extends Action
 		{
 			//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
 			application = authorizationManager.getApplication(loginForm.getApplicationContextName());
+			System.out.println("application: "+application);
 			if (!StringUtilities.isBlank(application.getDatabaseURL()))
 			{
 				HashMap hashMap = new HashMap();
@@ -336,6 +346,7 @@ public class LoginAction extends Action
 			}
 			else
 			{
+				System.out.println("loginForm.getApplicationContextName(): "+loginForm.getApplicationContextName());
 				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());
 			}
 			if (null == userProvisioningManager)
@@ -365,6 +376,9 @@ public class LoginAction extends Action
 
 		authenticationManager = null;
 		authorizationManager = null;
+
+System.out.println("uptContextName: "+uptContextName);
+System.out.println("((LoginForm)form).getApplicationContextName(): "+((LoginForm)form).getApplicationContextName());
 
 		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
 		{

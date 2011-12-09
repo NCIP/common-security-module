@@ -1,4 +1,4 @@
-SET TEMP_HOME_42=C:\Vijay\projects\security\software\backwards_compatible_upt\build\upt423
+SET TEMP_HOME_42=C:\Vijay\projects\security\software\backwards_compatible_upt\build\upt424
 
 mkdir webapp
 mkdir webapp\public_html

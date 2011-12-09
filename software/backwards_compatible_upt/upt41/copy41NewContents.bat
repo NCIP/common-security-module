@@ -1,4 +1,4 @@
-SET TEMP_HOME_41=C:\Prasad\OM\CSM_423_BRANCH\backwards_compatible_upt\upt41
+SET TEMP_HOME_41=C:\Prasad\OM\CSM_424_BRANCH\backwards_compatible_upt\upt41
 
 mkdir webapp
 mkdir webapp\public_html

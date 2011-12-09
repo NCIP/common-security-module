@@ -207,7 +207,7 @@ public class DisplayConstants
 
 	public static final String LOGIN_ID = "LOGIN_ID";
 	public static final String APPLICATION_CONTEXT= "APPLICATION_CONTEXT";
-	public static final String UPT_CONTEXT_NAME = "csmupt423";
+	public static final String UPT_CONTEXT_NAME = "csmupt424";
 	public static final String UPT_AUTHENTICATION_CONTEXT_NAME = "csmupt";
 	public static final String LOGIN_APPLICATION_CONTEXT_NAME = "uptlogin";
 
