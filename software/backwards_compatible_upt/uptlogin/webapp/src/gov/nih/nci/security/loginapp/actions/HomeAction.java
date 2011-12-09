@@ -18,7 +18,7 @@ package gov.nih.nci.security.loginapp.actions;
  *(the 'UPT Software').  The UPT Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This UPT Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -26,7 +26,7 @@ package gov.nih.nci.security.loginapp.actions;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -119,29 +119,28 @@ public class HomeAction extends Action
 {
 
 	private static final Logger log = Logger.getLogger(HomeAction.class);
-	
+
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
-			throws Exception 
+			throws Exception
 	{
 		HttpSession session = request.getSession();
 
 		ServletContext sc  =  session.getServletContext();
-		
-		
-		
+
+
+
 		/*
 		 * clear the junk in the session here
 		 */
 		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
-		
-		
+
 		return mapping.findForward(ForwardConstants.LOGIN_PAGE);
-		
-		
-		
+
+
+
 	}
 
 }

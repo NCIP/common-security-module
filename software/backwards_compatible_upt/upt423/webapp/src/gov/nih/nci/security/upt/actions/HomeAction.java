@@ -18,7 +18,7 @@ package gov.nih.nci.security.upt.actions;
  *(the 'UPT Software').  The UPT Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This UPT Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -26,7 +26,7 @@ package gov.nih.nci.security.upt.actions;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -132,33 +132,34 @@ public class HomeAction extends Action
 {
 
 	private static final Logger log = Logger.getLogger(HomeAction.class);
-	
+
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
-			throws Exception 
+			throws Exception
 	{
 		HttpSession session = request.getSession();
-		
+		System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		ActionErrors errors = new ActionErrors();
-		
-		if(request.getAttribute(DisplayConstants.LOGIN_ID)!=null && 
+
+		if(request.getAttribute(DisplayConstants.LOGIN_ID)!=null &&
 				request.getAttribute(DisplayConstants.APPLICATION_CONTEXT)!=null ){
-			
+
 			LoginForm form2 = new LoginForm() ;
 			form2.setApplicationContextName((String)request.getAttribute(DisplayConstants.APPLICATION_CONTEXT));
 			form2.setLoginId((String)request.getAttribute(DisplayConstants.LOGIN_ID));
-			
+
 			session.setAttribute(DisplayConstants.LOGIN_OBJECT,form2);
+			System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>1>>>>>>>>>>>>>>>>>"+request.getAttribute(DisplayConstants.APPLICATION_CONTEXT));
 		}
-		
-		
+
+
 		if(request.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER)!=null ){
 			// Remove from Request.
 			// Get a local copy here if needed.
 			// Set in Session.
 			UserProvisioningManager upm = null;
 			try{
-				upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager("csmupt41");
+				upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager("csmupt423");
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -169,11 +170,11 @@ public class HomeAction extends Action
 		}
 
 		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
-		
-		
+
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null) || (session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER) == null)) {
-			
-			
+
+
 			String serverInfoPathPort = (request.isSecure()?"https://":"http://") + request.getServerName() + ":"
 			+ request.getServerPort();
 
@@ -189,26 +190,26 @@ public class HomeAction extends Action
 					serverInfoPathPort = serverInfoPathPort + "/"
 						+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
 				}
-		
+System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2>>>>>>>>>"+urlContextForLoginApp);
 			} catch (UPTConfigurationException e) {
 				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
 			}
 
-			
+
 			ActionForward newActionForward = new ActionForward() ;
 			newActionForward.setPath(serverInfoPathPort);
 			newActionForward.setRedirect(true);
-		
 
+System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>>3>>>>>>>>>>>>>>>>"+newActionForward);
 			return newActionForward;
 
 		}
-		
-			
+
+
 		/*
 		 * clear the junk in the session here
 		 */
-		 
+
 		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
 	//	session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
@@ -218,7 +219,7 @@ public class HomeAction extends Action
 		/*if (log.isDebugEnabled())
 			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|Home|Redirect|Success|Already Logged In and Forwarding to the Home Page||");*/
-		
+
 		return mapping.findForward(ForwardConstants.HOME_PAGE);
 	}
 
