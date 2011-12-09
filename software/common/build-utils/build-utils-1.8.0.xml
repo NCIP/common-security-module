@@ -3514,7 +3514,7 @@
 		<attribute name="dist.dir" default="${dist.dir}"/>
 		<attribute name="izpack.binary.name" default="izpack-4.3" />
 		<attribute name="izpack.binary.file" default="izpack-4.3.zip" />
-		<attribute name="izpack.binary.uri" default="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/techstack-2008/os-independent" />
+		<attribute name="izpack.binary.uri" default="https://ncisvn.nci.nih.gov/svn/commonlibrary/trunk/techstack-2008/os-independent" />
 		<attribute name="izpack-custom.svn.url" default="https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-installer/src-custom-4.3"/>
 		<attribute name="izpack-custom.svn.dir" default="${target.dir}/izpack-custom"/>
 		<attribute name="product.name" default="caArray-installer" />
@@ -3529,8 +3529,7 @@
 
 			<!-- Cleanup target area -->
 			<delete dir="@{target.dir}/@{izpack.binary.name}" />
-
-			<!-- Extract izpack -->
+		
 			<get src="@{izpack.binary.uri}/@{izpack.binary.file}" dest="@{download.dir}/@{izpack.binary.file}" usetimestamp="true"/>
 			<unzip dest="@{target.dir}" src="@{download.dir}/@{izpack.binary.file}" />
 
