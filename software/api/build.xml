@@ -1,4 +1,4 @@
-<project name="csm-api" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csm-api" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 	<description>CSM API Project Build File</description>
 
 	<property name="common.dir" value="${basedir}/.." />
@@ -22,6 +22,20 @@
 	<property name="jar.name" value="csmapi.jar" />
 
 	<!-- Paths -->
+	<echo message="ant home= ${ant.home}"/>
+	
+	  <path id="ant.classpath">
+	    <fileset dir="${ant.home}/lib">
+	      <include name="*.jar" />
+	    </fileset>
+	  </path>
+
+  	<taskdef uri="antlib:org.apache.maven.artifact.ant"
+           resource="org/apache/maven/artifact/ant/antlib.xml"
+           classpathref="ant.classpath" />
+
+
+
 	<path id="common.classpath">
 		<fileset dir="${common.dir}/target/lib">
 			<include name="ivy-core-2.0.0-beta2.jar" />
@@ -38,6 +52,19 @@
 
 		</fileset>
 	</path>
+
+	  <target name="resolve" description="--> retrieve dependencies with maven">
+	      <!-- Resolve dependencies -->
+	      <artifact:dependencies filesetId="dependency.fileset">
+		  <pom file="pom.xml" />
+	      </artifact:dependencies>
+	      <!-- Copy all dependencies to the correct location. -->
+	      <copy todir="${lib.dir}">
+		  <fileset refid="dependency.fileset" />
+		  <!-- This mapper strips off all leading directory information -->
+		  <mapper type="flatten" />
+	      </copy>
+	  </target>
 
 	<target name="ivy-settings" depends="-init">
 		<ivy:settings file="${ivy.settings.file}" />
@@ -115,5 +142,13 @@
 	</target>
 
 	<target name="run" depends="dist, -post-clean" description="Default project target" />
+
+
+	<target name="makepom">
+		<ivy:makepom ivyfile="ivy.xml" pomfile="$module.pom">
+		   <mapping conf="default" scope="compile"/>
+		   <mapping conf="runtime" scope="runtime"/>
+		</ivy:makepom>
+	</target>
 
 </project>
