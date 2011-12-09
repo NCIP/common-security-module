@@ -251,6 +251,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 
 		catch (CSInternalInsufficientAttributesException csiiae)
 		{
+			csiiae.printStackTrace();
 			loginSuccessful = false;
 			if (log.isDebugEnabled())
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csiiae.getMessage());
@@ -258,6 +259,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		}
 		catch (CSInternalConfigurationException csice)
 		{
+			csice.printStackTrace();
 			loginSuccessful = false;
 			if (log.isDebugEnabled())
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csice.getMessage());
@@ -265,6 +267,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		}
 		catch (LoginException le)
 		{
+			le.printStackTrace();
 			loginSuccessful = false;
 			if (log.isDebugEnabled())
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Authentication is not successful for user "+userName+"|" + le.getMessage());			

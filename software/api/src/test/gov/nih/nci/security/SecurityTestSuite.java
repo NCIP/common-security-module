@@ -105,7 +105,7 @@ public class SecurityTestSuite {
 	static{
 			
 			Properties p = System.getProperties();
-			p.setProperty("gov.nih.nci.security.configFile","c:/securityConfig/ApplicationSecurityConfig.xml");
+			p.setProperty("gov.nih.nci.security.configFile", "C:/Prasad/OM/CSM_423_BRANCH/api/config/ApplicationSecurityConfig.xml");
 			
 	}
 	

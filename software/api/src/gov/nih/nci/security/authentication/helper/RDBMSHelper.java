@@ -12,7 +12,7 @@ package gov.nih.nci.security.authentication.helper;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -20,7 +20,7 @@ package gov.nih.nci.security.authentication.helper;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -113,16 +113,16 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * This is a helper class which is used to perform all JDBC operations like 
+ * This is a helper class which is used to perform all JDBC operations like
  * connecting to the database, executing queries etc. This is a static class and
  * provides a single helper method.
- * 
+ *
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  */
 public class RDBMSHelper {
 
-	private static final Logger log = Logger.getLogger(RDBMSHelper.class);	
-	
+	private static final Logger log = Logger.getLogger(RDBMSHelper.class);
+
 	/**
 	 * Default Private Class Constructor
 	 *
@@ -135,29 +135,28 @@ public class RDBMSHelper {
 	 * Accepts the connection properties as well as the user id and password.
 	 * It opens a connection to the database and fires a the query to find. If
 	 * the query was successful then it returns TRUE else it returns FALSE
-	 * @param connectionProperties table containing details for establishing 
-	 * 			connection like the driver, the url, the user name and the 
-	 * 			password for the establishing the database connection. It also 
+	 * @param connectionProperties table containing details for establishing
+	 * 			connection like the driver, the url, the user name and the
+	 * 			password for the establishing the database connection. It also
 	 * 			contains the actual query statement to retrieve the user record
-	 * @param userID the user entered user name provided by the calling 
+	 * @param userID the user entered user name provided by the calling
 	 * 			application
-	 * @param password the user entered password provided by the calling 
+	 * @param password the user entered password provided by the calling
 	 * 			application
-	 * @param subject 
-	 * @return TRUE if the authentication was sucessful using the provided user 
+	 * @param subject
+	 * @return TRUE if the authentication was sucessful using the provided user
 	 * 		   	credentials and FALSE if the authentication fails
-	 * @throws CSInternalConfigurationException 
-	 * @throws CSInternalInsufficientAttributesException 
+	 * @throws CSInternalConfigurationException
+	 * @throws CSInternalInsufficientAttributesException
 	 */
 	public static boolean authenticate (Hashtable connectionProperties, String userID, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
-	{		
-		
+	{
 		Connection connection = getConnection (connectionProperties);
 		if (connection == null)
 		{
 			return false;
 		}
-		
+
 		String encryptedPassword= new String(password);
 		String encryptionEnabled = (String)connectionProperties.get(Constants.ENCRYPTION_ENABLED);
 		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
@@ -170,8 +169,8 @@ public class RDBMSHelper {
 				e.printStackTrace();
 			}
 		}
-		encryptedPassword = StringUtilities.initTrimmedString(encryptedPassword);			
-		
+		encryptedPassword = StringUtilities.initTrimmedString(encryptedPassword);
+
 		String query = (String)connectionProperties.get("query");
 		if (!StringUtilities.isBlank(query))
 		{
@@ -191,19 +190,19 @@ public class RDBMSHelper {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		boolean loginOK = false;
-		
+
 		String tableName = (String)connectionProperties.get(Constants.TABLE_NAME);
-		
+
 		String userNameColumn = (String)connectionProperties.get(Constants.USER_LOGIN_ID);
 		String passwordColumn = (String)connectionProperties.get(Constants.USER_PASSWORD);
 		String lastNameColumn = (String)connectionProperties.get(Constants.USER_LAST_NAME);
 		String firstNameColumn = (String)connectionProperties.get(Constants.USER_FIRST_NAME);
 		String emailIdColumn = (String)connectionProperties.get(Constants.USER_EMAIL_ID);
-		
+
 		String query = new String();
-		
+
 		query = "SELECT " + userNameColumn + ", " + firstNameColumn + ", " + lastNameColumn + ", " + emailIdColumn + " FROM " + tableName + " WHERE " + userNameColumn + " = ? " + "AND " + passwordColumn + " = ?";
-		
+
 		try
 		{
 			statement = connection.prepareStatement(query);
@@ -214,14 +213,14 @@ public class RDBMSHelper {
 		{
 			throw new CSInternalConfigurationException("Unable to generate query statement to validate user credentials");
 		}
-		
+
 		try
 		{
 			resultSet = statement.executeQuery();
 		}
 		catch (SQLException e)
 		{
-			throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");			
+			throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");
 		}
 		if (resultSet != null)
 		{
@@ -244,16 +243,16 @@ public class RDBMSHelper {
 						subject.getPrincipals().add(new EmailIdPrincipal(emailId));
 					else
 						throw new CSInternalInsufficientAttributesException("User Attribute Email Id not found");
-					
+
 					subject.getPrincipals().add(new LoginIdPrincipal(userID));
-					
+
 					loginOK = true;
 					break;
 				}
 			}
 			catch (SQLException e)
 			{
-				throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");				
+				throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");
 			}
 		}
 		try
@@ -280,21 +279,21 @@ public class RDBMSHelper {
 	 * and queries the database to retrieve the user record. It first prepares a
 	 * statement from the connection and the query passed as parameter. It
 	 * replaces the user id and password in the statement and executes the same.
-	 * If a record it retrieved from the database it indicates that the user 
-	 * credentail provided are correct and a TRUE is returned. Finally the 
+	 * If a record it retrieved from the database it indicates that the user
+	 * credentail provided are correct and a TRUE is returned. Finally the
 	 * database resources like connection, statement etc. are freed and released
 	 * @param connection the connection obtained using the connection properties
 	 * 			provided in the configuration
 	 * @param query the actual query statement which is used to retrieve the
 	 * 			user record from the database
-	 * @param userID the user entered user name provided by the calling 
+	 * @param userID the user entered user name provided by the calling
 	 * 			application
-	 * @param password the user entered password provided by the calling 
+	 * @param password the user entered password provided by the calling
 	 * 			application
-	 * @return TRUE if the querying is successful and the user record is 
+	 * @return TRUE if the querying is successful and the user record is
 	 * 			retrieved using the provided credentials
-	 * @throws CSInternalConfigurationException 
-	 * 
+	 * @throws CSInternalConfigurationException
+	 *
 	 */
 	private static boolean executeQuery(Connection connection, String query, String userID, String password) throws CSInternalConfigurationException
 	{
@@ -320,7 +319,7 @@ public class RDBMSHelper {
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");				
+			throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");
 		}
 		finally
 		{
@@ -345,19 +344,19 @@ public class RDBMSHelper {
 	}
 
 	/**
-	 * Accepts the connection properties which are used to connect to the 
-	 * database. The established connection is then returned to the calling 
+	 * Accepts the connection properties which are used to connect to the
+	 * database. The established connection is then returned to the calling
 	 * function. The properties should have the following items - "driver",
 	 * "url", "user" and "passwd".
 	 * @param connectionProperties contains the properties needed to connect to
-	 * 			the database. It contains the values for the following items 
+	 * 			the database. It contains the values for the following items
 	 * 			the driver class to be used, the url of the database to connect
-	 * 			the user name and the password to be used to connect to the 
+	 * 			the user name and the password to be used to connect to the
 	 * 			database
-	 * @return a connection to the database obtained using the properties 
+	 * @return a connection to the database obtained using the properties
 	 * 			provided
-	 * @throws CSInternalConfigurationException 
-	 * 
+	 * @throws CSInternalConfigurationException
+	 *
 	 */
 	private static Connection getConnection (Hashtable connectionProperties) throws CSInternalConfigurationException
 	{
@@ -378,8 +377,9 @@ public class RDBMSHelper {
 		}
 		catch (ClassNotFoundException e)
 		{
+			e.printStackTrace();
 			if (log.isDebugEnabled())
-				log.debug("Authentication|||getConnection|Failure| Error Loading Driver for Authentication Database|"+ e.getMessage());			
+				log.debug("Authentication|||getConnection|Failure| Error Loading Driver for Authentication Database|"+ e.getMessage());
 			throw new CSInternalConfigurationException ("Unable to Load Driver for Authentication Database");
 		}
 
@@ -390,6 +390,7 @@ public class RDBMSHelper {
 		}
 		catch (SQLException e)
 		{
+			e.printStackTrace();
 			if (log.isDebugEnabled())
 				log.debug("Authentication|||getConnection|Failure| Error Obtaining Connection for Authentication Database|"+ e.getMessage());
 			throw new CSInternalConfigurationException ("Unable to obtain connection for Authentication Database");

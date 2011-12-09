@@ -10,7 +10,11 @@
 
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
         <property name="hibernate.show_sql">false</property>
-        <property name="connection.datasource">java:@application.jndi@@application.context.name@</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/upt423</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">IpgSanju10</property>
+        <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
 	<property name="hibernate.c3p0.min_size">5</property>
 	<property name="hibernate.c3p0.max_size">20</property>
 	<property name="hibernate.c3p0.timeout">300</property>

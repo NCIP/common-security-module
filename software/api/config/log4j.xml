@@ -5,12 +5,12 @@
 
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
     <appender name="CLM_APPENDER" class="gov.nih.nci.logging.api.appender.jdbc.JDBCAppender">
-      <param name="application" value="csm41" />
+      <param name="application" value="csmupt" />
       <param name="maxBufferSize" value="1" />
       <param name="dbDriverClass" value="org.gjt.mm.mysql.Driver" />
-      <param name="dbUrl" value="jdbc:mysql://localhost:3306/csm41" />
+      <param name="dbUrl" value="jdbc:mysql://localhost:3306/csmapitest" />
       <param name="dbUser" value="root" />
-      <param name="dbPwd" value="admin" />
+      <param name="dbPwd" value="IpgSanju10" />
 	  <param name="useFilter" value="true" />
       <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern"
