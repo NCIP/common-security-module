@@ -15,7 +15,7 @@ select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual
 /
 
 insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (1, '<<SuperAdmin>>','<<super_admin_first_name>>','<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',sysdate)
+values (1, 'SuperAdmin','<<super_admin_first_name>>','<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',sysdate)
 /
 
 select CSM_USER_USER_ID_SEQ.nextval from dual
