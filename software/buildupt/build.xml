@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-$Id: build.xml 1593 2009-04-27 21:29:25Z saksass $
-$HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/build.xml $
--->
-
 <project name="csm-bkwrds" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
 	<description>
 		Builds the CSM/UPT application.
