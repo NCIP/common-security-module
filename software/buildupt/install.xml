@@ -1706,7 +1706,7 @@
 			<then>
 				<mkdir dir="${os.temp.dir}/${project.name}"/>
 				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
-					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/${upt.42.url.context.name}">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/${upt.423.url.context.name}">
 						<include name="**/db-upgrade*.xml"/>
 						<include name="**/MigrationScript*.xml"/>
 					</fileset>
@@ -1870,14 +1870,7 @@
 						database.name="@{database.name}" database.type="@{database.type}"
 			/>
 			<if>
-				<not>
-					<and>
-						<equals arg1="${upt.central.config}"  arg2="true"/>					
-						<not>
-							<equals arg1="${upgrade.upt.central.db.previous.version}"  arg2="4.2"/>
-						</not>
-					</and>
-				</not>
+				<equals arg1="${upt.central.config}"  arg2="true"/>					
 				<then>
 					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
 									  database.user="@{database.user}" database.password="@{database.password}" 
