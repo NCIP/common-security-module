@@ -11,7 +11,7 @@ insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 values ("csmupt","CSM UPT Super Admin Application",0,0,sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("@super.admin.user@","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+values ("SuperAdmin","superadminfirstname","superadminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
 values ("admin","admin.first.name","adminlastname","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
