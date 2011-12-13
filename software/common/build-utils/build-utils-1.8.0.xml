@@ -2637,6 +2637,11 @@
 		<attribute name="database.schema" default="${database.schema}" />
 		<attribute name="database.changelog.file" default="${os.temp.dir}/${project.name}/db-upgrade.xml" />
 		<sequential>
+
+		<path id="jdbc.driver.classpath">
+			<pathelement location="${database.driver.file}"/>
+		</path>
+		
 			<database-upgrade-fix
 				database.driver="@{database.driver}"
 				database.url="@{database.url}"
