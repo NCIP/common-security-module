@@ -1869,14 +1869,7 @@
 						database.name="@{database.name}" database.type="@{database.type}"
 			/>
 			<if>
-				<not>
-					<and>
-						<equals arg1="${upt.central.config}"  arg2="true"/>					
-						<not>
-							<equals arg1="${upgrade.upt.central.db.previous.version}"  arg2="4.2"/>
-						</not>
-					</and>
-				</not>
+				<equals arg1="${upt.central.config}"  arg2="true"/>					
 				<then>
 					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
 									  database.user="@{database.user}" database.password="@{database.password}" 
