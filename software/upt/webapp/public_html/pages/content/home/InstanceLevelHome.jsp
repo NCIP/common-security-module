@@ -19,11 +19,35 @@
     		document.InstanceLevelForm.operation.value=target;
     		document.InstanceLevelForm.submit();
     	}
+    	
+function skipNavigation()
+{
+	document.getElementById("ilHome").focus();
+	window.location.hash="ilHome";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
+    	
     // -->
     </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table summary="Instance level Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation">
 		<html:hidden property="operation" value="error" />
@@ -36,7 +60,7 @@
 
 					<h2>Instance Level</h2>
 
-					<h3>Instance Level Home</h3>
+					<h3><a id="ilHome"></a>Instance Level Home</h3>
 
 					<p>This is the InstanceLevel section of the User Provisioning Tool. Instance Level
 					is a feature provided by CSM to allow filtering of the instance of data directly at the database level by creating filter criteria's and
@@ -48,7 +72,7 @@
 				</tr>
 				<tr>
 					<td valign="top" width="40%"><!-- sidebar begins -->
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
@@ -65,7 +89,7 @@
 						<tr><td><br></td></tr>
 						<tr>
 							<td valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 
