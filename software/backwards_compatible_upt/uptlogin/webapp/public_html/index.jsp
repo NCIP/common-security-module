@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- NCI hdr ends -->
   <tr>
     <td height="100%" align="center" valign="top">
-      <table cellpadding="0" cellspacing="0" border="0" height="100%" width="771">
+      <table summary="" cellpadding="0" cellspacing="0" border="0" height="100%" width="771">
 				<!-- application hdr begins -->
 				<tr>
 
@@ -163,7 +163,7 @@ function MM_swapImage() { //v3.0
 
 			<!-- banner begins -->
 			<tr>
-				<td class="bannerHome"><img src="images/bannerHome.gif" height="140" alt="NCICB Common Security Module User Provisioning Tool"></td>
+				<td class="bannerHome"><img src="images/bannerHome.gif" height="140"></td>
 
 			</tr>
 			<!-- banner begins -->
@@ -270,14 +270,13 @@ function MM_swapImage() { //v3.0
 								<table summary="" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSectionLogin">
 									<tr>
-										<td class="sidebarTitle" height="20">WHAT'S NEW IN 4.2</td>
+										<td class="sidebarTitle" height="20">WHAT'S NEW IN 4.0</td>
 									</tr>
 									<tr>
 										<td class="sidebarContent">
-											<li>Instance Level Security Performance Enhancements
-											<li>New AuthorizationManager operations
-											<li>Several API enhancements and bug fixes
-											<li>Technology Stack Upgrade
+											<li>You can now provision Instance Level Security by creating new security filters
+											<li>Protection Element now has a new "Value" field to store value of object attributes.
+											<li>Test button provided for newly entered database connection parameters to avoid errors
 										</td>
 
 									</tr>
@@ -379,7 +378,7 @@ function MM_swapImage() { //v3.0
           </td>
         </tr>
       </table>
-    <td></td>
+    <td>pa</td>
   </tr>
   <tr>
     <td>

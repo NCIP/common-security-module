@@ -11,7 +11,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
 <script>
     <!--
     	function setAndSubmit(target)
@@ -19,35 +19,11 @@
     		document.RoleForm.operation.value=target;
     		document.RoleForm.submit();
     	}
-    	
-function skipNavigation()
-{
-	document.getElementById("roleHome").focus();
-	window.location.hash="roleHome";
-	document.getElementById("ncilink").tabIndex = -1;
-	document.getElementById("nihlink").tabIndex = -1;
-	document.getElementById("skipmenu").tabIndex = -1;
-	
-	document.getElementById("homeLink").tabIndex = -1;
-	if(document.getElementById("adminhomeLink"))
-		document.getElementById("adminhomeLink").tabIndex = -1;
-		
-	document.getElementById("menuHome").tabIndex = -1;
-	document.getElementById("menuUser").tabIndex = -1;
-	document.getElementById("menuPE").tabIndex = -1;
-	document.getElementById("menuPrivilege").tabIndex = -1;
-	document.getElementById("menuGroup").tabIndex = -1;
-	document.getElementById("menuPG").tabIndex = -1;
-	document.getElementById("menuRole").tabIndex = -1;
-	document.getElementById("menuInstance").tabIndex = -1;
-	document.getElementById("menulogout").tabIndex = -1;
-}
-    	
     // -->
     </script>
 
 
-	<table summary="Role Home" cellpadding="0" cellspacing="0" border="0"
+	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="RoleForm" action="/RoleDBOperation">
 		<html:hidden property="operation" value="error" />
@@ -60,7 +36,7 @@ function skipNavigation()
 
 					<h2>Role</h2>
 
-					<h3><a id="roleHome"></a>Role Home</h3>
+					<h3>Role Home</h3>
 
 					<p>This is the Role section of the User Provisioning Tool. A Role
 					is simply a collection of application Privileges. By combining
@@ -74,7 +50,7 @@ function skipNavigation()
 				</tr>
 				<tr>
 					<td valign="top" width="40%"><!-- sidebar begins -->
-					<table cellpadding="0" cellspacing="0" border="0"
+					<table summary="" cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
@@ -85,7 +61,7 @@ function skipNavigation()
 						<tr><td><br></td></tr>
 						<tr>
 							<td valign="top">
-							<table cellpadding="0" cellspacing="0" border="0"
+							<table summary="" cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 

@@ -5,7 +5,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
     <script> 
     <!--
@@ -74,41 +74,16 @@
 	         if (options[0] != null)
 	            options[0].selected = true;
 	      } // end with isavailableIds
-		}    
-		
-function skipNavigation()
-{
-	document.getElementById("roleAssoc").focus();
-	window.location.hash="roleAssoc";
-	document.getElementById("ncilink").tabIndex = -1;
-	document.getElementById("nihlink").tabIndex = -1;
-	document.getElementById("skipmenu").tabIndex = -1;
-	
-	document.getElementById("homeLink").tabIndex = -1;
-	if(document.getElementById("adminhomeLink"))
-		document.getElementById("adminhomeLink").tabIndex = -1;
-		
-	document.getElementById("menuHome").tabIndex = -1;
-	document.getElementById("menuUser").tabIndex = -1;
-	document.getElementById("menuPE").tabIndex = -1;
-	document.getElementById("menuPrivilege").tabIndex = -1;
-	document.getElementById("menuGroup").tabIndex = -1;
-	document.getElementById("menuPG").tabIndex = -1;
-	document.getElementById("menuRole").tabIndex = -1;
-	document.getElementById("menuInstance").tabIndex = -1;
-	document.getElementById("menulogout").tabIndex = -1;
-} 	
-		
-		// -->
+		}    // -->
     </script>
 
-<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 			<tr>
 				<td colspan="3">
-					<h2><a id="roleAssoc"></a>Role And Privileges Association</h2>
+					<h2>Role And Privileges Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="RoleForm" property="roleName" value="<%=DisplayConstants.BLANK%>">
@@ -119,7 +94,7 @@ function skipNavigation()
 							<td class="formTitle" height="20" colspan="2">SELECTED ROLE</td>
 						</tr>
 						<tr class="dataRowDark">
-							<td class="formRequiredLabel" width="40%" scope="row"><label for="roleName">Role Name</label></td>
+							<td class="formRequiredLabel" width="40%" scope="row"><label>Role Name</label></td>
 							<td class="formField" width="60%"><bean:write name="RoleForm" property="roleName" /></td>
 						</tr>
 					</table>
@@ -128,7 +103,7 @@ function skipNavigation()
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table cellpadding="3" cellspacing="10" border="0" width="100%" height="100%">
+				<table summary="" cellpadding="3" cellspacing="10" border="0" width="100%" height="100%">
 					<tr>
 						<td class="infoMessage">
 		  				<html:messages id="message" message="true">
@@ -159,7 +134,7 @@ function skipNavigation()
 					
 					<td width="100%" valign="top">
 					<form name="dummyForm">
-					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">AVAILABLE PRIVILEGES</td>
@@ -213,7 +188,7 @@ function skipNavigation()
 					<td width="100%" valign="top">
 					<html:form styleId="RoleForm" action = '<%="/RoleDBOperation"%>'>
 					<html:hidden property="operation" value="read"/>
-					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">ASSIGNED PRIVILEGES</td>

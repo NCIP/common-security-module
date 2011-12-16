@@ -5,9 +5,9 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
-<%@ page import="gov.nih.nci.security.upt.forms.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.viewobjects.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.forms.*"%>
 
 <script type='text/javascript' src='dwr/interface/InstanceLevelHelper.js'></script>
 <script type='text/javascript' src='dwr/engine.js'></script>
@@ -137,29 +137,6 @@
             dwr.util.addOptions (sel,map);
       }
       
-function skipNavigation()
-{
-	document.getElementById("ilDetail").focus();
-	window.location.hash="ilDetail";
-	document.getElementById("ncilink").tabIndex = -1;
-	document.getElementById("nihlink").tabIndex = -1;
-	document.getElementById("skipmenu").tabIndex = -1;
-	
-	document.getElementById("homeLink").tabIndex = -1;
-	if(document.getElementById("adminhomeLink"))
-		document.getElementById("adminhomeLink").tabIndex = -1;
-		
-	document.getElementById("menuHome").tabIndex = -1;
-	document.getElementById("menuUser").tabIndex = -1;
-	document.getElementById("menuPE").tabIndex = -1;
-	document.getElementById("menuPrivilege").tabIndex = -1;
-	document.getElementById("menuGroup").tabIndex = -1;
-	document.getElementById("menuPG").tabIndex = -1;
-	document.getElementById("menuRole").tabIndex = -1;
-	document.getElementById("menuInstance").tabIndex = -1;
-	document.getElementById("menulogout").tabIndex = -1;
-}
-      
  
 // -->
 </script>
@@ -184,8 +161,8 @@ function skipNavigation()
 	</logic:equal>
 </logic:notEqual>
 
-	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation">
+	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation"  focus="className">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 	<html:hidden property="userLoginName" value="<%=submitValue%>"/>
 			<tr>
@@ -193,7 +170,7 @@ function skipNavigation()
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="Instance level details" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+					<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
 							<td class="infoMessage" colspan="3">
 			  				<html:messages id="message" message="true">
@@ -211,7 +188,7 @@ function skipNavigation()
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
-									<td class="formMessage" colspan="3"><a id="ilDetail"></a>Enter the details to add a new Filter Clause to be added. Note that you can
+									<td class="formMessage" colspan="3">Enter the details to add a new Filter Clause to be added. Note that you can
 									add multiple filter clause for a given class. 
 									The <b>Class Name</b> this the class for which you want to create a filter clause. 
 									The <b>Filter Chain</b> is a chain of the associated objects on which the security of the class depends upon. In
@@ -230,7 +207,7 @@ function skipNavigation()
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing Instance level filter by entering the <b>Filter Class Name</b>.</td>
+									<td class="formMessage" colspan="3">Search for an existing Role by entering the <b>Role Name</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -239,7 +216,7 @@ function skipNavigation()
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3"><a id="ilDetail"></a>Update the details of the Filter Clause. Note that all fields except the <b>Generated SQL</b> 
+									<td class="formMessage" colspan="3">Update the details of the Filter Clause. Note that all fields except the <b>Generated SQL</b> 
 									are non editable.
 									The <b>Class Name</b> is the class for which the filter clause is created. 
 									The <b>Filter Chain</b> shows the chain of classes on which the security for the current class depends upon. 
@@ -283,25 +260,25 @@ function skipNavigation()
 								<tr>
 									<logic:equal name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">*</td>
-										<td class="formRequiredLabel2"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formRequiredLabel2"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:equal>
 									<logic:notEqual name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">&nbsp;</td>
-										<td class="formLabel"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formLabel"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:notEqual>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
 										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
 											<html:hidden property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>"/>
-											<td class="formField"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;</label></td>
+											<td class="formField"><label><bean:write name="formElement" property="propertyValue" />&nbsp;</label></td>
 										</logic:equal>
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
-											<td class="formField"><html:text style="formFieldSized" size="60" maxlength="100" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
+											<td class="formField"><html:text style="formFieldSized" size="60" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
 										</logic:notEqual>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_COMBOBOX%>">
 										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
 											<html:hidden property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>"/>
-											<td class="formField"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;</label></td>
+											<td class="formField"><label><bean:write name="formElement" property="propertyValue" />&nbsp;</label></td>
 										</logic:equal>
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
 											<logic:equal name="formElement" property="propertyName" value="className">
@@ -315,7 +292,7 @@ function skipNavigation()
 												<input type="hidden" id="filterChain" name="filterChain" />
 												<input type="hidden" id="targetClassName" name="targetClassName" />
 												<td class="formField">
-													<table id="childClassTable" name="childClassTable" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" >
+													<table id="childClassTable" name="childClassTable" summary="" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" >
 														<tr>
 															<td>
 															<html:select styleId="filterChainElement1" style="formFieldSized" property="filterChainElement1" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>">
@@ -341,22 +318,22 @@ function skipNavigation()
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
 										<td class="formField">
 										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+											<label><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 										</logic:equal>
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
 											<% if(formElement.getPropertyDisabled()){ %>
-												<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+												<label><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 											<% }else{ %>
-											<html:text  style="formFieldSized" size="10" maxlength="10" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
+											<html:text  style="formFieldSized" size="10" maxlength="10" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
 											<% } %>											
 										</logic:notEqual>
 										</td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-										<td class="formField"><html:textarea style="formFieldSized" cols="70" rows="5" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
+										<td class="formField"><html:textarea style="formFieldSized" cols="70" rows="5" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-										<td class="formField"><html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
+										<td class="formField"><html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
 									</logic:equal>
 								</tr>
 							</logic:iterate>

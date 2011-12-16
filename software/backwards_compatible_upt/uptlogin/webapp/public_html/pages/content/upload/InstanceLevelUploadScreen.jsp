@@ -5,44 +5,20 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
-<%@ page import="gov.nih.nci.security.upt.forms.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.viewobjects.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.forms.*"%>
 <script>
 <!--
    	function setAndSubmit(target)
    	{
    		document.InstanceLevelForm.operation.value=target;
  	}
- 	
-function skipNavigation()
-{
-	document.getElementById("uploadHome").focus();
-	window.location.hash="uploadHome";
-	document.getElementById("ncilink").tabIndex = -1;
-	document.getElementById("nihlink").tabIndex = -1;
-	document.getElementById("skipmenu").tabIndex = -1;
-	
-	document.getElementById("homeLink").tabIndex = -1;
-	if(document.getElementById("adminhomeLink"))
-		document.getElementById("adminhomeLink").tabIndex = -1;
-		
-	document.getElementById("menuHome").tabIndex = -1;
-	document.getElementById("menuUser").tabIndex = -1;
-	document.getElementById("menuPE").tabIndex = -1;
-	document.getElementById("menuPrivilege").tabIndex = -1;
-	document.getElementById("menuGroup").tabIndex = -1;
-	document.getElementById("menuPG").tabIndex = -1;
-	document.getElementById("menuRole").tabIndex = -1;
-	document.getElementById("menuInstance").tabIndex = -1;
-	document.getElementById("menulogout").tabIndex = -1;
-}
- 	
 // -->
 </script>
 
-	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation" enctype="multipart/form-data">
+	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation"  focus="uploadedFile1" enctype="multipart/form-data">
 	<html:hidden property="operation" value="upload"/>
 	<html:hidden property="userLoginName" value="upload"/>
 		<tr>
@@ -50,7 +26,7 @@ function skipNavigation()
 				<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
 					<tr>
 						<td>
-							<table summary="Upload jar for Instance level security" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+							<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 								<tr>
 									<td class="infoMessage" colspan="3">
 						  				<html:messages id="message" message="true">
@@ -66,7 +42,7 @@ function skipNavigation()
 								<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
 								<tr>
 									<tr>
-										<td class="formMessage" colspan="3"><a id="uploadHome"></a>Enter the path's of the Application Jar files containing the Hibernate Files and the Domain Object. Also you provide 
+										<td class="formMessage" colspan="3">Enter the path's of the Application Jar files containing the Hibernate Files and the Domain Object. Also you provide 
 										the name of the Hibernate configuration File to be used. 
 										The <b>Application Jar File</b> is the path of the file containing the domain objects, hibernate mapping file and complete hibernate configuration file. 
 										The uploaded file should be a valid Java Archive (jar) File. <b>NOTE:</b> For an SDK generated system, you can upload the second Application Jar File 
@@ -82,18 +58,18 @@ function skipNavigation()
 								</tr>
 								<tr>
 									<td class="formRequiredNotice" width="5">*</td>
-									<td class="formRequiredLabel2"><label for="uploadedFile1">Application Jar File</label></td>
-									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" styleId="uploadedFile1" property="uploadedFile1" value="" /></td>
+									<td class="formRequiredLabel2"><label>Application Jar File</label></td>
+									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" property="uploadedFile1" value="" /></td>
 								</tr>
 								<tr>
 									<td class="formRequiredNotice" width="5">&nbsp;</td>
-									<td class="formLabel"><label for="uploadedFile2">Application Jar File</label></td>
-									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" styleId="uploadedFile2" property="uploadedFile2" value="" /></td>
+									<td class="formLabel"><label>Application Jar File</label></td>
+									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" property="uploadedFile2" value="" /></td>
 								</tr>
 								<tr>									
 									<td class="formRequiredNotice" width="5">*</td>
-									<td class="formRequiredLabel2"><label for="hibernateFileName">Hibernate Configuration File Name</label></td>
-									<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" styleId="hibernateFileName" property="hibernateFileName" value=""/></td>
+									<td class="formRequiredLabel2"><label>Hibernate Configuration File Name</label></td>
+									<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" property="hibernateFileName" value=""/></td>
 								</tr>
 								<tr>
 									<td align="right" colspan="3"><!-- action buttons begins -->

@@ -11,7 +11,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
 <script>
     <!--
     	function setAndSubmit(target)
@@ -20,55 +20,10 @@
     		document.UserForm.submit();
     	}
     // -->
-    
-function skipNavigation()
-{
-	document.getElementById("userHome").focus();
-	window.location.hash="userHome";
-	document.getElementById("ncilink").tabIndex = -1;
-	document.getElementById("nihlink").tabIndex = -1;
-	document.getElementById("skipmenu").tabIndex = -1;
-	
-	if(document.getElementById("homeLink"))
-		document.getElementById("homeLink").tabIndex = -1;
-	if(document.getElementById("adminhomeLink"))
-		document.getElementById("adminhomeLink").tabIndex = -1;
-	if(document.getElementById("menuHome"))
-		document.getElementById("menuHome").tabIndex = -1;
-	if(document.getElementById("menuUser"))
-		document.getElementById("menuUser").tabIndex = -1;
-	if(document.getElementById("menuPE"))	
-		document.getElementById("menuPE").tabIndex = -1;
-	if(document.getElementById("menuPrivilege"))	
-		document.getElementById("menuPrivilege").tabIndex = -1;
-	if(document.getElementById("menuGroup"))
-		document.getElementById("menuGroup").tabIndex = -1;
-	if(document.getElementById("menuPG"))
-		document.getElementById("menuPG").tabIndex = -1;
-	if(document.getElementById("menuRole"))
-		document.getElementById("menuRole").tabIndex = -1;
-	if(document.getElementById("menuInstance"))
-		document.getElementById("menuInstance").tabIndex = -1;
-	if(document.getElementById("menulogout"))
-		document.getElementById("menulogout").tabIndex = -1;
-
-	if(document.getElementById("saHome"))
-		document.getElementById("saHome").tabIndex = -1;
-	if(document.getElementById("saApp"))	
-		document.getElementById("saApp").tabIndex = -1;
-	if(document.getElementById("saUser"))
-		document.getElementById("saUser").tabIndex = -1;
-	if(document.getElementById("saPriv"))
-		document.getElementById("saPriv").tabIndex = -1;
-	if(document.getElementById("saLogout"))
-		document.getElementById("saLogout").tabIndex = -1;
-
-}
-    
     </script>
 
 
-<table summary="User Home" cellpadding="0" cellspacing="0" border="0"
+<table summary="" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 
 <html:form styleId="UserForm" action="/UserDBOperation">
@@ -83,7 +38,7 @@ function skipNavigation()
 
 					<h2>User</h2>
 
-					<h3><a id="userHome"></a>User Home</h3>
+					<h3>User Home</h3>
 					<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
 					<p>This is the User section of the User Provisioning Tool. A User
 					is simply someone that requires access to your application. Users
@@ -102,7 +57,7 @@ function skipNavigation()
 				</tr>
 				<tr>
 					<td valign="top" width="40%"><!-- sidebar begins -->
-					<table cellpadding="0" cellspacing="0" border="0"
+					<table summary="" cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
@@ -113,7 +68,7 @@ function skipNavigation()
 						<tr><td><br></td></tr>
 						<tr>
 							<td valign="top">
-							<table cellpadding="0" cellspacing="0" border="0"
+							<table summary="" cellpadding="0" cellspacing="0" border="0"
 								width="100%" height="100%" class="sidebarSection">
 								<tr>
 

@@ -11,7 +11,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
 
 <script>
   <!--
@@ -69,15 +69,13 @@ function MM_swapImage() { //v3.0
 	%>
 	<html:hidden property="tableId" value="error" />
 	<td class="mainMenu" height="20">
-	<table cellpadding="0" cellspacing="0" border="0"
+	<table summary="" cellpadding="0" cellspacing="0" border="0"
 		height="16">
 		<logic:present name="<%=DisplayConstants.LOGIN_OBJECT%>">
 			<tr	height="16">
-			<!--
-				<td  height="16" width="1"><a href="#content"><img
+				<td  height="16" width="1"><!-- anchor to skip main menu --><a href="#content"><img
 					src="images/shim.gif" alt="Skip Menu" width="1" height="1"
 					border="0"></a></td>
-			-->
 				<!-- link 1 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.HOME_ID)){%>
 				<td height="16" class="mainMenuItemOver"
@@ -85,17 +83,17 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.HOME_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.HOME_ID%>')" id="menuHome">HOME</a>
+					href="javascript: set('<%=DisplayConstants.HOME_ID%>')">HOME</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.HOME_ID)){%>
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.HOME_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.HOME_ID%>')" id="menuHome">HOME</a>
+					href="javascript: set('<%=DisplayConstants.HOME_ID%>')">HOME</a>
 			<%}%>
 				<!-- link 1 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
+				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 7 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.USER_ID)){%>
@@ -104,17 +102,17 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.USER_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.USER_ID%>')" id="menuUser">USER</a>
+					href="javascript: set('<%=DisplayConstants.USER_ID%>')">USER</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.USER_ID)){%>
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.USER_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.USER_ID%>')" id="menuUser">USER</a>
+					href="javascript: set('<%=DisplayConstants.USER_ID%>')">USER</a>
 				<%}%>
 				<!-- link 7 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator"
+				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 4 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID)){%>
@@ -123,7 +121,7 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')" id="menuPE">PROTECTION
+					href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')">PROTECTION
 				ELEMENT</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID)){%>
 				<td height="16" class="mainMenuItem"
@@ -131,11 +129,11 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')" id="menuPE">PROTECTION
+					href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')">PROTECTION
 				ELEMENT</a>
 				<%}%>
 				<!-- link 4 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
+				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 3 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID)){%>
@@ -144,17 +142,17 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')" id="menuPrivilege">PRIVILEGE</a>
+					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">PRIVILEGE</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID)){%>
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')" id="menuPrivilege">PRIVILEGE</a>
+					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">PRIVILEGE</a>
 				<%}%>
 				<!-- link 3 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
+				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 2 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.GROUP_ID)){%>
@@ -163,17 +161,17 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.GROUP_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.GROUP_ID%>')" id="menuGroup">GROUP</a>
+					href="javascript: set('<%=DisplayConstants.GROUP_ID%>')">GROUP</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.GROUP_ID)){%>
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.GROUP_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.GROUP_ID%>')" id="menuGroup">GROUP</a>
+					href="javascript: set('<%=DisplayConstants.GROUP_ID%>')">GROUP</a>
 				<%}%>
 				<!-- link 2 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
+				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 5 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID)){%>
@@ -182,7 +180,7 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')" id="menuPG">PROTECTION
+					href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')">PROTECTION
 				GROUP</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID)){%>
 				<td height="16" class="mainMenuItem"
@@ -190,11 +188,11 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')" id="menuPG">PROTECTION
+					href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')">PROTECTION
 				GROUP</a>
 				<%}%>
 				<!-- link 5 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
+				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 6 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.ROLE_ID)){%>
@@ -203,17 +201,17 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.ROLE_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.ROLE_ID%>')" id="menuRole">ROLE</a>
+					href="javascript: set('<%=DisplayConstants.ROLE_ID%>')">ROLE</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.ROLE_ID)){%>
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.ROLE_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.ROLE_ID%>')" id="menuRole">ROLE</a>
+					href="javascript: set('<%=DisplayConstants.ROLE_ID%>')">ROLE</a>
 				<%}%>
 				<!-- link 6 ends -->
-				<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
+				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 7 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID)){%>
@@ -222,17 +220,17 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')" id="menuInstance">INSTANCE LEVEL</a>
+					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">INSTANCE LEVEL</a>
 				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID)){%>
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')"><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')" id="menuInstance">INSTANCE LEVEL</a>
+					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">INSTANCE LEVEL</a>
 				<%}%>
 				<!-- link 7 ends -->
-				<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
+				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"
 					/>
 				<!-- link 8 begins -->
 				<td height="16" class="mainMenuItem"
@@ -240,7 +238,7 @@ function MM_swapImage() { //v3.0
 					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
 					><a
 					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')" id="menulogout">LOG OUT</a>
+					href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')">LOG OUT</a>
 				<!-- link 8 ends -->
 				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"/></td>
 			</tr>

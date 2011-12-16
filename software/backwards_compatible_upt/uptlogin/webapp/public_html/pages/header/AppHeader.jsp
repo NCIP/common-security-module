@@ -3,8 +3,8 @@
 <%@ taglib uri="/tags/struts-html" prefix="html" %>
 <%@ taglib uri="/tags/struts-logic" prefix="logic" %>
 
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
-<%@ page import="gov.nih.nci.security.upt.forms.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.loginapp.forms.*"%>
 
 <table width="100%" height="50" border="0" cellspacing="0" cellpadding="0" class="subhdrBG">
 							<tr>
@@ -12,11 +12,11 @@
 							<!-- new separate links depending on admin or super admin -->
 							
 							 <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-							 <td height="50" width="400" align="left"><html:link forward="AdminHome" styleId="adminhomeLink"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
+							 <td height="50" width="400" align="left"><html:link forward="AdminHome"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
 							 </logic:present>
 								
 							<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
-							<td height="50" width="400" align="left"><html:link forward="Home" styleId="homeLink"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
+							<td height="50" width="400" align="left"><html:link forward="LHome"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
 							</logic:notPresent>		
 								
 							<!-- end home links -->	
@@ -28,7 +28,7 @@
 								
 								
 								<td width="200" align="right">
-									<table>
+									<%--<table>
 									<!--
 									<tr><td class="appMenu" width="200" align="right">&nbsp;</td><td class="appMenu" width="50" align="center">&nbsp;</td></tr>
 									-->
@@ -43,7 +43,7 @@
 									<!--<tr><td class="appMenu" width="200" align="right">&nbsp;</td><td class="appMenu" width="50" align="center">&nbsp;</td></tr> 
 									-->
 									</table>
-								</td>
+								--%></td>
 								</logic:present>
 							</tr>
 </table>
