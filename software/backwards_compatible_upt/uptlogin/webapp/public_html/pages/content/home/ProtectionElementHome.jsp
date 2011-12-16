@@ -11,7 +11,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <script>
     <!--
     	function setAndSubmit(target)
@@ -19,11 +19,35 @@
     		document.ProtectionElementForm.operation.value=target;
     		document.ProtectionElementForm.submit();
     	}
+    	
+function skipNavigation()
+{
+	document.getElementById("peHome").focus();
+	window.location.hash="peHome";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
+    	
     // -->
     </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table summary="Protection Element Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="ProtectionElementForm"
 	action="/ProtectionElementDBOperation">
@@ -37,7 +61,7 @@
 
 					<h2>Protection Element</h2>
 
-					<h3>Protection Element Home</h3>
+					<h3><a id="peHome"></a>Protection Element Home</h3>
 
 					<p>This is the Protection Element section of the User Provisioning
 					Tool. A Protection Element is any entity (typically data) that has controlled
@@ -52,7 +76,7 @@
 				</tr>
 				<tr>
 					<td valign="top" width="40%"><!-- sidebar begins -->
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
@@ -63,7 +87,7 @@
 						<tr><td><br></td></tr>
 						<tr>
 							<td valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 

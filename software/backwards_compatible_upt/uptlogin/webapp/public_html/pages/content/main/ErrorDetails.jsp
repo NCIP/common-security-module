@@ -5,8 +5,8 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
-<%@ page import="gov.nih.nci.security.loginapp.forms.*"%>
+<%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.forms.*"%>
 
 <br>
   <table width="700" border="0" cellspacing="0" cellpadding="0" align="center">

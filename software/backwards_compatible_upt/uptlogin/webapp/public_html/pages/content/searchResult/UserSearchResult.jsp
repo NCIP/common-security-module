@@ -11,9 +11,9 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
-<%@ page import="gov.nih.nci.security.loginapp.forms.*"%>
+<%@ page import="gov.nih.nci.security.upt.forms.*"%>
 <% int cntResObj=1; // - Count the number of objects to display %>
 <script>
 <!--
@@ -78,19 +78,65 @@
 		}
 
 	}
+	
+function skipNavigation()
+{
+	document.getElementById("userResult").focus();
+	window.location.hash="userResult";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+	if(document.getElementById("menuHome"))
+		document.getElementById("menuHome").tabIndex = -1;
+	if(document.getElementById("menuUser"))
+		document.getElementById("menuUser").tabIndex = -1;
+	if(document.getElementById("menuPE"))	
+		document.getElementById("menuPE").tabIndex = -1;
+	if(document.getElementById("menuPrivilege"))	
+		document.getElementById("menuPrivilege").tabIndex = -1;
+	if(document.getElementById("menuGroup"))
+		document.getElementById("menuGroup").tabIndex = -1;
+	if(document.getElementById("menuPG"))
+		document.getElementById("menuPG").tabIndex = -1;
+	if(document.getElementById("menuRole"))
+		document.getElementById("menuRole").tabIndex = -1;
+	if(document.getElementById("menuInstance"))
+		document.getElementById("menuInstance").tabIndex = -1;
+	if(document.getElementById("menulogout"))
+		document.getElementById("menulogout").tabIndex = -1;
+
+	if(document.getElementById("saHome"))
+		document.getElementById("saHome").tabIndex = -1;
+	if(document.getElementById("saApp"))	
+		document.getElementById("saApp").tabIndex = -1;
+	if(document.getElementById("saUser"))
+		document.getElementById("saUser").tabIndex = -1;
+	if(document.getElementById("saPriv"))
+		document.getElementById("saPriv").tabIndex = -1;
+	if(document.getElementById("saLogout"))
+		document.getElementById("saLogout").tabIndex = -1;
+
+}
+    
+	
 		// -->
 
 </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="UserForm"
 	action='<%="/UserDBOperation"%>'>
 	<html:hidden property="operation" value="read" />
 		<tr>
 			<td>
-			<h2>User</h2>
+			<h2><a id="userResult"></a>User</h2>
 			</td>
 		</tr>
 		<tr>
@@ -99,7 +145,7 @@
 				width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						width="100%">
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
@@ -110,7 +156,7 @@
 							<bean:define id="oddRow" value="true" />
 							<tr>
 								<td>
-								<table summary="Enter summary of data here" cellpadding="3"
+								<table summary="Search results for User search"  cellpadding="3"
 									cellspacing="0" border="0" class="dataTable" width="100%">
 									<tr>
 										<th class="dataTableHeader" scope="col" align="center"

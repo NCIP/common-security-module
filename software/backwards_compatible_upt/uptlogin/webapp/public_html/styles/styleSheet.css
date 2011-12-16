@@ -197,7 +197,7 @@ td.infoMessage{ /* for the last row in the submenu left of the footer menu */
 LINKS BEGIN 
 ###############*/
 a:link,a:visited,a:active{ /* default links */
-	color:#000000; /* constant: black */
+	color:#475B82; /* constant: black */
 	text-decoration:underline;	
 	white-space: nowrap;
 }
@@ -508,4 +508,38 @@ MISCELLANEOUS BEGINS
 }
 img.img{ /* for images that need a border */
   border:1px solid #5C5C5C; /* constant: dark gray */
+}
+
+
+/*###############
+Skip Link
+###############*/
+
+.skipmenu{
+position:relative;
+}
+.skipmenu a.skippy{
+position:absolute;
+top: -1000px;
+left:-1000px;
+height: 1px;
+width: 1px;
+overflow:hidden;
+}
+
+.skipmenu a.skippy:active, .skipmenu a.skippy:focus, .skipmenu a.skippy:hover{
+position: absolute;
+top:auto;
+left:auto;
+width:100%;
+height: 1em;
+width: auto;
+font-size:1em;
+font-weight:bold;
+width:100%;
+padding-bottom:15px;
+color: black;
+z-index:100;
+text-align:left;
+margin-bottom:25px;
 }

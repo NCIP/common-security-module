@@ -5,7 +5,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
     <script> 
     <!--
@@ -74,17 +74,42 @@
 	         if (options[0] != null)
 	            options[0].selected = true;
 	      } // end with isavailableIds
-		}    // -->
+		}   
+		
+function skipNavigation()
+{
+	document.getElementById("peAssoc").focus();
+	window.location.hash="peAssoc";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+} 	
+		
+		// -->
     </script>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins" width="100%">
 					
 			<tr>
 				<td colspan="3">
-					<h2>Protection Element and Protection Groups Association</h2>
+					<h2><a id="peAssoc"></a>Protection Element and Protection Groups Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="ProtectionElementForm" property="protectionElementName" value="<%=DisplayConstants.BLANK%>">
@@ -95,7 +120,7 @@
 							<td class="formTitle" height="20" colspan="2">SELECTED PROTECTION ELEMENT</td>
 						</tr>
 						<tr class="dataRowDark">
-							<td class="formRequiredLabel" width="40%" scope="row"><label>Protection Element Name</label></td>
+							<td class="formRequiredLabel" width="40%" scope="row"><label for="protectionElementName">Protection Element Name</label></td>
 							<td class="formField" width="60%"><bean:write name="ProtectionElementForm" property="protectionElementName" /></td>
 						</tr>
 					</table>
@@ -104,7 +129,7 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%">
+				<table cellpadding="3" cellspacing="10" border="0" height="100%">
 					<tr>
 						<td class="infoMessage">
 		  				<html:messages id="message" message="true">
@@ -133,7 +158,7 @@
 					
 					<td width="100%" valign="top">
 					<form name="dummyForm">
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">AVAILABLE PGs</td>
@@ -185,7 +210,7 @@
 					<td width="100%" valign="top">
 					<html:form styleId="ProtectionElementForm" action = '<%="/ProtectionElementDBOperation"%>'>
 					<html:hidden property="operation" value="read"/>
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">ASSIGNED PGs</td>

@@ -2,7 +2,7 @@
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 
-<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.constants.*"%>
 
 <script>
   <!--
@@ -11,12 +11,33 @@
     		document.homeForm.tableId.value=tableId;
     		document.homeForm.submit();
     	}
+    	
+function skipNavigation()
+{
+	document.getElementById("saHomeHeader").focus();
+	window.location.hash="saHomeHeader";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("saHome").tabIndex = -1;
+	document.getElementById("saApp").tabIndex = -1;
+	document.getElementById("saUser").tabIndex = -1;
+	document.getElementById("saPriv").tabIndex = -1;
+	document.getElementById("saLogout").tabIndex = -1;
+}
+    	
    // -->
 </script>
 
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table summary="SuperAdmin Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<tr>
 			<td valign="top">
@@ -27,7 +48,7 @@
 
 					<h2>User Provisioning Tool</h2>
 
-					<h3>Welcome Super Admin!</h3>
+					<h3><a id="saHomeHeader"></a>Welcome Super Admin!</h3>
 
 					<p>Welcome to the User Provisioning Tool (UPT). This user interface
 					tool is designed so that developers can easily configure an
@@ -41,7 +62,7 @@
 				<!-- new box for menu items -->
 				<tr>
 <td valign="top" width="40%"><!-- sidebar begins -->
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<table cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 <tr><td><br></td></tr>
 <tr>
@@ -52,7 +73,7 @@
 							<td valign="top">
 
 
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 

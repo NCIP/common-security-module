@@ -11,7 +11,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <script> 
     <!--
@@ -175,10 +175,35 @@
          if (options[0] != null)
             options[0].selected = true;
       } // end with isavailableRoleIds
-	}    //-->
+	}   
+
+function skipNavigation()
+{
+	document.getElementById("usrAssoc").focus();
+	window.location.hash="usrAssoc";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
+	
+	//-->
     </script>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<table cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
@@ -186,7 +211,7 @@
 			class="contentBegins">
 			<tr>
 				<td>
-				<h2>User, Protection Group and Roles Association</h2>
+				<h2><a id="usrAssoc"></a>User, Protection Group and Roles Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
@@ -197,7 +222,7 @@
 								<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
 							</tr>
 							<tr class="dataRowDark">
-								<td class="formRequiredLabel" width="40%" scope="row"><label>User Login Name</label></td>
+								<td class="formRequiredLabel" width="40%" scope="row"><label for="userLoginName">User Login Name</label></td>
 								<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
 							</tr>
 						</table>
@@ -206,7 +231,7 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table summary="" cellpadding="3" cellspacing="10" border="0"
+				<table cellpadding="3" cellspacing="10" border="0"
 					height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
@@ -249,7 +274,7 @@
 									name="<%=DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET%>"
 									id="availableProtectionGroupIds" type="java.util.Collection" />
 								<td width="100%" valign="top">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSection">
 									<tr>
 										<td class="sidebarTitle" height="20">AVAILABLE PROTECTION
@@ -306,7 +331,7 @@
 								
 								
 								<td width="100%" valign="top">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSection">
 									<tr>
 
@@ -380,7 +405,7 @@
 							<bean:define name="<%=DisplayConstants.ASSIGNED_ROLE_SET%>"
 								id="roleAssociatedIds" type="java.util.Collection" />
 							<td width="100%" valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 									<td class="sidebarTitle" height="20">AVAILABLE ROLES</td>
@@ -430,7 +455,7 @@
 							
 							
 							<td width="100%" valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 

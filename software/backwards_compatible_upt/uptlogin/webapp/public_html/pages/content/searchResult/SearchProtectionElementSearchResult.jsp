@@ -11,7 +11,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
 
-<%@ page import="gov.nih.nci.security.loginapp.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <% int cntResObj=1; // - Count the number of objects to display %>
 <script>
@@ -74,18 +74,42 @@
 	    
 	    window.close();
 	}  
+	
+function skipNavigation()
+{
+	document.getElementById("peResult").focus();
+	window.location.hash="peResult";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+} 	
+	
 		// -->
 </script>
 
 
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<table cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<html:form styleId="ProtectionElementForm"
 		action='<%="/SearchProtectionElementDBOperation"%>'>
 		<html:hidden property="operation" value="read" />
 		<tr>
 			<td>
-			<h2>Protection Element</h2>
+			<h2><a id="peResult"></a>Protection Element</h2>
 			</td>
 		</tr>
 		<tr>
@@ -94,7 +118,7 @@
 				class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						width="100%">
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
@@ -105,7 +129,7 @@
 							<bean:define id="oddRow" value="true" />
 							<tr>
 								<td>
-								<table summary="Enter summary of data here" cellpadding="3"
+								<table summary="Search results for Protection Element search" cellpadding="3"
 									cellspacing="0" border="0" class="dataTable" width="100%">
 									<tr>
 										<th class="dataTableHeader" scope="col" align="center"
