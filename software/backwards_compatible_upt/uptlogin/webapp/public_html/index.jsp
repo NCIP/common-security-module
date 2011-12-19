@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
 
 	<!-- NCI hdr begins -->
   <tr>
@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- NCI hdr ends -->
   <tr>
     <td height="100%" align="center" valign="top">
-      <table summary="" cellpadding="0" cellspacing="0" border="0" height="100%" width="771">
+      <table cellpadding="0" cellspacing="0" border="0" height="100%" width="771">
 				<!-- application hdr begins -->
 				<tr>
 
@@ -130,7 +130,7 @@ function MM_swapImage() { //v3.0
 	<input type="hidden" name="tableId" value="error">
 
 	<td class="mainMenu" height="20">
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table cellpadding="0" cellspacing="0" border="0"
 		height="16">
 		
 	</table>
@@ -153,17 +153,17 @@ function MM_swapImage() { //v3.0
 
 
 
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<table cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top"><!-- target of anchor to skip menus --><a
 			name="content" /></a>
-		<table summary="" cellpadding="0" cellspacing="0" border="0"
+		<table cellpadding="0" cellspacing="0" border="0"
 			class="contentPage" width="100%" height="100%">
 
 			<!-- banner begins -->
 			<tr>
-				<td class="bannerHome"><img src="images/bannerHome.gif" height="140"></td>
+				<td class="bannerHome"><img src="images/bannerHome.gif" height="140" alt="NCICB CSM User Provision Tool"></td>
 
 			</tr>
 			<!-- banner begins -->
@@ -172,11 +172,11 @@ function MM_swapImage() { //v3.0
 				<td height="100%"><!-- target of anchor to skip menus --><a
 					name="content" /></a>
 
-				<table summary="" cellpadding="0" cellspacing="0" border="0"
+				<table cellpadding="0" cellspacing="0" border="0"
 					height="100%">
 					<tr>
 						<td width="70%"><!-- welcome begins -->
-						<table summary="" cellpadding="0" cellspacing="0" border="0"
+						<table summary="Welcome Content" cellpadding="0" cellspacing="0" border="0"
 							height="100%">
 
 							<tr>
@@ -205,13 +205,13 @@ function MM_swapImage() { //v3.0
 						<!-- welcome ends --></td>
 
 						<td valign="top" width="30%"><!-- sidebar begins -->
-						<table summary="" cellpadding="0" cellspacing="0" border="0"
+						<table cellpadding="0" cellspacing="0" border="0"
 							height="100%">
 							<form name="LoginForm" method="post" action="<%=uptLoginLogin%>">
 								<!-- login begins -->
 								<tr>
 									<td valign="top">
-									<table summary="" cellpadding="2" cellspacing="0" border="0"
+									<table  cellpadding="2" cellspacing="0" border="0"
 										width="100%" class="sidebarSectionLogin">
 										<tr>
 											<td class="sidebarTitle" height="20">LOGIN Application</td>
@@ -267,16 +267,17 @@ function MM_swapImage() { //v3.0
 							<tr>
 
 								<td valign="top">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table summary="What is new" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSectionLogin">
 									<tr>
-										<td class="sidebarTitle" height="20">WHAT'S NEW IN 4.0</td>
+										<td class="sidebarTitle" height="20">WHAT'S NEW IN 4.2</td>
 									</tr>
 									<tr>
 										<td class="sidebarContent">
-											<li>You can now provision Instance Level Security by creating new security filters
-											<li>Protection Element now has a new "Value" field to store value of object attributes.
-											<li>Test button provided for newly entered database connection parameters to avoid errors
+											<li>NCI CBIIT 2011 technology stack upgrade
+											<li>Instance Level Security performance enhancements
+											<li>AuthorizationManager enhancements
+											<li>Several API enhancements and bug fixes
 										</td>
 
 									</tr>
@@ -289,7 +290,7 @@ function MM_swapImage() { //v3.0
 							<tr>
 								<td valign="top">
 
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table summary="Do you know?" cellpadding="0" cellspacing="0" border="0"
 									width="100%" height="100%" class="sidebarSectionLogin">
 									<tr>
 										<td class="sidebarTitle" height="20">DID YOU KNOW?</td>
@@ -311,7 +312,7 @@ function MM_swapImage() { //v3.0
 							<tr>
 								<td valign="top" height="100%">
 
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table cellpadding="0" cellspacing="0" border="0"
 									width="100%" height="100%" class="sidebarSectionLogin">
 									<tr>
 										<td class="sidebarContent" valign="top">&nbsp;</td>
@@ -343,7 +344,7 @@ function MM_swapImage() { //v3.0
 
 
 
-  <table summary="" class="footerMenu" cellpadding="0" cellspacing="0" border="0" width="100%">
+  <table class="footerMenu" cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
 
       <td align="center" height="20" class="footerMenuItem" onmouseover="changeMenuStyle(this,'footerMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'footerMenuItem'),hideCursor()">
