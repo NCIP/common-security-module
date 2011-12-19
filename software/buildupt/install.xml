@@ -865,7 +865,10 @@
 		</copy>		
 		<if>
 			<and>
-				<equals arg1="${upt.central.database.re-create}" arg2="true" />
+				<or>
+					<equals arg1="${upt.central.database.re-create}" arg2="true" />
+					<equals arg1="${upt.central.database.drop-schema}" arg2="true" />
+				</or>
 				<equals arg1="${upt.central.config}" arg2="true" />
 			</and>
 			<then>
@@ -876,7 +879,7 @@
 							database.url="${upt.central.database.url}" database.user="${upt.central.database.user}" 
 							database.password="${upt.central.database.password}" database.version="${upt.central.database.version}" 
 							database.name="${upt.central.database.name}" database.type="${upt.central.database.type}"
-							database.schema="${upt.central.database.schema}"  database.re-create="${upt.central.database.re-create}"
+							database.schema="${upt.central.database.name}"  database.re-create="${upt.central.database.re-create}"
 							database.drop-schema="${upt.central.database.drop-schema}"
 							db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/uptcentral"
 							database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/uptcentral"
@@ -889,8 +892,12 @@
 			<else>
 				<if>
 					<and>
-						<equals arg1="${upt.31.database.re-create}" arg2="true" />
+						<or>
+							<equals arg1="${upt.31.database.re-create}" arg2="true" />
+							<equals arg1="${upt.31.database.drop-schema}" arg2="true" />
+						</or>
 						<equals arg1="${upt.31.installed}" arg2="true" />
+						<equals arg1="${upt.central.config}" arg2="false" />
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
@@ -900,7 +907,7 @@
 									database.url="${upt.31.database.url}" database.user="${upt.31.database.user}" 
 									database.password="${upt.31.database.password}" database.version="${upt.31.database.version}" 
 									database.name="${upt.31.database.name}" database.type="${upt.31.database.type}"
-									database.schema="${upt.31.database.schema}"  database.re-create="${upt.31.database.re-create}"
+									database.schema="${upt.31.database.name}"  database.re-create="${upt.31.database.re-create}"
 									database.drop-schema="${upt.31.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt31"
@@ -913,8 +920,12 @@
 				</if>
 				<if>
 					<and>
-						<equals arg1="${upt.32.database.re-create}" arg2="true" />
+						<or>
+							<equals arg1="${upt.32.database.re-create}" arg2="true" />
+							<equals arg1="${upt.32.database.drop-schema}" arg2="true" />
+						</or>
 						<equals arg1="${upt.32.installed}" arg2="true" />
+						<equals arg1="${upt.central.config}" arg2="false" />
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
@@ -924,7 +935,7 @@
 									database.url="${upt.32.database.url}" database.user="${upt.32.database.user}" 
 									database.password="${upt.32.database.password}" database.version="${upt.32.database.version}" 
 									database.name="${upt.32.database.name}" database.type="${upt.32.database.type}"
-									database.schema="${upt.32.database.schema}" database.re-create="${upt.32.database.re-create}"
+									database.schema="${upt.32.database.name}" database.re-create="${upt.32.database.re-create}"
 									database.drop-schema="${upt.32.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt32"
@@ -937,8 +948,12 @@
 				</if>
 				<if>
 					<and>
-						<equals arg1="${upt.40.database.re-create}" arg2="true" />
+						<or>
+							<equals arg1="${upt.40.database.re-create}" arg2="true" />
+							<equals arg1="${upt.40.database.drop-schema}" arg2="true" />
+						</or>
 						<equals arg1="${upt.40.installed}" arg2="true" />
+						<equals arg1="${upt.central.config}" arg2="false" />
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
@@ -948,7 +963,7 @@
 									database.url="${upt.40.database.url}" database.user="${upt.40.database.user}" 
 									database.password="${upt.40.database.password}" database.version="${upt.40.database.version}" 
 									database.name="${upt.40.database.name}" database.type="${upt.40.database.type}"
-									database.schema="${upt.40.database.schema}" database.re-create="${upt.40.database.re-create}"
+									database.schema="${upt.40.database.name}" database.re-create="${upt.40.database.re-create}"
 									database.drop-schema="${upt.40.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt40"
@@ -961,8 +976,12 @@
 				</if>
 				<if>
 					<and>
-						<equals arg1="${upt.41.database.re-create}" arg2="true" />
+						<or>
+							<equals arg1="${upt.41.database.re-create}" arg2="true" />
+							<equals arg1="${upt.41.database.drop-schema}" arg2="true" />
+						</or>
 						<equals arg1="${upt.41.installed}" arg2="true" />
+						<equals arg1="${upt.central.config}" arg2="false" />
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
@@ -972,7 +991,7 @@
 									database.url="${upt.41.database.url}" database.user="${upt.41.database.user}" 
 									database.password="${upt.41.database.password}" database.version="${upt.41.database.version}" 
 									database.name="${upt.41.database.name}" database.type="${upt.41.database.type}"
-									database.schema="${upt.41.database.schema}"  database.re-create="${upt.41.database.re-create}"
+									database.schema="${upt.41.database.name}"  database.re-create="${upt.41.database.re-create}"
 									database.drop-schema="${upt.41.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt41"
@@ -985,8 +1004,12 @@
 				</if>
 				<if>
 					<and>
-						<equals arg1="${upt.42.database.re-create}" arg2="true" />
+						<or>
+							<equals arg1="${upt.42.database.re-create}" arg2="true" />
+							<equals arg1="${upt.42.database.drop-schema}" arg2="true" />
+						</or>
 						<equals arg1="${upt.42.installed}" arg2="true" />
+						<equals arg1="${upt.central.config}" arg2="false" />
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
@@ -996,7 +1019,7 @@
 									database.url="${upt.42.database.url}" database.user="${upt.42.database.user}" 
 									database.password="${upt.42.database.password}" database.version="${upt.42.database.version}" 
 									database.name="${upt.42.database.name}" database.type="${upt.42.database.type}"
-									database.schema="${upt.42.database.schema}"  database.re-create="true" 
+									database.schema="${upt.42.database.name}"  database.re-create="true" 
 									database.drop-schema="${upt.42.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt42"
@@ -1009,8 +1032,12 @@
 				</if>
 				<if>
 					<and>
-						<equals arg1="${upt.424.database.re-create}" arg2="true" />
+						<or>
+							<equals arg1="${upt.424.database.re-create}" arg2="true" />
+							<equals arg1="${upt.424.database.drop-schema}" arg2="true" />
+						</or>
 						<equals arg1="${upt.424.installed}" arg2="true" />
+						<equals arg1="${upt.central.config}" arg2="false" />
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
@@ -1020,7 +1047,7 @@
 									database.url="${upt.424.database.url}" database.user="${upt.424.database.user}" 
 									database.password="${upt.424.database.password}" database.version="${upt.424.database.version}" 
 									database.name="${upt.424.database.name}" database.type="${upt.424.database.type}"
-									database.schema="${upt.424.database.schema}"  database.re-create="true" 
+									database.schema="${upt.424.database.name}"  database.re-create="true" 
 									database.drop-schema="${upt.424.database.drop-schema}"
 									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt424"
 									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt424"
