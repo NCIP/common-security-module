@@ -80,8 +80,8 @@ function skipNavigation()
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('user','','images/Users.gif',1)" id="userA" tabindex=1><img
 										name="user" border="0" src="images/Users2.gif" width="98"
-										alt="Create or view an existing user"
-										height="50" longdesc="A User is someone that requires access to your application. Users can become part of a Group, and can have an associated Protection Group and Roles."
+										alt="User"
+										height="50" longdesc="longdescription.html"
 										Title="Application User"></a></td>
 								</tr>
 								<tr>
@@ -93,8 +93,8 @@ function skipNavigation()
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('PEs','','images/protectionelements.gif',1)" tabindex=2><img
 										name="PEs" border="0" src="images/protectionelements2.gif"
-										alt="Create or view an existing protection element"
-										width="98" height="50" longdesc="A Protection Element is any entity (typically data) that has controlled access. Examples include Social Security Number, City, and Salary."
+										alt="Protection Element"
+										width="98" height="50" longdesc="longdescription.html"
 										Title="Protection Element"></a></td>
 								</tr>
 								<tr>
@@ -106,8 +106,8 @@ function skipNavigation()
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)" tabindex=3><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
-										alt="Create or view an existing Privilege"
-										height="50" longdesc="A Privilege refers to any operation performed upon data. Examples include DELETE or UPDATE."
+										alt="Privilege"
+										height="50" longdesc="longdescription.html"
 										Title="Privilege"></a></td>
 								</tr>
 
@@ -153,8 +153,8 @@ function skipNavigation()
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('group','','images/groups.gif',1)" tabindex=4><img
 										name="group" border="0" src="images/groups2.gif" width="98"
-										alt="Create or view an existing Group"
-										height="50" longdesc="A Group is a collection of application users. By combining users into a Group, it becomes easier to manage their collective roles and access rights in your application."
+										alt="Group"
+										height="50" longdesc="longdescription.html"
 										title="Group"></a></td>
 								</tr>
 								<tr>
@@ -170,8 +170,8 @@ function skipNavigation()
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('pgs','','images/protectiongroups.gif',1)" tabindex=5><img
 										name="pgs" border="0" src="images/protectiongroups2.gif"
-										alt="Create or view an existing Protectoin Group"
-										width="98" height="50" longdesc="A Protection Group is a collection of application Protection Elements. By combining Protection Elements into a Protection Group, it becomes easier to associate Users and Groups with rights to a particular data set. Examples include Address and Personal Information."
+										alt="Protectoin Group"
+										width="98" height="50" longdesc="longdescription.html"
 										title="Protection Group"></a></td>
 								</tr>
 								<tr>
@@ -183,8 +183,8 @@ function skipNavigation()
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('roles','','images/roles.gif',1)" tabindex=6><img
 										name="roles" border="0" src="images/roles2.gif" width="98"
-										alt="Create or view an existing Role"
-										height="50" longdesc="A Role is a collection of application Privileges. Examples include Record Admin. and EmployeeModify."
+										alt="Role"
+										height="50" longdesc="longdescription.html"
 										title="Role"></a></td>
 								</tr>
 
@@ -229,7 +229,7 @@ function skipNavigation()
 							<td valign="top" height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Final Association" longdesc="Each User assumes Roles for Protection Groups.  For example, User John has a Role EmployeeModify for all elements in the Address Protection Group. Assign PGs and Roles from the User or Group sections of the UPT." /></td>
+									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Final Association" longdesc="longdescription.html" /></td>
 								</tr>
 
 								<tr>

@@ -242,7 +242,7 @@ function MM_swapImage() { //v3.0
 					class="mainMenuLink"
 					href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')" id="menulogout">LOG OUT</a>
 				<!-- link 8 ends -->
-				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"/></td>
+				<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/></td>
 			</tr>
 		</logic:present>
 	</table>
