@@ -163,7 +163,7 @@ function MM_swapImage() { //v3.0
 
 			<!-- banner begins -->
 			<tr>
-				<td class="bannerHome"><img src="images/bannerHome.gif" height="140" alt="NCICB CSM User Provision Tool"></td>
+				<td class="bannerHome"><img src="images/bannerHome.gif" height="140" alt="NCICB CSM User Provisioning Tool"></td>
 
 			</tr>
 			<!-- banner begins -->
@@ -227,18 +227,18 @@ function MM_swapImage() { //v3.0
 													<td class="sidebarLogin" align="right"><label for="loginId">LOGIN
 													ID</label></td>
 
-													<td class="formFieldLogin"><input type="text" name="loginId" size="14" value="" style="formField"></td>
+													<td class="formFieldLogin"><input type="text" id="loginId" name="loginId" size="14" value="" style="formField"></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="password">PASSWORD</label></td>
-													<td class="formFieldLogin"><input type="password" name="password" size="14" value="" style="formField"></td>
+													<td class="formFieldLogin"><input type="password" id="password" name="password" size="14" value="" style="formField"></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="applicationContextName">APPLICATION NAME</label></td>
 
-													<td class="formFieldLogin"><input type="text" name="applicationContextName" size="14" value="" style="formField"></td>
+													<td class="formFieldLogin"><input type="text" id="applicationContextName" name="applicationContextName" size="14" value="" style="formField"></td>
 												</tr>
 												<tr>
 													<td>&nbsp;</td>
@@ -379,7 +379,7 @@ function MM_swapImage() { //v3.0
           </td>
         </tr>
       </table>
-    <td>pa</td>
+    <td></td>
   </tr>
   <tr>
     <td>
