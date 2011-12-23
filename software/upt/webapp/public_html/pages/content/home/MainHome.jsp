@@ -117,7 +117,7 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 
 								<tr>
 									<td width="100%" height="50"><img src="images/create.gif"
-										width="98" height="50"></td>
+										width="98" height="50" alt="Create"></td>
 								</tr>
 							</table>
 							</td>
