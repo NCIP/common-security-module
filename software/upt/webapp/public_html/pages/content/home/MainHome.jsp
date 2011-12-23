@@ -59,7 +59,11 @@ function skipNavigation()
 				</tr>
 
 
-
+<%
+String urlStr = request.getRequestURL().toString();
+urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
+urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
+%>
 
 				<!--
 				<!-- diagram -->
@@ -81,7 +85,7 @@ function skipNavigation()
 										onMouseOver="MM_swapImage('user','','images/Users.gif',1)" id="userA" tabindex=1><img
 										name="user" border="0" src="images/Users2.gif" width="98"
 										alt="User"
-										height="50" longdesc="longdescription.html"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Application User"></a></td>
 								</tr>
 								<tr>
@@ -94,7 +98,7 @@ function skipNavigation()
 										onMouseOver="MM_swapImage('PEs','','images/protectionelements.gif',1)" tabindex=2><img
 										name="PEs" border="0" src="images/protectionelements2.gif"
 										alt="Protection Element"
-										width="98" height="50" longdesc="longdescription.html"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Protection Element"></a></td>
 								</tr>
 								<tr>
@@ -107,7 +111,7 @@ function skipNavigation()
 										onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)" tabindex=3><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
 										alt="Privilege"
-										height="50" longdesc="longdescription.html"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Privilege"></a></td>
 								</tr>
 
@@ -154,7 +158,7 @@ function skipNavigation()
 										onMouseOver="MM_swapImage('group','','images/groups.gif',1)" tabindex=4><img
 										name="group" border="0" src="images/groups2.gif" width="98"
 										alt="Group"
-										height="50" longdesc="longdescription.html"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Group"></a></td>
 								</tr>
 								<tr>
@@ -171,7 +175,7 @@ function skipNavigation()
 										onMouseOver="MM_swapImage('pgs','','images/protectiongroups.gif',1)" tabindex=5><img
 										name="pgs" border="0" src="images/protectiongroups2.gif"
 										alt="Protectoin Group"
-										width="98" height="50" longdesc="longdescription.html"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Protection Group"></a></td>
 								</tr>
 								<tr>
@@ -184,7 +188,7 @@ function skipNavigation()
 										onMouseOver="MM_swapImage('roles','','images/roles.gif',1)" tabindex=6><img
 										name="roles" border="0" src="images/roles2.gif" width="98"
 										alt="Role"
-										height="50" longdesc="longdescription.html"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Role"></a></td>
 								</tr>
 
@@ -229,7 +233,7 @@ function skipNavigation()
 							<td valign="top" height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Final Association" longdesc="longdescription.html" /></td>
+									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Final Association" longdesc="<%=urlStr%>/content/home/longdescription.html" /></td>
 								</tr>
 
 								<tr>
