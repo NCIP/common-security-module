@@ -74,16 +74,41 @@
 	         if (options[0] != null)
 	            options[0].selected = true;
 	      } // end with isavailableIds
-		}    // -->
+		}   
+		
+function skipNavigation()
+{
+	document.getElementById("userAssoc").focus();
+	window.location.hash="userAssoc";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+} 	
+		
+		// -->
     </script>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 			<tr>
 				<td colspan="3">
-					<h2>User and Groups Association</h2>
+					<h2><a id="userAssoc"></a>User and Groups Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
@@ -94,7 +119,7 @@
 							<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
 						</tr>
 						<tr class="dataRowDark">
-							<td class="formRequiredLabel" width="40%" scope="row"><label>User Login Name</label></td>
+							<td class="formRequiredLabel" width="40%" scope="row"><label for="userLoginName">User Login Name</label></td>
 							<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
 						</tr>
 					</table>
@@ -103,7 +128,7 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%" width="100%">
+				<table cellpadding="3" cellspacing="10" border="0" height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
 		  				<html:messages id="message" message="true">
@@ -133,7 +158,7 @@
 					
 					<td width="100%" valign="top">
 					<form name="dummyForm">
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">AVAILABLE GROUPS</td>
@@ -188,7 +213,7 @@
 					<td width="100%" valign="top">
 					<html:form styleId="UserForm" action = '<%="/UserDBOperation"%>'>
 					<html:hidden property="operation" value="read"/>
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">ASSIGNED GROUPS</td>

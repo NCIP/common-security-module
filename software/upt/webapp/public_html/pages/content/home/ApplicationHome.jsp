@@ -19,12 +19,33 @@
     		document.ApplicationForm.operation.value=target;
     		document.ApplicationForm.submit();
     	}
+    	
+function skipNavigation()
+{
+	document.getElementById("appHome").focus();
+	window.location.hash="appHome";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("saHome").tabIndex = -1;
+	document.getElementById("saApp").tabIndex = -1;
+	document.getElementById("saUser").tabIndex = -1;
+	document.getElementById("saPriv").tabIndex = -1;
+	document.getElementById("saLogout").tabIndex = -1;
+}
+    	
     // -->
     </script>
 
 
 	
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table summary="Application Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="ApplicationForm" action="/ApplicationDBOperation">
 		<html:hidden property="operation" value="error" />
@@ -37,7 +58,7 @@
 
 					<h2>Application</h2>
 
-					<h3>Application Home</h3>
+					<h3><a id="appHome"></a>Application Home</h3>
 
 					<p>This is the Application section of the UPT.  Here a Super Admin can add an application to the UPT.  Users can be assigned as UPT Administrators for their particular application(s). 
 					They will have the right to create and modify Roles, Groups, etc. You may add or modify Application details by clicking on the links below.</p>
@@ -45,7 +66,7 @@
 				</tr>
 				<tr>
 					<td valign="top" width="40%"><!-- sidebar begins -->
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
@@ -56,7 +77,7 @@
 						<tr><td><br></td></tr>
 						<tr>
 							<td valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 

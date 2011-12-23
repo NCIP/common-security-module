@@ -26,6 +26,51 @@
 	  		document.UserForm.operation.value=target;
 	  	}
  	}
+ 	
+function skipNavigation()
+{
+	document.getElementById("userDetail").focus();
+	window.location.hash="userDetail";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+	if(document.getElementById("menuHome"))
+		document.getElementById("menuHome").tabIndex = -1;
+	if(document.getElementById("menuUser"))
+		document.getElementById("menuUser").tabIndex = -1;
+	if(document.getElementById("menuPE"))	
+		document.getElementById("menuPE").tabIndex = -1;
+	if(document.getElementById("menuPrivilege"))	
+		document.getElementById("menuPrivilege").tabIndex = -1;
+	if(document.getElementById("menuGroup"))
+		document.getElementById("menuGroup").tabIndex = -1;
+	if(document.getElementById("menuPG"))
+		document.getElementById("menuPG").tabIndex = -1;
+	if(document.getElementById("menuRole"))
+		document.getElementById("menuRole").tabIndex = -1;
+	if(document.getElementById("menuInstance"))
+		document.getElementById("menuInstance").tabIndex = -1;
+	if(document.getElementById("menulogout"))
+		document.getElementById("menulogout").tabIndex = -1;
+
+	if(document.getElementById("saHome"))
+		document.getElementById("saHome").tabIndex = -1;
+	if(document.getElementById("saApp"))	
+		document.getElementById("saApp").tabIndex = -1;
+	if(document.getElementById("saUser"))
+		document.getElementById("saUser").tabIndex = -1;
+	if(document.getElementById("saPriv"))
+		document.getElementById("saPriv").tabIndex = -1;
+	if(document.getElementById("saLogout"))
+		document.getElementById("saLogout").tabIndex = -1;
+
+}
+ 	
 // -->
 </script>
 <bean:define id="submitValue" value="error" />
@@ -46,15 +91,15 @@
 	</logic:equal>
 </logic:notEqual>
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="UserForm" action="/UserDBOperation"  focus="userFirstName">
+	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+	<html:form styleId="UserForm" action="/UserDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 			<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+					<table summary="User detail" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
 							<td class="infoMessage" colspan="3">
 			  				<html:messages id="message" message="true">
@@ -71,7 +116,7 @@
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
-									<td class="formMessage" colspan="3">Enter the details to add a new User. 
+									<td class="formMessage" colspan="3"><a id="userDetail"></a>Enter the details to add a new User. 
 									The <b>User Login Name</b> uniquely identifies the User and is a required field. 
 									The <b>User First Name</b> and <b>User Last Name</b> identifies the User. The <b>User Organization, User Department</b>
 									 and <b>User Title</b> provides his work details. The <b>User Phone Number</b> and <b>User Email Id</b> provides the contact details for the User.
@@ -84,7 +129,7 @@
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing User by entering the 
+									<td class="formMessage" colspan="3"><a id="userDetail"></a>Search for an existing User by entering the 
 									<b>User Login Name, User First Name, User Last Name, User Organization, User Department</b> or <b>User Email Id</b>.</td>
 								</tr>
 								<tr>
@@ -94,7 +139,7 @@
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3">Update the details of the displayed User. 
+									<td class="formMessage" colspan="3"><a id="userDetail"></a>Update the details of the displayed User. 
 									The <b>User Login Name</b> uniquely identifies the User and is a required field. 
 									The <b>User First Name</b> and <b>User Last Name</b> identifies the User. The <b>User Organization, User Department</b>
 									 and <b>User Title</b> provides his work details. The <b>User Phone Number</b> and <b>User Email Id</b> provides the contact details for the User.
@@ -130,20 +175,20 @@
 								<tr>
 									<logic:equal name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">*</td>
-										<td class="formRequiredLabel2"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formRequiredLabel2"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:equal>
 									<logic:notEqual name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">&nbsp;</td>
-										<td class="formLabel"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formLabel"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:notEqual>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
 										<td class="formField">
 										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
 											<html:hidden property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>"/>
-											<label><bean:write name="formElement" property="propertyValue" /></label>
+											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" /></label>
 										</logic:equal>
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
-											<html:text  style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>
+											<html:text  style="formFieldSized" size="30" maxlength="100" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>
 										</logic:notEqual>
 										</td>
 									</logic:equal>
@@ -153,22 +198,22 @@
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
 										<td class="formField">
 										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-											<label><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 										</logic:equal>
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
 											<% if(formElement.getPropertyDisabled()){ %>
-												<label><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+												<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 											<% }else{ %>
-											<html:text  style="formFieldSized" size="10" maxlength="10" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
+											<html:text  style="formFieldSized" size="10" maxlength="10" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
 											<% } %>											
 										</logic:notEqual>
 										</td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
+										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-										<td class="formField"><html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
+										<td class="formField"><html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
 									</logic:equal>
 								</tr>
 							</logic:iterate>
