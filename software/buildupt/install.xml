@@ -1669,6 +1669,7 @@
 		</condition>
 	</target>
 
+<!--
 	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
 		depends="
 		-set:jboss:backwards-compatible-upt:application:url,
@@ -1682,7 +1683,44 @@
 		upgrade:jboss
 		">
 	</target>
-	
+-->
+
+	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
+		depends="
+		-set:jboss:backwards-compatible-upt:application:url,
+		common:init,
+		install:jboss:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:jboss:stop,
+		upgrade:backwards-compatible-upt:databases,
+		install:jboss:validation:pre-install:ports,
+		install:common:clean,
+		install:jboss,
+		install:common:post,
+		install:jboss:start,
+		install:common:validation:post-install
+		">
+	</target>
+
+	<target name="install" description="Installs and configures JBOSS, creates database, and deploys application"
+		depends="
+		common:init,
+		install:jboss:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:common:clean,
+		install:backwards-compatible-upt:databases,
+		install:jboss,
+		install:common:post,
+		install:jboss:start,
+		install:common:validation:post-install
+		">
+	</target>
 	
 	<target name="upgrade:database:readers:build" depends="upgrade:jboss:init:prep" if="jboss.exists">
 
@@ -1942,23 +1980,6 @@
 		" >
 	</target>
 
-	<target name="install" description="Installs and configures JBOSS, creates database, and deploys application"
-		depends="
-		common:init,
-		install:jboss:init,
-		common:jboss:init,
-		install:common:validation:pre-install,
-		install:jboss:validation:pre-install,
-		install:jboss:stop,
-		install:jboss:validation:pre-install:ports,
-		install:common:clean,
-		install:backwards-compatible-upt:databases,
-		install:jboss,
-		install:common:post,
-		install:jboss:start,
-		install:common:validation:post-install
-		">
-	</target>
 
 	<!-- Upgrade with Disposable Application Conttainer (DAC) -->
 	<target name="upgrade-dac:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
