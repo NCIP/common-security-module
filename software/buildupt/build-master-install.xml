@@ -936,7 +936,12 @@ $HeadURL$
 	<target name="upgrade:tomcat" description="Wrapper target to call all targets required to upgrade tomcat container." unless="exclude.tomcat" depends="upgrade:tomcat:init,common:init,upgrade-ncm:tomcat">
 	</target>
 
+<!--
 	<target name="upgrade" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-ncm">
+	</target>
+-->
+
+	<target name="upgrade" description="Upgrades JBoss and Database" depends="upgrade-ncm">
 	</target>
 
 	<target name="upgrade-with-dbinstall" description="Upgrades JBoss and Database" depends="upgrade:common:init,common:init,upgrade-ncm:with-dbinstall">
@@ -1148,6 +1153,7 @@ $HeadURL$
 		">
 	</target>
 
+<!--
 	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
 		depends="
 		upgrade:common:init,
@@ -1166,7 +1172,29 @@ $HeadURL$
 		install:common:validation:post-install
 		">
 	</target>
+-->
 
+	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
+		depends="
+		common:init,
+		install:jboss:init,
+		common:jboss:init,
+		install:common:validation:pre-install,
+		install:jboss:validation:pre-install,
+		install:database:validation:pre-install,
+		install:jboss:stop,
+		upgrade:database,
+		install:jboss:validation:pre-install:ports,
+		install:common:clean,
+		install:backwards-compatible-upt:databases,
+		install:jboss,
+		install:common:post,
+		install:jboss:start,
+		install:common:validation:post-install
+		">
+	</target>
+
+	
 	<target name="upgrade-ncm:with-dbinstall" description="Upgrades JBoss and Database"
 		depends="
 		upgrade:common:init,
@@ -1521,7 +1549,7 @@ $HeadURL$
 				<property name="jboss.server.binding.template.location" value="${basedir}/${jboss-bindings.file}"/>
 			</then>
 			<else>
-				<property name="jboss.server.binding.template.location" value="${build-utils.dir}/resource/${jboss.binaries.relative.dir}/bindings.xml"/>
+				<property name="jboss.server.binding.template.location" value="${build-utils.dir}/resource/${jboss.binaries.relative.dir}/bindings-jboss-beans.xml"/>
 			</else>
 		</if>
 
