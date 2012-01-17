@@ -4,11 +4,11 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 
-    <script> 
+<script> 
     <!--
     
    		
@@ -28,6 +28,7 @@
     		newwin.document.open();
     		newwin.document.writeln('<form name="UserForm" method="post" action="/'+appContext+'/SearchUserDBOperation.do" id="UserForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
+    		newwin.document.writeln('<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>">');
     		newwin.document.writeln('</form>');
     		newwin.document.close();
    			newwin.document.UserForm.operation.value='loadSearch';
@@ -207,8 +208,9 @@ function skipNavigation()
 					<tr>		
 					
 					<td width="100%" valign="top">
-					<html:form styleId="GroupForm" action = '<%="/GroupDBOperation"%>'>
+					<html:form styleId="GroupForm" action="/GroupDBOperation">
 					<html:hidden property="operation" value="read"/>
+					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/GroupDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 

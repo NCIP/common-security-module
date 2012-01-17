@@ -4,7 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
@@ -45,6 +45,7 @@ function skipNavigation()
 	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation" enctype="multipart/form-data">
 	<html:hidden property="operation" value="upload"/>
 	<html:hidden property="userLoginName" value="upload"/>
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/InstanceLevelOperation'/>"/>
 		<tr>
 			<td valign="top">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">

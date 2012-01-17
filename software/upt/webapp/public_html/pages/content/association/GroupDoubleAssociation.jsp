@@ -10,7 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <script> 
@@ -254,8 +254,9 @@ function skipNavigation()
 					
 					
 					<html:form styleId="GroupForm"
-						action='<%="/GroupDBOperation"%>'>
+						action="/GroupDBOperation">
 						<html:hidden property="operation" value="read" />
+						<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/GroupDBOperation'/>"/>
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 							
 							<!-- protection group section -->

@@ -1,8 +1,7 @@
 
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <table cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<tr>
@@ -21,7 +20,7 @@
 				<td height="100%"><!-- target of anchor to skip menus --><a
 					name="content" /></a>
 
-				<table cellpadding="0" cellspacing="0" border="1"
+				<table cellpadding="0" cellspacing="0" border="0"
 					height="100%">
 					<tr>
 						<td width="70%"><!-- welcome begins -->
@@ -55,6 +54,7 @@
 						<table cellpadding="0" cellspacing="0" border="0"
 							height="100%">
 							<html:form action="/Login"  focus="loginId">
+							<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/Login'/>"/>
 								<!-- login begins -->
 								<tr>
 									<td valign="top">
@@ -98,6 +98,7 @@
 									</td>
 								</tr>
 								<!-- login ends -->
+								
 							</html:form>
 							<!-- what's new begins -->
 							<tr>

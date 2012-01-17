@@ -10,7 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 
 <script>
@@ -68,6 +68,7 @@ function MM_swapImage() { //v3.0
 	}
 	%>
 	<html:hidden property="tableId" value="error" />
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='<%="/MenuSelection"%>'/>"/>
 	<td class="mainMenu" height="20">
 	<table cellpadding="0" cellspacing="0" border="0"
 		height="16">

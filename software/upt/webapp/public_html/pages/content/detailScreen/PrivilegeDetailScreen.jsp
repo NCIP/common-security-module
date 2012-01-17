@@ -8,6 +8,8 @@
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
+
 <script>
 <!--
    	function setAndSubmit(target)
@@ -23,6 +25,7 @@
 		else
 		{
 	  		document.PrivilegeForm.operation.value=target;
+	  		document.PrivilegeForm.submit();
 	  	}
  	}
  	
@@ -92,7 +95,7 @@ function skipNavigation()
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<html:form styleId="PrivilegeForm" action="/PrivilegeDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
-
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/PrivilegeDBOperation'/>"/>
 			<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">

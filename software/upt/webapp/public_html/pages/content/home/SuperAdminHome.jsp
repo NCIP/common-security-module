@@ -5,12 +5,6 @@
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 
 <script>
-  <!--
-    	function setTable(tableId)
-    	{
-    		document.homeForm.tableId.value=tableId;
-    		document.homeForm.submit();
-    	}
     	
 function skipNavigation()
 {
@@ -32,7 +26,7 @@ function skipNavigation()
 	document.getElementById("saLogout").tabIndex = -1;
 }
     	
-   // -->
+  
 </script>
 
 

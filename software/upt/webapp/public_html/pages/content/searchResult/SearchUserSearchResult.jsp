@@ -10,7 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <% int cntResObj=1; // - Count the number of objects to display %>
@@ -157,8 +157,9 @@ function skipNavigation()
 	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="UserForm"
-	action='<%="/SearchUserDBOperation"%>'>
+	action="/SearchUserDBOperation">
 	<html:hidden property="operation" value="read" />
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/SearchUserDBOperation'/>"/>
 		<tr>
 			<td>
 			<h2><a id="userResult"></a>User</h2>

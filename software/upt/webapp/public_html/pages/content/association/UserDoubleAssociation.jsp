@@ -10,7 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <script> 
@@ -254,8 +254,9 @@ function skipNavigation()
 					</logic:present> -->
 					
 					<html:form styleId="UserForm"
-						action='<%="/UserDBOperation"%>'>
+						action="/UserDBOperation">
 						<html:hidden property="operation" value="read" />
+						<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 							<tr>
 							

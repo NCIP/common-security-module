@@ -10,7 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <script>
     <!--
@@ -72,6 +72,7 @@ function skipNavigation()
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="PrivilegeForm" action="/PrivilegeDBOperation">
 		<html:hidden property="operation" value="error" />
+		<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/PrivilegeDBOperation'/>"/>
 		<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0"
