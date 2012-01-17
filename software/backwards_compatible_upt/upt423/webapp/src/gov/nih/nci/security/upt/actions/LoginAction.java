@@ -141,6 +141,7 @@ public class LoginAction extends Action
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
+//		System.out.println("In 423 **********************************Action....................");
 		ActionErrors errors = new ActionErrors();
 
 		AuthenticationManager authenticationManager = null;
@@ -151,8 +152,6 @@ public class LoginAction extends Action
 		String uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 		Application application = null;
 
-		System.out.println("csmupt423............LoginAction");
-
 		String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
 		ObjectFactory.initialize("upt-beans.xml");
 		UPTProperties uptProperties = null;
@@ -162,7 +161,6 @@ public class LoginAction extends Action
 			uptProperties = (UPTProperties) ObjectFactory
 					.getObject("UPTProperties");
 			urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
-			System.out.println("csmupt423............LoginAction: urlContextForLoginApp: "+urlContextForLoginApp);
 			if (!StringUtils.isBlank(urlContextForLoginApp)) {
 				serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
 			} else {
@@ -179,8 +177,10 @@ public class LoginAction extends Action
 
 		}
 
-System.out.println("csmupt423............LoginAction: uptContextName: "+uptContextName);
-System.out.println("csmupt423............LoginAction: serverInfoPathPort: "+serverInfoPathPort);
+//		System.out.println("centralUPTConfiguration: "+centralUPTConfiguration);
+//		System.out.println("urlContextForLoginApp: "+urlContextForLoginApp);
+//		System.out.println("serverInfoPathPort: "+serverInfoPathPort);
+
 		LoginForm loginForm = (LoginForm)form;
 		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
 				|| StringUtils.isBlank(loginForm.getPassword())){
@@ -201,7 +201,7 @@ System.out.println("csmupt423............LoginAction: serverInfoPathPort: "+serv
 
 		try
 		{
-System.out.println("csmupt423............LoginAction: uptContextName: "+uptContextName);
+//			System.out.println("uptContextName1: "+uptContextName);
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
@@ -271,7 +271,6 @@ System.out.println("csmupt423............LoginAction: uptContextName: "+uptConte
 		try
 		{
 			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),loginForm.getPassword());
-			System.out.println("csmupt423............LoginAction: loginSuccessful: "+loginSuccessful);
 		}
 		catch (CSException cse)
 		{
@@ -285,7 +284,6 @@ System.out.println("csmupt423............LoginAction: uptContextName: "+uptConte
 
 		try
 		{
-System.out.println("csmupt423............LoginAction: uptContextName1: "+uptContextName);
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
@@ -309,7 +307,6 @@ System.out.println("csmupt423............LoginAction: uptContextName1: "+uptCont
 		try
 		{
 			hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
-			System.out.println("csmupt423............LoginAction: hasPermission: "+hasPermission);
 			if (!hasPermission)
 			{
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
@@ -333,7 +330,6 @@ System.out.println("csmupt423............LoginAction: uptContextName1: "+uptCont
 		{
 			//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
 			application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-			System.out.println("csmupt423............LoginAction: application: "+application);
 			if (!StringUtilities.isBlank(application.getDatabaseURL()))
 			{
 				HashMap hashMap = new HashMap();

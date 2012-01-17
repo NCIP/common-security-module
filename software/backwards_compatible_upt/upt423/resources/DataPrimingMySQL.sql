@@ -10,7 +10,7 @@ insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE
 values ("csmupt","UPT Super Admin Application",0,0,sysdate());
 
 insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("@super.admin.user@","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+values ("SuperAdmin","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
 values("csmupt","UPT Super Admin Application","csmupt",1,sysdate());

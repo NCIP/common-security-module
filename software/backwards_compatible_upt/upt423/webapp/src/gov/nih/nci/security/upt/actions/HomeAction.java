@@ -138,7 +138,6 @@ public class HomeAction extends Action
 			throws Exception
 	{
 		HttpSession session = request.getSession();
-		System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		ActionErrors errors = new ActionErrors();
 
 		if(request.getAttribute(DisplayConstants.LOGIN_ID)!=null &&
@@ -149,7 +148,6 @@ public class HomeAction extends Action
 			form2.setLoginId((String)request.getAttribute(DisplayConstants.LOGIN_ID));
 
 			session.setAttribute(DisplayConstants.LOGIN_OBJECT,form2);
-			System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>1>>>>>>>>>>>>>>>>>"+request.getAttribute(DisplayConstants.APPLICATION_CONTEXT));
 		}
 
 
@@ -190,7 +188,6 @@ public class HomeAction extends Action
 					serverInfoPathPort = serverInfoPathPort + "/"
 						+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
 				}
-System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2>>>>>>>>>"+urlContextForLoginApp);
 			} catch (UPTConfigurationException e) {
 				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
 			}
@@ -200,7 +197,6 @@ System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>>>>>>>>>2>>>>>>>>>"+urlCo
 			newActionForward.setPath(serverInfoPathPort);
 			newActionForward.setRedirect(true);
 
-System.out.println("In Home action>>>>>>>>>>>>>>>>>>>>>>3>>>>>>>>>>>>>>>>"+newActionForward);
 			return newActionForward;
 
 		}

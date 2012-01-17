@@ -14,7 +14,7 @@ VALUES ( 'csmupt', 'CSM UPT Super Admin Application', '0','0',current_date)
 	
 INSERT INTO CSM_USER(
 LOGIN_NAME, FIRST_NAME, LAST_NAME, PASSWORD,UPDATE_DATE)
-VALUES ( '<<super_admin_login_name>>', '<<super_admin_first_name>>', '<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',current_date)
+VALUES ( 'SuperAdmin', '<<super_admin_first_name>>', '<<super_admin_last_name>>','zJPWCwDeSgG8j2uyHEABIQ==',current_date)
 ;
 	
 INSERT INTO CSM_PROTECTION_ELEMENT(
