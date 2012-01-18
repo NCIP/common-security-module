@@ -51,7 +51,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	private String OWASP_CSM_CSRFTOKEN;
 
 
-	public getOWASP_CSM_CSRFTOKEN()
+	public String getOWASP_CSM_CSRFTOKEN()
 	{
 		return OWASP_CSM_CSRFTOKEN;
 	}
