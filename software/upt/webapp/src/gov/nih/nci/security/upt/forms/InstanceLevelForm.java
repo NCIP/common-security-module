@@ -48,7 +48,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	private String generatedSQLForUser;
 	private String generatedSQLForGroup;
 	private String updateDate;
-	prviate String OWASP_CSM_CSRFTOKEN;
+	private String OWASP_CSM_CSRFTOKEN;
 
 
 	public getOWASP_CSM_CSRFTOKEN()
