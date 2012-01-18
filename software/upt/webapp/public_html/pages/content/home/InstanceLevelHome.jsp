@@ -20,7 +20,6 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
 %>
 
 <script>
-    <!--
     	function setAndSubmit(target)
     	{
     		document.InstanceLevelForm.operation.value=target;
@@ -50,7 +49,6 @@ function skipNavigation()
 	document.getElementById("menulogout").tabIndex = -1;
 }
     	
-    // -->
     </script>
 
 

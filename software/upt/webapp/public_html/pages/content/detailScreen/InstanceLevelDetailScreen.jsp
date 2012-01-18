@@ -194,7 +194,7 @@ function skipNavigation()
 	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 	<html:hidden property="userLoginName" value="<%=submitValue%>"/>
-	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/InstanceLevelOperation'/>"/>
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>"/>
 			<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
