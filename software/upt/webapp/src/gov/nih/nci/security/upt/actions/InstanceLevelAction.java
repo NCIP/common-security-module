@@ -137,7 +137,7 @@ public class InstanceLevelAction extends DispatchAction
 
 	public ActionForward loadHome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		System.out.println("loadHome****************************");
+		//System.out.println("loadHome****************************");
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
 

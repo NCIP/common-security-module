@@ -48,10 +48,10 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	private String generatedSQLForUser;
 	private String generatedSQLForGroup;
 	private String updateDate;
-	private String OWASP_CSM_CSRFTOKEN;
+	//private String OWASP_CSM_CSRFTOKEN;
 
 
-	public String getOWASP_CSM_CSRFTOKEN()
+/*	public String getOWASP_CSM_CSRFTOKEN()
 	{
 		return OWASP_CSM_CSRFTOKEN;
 	}
@@ -60,7 +60,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	{
 		this.OWASP_CSM_CSRFTOKEN = OWASP_CSM_CSRFTOKEN;
 	}
-
+*/
 	/**
 	 * @return Returns the uploaded file.
 	 */
