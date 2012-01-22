@@ -18,7 +18,7 @@ package gov.nih.nci.security.constants;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -26,7 +26,7 @@ package gov.nih.nci.security.constants;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -109,15 +109,15 @@ public class Constants
 	public static final String LDAP_USER_ID_LABEL = "ldapUserIdLabel";
 	public static final String LDAP_ADMIN_USER_NAME = "ldapAdminUserName";
 	public static final String LDAP_ADMIN_PASSWORD = "ldapAdminPassword";
-	
+
 	public static final String USER_LOGIN_ID = "USER_LOGIN_ID";
-	public static final String USER_PASSWORD = "USER_PASSWORD";	
+	public static final String USER_PASSWORD = "USER_PASSWORD";
 	public static final String USER_FIRST_NAME = "USER_FIRST_NAME";
-	public static final String USER_LAST_NAME = "USER_LAST_NAME";	
+	public static final String USER_LAST_NAME = "USER_LAST_NAME";
 	public static final String USER_EMAIL_ID = "USER_EMAIL_ID";
-	
+
 	public static final String TABLE_NAME = "TABLE_NAME";
-	
+
 	public static final String CSM_EXECUTE_PRIVILEGE = "EXECUTE";
 	public static final String CSM_ACCESS_PRIVILEGE = "ACCESS";
 	public static final String CSM_READ_PRIVILEGE = "READ";
@@ -126,30 +126,38 @@ public class Constants
 	public static final String CSM_DELETE_PRIVILEGE = "DELETE";
 	public static final String CSM_CREATE_PRIVILEGE = "CREATE";
 
-	
+
 	public static final String AUTHENTICATION 	= "authentication";
 	public static final String AUTHORIZATION 	= "authorization";
-	
+
 	public static final String FILE_NAME_SUFFIX = ".csm.new.hibernate.cfg.xml";
 	public static final String APPLICATION_SECURITY_CONFIG_FILE = "ApplicationSecurityConfig.xml";
 	public static final String YES = "YES";
-	
+
 	public static final String ENCRYPTION_ENABLED = "encryption-enabled";
-	
+
 	public static final String LOCKOUT_TIME = "1800000";
 	public static final String ALLOWED_LOGIN_TIME = "60000";
 	public static final String ALLOWED_ATTEMPTS = "3";
 
-	
+
 	public static final String HIBERNATE_MYSQL_DIALECT = "org.hibernate.dialect.MySQLDialect";
 	public static final String CSM_FILTER_ALIAS = "z_csm_filter_alias_z";
 	public static final String CSM_FILTER_USER_QUERY_PART_ONE = "( select pe.attribute_value from csm_protection_group pg, csm_protection_element pe, csm_pg_pe pgpe, csm_user_group_role_pg ugrpg, csm_user u, csm_role_privilege rp, csm_role r, csm_privilege p where ugrpg.role_id = r.role_id and ugrpg.user_id = u.user_id and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and pg.protection_group_id = pgpe.protection_group_id and pgpe.protection_element_id = pe.protection_element_id and r.role_id = rp.role_id and rp.privilege_id = p.privilege_id and pe.object_id= '";
 	public static final String CSM_FILTER_USER_QUERY_PART_TWO = "' and p.privilege_name='READ' and u.login_name=:USER_NAME and pe.application_id=:APPLICATION_ID";
 	public static final String CSM_FILTER_GROUP_QUERY_PART_ONE = "( select distinct pe.attribute_value from csm_protection_group pg, 	csm_protection_element pe, 	csm_pg_pe pgpe,	csm_user_group_role_pg ugrpg, 	csm_group g, 	csm_role_privilege rp, 	csm_role r, 	csm_privilege p where ugrpg.role_id = r.role_id and ugrpg.group_id = g.group_id and ugrpg.protection_group_id = any ( select pg1.protection_group_id from csm_protection_group pg1  where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id =  (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id) ) and pg.protection_group_id = pgpe.protection_group_id and pgpe.protection_element_id = pe.protection_element_id and r.role_id = rp.role_id and rp.privilege_id = p.privilege_id and pe.object_id= '";
 	public static final String CSM_FILTER_GROUP_QUERY_PART_TWO = "' and p.privilege_name='READ' and g.group_name IN (:GROUP_NAMES ) and pe.application_id=:APPLICATION_ID";
-	
+
 	public static final String ENABLE = "enable";
-	
+
+	public static final String UPT_UI_GROUPS_LINK="UPT_UI_GROUPS_LINK";
+	public static final String UPT_UI_ROLE_LINK="UPT_UI_ROLE_LINK";
+	public static final String UPT_UI_USERS_LINK="UPT_UI_USERS_LINK";
+	public static final String UPT_UI_PROTECTION_GROUPS_LINK="UPT_UI_PROTECTION_GROUPS_LINK";
+	public static final String UPT_UI_PROTECTION_ELEMENTS_LINK="UPT_UI_PROTECTION_ELEMENTS_LINK";
+	public static final String UPT_UI_PRIVILEGES_LINK="UPT_UI_PRIVILEGES_LINK";
+	public static final String UPT_UI_INSTANCE_LEVEL_LINK="UPT_UI_INSTANCE_LEVEL_LINK";
+
 }
 
 

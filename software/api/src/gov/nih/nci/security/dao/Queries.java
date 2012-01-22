@@ -16,7 +16,7 @@ import java.sql.SQLException;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -24,7 +24,7 @@ import java.sql.SQLException;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -94,7 +94,7 @@ import java.sql.SQLException;
 
 /**
  * This class is a helper class which provides Queries in PreparedStatement format for optimised querying.
- * 
+ *
  */
 public class Queries {
 
@@ -103,8 +103,8 @@ public class Queries {
 											 String attribute,
 											 String privilegeName,
 											 int application_id, Connection cn) throws SQLException{
-		
-		
+
+
 		  StringBuffer stbr = new StringBuffer();
 		  stbr.append("and pe.object_id=?");
 		  stbr.append(" and pe.attribute=?");
@@ -112,16 +112,16 @@ public class Queries {
 		  stbr.append(" and p.privilege_name=?");
 		  stbr.append(" and pg.application_id=?");
 		  stbr.append(" and pe.application_id=?");
-		  
+
 		  StringBuffer sqlBfr = new StringBuffer();
 		  sqlBfr.append(getStaticStringForUserAndGroupForAttribute());
 		  sqlBfr.append(stbr.toString());
 		  sqlBfr.append(" union ");
 		  sqlBfr.append(getStaticStringForUserAndGroupForAttribute2());
 		  sqlBfr.append(stbr.toString());
-		  
-		  
-		   
+
+
+
 		  int i=1;
 		  PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());
 		  pstmt.setString(i++,objectId );
@@ -130,18 +130,18 @@ public class Queries {
 		  pstmt.setString(i++,privilegeName);
 		  pstmt.setInt(i++,application_id);
 		  pstmt.setInt(i++,application_id);
-		  
+
 		  pstmt.setString(i++,objectId );
 		  pstmt.setString(i++,attribute);
 		  pstmt.setString(i++,loginName);
 		  pstmt.setString(i++,privilegeName);
 		  pstmt.setInt(i++,application_id);
 		  pstmt.setInt(i++,application_id);
-		  
+
 		  return pstmt;
-		
+
 	}
-	
+
 	protected static PreparedStatement getQueryForUserAndGroupForAttributeValue(String loginName,
             String objectId,
 			 String attribute,
@@ -158,16 +158,16 @@ public class Queries {
 		stbr.append(" and p.privilege_name=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		StringBuffer sqlBfr = new StringBuffer();
 		sqlBfr.append(getStaticStringForUserAndGroupForAttribute());
 		sqlBfr.append(stbr.toString());
 		sqlBfr.append(" union ");
 		sqlBfr.append(getStaticStringForUserAndGroupForAttribute2());
 		sqlBfr.append(stbr.toString());
-		
-		
-		
+
+
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());
 		pstmt.setString(i++,objectId );
@@ -177,7 +177,7 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-		
+
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,attribute);
 		pstmt.setString(i++,attributeValue);
@@ -185,11 +185,11 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-		
+
 		return pstmt;
-	
+
 	}
-	
+
 	protected static PreparedStatement getQueryForCheckPermissionForUserAndGroup(String loginName,
 															            String objectId,
 																		 String privilegeName,
@@ -201,15 +201,15 @@ public class Queries {
 		stbr.append(" and p.privilege_name='").append(privilegeName).append("'");
 		stbr.append(" and pg.application_id=").append(application_id);
 		stbr.append(" and pe.application_id=").append(application_id);
-		
+
 		StringBuffer sqlBfr = new StringBuffer();
 		sqlBfr.append(getStaticStringForUserAndGroupForAttribute());
 		sqlBfr.append(stbr.toString());
 		sqlBfr.append(" union ");
 		sqlBfr.append(getStaticStringForUserAndGroupForAttribute2());
 		sqlBfr.append(stbr.toString());
-		
-		
+
+
 		  PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());
 		  /*
 		   * int i=1;
@@ -218,18 +218,18 @@ public class Queries {
 		  pstmt.setString(i++,privilegeName);
 		  pstmt.setInt(i++,application_id);
 		  pstmt.setInt(i++,application_id);
-		  
+
 		  pstmt.setString(i++,objectId );
 		  pstmt.setString(i++,loginName);
 		  pstmt.setString(i++,privilegeName);
 		  pstmt.setInt(i++,application_id);
 		  pstmt.setInt(i++,application_id);*/
-		  
+
 		  return pstmt;
-		
+
 		}
-	
-	
+
+
 	protected static PreparedStatement getQueryForCheckPermissionForGroup(String userName,
 			                                 String objectId,
 											 String privilegeName,
@@ -257,7 +257,7 @@ public class Queries {
 		stbr.append(" and p.privilege_name=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
@@ -265,11 +265,11 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-		  
+
 		return pstmt;
 	}
 
-	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String privilegeName, int application_id, Connection cn) throws SQLException 
+	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select 'X'");
@@ -291,7 +291,7 @@ public class Queries {
 		stbr.append(" and p.privilege_name=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
@@ -299,7 +299,7 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-		  
+
 		return pstmt;
 	}
 
@@ -325,7 +325,7 @@ public class Queries {
 		stbr.append(" and g.application_id=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
@@ -333,7 +333,7 @@ public class Queries {
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
-		  
+
 		return pstmt;
 	}
 
@@ -360,7 +360,7 @@ public class Queries {
 		stbr.append(" and g.application_id=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
@@ -369,14 +369,14 @@ public class Queries {
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
-		  
+
 		return pstmt;
 	}
 
-	
+
 	/**
 	 * getQueryForCheckPermissionForOnlyGroup for Object Id, Attribute Name
-	 * 
+	 *
 	 * @param groupName
 	 * @param objectId
 	 * @param attributeName
@@ -400,7 +400,7 @@ public class Queries {
 		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
 		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append(" and pe.object_id=?");
-		stbr.append(" and pe.attribute=?");		
+		stbr.append(" and pe.attribute=?");
 		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
 		stbr.append(" and ugrpg.group_id = g.group_id ");
 		stbr.append(" and g.group_name=?");
@@ -409,7 +409,7 @@ public class Queries {
 		stbr.append(" and p.privilege_name=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
@@ -418,13 +418,13 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-				  
+
 		return pstmt;
 	}
 
 	/**
 	 * getQueryForCheckPermissionForOnlyGroup for Object Id, Attribute and AttributeValue
-	 * 
+	 *
 	 * @param groupName
 	 * @param objectId
 	 * @param attributeName
@@ -449,7 +449,7 @@ public class Queries {
 		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
 		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append(" and pe.object_id=?");
-		stbr.append(" and pe.attribute=?");		
+		stbr.append(" and pe.attribute=?");
 		stbr.append(" and pe.attribute_value=?");
 		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
 		stbr.append(" and ugrpg.group_id = g.group_id ");
@@ -459,7 +459,7 @@ public class Queries {
 		stbr.append(" and p.privilege_name=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
@@ -469,10 +469,10 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-				  
+
 		return pstmt;
 	}
-	
+
 	protected static PreparedStatement getQueryForCheckPermissionForUser(String userName,
 			                                                  String objectId,
 															  String privilegeName,
@@ -497,7 +497,7 @@ public class Queries {
 		stbr.append(" and p.privilege_name=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
@@ -505,22 +505,22 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-				  
-		return pstmt;	
-		
+
+		return pstmt;
+
 	}
-	
+
 	private static String getStaticStringForUserAndGroupForAttribute(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select 'X'");
-		stbr.append(" from csm_protection_group pg,"); 
-		stbr.append(" csm_protection_element pe,"); 
-		stbr.append(" csm_pg_pe pgpe,"); 
-		stbr.append(" csm_user_group_role_pg ugrpg,"); 
-		stbr.append(" csm_user u,"); 
-		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" from csm_protection_group pg,");
+		stbr.append(" csm_protection_element pe,");
+		stbr.append(" csm_pg_pe pgpe,");
+		stbr.append(" csm_user_group_role_pg ugrpg,");
+		stbr.append(" csm_user u,");
+		stbr.append(" csm_role_privilege rp,");
 		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");  
+		stbr.append(" csm_privilege p");
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.user_id = u.user_id and");
 		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
@@ -528,22 +528,22 @@ public class Queries {
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");
 		stbr.append(" rp.privilege_id = p.privilege_id ");
-		
+
 		return stbr.toString();
 	}
 	private static String getStaticStringForUserAndGroupForAttribute2(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select 'X'");
-		stbr.append(" from csm_protection_group pg,"); 
-		stbr.append(" csm_protection_element pe,"); 
-		stbr.append(" csm_pg_pe pgpe,"); 
-		stbr.append(" csm_user_group_role_pg ugrpg,"); 
+		stbr.append(" from csm_protection_group pg,");
+		stbr.append(" csm_protection_element pe,");
+		stbr.append(" csm_pg_pe pgpe,");
+		stbr.append(" csm_user_group_role_pg ugrpg,");
 		stbr.append(" csm_user u,");
 		stbr.append(" csm_user_group ug,");
 		stbr.append(" csm_group g,");
-		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" csm_role_privilege rp,");
 		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");  
+		stbr.append(" csm_privilege p");
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.group_id = g.group_id and");
 		stbr.append(" g.group_id = ug.group_id and");
@@ -553,10 +553,10 @@ public class Queries {
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");
 		stbr.append(" rp.privilege_id = p.privilege_id ");
-		
+
 		return stbr.toString();
 	}
-	
+
 	public static PreparedStatement getQueryForObjectMap(String loginName,String objectId,String privilegeName,int application_id, Connection cn) throws SQLException{
 		 StringBuffer stbr = new StringBuffer();
 		stbr.append("and pe.object_id=?");
@@ -564,14 +564,14 @@ public class Queries {
 		stbr.append(" and p.privilege_name=?");
 		stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
-		
+
 		StringBuffer sqlBfr = new StringBuffer();
 		sqlBfr.append(getQueryForObjectMap_user());
 		sqlBfr.append(stbr.toString());
 		sqlBfr.append(" union ");
 		sqlBfr.append(getQueryForObjectMap_group());
 		sqlBfr.append(stbr.toString());
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(sqlBfr.toString());
 		pstmt.setString(i++,objectId );
@@ -579,53 +579,53 @@ public class Queries {
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-		
+
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,loginName );
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
-				  
+
 		return pstmt;
-		
-		
+
+
 	}
-	
+
 	private static String getQueryForObjectMap_user(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select pe.attribute ");
-		stbr.append(" from csm_protection_group pg,"); 
-		stbr.append(" csm_protection_element pe,"); 
-		stbr.append(" csm_pg_pe pgpe,"); 
-		stbr.append(" csm_user_group_role_pg ugrpg,"); 
-		stbr.append(" csm_user u,"); 
-		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" from csm_protection_group pg,");
+		stbr.append(" csm_protection_element pe,");
+		stbr.append(" csm_pg_pe pgpe,");
+		stbr.append(" csm_user_group_role_pg ugrpg,");
+		stbr.append(" csm_user u,");
+		stbr.append(" csm_role_privilege rp,");
 		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");  
+		stbr.append(" csm_privilege p");
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and"); 
+		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
 		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");
 		stbr.append(" rp.privilege_id = p.privilege_id ");
-		
-		
+
+
 		return stbr.toString();
 	}
 	private static String getQueryForObjectMap_group(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("select pe.attribute");
-		stbr.append(" from csm_protection_group pg,"); 
-		stbr.append(" csm_protection_element pe,"); 
-		stbr.append(" csm_pg_pe pgpe,"); 
-		stbr.append(" csm_user_group_role_pg ugrpg,"); 
+		stbr.append(" from csm_protection_group pg,");
+		stbr.append(" csm_protection_element pe,");
+		stbr.append(" csm_pg_pe pgpe,");
+		stbr.append(" csm_user_group_role_pg ugrpg,");
 		stbr.append(" csm_user u,");
 		stbr.append(" csm_user_group ug,");
 		stbr.append(" csm_group g,");
-		stbr.append(" csm_role_privilege rp,"); 
+		stbr.append(" csm_role_privilege rp,");
 		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");  
+		stbr.append(" csm_privilege p");
 		stbr.append(" where ugrpg.role_id = r.role_id and");
 		stbr.append(" ugrpg.group_id = g.group_id and");
 		stbr.append(" g.group_id = ug.group_id and");
@@ -635,11 +635,11 @@ public class Queries {
 		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
 		stbr.append(" r.role_id = rp.role_id and");
 		stbr.append(" rp.privilege_id = p.privilege_id ");
-		
+
 		return stbr.toString();
 	}
-	
-	
+
+
 	protected static PreparedStatement getQueryforUserPEPrivilegeMap(String user_id, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
@@ -660,7 +660,7 @@ public class Queries {
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
 		stbr.append(" 			 AND pg.application_id=?");
-		stbr.append(" 			 AND pe.application_id=?");		
+		stbr.append(" 			 AND pe.application_id=?");
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ug.group_id = ugrpg.group_id");
 		stbr.append("            AND ug.user_id = ?");
@@ -679,7 +679,7 @@ public class Queries {
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
 		stbr.append(" 			 AND pg.application_id=?");
-		stbr.append(" 			 AND pe.application_id=?");		
+		stbr.append(" 			 AND pe.application_id=?");
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ugrpg.user_id = ?");
 		stbr.append(" UNION ALL ");
@@ -689,7 +689,7 @@ public class Queries {
 		stbr.append("      and upe.user_id = ?");
 		stbr.append("      and cpe.application_id = ?");
 		stbr.append(" ORDER BY pe_id, p_id");
-		
+
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
@@ -702,9 +702,9 @@ public class Queries {
 		pstmt.setInt(i++,new Integer(user_id).intValue());
 		pstmt.setInt(i++,application_id);
 		return pstmt;
-		
+
 	}
-	
+
 	protected static PreparedStatement getQueryforGroupPEPrivilegeMap(String group_id, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
@@ -723,23 +723,23 @@ public class Queries {
 		stbr.append("            AND rp.privilege_id = p.privilege_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
 		stbr.append(" 			 AND pg.application_id=?");
-		stbr.append(" 			 AND pe.application_id=?");		
+		stbr.append(" 			 AND pe.application_id=?");
 		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append("            AND ugrpg.group_id = ?");
 		stbr.append("      ORDER BY pe_id, p_id");
-		
+
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,new Integer(group_id).intValue());
-		
-				  
+
+
 		return pstmt;
-		
+
 	}
-	
-	
+
+
 	protected static PreparedStatement getQueryforUserAttributeMap(String userName, String className, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
@@ -764,7 +764,7 @@ public class Queries {
 		stbr.append("            AND u.login_name=?");
 		stbr.append("            AND p.privilege_name=?");
 		stbr.append("            AND pe.application_id=?");
-		
+
 
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		int i=1;
@@ -772,14 +772,14 @@ public class Queries {
 		pstmt.setString(i++,userName);
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
-		
+
 		return pstmt;
-		
+
 	}
 
 	protected static PreparedStatement getQueryforGroupAttributeMap(String groupName, String className, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
-		
+
 		StringBuffer stbr = new StringBuffer();
 
 		stbr.append("SELECT DISTINCT pe.attribute");
@@ -802,7 +802,7 @@ public class Queries {
 		stbr.append("            AND g.group_name =?");
 		stbr.append("            AND p.privilege_name=?");
 		stbr.append("            AND pe.application_id=?");
-		
+
 
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		int i=1;
@@ -810,16 +810,76 @@ public class Queries {
 		pstmt.setString(i++,groupName);
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
-		
+
 		return pstmt;
-		
+
+	}
+
+
+	protected static PreparedStatement getQueryforLinkPGPE(String linkName, Long applicationId, Connection cn) throws SQLException
+	{
+
+		StringBuffer stbr = new StringBuffer();
+
+		stbr.append("SELECT pe.protection_element_id");
+		stbr.append("      FROM  csm_protection_element pe,");
+		stbr.append("            csm_protection_group pg,");
+		stbr.append("            csm_pg_pe pgpe,");
+		stbr.append("            csm_application app");
+		stbr.append("      WHERE pg.protection_group_name = ?");
+		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("            AND pe.application_id=?");
+		stbr.append("            AND pe.application_id = app.application_id");
+
+		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		int i=1;
+		pstmt.setString(i++,linkName);
+		pstmt.setLong(i++,applicationId);
+
+		return pstmt;
+
+	}
+
+	protected static PreparedStatement getQueryforLinkPEUser(String linkName, int protectionElementId, Long userId, Long applicationId, Connection cn) throws SQLException
+	{
+
+		StringBuffer stbr = new StringBuffer();
+
+		stbr.append("SELECT pe.protection_element_id");
+		stbr.append("      FROM  csm_protection_element pe,");
+		stbr.append("            csm_protection_group pg,");
+		stbr.append("            csm_pg_pe pgpe,");
+		stbr.append("            csm_user_pe upe,");
+		stbr.append("            csm_user user,");
+		stbr.append("            csm_application app");
+		stbr.append("      WHERE upe.protection_element_id = ?");
+		stbr.append("            AND upe.user_id =  ?");
+		stbr.append("            AND pe.protection_element_id = upe.protection_element_id");
+		stbr.append("            AND upe.user_id = user.user_id");
+		stbr.append("            AND pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("            AND pg.protection_group_name =  ?");
+		stbr.append("            AND pe.application_id = app.application_id");
+		stbr.append("            AND pe.application_id =  ?");
+
+
+		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		int i=1;
+		pstmt.setInt(i++,protectionElementId);
+		pstmt.setLong(i++,userId);
+		pstmt.setString(i++,linkName);
+		pstmt.setLong(i++,applicationId);
+
+		return pstmt;
+
 	}
 
 	/*
 	protected static PreparedStatement getQueryforGroupsAttributeMap(String[] groupNames, String className, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
 		//TODO Today
-		
+
 		StringBuffer stbr = new StringBuffer();
 
 		stbr.append("SELECT DISTINCT pe.attribute");
@@ -860,7 +920,7 @@ public class Queries {
 		}
 		stbr.append("            AND p.privilege_name=?");
 		stbr.append("            AND pe.application_id=?");
-		
+
 
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		int i=1;
@@ -869,14 +929,14 @@ public class Queries {
 		for(;count<groupNames.length;count++){
 			pstmt.setString(i++,groupNames[count]);
 		}
-		
+
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
-		
+
 		return pstmt;
-		
+
 	}*/
 
-	
-	
+
+
 }

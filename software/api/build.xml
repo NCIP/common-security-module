@@ -10,7 +10,8 @@
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="src" />
 
-	<property name="lib.dir" value="${common.dir}/target/lib" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="dist.dir" value="${basedir}/dist" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="local.lib.dir" value="lib" />
@@ -44,7 +45,7 @@
 	</path>
 
 	<path id="project.compile.classpath">
-		<fileset dir="${lib.dir}/api/compile">
+		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${local.lib.dir}">
@@ -102,7 +103,8 @@
 	</target>
 
 	<target name="jar" depends="compile" description="generate the distribution">
-		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<jar jarfile="${dist.dir}/${jar.name}" basedir="${classes.dir}" />
 	</target>
 
 	<target name="dist" depends="jar" description="generate the distribution">
