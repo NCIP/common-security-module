@@ -12,7 +12,9 @@
 	prefix="nested"%>
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
-
+<%@ page import="gov.nih.nci.security.upt.forms.LoginForm"%>
+<%@ page import="gov.nih.nci.security.UserProvisioningManager"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
   <!--
     	function set(tableId)
@@ -66,6 +68,77 @@ function MM_swapImage() { //v3.0
 		tableId = DisplayConstants.HOME_ID;
 		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
 	}
+	
+	
+	LoginForm form = (LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT);
+	UserProvisioningManager upm = (UserProvisioningManager)session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+	Boolean isUserEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_USERS_LINK) == null)
+	{
+		isUserEnabled = upm.checkLinkAccessible(Constants.UPT_UI_USERS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_USERS_LINK, isUserEnabled);
+	}
+	else
+		isUserEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_USERS_LINK);
+		
+
+	Boolean isPEEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK) == null)
+	{
+		isPEEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK, isPEEnabled);
+	}
+	else
+		isPEEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK);
+
+	Boolean isPrivEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_PRIVILEGES_LINK) == null)
+	{
+		isPrivEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PRIVILEGES_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_PRIVILEGES_LINK, isPrivEnabled);
+	}
+	else
+		isPrivEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PRIVILEGES_LINK);
+		
+	Boolean isPGEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK) == null)
+	{
+		isPGEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PROTECTION_GROUPS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK, isPGEnabled);
+	}
+	else
+		isPGEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK);
+		
+	Boolean isGroupEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_GROUPS_LINK) == null)
+	{
+		isGroupEnabled = upm.checkLinkAccessible(Constants.UPT_UI_GROUPS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_GROUPS_LINK, isGroupEnabled);
+	}
+	else
+		isGroupEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_GROUPS_LINK);
+		
+	Boolean isRoleEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_ROLE_LINK) == null)
+	{
+		isRoleEnabled = upm.checkLinkAccessible(Constants.UPT_UI_ROLE_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_ROLE_LINK, isRoleEnabled);
+	}
+	else
+		isRoleEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_ROLE_LINK);
+		
+	Boolean isILSEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK) == null)
+	{
+		isILSEnabled = upm.checkLinkAccessible(Constants.UPT_UI_INSTANCE_LEVEL_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK, isILSEnabled);
+	}
+	else
+		isILSEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK);
+	
+	
+	
 	%>
 	<html:hidden property="tableId" value="error" />
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='<%="/MenuSelection"%>'/>"/>
@@ -99,6 +172,11 @@ function MM_swapImage() { //v3.0
 				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
 					/>
 				<!-- link 7 begins -->
+				<%
+				if(isUserEnabled.booleanValue())
+				{
+				%>
+
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.USER_ID)){%>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
@@ -117,7 +195,12 @@ function MM_swapImage() { //v3.0
 				<!-- link 7 ends -->
 				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator"
 					/>
+				<%}%>
 				<!-- link 4 begins -->
+				<%
+				if(isPEEnabled.booleanValue())
+				{
+				%>
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID)){%>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
@@ -138,6 +221,11 @@ function MM_swapImage() { //v3.0
 				<!-- link 4 ends -->
 				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
 					/>
+				<%}%>
+				<%
+				if(isPrivEnabled.booleanValue())
+				{
+				%>
 				<!-- link 3 begins -->
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID)){%>
 				<td height="16" class="mainMenuItemOver"
@@ -157,7 +245,13 @@ function MM_swapImage() { //v3.0
 				<!-- link 3 ends -->
 				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
 					/>
+				<%}%>
 				<!-- link 2 begins -->
+				<%
+				if(isGroupEnabled.booleanValue())
+				{
+				%>
+				
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.GROUP_ID)){%>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
@@ -175,8 +269,13 @@ function MM_swapImage() { //v3.0
 				<%}%>
 				<!-- link 2 ends -->
 				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
-					/>
+				/>
+				<%}%>	
 				<!-- link 5 begins -->
+				<%
+				if(isPGEnabled.booleanValue())
+				{
+				%>
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID)){%>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
@@ -197,7 +296,13 @@ function MM_swapImage() { //v3.0
 				<!-- link 5 ends -->
 				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
 					/>
+				<%}%>
+				
 				<!-- link 6 begins -->
+				<%
+				if(isRoleEnabled.booleanValue())
+				{
+				%>
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.ROLE_ID)){%>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
@@ -216,7 +321,13 @@ function MM_swapImage() { //v3.0
 				<!-- link 6 ends -->
 				<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
 					/>
+				<%}%>
+				
 				<!-- link 7 begins -->
+				<%
+				if(isILSEnabled.booleanValue())
+				{
+				%>
 				<%if (tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID)){%>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
@@ -235,6 +346,7 @@ function MM_swapImage() { //v3.0
 				<!-- link 7 ends -->
 				<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"
 					/>
+				<%}%>
 				<!-- link 8 begins -->
 				<td height="16" class="mainMenuItem"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
