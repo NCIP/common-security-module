@@ -851,12 +851,12 @@ public class Queries {
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_pg_pe pgpe,");
 		stbr.append("            csm_user_pe upe,");
-		stbr.append("            csm_user user,");
+		stbr.append("            csm_user usr,");
 		stbr.append("            csm_application app");
 		stbr.append("      WHERE upe.protection_element_id = ?");
 		stbr.append("            AND upe.user_id =  ?");
 		stbr.append("            AND pe.protection_element_id = upe.protection_element_id");
-		stbr.append("            AND upe.user_id = user.user_id");
+		stbr.append("            AND upe.user_id = usr.user_id");
 		stbr.append("            AND pe.protection_element_id = pgpe.protection_element_id");
 		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
 		stbr.append("            AND pg.protection_group_name =  ?");
