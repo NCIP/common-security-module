@@ -4,7 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
     <script> 
@@ -14,6 +14,7 @@
     		if (target == "read")
     		{
 	    		document.ProtectionElementForm.operation.value=target;
+	    		document.ProtectionElementForm.submit();
     		}
     		else
     		{		
@@ -208,8 +209,9 @@ function skipNavigation()
 					
 					
 					<td width="100%" valign="top">
-					<html:form styleId="ProtectionElementForm" action = '<%="/ProtectionElementDBOperation"%>'>
+					<html:form styleId="ProtectionElementForm" action="/ProtectionElementDBOperation">
 					<html:hidden property="operation" value="read"/>
+					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ProtectionElementDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 

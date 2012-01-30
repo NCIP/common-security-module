@@ -10,7 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="java.util.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
@@ -19,6 +19,7 @@
    	function setAndSubmit(target)
    	{
   		document.UserForm.operation.value=target;
+  		document.UserForm.submit();
  	}
  	
 function skipNavigation()
@@ -51,9 +52,9 @@ function skipNavigation()
 	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		
-		<html:form styleId="UserForm" action='<%="/UserDBOperation"%>'>
+		<html:form styleId="UserForm" action="/UserDBOperation">
 	<html:hidden property="operation" value="read" />
-		
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>		
 		<tr>
 			<td>
 			<h2><a id="userPEAssoc"></a>User, Protection Element and Privileges</h2>

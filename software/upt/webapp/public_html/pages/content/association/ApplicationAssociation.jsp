@@ -4,7 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 
@@ -29,6 +29,7 @@
     		newwin.document.open();
     		newwin.document.writeln('<form name="UserForm" method="post" action="/'+appContext+'/SearchUserDBOperation.do" id="UserForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
+    		newwin.document.writeln('<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>">');
     		newwin.document.writeln('</form>');
     		newwin.document.close();
    			newwin.document.UserForm.operation.value='loadSearch';
@@ -42,6 +43,7 @@
     			if (target == "read")
     			{
 	    			document.ApplicationForm.operation.value=target;
+	    			document.ApplicationForm.submit();
     			}
     			else
     			{		
@@ -204,8 +206,9 @@ function skipNavigation()
 					<tr>		
 					
 					<td width="100%" valign="top">
-					<html:form styleId="ApplicationForm" action = '<%="/ApplicationDBOperation"%>'>
+					<html:form styleId="ApplicationForm" action = "/ApplicationDBOperation">
 					<html:hidden property="operation" value="read"/>
+					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ApplicationDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 

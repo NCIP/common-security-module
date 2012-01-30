@@ -3,6 +3,9 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.forms.LoginForm"%>
+<%@ page import="gov.nih.nci.security.UserProvisioningManager"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 
 <script>
 function skipNavigation()
@@ -63,6 +66,75 @@ function skipNavigation()
 String urlStr = request.getRequestURL().toString();
 urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
+
+	LoginForm form = (LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT);
+	UserProvisioningManager upm = (UserProvisioningManager)session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+
+	Boolean isUserEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_USERS_LINK) == null)
+	{
+		isUserEnabled = upm.checkLinkAccessible(Constants.UPT_UI_USERS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_USERS_LINK, isUserEnabled);
+	}
+	else
+		isUserEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_USERS_LINK);
+		
+
+	Boolean isPEEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK) == null)
+	{
+		isPEEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK, isPEEnabled);
+	}
+	else
+		isPEEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK);
+
+	Boolean isPrivEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_PRIVILEGES_LINK) == null)
+	{
+		isPrivEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PRIVILEGES_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_PRIVILEGES_LINK, isPrivEnabled);
+	}
+	else
+		isPrivEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PRIVILEGES_LINK);
+		
+	Boolean isPGEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK) == null)
+	{
+		isPGEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PROTECTION_GROUPS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK, isPGEnabled);
+	}
+	else
+		isPGEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK);
+		
+	Boolean isGroupEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_GROUPS_LINK) == null)
+	{
+		isGroupEnabled = upm.checkLinkAccessible(Constants.UPT_UI_GROUPS_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_GROUPS_LINK, isGroupEnabled);
+	}
+	else
+		isGroupEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_GROUPS_LINK);
+		
+	Boolean isRoleEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_ROLE_LINK) == null)
+	{
+		isRoleEnabled = upm.checkLinkAccessible(Constants.UPT_UI_ROLE_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_ROLE_LINK, isRoleEnabled);
+	}
+	else
+		isRoleEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_ROLE_LINK);
+		
+	Boolean isILSEnabled = Boolean.TRUE;
+	if(session.getAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK) == null)
+	{
+		isILSEnabled = upm.checkLinkAccessible(Constants.UPT_UI_INSTANCE_LEVEL_LINK, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK, isILSEnabled);
+	}
+	else
+		isILSEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK);
+	
+
 %>
 
 				<!--
@@ -79,6 +151,8 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<%if(isUserEnabled.booleanValue())
+								{%>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.USER_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -87,11 +161,23 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="User"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Application User"></a></td>
+								<%
+								} else {
+								%>
+									<td width="100%" height="50"><img
+										name="user" border="0" src="images/Users2.gif" width="98"
+										alt="User"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Application User"></td>
+								
+								<%}%>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<%if(isPEEnabled.booleanValue())
+								{%>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -100,11 +186,22 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Protection Element"
 										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Protection Element"></a></td>
+								<%} else {
+								%>
+									<td width="100%" height="50"><img
+										name="PEs" border="0" src="images/protectionelements2.gif"
+										alt="Protection Element"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Protection Element"></td>
+
+								<%}%>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<%if(isPrivEnabled.booleanValue())
+								{%>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -113,6 +210,14 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Privilege"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Privilege"></a></td>
+								<%} else {
+								%>
+									<td width="100%" height="50"><img
+										name="priv" border="0" src="images/privileges2.gif" width="98"
+										alt="Privilege"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Privilege"></td>
+								<%}%>
 								</tr>
 
 								<tr>
@@ -152,6 +257,10 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 							<td height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
+								<%
+								if(isGroupEnabled.booleanValue())
+								{
+								%>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.GROUP_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -160,6 +269,16 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Group"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Group"></a></td>
+								<%
+								}
+								else
+								{
+								%>
+									<td width="100%" height="50"><img name="group" border="0" src="images/groups2.gif" width="98"
+										alt="Group" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Group"></td>
+
+								<%}%>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
@@ -169,6 +288,10 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<%
+								if(isPGEnabled.booleanValue())
+								{
+								%>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -177,11 +300,22 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Protectoin Group"
 										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Protection Group"></a></td>
+								<%} else {%>
+									<td width="100%" height="50"><img
+										name="pgs" border="0" src="images/protectiongroups2.gif"
+										alt="Protectoin Group"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Protection Group"></td>
+								<%}%>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<%
+								if(isRoleEnabled.booleanValue())
+								{
+								%>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.ROLE_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -190,6 +324,13 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Role"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Role"></a></td>
+								<%} else{ %>
+									<td width="100%" height="50"><img
+										name="roles" border="0" src="images/roles2.gif" width="98"
+										alt="Role"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Role"></td>
+								<%}%>
 								</tr>
 
 								<tr>

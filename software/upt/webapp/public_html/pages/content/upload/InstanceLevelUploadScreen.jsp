@@ -8,11 +8,19 @@
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
+
+<%
+response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
+response.setHeader("Pragma","no-cache"); //HTTP 1.0
+response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
+%>
+
 <script>
-<!--
+
    	function setAndSubmit(target)
    	{
    		document.InstanceLevelForm.operation.value=target;
+   		document.InstanceLevelForm.submit();
  	}
  	
 function skipNavigation()
@@ -38,7 +46,7 @@ function skipNavigation()
 	document.getElementById("menulogout").tabIndex = -1;
 }
  	
-// -->
+
 </script>
 
 	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">

@@ -4,15 +4,20 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
 
+<%
+response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
+response.setHeader("Pragma","no-cache"); //HTTP 1.0
+response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
+%>
+
 <script type='text/javascript' src='dwr/interface/InstanceLevelHelper.js'></script>
 <script type='text/javascript' src='dwr/engine.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script> 
- 
 <script>
 <!--
  
@@ -63,6 +68,7 @@
                   document.InstanceLevelForm.targetClassAttributeType.value = attributeClass;
             }
             document.InstanceLevelForm.operation.value=target;
+            document.InstanceLevelForm.submit();
       }
       
       function addRow()
@@ -188,6 +194,7 @@ function skipNavigation()
 	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
 	<html:hidden property="userLoginName" value="<%=submitValue%>"/>
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>"/>
 			<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">

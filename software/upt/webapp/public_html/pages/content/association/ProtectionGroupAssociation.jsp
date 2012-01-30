@@ -4,10 +4,11 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
-    <script> 
+
+<script> 
     <!--
     
     
@@ -29,6 +30,7 @@
     		newwin.document.open();
     		newwin.document.writeln('<form name="ProtectionElementForm" method="post" action="/'+appContext+'/SearchProtectionElementDBOperation.do" id="ProtectionElementForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
+    		newwin.document.writeln('<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>">');
     		newwin.document.writeln('</form>');
     		newwin.document.close();
    			newwin.document.ProtectionElementForm.operation.value='loadSearch';
@@ -42,6 +44,7 @@
     		if (target == "read")
     		{
 	    		document.ProtectionGroupForm.operation.value=target;
+	    		document.ProtectionGroupForm.submti();
     		}
     		else
     		{		
@@ -204,8 +207,9 @@ function skipNavigation()
 					
 					
 					<td width="35%" valign="top">
-					<html:form styleId="ProtectionGroupForm" action = '<%="/ProtectionGroupDBOperation"%>'>
+					<html:form styleId="ProtectionGroupForm" action="/ProtectionGroupDBOperation">
 					<html:hidden property="operation" value="read"/>
+					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ProtectionGroupDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
