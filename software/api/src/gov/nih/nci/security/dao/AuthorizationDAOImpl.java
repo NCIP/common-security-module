@@ -347,6 +347,93 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 	}
 
+	public boolean checkLinkAccessible(String linkName, String userId, String applicationContext)
+	throws CSTransactionException
+	{
+		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		boolean test = false;
+		Session s = null;
+		Long applId=0L;
+		List peIds = new ArrayList();
+
+		Connection connection = null;
+		if (StringUtilities.isBlank(linkName)) {
+			throw new CSTransactionException("Link name can't be null!");
+		}
+		if (StringUtilities.isBlank(userId)) {
+			throw new CSTransactionException("UserId can't be null!");
+		}
+
+		User user = getUser(userId);
+		if (user==null) {
+			throw new CSTransactionException("User does not exist.");
+		}
+
+		try {
+
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+
+			connection = s.connection();
+
+			if(this.application.getApplicationName().equals(applicationContext))
+				applId = this.application.getApplicationId();
+			else
+				applId = getApplicationByName(applicationContext).getApplicationId();
+
+			preparedStatement = Queries.getQueryforLinkPGPE(linkName, applId, connection);
+
+			rs = preparedStatement.executeQuery();
+
+
+			while (rs.next())
+			{
+				peIds.add(rs.getString(1));
+			}
+
+			rs.close();
+			preparedStatement.close();
+
+			if(peIds.size() == 0)
+				return true;
+
+			Iterator iterator = peIds.iterator();
+			while(iterator.hasNext())
+			{
+				String peId = (String) iterator.next();
+				preparedStatement = Queries.getQueryforLinkPEUser(linkName, Integer.parseInt(peId), user.getUserId(), applId, connection);
+				rs = preparedStatement.executeQuery();
+
+				if(rs.next())
+					return true;
+				else
+					return false;
+
+			}
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Failed to get checkLinkAccessible for " + linkName + "|"
+						+ ex.getMessage());
+			throw new CSTransactionException("Failed to get checkLinkAccessible for " + linkName
+					+ "|" + ex.getMessage(), ex);
+		} finally {
+			try {
+
+				s.close();
+				rs.close();
+				preparedStatement.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||checkLinkAccessible|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+
+		return test;
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

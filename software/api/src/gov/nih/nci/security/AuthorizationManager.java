@@ -1259,8 +1259,14 @@ public interface AuthorizationManager {
 	 */
 	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException;
 
-	
-	
-	
+
+	/**
+	 * This method checks if a given link is accessible to a user for a given application context
+	 * Link names are constants. See gov.nih.nci.security.constants.Constants for the names
+	 * @throws CSTransactionException
+	 */
+	public boolean checkLinkAccessible(String linkName, String userId, String applicationContext) throws CSTransactionException;
+
+
 }
 

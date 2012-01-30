@@ -144,8 +144,10 @@ public interface AuthorizationDAO {
 			String protectionElementAttributeName)
 			throws CSTransactionException;
 
-	
-	
+
+	public boolean checkLinkAccessible(String linkName, String userId, String applicationContext) throws CSTransactionException;
+
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.UserProvisioningManager#assignUserToGroup(java.lang.String, java.lang.String)
 	 */

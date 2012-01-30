@@ -149,7 +149,15 @@ public class Constants
 	public static final String CSM_FILTER_GROUP_QUERY_PART_TWO = "' and p.privilege_name='READ' and g.group_name IN (:GROUP_NAMES ) and pe.application_id=:APPLICATION_ID";
 	
 	public static final String ENABLE = "enable";
-	
+
+	public static final String UPT_UI_GROUPS_LINK="UPT_UI_GROUPS_LINK";
+	public static final String UPT_UI_ROLE_LINK="UPT_UI_ROLE_LINK";
+	public static final String UPT_UI_USERS_LINK="UPT_UI_USERS_LINK";
+	public static final String UPT_UI_PROTECTION_GROUPS_LINK="UPT_UI_PROTECTION_GROUPS_LINK";
+	public static final String UPT_UI_PROTECTION_ELEMENTS_LINK="UPT_UI_PROTECTION_ELEMENTS_LINK";
+	public static final String UPT_UI_PRIVILEGES_LINK="UPT_UI_PRIVILEGES_LINK";
+	public static final String UPT_UI_INSTANCE_LEVEL_LINK="UPT_UI_INSTANCE_LEVEL_LINK";
+
 }
 
 

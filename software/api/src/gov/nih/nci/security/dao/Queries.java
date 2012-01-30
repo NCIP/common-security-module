@@ -810,9 +810,69 @@ public class Queries {
 		pstmt.setString(i++,groupName);
 		pstmt.setString(i++,privilegeName);
 		pstmt.setInt(i++,application_id);
-		
+
 		return pstmt;
-		
+
+	}
+
+
+	protected static PreparedStatement getQueryforLinkPGPE(String linkName, Long applicationId, Connection cn) throws SQLException
+	{
+
+		StringBuffer stbr = new StringBuffer();
+
+		stbr.append("SELECT pe.protection_element_id");
+		stbr.append("      FROM  csm_protection_element pe,");
+		stbr.append("            csm_protection_group pg,");
+		stbr.append("            csm_pg_pe pgpe,");
+		stbr.append("            csm_application app");
+		stbr.append("      WHERE pg.protection_group_name = ?");
+		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("            AND pe.application_id=?");
+		stbr.append("            AND pe.application_id = app.application_id");
+
+		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		int i=1;
+		pstmt.setString(i++,linkName);
+		pstmt.setLong(i++,applicationId);
+
+		return pstmt;
+
+	}
+
+	protected static PreparedStatement getQueryforLinkPEUser(String linkName, int protectionElementId, Long userId, Long applicationId, Connection cn) throws SQLException
+	{
+
+		StringBuffer stbr = new StringBuffer();
+
+		stbr.append("SELECT pe.protection_element_id");
+		stbr.append("      FROM  csm_protection_element pe,");
+		stbr.append("            csm_protection_group pg,");
+		stbr.append("            csm_pg_pe pgpe,");
+		stbr.append("            csm_user_pe upe,");
+		stbr.append("            csm_user usr,");
+		stbr.append("            csm_application app");
+		stbr.append("      WHERE upe.protection_element_id = ?");
+		stbr.append("            AND upe.user_id =  ?");
+		stbr.append("            AND pe.protection_element_id = upe.protection_element_id");
+		stbr.append("            AND upe.user_id = usr.user_id");
+		stbr.append("            AND pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("            AND pg.protection_group_name =  ?");
+		stbr.append("            AND pe.application_id = app.application_id");
+		stbr.append("            AND pe.application_id =  ?");
+
+
+		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		int i=1;
+		pstmt.setInt(i++,protectionElementId);
+		pstmt.setLong(i++,userId);
+		pstmt.setString(i++,linkName);
+		pstmt.setLong(i++,applicationId);
+
+		return pstmt;
+
 	}
 
 	/*
