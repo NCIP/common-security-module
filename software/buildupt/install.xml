@@ -17,33 +17,6 @@
 	</target>
 
 	<!-- Wrapper target to deploy JBOSS container -->
-	<!--
-	<target name="install" description="Wrapper scripts that calls all required targets to install the jboss container" unless="exclude.jboss" depends="
-		-set:jboss:backwards-compatible-upt:application:url,
-		common:jboss:init,
-		common:init,
-		install:jboss:init,
-		install:jboss:validation:pre-install,
-		install:jboss:stop,
-		install:jboss:validation:pre-install:ports,
-		install:jboss:clean,
-		install:jboss:binaries,
-		install:jboss:backwards-compatible-upt-ear,
-		install:jboss:backwards-compatible-upt-ear:configure,
-		install:jboss:configure,
-		install:jboss:configure:login:config,
-		install:jboss:configure:csmupt41:login:config,
-		install:jboss:configure:csmupt42:login:config,
-		install:jboss:configure:csmupt423:login:config,
-		install:jboss:configure:application:context,
-		install:backwards-compatible-upt:databases,		
-		install:jboss:configure:datasources,
-		install:post:jboss,
-		install:jboss:start,
-		install:jboss:validation:post-install
-		">
-	</target>
-	-->
 	
 	<target name="install:jboss:backwards-compatible-upt-ear" description="Deploy backwards-compatible-upt and common libraries to jboss installation" unless="exclude.jboss" depends="common:init,re-configure-ear">
 		<!-- added to ensure working.dirs are fresh for our install -->
@@ -2094,25 +2067,7 @@
 		install:jboss:validation:post-install
 		" >
 	</target>
-<!--
-	<target name="upgrade-ncm" description="Upgrades JBoss and Database"
-		depends="
-		upgrade:common:init,
-		common:init,
-		common:jboss:init,
-		install:common:validation:pre-install,
-		install:jboss:validation:pre-install,
-		install:database:validation:pre-install,
-		install:jboss:stop,
-		install:jboss:validation:pre-install:ports,
-		upgrade:database,
-		upgrade:jboss,
-		install:common:post,
-		install:jboss:start,
-		install:common:validation:post-install
-		">
-	</target>
--->	
+
 	<target name="upgrade:jboss:readers:build" if="jboss.exists">
 
 		<!-- Make sure the ${properties.file} has at least the following props -->
