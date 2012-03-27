@@ -94,7 +94,7 @@ function skipNavigation()
 											width="20%">Value</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="ProtectionElement" length="200">
+										id="searchResultObject" type="ProtectionElement" length="1000">
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%"><html:radio

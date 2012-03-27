@@ -148,7 +148,7 @@ function skipNavigation()
 											width="15%">Attribute</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="ProtectionElement" length="200">
+										id="searchResultObject" type="ProtectionElement" length="1000">
 										<%if (oddRow.equals("true"))
 		{
 			oddRow = "false";%>
