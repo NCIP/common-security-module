@@ -17,14 +17,17 @@ public class SessionListen implements HttpSessionListener {
 
 
   public void sessionCreated(HttpSessionEvent se) {
-   
+	  HttpSession session = se.getSession();
+	  System.out.println("SessionListen.sessionCreated()..."+session.getId());
+ 
+	  System.out.println("SessionListen.sessionCreated()..ID=" + session.getId() + " MaxInactiveInterval=" + session.getMaxInactiveInterval());
   }
 
   public void sessionDestroyed(HttpSessionEvent se) {
 
 	  try{
 		    HttpSession session = se.getSession();
-		    
+		    System.out.println("SessionListen.sessionDestroyed()...id:"+session.getId());
 		    ClassPathLoader.releaseJarsFromClassPath(session);
     
 		    session.invalidate();
