@@ -31,7 +31,7 @@ public class SessionFilter implements Filter {
 		else {
 			 session = request.getSession(false);
 				if (null == session) {
-					response.sendRedirect("index.jsp");
+					response.sendRedirect("/index.jsp");
 					return;
 				}
 			 Cookie[] cookies=request.getCookies();
@@ -45,11 +45,12 @@ public class SessionFilter implements Filter {
 			 System.out.println("SessionFilter.doFilter()...sessionCookie="+cookieValue);
 			 if (! cookieValue.equals(session.getId()))
 			 {
-				response.sendRedirect("index.jsp");
+				response.sendRedirect("/index.jsp");
 				return;
 			 }
 
 		}
+		System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..session:"+session);
 		chain.doFilter(req, res);
 	}
 
