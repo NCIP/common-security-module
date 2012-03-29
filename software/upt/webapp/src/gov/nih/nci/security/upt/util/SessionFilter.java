@@ -20,9 +20,11 @@ public class SessionFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		String url = request.getServletPath();
 		boolean allowedRequest = false;
-		System.out.println("SessionFilter.doFilter()..request:"+url);
+		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..request:"+url);
 		if(urlList.contains(url)) {		
 		allowedRequest = true;
+		//create  a new session if not exist
+		request.getSession();
 		}
 		if (!allowedRequest) {
 			HttpSession session = request.getSession(false);
@@ -36,7 +38,7 @@ public class SessionFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 
 		String urls = config.getInitParameter("avoid-urls");
-		System.out.println("SessionFilter.init()...avoid-urls:"+urls);
+		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.init()...avoid-urls:"+urls);
 		StringTokenizer token = new StringTokenizer(urls, ",");
 		urlList = new ArrayList<String>();
 		while (token.hasMoreTokens()) {
