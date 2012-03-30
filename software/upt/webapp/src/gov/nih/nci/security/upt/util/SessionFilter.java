@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 public class SessionFilter implements Filter {
 	private ArrayList<String> avoidUrlList;
+	private String forwardUrl="index.jsp";
 	public void destroy() {     }
 	public void doFilter(ServletRequest req, ServletResponse res,  FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
@@ -23,11 +24,6 @@ public class SessionFilter implements Filter {
 		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..request url="+url);
 		HttpSession session =null;
 		boolean isAoided=false;
-//		for (String avoided:avoidUrlList)
-//		{
-//			if (url.endsWith(avoided))
-//				isAoided=true;
-//		}
 		if (avoidUrlList.contains(url))
 		{
 			isAoided =true;
@@ -39,7 +35,7 @@ public class SessionFilter implements Filter {
 			System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..session:"+session);
 			if (null == session) 
 			{
-					response.sendRedirect("index.jsp");
+					response.sendRedirect(forwardUrl);
 					return;
 			}
 			Cookie[] cookies=request.getCookies();
@@ -61,7 +57,7 @@ public class SessionFilter implements Filter {
 			{
 				System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()...forward ur:\nsessionCookie="+sessionCokie.getValue() +"...sessionId="+session.getId());
 				sessionCokie.setValue(session.getId());
-				response.sendRedirect("index.jsp");
+				response.sendRedirect(forwardUrl);
 				return;
 			}
 		}
@@ -72,6 +68,7 @@ public class SessionFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 
 		String urls = config.getInitParameter("avoid-urls");
+		forwardUrl=config.getInitParameter("forward-url");
 		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.init()...avoid-urls:"+urls);
 		StringTokenizer token = new StringTokenizer(urls, ",");
 		avoidUrlList = new ArrayList<String>();

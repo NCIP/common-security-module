@@ -21,6 +21,10 @@
 		<filter-class>org.owasp.csrfguard.CsrfGuardFilter</filter-class>
 	</filter>
 	<!-- backward_compatibility_/uptlogin -->
+	<filter-mapping>     
+		<filter-name>SessionFilter</filter-name>     
+		<url-pattern>/*</url-pattern> 
+	</filter-mapping> 
 	<filter>     
 		<filter-name>SessionFilter</filter-name>     
 		<filter-class>gov.nih.nci.security.loginapp.util.SessionFilter</filter-class>     
@@ -28,11 +32,12 @@
 			<param-name>avoid-urls</param-name>         
 			<param-value>/index.jsp, /Login.do</param-value>     
 		</init-param> 
+		<init-param>         
+			<param-name>forward-url</param-name>         
+			<param-value>pages/content/main/Error404.html</param-value>     
+		</init-param> 
 	</filter> 
-	<filter-mapping>     
-		<filter-name>SessionFilter</filter-name>     
-		<url-pattern>/*</url-pattern> 
-	</filter-mapping> 
+
 	
 	<filter-mapping>
 		<filter-name>CSRFGuard</filter-name> 
