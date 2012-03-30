@@ -22,13 +22,19 @@ public class SessionFilter implements Filter {
 		String url = request.getServletPath();
 		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..request:"+url);
 		HttpSession session =null;
-		if(!avoidUrlList.contains(url)) 
-		{		
+		boolean isAoided=false;
+		for (String avoided:avoidUrlList)
+		{
+			if (url.endsWith(avoided))
+				isAoided=true;
+		}
+		if(!isAoided) 
+		{	
 			session = request.getSession(false);
 			System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..session:"+session);
 			if (null == session) 
 			{
-					response.sendRedirect("/Login.do");
+					response.sendRedirect("Login.do");
 					return;
 			}
 			Cookie[] cookies=request.getCookies();
@@ -48,7 +54,7 @@ public class SessionFilter implements Filter {
 			}
 			else if (! cookieValue.equals(session.getId()))
 			{
-				response.sendRedirect("/Login.do");
+				response.sendRedirect("Login.do");
 				return;
 			}
 		}

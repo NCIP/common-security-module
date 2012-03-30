@@ -22,33 +22,41 @@ public class SessionFilter implements Filter {
 		String url = request.getServletPath();
 		System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..url:"+url);
 		HttpSession session =null;
-		if(avoidUrlList.contains(url)) {
-			//create  a new session if not exist
-			session= request.getSession(false);
-//			Cookie userCookie = new Cookie("sessionCookie", session.getId());
-//			response.addCookie(userCookie);
+		boolean isAoided=false;
+		for (String avoided:avoidUrlList)
+		{
+			if (url.endsWith(avoided))
+				isAoided=true;
 		}
-		else {
-			 session = request.getSession(false);
-				if (null == session) {
-					response.sendRedirect("/Login.do");
+		if(!isAoided) 
+		{		
+			session = request.getSession(false);
+			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..session:"+session);
+			if (null == session) 
+			{
+					response.sendRedirect("Login.do");
 					return;
-				}
-			 Cookie[] cookies=request.getCookies();
-			 String cookieValue="";
-			 for(int i=0; i<cookies.length; i++) 
-			 {
+			}
+			Cookie[] cookies=request.getCookies();
+			String cookieValue="";
+			for(int i=0; i<cookies.length; i++) 
+			{
 			      Cookie cookie = cookies[i];
 			      if ("sessionCookie".equals(cookie.getName()))
 			    	  cookieValue=cookie.getValue();
-			 }
-			 System.out.println("SessionFilter.doFilter()...sessionCookie="+cookieValue);
-//			 if (! cookieValue.equals(session.getId()))
-//			 {
-//				response.sendRedirect("/Login.do");
-//				return;
-//			 }
-
+			}
+			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()...sessionCookie="+cookieValue);
+			if (cookieValue==null)
+			{
+				//add cookie with session id
+				Cookie userCookie = new Cookie("sessionCookie", session.getId());
+				response.addCookie(userCookie); 
+			}
+			else if (! cookieValue.equals(session.getId()))
+			{
+				response.sendRedirect("Login.do");
+				return;
+			}
 		}
 		System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..session:"+session);
 		chain.doFilter(req, res);
