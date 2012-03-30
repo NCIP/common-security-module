@@ -43,22 +43,24 @@ public class SessionFilter implements Filter {
 					return;
 			}
 			Cookie[] cookies=request.getCookies();
-			String cookieValue="";
+			Cookie sessionCokie=null;
 			for(int i=0; i<cookies.length; i++) 
 			{
 			      Cookie cookie = cookies[i];
 			      if ("sessionCookie".equals(cookie.getName()))
-			    	  cookieValue=cookie.getValue();
+			    	  sessionCokie=cookie;
 			}
-			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()...sessionCookie="+cookieValue +"...sessionId="+session.getId());
-			if (cookieValue==null)
+			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()...sessionId="+session.getId());
+			if (sessionCokie==null)
 			{
 				//add cookie with session id
 				Cookie userCookie = new Cookie("sessionCookie", session.getId());
 				response.addCookie(userCookie); 
 			}
-			else if (!cookieValue.equals(session.getId()))
+			else if (!sessionCokie.getValue().equals(session.getId()))
 			{
+				System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()...forward ur:\nsessionCookie="+sessionCokie.getValue() +"...sessionId="+session.getId());
+				sessionCokie.setValue(session.getId());
 				response.sendRedirect("index.jsp");
 				return;
 			}
