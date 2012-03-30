@@ -20,21 +20,25 @@ public class SessionFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		String url = request.getServletPath();
-		System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..url:"+url);
+		System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..request url="+url);
 		HttpSession session =null;
 		boolean isAoided=false;
-		for (String avoided:avoidUrlList)
-		{
-			if (url.endsWith(avoided))
-				isAoided=true;
-		}
+//		for (String avoided:avoidUrlList)
+//		{
+//			if (url.endsWith(avoided))
+//				isAoided=true;
+//		}
+		if (avoidUrlList.contains(url))
+			isAoided =true;
+		System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..request URL is contained in:"+avoidUrlList);
+		
 		if(!isAoided) 
 		{		
 			session = request.getSession(false);
 			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..session:"+session);
 			if (null == session) 
 			{
-					response.sendRedirect("Login.do");
+					response.sendRedirect("/index.jsp");
 					return;
 			}
 			Cookie[] cookies=request.getCookies();
@@ -54,7 +58,7 @@ public class SessionFilter implements Filter {
 			}
 			else if (! cookieValue.equals(session.getId()))
 			{
-				response.sendRedirect("Login.do");
+				response.sendRedirect("/index.jsp");
 				return;
 			}
 		}

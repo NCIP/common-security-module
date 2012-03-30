@@ -26,7 +26,7 @@
 		<filter-class>gov.nih.nci.security.upt.util.SessionFilter</filter-class>     
 		<init-param>         
 			<param-name>avoid-urls</param-name>         
-			<param-value>Login.do</param-value>     
+			<param-value>/index.jsp, /Login.do</param-value>     
 		</init-param> 
 	</filter> 
 	<!--  do session filter before CSRFGuard filter -->	
