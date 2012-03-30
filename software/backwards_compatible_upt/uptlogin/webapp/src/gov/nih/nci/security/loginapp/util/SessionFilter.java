@@ -29,16 +29,17 @@ public class SessionFilter implements Filter {
 //				isAoided=true;
 //		}
 		if (avoidUrlList.contains(url))
+		{
 			isAoided =true;
-		System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..request URL is contained in:"+avoidUrlList);
-		
+			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..request URL is contained in:"+avoidUrlList);
+		}
 		if(!isAoided) 
 		{		
 			session = request.getSession(false);
 			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()..session:"+session);
 			if (null == session) 
 			{
-					response.sendRedirect("/index.jsp");
+					response.sendRedirect("index.jsp");
 					return;
 			}
 			Cookie[] cookies=request.getCookies();
@@ -49,16 +50,16 @@ public class SessionFilter implements Filter {
 			      if ("sessionCookie".equals(cookie.getName()))
 			    	  cookieValue=cookie.getValue();
 			}
-			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()...sessionCookie="+cookieValue);
+			System.out.println("gov.nih.nci.security.loginapp.util.SessionFilter.doFilter()...sessionCookie="+cookieValue +"...sessionId="+session.getId());
 			if (cookieValue==null)
 			{
 				//add cookie with session id
 				Cookie userCookie = new Cookie("sessionCookie", session.getId());
 				response.addCookie(userCookie); 
 			}
-			else if (! cookieValue.equals(session.getId()))
+			else if (!cookieValue.equals(session.getId()))
 			{
-				response.sendRedirect("/index.jsp");
+				response.sendRedirect("index.jsp");
 				return;
 			}
 		}
