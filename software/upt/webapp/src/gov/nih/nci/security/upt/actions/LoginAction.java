@@ -105,6 +105,7 @@ import gov.nih.nci.security.util.StringUtilities;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -328,15 +329,15 @@ public class LoginAction extends Action
 				attributes.put( name, httpSession.getAttribute( name ) );
 		  	}
 		}
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession();
 		// invalidate the session
-		httpSession.invalidate();
+		session.invalidate();
 		// create a new session
 		session = request.getSession(true);
 		// "restore" the session values
 		for ( Map.Entry<String, Object> et : attributes.entrySet() )
 		{
-		  	httpSession.setAttribute( et.getKey(), et.getValue() ); // <- java.lang.IllegalStateException: setAttribute: Session already invalidated
+		  	session.setAttribute( et.getKey(), et.getValue() ); // <- java.lang.IllegalStateException: setAttribute: Session already invalidated
 		}
 
 		session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER, userProvisioningManager);
