@@ -21,29 +21,12 @@
 		<filter-class>org.owasp.csrfguard.CsrfGuardFilter</filter-class>
 	</filter>
 	<!-- buildupt/src/uptlogin -->
-	<filter>     
-		<filter-name>SessionFilter</filter-name>     
-		<filter-class>gov.nih.nci.security.upt.util.SessionFilter</filter-class>     
-		<init-param>         
-			<param-name>avoid-urls</param-name>         
-			<param-value>/index.jsp, /Login.do</param-value>     
-		</init-param> 
-		<init-param>         
-			<param-name>forward-url</param-name>         
-			<param-value>index.jsp</param-value>     
-		</init-param> 
-	</filter> 
 	
 	<!--  do session filter after CSRFGuard filter -->	
 	<filter-mapping>
 		<filter-name>CSRFGuard</filter-name> 
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<filter-mapping>     
-		<filter-name>SessionFilter</filter-name>     
-		<url-pattern>/*</url-pattern> 
-	</filter-mapping> 
 	
 	<listener>
 	  <listener-class>gov.nih.nci.security.upt.util.SessionListen</listener-class>
