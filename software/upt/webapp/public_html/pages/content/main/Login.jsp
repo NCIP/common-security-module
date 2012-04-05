@@ -53,7 +53,7 @@
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-							<html:form action="/Login"  focus="loginId" autocomplete="off">
+							<html:form action="/Login"  focus="loginId">
 							<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/Login'/>"/>
 								<!-- login begins -->
 								<tr>
