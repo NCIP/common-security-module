@@ -1171,8 +1171,8 @@
 						<context-name>@{context.name}</context-name>
 							<authentication>
 								<authentication-provider-class/>
-								<lockout-time>6000</lockout-time>
-								<allowed-login-time>6000</allowed-login-time>
+								<lockout-time>1800000</lockout-time>
+								<allowed-login-time>60000</allowed-login-time>
 								<allowed-attempts>3</allowed-attempts>
 							</authentication>
 							<authorization>
