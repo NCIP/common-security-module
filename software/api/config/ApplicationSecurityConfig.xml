@@ -13,7 +13,7 @@
                     <!-- Fully qualified class name-->
                 </authentication-provider-class>
 				<lockout-time>
-					60000
+					1800000
 				</lockout-time>
 				<allowed-login-time>
 					60000
