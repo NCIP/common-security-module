@@ -299,4 +299,11 @@
 			properties.file="${properties.file}"
 			/>
 	</target>
+	
+	<target name="src" depends="init,clean">
+		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="src" dir="${backwards.compatible.upt.base.dir}">
+		</ant>
+	</target>
+
+	
 </project>
