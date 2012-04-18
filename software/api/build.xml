@@ -147,5 +147,9 @@
 			<fileset dir="${src.dir}" includes="**/*.java"/>
 		</javadoc>
 	</target>
+	
+	<target name="src">
+		<zip destfile="${dist.dir}/csm-api-src4.2.3.zip" basedir="${src.dir}" />
+	</target>
 
 </project>
