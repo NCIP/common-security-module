@@ -415,5 +415,9 @@
 	<jar jarfile="${dist.home.ear}/${upt.ear.file}" basedir="${build.home.ear}" />
 </target>
 
+	<target name="src" depends="svnCheckout423, initLogin, prepare">
+		<zip destfile="${basedir}/dist/csm-upt-src4.2.3.zip" basedir="${target.dir}/svncheckout/upt423/webapp" />
+	</target>
+
 <target name="all" depends="clean,svnCheckout,dist,buildEar,cleanupLogin" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 </project>

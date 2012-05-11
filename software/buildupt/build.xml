@@ -35,6 +35,7 @@
 	<target name="clean">
 		<delete dir="${dist.dir}" />
 		<delete dir="${temp.dir}" />
+		<delete dir="${target.dir}" failonerror="false"/>
 	</target>
 
 	<target name="init"  description="Sets up build are and initalizes variables">
@@ -135,7 +136,6 @@
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
-
 		<dist-prep />
 	</target>
 
@@ -299,5 +299,11 @@
 			properties.file="${properties.file}"
 			/>
 	</target>
+	
+	<target name="src" depends="init,clean">
+		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="src" dir="${backwards.compatible.upt.base.dir}">
+		</ant>
+	</target>
 
+	
 </project>

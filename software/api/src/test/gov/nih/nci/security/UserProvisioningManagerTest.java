@@ -62,7 +62,7 @@ public class UserProvisioningManagerTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		//System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
-		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("security");
+		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 
 		//Initialize the userList - used to check the "get" functions
 		InitializeUserStringArray();

@@ -144,9 +144,9 @@ public class TestClient {
 	{
 		try{
 			Properties p = System.getProperties();
-			p.setProperty("gov.nih.nci.security.configFile", "C:/securityconfig/ApplicationSecurityConfig.xml");
+			p.setProperty("gov.nih.nci.security.configFile", "C:/Prasad/OM/CSM_423_BRANCH/api/config/ApplicationSecurityConfig.xml");
 			
-			upm = SecurityServiceProvider.getUserProvisioningManager("security");
+			upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 			//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 			//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 			}catch(Exception ex){
@@ -531,7 +531,7 @@ public class TestClient {
 		try{
 
 				User user = new User();
-				user.setLoginName("vinaykumar" + 1 );//Math.random());
+				user.setLoginName("vinaykumar" + 2 );//Math.random());
 				user.setFirstName("User_first_name_");
 				user.setLastName("User_last_name_");
 				user.setDepartment("NCI_");
@@ -563,11 +563,12 @@ public class TestClient {
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		
 		try{
+			AuthorizationManager authorizationManager = SecurityServiceProvider.getAuthorizationManager("sdk");
 			for(int i=1;i<101;i++){
 				ProtectionGroup pg = new ProtectionGroup();
 				pg.setProtectionGroupName("protection_group_name_="+i);
 				pg.setProtectionGroupDescription("PG_Desc_"+i);
-				upm.createProtectionGroup(pg);
+				authorizationManager.createProtectionGroup(pg);
 				System.out.println("The returned id is"+pg.getProtectionGroupId());
 			}
 			
@@ -1006,8 +1007,8 @@ public class TestClient {
 ////		ts.getPrivilegeMap4();
 //=======
 //=======
-		ts.testUserCreate();
-		ts.testUserCreate();
+		ts.testProtectionGroupCreate();
+		//ts.testUserCreate();
 		
 //		ts.testRoleCreate();
 //>>>>>>> 1.57

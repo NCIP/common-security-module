@@ -207,7 +207,7 @@ function MM_swapImage() { //v3.0
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-							<form name="LoginForm" method="post" action="<%=uptLoginLogin%>">
+							<form name="LoginForm" method="post" action="<%=uptLoginLogin%>"  autocomplete="off">
 								<!-- login begins -->
 								<tr>
 									<td valign="top">

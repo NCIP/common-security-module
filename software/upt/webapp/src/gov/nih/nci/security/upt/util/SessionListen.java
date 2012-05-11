@@ -17,14 +17,17 @@ public class SessionListen implements HttpSessionListener {
 
 
   public void sessionCreated(HttpSessionEvent se) {
-   
+	  HttpSession session = se.getSession();
+	  System.out.println("gov.nih.nci.security.upt.util.SessionListen.sessionCreated()..."+session.getId());
+ 
+	  System.out.println("gov.nih.nci.security.upt.util.SessionListen.sessionCreated()..ID=" + session.getId() + " MaxInactiveInterval=" + session.getMaxInactiveInterval());
   }
 
   public void sessionDestroyed(HttpSessionEvent se) {
 
 	  try{
 		    HttpSession session = se.getSession();
-		    
+		    System.out.println("gov.nih.nci.security.upt.util.SessionListen.sessionDestroyed()...id:"+session.getId());
 		    ClassPathLoader.releaseJarsFromClassPath(session);
     
 		    session.invalidate();
