@@ -649,7 +649,7 @@
 					<then>
 						<configure-datasources database.url="${upt.423.database.url}"
 							database.user="${upt.423.database.user}"
-							database.password="${upt.423.database.password}" jndi.name="csmupt"
+							database.password="${upt.423.database.password}" jndi.name="${upt.423.jndi.name}"
 							driver.class="${upt.423.database.driver.class}"
 						/>
 					</then>

@@ -65,6 +65,7 @@ public class LoginAction extends Action
 
 
 
+
 		ActionErrors errors = new ActionErrors();
 
 		AuthenticationManager authenticationManager = null;
@@ -133,6 +134,7 @@ public class LoginAction extends Action
 		}*/
 		try
 		{
+//System.out.println("LoginAction execute******************************************uptContextName: "+uptContextName);
 
 
 			authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);

@@ -25,7 +25,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="upt.40.installed" value="true"/>
 		<variable name="upt.41.installed" value="true"/>
 		<variable name="upt.42.installed" value="true"/>
-
+		<variable name="upt.423.installed" value="true"/>
 		<variable name="upt.424.installed" value="true"/>
 	</panel>
 
