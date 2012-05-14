@@ -19,6 +19,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<property name="software.location" location="${this.dir}/../.." />
 	<property name="target.location" location="${software.location}/target" />
 	<property name="dist.location" location="${target.location}/dist" />
+	<property name="bda-utils.dir" location="${target.location}/bda-utils" />
+	<property name="ant.lib.dir" location="${target.location}/apache-ant-1.7.0/lib" />
 	<property name="bda-utils.dir" location="${software.location}/common/build-utils" />
 	<property name="ant.lib.dir" location="${target.location}/apache-ant-1.8.0/lib" />
 	<property name="custom.resource.dir" location="${target.location}/izpack-custom/resources"/>
@@ -234,7 +236,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="build.file.target" value="upgrade:database" condition="upgrade+container.database" />
 
 					<!-- conditionals for containers not chosen -->
-					<variable name="jboss.relative.path" value="" condition="container.database|container.tomcat"/>
+					<variable name="jboss.relative.path" value="jboss.binaries.relative.dir" condition="container.database|container.tomcat"/>
 					<variable name="jboss.server.hostname" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.user" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.password" value="" condition="container.database|container.tomcat"/>

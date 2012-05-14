@@ -34,6 +34,9 @@ Release History
 
 Features
 ------------------------
+CSM/UPT 4.2.3 release is to support NCI CBIIT 2011 technology stack - Current . 
+Please see https://wiki.nci.nih.gov/display/TechStack/Technology+Stack+Overview for details on technology stack
+
 
 Known Issues/Defects
 ------------------------
@@ -54,6 +57,5 @@ NCICB Web Pages
     * NCICB Application Support, http://ncicb.nci.nih.gov/NCICB/support
     * NCICB Download Center, http://ncicb.nci.nih.gov/download/
     * CSM Knowledge Center Forum, https://cabig-kc.nci.nih.gov/CaGrid/forums/viewforum.php?f=26&sid=0fa2833fb89cbc1deb1eb3f4a50fe5b1
-
 
 

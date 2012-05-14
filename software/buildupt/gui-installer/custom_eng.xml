@@ -5,6 +5,7 @@
 <langpack>
 
     <!-- Heading messages START -->
+    <str id="CheckedHelloPanel.headline" txt="Welcome to CSM UPT 4.2"/>
     <str id="CheckedHelloPanel.headline" txt="Welcome to CSM UPT 4.2.4"/>
     <str id="CompilePanel.headline" txt="Compile Java Sources"/>
     <str id="ConditionalUserInputPanel.headline" txt="User Data"/>

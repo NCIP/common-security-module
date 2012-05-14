@@ -64,6 +64,7 @@ public class LoginAction extends Action
 
 
 
+
 		ActionErrors errors = new ActionErrors();
 
 		AuthenticationManager authenticationManager = null;
@@ -133,6 +134,7 @@ public class LoginAction extends Action
 		try
 		{
 
+
 			authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);
 			if (null == authenticationManager)
 			{
@@ -183,16 +185,23 @@ public class LoginAction extends Action
 		Iterator listIterator = null;
 
 		String text1 = uptProperties.getBackwardsCompatibilityInformation().getCentralUPTConfiguration();
+
 		if("true".equalsIgnoreCase(text1)){
 			isCentralUPTwithCSMUPTContext = true;
 
 			// Get the UPT Application Context (the superadmin mode Application Context URL).
 			lista= uptProperties.getBackwardsCompatibilityInformation().getUptApplicationsList();
+
 			Iterator listIterate = lista.iterator();
 			while(listIterate.hasNext()){
 				UPTApplication uptApp = (UPTApplication) listIterate.next();
+
+
+
 				if(DisplayConstants.UPT_CONTEXT_NAME.equalsIgnoreCase(uptApp.getContextName())){
 					uptApplicationContextName = uptApp.getContextNameURL();
+
+
 				}
 			}
 
@@ -209,6 +218,7 @@ public class LoginAction extends Action
 
 
 		if(isCentralUPTwithCSMUPTContext){
+			//System.out.println("LoginAction execute******************************************11 "+uptApplicationContextName);
 			//authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName); - done below
 			// Set currentUptContextName = "csmupt"; done below
 
@@ -220,6 +230,7 @@ public class LoginAction extends Action
 			//set For loop to iterate once.
 			forLoopCount = 1;
 		}else{
+			//System.out.println("LoginAction execute******************************************22: ");
 			if(null==lista){
 				forLoopCount = 1;
 			}else{
@@ -231,8 +242,9 @@ public class LoginAction extends Action
 			//String[] currentUptContextNames = { "csmupt41","csmupt40","csmupt32"};
 
 			boolean authorizationSuccess = false;
-			for(int i=0;i<forLoopCount; i++){
-
+			for(int i=0;i<forLoopCount; i++)
+			{
+//System.out.println("forLoopCount: "+forLoopCount);
 				if(authorizationSuccess) continue;
 
 
@@ -244,6 +256,7 @@ public class LoginAction extends Action
 					isLastContext = ((i+1)==lista.size()?true:false);
 				}
 
+//System.out.println("isLastContext: "+isLastContext);
 				String currentUptContextName = null;//currentUptContextNames[i];
 
 				UPTApplication ua;
@@ -263,14 +276,15 @@ public class LoginAction extends Action
 				uptContextName = currentUptContextName;
 
 
-
-
+//System.out.println("LoginAction execute******************************************uptApplicationContextName: "+uptApplicationContextName);
+//System.out.println("LoginAction execute******************************************uptContextName2: "+uptContextName);
 				try
 				{
 					authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 				}
 				catch (CSException cse)
 				{
+					cse.printStackTrace();
 					// Probably CSM UPT for this context is not configured correctly or not available.
 
 					continue;
@@ -289,7 +303,9 @@ public class LoginAction extends Action
 
 				try
 				{
+					//System.out.println("LoginAction execute******************************************loginForm.getApplicationContextName(): "+loginForm.getApplicationContextName());
 					hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
+					//System.out.println("LoginAction execute******************************************.hasPermission(): "+hasPermission);
 					if (!hasPermission)
 					{
 						if(isLastContext){
@@ -318,13 +334,15 @@ public class LoginAction extends Action
 				{
 
 					application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-
+//System.out.println("LoginAction execute******************************************application: "+application);
 					if(application!= null && isCentralUPTwithCSMUPTContext){
 
 						// Determine the UPT Application Context Name for the non-superadmin Application.
 						String csmversion = getCSMVersionForApplicationViaJDBC(uptContextName, application.getApplicationName());
 
+//System.out.println("csmversion: "+csmversion);
 						if(DisplayConstants.UPT_CONTEXT_NAME.equalsIgnoreCase(application.getApplicationName())){
+							//uptApplicationContextName = "uptlogin";
 							// no need to specify the uptApplicationContextName again since its already done above.
 						}else{
 
@@ -379,6 +397,7 @@ public class LoginAction extends Action
 									"||Login|Failure|Unable to instantiate User Provisioning Manager for "+loginForm.getApplicationContextName()+" application||");
 						return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 					}*/
+					//System.out.println("LoginAction execute*******************************11***********uptApplicationContextName: "+uptApplicationContextName);
 				}
 				catch (CSException cse)
 				{
@@ -394,7 +413,7 @@ public class LoginAction extends Action
 
 			}
 
-
+//System.out.println("LoginAction execute*******************************11***********authorizationSuccess: "+authorizationSuccess);
 		HttpSession session = request.getSession(true);
 
 		authenticationManager = null;
@@ -403,16 +422,18 @@ public class LoginAction extends Action
 		request.setAttribute("LOGIN_OBJECT",loginForm);
 
 		if(isCentralUPTwithCSMUPTContext){
+
 			// Based on the application (non SuperAdmin) context name, determine the version of CSM schema.
 			// a) modify csm_application table and add column to indicate version of the application.
 			// b) Retrieve the version column details for the 'uptContextName'
 			// c)in the logic below, before setting request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName),
 			//    make sure uptApplicationContextName is appropriately set.
 
-
+//System.out.println("LoginAction execute**************************************************************2"+uptApplicationContextName);
 
 			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
 		}else{
+//System.out.println("LoginAction execute**************************************************************3"+uptContextName);
 			request.setAttribute(DisplayConstants.APPLICATION_CONTEXT,uptApplicationContextName);
 		}
 
@@ -420,6 +441,7 @@ public class LoginAction extends Action
 
 		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
 		{
+			//System.out.println("LoginAction execute**************************************************************4");
 			request.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
 
 			if (log.isDebugEnabled())
@@ -431,7 +453,7 @@ public class LoginAction extends Action
 		{
 
 
-
+//System.out.println("LoginAction execute**************************************************************5");
 			if (log.isDebugEnabled())
 				log.debug(session.getId()+"|"+loginForm.getLoginId()+
 				"||Login|Success|Login Successful for user "+loginForm.getLoginId()+" and "+loginForm.getApplicationContextName()+" application, Forwarding to the Home Page||");
@@ -461,12 +483,12 @@ public class LoginAction extends Action
 
 			Context ctx = new InitialContext();
 			DataSource ds = null;
-			//System.out.println("Looking up initial context for: "+applicationContextName);
+			////System.out.println("Looking up initial context for: "+applicationContextName);
             if (gov.nih.nci.security.loginapp.util.ServerDetector.isJBoss()) {
             	ds = (DataSource)ctx.lookup("java:"+applicationContextName);
             } else if (gov.nih.nci.security.loginapp.util.ServerDetector.isTomcat()) {
             	ds = (DataSource)ctx.lookup("java:/comp/env/"+applicationContextName);
-            	System.out.println("Looking up initial context for tomcat ");
+            	//System.out.println("Looking up initial context for tomcat ");
             }
 
 

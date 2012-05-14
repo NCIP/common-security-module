@@ -25,6 +25,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="upt.40.installed" value="true"/>
 		<variable name="upt.41.installed" value="true"/>
 		<variable name="upt.42.installed" value="true"/>
+
 		<variable name="upt.424.installed" value="true"/>
 	</panel>
 
@@ -793,18 +794,22 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
 			<field type="divider" align="top"/>
 			<field type="text" variable="upt.424.ldap.url">
+			<field type="text" variable="upt.423.ldap.url">
 				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
 			</field>
 			<field type="text" variable="upt.424.ldap.searchable.base">
+			<field type="text" variable="upt.423.ldap.searchable.base">
 				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
 			</field>
 			<field type="text" variable="upt.424.ldap.user.label">
 				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
 			</field>
 			<field type="text" variable="upt.424.ldap.admin.user.name">
+			<field type="text" variable="upt.423.ldap.admin.user.name">
 				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
 			</field>
 			<field type="text" variable="upt.424.ldap.admin.user.password">
+			<field type="text" variable="upt.423.ldap.admin.user.password">
 				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
 			</field>
 
@@ -817,23 +822,29 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
             <variable name="baseDir" value="$INSTALL_PATH"/>
 
             <field type="text" variable="upt.424.database.server">
+            <field type="text" variable="upt.423.database.server">
                 <spec txt="Database Host Name:" size="25" set=""/>
             </field>
             <field type="text" variable="upt.424.database.port">
+            <field type="text" variable="upt.423.database.port">
                 <spec txt="Database Port:" size="25" set="3306"/>
             </field>
             <field type="text" variable="upt.424.database.name">
+            <field type="text" variable="upt.423.database.name">
                 <spec txt="Database Name:" size="25" set="bda"/>
             </field>
             <field type="text" variable="upt.424.database.user">
+            <field type="text" variable="upt.423.database.user">
                 <spec txt="Database Application User:" size="25" set="bdauser"/>
             </field>
             <field type="password" allign="left" variable="upt.424.database.password">
+            <field type="password" allign="left" variable="upt.423.database.password">
                 <spec>
                      <pwd txt="Database Application User Password:" size="25" set=""/>
                 </spec>
             </field>
 	</panel> <!-- End of UPT 424 Authentication panel--> 
+	</panel> <!-- End of UPT 423 Authentication panel--> 
 
 	<panel order="10">
 		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
@@ -1470,4 +1481,5 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="staticText" align="left" txt="Database User [${database.user}] "/>
 	</panel>
 
+</userInput>
 </userInput>
