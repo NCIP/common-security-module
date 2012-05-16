@@ -1503,7 +1503,7 @@
 					<filter token="database.dialect" value="${upt.database.dialect}" />
 				</filterset>
 				<filterset id="upt.424.database.jndi.filterset">
-					<filter token="datasource.jndi.name" value="${upt.423.jndi.name.value}" />
+					<filter token="datasource.jndi.name" value="${upt.jndi.name.value}}" />
 				</filterset>
 
 				<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
@@ -1525,15 +1525,15 @@
 					<delete file="${temp.ear.dir}/upt424/WEB-INF/lib/log4j-1.2.16.jar"/>
 				</then>
 				</if>
-				<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/upt423/WEB-INF/lib/clm-4.1.1.jar"/>
+				<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/upt424/WEB-INF/lib/clm-4.1.1.jar"/>
 				<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig/" overwrite="true">
-					<fileset dir="${temp.ear.dir}/upt423/WEB-INF/classes">
-						<include name="csmupt423.csm.new.hibernate.cfg.xml" />
+					<fileset dir="${temp.ear.dir}/upt424/WEB-INF/classes">
+						<include name="csmupt424.csm.new.hibernate.cfg.xml" />
 					</fileset>
 				</copy>
-				<jar jarfile="${temp.ear.dir}/upt423.war" basedir="${temp.ear.dir}/upt423" />
-				<delete dir="${temp.ear.dir}/tempupt423" quiet="true"/>
-				<delete dir="${temp.ear.dir}/upt423" quiet="true"/>
+				<jar jarfile="${temp.ear.dir}/upt424.war" basedir="${temp.ear.dir}/upt424" />
+				<delete dir="${temp.ear.dir}/tempupt424" quiet="true"/>
+				<delete dir="${temp.ear.dir}/upt424" quiet="true"/>
 			</else>
 
 		</if>
