@@ -632,8 +632,6 @@
 							driver.class="${upt.42.database.driver.class}"
 						/>
 					</then>
-				
-				</elseif>
 				<elseif>
 					<equals arg1="${upt.41.installed}" arg2="true" />
 					<then>
@@ -643,6 +641,7 @@
 							driver.class="${upt.423.database.driver.class}"
 						/>
 					</then>
+				</elseif>
 				</if>
 				<if>
 					<equals arg1="${upt.423.installed}" arg2="true" />
@@ -1573,7 +1572,7 @@
 		<filterset id="upt.424.database.dialect.filterset">
 			<filter token="database.dialect" value="${upt.database.dialect}" />
 		</filterset>
-		<filterset id="upt.423.database.jndi.filterset">
+		<filterset id="upt.424.database.jndi.filterset">
 			<filter token="datasource.jndi.name" value="${upt.jndi.name.value}" />
 		</filterset>
 

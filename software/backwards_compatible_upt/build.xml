@@ -233,7 +233,7 @@
 	</target>
 
 	<target name="svnCheckout424">
-		<executeSVNCheckout app.name="upt424" tag="branches/CSM_424_BRANCH/software/upt" />
+		<executeSVNCheckout app.name="upt424" tag="branches/CSM_45_BRANCH/software/upt" />
 	</target>
 	<target name="svnCheckout42">
 		<executeSVNCheckout app.name="upt42" tag="tags/CSM_4_2_1_RELEASE_V2/upt" />
@@ -415,9 +415,9 @@
 	<jar jarfile="${dist.home.ear}/${upt.ear.file}" basedir="${build.home.ear}" />
 </target>
 
-	<target name="src" depends="svnCheckout423, initLogin, prepare">
+	<!-- target name="src" depends="svnCheckout423, initLogin, prepare">
 		<zip destfile="${basedir}/dist/csm-upt-src4.2.3.zip" basedir="${target.dir}/svncheckout/upt423/webapp" />
-	</target>
+	</target -->
 
 <target name="all" depends="clean,svnCheckout,dist,buildEar,cleanupLogin" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 </project>

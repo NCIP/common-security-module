@@ -5,8 +5,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <project name="Installer" default="install" basedir="." >
 	<!-- Generic properties -->
 	<property name="application_installer" value="backwards-compatible-upt_installer" />
-	<property name="application_installer_zip" value="csm_install4.2.4.zip" />
-	<property name="application_upgrader_zip" value="csm_upgrade4.2.4.zip" />
+	<property name="application_installer_zip" value="csm_install4.5.zip" />
+	<property name="application_upgrader_zip" value="csm_upgrade4.5.zip" />
 	<!-- TARGETS -->
 	<target name="install" >
 		<echo message="${install.path}"/>
