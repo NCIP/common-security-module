@@ -1503,7 +1503,7 @@
 					<filter token="database.dialect" value="${upt.database.dialect}" />
 				</filterset>
 				<filterset id="upt.45.database.jndi.filterset">
-					<filter token="datasource.jndi.name" value="${upt.jndi.name.value}}" />
+					<filter token="datasource.jndi.name" value="${upt.jndi.name.value}" />
 				</filterset>
 
 				<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
