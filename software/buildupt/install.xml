@@ -371,13 +371,13 @@
 			</then>
 		</if>
 	</target>
-	<target name="install:jboss:configure:csmupt423:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
+	<target name="install:jboss:configure:csmupt45:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml" unless="exclude.jboss" depends="common:jboss:init,common:init">
 		<if>
 			<and>
 				<equals arg1="${upt.central.config}" arg2="false"  casesensitive="false"/>
-				<equals arg1="${upt.423.installed}" arg2="true" />
+				<equals arg1="${upt.45.installed}" arg2="true" />
 				<not>
-					<equals arg1="${upt.423.authentication.type}" arg2="NONE" />
+					<equals arg1="${upt.45.authentication.type}" arg2="NONE" />
 				</not>
 			</and>
 			<then>
@@ -389,7 +389,7 @@
 					dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
 					<xmlcatalog refid="build.xml.catalog" />
 					<remove
-						path="//policy/application-policy[@name='${upt.423.context.name}']" />
+						path="//policy/application-policy[@name='${upt.45.context.name}']" />
 				</xmltask>
 				<xmltask preservetype="true" failWithoutMatch="true"
 					source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
@@ -397,7 +397,7 @@
 					<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//policy">
 						<![CDATA[
-							<application-policy name="${upt.423.context.name}">  
+							<application-policy name="${upt.45.context.name}">  
 								<authentication>
 									
 								</authentication>  
@@ -406,13 +406,13 @@
 					</insert>
 				</xmltask>
 				<configure-login-config 
-				 		authentication.type="${upt.423.authentication.type}" application.context.name="${upt.423.context.name}"
-						database.driver="${upt.423.database.driver.class}" database.url="${upt.423.database.url}"
-						database.user="${upt.423.database.user}" database.password="${upt.423.database.password}"
-						database.encrypt.enabled="${upt.423.database.encrypt.enabled}" 
-						ldaps.url="${upt.423.ldaps.url}" ldaps.basedn="${upt.423.ldaps.basedn}" ldaps.userid.label="${upt.423.ldaps.userid.label}"
-						ldap.url="${upt.423.ldap.url}" ldap.searchable.base="${upt.423.ldap.searchable.base}"	ldap.userid.label="${upt.423.ldap.userid.label}"
-						ldap.admin.user.name="${upt.423.ldap.admin.user.name}" ldap.admin.user.password="${upt.423.ldap.admin.user.password}"
+				 		authentication.type="${upt.45.authentication.type}" application.context.name="${upt.45.context.name}"
+						database.driver="${upt.45.database.driver.class}" database.url="${upt.45.database.url}"
+						database.user="${upt.45.database.user}" database.password="${upt.45.database.password}"
+						database.encrypt.enabled="${upt.45.database.encrypt.enabled}" 
+						ldaps.url="${upt.45.ldaps.url}" ldaps.basedn="${upt.45.ldaps.basedn}" ldaps.userid.label="${upt.45.ldaps.userid.label}"
+						ldap.url="${upt.45.ldap.url}" ldap.searchable.base="${upt.45.ldap.searchable.base}"	ldap.userid.label="${upt.45.ldap.userid.label}"
+						ldap.admin.user.name="${upt.45.ldap.admin.user.name}" ldap.admin.user.password="${upt.45.ldap.admin.user.password}"
 				/>
 			</then>
 		</if>
@@ -458,19 +458,19 @@
 			<else>
 				<if>
 					<and>
-						<equals arg1="${upt.423.installed}" arg2="true"  casesensitive="false"/>
+						<equals arg1="${upt.45.installed}" arg2="true"  casesensitive="false"/>
 						<not>
-							<equals arg1="${upt.423.authentication.type}" arg2="NONE" />						
+							<equals arg1="${upt.45.authentication.type}" arg2="NONE" />						
 						</not>
 					</and>
 					<then>
-						<configure-login-config authentication.type="${upt.423.authentication.type}" application.context.name="${application.context.name}"
-								database.driver="${upt.423.database.driver.class}" database.url="${upt.423.database.url}"
-								database.user="${upt.423.database.user}" database.password="${upt.423.database.password}"
-								database.encrypt.enabled="${upt.423.database.encrypt.enabled}"
-								ldaps.url="${upt.423.ldaps.url}" ldaps.basedn="${upt.423.ldaps.basedn}" ldaps.userid.label="${upt.423.ldaps.userid.label}"
-								ldap.url="${upt.423.ldap.url}" ldap.searchable.base="${upt.423.ldap.searchable.base}"	ldap.userid.label="${upt.423.ldap.userid.label}"
-								ldap.admin.user.name="${upt.423.ldap.admin.user.name}" ldap.admin.user.password="${upt.423.ldap.admin.user.password}"
+						<configure-login-config authentication.type="${upt.45.authentication.type}" application.context.name="${application.context.name}"
+								database.driver="${upt.45.database.driver.class}" database.url="${upt.45.database.url}"
+								database.user="${upt.45.database.user}" database.password="${upt.45.database.password}"
+								database.encrypt.enabled="${upt.45.database.encrypt.enabled}"
+								ldaps.url="${upt.45.ldaps.url}" ldaps.basedn="${upt.45.ldaps.basedn}" ldaps.userid.label="${upt.45.ldaps.userid.label}"
+								ldap.url="${upt.45.ldap.url}" ldap.searchable.base="${upt.45.ldap.searchable.base}"	ldap.userid.label="${upt.45.ldap.userid.label}"
+								ldap.admin.user.name="${upt.45.ldap.admin.user.name}" ldap.admin.user.password="${upt.45.ldap.admin.user.password}"
 						/>
 					</then>
 				
@@ -636,20 +636,20 @@
 				<if>
 					<equals arg1="${upt.45.installed}" arg2="true" />
 					<then>
-						<configure-datasources database.url="${upt.423.database.url}"
-							database.user="${upt.423.database.user}"
-							database.password="${upt.423.database.password}" jndi.name="${upt.423.jndi.name}"
-							driver.class="${upt.423.database.driver.class}"
+						<configure-datasources database.url="${upt.45.database.url}"
+							database.user="${upt.45.database.user}"
+							database.password="${upt.45.database.password}" jndi.name="${upt.45.jndi.name}"
+							driver.class="${upt.45.database.driver.class}"
 						/>
 					</then>
 				</if>
 				<if>
-					<equals arg1="${upt.423.installed}" arg2="true" />
+					<equals arg1="${upt.45.installed}" arg2="true" />
 					<then>
-						<configure-datasources database.url="${upt.423.database.url}"
-							database.user="${upt.423.database.user}"
-							database.password="${upt.423.database.password}" jndi.name="csmupt"
-							driver.class="${upt.423.database.driver.class}"
+						<configure-datasources database.url="${upt.45.database.url}"
+							database.user="${upt.45.database.user}"
+							database.password="${upt.45.database.password}" jndi.name="csmupt"
+							driver.class="${upt.45.database.driver.class}"
 						/>
 					</then>
 				<elseif>
@@ -1007,28 +1007,28 @@
 				<if>
 					<and>
 						<or>
-							<equals arg1="${upt.423.database.re-create}" arg2="true" />
-							<equals arg1="${upt.423.database.drop-schema}" arg2="true" />
+							<equals arg1="${upt.45.database.re-create}" arg2="true" />
+							<equals arg1="${upt.45.database.drop-schema}" arg2="true" />
 						</or>
-						<equals arg1="${upt.423.installed}" arg2="true" />
+						<equals arg1="${upt.45.installed}" arg2="true" />
 						<equals arg1="${upt.central.config}" arg2="false" />
 					</and>
 					<then>
 						<install-backwards-compatible-upt-database 	
-									database.driver="${upt.423.database.driver.class}" database.system.url="${upt.423.database.system.url}"
-									database.server="${upt.423.database.server}"
-									database.system.user="${upt.423.database.system.user}" database.system.password="${upt.423.database.system.password}" 
-									database.url="${upt.423.database.url}" database.user="${upt.423.database.user}" 
-									database.password="${upt.423.database.password}" database.version="${upt.423.database.version}" 
-									database.name="${upt.423.database.name}" database.type="${upt.423.database.type}"
-									database.schema="${upt.423.database.name}"  database.re-create="true" 
-									database.drop-schema="${upt.423.database.drop-schema}"
-									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt423"
-									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt423"
-									db.install.create.oracle.file.list="${upt.423.db.install.create.oracle.file.list}"
-									db.install.create.mysql.file.list="${upt.423.db.install.create.mysql.file.list}"
-									db.install.create.postgresql.file.list="${upt.423.db.install.create.postgresql.file.list}"
-									db.upgrade.non-central.file="${upt.423.db.upgrade.file}"
+									database.driver="${upt.45.database.driver.class}" database.system.url="${upt.45.database.system.url}"
+									database.server="${upt.45.database.server}"
+									database.system.user="${upt.45.database.system.user}" database.system.password="${upt.45.database.system.password}" 
+									database.url="${upt.45.database.url}" database.user="${upt.45.database.user}" 
+									database.password="${upt.45.database.password}" database.version="${upt.45.database.version}" 
+									database.name="${upt.45.database.name}" database.type="${upt.45.database.type}"
+									database.schema="${upt.45.database.name}"  database.re-create="true" 
+									database.drop-schema="${upt.45.database.drop-schema}"
+									db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt45"
+									database.dir.src="${db-install.dist.relative.dir}/db-install/${backwards.compatible.upt.dist.relative.dir}/upt45"
+									db.install.create.oracle.file.list="${upt.45.db.install.create.oracle.file.list}"
+									db.install.create.mysql.file.list="${upt.45.db.install.create.mysql.file.list}"
+									db.install.create.postgresql.file.list="${upt.45.db.install.create.postgresql.file.list}"
+									db.upgrade.non-central.file="${upt.45.db.upgrade.file}"
 								/>
 					</then>
 				</if>
@@ -1476,12 +1476,12 @@
 						<if>
 						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
 						<then>
-							<property name="upt.423.jndi.name.value" value="/${upt.central.jndi.name}"/>
+							<property name="upt.45.jndi.name.value" value="/${upt.central.jndi.name}"/>
 							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 						</then>
 						<else>
-							<property name="upt.423.jndi.name.value" value="/${upt.423.jndi.name}"/>
-							<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
+							<property name="upt.45.jndi.name.value" value="/${upt.45.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
 						</else>
 						</if>
 					</then>
@@ -1489,12 +1489,12 @@
 						<if>
 						<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
 						<then>
-							<property name="upt.423.jndi.name.value" value="comp/env/${upt.central.jndi.name}"/>
+							<property name="upt.45.jndi.name.value" value="comp/env/${upt.central.jndi.name}"/>
 							<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 						</then>
 						<else>
-							<property name="upt.423.jndi.name.value" value="comp/env/${upt.423.jndi.name}"/>
-							<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
+							<property name="upt.45.jndi.name.value" value="comp/env/${upt.45.jndi.name}"/>
+							<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
 						</else>
 						</if>
 					</else>
@@ -1549,8 +1549,8 @@
 					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 				</then>
 				<else>
-					<property name="upt.jndi.name.value" value="/${upt.423.jndi.name}"/>
-					<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
+					<property name="upt.jndi.name.value" value="/${upt.45.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
 				</else>
 				</if>
 			</then>
@@ -1562,8 +1562,8 @@
 					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
 				</then>
 				<else>
-					<property name="upt.jndi.name.value" value="comp/env/${upt.423.jndi.name}"/>
-					<property name="upt.database.dialect" value="${upt.423.database.dialect}"/>
+					<property name="upt.jndi.name.value" value="comp/env/${upt.45.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
 				</else>
 				</if>
 			</else>
@@ -1726,7 +1726,7 @@
 		install:jboss:configure:login:config,
 		install:jboss:configure:csmupt41:login:config,
 		install:jboss:configure:csmupt42:login:config,
-		install:jboss:configure:csmupt423:login:config,
+		install:jboss:configure:csmupt45:login:config,
 		install:jboss:configure:application:context,
 		upgrade:backwards-compatible-upt:databases,
 		install:jboss:configure:datasources,
@@ -1744,7 +1744,7 @@
 			<then>
 				<mkdir dir="${os.temp.dir}/${project.name}"/>
 				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
-					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/${upt.423.url.context.name}">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/${upt.45.url.context.name}">
 						<include name="**/db-upgrade*.xml"/>
 						<include name="**/MigrationScript*.xml"/>
 					</fileset>
@@ -1945,7 +1945,7 @@
 		install:jboss:configure:login:config,
 		install:jboss:configure:csmupt41:login:config,
 		install:jboss:configure:csmupt42:login:config,
-		install:jboss:configure:csmupt423:login:config,
+		install:jboss:configure:csmupt45:login:config,
 		install:jboss:configure:application:context,
 		install:jboss:configure:datasources,
 		install:post:jboss,
@@ -1974,7 +1974,7 @@
 		install:jboss:configure:login:config,
 		install:jboss:configure:csmupt41:login:config,
 		install:jboss:configure:csmupt42:login:config,
-		install:jboss:configure:csmupt423:login:config,
+		install:jboss:configure:csmupt45:login:config,
 
 		install:jboss:configure:application:context,
 		upgrade:backwards-compatible-upt:databases,
@@ -2019,7 +2019,7 @@
 		install:jboss:configure:login:config,
 		install:jboss:configure:csmupt41:login:config,
 		install:jboss:configure:csmupt42:login:config,
-		install:jboss:configure:csmupt423:login:config,
+		install:jboss:configure:csmupt45:login:config,
 		install:jboss:configure:application:context,
 		install:jboss:configure:datasources,
 		upgrade:post:jboss,
