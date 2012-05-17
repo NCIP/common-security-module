@@ -366,8 +366,8 @@ public class LoginAction extends Action
 								if(csmversion.equalsIgnoreCase("4.2")){
 									uptApplicationContextName = "upt42";
 								}
-								if(csmversion.equalsIgnoreCase("4.2.4")){
-									uptApplicationContextName = "upt424";
+								if(csmversion.equalsIgnoreCase("4.5")){
+									uptApplicationContextName = "upt45";
 								}
 							}
 						}
@@ -524,7 +524,7 @@ public class LoginAction extends Action
 	}
 
 	private UserProvisioningManager getAuthorizationManager(String contextName) throws CSConfigurationException, CSException {
-		contextName = "csmupt424";
+		contextName = "csmupt45";
 		if(StringUtilities.isBlank(contextName)){
 			return null;
 

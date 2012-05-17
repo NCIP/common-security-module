@@ -1,25 +1,30 @@
 package gov.nih.nci.security.loginapp.util;
 
-import java.util.Date;
+
+import gov.nih.nci.security.loginapp.constants.DisplayConstants;
+
+import java.io.File;
+import java.net.URLClassLoader;
+import java.util.Vector;
+
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+
+import org.hibernate.SessionFactory;
 
 public class SessionListen implements HttpSessionListener {
 
 
   public void sessionCreated(HttpSessionEvent se) {
-	  HttpSession session = se.getSession();
-	  System.out.println("gov.nih.nci.security.loginapp.util.SessionListen.sessionCreated()..."+session.getId());
- 
-	  System.out.println("gov.nih.nci.security.loginapp.util.SessionListen.sessionCreated()..ID=" + session.getId() + " MaxInactiveInterval=" + session.getMaxInactiveInterval());
+   
   }
 
   public void sessionDestroyed(HttpSessionEvent se) {
 
 	  try{
 		    HttpSession session = se.getSession();
-System.out.println("gov.nih.nci.security.loginapp.util.SessionListen.sessionDestroyed()...id:"+session.getId());		    
+		    
 		    ClassPathLoader.releaseJarsFromClassPath(session);
     
 		    session.invalidate();
@@ -29,10 +34,4 @@ System.out.println("gov.nih.nci.security.loginapp.util.SessionListen.sessionDest
 		  System.out.println(e.getMessage());
 	  }
   }
-  
-  private String getTime()
-  {
-  return new Date(System.currentTimeMillis()).toString();
-  }
-
 }

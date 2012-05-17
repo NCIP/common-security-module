@@ -157,7 +157,7 @@ public class HomeAction extends Action
 			// Set in Session.
 			UserProvisioningManager upm = null;
 			try{
-				upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager("csmupt424");
+				upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager("csmupt45");
 			}catch(Exception e){
 				e.printStackTrace();
 			}
