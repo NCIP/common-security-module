@@ -129,12 +129,12 @@
 		<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
 		<copyInstallSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
+		<copyInstallSQLFiles upt.version="${upt.45.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.45.url.context.name}/resources/"/>
 		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
 
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
+		<copyUpgradeSQLFiles upt.version="${upt.45.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.45.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
 		<dist-prep />
 	</target>
@@ -178,7 +178,7 @@
 
 		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
 		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.424.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.424.url.context.name}/resources/"/>
+		<copyUpgradeSQLFiles upt.version="${upt.45.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.45.url.context.name}/resources/"/>
 
 		<!-- For non DAC upgrades -->
 		<dist-prep

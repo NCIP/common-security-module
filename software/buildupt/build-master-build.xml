@@ -473,7 +473,7 @@ $HeadURL$
 		<dist-prep />
 		<copy todir="${tools.dist.dir}">
 			<fileset dir="${download.dir}">
-				<include name="cagrid*"/>
+				<include name="**/*"/>
 			</fileset>
 		</copy>
 		<if>

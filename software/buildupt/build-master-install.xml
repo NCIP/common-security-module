@@ -388,6 +388,9 @@ $HeadURL$
 		<property name="db.prop.list" value="database.url,database.user,database.password,database.name"/>
 		<echo  message="Checking if database properties exist: ${db.prop.list}"/>
 		<properties-exist properties.list="${db.prop.list}"/>
+		<echoproperties prefix="database"/>
+
+
 		<filterset id="embedded.filterset">
 			<filter token="application.base.path" value="${application.base.path}"/>
 			<filter token="application.url" value="${application.url}"/>
@@ -409,7 +412,7 @@ $HeadURL$
 			<filter token="" value=""/>
 		</filterset>
 
-		<echoproperties prefix="database"/>
+
 		<copy todir="${db.dir.dest}" filtering="true">
 			<fileset dir="${db.dir.src}">
 				<include name="**/*"/>

@@ -628,12 +628,13 @@
 					<then>
 						<configure-datasources database.url="${upt.42.database.url}"
 							database.user="${upt.42.database.user}"
-							database.password="${upt.42.database.password}" jndi.name="csmupt"
+							database.password="${upt.42.database.password}" jndi.name="${upt.42.jndi.name}"
 							driver.class="${upt.42.database.driver.class}"
 						/>
 					</then>
-				<elseif>
-					<equals arg1="${upt.41.installed}" arg2="true" />
+				</if>
+				<if>
+					<equals arg1="${upt.45.installed}" arg2="true" />
 					<then>
 						<configure-datasources database.url="${upt.423.database.url}"
 							database.user="${upt.423.database.user}"
@@ -641,14 +642,13 @@
 							driver.class="${upt.423.database.driver.class}"
 						/>
 					</then>
-				</elseif>
 				</if>
 				<if>
 					<equals arg1="${upt.423.installed}" arg2="true" />
 					<then>
 						<configure-datasources database.url="${upt.423.database.url}"
 							database.user="${upt.423.database.user}"
-							database.password="${upt.423.database.password}" jndi.name="${upt.423.jndi.name}"
+							database.password="${upt.423.database.password}" jndi.name="csmupt"
 							driver.class="${upt.423.database.driver.class}"
 						/>
 					</then>
@@ -761,9 +761,9 @@
 					</then>
 			        </if>
 				<if>
-					<equals arg1="${upt.424.installed}" arg2="true" />
+					<equals arg1="${upt.45.installed}" arg2="true" />
 					<then>
-						<configure-application-context-application context.name="${upt.424.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.424.hibernate.config.file}" />
+						<configure-application-context-application context.name="${upt.45.context.name}" hibernate.config.file="${jboss.home}/server/${jboss.server.name}/csmconfig/${upt.45.hibernate.config.file}" />
 					</then>
 			        </if>
 			</else>
@@ -817,11 +817,11 @@
 			</then>
 		</if>
 		<if>
-			<equals arg1="${upt.424.installed}" arg2="true" />
+			<equals arg1="${upt.45.installed}" arg2="true" />
 			<then>
 				<configure-application-context-upt-application
-						context.name="${upt.424.context.name}" url.context.name="${upt.424.url.context.name}"
-						hibernate.config.file="${upt.424.hibernate.config.file}" />
+						context.name="${upt.45.context.name}" url.context.name="${upt.45.url.context.name}"
+						hibernate.config.file="${upt.45.hibernate.config.file}" />
 			</then>
 		</if>
 	</target>
@@ -1464,10 +1464,10 @@
 
 		</if>
 		<if>
-			<equals arg1="${upt.424.installed}" arg2="false" />
+			<equals arg1="${upt.45.installed}" arg2="false" />
 			<then>
-				<re-configure-application-xml upt.context.name="${upt.424.url.context.name}" temp.dir="${temp.ear.dir}"/>
-				<delete quiet="true" file="${temp.ear.dir}/${upt.424.url.context.name}.war"/>
+				<re-configure-application-xml upt.context.name="${upt.45.url.context.name}" temp.dir="${temp.ear.dir}"/>
+				<delete quiet="true" file="${temp.ear.dir}/${upt.45.url.context.name}.war"/>
 			</then>
 			<else>
 				<if>
@@ -1499,41 +1499,41 @@
 						</if>
 					</else>
 				</if>
-				<filterset id="upt.424.database.dialect.filterset">
+				<filterset id="upt.45.database.dialect.filterset">
 					<filter token="database.dialect" value="${upt.database.dialect}" />
 				</filterset>
-				<filterset id="upt.424.database.jndi.filterset">
+				<filterset id="upt.45.database.jndi.filterset">
 					<filter token="datasource.jndi.name" value="${upt.jndi.name.value}}" />
 				</filterset>
 
 				<!-- unzip upt42.war and replace dialect, repackage war and delete temp dirs -->
-				<unzip dest="${temp.ear.dir}/tempupt424" src="${temp.ear.dir}/upt424.war"/>
-				<mkdir dir="${temp.ear.dir}/upt424"/>
-				<copy todir="${temp.ear.dir}/upt424" overwrite="true">
-					<fileset dir="${temp.ear.dir}/tempupt424"/>
+				<unzip dest="${temp.ear.dir}/tempupt45" src="${temp.ear.dir}/upt45.war"/>
+				<mkdir dir="${temp.ear.dir}/upt45"/>
+				<copy todir="${temp.ear.dir}/upt45" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt45"/>
 				</copy>
-				<copy todir="${temp.ear.dir}/upt424" overwrite="true">
-					<fileset dir="${temp.ear.dir}/tempupt424">
+				<copy todir="${temp.ear.dir}/upt45" overwrite="true">
+					<fileset dir="${temp.ear.dir}/tempupt45">
 						<include name="**/*.csm.new.hibernate.cfg.xml" />
 					</fileset>
-					<filterset refid="upt.424.database.dialect.filterset"/>
-					<filterset refid="upt.424.database.jndi.filterset"/>
+					<filterset refid="upt.45.database.dialect.filterset"/>
+					<filterset refid="upt.45.database.jndi.filterset"/>
 				</copy>
 				<if>
 				<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
 				<then>
-					<delete file="${temp.ear.dir}/upt424/WEB-INF/lib/log4j-1.2.16.jar"/>
+					<delete file="${temp.ear.dir}/upt45/WEB-INF/lib/log4j-1.2.16.jar"/>
 				</then>
 				</if>
-				<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/upt424/WEB-INF/lib/clm-4.1.1.jar"/>
+				<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/upt45/WEB-INF/lib/clm-4.1.1.jar"/>
 				<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig/" overwrite="true">
-					<fileset dir="${temp.ear.dir}/upt424/WEB-INF/classes">
-						<include name="csmupt424.csm.new.hibernate.cfg.xml" />
+					<fileset dir="${temp.ear.dir}/upt45/WEB-INF/classes">
+						<include name="csmupt45.csm.new.hibernate.cfg.xml" />
 					</fileset>
 				</copy>
-				<jar jarfile="${temp.ear.dir}/upt424.war" basedir="${temp.ear.dir}/upt424" />
-				<delete dir="${temp.ear.dir}/tempupt424" quiet="true"/>
-				<delete dir="${temp.ear.dir}/upt424" quiet="true"/>
+				<jar jarfile="${temp.ear.dir}/upt45.war" basedir="${temp.ear.dir}/upt45" />
+				<delete dir="${temp.ear.dir}/tempupt45" quiet="true"/>
+				<delete dir="${temp.ear.dir}/upt45" quiet="true"/>
 			</else>
 
 		</if>
@@ -1569,10 +1569,10 @@
 			</else>
 		</if>
 
-		<filterset id="upt.424.database.dialect.filterset">
+		<filterset id="upt.45.database.dialect.filterset">
 			<filter token="database.dialect" value="${upt.database.dialect}" />
 		</filterset>
-		<filterset id="upt.424.database.jndi.filterset">
+		<filterset id="upt.45.database.jndi.filterset">
 			<filter token="datasource.jndi.name" value="${upt.jndi.name.value}" />
 		</filterset>
 
@@ -1585,8 +1585,8 @@
 				<fileset dir="${temp.ear.dir}/tempuptlogin">
 							<include name="**/*.csm.new.hibernate.cfg.xml" />
 						</fileset>
-				<filterset refid="upt.424.database.dialect.filterset"/>
-				<filterset refid="upt.424.database.jndi.filterset"/>
+				<filterset refid="upt.45.database.dialect.filterset"/>
+				<filterset refid="upt.45.database.jndi.filterset"/>
 		</copy>
 		<if>
 		<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
@@ -1845,17 +1845,17 @@
 					</then>
 				</if>				
 				<if>
-					<equals arg1="${upt.424.installed}" arg2="true"/>
+					<equals arg1="${upt.45.installed}" arg2="true"/>
 					<then>						
 						<upgrade-backwards-compatible-upt-database
-							database.system.url="${upt.424.database.system.url}" database.name="${upt.424.database.name}" 
-						  	database.system.password="${upt.424.database.system.password}"  
-						  	database.system.user="${upt.424.database.system.user}"
-						 	database.url="${upt.424.database.url}" 
-							database.user="${upt.424.database.user}" 
-							database.password="${upt.424.database.password}" 
-							database.type="${upt.424.database.type}" 
-							database.upgrade.schema.file="${upt.424.db.upgrade.file}" />
+							database.system.url="${upt.45.database.system.url}" database.name="${upt.45.database.name}" 
+						  	database.system.password="${upt.45.database.system.password}"  
+						  	database.system.user="${upt.45.database.system.user}"
+						 	database.url="${upt.45.database.url}" 
+							database.user="${upt.45.database.user}" 
+							database.password="${upt.45.database.password}" 
+							database.type="${upt.45.database.type}" 
+							database.upgrade.schema.file="${upt.45.db.upgrade.file}" />
 					</then>
 				</if>				
 			</else>

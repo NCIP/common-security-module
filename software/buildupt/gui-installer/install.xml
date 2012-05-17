@@ -21,6 +21,8 @@
 	<property name="project.name" value="csmupt"/>
 	<property name="installer.dir" value=".installer-${project.name}"/>
 	<property name="gui-installer.dist.base.name" value="csmupt_gui_distribution_${csm.version}.jar"/>
+	<property name="install.zip.file" value="csm_install4.5.zip"/>
+	<property name="upgrade.zip.file" value="csm_upgrade4.5.zip"/>
 
 	<echoproperties/>
 <echo message="compile.jar.dir ::: ${compile.jar.dir}"/>
@@ -31,10 +33,10 @@
 	<target name="prepare:installer">
 		<replaceregexp file="${this.dir}/build.xml" byline="true"
 			match="^(.*property name=.*application_installer_zip.*value=&quot;)[^&quot;]+(&quot;.*)"
-			replace="\1${csm.install.zip.file}\2"/>
+			replace="\1${install.zip.file}\2"/>
 		<replaceregexp file="${this.dir}/build.xml" byline="true"
 			match="^(.*property name=.*application_upgrader_.*value=&quot;)[^&quot;]+(&quot;.*)"
-			replace="\1${csm.upgrade.zip.file}\2"/>
+			replace="\1${upgrade.zip.file}\2"/>
 	</target>
 
 	<target name="build:installer" depends="prepare:installer">
@@ -153,8 +155,8 @@
 					</condition>
 
 					<!-- UPT Installation  non-central  - UPT 31,32,40,41,42 installed?-->
-					<condition type="variable" id="install.upt424">
-						<name>upt.424.installed</name>
+					<condition type="variable" id="install.upt45">
+						<name>upt.45.installed</name>
 						<value>true</value>
 					</condition>
 					<condition type="variable" id="install.upt42">
@@ -167,8 +169,8 @@
 					</condition>
 
 					<!-- Recreate Schema  - central,31,32,40,41,42 ? -->
-					<condition type="variable" id="recreate.schema.upt424">
-						<name>upt.424.database.re-create</name>
+					<condition type="variable" id="recreate.schema.upt45">
+						<name>upt.45.database.re-create</name>
 						<value>true</value>
 					</condition>
 					<condition type="variable" id="recreate.schema.upt42">
@@ -279,7 +281,7 @@
 					<variable name="mail.smtp.server" value=""  condition="container.database"/>
 
 					<!-- Conditionals for chosen Central Installation -->
-					<variable name="upt.424.database.re-create" value="false" condition="central.installation"/>
+					<variable name="upt.45.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
 
@@ -421,7 +423,7 @@
 				<packs>
 					<pack name="download_install" id="download_install" installGroups="csmupt" required="no">
 					    <description>The base files</description>
-					    <file src="@{dist.location}/@{csm.install.zip.file}" targetdir="$SYSTEM_user_home/@{installer.dir}"/>
+					    <file src="@{dist.location}/@{install.zip.file}" targetdir="$SYSTEM_user_home/@{installer.dir}"/>
 					    <file src="@{this.dir}/build.xml" targetdir="$SYSTEM_user_home/@{installer.dir}"/>
 					    <file src="@{this.dir}/property-template" override="true" targetdir="$SYSTEM_user_home/@{installer.dir}">
 						<excludes>**/.svn/**</excludes>

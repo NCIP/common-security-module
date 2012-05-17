@@ -26,7 +26,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="upt.41.installed" value="true"/>
 		<variable name="upt.42.installed" value="true"/>
 		<variable name="upt.423.installed" value="true"/>
-		<variable name="upt.424.installed" value="true"/>
+		<variable name="upt.45.installed" value="true"/>
 	</panel>
 
 	<!-- Select component -->
@@ -547,8 +547,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<choice txt="No" value="false" set="true"/>
 			</spec>
 		</field>
-		<field type="radio" variable="upt.424.installed">
-			<description align="left" txt="Include support for UPT version 4.2.4?"/>
+		<field type="radio" variable="upt.45.installed">
+			<description align="left" txt="Include support for UPT version 4.5?"/>
 			<spec>
 				<choice txt="Yes"  value="true" />
 				<choice txt="No" value="false" set="true"/>
@@ -697,11 +697,11 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 <panel order="8">
 		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2.4. more information here.."/>
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.5. more information here.."/>
 		<field type="divider" align="top"/>
 		<!-- Recreate DB? -->
-		<field type="radio" variable="upt.424.database.re-create">
-			<description align="left" txt="Recreate the UPT 4.2.4 schema?"/>
+		<field type="radio" variable="upt.45.database.re-create">
+			<description align="left" txt="Recreate the UPT 4.5 schema?"/>
 			<spec>
 				<choice txt="Yes"  value="true" />
 				<choice txt="No" value="false" set="true"/>
@@ -716,59 +716,59 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="install.path" value="$INSTALL_PATH"/>
 		<variable name="baseDir" value="$INSTALL_PATH"/>
 
-		<field type="text" variable="upt.424.database.server">
+		<field type="text" variable="upt.45.database.server">
 			<spec txt="Database Host Name:" size="25" set=""/>
 			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
 		</field>
-		<field type="text" variable="upt.424.database.port">
+		<field type="text" variable="upt.45.database.port">
 			<spec txt="Database Port:" size="25" set="3306"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Port is a required field" />
 		</field>
-		<field type="text" variable="upt.424.database.name">
+		<field type="text" variable="upt.45.database.name">
 			<spec txt="Database Name:" size="25" set="bda"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
 		</field>
-		<field type="text" variable="upt.424.database.system.user">
+		<field type="text" variable="upt.45.database.system.user">
 			<spec txt="Database Application System User:" size="25" set="bdauser"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Application System User is a required field" />
 		</field>
-		<field type="password" allign="left" variable="upt.424.database.system.password">
+		<field type="password" allign="left" variable="upt.45.database.system.password">
 			<spec>
 				 <pwd txt="Database Application System User Password:" size="25" set=""/>
 			</spec>
 			<validator class="com.izforge.izpack.util.DBConnectionValidator" txt="Unable to connect to this database with the Database Application User and Password you have entered."/>
 		</field>
 		<!-- Miscellaneous DB properties -->
-		<field type="text" variable="upt.424.database.type">
+		<field type="text" variable="upt.45.database.type">
 			<spec txt="Database Type :" size="25" set="mysql"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
 		</field>
-		<field type="text" variable="upt.424.database.version">
+		<field type="text" variable="upt.45.database.version">
 			<spec txt="Database Version:" size="25" set="5.0.27"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
 		</field>
-		<field type="text" variable="upt.424.jndi.name">
+		<field type="text" variable="upt.45.jndi.name">
 			<spec txt="JNDI Name" size="25" set="csmupt"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JNDI Name is a required field" />
 		</field>
-		<field type="text" variable="upt.424.database.driver.class">
+		<field type="text" variable="upt.45.database.driver.class">
 			<spec txt="Driver Class" size="25" set="org.gjt.mm.mysql.Driver"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Driver Class is a required field" />
 		</field>
-		<field type="text" variable="upt.424.database.driver.class">
+		<field type="text" variable="upt.45.database.driver.class">
 			<spec txt="Database Dialect:" size="25" set="org.hibernate.dialect.MySQLDialect"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Dialect is a required field" />
 		</field> 
-	</panel> <!-- End of UPT 424 DB Config panel--> 
+	</panel> <!-- End of UPT 45 DB Config panel--> 
 
 
-	<!--  UPT 424 Authentication  -->
+	<!--  UPT 45 Authentication  -->
 	<panel order="9">
 		<field type="title" txt="Non Central - Installation Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.2.4. more information here.."/>
+		<field type="staticText" align="left" txt="Non Central installation of CSM UPT 4.5. more information here.."/>
 		<field type="divider" align="top"/>
 		<!-- Authentication Type? -->
-		<field type="radio" variable="upt.424.authentication.type">
+		<field type="radio" variable="upt.45.authentication.type">
 			<description align="left" txt="For this UPT installation, select the authentication type"/>
 			<spec>
 				<choice txt="LDAP"  value="ldap" />
@@ -780,35 +780,35 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="title" txt="LDAPS (Secured LDAP)  Configuration" bold="true" size="1" />
 			<field type="staticText" align="left" txt="Choose the URL for the LDAPS server and the Base DN for authenticating users."/>
 			<field type="divider" align="top"/>
-			<field type="text" variable="upt.424.ldaps.url">
+			<field type="text" variable="upt.45.ldaps.url">
 				<spec txt="LDAPS URL:" size="25" set="ldaps://localhost:636"/>
 			</field>
-			<field type="text" variable="upt.424.ldaps.basedn">
+			<field type="text" variable="upt.45.ldaps.basedn">
 				<spec txt="LDAPS Search Base DN:" size="25" set=""/>
 			</field>
-			<field type="text" variable="upt.424.ldaps.user.label">
+			<field type="text" variable="upt.45.ldaps.user.label">
 				<spec txt="LDAPS User ID Label:" size="25" set="cn"/>
 			</field>
         <!-- Authentication LDAP -->
   		    <field type="title" txt="LDAP  Configuration" bold="true" size="1" />
 			<field type="staticText" align="left" txt="Choose the URL for the LDAP server and the Base DN for authenticating users."/>
 			<field type="divider" align="top"/>
-			<field type="text" variable="upt.424.ldap.url">
+			<field type="text" variable="upt.45.ldap.url">
 			<field type="text" variable="upt.423.ldap.url">
 				<spec txt="LDAP URL:" size="25" set="ldaps://localhost:636"/>
 			</field>
-			<field type="text" variable="upt.424.ldap.searchable.base">
+			<field type="text" variable="upt.45.ldap.searchable.base">
 			<field type="text" variable="upt.423.ldap.searchable.base">
 				<spec txt="LDAP Search Base DN:" size="25" set="ou=department,o=institute"/>
 			</field>
-			<field type="text" variable="upt.424.ldap.user.label">
+			<field type="text" variable="upt.45.ldap.user.label">
 				<spec txt="LDAP User ID Label:" size="25" set="uid"/>
 			</field>
-			<field type="text" variable="upt.424.ldap.admin.user.name">
+			<field type="text" variable="upt.45.ldap.admin.user.name">
 			<field type="text" variable="upt.423.ldap.admin.user.name">
 				<spec txt="LDAP Admin User Name:" size="25" set="uid"/>
 			</field>
-			<field type="text" variable="upt.424.ldap.admin.user.password">
+			<field type="text" variable="upt.45.ldap.admin.user.password">
 			<field type="text" variable="upt.423.ldap.admin.user.password">
 				<spec txt="LDAP Admin Password:" size="25" set="uid"/>
 			</field>
@@ -821,29 +821,29 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
             <variable name="install.path" value="$INSTALL_PATH"/>
             <variable name="baseDir" value="$INSTALL_PATH"/>
 
-            <field type="text" variable="upt.424.database.server">
+            <field type="text" variable="upt.45.database.server">
             <field type="text" variable="upt.423.database.server">
                 <spec txt="Database Host Name:" size="25" set=""/>
             </field>
-            <field type="text" variable="upt.424.database.port">
+            <field type="text" variable="upt.45.database.port">
             <field type="text" variable="upt.423.database.port">
                 <spec txt="Database Port:" size="25" set="3306"/>
             </field>
-            <field type="text" variable="upt.424.database.name">
+            <field type="text" variable="upt.45.database.name">
             <field type="text" variable="upt.423.database.name">
                 <spec txt="Database Name:" size="25" set="bda"/>
             </field>
-            <field type="text" variable="upt.424.database.user">
+            <field type="text" variable="upt.45.database.user">
             <field type="text" variable="upt.423.database.user">
                 <spec txt="Database Application User:" size="25" set="bdauser"/>
             </field>
-            <field type="password" allign="left" variable="upt.424.database.password">
+            <field type="password" allign="left" variable="upt.45.database.password">
             <field type="password" allign="left" variable="upt.423.database.password">
                 <spec>
                      <pwd txt="Database Application User Password:" size="25" set=""/>
                 </spec>
             </field>
-	</panel> <!-- End of UPT 424 Authentication panel--> 
+	</panel> <!-- End of UPT 45 Authentication panel--> 
 	</panel> <!-- End of UPT 423 Authentication panel--> 
 
 	<panel order="10">
