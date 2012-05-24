@@ -1327,6 +1327,36 @@
 			</else>
 		</if>
 		<unzip dest="${temp.ear.dir}" src="${backwards.compatible.upt.dist.relative.dir}/${dist.relative.ear.dir}/${upt.ear.file}"/>
+
+		<if>
+		<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
+			<then>
+				<if>
+				<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+				<then>
+					<property name="upt.jndi.name.value" value="/${upt.central.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+				</then>
+				<else>
+					<property name="upt.jndi.name.value" value="/${upt.45.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
+				</else>
+				</if>
+			</then>
+			<else>
+				<if>
+				<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
+				<then>
+					<property name="upt.jndi.name.value" value="comp/env/${upt.central.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
+				</then>
+				<else>
+					<property name="upt.jndi.name.value" value="comp/env/${upt.45.jndi.name}"/>
+					<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
+				</else>
+				</if>
+			</else>
+		</if>
 		
 		<if>
 			<equals arg1="${upt.41.installed}" arg2="false" />
@@ -1539,35 +1569,6 @@
 		</if>
 
 		<!-- unzip uptlogin.war and replace dialect, jndi, repackage war and delete temp dirs -->
-		<if>
-		<equals arg1="${SERVER_TYPE}" arg2="jboss" casesensitive="false"/>
-			<then>
-				<if>
-				<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
-				<then>
-					<property name="upt.jndi.name.value" value="/${upt.central.jndi.name}"/>
-					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
-				</then>
-				<else>
-					<property name="upt.jndi.name.value" value="/${upt.45.jndi.name}"/>
-					<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
-				</else>
-				</if>
-			</then>
-			<else>
-				<if>
-				<equals arg1="${upt.central.config}" arg2="true" casesensitive="false"/>
-				<then>
-					<property name="upt.jndi.name.value" value="comp/env/${upt.central.jndi.name}"/>
-					<property name="upt.database.dialect" value="${upt.central.database.dialect}"/>
-				</then>
-				<else>
-					<property name="upt.jndi.name.value" value="comp/env/${upt.45.jndi.name}"/>
-					<property name="upt.database.dialect" value="${upt.45.database.dialect}"/>
-				</else>
-				</if>
-			</else>
-		</if>
 
 		<filterset id="upt.45.database.dialect.filterset">
 			<filter token="database.dialect" value="${upt.database.dialect}" />
