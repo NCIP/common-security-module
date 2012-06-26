@@ -93,8 +93,11 @@ package gov.nih.nci.security.authentication;
 
 import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthenticationManager;
+import gov.nih.nci.security.acegi.authentication.CSMLoginContext;
 import gov.nih.nci.security.authentication.callback.CSMCallbackHandler;
+import gov.nih.nci.security.authentication.loginmodules.CSMLoginModule;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
+import gov.nih.nci.security.exceptions.CSCredentialException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
@@ -104,6 +107,7 @@ import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributes
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.login.CredentialExpiredException;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
@@ -265,6 +269,16 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csice.getMessage());
 			throw new CSConfigurationException(csice.getMessage());
 		}
+		catch (CredentialExpiredException le)
+		{
+			le.printStackTrace();
+			loginSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Password expired for user "+userName+"|" + le.getMessage());			
+
+			auditLog.info("Password expired for user "+ userName);
+			throw new CSCredentialException (le.getMessage(), le);
+		}		
 		catch (LoginException le)
 		{
 			le.printStackTrace();
@@ -342,7 +356,93 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		auditLog.info("Successful log out for user "+ userName);			
 	}
 
-	
+	public boolean changePassword(String userName, String password, String newPassword,  String passwordConfirmation) throws CSException, CSLoginException, CSInputException, CSConfigurationException
+	{
+		if (null == userName || userName.trim().length() == 0)
+		{
+			throw new CSInputException("User Name cannot be blank");
+		}
+		if (null == password || password.trim().length() == 0)
+		{
+			throw new CSInputException("Password cannot be blank");
+		}
+		if (null == newPassword || newPassword.trim().length() == 0)
+		{
+			throw new CSInputException("New Password cannot be blank");
+		}			
+		if (null == passwordConfirmation || passwordConfirmation.trim().length() == 0)
+		{
+			throw new CSInputException("Password Confimation cannot be blank");
+		}
+				
+		if(!newPassword.equals(passwordConfirmation))
+		{
+			throw new CSInputException("Password and Password Confimation should match");
+		}
+		
+		UserInfoHelper.setUserInfo(userName, null);
+		boolean changePasswordSuccessful = false;
+		CSMLoginContext loginContext = null;
+		try
+		{
+			CSMCallbackHandler csmCallbackHandler = new CSMCallbackHandler(userName, password);		
+			loginContext = new CSMLoginContext(applicationContextName, new Subject(), csmCallbackHandler,null);
+			
+		//	ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		//	Class c = Class.forName("gov.nih.nci.security.authentication.loginmodules.CSMLoginModule", true, cl);
+		//	CSMLoginModule csmLoginModule = (CSMLoginModule) c.newInstance();
+		//	csmLoginModule.initialize(null, callbackHandler, sharedState, options)
+			
+			loginContext.changePassword(newPassword);
+			changePasswordSuccessful = true;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Success| Authentication is "+changePasswordSuccessful+" for user "+userName+"|");
+			auditLog.info("Successful Login attempt for user "+ userName);
+		}
+
+		catch (CSInternalInsufficientAttributesException csiiae)
+		{
+			csiiae.printStackTrace();
+			changePasswordSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csiiae.getMessage());
+			throw new CSInsufficientAttributesException(csiiae.getMessage());
+		}
+		catch (CSInternalConfigurationException csice)
+		{
+			csice.printStackTrace();
+			changePasswordSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csice.getMessage());
+			throw new CSConfigurationException(csice.getMessage());
+		}
+		catch (CredentialExpiredException le)
+		{
+			le.printStackTrace();
+			changePasswordSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Password expired for user "+userName+"|" + le.getMessage());			
+
+			auditLog.info("Password expired for user "+ userName);
+			throw new CSCredentialException (le.getMessage(), le);
+		}		
+		catch (LoginException le)
+		{
+			le.printStackTrace();
+			changePasswordSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Authentication is not successful for user "+userName+"|" + le.getMessage());			
+			boolean isUserLockedOut = lockoutManager.setFailedAttempt(userName);
+			if (isUserLockedOut)
+			{
+				auditLog.info("Allowed Attempts Reached ! User " + userName + " is locked out !");				
+				throw new CSLoginException ("Allowed Attempts Reached ! User Name is locked out !");			
+			}
+			auditLog.info("Unsuccessful Login attempt for user "+ userName);
+			throw new CSLoginException (le.getMessage(), le);
+		}
+		return changePasswordSuccessful;
+	}
 
 	
 	

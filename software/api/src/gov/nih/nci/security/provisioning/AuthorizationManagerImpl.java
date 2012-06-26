@@ -969,6 +969,9 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#createUser(User)
 	 */
 	public void createUser(User user) throws CSTransactionException{
+		System.out.println("Validating user");
+		authorizationDAO.validateUser(user);
+		System.out.println("Validated user");
 		user.setUpdateDate(new Date());
 		authorizationDAO.createObject(user);
 		//authorizationDAO.createUser(user);

@@ -205,5 +205,7 @@
 	<definition name="Tiles.ProtectionElement.Association.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/ProtectionElementAssociation.jsp" />
 	</definition>
-
+	<definition name="Tiles.Password.Change.Page" extends="Base">
+		<put name="Content" value="/pages/content/main/ChangePassword.jsp" />
+	</definition>	
 </tiles-definitions>

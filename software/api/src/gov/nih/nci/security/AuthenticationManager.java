@@ -276,6 +276,6 @@ public interface AuthenticationManager {
 	 */
 	public void logout(String userName) throws CSException;
 
-	
+	public boolean changePassword(String userName, String password,String newPassword, String confirmPassword) throws CSException, CSLoginException, CSInputException, CSConfigurationException;
 
 }

@@ -517,6 +517,8 @@ public interface AuthorizationDAO {
 
 	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException;
 
+	public void validateUser(User user) throws CSTransactionException;
+
 
 }
 

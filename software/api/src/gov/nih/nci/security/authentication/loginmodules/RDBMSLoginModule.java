@@ -132,5 +132,14 @@ public class RDBMSLoginModule extends CSMLoginModule
 	{
 		return RDBMSHelper.authenticate (new Hashtable(options), user, password, subject);
 	}
+
+	protected boolean isPasswordExpired(Map options, String user) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
+	{
+		return RDBMSHelper.isPasswordExpired (new Hashtable(options), user);
+	}
 	
+	protected boolean changePassword(Map options, String user,String newPassword) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
+	{
+		return RDBMSHelper.changePassword (new Hashtable(options), user, newPassword);
+	}	
 }

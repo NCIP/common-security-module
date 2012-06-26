@@ -110,6 +110,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.CredentialExpiredException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
@@ -200,7 +201,15 @@ public abstract class CSMLoginModule implements LoginModule
 				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());
 			throw new LoginException("Error in Creating the CallBack Handler");
 		}
-
+		
+		if (isPasswordExpired(options, userID))
+		{
+			loginSuccessful = false;
+			userID 			= null;
+			password 		= null;
+			
+			throw new CredentialExpiredException("Password expired");
+		}
 		try {
 			//now validate user
 			if (validate(options, userID, password, subject))
@@ -227,6 +236,74 @@ public abstract class CSMLoginModule implements LoginModule
 		return loginSuccessful;
 	}
 	
+
+	public boolean changePassword(String newPassword) throws LoginException, CSInternalLoginException, CSInternalConfigurationException
+	{
+		if (callbackHandler == null)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in obtaining the CallBack Handler |" );			
+			throw new LoginException("Error in obtaining Callback Handler");
+		}
+		Callback[] callbacks = new Callback[2];
+		callbacks[0] = new NameCallback("userid: ");
+		callbacks[1] = new PasswordCallback("password: ", false);
+
+		try
+		{
+			callbackHandler.handle(callbacks);
+			userID = ((NameCallback) callbacks[0]).getName();
+			char[] tmpPassword = ((PasswordCallback) callbacks[1]).getPassword();
+
+			if (tmpPassword == null)
+			{
+				// treat a NULL password as an empty password
+				tmpPassword = new char[0];
+			}
+			password = new char[tmpPassword.length];
+			System.arraycopy(tmpPassword, 0, password, 0, tmpPassword.length);
+			((PasswordCallback) callbacks[1]).clearPassword();
+		}
+		catch (java.io.IOException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());			
+			throw new LoginException("Error in Creating the CallBack Handler");
+		}
+		catch (UnsupportedCallbackException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());
+			throw new LoginException("Error in Creating the CallBack Handler");
+		}
+		
+		
+		try {
+			//now validate user
+			if (validate(options, userID, password, subject))
+			{
+				changePassword(options, userID, newPassword);
+			}
+			else
+			{
+				// clear the values			
+				loginSuccessful = false;
+				userID 			= null;
+				password 		= null;
+				
+				throw new FailedLoginException("Invalid Login Credentials");
+			}
+		} catch (FailedLoginException fle) {
+			if (log.isDebugEnabled())
+				if (log.isDebugEnabled())
+					log.debug("Authentication|||login|Failure| Invalid Login Credentials |"+ fle.getMessage() );
+				throw new LoginException("Invalid Login Credentials");
+		} 
+		if (log.isDebugEnabled())
+			log.debug("Authentication|||login|Success| Authentication is "+loginSuccessful+"|");
+		return loginSuccessful;
+	}
+
 	
 	/**
 	 * @see javax.security.auth.spi.LoginModule#commit()
@@ -272,5 +349,7 @@ public abstract class CSMLoginModule implements LoginModule
 	 * @throws CSInternalInsufficientAttributesException 
 	 */
 	protected abstract boolean validate(Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	protected abstract boolean isPasswordExpired(Map options,String user) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	protected abstract boolean changePassword(Map options,String user, String password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 
 }

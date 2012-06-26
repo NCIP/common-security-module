@@ -17,6 +17,7 @@ import gov.nih.nci.security.loginapp.util.properties.ObjectFactory;
 import gov.nih.nci.security.loginapp.util.properties.UPTApplication;
 import gov.nih.nci.security.loginapp.util.properties.UPTProperties;
 import gov.nih.nci.security.loginapp.util.properties.exceptions.UPTConfigurationException;
+import gov.nih.nci.security.exceptions.CSCredentialException;
 
 import gov.nih.nci.security.util.StringUtilities;
 
@@ -33,6 +34,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -160,6 +162,15 @@ public class LoginAction extends Action
 		try
 		{
 			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),loginForm.getPassword());
+		}
+		catch (CSCredentialException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXPIRED_PASSWORD_MESSAGE));
+			saveErrors( request,errors );
+			if (log.isDebugEnabled())
+				log.debug("|"+loginForm.getLoginId()+
+						"||Login|Failure|Password Expired for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward(ForwardConstants.EXPIRED_PASSWORD);
 		}
 		catch (CSException cse)
 		{

@@ -7,7 +7,8 @@
 			type="gov.nih.nci.security.loginapp.forms.LoginForm" />
 		<form-bean name="MenuForm"
 			type="gov.nih.nci.security.loginapp.forms.MenuForm" />			
-		
+		<form-bean name="ChangePasswordForm"
+			type="gov.nih.nci.security.loginapp.forms.ChangePasswordForm" />			
 		
 	</form-beans>
 	<global-exceptions>
@@ -54,9 +55,19 @@
 			<forward name="LoginSuccess" path="Tiles.Home.Page" />
 			<forward name="LoginSuccessBounce" path="Tiles.Home.Page.test" />
 			<forward name="AdminLoginSuccessBounce" path="Tiles.SuperAdmin.Home.Page.test" />			
-			<forward name="AdminLoginSuccess" path="Tiles.SuperAdmin.Home.Page" />			
+			<forward name="AdminLoginSuccess" path="Tiles.SuperAdmin.Home.Page" />
+			<forward name="ChangePassword" path="Tiles.Password.Change.Page" />
 			<forward name="LoginFailure" path="Tiles.Login.Page" />
 		</action>
+		<action path="/ChangePassword"
+			type="gov.nih.nci.security.loginapp.actions.ChangePasswordAction" 
+			name="ChangePasswordForm"
+			scope="session"
+			validate="true" 
+			input="Tiles.Password.Change.Page">
+			<forward name="ChangePasswordSuccess" path="Tiles.Login.Page" />
+			<forward name="ChangePasswordFailure" path="Tiles.Password.Change.Page" />
+		</action>		
 		<action path="/Logout"
 			type="gov.nih.nci.security.loginapp.actions.LogoutAction" >
 			<forward name="LogoutSuccess" path="Tiles.Login.Page" />

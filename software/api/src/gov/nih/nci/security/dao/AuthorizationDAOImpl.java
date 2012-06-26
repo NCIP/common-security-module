@@ -138,6 +138,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import javax.security.auth.Subject;
 
@@ -6284,6 +6285,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 
+	}
+
+	@Override
+	public void validateUser(User user) throws CSTransactionException{
+		System.out.println("Validating user in Impl");
+		validatePassword(user.getPassword());
+	}
+
+	private void validatePassword(String password) throws CSTransactionException{
+		System.out.println("Validating password "+password+" using REGEX");
+		if(!Pattern.matches("(?=.*[A-Z])(?=.*\\d)(.{8,})$", password))					
+			throw new CSTransactionException(
+					"The password has to be atleast 8 characters and have atleast a special character ");
+			
 	}
 
 

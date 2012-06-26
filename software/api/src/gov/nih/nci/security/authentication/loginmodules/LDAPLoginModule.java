@@ -96,6 +96,7 @@ package gov.nih.nci.security.authentication.loginmodules;
 
 
 import gov.nih.nci.security.authentication.helper.LDAPHelper;
+import gov.nih.nci.security.authentication.helper.RDBMSHelper;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
@@ -134,4 +135,12 @@ public class LDAPLoginModule extends CSMLoginModule
 		return LDAPHelper.authenticate (new Hashtable(options), user, password, subject);
 	}
 	
+	protected boolean isPasswordExpired(Map options, String user) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
+	{
+		return false;
+	}	
+	protected boolean changePassword(Map options, String user,String newPassword) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
+	{
+		return true;
+	}
 }
