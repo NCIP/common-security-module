@@ -524,4 +524,124 @@ public class RDBMSHelper {
 	
 		return true;				
 	}
+
+	public static boolean insertIntoPasswordHistory(Hashtable connectionProperties, String userID, char[] password) throws CSInternalConfigurationException {
+		
+		Connection connection = getConnection (connectionProperties);
+		if (connection == null)
+		{
+			return false;
+		}
+
+		PreparedStatement statement = null;
+		boolean passwordExpired = false;
+		String encryptionEnabled = (String)connectionProperties.get(Constants.ENCRYPTION_ENABLED);
+		
+		String query = new String();
+		query = "INSERT INTO PASSWORD_HISTORY (LOGIN_NAME, PASSWORD) VALUES (?, ?) ";
+		
+		try
+		{
+			statement = connection.prepareStatement(query);
+			statement.setString(1, userID);
+			statement.setString(2, encryptPassword(new String(password),encryptionEnabled ));			
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to generate query statement to check if the password is expired ");
+		}
+
+		try
+		{
+			statement.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to execute the query to check if the password is expired ");
+		}
+		try
+		{
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		}
+		catch (SQLException sqe)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| Password expired is "+passwordExpired+" for the user");
+	
+		return true;				
+	}
+
+	
+	public static boolean isFirstTimeLogin(Hashtable connectionProperties, String userID) throws CSInternalConfigurationException {
+		Connection connection = getConnection (connectionProperties);
+		if (connection == null)
+		{
+			return false;
+		}
+
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		boolean firstTimeLogin = false;
+	
+		String query = new String();
+
+		query = "SELECT FIRST_TIME_LOGIN FROM CSM_USER WHERE LOGIN_NAME = ? ";
+
+		try
+		{
+			statement = connection.prepareStatement(query);
+			statement.setString(1, userID);
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to generate query statement to check if the password is expired ");
+		}
+
+		try
+		{
+			resultSet = statement.executeQuery();
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to execute the query to check if the password is expired ");
+		}
+		if (resultSet != null)
+		{
+			try
+			{
+				while(resultSet.next())
+				{
+					 firstTimeLogin = resultSet.getBoolean("FIRST_TIME_LOGIN");
+					
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new CSInternalConfigurationException("Unable to execute the query to validate user credentials");
+			}
+		}
+		try
+		{
+			if (resultSet != null)
+				resultSet.close();
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		}
+		catch (SQLException sqe)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+firstTimeLogin+" for the user");
+		return firstTimeLogin;				
+	}
 }

@@ -98,6 +98,7 @@ package gov.nih.nci.security.authentication.loginmodules;
 import gov.nih.nci.security.authentication.helper.LDAPHelper;
 import gov.nih.nci.security.authentication.helper.RDBMSHelper;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
@@ -142,5 +143,12 @@ public class LDAPLoginModule extends CSMLoginModule
 	protected boolean changePassword(Map options, String user,String newPassword) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
 	{
 		return true;
+	}
+
+	@Override
+	protected boolean isFirstTimeLogin(Map options, String user)
+			throws CSFirstTimeLoginException, CSInternalConfigurationException,
+			CSInternalLoginException, CSInternalInsufficientAttributesException {
+		return false;
 	}
 }

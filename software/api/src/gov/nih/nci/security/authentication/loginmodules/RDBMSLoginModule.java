@@ -100,6 +100,7 @@ import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
+import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
 import java.util.Map;
 import java.util.Hashtable;
@@ -137,9 +138,18 @@ public class RDBMSLoginModule extends CSMLoginModule
 	{
 		return RDBMSHelper.isPasswordExpired (new Hashtable(options), user);
 	}
+
+	protected boolean isFirstTimeLogin(Map options, String user) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
+	{
+		return RDBMSHelper.isFirstTimeLogin (new Hashtable(options), user);
+	}
 	
 	protected boolean changePassword(Map options, String user,String newPassword) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
 	{
 		return RDBMSHelper.changePassword (new Hashtable(options), user, newPassword);
-	}	
+	}
+	protected boolean insertIntoPasswordHistory(Map options, String user,char[] password) throws CSInternalConfigurationException, CSInternalInsufficientAttributesException
+	{
+		return RDBMSHelper.changePassword (new Hashtable(options), user, password);
+	}
 }

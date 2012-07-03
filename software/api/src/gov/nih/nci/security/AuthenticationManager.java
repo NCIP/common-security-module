@@ -93,6 +93,7 @@ import java.security.Principal;
 
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.CSLoginException;
@@ -161,8 +162,9 @@ public interface AuthenticationManager {
 	 * @throws CSLoginException is thrown when the credentials are invalid or other errors occur during validation
 	 * @throws CSInputException is thrown occurs when the provided input is incorrect
 	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
+	 * @throws CSFirstTimeLoginException 
 	 */
-	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException;
+	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSFirstTimeLoginException;
 
 	/**
 	 * This method is primarily provided to be used by the <code>CSM - caGrid Integration Module</code> to authenticate the 
@@ -188,8 +190,9 @@ public interface AuthenticationManager {
 	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
 	 * @throws CSInsufficientAttributesException is thrown when the attributes required to form the {@link Subject} are not present in the credential provider. Since the  {@link Subject} 
 	 * 			should contain all the valid {@link Principal} for the grid component to be able to generate a <code>SAML</code> from it.
+	 * @throws CSFirstTimeLoginException 
 	 */
-	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException;
+	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException, CSFirstTimeLoginException;
 
 	
 	/**
@@ -217,8 +220,9 @@ public interface AuthenticationManager {
 	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
 	 * @throws CSInsufficientAttributesException is thrown when the {@link Subject} does not have the required public principals. Since the  {@link Subject} 
 	 * 			should contain all the valid {@link Principal} for validating the certificate against the keystore.
+	 * @throws CSFirstTimeLoginException 
 	 */
-	public boolean authenticate(Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException;
+	public boolean authenticate(Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException, CSFirstTimeLoginException;
 
 	
 	/**

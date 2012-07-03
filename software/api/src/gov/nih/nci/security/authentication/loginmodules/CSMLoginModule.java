@@ -97,6 +97,7 @@ package gov.nih.nci.security.authentication.loginmodules;
 
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
@@ -209,12 +210,17 @@ public abstract class CSMLoginModule implements LoginModule
 			password 		= null;
 			
 			throw new CredentialExpiredException("Password expired");
-		}
+		}		
 		try {
 			//now validate user
 			if (validate(options, userID, password, subject))
 			{
-				loginSuccessful = true;
+				if (isFirstTimeLogin(options, userID))
+				{
+					loginSuccessful = false;
+				}
+				else
+					loginSuccessful = true;
 			}
 			else
 			{
@@ -283,6 +289,7 @@ public abstract class CSMLoginModule implements LoginModule
 			if (validate(options, userID, password, subject))
 			{
 				changePassword(options, userID, newPassword);
+				insertIntoPasswordHistory(options, userID, password);
 			}
 			else
 			{
@@ -350,6 +357,9 @@ public abstract class CSMLoginModule implements LoginModule
 	 */
 	protected abstract boolean validate(Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 	protected abstract boolean isPasswordExpired(Map options,String user) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	protected abstract boolean isFirstTimeLogin(Map options,String user) throws CSFirstTimeLoginException,CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 	protected abstract boolean changePassword(Map options,String user, String password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	protected abstract boolean insertIntoPasswordHistory(Map options,String user, char[] password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	
 
 }

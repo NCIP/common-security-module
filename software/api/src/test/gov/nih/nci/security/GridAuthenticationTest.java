@@ -3,6 +3,7 @@ package test.gov.nih.nci.security;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 
 import java.net.URL;
 import java.util.Properties;
@@ -91,6 +92,9 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(false);
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertNotNull(subject);
 		assertEquals(4,subject.getPrincipals().size());
@@ -109,6 +113,9 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertNull(subject);
 	}
@@ -126,6 +133,9 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertNull(subject);
 	}
@@ -140,6 +150,9 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(false);
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertNotNull(subject);
 		assertEquals(4,subject.getPrincipals().size());
@@ -158,6 +171,9 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertNull(subject);
 	}
@@ -175,6 +191,9 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertNull(subject);
 	}

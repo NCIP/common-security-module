@@ -99,6 +99,7 @@ import gov.nih.nci.security.authentication.loginmodules.CSMLoginModule;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSCredentialException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.CSLoginException;
@@ -149,10 +150,11 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 * @throws CSInputException 
 	 * @throws CSLoginException 
 	 * @throws CSConfigurationException 
+	 * @throws CSFirstTimeLoginException 
 	 * 
 	 * @see gov.nih.nci.security.AuthenticationManager#login(java.lang.String, java.lang.String)
 	 */
-	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException
+	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSFirstTimeLoginException
 	{
 		boolean result = false;
 		try
@@ -179,10 +181,11 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 * @throws CSInputException 
 	 * @throws CSConfigurationException 
 	 * @throws CSInsufficientAttributesException 
+	 * @throws CSFirstTimeLoginException 
 	 * 
 	 * @see gov.nih.nci.security.AuthenticationManager#authenticate(java.lang.String, java.lang.String)
 	 */
-	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException
+	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException, CSFirstTimeLoginException
 	{
 		Subject subject = new Subject(); 
 		this.login(userName, password, subject);	
@@ -192,7 +195,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.AuthenticationManager#authenticate(javax.security.auth.Subject)
 	 */
-	public boolean authenticate(Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException {
+	public boolean authenticate(Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException, CSFirstTimeLoginException {
 		 LoginContext ctx = null;
 		 
 		if (null == subject)
@@ -217,7 +220,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	
 	
 	
-	private boolean login(String userName, String password, Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException
+	private boolean login(String userName, String password, Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException, CSFirstTimeLoginException
 	{
 		if (null == userName || userName.trim().length() == 0)
 		{
@@ -279,6 +282,16 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			auditLog.info("Password expired for user "+ userName);
 			throw new CSCredentialException (le.getMessage(), le);
 		}		
+		catch (CSFirstTimeLoginException le)
+		{
+			le.printStackTrace();
+			loginSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Password expired for user "+userName+"|" + le.getMessage());			
+
+			auditLog.info("Password expired for user "+ userName);
+			throw new CSFirstTimeLoginException(le.getMessage());
+		}
 		catch (LoginException le)
 		{
 			le.printStackTrace();

@@ -78,6 +78,9 @@ public class QACertificateAuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertEquals(false, isValid);
 	}
@@ -94,6 +97,9 @@ public class QACertificateAuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
+		} catch (CSFirstTimeLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		assertEquals(true, isValid);
 	}
