@@ -223,6 +223,7 @@ public class DisplayConstants
 
 	public static final String EXCEPTION_CONFIGURATION_UPT_LOGIN_APPLICATION_CONTEXT_NAME_INFORMATION="UPT Login Application Context Name unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_PROPERTY_FILE = "The UPT Properties File does not exist. Verify path configuration.";
+	public static final String EXPIRED_PASSWORD_MESSAGE = "Password is expired";
 
 }
 

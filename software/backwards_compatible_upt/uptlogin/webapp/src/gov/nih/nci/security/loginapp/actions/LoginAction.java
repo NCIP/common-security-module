@@ -18,6 +18,7 @@ import gov.nih.nci.security.loginapp.util.properties.UPTApplication;
 import gov.nih.nci.security.loginapp.util.properties.UPTProperties;
 import gov.nih.nci.security.loginapp.util.properties.exceptions.UPTConfigurationException;
 import gov.nih.nci.security.exceptions.CSCredentialException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 
 import gov.nih.nci.security.util.StringUtilities;
 
@@ -171,6 +172,15 @@ public class LoginAction extends Action
 				log.debug("|"+loginForm.getLoginId()+
 						"||Login|Failure|Password Expired for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.EXPIRED_PASSWORD);
+		}
+		catch (CSFirstTimeLoginException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXPIRED_PASSWORD_MESSAGE));
+			saveErrors( request,errors );
+			if (log.isDebugEnabled())
+				log.debug("|"+loginForm.getLoginId()+
+						"||Login|Failure|Change password for "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward(ForwardConstants.CHANGE_PASSWORD);
 		}
 		catch (CSException cse)
 		{
