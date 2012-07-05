@@ -63,7 +63,7 @@ function skipNavigation()
 
 
 <%
-String urlStr = request.getRequestURL().toString();
+	String urlStr = request.getRequestURL().toString();
 urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 
@@ -71,70 +71,68 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 	UserProvisioningManager upm = (UserProvisioningManager)session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 
 	Boolean isUserEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_UI_USERS_LINK) == null)
+	if(session.getAttribute(Constants.UPT_USER_OPERATION) == null)
 	{
-		isUserEnabled = upm.checkLinkAccessible(Constants.UPT_UI_USERS_LINK, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_UI_USERS_LINK, isUserEnabled);
+		isUserEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_USER_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_USER_OPERATION, isUserEnabled);
 	}
 	else
-		isUserEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_USERS_LINK);
+		isUserEnabled = (Boolean)session.getAttribute(Constants.UPT_USER_OPERATION);
 		
 
 	Boolean isPEEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK) == null)
+	if(session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION) == null)
 	{
-		isPEEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK, isPEEnabled);
+		isPEEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_PROTECTION_ELEMENT_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION, isPEEnabled);
 	}
 	else
-		isPEEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PROTECTION_ELEMENTS_LINK);
+		isPEEnabled = (Boolean)session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION);
 
 	Boolean isPrivEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_UI_PRIVILEGES_LINK) == null)
+	if(session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION) == null)
 	{
-		isPrivEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PRIVILEGES_LINK, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_UI_PRIVILEGES_LINK, isPrivEnabled);
+		isPrivEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_PRIVILEGE_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_PRIVILEGE_OPERATION, isPrivEnabled);
 	}
 	else
-		isPrivEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PRIVILEGES_LINK);
+		isPrivEnabled = (Boolean)session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION);
 		
 	Boolean isPGEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK) == null)
+	if(session.getAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION) == null)
 	{
-		isPGEnabled = upm.checkLinkAccessible(Constants.UPT_UI_PROTECTION_GROUPS_LINK, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK, isPGEnabled);
+		isPGEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_PROTECTION_GROUP_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION, isPGEnabled);
 	}
 	else
-		isPGEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_PROTECTION_GROUPS_LINK);
+		isPGEnabled = (Boolean)session.getAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION);
 		
 	Boolean isGroupEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_UI_GROUPS_LINK) == null)
+	if(session.getAttribute(Constants.UPT_GROUP_OPERATION) == null)
 	{
-		isGroupEnabled = upm.checkLinkAccessible(Constants.UPT_UI_GROUPS_LINK, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_UI_GROUPS_LINK, isGroupEnabled);
+		isGroupEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_GROUP_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_GROUP_OPERATION, isGroupEnabled);
 	}
 	else
-		isGroupEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_GROUPS_LINK);
+		isGroupEnabled = (Boolean)session.getAttribute(Constants.UPT_GROUP_OPERATION);
 		
 	Boolean isRoleEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_UI_ROLE_LINK) == null)
+	if(session.getAttribute(Constants.UPT_ROLE_OPERATION) == null)
 	{
-		isRoleEnabled = upm.checkLinkAccessible(Constants.UPT_UI_ROLE_LINK, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_UI_ROLE_LINK, isRoleEnabled);
+		isRoleEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_ROLE_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_ROLE_OPERATION, isRoleEnabled);
 	}
 	else
-		isRoleEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_ROLE_LINK);
+		isRoleEnabled = (Boolean)session.getAttribute(Constants.UPT_ROLE_OPERATION);
 		
 	Boolean isILSEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK) == null)
+	if(session.getAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION) == null)
 	{
-		isILSEnabled = upm.checkLinkAccessible(Constants.UPT_UI_INSTANCE_LEVEL_LINK, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK, isILSEnabled);
+		isILSEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_INSTANCE_LEVEL_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		session.setAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION, isILSEnabled);
 	}
 	else
-		isILSEnabled = (Boolean)session.getAttribute(Constants.UPT_UI_INSTANCE_LEVEL_LINK);
-	
-
+		isILSEnabled = (Boolean)session.getAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION);
 %>
 
 				<!--

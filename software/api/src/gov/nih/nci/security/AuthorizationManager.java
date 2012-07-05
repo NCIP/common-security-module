@@ -1261,11 +1261,16 @@ public interface AuthorizationManager {
 
 
 	/**
-	 * This method checks if a given link is accessible to a user for a given application context
-	 * Link names are constants. See gov.nih.nci.security.constants.Constants for the names
+	 * This method checks if a user is permissible to perform a User Provisioning Operation for a given application context.
+	 * Names of the User Provisioning Operation are constants defined with gov.nih.nci.security.constants.Constants. 
+	 * @see gov.nih.nci.security.constants.Constants
+	 * @param operationName Name a User Provisioning Operation
+	 * @param userId Identifier of user to perform a User Provisioning Operation
+	 * @param applicationContext Name of the registered application
+	 * @return true if the user is allowed to perform the desired User Provisioning Operation ; false if the user is denied
 	 * @throws CSTransactionException
 	 */
-	public boolean checkLinkAccessible(String linkName, String userId, String applicationContext) throws CSTransactionException;
+	public boolean checkProvisioningOperationPermission(String operationName, String userId, String applicationContext) throws CSTransactionException;
 
 
 }

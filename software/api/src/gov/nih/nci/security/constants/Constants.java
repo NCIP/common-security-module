@@ -150,13 +150,13 @@ public class Constants
 
 	public static final String ENABLE = "enable";
 
-	public static final String UPT_UI_GROUPS_LINK="UPT_UI_GROUPS_LINK";
-	public static final String UPT_UI_ROLE_LINK="UPT_UI_ROLE_LINK";
-	public static final String UPT_UI_USERS_LINK="UPT_UI_USERS_LINK";
-	public static final String UPT_UI_PROTECTION_GROUPS_LINK="UPT_UI_PROTECTION_GROUPS_LINK";
-	public static final String UPT_UI_PROTECTION_ELEMENTS_LINK="UPT_UI_PROTECTION_ELEMENTS_LINK";
-	public static final String UPT_UI_PRIVILEGES_LINK="UPT_UI_PRIVILEGES_LINK";
-	public static final String UPT_UI_INSTANCE_LEVEL_LINK="UPT_UI_INSTANCE_LEVEL_LINK";
+	public static final String UPT_GROUP_OPERATION="UPT_GROUP_OPERATION";
+	public static final String UPT_ROLE_OPERATION="UPT_ROLE_OPERATION";
+	public static final String UPT_USER_OPERATION="UPT_USER_OPERATION";
+	public static final String UPT_PROTECTION_GROUP_OPERATION="UPT_PROTECTION_GROUP_OPERATION";
+	public static final String UPT_PROTECTION_ELEMENT_OPERATION="UPT_PROTECTION_ELEMENT_OPERATION";
+	public static final String UPT_PRIVILEGE_OPERATION="UPT_PRIVILEGE_OPERATION";
+	public static final String UPT_INSTANCE_LEVEL_OPERATION="UPT_INSTANCE_LEVEL_OPERATION";
 
 }
 
