@@ -106,6 +106,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
+import java.util.Map;
 
 import javax.security.auth.Subject;
 
@@ -486,7 +487,7 @@ public class RDBMSHelper {
 		String encryptionEnabled = (String)connectionProperties.get(Constants.ENCRYPTION_ENABLED);
 		
 		String query = new String();
-		query = "UPDATE CSM_USER SET PASSWORD = ?,password_expired = FALSE WHERE LOGIN_NAME = ? ";
+		query = "UPDATE CSM_USER SET PASSWORD = ?,PASSWORD_EXPIRED = FALSE WHERE LOGIN_NAME = ? ";
 		
 		try
 		{
@@ -538,7 +539,7 @@ public class RDBMSHelper {
 		String encryptionEnabled = (String)connectionProperties.get(Constants.ENCRYPTION_ENABLED);
 		
 		String query = new String();
-		query = "INSERT INTO PASSWORD_HISTORY (LOGIN_NAME, PASSWORD) VALUES (?, ?) ";
+		query = "INSERT INTO CSM_PASSWORD_HISTORY (LOGIN_NAME, PASSWORD) VALUES (?, ?) ";
 		
 		try
 		{
@@ -643,5 +644,128 @@ public class RDBMSHelper {
 		if (log.isDebugEnabled())
 			log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+firstTimeLogin+" for the user");
 		return firstTimeLogin;				
+	}
+
+	public static boolean resetFirstTimeLogin(Hashtable connectionProperties, String userID) throws CSInternalConfigurationException {
+		Connection connection = getConnection (connectionProperties);
+		if (connection == null)
+		{
+			return false;
+		}
+
+		PreparedStatement statement = null;
+		boolean resetPassword = false;
+	
+		String query = new String();
+
+		query = "UPDATE CSM_USER SET FIRST_TIME_LOGIN = FALSE WHERE LOGIN_NAME = ? ";
+
+		try
+		{
+			statement = connection.prepareStatement(query);
+			statement.setString(1, userID);
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to generate query statement to reset the first time login flag ");
+		}
+
+		try
+		{
+			statement.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to execute the query to reset the first time login flag ");
+		}
+		try
+		{
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		}
+		catch (SQLException sqe)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| First time login flag is "+resetPassword+" for the user");
+		return resetPassword;				
+
+	}
+
+	public static boolean passwordMatchs(Hashtable connectionProperties,
+			String userID, String newPassword, int passwordNum) throws CSInternalConfigurationException {
+		Connection connection = getConnection (connectionProperties);
+		if (connection == null)
+		{
+			return false;
+		}
+		
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		boolean passwordMatch = false;
+		
+		String encryptPassword = encryptPassword(newPassword,(String)connectionProperties.get(Constants.ENCRYPTION_ENABLED));
+		String query = new String();
+
+		query = "SELECT PASSWORD FROM CSM_PASSWORD_HISTORY WHERE LOGIN_NAME = ? ORDER BY ID DESC";
+
+		try
+		{
+			statement = connection.prepareStatement(query);
+			statement.setString(1, userID);
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to generate query statement to check if the passwords are matched ");
+		}
+
+		try
+		{
+			resultSet = statement.executeQuery();
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to execute the query to check if the passwords are matched ");
+		}
+		if (resultSet != null)
+		{
+			try
+			{
+				for(int i = 0; i < passwordNum;i++)
+				{
+					 resultSet.next();
+					 String prevPassword = resultSet.getString("PASSWORD");
+					 if (encryptPassword != null && prevPassword.equals(encryptPassword))
+						 passwordMatch = true;					 
+					
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new CSInternalConfigurationException("Unable to execute the query to check if the passwords are matched");
+			}
+		}
+		try
+		{
+			if (resultSet != null)
+				resultSet.close();
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		}
+		catch (SQLException sqe)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+passwordMatch+" for the user");
+		return passwordMatch;				
+
 	}
 }

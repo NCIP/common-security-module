@@ -151,4 +151,25 @@ public class LDAPLoginModule extends CSMLoginModule
 			CSInternalLoginException, CSInternalInsufficientAttributesException {
 		return false;
 	}
+
+	@Override
+	protected boolean insertIntoPasswordHistory(Map options, String user,
+			char[] password) throws CSInternalConfigurationException,
+			CSInternalLoginException, CSInternalInsufficientAttributesException {
+		return true;
+	}
+
+	@Override
+	protected boolean resetFirstTimeLogin(Map options, String user)
+			throws CSInternalConfigurationException, CSInternalLoginException,
+			CSInternalInsufficientAttributesException {
+		return true;
+	}
+
+	@Override
+	protected boolean passwordMatchs(Map options, String user,
+			String newPassword, int i) throws CSInternalConfigurationException,
+			CSInternalLoginException, CSInternalInsufficientAttributesException {
+		return true;
+	}
 }

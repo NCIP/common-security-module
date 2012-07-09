@@ -218,6 +218,8 @@ public abstract class CSMLoginModule implements LoginModule
 				if (isFirstTimeLogin(options, userID))
 				{
 					loginSuccessful = false;
+					password 		= null;
+					throw new CSFirstTimeLoginException("Invalid Login Credentials");
 				}
 				else
 					loginSuccessful = true;
@@ -288,8 +290,18 @@ public abstract class CSMLoginModule implements LoginModule
 			//now validate user
 			if (validate(options, userID, password, subject))
 			{
-				changePassword(options, userID, newPassword);
-				insertIntoPasswordHistory(options, userID, password);
+				if (passwordMatchs(options, userID,newPassword,24))
+				{
+					throw new LoginException("The password should be different from the previous passwords");
+				}
+				else
+				{
+					changePassword(options, userID, newPassword);
+					if (isFirstTimeLogin(options, userID))
+						resetFirstTimeLogin(options, userID);
+				
+					insertIntoPasswordHistory(options, userID, password);					
+				}
 			}
 			else
 			{
@@ -310,7 +322,6 @@ public abstract class CSMLoginModule implements LoginModule
 			log.debug("Authentication|||login|Success| Authentication is "+loginSuccessful+"|");
 		return loginSuccessful;
 	}
-
 	
 	/**
 	 * @see javax.security.auth.spi.LoginModule#commit()
@@ -360,6 +371,8 @@ public abstract class CSMLoginModule implements LoginModule
 	protected abstract boolean isFirstTimeLogin(Map options,String user) throws CSFirstTimeLoginException,CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 	protected abstract boolean changePassword(Map options,String user, String password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 	protected abstract boolean insertIntoPasswordHistory(Map options,String user, char[] password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	protected abstract boolean resetFirstTimeLogin(Map options,String user) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;	
+	protected abstract boolean passwordMatchs(Map options, String user,String newPassword, int passwordNum) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException ;
 	
 
 }
