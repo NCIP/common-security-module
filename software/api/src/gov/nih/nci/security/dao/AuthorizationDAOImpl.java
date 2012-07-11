@@ -348,7 +348,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 	}
 
-	public boolean checkLinkAccessible(String linkName, String userId, String applicationContext)
+	public boolean checkPermissionForUserProvisioningOperation (String linkName, String userId, String applicationContext)
 	throws CSTransactionException
 	{
 		ResultSet rs = null;

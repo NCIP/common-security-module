@@ -145,7 +145,7 @@ public interface AuthorizationDAO {
 			throws CSTransactionException;
 
 
-	public boolean checkLinkAccessible(String linkName, String userId, String applicationContext) throws CSTransactionException;
+	public boolean checkPermissionForUserProvisioningOperation(String operationName, String userId, String applicationContext) throws CSTransactionException;
 
 
 	/* (non-Javadoc)

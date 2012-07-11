@@ -1270,7 +1270,7 @@ public interface AuthorizationManager {
 	 * @return true if the user is allowed to perform the desired User Provisioning Operation ; false if the user is denied
 	 * @throws CSTransactionException
 	 */
-	public boolean checkProvisioningOperationPermission(String operationName, String userId, String applicationContext) throws CSTransactionException;
+	public boolean checkPermissionForProvisioningOperation(String operationName, String userId, String applicationContext) throws CSTransactionException;
 
 
 }
