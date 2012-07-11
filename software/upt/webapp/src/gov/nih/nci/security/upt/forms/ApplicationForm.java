@@ -97,12 +97,15 @@ package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.ApplicationSearchCriteria;
 import gov.nih.nci.security.dao.UserSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
@@ -113,6 +116,7 @@ import gov.nih.nci.security.util.StringUtilities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -508,6 +512,27 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 			this.associatedProtectionElementId = protectionElement.getProtectionElementId();
+			//create associated UPT operation element
+			String groupUPTOperation =Constants.UPT_GROUP_OPERATION;
+			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, groupUPTOperation, application);
+			
+			String instanceUPTOperation =Constants.UPT_INSTANCE_LEVEL_OPERATION;
+			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, instanceUPTOperation, application);
+			
+			String privilegeUPTOperation =Constants.UPT_PRIVILEGE_OPERATION;
+			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, privilegeUPTOperation, application);
+			
+			String peUPTOperation =Constants.UPT_PROTECTION_ELEMENT_OPERATION;
+			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, peUPTOperation, application);
+			
+			String pgUPTOperation =Constants.UPT_PROTECTION_GROUP_OPERATION;
+			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, pgUPTOperation, application);
+			
+			String roleUPTOperation =Constants.UPT_ROLE_OPERATION;
+			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, roleUPTOperation, application);
+			
+			String userUPTOperation =Constants.UPT_USER_OPERATION;
+			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, userUPTOperation, application);
 		}
 		else
 		{
@@ -517,6 +542,19 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 		}
 
+	}
+	
+	private void cteateDefaultProtectionGroupForProvisioningOperation(UserProvisioningManager upManager, String uptOperationName, Application application) throws CSTransactionException
+	{
+		ProtectionGroup pg=new ProtectionGroup();
+		String pgName=uptOperationName.replace("_", " ");
+		pg.setProtectionGroupName(uptOperationName);
+		pg.setProtectionGroupDescription("Default protectoin group for \""+pgName +"\"; Do not chnage name.");
+		upManager.createProtectionGroup(pg);
+		// pe has been as to current application
+		//set it to target application
+		pg.setApplication(application);
+		upManager.modifyProtectionGroup(pg);
 	}
 
 	/* (non-Javadoc)

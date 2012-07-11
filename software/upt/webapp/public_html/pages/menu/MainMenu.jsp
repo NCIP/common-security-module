@@ -79,7 +79,7 @@ function MM_swapImage() { //v3.0
 		Boolean isUserEnabled = Boolean.TRUE;
 		if(session.getAttribute(Constants.UPT_USER_OPERATION) == null)
 		{
-			isUserEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_USER_OPERATION, form.getLoginId(), form.getApplicationContextName());
+			isUserEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_USER_OPERATION, form.getLoginId(), form.getApplicationContextName());
 			session.setAttribute(Constants.UPT_USER_OPERATION, isUserEnabled);
 		}
 		else
@@ -89,7 +89,7 @@ function MM_swapImage() { //v3.0
 		Boolean isPEEnabled = Boolean.TRUE;
 		if(session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION) == null)
 		{
-			isPEEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_PROTECTION_ELEMENT_OPERATION, form.getLoginId(), form.getApplicationContextName());
+			isPEEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_ELEMENT_OPERATION, form.getLoginId(), form.getApplicationContextName());
 			session.setAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION, isPEEnabled);
 		}
 		else
@@ -99,7 +99,7 @@ function MM_swapImage() { //v3.0
 		Boolean isPrivEnabled = Boolean.TRUE;
 		if(session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION) == null)
 		{
-			isPrivEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_PRIVILEGE_OPERATION, form.getLoginId(), form.getApplicationContextName());
+			isPrivEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PRIVILEGE_OPERATION, form.getLoginId(), form.getApplicationContextName());
 			session.setAttribute(Constants.UPT_PRIVILEGE_OPERATION, isPrivEnabled);
 		}
 		else
@@ -109,7 +109,7 @@ function MM_swapImage() { //v3.0
 		Boolean isPGEnabled = Boolean.TRUE;
 		if(session.getAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION) == null)
 		{
-			isPGEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_PROTECTION_GROUP_OPERATION, form.getLoginId(), form.getApplicationContextName());
+			isPGEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_GROUP_OPERATION, form.getLoginId(), form.getApplicationContextName());
 			session.setAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION, isPGEnabled);
 		}
 		else
@@ -119,7 +119,7 @@ function MM_swapImage() { //v3.0
 		Boolean isGroupEnabled = Boolean.TRUE;
 		if(session.getAttribute(Constants.UPT_GROUP_OPERATION) == null)
 		{
-			isGroupEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_GROUP_OPERATION, form.getLoginId(), form.getApplicationContextName());
+			isGroupEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_GROUP_OPERATION, form.getLoginId(), form.getApplicationContextName());
 			session.setAttribute(Constants.UPT_GROUP_OPERATION, isGroupEnabled);
 		}
 		else
@@ -129,7 +129,7 @@ function MM_swapImage() { //v3.0
 		Boolean isRoleEnabled = Boolean.TRUE;
 		if(session.getAttribute(Constants.UPT_ROLE_OPERATION) == null)
 		{
-			isRoleEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_ROLE_OPERATION, form.getLoginId(), form.getApplicationContextName());
+			isRoleEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_ROLE_OPERATION, form.getLoginId(), form.getApplicationContextName());
 			session.setAttribute(Constants.UPT_ROLE_OPERATION, isRoleEnabled);
 		}
 		else
@@ -139,7 +139,7 @@ function MM_swapImage() { //v3.0
 		Boolean isILSEnabled = Boolean.TRUE;
 		if(session.getAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION) == null)
 		{
-			isILSEnabled = upm.checkProvisioningOperationPermission(Constants.UPT_INSTANCE_LEVEL_OPERATION, form.getLoginId(), form.getApplicationContextName());
+			isILSEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_INSTANCE_LEVEL_OPERATION, form.getLoginId(), form.getApplicationContextName());
 			session.setAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION, isILSEnabled);
 		}
 		else
