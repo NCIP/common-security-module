@@ -512,7 +512,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 			this.associatedProtectionElementId = protectionElement.getProtectionElementId();
-			//create associated UPT operation element
+			//create associated UPT operation protection group
 			String groupUPTOperation =Constants.UPT_GROUP_OPERATION;
 			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, groupUPTOperation, application);
 			
@@ -533,6 +533,15 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			
 			String userUPTOperation =Constants.UPT_USER_OPERATION;
 			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, userUPTOperation, application);
+		
+			//create default PROTECTION_ELEMENT for UPT operation control flag
+			ProtectionElement flagElement = new ProtectionElement();
+			flagElement.setProtectionElementName(Constants.UPT_OPERATION_DISABLE_FLAG);
+			flagElement.setObjectId(flagElement.getProtectionElementName());
+			flagElement.setApplication(application);
+			String flagPEdesc ="Default protection element for \""+ flagElement.getProtectionElementName() +"\"; Add it UPT Operation Protection Group to disable that UPT operation";
+			flagElement.setProtectionElementDescription(flagPEdesc);
+			userProvisioningManager.createProtectionElement(flagElement);
 		}
 		else
 		{
@@ -541,7 +550,6 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 		}
-
 	}
 	
 	private void cteateDefaultProtectionGroupForProvisioningOperation(UserProvisioningManager upManager, String uptOperationName, Application application) throws CSTransactionException

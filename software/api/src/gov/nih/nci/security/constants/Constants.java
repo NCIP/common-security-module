@@ -157,7 +157,7 @@ public class Constants
 	public static final String UPT_PROTECTION_ELEMENT_OPERATION="UPT_PROTECTION_ELEMENT_OPERATION";
 	public static final String UPT_PRIVILEGE_OPERATION="UPT_PRIVILEGE_OPERATION";
 	public static final String UPT_INSTANCE_LEVEL_OPERATION="UPT_INSTANCE_LEVEL_OPERATION";
-
+	public static final String UPT_OPERATION_DISABLE_FLAG="Disable Flag for UPT Operation";
 }
 
 
