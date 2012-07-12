@@ -538,10 +538,13 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			ProtectionElement flagElement = new ProtectionElement();
 			flagElement.setProtectionElementName(Constants.UPT_OPERATION_DISABLE_FLAG);
 			flagElement.setObjectId(flagElement.getProtectionElementName());
-			flagElement.setApplication(application);
 			String flagPEdesc ="Default protection element for \""+ flagElement.getProtectionElementName() +"\"; Add it UPT Operation Protection Group to disable that UPT operation";
 			flagElement.setProtectionElementDescription(flagPEdesc);
 			userProvisioningManager.createProtectionElement(flagElement);
+			// flagElement has been as to current application
+			//set it to target application
+			flagElement.setApplication(application);			
+			userProvisioningManager.modifyProtectionElement(flagElement);
 		}
 		else
 		{
