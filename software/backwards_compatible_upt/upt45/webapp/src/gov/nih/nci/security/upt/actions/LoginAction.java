@@ -106,7 +106,7 @@ import gov.nih.nci.security.upt.util.properties.UPTProperties;
 import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
 import gov.nih.nci.security.util.StringUtilities;
 import gov.nih.nci.security.exceptions.CSCredentialException;
-import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 
 import java.io.File;
 import java.io.IOException;
