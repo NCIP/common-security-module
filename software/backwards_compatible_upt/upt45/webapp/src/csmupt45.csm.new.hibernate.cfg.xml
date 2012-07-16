@@ -7,7 +7,7 @@
 
     <session-factory>
         <!-- properties  -->
-<!-- hb config file from:software/backwards_compatible_upt/upt45/webapp/src/csmupt45.csm/new.hibernate.cfg.xml -->
+<!-- hb config file from:software/backwards_compatible_upt/upt45/webapp/src/csmupt45.csm.new.hibernate.cfg.xml -->
   	<property name="dialect">org.hibernate.dialect.OracleDialect</property>	
 	<property name="connection.datasource">java:/csmupt</property>
    	<property name="hibernate.show_sql">false</property>
