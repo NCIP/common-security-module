@@ -73,34 +73,29 @@ VALUES('EXECUTE','This privilege allows a user to execute a particular resource.
 ;
 
 INSERT INTO CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES(1, 'UPT_UI_USERS_LINK', 'Protection Group representing User link in UPT. Do not change the name.', 1, 0, current_date)
-;
+VALUES(1, 'UPT_USER_OPERATION', 'Default protection group for UPT_USER_OPERATION. Do not change the name.', 1, 0, current_date);
 
 INSERT INTO CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES(2, 'UPT_UI_PROTECTION_ELEMENTS_LINK', 'Protection Group representing Protection Element link in UPT. Do not change the name.', 1, 0, current_date)
-;
+VALUES(2, 'UPT_PROTECTION_ELEMENT_OPERATION', 'Default protection group for UPT_PROTECTION_ELEMENT_OPERATION. Do not change the name.', 1, 0, current_date);
 
 INSERT INTO CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES(3, 'UPT_UI_PRIVILEGES_LINK', 'Protection Group representing Privilege link in UPT. Do not change the name.', 1, 0, current_date)
-;
+VALUES(3, 'UPT_PRIVILEGE_OPERATION', 'Default protection group for UPT_PRIVILEGE_OPERATION. Do not change the name.', 1, 0, current_date);
 
 INSERT INTO CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES(4, 'UPT_UI_GROUPS_LINK', 'Protection Group representing Group link in UPT. Do not change the name.', 1, 0, current_date)
-;
+VALUES(4, 'UPT_GROUP_OPERATION', 'Default protection group for UPT_GROUP_OPERATION. Do not change the name.', 1, 0, current_date);
 
 INSERT INTO CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES(5, 'UPT_UI_PROTECTION_GROUPS_LINK', 'Protection Group representing Protection Group link in UPT. Do not change the name.', 1, 0, current_date)
-;
+VALUES(5, 'UPT_PROTECTION_GROUP_OPERATION', 'Default protection group for UPT_PROTECTION_GROUP_OPERATION. Do not change the name.', 1, 0, current_date);
 
 INSERT INTO CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES(6, 'UPT_UI_ROLE_LINK', 'Protection Group representing Role link in UPT. Do not change the name.', 1, 0, current_date)
-;
+VALUES(6, 'UPT_ROLE_OPERATION', 'Default protection group for UPT_ROLE_OPERATION. Do not change the name.', 1, 0, current_date);
+
 
 INSERT INTO CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES(7, 'UPT_UI_INSTANCE_LEVEL_LINK', 'Protection Group representing Instance Level link in UPT. Do not change the name.', 1, 0, current_date)
-;
+VALUES(7, 'UPT_INSTANCE_LEVEL_OPERATION', 'Default protection group for UPT_INSTANCE_LEVEL_OPERATION. Do not change the name.', 1, 0, current_date);
 
-
+insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
+values(3, 'Disable Flag for UPT Operation','Default protection element for Disable Flag for UPT Operation','Disable Flag for UPT Operation',1,current_date);
 
 COMMIT
 ;
