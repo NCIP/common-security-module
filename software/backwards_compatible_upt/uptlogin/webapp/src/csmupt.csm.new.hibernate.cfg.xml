@@ -6,9 +6,11 @@
 <hibernate-configuration>
 
     <session-factory>
-        <!-- properties  --><property name="hibernate.show_sql">false</property>
-        <property name="dialect">@database.dialect@</property>	
-	<property name="connection.datasource">java:@datasource.jndi.name@</property>
+        <!-- properties  -->
+    <!-- hb config file from:software/backwards_compatible_upt/uptlogin/webapp/src/csmupt.csm/new.hibernate.cfg.xml -->
+    <property name="hibernate.show_sql">false</property>
+    <property name="dialect">org.hibernate.dialect.OracleDialect</property>	
+	<property name="connection.datasource">java:/csmupt</property>
 	<property name="hibernate.c3p0.min_size">5</property>
 	<property name="hibernate.c3p0.max_size">20</property>
 	<property name="hibernate.c3p0.timeout">300</property>
