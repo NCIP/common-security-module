@@ -1265,12 +1265,13 @@ public interface AuthorizationManager {
 	 * Names of the User Provisioning Operation are constants defined with gov.nih.nci.security.constants.Constants. 
 	 * @see gov.nih.nci.security.constants.Constants
 	 * @param operationName Name a User Provisioning Operation
+	 * @param privilegeName Name of privilege to perform the User Provisioning Operation
 	 * @param userId Identifier of user to perform a User Provisioning Operation
 	 * @param applicationContext Name of the registered application
 	 * @return true if the user is allowed to perform the desired User Provisioning Operation ; false if the user is denied
 	 * @throws CSTransactionException
 	 */
-	public boolean checkPermissionForProvisioningOperation(String operationName, String userId, String applicationContext) throws CSTransactionException;
+	public boolean checkPermissionForProvisioningOperation(String operationName, String privilegeName, String userId, String applicationContext) throws CSTransactionException;
 
 
 }

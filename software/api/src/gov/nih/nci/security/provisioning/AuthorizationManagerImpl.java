@@ -290,7 +290,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 
 	}
 
-	public boolean checkPermissionForProvisioningOperation(String operationName, String userId, String applicationContext)
+	public boolean checkPermissionForProvisioningOperation(String operationName, String privilegeName, String userId, String applicationContext)
 	throws CSTransactionException
 	{
 		return authorizationDAO.checkPermissionForUserProvisioningOperation(operationName,  userId, applicationContext);

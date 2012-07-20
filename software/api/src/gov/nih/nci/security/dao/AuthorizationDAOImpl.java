@@ -105,6 +105,7 @@ import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionGroup;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.hibernate.ProtectionGroupProtectionElement;
 import gov.nih.nci.security.dao.hibernate.UserGroup;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
@@ -370,9 +371,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (user==null) {
 			throw new CSTransactionException("User does not exist.");
 		}
-
+		
 		try {
-
+			ProtectionElement  prt=getProtectionElement(Constants.UPT_OPERATION_DISABLE_FLAG);
+			System.out
+					.println("AuthorizationDAOImpl.checkPermissionForUserProvisioningOperation()...protectionElement:"+prt);
+			if (prt!=null)
+			{
+				System.out
+						.println("AuthorizationDAOImpl.checkPermissionForUserProvisioningOperation()..check ownship:"+checkOwnership(userId, prt.getObjectId()));
+			}
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			connection = s.connection();
