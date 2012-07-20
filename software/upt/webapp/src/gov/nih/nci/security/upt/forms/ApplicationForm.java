@@ -506,45 +506,50 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		
 		if ((this.applicationId == null) || ((this.applicationId).equalsIgnoreCase("")))
 		{
+			System.out.println("ApplicationForm.buildDBObject()...create application:"+application.getApplicationName());
 			userProvisioningManager.createApplication(application);
 			userProvisioningManager.createProtectionElement(protectionElement);
 			this.applicationId = application.getApplicationId().toString();
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 			this.associatedProtectionElementId = protectionElement.getProtectionElementId();
-			//create associated UPT operation protection group
+			//create associated UPT operation protection group--Admin user, application user
+			String pgName ="UPT Operation Protection Group for Admin Users";
+			ProtectionGroup gpAdmin=createDefaultUptProtectionGroup(userProvisioningManager, pgName, application);
+			pgName ="UPT Operation Protection Group for Application Users";
+			ProtectionGroup gpApp=createDefaultUptProtectionGroup(userProvisioningManager, pgName, application);
+			
+			//create Protection Elements for each UPT operation
+			//and associate them with protection group
+			//Application users are excluded from CUD operations
+			
 			String groupUPTOperation =Constants.UPT_GROUP_OPERATION;
-			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, groupUPTOperation, application);
+			String[] peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, groupUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 			
 			String instanceUPTOperation =Constants.UPT_INSTANCE_LEVEL_OPERATION;
-			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, instanceUPTOperation, application);
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, instanceUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 			
 			String privilegeUPTOperation =Constants.UPT_PRIVILEGE_OPERATION;
-			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, privilegeUPTOperation, application);
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, privilegeUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 			
 			String peUPTOperation =Constants.UPT_PROTECTION_ELEMENT_OPERATION;
-			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, peUPTOperation, application);
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, peUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 			
 			String pgUPTOperation =Constants.UPT_PROTECTION_GROUP_OPERATION;
-			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, pgUPTOperation, application);
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, pgUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 			
 			String roleUPTOperation =Constants.UPT_ROLE_OPERATION;
-			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, roleUPTOperation, application);
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, roleUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 			
 			String userUPTOperation =Constants.UPT_USER_OPERATION;
-			cteateDefaultProtectionGroupForProvisioningOperation(userProvisioningManager, userUPTOperation, application);
-		
-			//create default PROTECTION_ELEMENT for UPT operation control flag
-			ProtectionElement flagElement = new ProtectionElement();
-			flagElement.setProtectionElementName(Constants.UPT_OPERATION_DISABLE_FLAG);
-			flagElement.setObjectId(flagElement.getProtectionElementName());
-			String flagPEdesc ="Default protection element for \""+ flagElement.getProtectionElementName() +"\"; Add it UPT Operation Protection Group to disable that UPT operation";
-			flagElement.setProtectionElementDescription(flagPEdesc);
-			userProvisioningManager.createProtectionElement(flagElement);
-			// flagElement has been as to current application
-			//set it to target application
-			flagElement.setApplication(application);			
-			userProvisioningManager.modifyProtectionElement(flagElement);
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, userUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 		}
 		else
 		{
@@ -555,17 +560,54 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		}
 	}
 	
-	private void cteateDefaultProtectionGroupForProvisioningOperation(UserProvisioningManager upManager, String uptOperationName, Application application) throws CSTransactionException
+	private ProtectionGroup createDefaultUptProtectionGroup(UserProvisioningManager upManager, String pgName, Application application) throws CSTransactionException
 	{
 		ProtectionGroup pg=new ProtectionGroup();
-		String pgName=uptOperationName.replace("_", " ");
-		pg.setProtectionGroupName(uptOperationName);
-		pg.setProtectionGroupDescription("Default protectoin group for \""+pgName +"\"; Do not chnage name.");
+		pg.setProtectionGroupName(pgName);
+		pg.setProtectionGroupDescription("Default protection group for \""+pgName +"\"; Do not chnage name.");
 		upManager.createProtectionGroup(pg);
-		// pe has been as to current application
+		// pg has been as to current application
 		//set it to target application
 		pg.setApplication(application);
 		upManager.modifyProtectionGroup(pg);
+		return pg;
+	}
+	private String[] cceateDefaultProtectionElementsForProvisioningOperation(UserProvisioningManager upManager, String uptOperationName, Application application) throws CSTransactionException
+	{
+		String[] rtnIds=new String[3];
+		String objectId= Constants.CSM_ACCESS_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement accessPe=createUptOperationProtectionElement(upManager, objectId, application);
+		
+		objectId= Constants.CSM_CREATE_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement createPe=createUptOperationProtectionElement(upManager, objectId, application);
+		rtnIds[0]=createPe.getProtectionElementId().toString();
+		
+		objectId= Constants.CSM_DELETE_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement deletePe=createUptOperationProtectionElement(upManager, objectId, application);
+		rtnIds[1]=deletePe.getProtectionElementId().toString();
+		
+		objectId= Constants.CSM_UPDATE_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement updatePe=createUptOperationProtectionElement(upManager, objectId, application);
+		rtnIds[2]=updatePe.getProtectionElementId().toString();
+		
+		return rtnIds;
+	}
+	
+	private ProtectionElement createUptOperationProtectionElement(UserProvisioningManager upManager, String objectId, Application application) throws CSTransactionException
+	{
+		ProtectionElement pe = new ProtectionElement();
+		String peName=Constants.UPT_OPERATION_DISABLE_FLAG+":"+objectId;
+		pe.setProtectionElementName(peName);
+		pe.setObjectId(objectId);
+		
+		String peDesc="System required protection element :"+objectId +"'\n Do not change its unique object ID.";
+		pe.setProtectionElementDescription(peDesc);
+		upManager.createProtectionElement(pe);
+		// pe has been as to current application
+		//set it to target application
+		pe.setApplication(application);			
+		upManager.modifyProtectionElement(pe);
+		return pe;
 	}
 
 	/* (non-Javadoc)
