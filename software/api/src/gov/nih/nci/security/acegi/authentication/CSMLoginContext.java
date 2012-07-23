@@ -1,5 +1,6 @@
 package gov.nih.nci.security.acegi.authentication;
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
@@ -86,7 +87,7 @@ public class CSMLoginContext {
 		return module;
 	}
 	
-	public boolean changePassword(String newPassword) throws LoginException
+	public boolean changePassword(String newPassword) throws LoginException, CSConfigurationException
 	{
 		for (int i = 0; i < modules.length; i++)
 		{

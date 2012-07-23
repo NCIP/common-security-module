@@ -104,6 +104,7 @@ import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -169,6 +170,13 @@ public class LDAPLoginModule extends CSMLoginModule
 	@Override
 	protected boolean passwordMatchs(Map options, String user,
 			String newPassword, int i) throws CSInternalConfigurationException,
+			CSInternalLoginException, CSInternalInsufficientAttributesException {
+		return true;
+	}
+
+	@Override
+	protected boolean updatePasswordExpiryDate(Map options, String user,
+			Date expiryDate) throws CSInternalConfigurationException,
 			CSInternalLoginException, CSInternalInsufficientAttributesException {
 		return true;
 	}

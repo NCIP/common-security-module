@@ -12,7 +12,7 @@ package gov.nih.nci.security.authentication;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -20,7 +20,7 @@ package gov.nih.nci.security.authentication;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -95,6 +95,7 @@ import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
+import gov.nih.nci.security.util.ConfigurationHelper;
 
 import org.apache.log4j.Logger;
 
@@ -108,7 +109,7 @@ import org.apache.log4j.Logger;
  * Context Name regsitering the class, which it wants to use, as shown below
  * <p>
  * <blockquote>
- * 
+ *
  * <pre>
  *		&lt;application&gt;
  *	   		&lt;context-name&gt;
@@ -123,60 +124,61 @@ import org.apache.log4j.Logger;
  *			:
  *		&lt;/application&gt;
  * </pre>
- * 
+ *
  * </blockquote>
  * <p>
- * 
+ *
  * However, if no entry is found for the application in the <code>ApplicationSecurityConfig.xml</code> file, then the default
  * implementation is used. The factory instantiate an instance of the {@link CommonAuthenticationManager} class and returns it
  * type casted as an object of <code>AuthenticationManager</code> interface.
- * 
+ *
  * If the client application wants to use just the authentication service then it can
- * obtain the implementation of the <code>AuthenticationManager</code> interface from the 
+ * obtain the implementation of the <code>AuthenticationManager</code> interface from the
  * {@link SecurityServiceProvider} class.
- * 
+ *
  * @author Kunal Modi (Ekagra Software Technologies)
  *
  */
-public class AuthenticationManagerFactory 
+public class AuthenticationManagerFactory
 {
-	
+
 	public static final Logger log = Logger.getLogger(AuthenticationManagerFactory.class);
 	/**
 	 * This methods instantiate an implementation of the {@link AuthenticationManager} and returns it to the calling method.
 	 * It reads the config file using the Application Context/Name provided as parameter. If an entry is found,
 	 * it retrieves the name of the class and instantiate an object of the same and returns it to the calling method.
-	 * However if the entry is not found, then the default {@link CommonAuthenticationManager} Class is instantiated and 
+	 * However if the entry is not found, then the default {@link CommonAuthenticationManager} Class is instantiated and
 	 * returned to the calling method
 	 *
 	 * The path for the application config file should be configured in the system properties file as shown below
 	 * <p>
 	 * <blockquote>
-	 * 
+	 *
 	 * <pre>
 	 * e.g. gov.nih.nci.security.configFile=/foo/bar/ApplicationSecurityConfig.xml
 	 * </pre>
-	 * 
+	 *
 	 * </blockquote>
 	 * <p>
 	 * Where <code>gov.nih.nci.security.configFile</code> is the property name and <code>/foo/bar/ApplicationSecurityConfig.xml</code> is the fully
 	 * qualified file path. This configuration file contains which implementation of Authentication Manager is to be used
-	 * 
+	 *
 	 * @param applicationContextName The name or context of the calling application. This parameter is used to retrieve
 	 * the implementation class for that Application from the property file if it is configured.
-	 * NOTE: that the application name/context should be same as those configured in the configuration/property files	 
+	 * NOTE: that the application name/context should be same as those configured in the configuration/property files
 	 * @return An instance of the class implementating the AuthenticationManager interface. This could the client custom
 	 * implementation or the default provided Authentication Manager
 	 * @throws CSException If there are any errors in obtaining the correct instance of the {@link AuthenticationManager}
 	 * @throws CSConfigurationException If there are any configuration errors during obtaining the {@link AuthenticationManager}
-	 */	
+	 */
 	public static AuthenticationManager getAuthenticationManager(String applicationContextName) throws CSException, CSConfigurationException
 	{
-				
+
 		AuthenticationManager authenticationManager = null;
 		String applicationManagerClassName = null;
 		try
 		{
+			LockoutManager.initialize(ConfigurationHelper.getConfiguration().getString("PASSWORD_LOCKOUT_TIME"),ConfigurationHelper.getConfiguration().getString("ALLOWED_LOGIN_TIME"),ConfigurationHelper.getConfiguration().getString("ALLOWED_ATTEMPTS"));
 			applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthenticationManagerClass(applicationContextName);
 		}
 		catch (CSException cse)
@@ -195,7 +197,7 @@ public class AuthenticationManagerFactory
 				log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Success|Initializing Common Authentication Manager|");
 			authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
 			authenticationManager.initialize(applicationContextName);
-			
+
 		}
 		else
 		{
@@ -213,34 +215,34 @@ public class AuthenticationManagerFactory
 					log.debug("Authentication|"+applicationContextName+"||getAuthenticationManager|Failure| Error initializing Custom Authentication Manager "+applicationManagerClassName+"|" + exception.getMessage() );
 				throw new CSConfigurationException("Error in loading the configured AuthenticationManager for the Application", exception);
 			}
-			
+
 		}
 		return authenticationManager;
 	}
 
 	/**
-	 * This methods instantiate the CSM provided implementation of the {@link AuthenticationManager} and returns it to 
+	 * This methods instantiate the CSM provided implementation of the {@link AuthenticationManager} and returns it to
 	 * the calling method. It also initializes the Lockout Manager with the provided parameter to maintain locking out
 	 * of the user. This method is provided to support the new Configuration framework introduced in CSM v3.2
-	 * 
-	 * @param applicationContextName The name or context of the calling application. This parameter is used to load the 
+	 *
+	 * @param applicationContextName The name or context of the calling application. This parameter is used to load the
 	 * login modules from the jaas config file
-	 * NOTE: that the application name/context should be same as those configured in the jaas config files	 
-	 * @param lockoutTime the time in milliseconds that the user will be locked out after the configured number of 
+	 * NOTE: that the application name/context should be same as those configured in the jaas config files
+	 * @param lockoutTime the time in milliseconds that the user will be locked out after the configured number of
 	 * unsuccessful login attempts has been reached
-	 * @param allowedLoginTime the time in milliseconds in which the configured number of unsuccessful login attempts 
-	 * must occur in order to lock the user out 
+	 * @param allowedLoginTime the time in milliseconds in which the configured number of unsuccessful login attempts
+	 * must occur in order to lock the user out
 	 * @param allowedAttempts the number of unsuccessful login attempts allowed before the use account is locked out
-	 * @return An instance of the CSM provided implementation of the AuthenticationManager interface. 
+	 * @return An instance of the CSM provided implementation of the AuthenticationManager interface.
 	 * @throws CSException If there are any errors in obtaining the default instance of the {@link AuthenticationManager}
 	 * @throws CSConfigurationException If there are any configuration errors during obtaining the {@link AuthenticationManager}
-	 */	
+	 */
 	public static AuthenticationManager getAuthenticationManager(String applicationContextName, String lockoutTime, String allowedLoginTime, String allowedAttempts) throws CSException, CSConfigurationException
-	{		
+	{
 		LockoutManager.initialize(lockoutTime, allowedLoginTime, allowedAttempts);
 		AuthenticationManager authenticationManager = null;
 		authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();
-		authenticationManager.initialize(applicationContextName);		
+		authenticationManager.initialize(applicationContextName);
 		return authenticationManager;
 	}
 }

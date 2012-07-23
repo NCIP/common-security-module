@@ -191,7 +191,7 @@ public class User implements Principal, Comparable, Serializable {
 	
 	private byte passwordExpired;
 	
-	private java.util.Date passwordUpdateDate;		
+	private java.util.Date passwordExpiryDate;		
 
 	public User(){
 
@@ -489,12 +489,12 @@ public class User implements Principal, Comparable, Serializable {
 		this.passwordExpired = passwordExpired;
 	}
 
-	public java.util.Date getPasswordUpdateDate() {
-		return passwordUpdateDate;
+	public java.util.Date getPasswordExpiryDate() {
+		return passwordExpiryDate;
 	}
 
-	public void setPasswordUpdateDate(java.util.Date passwordUpdateDate) {
-		this.passwordUpdateDate = passwordUpdateDate;
+	public void setPasswordExpiryDate(java.util.Date passwordExpiryDate) {
+		this.passwordExpiryDate = passwordExpiryDate;
 	}
 
 

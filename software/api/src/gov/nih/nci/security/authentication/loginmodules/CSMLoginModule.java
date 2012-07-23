@@ -102,7 +102,10 @@ import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
+import gov.nih.nci.security.util.ConfigurationHelper;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -116,6 +119,8 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
  
+import org.apache.commons.configuration.DataConfiguration;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -219,7 +224,7 @@ public abstract class CSMLoginModule implements LoginModule
 				{
 					loginSuccessful = false;
 					password 		= null;
-					throw new CSFirstTimeLoginException("Invalid Login Credentials");
+					throw new CSFirstTimeLoginException("First Time Login");
 				}
 				else
 					loginSuccessful = true;
@@ -245,7 +250,7 @@ public abstract class CSMLoginModule implements LoginModule
 	}
 	
 
-	public boolean changePassword(String newPassword) throws LoginException, CSInternalLoginException, CSInternalConfigurationException
+	public boolean changePassword(String newPassword) throws LoginException, CSInternalLoginException, CSInternalConfigurationException, CSConfigurationException
 	{
 		if (callbackHandler == null)
 		{
@@ -290,7 +295,8 @@ public abstract class CSMLoginModule implements LoginModule
 			//now validate user
 			if (validate(options, userID, password, subject))
 			{
-				if (passwordMatchs(options, userID,newPassword,24))
+				DataConfiguration config = ConfigurationHelper.getConfiguration();
+				if (passwordMatchs(options, userID,newPassword,Integer.parseInt(config.getString("PASSWORD_MATCH_NUM"))))
 				{
 					throw new LoginException("The password should be different from the previous passwords");
 				}
@@ -300,7 +306,8 @@ public abstract class CSMLoginModule implements LoginModule
 					if (isFirstTimeLogin(options, userID))
 						resetFirstTimeLogin(options, userID);
 				
-					insertIntoPasswordHistory(options, userID, password);					
+					insertIntoPasswordHistory(options, userID, password);
+					updatePasswordExpiryDate(options, userID,DateUtils.addDays(Calendar.getInstance().getTime(),Integer.parseInt(config.getString("PASSWORD_EXPIRY_DAYS"))));
 				}
 			}
 			else
@@ -373,6 +380,7 @@ public abstract class CSMLoginModule implements LoginModule
 	protected abstract boolean insertIntoPasswordHistory(Map options,String user, char[] password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 	protected abstract boolean resetFirstTimeLogin(Map options,String user) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;	
 	protected abstract boolean passwordMatchs(Map options, String user,String newPassword, int passwordNum) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException ;
+	protected abstract boolean updatePasswordExpiryDate(Map options,String user,Date expiryDate) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
 	
 
 }

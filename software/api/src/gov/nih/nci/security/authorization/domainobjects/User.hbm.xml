@@ -151,9 +151,9 @@
     </property>
     
     <property
-        name="passwordUpdateDate"
+        name="passwordExpiryDate"
         type="java.sql.Date"
-        column="PASSWORD_UPDATE_DATE"
+        column="PASSWORD_EXPIRY_DATE"
         not-null="true"
         length="10"
     >    

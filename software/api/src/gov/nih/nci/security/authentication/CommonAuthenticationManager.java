@@ -91,6 +91,8 @@ package gov.nih.nci.security.authentication;
 
  
 
+import java.util.regex.Pattern;
+
 import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.acegi.authentication.CSMLoginContext;
@@ -103,8 +105,10 @@ import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.CSLoginException;
+import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
+import gov.nih.nci.security.util.ConfigurationHelper;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -287,7 +291,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 			le.printStackTrace();
 			loginSuccessful = false;
 			if (log.isDebugEnabled())
-				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Password expired for user "+userName+"|" + le.getMessage());			
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| First Time Login for user "+userName+"|" + le.getMessage());			
 
 			auditLog.info("Password expired for user "+ userName);
 			throw new CSFirstTimeLoginException(le.getMessage());
@@ -317,7 +321,8 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 	 */
 	public void initialize(String applicationContextName) 
 	{
-		this.applicationContextName = applicationContextName;		
+		this.applicationContextName = applicationContextName;
+		//new ConfigurationHelper(applicationContextName);
 	}
 
 	/* (non-Javadoc)
@@ -386,13 +391,16 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		if (null == passwordConfirmation || passwordConfirmation.trim().length() == 0)
 		{
 			throw new CSInputException("Password Confimation cannot be blank");
-		}
-				
+		}				
 		if(!newPassword.equals(passwordConfirmation))
 		{
 			throw new CSInputException("Password and Password Confimation should match");
 		}
-		
+		if(!validatePassword(passwordConfirmation))
+		{
+			throw new CSInputException("The password has to be atleast 8 characters and have atleast a special character");
+		}
+
 		UserInfoHelper.setUserInfo(userName, null);
 		boolean changePasswordSuccessful = false;
 		CSMLoginContext loginContext = null;
@@ -457,7 +465,15 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		return changePasswordSuccessful;
 	}
 
-	
+	private boolean validatePassword(String password){
+		auditLog.info("Validating password "+password+" using REGEX");
+		if(!Pattern.matches("(?=.*[A-Z])(?=.*\\d)(.{8,})$", password))
+			return false;
+		else
+			return true;
+			
+	}
+
 	
 
 }

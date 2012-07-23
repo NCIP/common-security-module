@@ -105,6 +105,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -415,11 +418,12 @@ public class RDBMSHelper {
 
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
+		Date passwordExpiryDate = null;
 		boolean passwordExpired = false;
 	
 		String query = new String();
 
-		query = "SELECT PASSWORD_EXPIRED FROM CSM_USER WHERE LOGIN_NAME = ? ";
+		query = "SELECT PASSWORD_EXPIRY_DATE FROM CSM_USER WHERE LOGIN_NAME = ? ";
 
 		try
 		{
@@ -445,7 +449,7 @@ public class RDBMSHelper {
 			{
 				while(resultSet.next())
 				{
-					 passwordExpired = resultSet.getBoolean("PASSWORD_EXPIRED");
+					passwordExpiryDate = resultSet.getTimestamp("PASSWORD_EXPIRY_DATE");
 					
 				}
 			}
@@ -470,6 +474,12 @@ public class RDBMSHelper {
 		}
 		if (log.isDebugEnabled())
 			log.debug("Authentication||"+userID+"|executeQuery|Success| Password expired is "+passwordExpired+" for the user");
+		
+		if (Calendar.getInstance().getTime().after(passwordExpiryDate)) 		 
+			passwordExpired = true; 
+		else
+			passwordExpired = false;
+		
 		return passwordExpired;				
 	}
 
@@ -735,13 +745,19 @@ public class RDBMSHelper {
 		{
 			try
 			{
-				for(int i = 0; i < passwordNum;i++)
+				int matchCount = 0;
+				while(resultSet.next())
 				{
-					 resultSet.next();
-					 String prevPassword = resultSet.getString("PASSWORD");
-					 if (encryptPassword != null && prevPassword.equals(encryptPassword))
-						 passwordMatch = true;					 
-					
+					if(matchCount < passwordNum)
+					{
+					String prevPassword = resultSet.getString("PASSWORD");
+					if (encryptPassword != null && prevPassword.equals(encryptPassword))
+					{
+						passwordMatch = true;
+						break;
+					}
+					matchCount++;
+					}									
 				}
 			}
 			catch (SQLException e)
@@ -766,6 +782,60 @@ public class RDBMSHelper {
 		if (log.isDebugEnabled())
 			log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+passwordMatch+" for the user");
 		return passwordMatch;				
+
+	}
+
+	public static boolean updatePasswordExpiryDate(Hashtable connectionProperties,
+			String userID,Date expiryDate) throws CSInternalConfigurationException {
+		Connection connection = getConnection (connectionProperties);
+		if (connection == null)
+		{
+			return false;
+		}
+
+		PreparedStatement statement = null;
+		boolean updatePasswordExpiry = false;
+		java.sql.Date passwordExipiryDate = null;
+		String query = new String();
+		if(expiryDate != null)
+			passwordExipiryDate = new java.sql.Date(expiryDate.getTime());
+
+		query = "UPDATE CSM_USER SET PASSWORD_EXPIRY_DATE = ? WHERE LOGIN_NAME = ? ";
+
+		try
+		{
+			statement = connection.prepareStatement(query);
+			statement.setDate(1, passwordExipiryDate);
+			statement.setString(2, userID);
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to generate query statement to update the password expiration date  ");
+		}
+
+		try
+		{
+			statement.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to execute the query to update the password expiration date  ");
+		}
+		try
+		{
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		}
+		catch (SQLException sqe)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| Password expired date is "+passwordExipiryDate+" for the user");
+		return updatePasswordExpiry;				
 
 	}
 }

@@ -102,6 +102,7 @@ import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Hashtable;
 
@@ -165,5 +166,12 @@ public class RDBMSLoginModule extends CSMLoginModule
 			String newPassword, int passwordNum) throws CSInternalConfigurationException,
 			CSInternalLoginException, CSInternalInsufficientAttributesException {
 		return RDBMSHelper.passwordMatchs(new Hashtable(options),user,newPassword,passwordNum);
+	}
+
+	@Override
+	protected boolean updatePasswordExpiryDate(Map options, String user,Date expiryDate)
+			throws CSInternalConfigurationException, CSInternalLoginException,
+			CSInternalInsufficientAttributesException {
+		return RDBMSHelper.updatePasswordExpiryDate(new Hashtable(options),user, expiryDate);
 	}
 }
