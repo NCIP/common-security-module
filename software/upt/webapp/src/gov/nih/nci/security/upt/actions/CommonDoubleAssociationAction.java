@@ -12,7 +12,7 @@ package gov.nih.nci.security.upt.actions;
  *(the 'UPT Software').  The UPT Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This UPT Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -20,7 +20,7 @@ package gov.nih.nci.security.upt.actions;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -130,16 +130,16 @@ import org.apache.struts.action.ActionMessages;
  */
 public class CommonDoubleAssociationAction extends CommonAssociationAction
 {
-	private static final Category logDoubleAssociation = Category.getInstance(CommonDoubleAssociationAction.class);	
-	
+	private static final Category logDoubleAssociation = Category.getInstance(CommonDoubleAssociationAction.class);
+
 	public ActionForward loadDoubleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
-		
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadDoubleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -151,7 +151,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -164,15 +164,15 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				+form.toString()+"|");
 		return (mapping.findForward(ForwardConstants.LOAD_DOUBLEASSOCIATION_SUCCESS));
 	}
-	
+
 	public ActionForward setDoubleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
-		
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|setDoubleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -198,18 +198,19 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		if (logDoubleAssociation.isDebugEnabled())
 			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDoubleAssociationForm.getFormName()+"|setDoubleAssociation|Success|Success in Setting Double Association for "+baseDoubleAssociationForm.getFormName()+" object|"
-				+form.toString()+"|");		
+				+form.toString()+"|");
 		return (mapping.findForward(ForwardConstants.SET_DOUBLEASSOCIATION_SUCCESS));
 	}
-	
+
 	public ActionForward loadProtectionGroupAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
+		System.out.println("loadProtectionGroupAssociation:********************* ");
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
-		
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadProtectionGroupAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -217,34 +218,41 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		try
 		{
-			
-			
+
+			System.out.println("before buildProtectionGroupAssociationObject: ");
 			Collection temp = baseDoubleAssociationForm.buildProtectionGroupAssociationObject(request);
-			
+			System.out.println("after buildProtectionGroupAssociationObject: "+temp.toString());
+
 			List associatedProtectionGroupRoleContexts = new ArrayList();
+			System.out.println("before iterator: ");
 			Iterator iterator = temp.iterator();
 			while(iterator.hasNext()){
 				associatedProtectionGroupRoleContexts.add(iterator.next());
 			}
+			System.out.println("after iterator: ");
 			Collections.sort(associatedProtectionGroupRoleContexts, new ProtectionGroupRoleContextComparator());
-			
-				
+			System.out.println("after sort: ");
+
 			if (associatedProtectionGroupRoleContexts.size() != 0)
+			{
+				System.out.println("setting in session: ");
 				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET, associatedProtectionGroupRoleContexts);
+				System.out.println("after setting in session: ");
+			}
 			else
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Group or Roles found"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Group or Roles found"));
 				saveErrors( request,errors );
 				if (logDoubleAssociation.isDebugEnabled())
 					logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 						"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionGroupAssociation|Failure|No Protection Group Association for the "+baseDoubleAssociationForm.getFormName()+" object|"
-						+form.toString()+"|");	
+						+form.toString()+"|");
 				return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_FAILURE));
 			}
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -254,19 +262,20 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		if (logDoubleAssociation.isDebugEnabled())
 			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionGroupAssociation|Success|Success in Loading Protection Group Association for "+baseDoubleAssociationForm.getFormName()+" object|"
-				+form.toString()+"|");			
-		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));		
+				+form.toString()+"|");
+		System.out.println("before forwarding..... ");
+		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));
 	}
-	
+
 
 	public ActionForward loadProtectionElementPrivilegesAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
-		
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -275,30 +284,30 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		try
 		{
 			Collection temp = baseDoubleAssociationForm.buildProtectionElementPrivilegesObject(request);
-			
+
 			List associatedProtectionElementPrivilegesContexts = new ArrayList();
 			Iterator iterator = temp.iterator();
 			while(iterator.hasNext()){
 				associatedProtectionElementPrivilegesContexts.add(iterator.next());
 			}
 			Collections.sort(associatedProtectionElementPrivilegesContexts, new ProtectionElementPrivilegesContextComparator());
-			
+
 			if (associatedProtectionElementPrivilegesContexts != null && associatedProtectionElementPrivilegesContexts.size() != 0)
 				session.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET, associatedProtectionElementPrivilegesContexts);
 			else
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Element or Privileges found"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "No Associated Protection Element or Privileges found"));
 				saveErrors( request,errors );
 				if (logDoubleAssociation.isDebugEnabled())
 					logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 						"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Failure|No Protection Element Privileges Association for the "+baseDoubleAssociationForm.getFormName()+" object|"
-						+form.toString()+"|");	
+						+form.toString()+"|");
 				return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_FAILURE));
 			}
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -308,18 +317,18 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		if (logDoubleAssociation.isDebugEnabled())
 			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Success|Success in Loading Protection Element Privileges Association for "+baseDoubleAssociationForm.getFormName()+" object|"
-				+form.toString()+"|");			
-		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_SUCCESS));		
+				+form.toString()+"|");
+		return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_SUCCESS));
 	}
 
 	public ActionForward removeProtectionGroupAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
-		
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|removeProtectionGroupAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -344,28 +353,28 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDoubleAssociationForm.getFormName()+"|removeProtectionGroupAssociation|Failure|Error Removing Protection Group Association for the "+baseDoubleAssociationForm.getFormName()+" object|"
-					+form.toString()+"|"+ cse.getMessage());			
+					+form.toString()+"|"+ cse.getMessage());
 		}
 		if (logDoubleAssociation.isDebugEnabled())
 			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDoubleAssociationForm.getFormName()+"|removeGroupAssociation|Success|Success in Removing Protection Group Association for "+baseDoubleAssociationForm.getFormName()+" object|"
 				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.REMOVE_PROTECTIONGROUPASSOCIATION_SUCCESS));		
+		return (mapping.findForward(ForwardConstants.REMOVE_PROTECTIONGROUPASSOCIATION_SUCCESS));
 	}
-	
+
 	public ActionForward loadRoleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
-		
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadRoleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -379,14 +388,14 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDoubleAssociationForm.getFormName()+"|loadRoleAssociation|Failure|No Protection Group Id selected for "+baseDoubleAssociationForm.getFormName()+" object||");
 			return (mapping.findForward(ForwardConstants.LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS));
-		}		
+		}
 		try
 		{
 			baseDoubleAssociationForm.buildRoleAssociationObject(request);
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -397,17 +406,17 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDoubleAssociationForm.getFormName()+"|loadRoleAssociation|Success|Success in Loading Role Association for "+baseDoubleAssociationForm.getFormName()+" object|"
 				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.LOAD_ROLEASSOCIATION_SUCCESS));		
+		return (mapping.findForward(ForwardConstants.LOAD_ROLEASSOCIATION_SUCCESS));
 	}
-	
+
 	public ActionForward setRoleAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDoubleAssociationForm baseDoubleAssociationForm = (BaseDoubleAssociationForm)form;
-		
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|setRoleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -423,7 +432,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -434,17 +443,17 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 			logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDoubleAssociationForm.getFormName()+"|setRoleAssociation|Success|Success in Setting Role Association for "+baseDoubleAssociationForm.getFormName()+" object|"
 				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.SET_ROLEASSOCIATION_SUCCESS));		
+		return (mapping.findForward(ForwardConstants.SET_ROLEASSOCIATION_SUCCESS));
 	}
 
 	public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
-		
+
 		HttpSession session = request.getSession();
 		BaseDBForm baseDBForm = (BaseDBForm)form;
-	
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug("||"+baseDBForm.getFormName()+"|unlock|Failure|No Session or User Object Forwarding to the Login Page||");
@@ -456,14 +465,14 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		UserInfoHelper.setUserInfo(loginId, session.getId());
 		try
 		{
-			LockoutManager.getInstance().unLockUser(userLoginName);			
+			LockoutManager.getInstance().unLockUser(userLoginName);
 			baseDBForm.buildDBObject(request);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "UnLock Successful"));
 			saveMessages( request, messages );
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+userLoginName+
