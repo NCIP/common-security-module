@@ -83,7 +83,7 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 	Boolean isPEEnabled = Boolean.TRUE;
 	if(session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION) == null)
 	{
-		isPEEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_ELEMENT_OPERATION,Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
+		isPEEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_ELEMENT_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
 		session.setAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION, isPEEnabled);
 	}
 	else
@@ -92,7 +92,7 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 	Boolean isPrivEnabled = Boolean.TRUE;
 	if(session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION) == null)
 	{
-		isPrivEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PRIVILEGE_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		isPrivEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PRIVILEGE_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
 		session.setAttribute(Constants.UPT_PRIVILEGE_OPERATION, isPrivEnabled);
 	}
 	else
@@ -110,7 +110,7 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 	Boolean isGroupEnabled = Boolean.TRUE;
 	if(session.getAttribute(Constants.UPT_GROUP_OPERATION) == null)
 	{
-		isGroupEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_GROUP_OPERATION, form.getLoginId(), form.getApplicationContextName());
+		isGroupEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_GROUP_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
 		session.setAttribute(Constants.UPT_GROUP_OPERATION, isGroupEnabled);
 	}
 	else
