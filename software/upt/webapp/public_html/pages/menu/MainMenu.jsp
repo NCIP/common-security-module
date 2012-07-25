@@ -14,9 +14,7 @@
 	prefix="c"%>
 	
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
-<%@ page import="gov.nih.nci.security.upt.forms.LoginForm"%>
-<%@ page import="gov.nih.nci.security.UserProvisioningManager"%>
+<%@ page import="gov.nih.nci.security.upt.constants.DisplayConstants"%>
 <%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
   <!--
@@ -72,79 +70,6 @@ function MM_swapImage() { //v3.0
 			session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
 		}
 		
-		
-		LoginForm form = (LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT);
-		UserProvisioningManager upm = (UserProvisioningManager)session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
-		Boolean isUserEnabled = Boolean.TRUE;
-		if(session.getAttribute(Constants.UPT_USER_OPERATION) == null)
-		{
-			isUserEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_USER_OPERATION, Constants.CSM_ACCESS_PRIVILEGE,Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-			session.setAttribute(Constants.UPT_USER_OPERATION, isUserEnabled);
-		}
-		else
-			isUserEnabled = (Boolean)session.getAttribute(Constants.UPT_USER_OPERATION);	
-		pageContext.setAttribute("isUserEnabled",isUserEnabled);
-		
-		Boolean isPEEnabled = Boolean.TRUE;
-		if(session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION) == null)
-		{
-			isPEEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_ELEMENT_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-			session.setAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION, isPEEnabled);
-		}
-		else
-			isPEEnabled = (Boolean)session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION);
-		pageContext.setAttribute("isPEEnabled",isPEEnabled);
-		
-		Boolean isPrivEnabled = Boolean.TRUE;
-		if(session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION) == null)
-		{
-			isPrivEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PRIVILEGE_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-			session.setAttribute(Constants.UPT_PRIVILEGE_OPERATION, isPrivEnabled);
-		}
-		else
-			isPrivEnabled = (Boolean)session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION);
-		pageContext.setAttribute("isPrivEnabled",isPrivEnabled);
-			
-		Boolean isPGEnabled = Boolean.TRUE;
-		if(session.getAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION) == null)
-		{
-			isPGEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_GROUP_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-			session.setAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION, isPGEnabled);
-		}
-		else
-			isPGEnabled = (Boolean)session.getAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION);
-		pageContext.setAttribute("isPGEnabled",isPGEnabled);
-		
-		Boolean isGroupEnabled = Boolean.TRUE;
-		if(session.getAttribute(Constants.UPT_GROUP_OPERATION) == null)
-		{
-			isGroupEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_GROUP_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-			session.setAttribute(Constants.UPT_GROUP_OPERATION, isGroupEnabled);
-		}
-		else
-			isGroupEnabled = (Boolean)session.getAttribute(Constants.UPT_GROUP_OPERATION);
-		pageContext.setAttribute("isGroupEnabled",isGroupEnabled);
-		
-		Boolean isRoleEnabled = Boolean.TRUE;
-		if(session.getAttribute(Constants.UPT_ROLE_OPERATION) == null)
-		{
-			isRoleEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_ROLE_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-			session.setAttribute(Constants.UPT_ROLE_OPERATION, isRoleEnabled);
-		}
-		else
-			isRoleEnabled = (Boolean)session.getAttribute(Constants.UPT_ROLE_OPERATION);
-		pageContext.setAttribute("isRoleEnabled",isRoleEnabled);
-		
-		Boolean isILSEnabled = Boolean.TRUE;
-		if(session.getAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION) == null)
-		{
-			isILSEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_INSTANCE_LEVEL_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-			session.setAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION, isILSEnabled);
-		}
-		else
-			isILSEnabled = (Boolean)session.getAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION);
-		pageContext.setAttribute("isILSEnabled",isILSEnabled);
 	%>
 	<html:hidden property="tableId" value="error" />
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='<%="/MenuSelection"%>'/>"/>
@@ -164,8 +89,7 @@ function MM_swapImage() { //v3.0
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 2 begins -->
-			<c:choose>
-			<c:when test="${isUserEnabled}" >
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.CSM_UPT_USER_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -173,17 +97,15 @@ function MM_swapImage() { //v3.0
 					<a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.USER_ID%>')" id="menuUser">
 					USER</a>
 				</td>
-			</c:when>
-			<c:otherwise>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.CSM_UPT_USER_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">USER</td>
-			</c:otherwise>
-			</c:choose>
+			</logic:notPresent>
 			<!-- link 2 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator"/>
 
 			<!-- link 3 begins -->
-			<c:choose>
-			<c:when test="${isPEEnabled}" >
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -191,17 +113,15 @@ function MM_swapImage() { //v3.0
 					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')" id="menuPE">
 					PROTECTION ELEMENT</a>
 				</td>
-			</c:when>
-			<c:otherwise>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">PROTECTION ELEMENT</td> 
-			</c:otherwise>
-			</c:choose>
+			</logic:notPresent>
 			<!-- link 3 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 4 begins -->
-			<c:choose>
-			<c:when test="${isPrivEnabled}" >
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -209,17 +129,15 @@ function MM_swapImage() { //v3.0
 					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')" id="menuPrivilege">
 					PRIVILEGE</a>
 				</td>
-			</c:when>
-			<c:otherwise>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">PRIVILEGE</td> 
-			</c:otherwise>
-			</c:choose>
+			</logic:notPresent>
 			<!-- link 4 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 5 begins -->
-			<c:choose>
-			<c:when test="${isGroupEnabled}" >
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -227,18 +145,16 @@ function MM_swapImage() { //v3.0
 					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.GROUP_ID%>')" id="menuGroup">
 					GROUP</a>
 				</td>
-			</c:when>
-			<c:otherwise>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">GROUP</td> 
-			</c:otherwise>
-			</c:choose>
+			</logic:notPresent>
 
 			<!-- link 5 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 6 begins -->
-			<c:choose>
-			<c:when test="${isPGEnabled}" >
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -246,17 +162,15 @@ function MM_swapImage() { //v3.0
 					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')" id="menuPG">
 					PROTECTION GROUP</a>
 				</td>
-			</c:when>
-			<c:otherwise>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">PROTECTION GROUP</td> 
-			</c:otherwise>
-			</c:choose>
+			</logic:notPresent>
 			<!-- link 6 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 7 begins -->
-			<c:choose>
-			<c:when test="${isRoleEnabled}" >
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -264,17 +178,15 @@ function MM_swapImage() { //v3.0
 					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.ROLE_ID%>')" id="menuRole">
 					ROLE</a>
 				</td>
-			</c:when>
-			<c:otherwise>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">ROLE</td> 
-			</c:otherwise>
-			</c:choose>
+			</logic:notPresent>
 			<!-- link 6 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 8 begins -->
-			<c:choose>
-			<c:when test="${isILSEnabled}" >
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -282,11 +194,10 @@ function MM_swapImage() { //v3.0
 					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')" id="menuInstance">
 					INSTANCE LEVEL</a>
 				</td>
-			</c:when>
-			<c:otherwise>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">INSTANCE LEVEL</td> 
-			</c:otherwise>
-			</c:choose>
+			</logic:notPresent>
 			<!-- link 8 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
