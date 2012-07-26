@@ -89,7 +89,7 @@ function MM_swapImage() { //v3.0
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 2 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.CSM_UPT_USER_OPERATION%>'>
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
@@ -98,7 +98,7 @@ function MM_swapImage() { //v3.0
 					USER</a>
 				</td>
 			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.CSM_UPT_USER_OPERATION%>'>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver">USER</td>
 			</logic:notPresent>
 			<!-- link 2 ends -->

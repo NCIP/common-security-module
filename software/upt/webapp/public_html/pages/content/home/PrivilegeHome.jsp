@@ -12,6 +12,7 @@
 	prefix="nested"%>
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
     <!--
     	function setAndSubmit(target)
@@ -125,13 +126,14 @@ function skipNavigation()
 									<td class="sidebarTitle" height="20">PRIVILEGE LINKS</td>
 								</tr>
 								<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-								<tr>
-									<td class="sidebarContent"><a
-										href="javascript: setAndSubmit('loadAdd')">Create a New
-									Privilege</a><br>
-									Click to add a new privilege.</td>
-								</tr>
-								
+									<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+										<tr>
+											<td class="sidebarContent"><a
+												href="javascript: setAndSubmit('loadAdd')">Create a New
+											Privilege</a><br>
+											Click to add a new privilege.</td>
+										</tr>
+									</logic:present>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an

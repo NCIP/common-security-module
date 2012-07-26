@@ -95,8 +95,10 @@ import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
@@ -185,9 +187,6 @@ public class LoginAction extends Action
 		LoginForm loginForm = (LoginForm)form;
 		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
 				|| StringUtils.isBlank(loginForm.getPassword())){
-
-
-
 
 			ActionForward newActionForward = new ActionForward();
 			newActionForward.setPath(serverInfoPathPort);
@@ -391,6 +390,12 @@ public class LoginAction extends Action
 		authenticationManager = null;
 		authorizationManager = null;
 
+		try {
+			processUptOperation(userProvisioningManager ,loginForm.getLoginId(),application.getApplicationName(),session);
+		} catch (CSTransactionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
 		{
 			session.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
@@ -408,34 +413,60 @@ public class LoginAction extends Action
 		}
 	}
 
-	private static String getUPTContextName() throws Exception
+	private void processUptOperation(UserProvisioningManager uptManager, String userId, String applicationName, HttpSession session) throws CSTransactionException
 	{
-		Document configDocument = null;
-		String uptContextNameValue = null;
-		String configFilePath = System.getProperty(DisplayConstants.CONFIG_FILE_PATH_PROPERTY_NAME);
-		if (null == configFilePath || configFilePath.trim().equals(""))
-			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
-
-		SAXBuilder builder = new SAXBuilder();
-		try
-		{
-			configDocument = builder.build(new File(configFilePath));
-		}
-		catch (JDOMException e)
-		{
-			throw new CSConfigurationException("Error in parsing the Application Security Config file");
-		}
-		catch (IOException e)
-		{
-			throw new CSConfigurationException("Error in reading the Application Security Config file");
-		}
-		if (configDocument != null)
-		{
-			Element securityConfig = configDocument.getRootElement();
-			Element uptContextName = securityConfig.getChild("upt-context-name");
-			uptContextNameValue = uptContextName.getText().trim();
-		}
-		return uptContextNameValue;
+		checkPermissionForUptOperation(uptManager,Constants.UPT_USER_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_PROTECTION_ELEMENT_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_PRIVILEGE_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_GROUP_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_PROTECTION_GROUP_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_ROLE_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_INSTANCE_LEVEL_OPERATION, userId, applicationName, session );
 	}
+	
+	private void checkPermissionForUptOperation(UserProvisioningManager uptManager, String uptOperation, String userId, String applicationName, HttpSession session  ) throws CSTransactionException
+	{
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_ACCESS_PRIVILEGE, userId, applicationName, session);
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_CREATE_PRIVILEGE, userId, applicationName, session);
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_UPDATE_PRIVILEGE, userId, applicationName, session);
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_DELETE_PRIVILEGE, userId, applicationName, session);
+	}
+	private void checkUptPrivilegeForOperation(UserProvisioningManager uptManager, String uptOperation, String privilege, String userId, String applicationName, HttpSession session ) throws CSTransactionException
+	{
+		String uptPersionKey=privilege+"_"+uptOperation;
+		boolean uptPermission=uptManager.checkPermissionForProvisioningOperation(uptOperation, privilege, userId, applicationName);
+		if (uptPermission)
+			session.setAttribute(uptPersionKey, "true");		
+	}
+	
+//	private static String getUPTContextName() throws Exception
+//	{
+//		Document configDocument = null;
+//		String uptContextNameValue = null;
+//		String configFilePath = System.getProperty(DisplayConstants.CONFIG_FILE_PATH_PROPERTY_NAME);
+//		if (null == configFilePath || configFilePath.trim().equals(""))
+//			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
+//
+//		SAXBuilder builder = new SAXBuilder();
+//		try
+//		{
+//			configDocument = builder.build(new File(configFilePath));
+//		}
+//		catch (JDOMException e)
+//		{
+//			throw new CSConfigurationException("Error in parsing the Application Security Config file");
+//		}
+//		catch (IOException e)
+//		{
+//			throw new CSConfigurationException("Error in reading the Application Security Config file");
+//		}
+//		if (configDocument != null)
+//		{
+//			Element securityConfig = configDocument.getRootElement();
+//			Element uptContextName = securityConfig.getChild("upt-context-name");
+//			uptContextNameValue = uptContextName.getText().trim();
+//		}
+//		return uptContextNameValue;
+//	}
 
 }

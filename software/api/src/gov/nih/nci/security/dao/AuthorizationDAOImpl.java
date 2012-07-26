@@ -373,14 +373,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		
 		try {
-			ProtectionElement  prt=getProtectionElement(Constants.UPT_OPERATION_DISABLE_FLAG);
-			System.out
-					.println("AuthorizationDAOImpl.checkPermissionForUserProvisioningOperation()...protectionElement:"+prt);
-			if (prt!=null)
-			{
-				System.out
-						.println("AuthorizationDAOImpl.checkPermissionForUserProvisioningOperation()..check ownship:"+checkOwnership(userId, prt.getObjectId()));
-			}
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			connection = s.connection();
@@ -390,35 +382,35 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			else
 				applId = getApplicationByName(applicationContext).getApplicationId();
 
-			preparedStatement = Queries.getQueryforLinkPGPE(linkName, applId, connection);
+			preparedStatement = Queries.getQueryforUptOperationPE(linkName, user.getUserId(), applId, connection);
 
 			rs = preparedStatement.executeQuery();
+			if (rs.next())
+				return false;
 
-
-			while (rs.next())
-			{
-				peIds.add(rs.getString(1));
-			}
-
-			rs.close();
-			preparedStatement.close();
-
-			if(peIds.size() == 0)
-				return true;
-
-			Iterator iterator = peIds.iterator();
-			while(iterator.hasNext())
-			{
-				String peId = (String) iterator.next();
-				preparedStatement = Queries.getQueryforLinkPEUser(linkName, Integer.parseInt(peId), user.getUserId(), applId, connection);
-				rs = preparedStatement.executeQuery();
-
-				if(rs.next())
-					return true;
-				else
-					return false;
-
-			}
+//			while (rs.next())
+//			{
+//				peIds.add(rs.getString(1));
+//			}
+//
+//			rs.close();
+//			preparedStatement.close();
+//
+//			if(peIds.size() > 0)
+//				return false;
+//			Iterator iterator = peIds.iterator();
+//			while(iterator.hasNext())
+//			{
+//				String peId = (String) iterator.next();
+//				preparedStatement = Queries.getQueryforLinkPEUser(linkName, Integer.parseInt(peId), user.getUserId(), applId, connection);
+//				rs = preparedStatement.executeQuery();
+//
+//				if(rs.next())
+//					return true;
+//				else
+//					return false;
+//
+//			}
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log.debug("Failed to get checkLinkAccessible for " + linkName + "|"
@@ -439,7 +431,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 		}
 
-		return test;
+		return true;
 
 	}
 

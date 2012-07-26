@@ -12,7 +12,7 @@
 	prefix="nested"%>
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
-
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <%
 response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 response.setHeader("Pragma","no-cache"); //HTTP 1.0
@@ -127,11 +127,13 @@ function skipNavigation()
 
 									<td class="sidebarTitle" height="20">USER LINKS</td>
 								</tr>
-								<tr>
-									<td class="sidebarContent"><a
-										href="javascript: setAndSubmit('loadAdd')">Create a New User</a><br>
-									Click to add a new user.</td>
-								</tr>
+								<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+									<tr>
+										<td class="sidebarContent"><a
+											href="javascript: setAndSubmit('loadAdd')">Create a New User</a><br>
+										Click to add a new user.</td>
+									</tr>
+								</logic:present>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an

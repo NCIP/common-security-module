@@ -31,11 +31,6 @@ function skipNavigation()
 	document.getElementById("menuInstance").tabIndex = -1;
 	document.getElementById("menulogout").tabIndex = -1;
 }
-
-  <!--
-    	
-//-->
-
 </script>
 
 
@@ -64,75 +59,9 @@ function skipNavigation()
 
 <%
 	String urlStr = request.getRequestURL().toString();
-urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
-urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
-
+	urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
+	urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 	LoginForm form = (LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT);
-	UserProvisioningManager upm = (UserProvisioningManager)session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
-	Boolean isUserEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_USER_OPERATION) == null)
-	{
-		isUserEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_USER_OPERATION,Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_USER_OPERATION, isUserEnabled);
-	}
-	else
-		isUserEnabled = (Boolean)session.getAttribute(Constants.UPT_USER_OPERATION);
-		
-
-	Boolean isPEEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION) == null)
-	{
-		isPEEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_ELEMENT_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION, isPEEnabled);
-	}
-	else
-		isPEEnabled = (Boolean)session.getAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION);
-
-	Boolean isPrivEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION) == null)
-	{
-		isPrivEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PRIVILEGE_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_PRIVILEGE_OPERATION, isPrivEnabled);
-	}
-	else
-		isPrivEnabled = (Boolean)session.getAttribute(Constants.UPT_PRIVILEGE_OPERATION);
-		
-	Boolean isPGEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION) == null)
-	{
-		isPGEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_PROTECTION_GROUP_OPERATION,Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION, isPGEnabled);
-	}
-	else
-		isPGEnabled = (Boolean)session.getAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION);
-		
-	Boolean isGroupEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_GROUP_OPERATION) == null)
-	{
-		isGroupEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_GROUP_OPERATION, Constants.CSM_ACCESS_PRIVILEGE, form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_GROUP_OPERATION, isGroupEnabled);
-	}
-	else
-		isGroupEnabled = (Boolean)session.getAttribute(Constants.UPT_GROUP_OPERATION);
-		
-	Boolean isRoleEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_ROLE_OPERATION) == null)
-	{
-		isRoleEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_ROLE_OPERATION, Constants.CSM_ACCESS_PRIVILEGE,form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_ROLE_OPERATION, isRoleEnabled);
-	}
-	else
-		isRoleEnabled = (Boolean)session.getAttribute(Constants.UPT_ROLE_OPERATION);
-		
-	Boolean isILSEnabled = Boolean.TRUE;
-	if(session.getAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION) == null)
-	{
-		isILSEnabled = upm.checkPermissionForProvisioningOperation(Constants.UPT_INSTANCE_LEVEL_OPERATION, Constants.CSM_ACCESS_PRIVILEGE,form.getLoginId(), form.getApplicationContextName());
-		session.setAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION, isILSEnabled);
-	}
-	else
-		isILSEnabled = (Boolean)session.getAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION);
 %>
 
 				<!--
@@ -149,8 +78,7 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<%if(isUserEnabled.booleanValue())
-								{%>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.USER_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -159,23 +87,20 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="User"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Application User"></a></td>
-								<%
-								} else {
-								%>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
 									<td width="100%" height="50"><img
 										name="user" border="0" src="images/Users2.gif" width="98"
 										alt="User"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Application User"></td>
-								
-								<%}%>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<%if(isPEEnabled.booleanValue())
-								{%>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -184,22 +109,20 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Protection Element"
 										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Protection Element"></a></td>
-								<%} else {
-								%>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
 									<td width="100%" height="50"><img
 										name="PEs" border="0" src="images/protectionelements2.gif"
 										alt="Protection Element"
 										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Protection Element"></td>
-
-								<%}%>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<%if(isPrivEnabled.booleanValue())
-								{%>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -208,16 +131,15 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Privilege"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Privilege"></a></td>
-								<%} else {
-								%>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
 									<td width="100%" height="50"><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
 										alt="Privilege"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										Title="Privilege"></td>
-								<%}%>
+								</logic:notPresent>
 								</tr>
-
 								<tr>
 									<td width="100%" height="50"><img src="images/create.gif" alt="Create" 
 										width="98" height="50"></td>
@@ -255,10 +177,7 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 							<td height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-								<%
-								if(isGroupEnabled.booleanValue())
-								{
-								%>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.GROUP_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -267,16 +186,12 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Group"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Group"></a></td>
-								<%
-								}
-								else
-								{
-								%>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
 									<td width="100%" height="50"><img name="group" border="0" src="images/groups2.gif" width="98"
 										alt="Group" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Group"></td>
-
-								<%}%>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
@@ -286,10 +201,7 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<%
-								if(isPGEnabled.booleanValue())
-								{
-								%>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -298,22 +210,20 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Protectoin Group"
 										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Protection Group"></a></td>
-								<%} else {%>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
 									<td width="100%" height="50"><img
 										name="pgs" border="0" src="images/protectiongroups2.gif"
 										alt="Protectoin Group"
 										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Protection Group"></td>
-								<%}%>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<%
-								if(isRoleEnabled.booleanValue())
-								{
-								%>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.ROLE_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
@@ -322,13 +232,14 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 										alt="Role"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Role"></a></td>
-								<%} else{ %>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
 									<td width="100%" height="50"><img
 										name="roles" border="0" src="images/roles2.gif" width="98"
 										alt="Role"
 										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
 										title="Role"></td>
-								<%}%>
+								</logic:notPresent>
 								</tr>
 
 								<tr>
@@ -388,11 +299,6 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 					
 					<td colspan="2" width="50%">&nbsp;</td>
 				</tr>
-
-
-
-
-
 
 				<tr class="home">
 					<td class="home" colspan="4">&nbsp;</td>
@@ -525,9 +431,6 @@ urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 				</td>
 				</tr>
 				<!-- workflow ends, association begins -->
-
-
-				
 			</table>
 			</td>
 		</tr>

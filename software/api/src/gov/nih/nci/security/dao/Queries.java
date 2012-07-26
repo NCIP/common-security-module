@@ -816,25 +816,41 @@ public class Queries {
 	}
 
 
-	protected static PreparedStatement getQueryforLinkPGPE(String linkName, Long applicationId, Connection cn) throws SQLException
+	protected static PreparedStatement getQueryforUptOperationPE(String peObjectId, Long userId, Long applicationId, Connection cn) throws SQLException
 	{
 
 		StringBuffer stbr = new StringBuffer();
 
+//		stbr.append("SELECT pe.protection_element_id");
+//		stbr.append("      FROM  csm_protection_element pe,");
+//		stbr.append("            csm_protection_group pg,");
+//		stbr.append("            csm_pg_pe pgpe,");
+//		stbr.append("            csm_application app");
+//		stbr.append("      WHERE pg.protection_group_name = ?");
+//		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
+//		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
+//		stbr.append("            AND pe.application_id=?");
+//		stbr.append("            AND pe.application_id = app.application_id");
+		
 		stbr.append("SELECT pe.protection_element_id");
 		stbr.append("      FROM  csm_protection_element pe,");
+		stbr.append("            csm_user u,");
+		stbr.append("            csm_user_group_role_pg ugrp,");
 		stbr.append("            csm_protection_group pg,");
-		stbr.append("            csm_pg_pe pgpe,");
-		stbr.append("            csm_application app");
-		stbr.append("      WHERE pg.protection_group_name = ?");
-		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
-		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append("            AND pe.application_id=?");
-		stbr.append("            AND pe.application_id = app.application_id");
+		stbr.append("            csm_pg_pe pgpe");
+		stbr.append("      WHERE pe.object_id= ?");
+		stbr.append("        AND u.user_id= ?");
+		stbr.append("        AND pe.application_id=?");
+		stbr.append("        and ugrp.USER_ID=u.USER_ID");
+		stbr.append("        and pg.PROTECTION_GROUP_ID=ugrp.PROTECTION_GROUP_ID");
+		stbr.append("        AND pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("        AND pgpe.protection_element_id = pe.protection_element_id");
+
 
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		int i=1;
-		pstmt.setString(i++,linkName);
+		pstmt.setString(i++,peObjectId);
+		pstmt.setLong(i++, userId);
 		pstmt.setLong(i++,applicationId);
 
 		return pstmt;
