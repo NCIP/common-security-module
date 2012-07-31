@@ -8,7 +8,7 @@
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <%
 response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 response.setHeader("Pragma","no-cache"); //HTTP 1.0
@@ -383,9 +383,18 @@ function skipNavigation()
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+										</logic:notPresent>
+										<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+											<td><html:submit disabled="true">Delete</html:submit></td>
+										</logic:notPresent>
+										<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+											<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										</logic:notPresent>
+										<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+											<td><html:submit disabled="true">Delete</html:submit></td>
+										</logic:notPresent>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
 										</logic:equal>

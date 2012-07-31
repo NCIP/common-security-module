@@ -7,6 +7,7 @@
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
     <script> 
     <!--
     	function setAndSubmit(target)
@@ -180,34 +181,34 @@ function skipNavigation()
 					</tr>
 					<!-- end first, start second -->
 					<tr>
-					
 					<!-- extra code -->
-							<td align="center" width="100%">
+						<td align="center" width="100%">
 							<table width="220">
 							<tr>
 							<!-- -->
-					
-						<td align="center" width="100%">
-						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
-						</td>
-						<td>
-						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
-						</td>
-					
-					
-					<!-- extra code -->
+							<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+								<td align="center" width="100%">
+									<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
+								</td>
+								<td>
+									<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
+								</td>
+							</logic:present>
+							<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+								<td align="center" width="100%">
+									<input type="button" value="Assign" style="width:75px;" disabled="disabled">
+								</td>
+								<td>
+									<input type="button" value="Deassign" style="width:75px;" disabled="disabled">
+								</td>
+							</logic:notPresent>
 							</tr>
 							</table>
-							</td>
-							<!-- -->	
-					
-					
+						</td>
+					<!-- extra code -->
 					</tr>
 					<!-- end second, start third -->
 					<tr>
-					
-					
-					
 					<td width="100%" valign="top">
 					<html:form styleId="ProtectionElementForm" action="/ProtectionElementDBOperation">
 					<html:hidden property="operation" value="read"/>
@@ -236,8 +237,12 @@ function skipNavigation()
 				<td width="100%" align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-
-						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
+						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+							<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
+						</logic:present>
+						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+							<td><button class="actionButton" disabled="disabled">Update Association</button></td>
+						</logic:notPresent>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
 					</tr>
 				</table>

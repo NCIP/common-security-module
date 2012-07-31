@@ -7,7 +7,7 @@
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
-
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script> 
     <!--
     
@@ -238,8 +238,8 @@ function skipNavigation()
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						
-						<td align="center">
+						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>						
+							<td align="center">
 						<script>
 							var tempURL = window.location+"";			
 
@@ -248,15 +248,18 @@ function skipNavigation()
 							var contextTemp = url_array[3]+"";
 							var temp = contextTemp.toLowerCase();
 
-							document.write('<input type="button" value="Assign User" onclick="closepopup();opennewwin(contextTemp);">');
-						
+							document.write('<input type="button" value="Assign User" onclick="closepopup();opennewwin(contextTemp);">');					
 						</script>
-							</td>
-						
-						
-						<td align="center">
-							<input type="button" value="Deassign User" onclick="selSwitch(this);"></td>
-						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
+							</td>						
+							
+							<td align="center">	<input type="button" value="Deassign User" onclick="selSwitch(this);"></td>
+							<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
+						</logic:present>
+						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+							<td align="center">	<input type="button" value="Assign User" disabled="disabled"/></td>
+							<td align="center">	<input type="button" value="Deassign User" disabled="disabled"/></td>
+							<td><html:submit disabled="true">Update Association</html:submit></td>
+						</logic:notPresent>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
 					</tr>
 				</table>

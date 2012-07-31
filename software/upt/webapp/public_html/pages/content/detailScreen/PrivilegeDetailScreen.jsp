@@ -9,7 +9,7 @@
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
-
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
 <!--
    	function setAndSubmit(target)
@@ -221,9 +221,7 @@ function skipNavigation()
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
-										
+									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">						
 										<!--3.0.1-->
 										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
 										<!--3.0.1-->
@@ -246,15 +244,22 @@ function skipNavigation()
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
-										
-										
 										<!--3.0.1-->
 										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
 										<!--3.0.1-->
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<!--3.0.1-->
+											<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+											</logic:present>
+											<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><html:submit disabled="true">Update</html:submit></td>
+											</logic:notPresent>
+											<logic:present name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+											</logic:present>
+											<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><html:submit disabled="true">Delete</html:submit></td>
+											</logic:notPresent>
+											<!--3.0.1-->
 										</logic:present>
 
 										<!--3.0.1-->
@@ -265,14 +270,9 @@ function skipNavigation()
 										</logic:equal>
 										<!--3.0.1-->
 										</logic:present>		
-										
-										
-										
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
-										
-										
 									</logic:notEqual>
 								</tr>
 							</table>

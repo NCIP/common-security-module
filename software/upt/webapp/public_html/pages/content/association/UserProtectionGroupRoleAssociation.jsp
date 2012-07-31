@@ -14,6 +14,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
 <!--
    	function setAndSubmit(target)
@@ -171,9 +172,13 @@ function skipNavigation()
 								<td align="right" class="actionSection"><!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
-
-										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove PG & Roles</html:submit></td>											
+										<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+											<td><html:submit style="actionButton"
+												onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove PG & Roles</html:submit></td>											
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+											<td><html:submit style="actionButton" disabled="true">Remove PG & Roles</html:submit></td>
+										</logic:notPresent>
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('loadRoleAssociation');">Associated Roles</html:submit></td>
 										<td><html:submit style="actionButton"

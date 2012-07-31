@@ -8,6 +8,7 @@
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
 <!--
    	function setAndSubmit(target)
@@ -196,8 +197,18 @@ function skipNavigation()
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" disabled="true">Update</html:submit></td>
+										</logic:notPresent>
+										<logic:present name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><button class="actionButton" disabled="true">Delete</button></td>
+										</logic:notPresent>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
 										</logic:equal>
@@ -212,7 +223,12 @@ function skipNavigation()
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated Users</html:submit></td>									
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionElementPrivilegesAssociation');">Associated PE & Privileges</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">Associated PG & Roles</html:submit></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
+										<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" disabled="true">Assign PG & Roles</html:submit></td>
+										</logic:notPresent>
 									</logic:notEqual>
 								</tr>
 							</table>

@@ -7,7 +7,7 @@
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <%
 response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 response.setHeader("Pragma","no-cache"); //HTTP 1.0
@@ -106,7 +106,12 @@ function skipNavigation()
 									<td align="right" colspan="3"><!-- action buttons begins -->
 										<table cellpadding="4" cellspacing="0" border="0">
 											<tr>
-												<td><html:submit style="actionButton" onclick="setAndSubmit('upload');">Upload</html:submit></td>
+												<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+													<td><html:submit style="actionButton" onclick="setAndSubmit('upload');">Upload</html:submit></td>
+												</logic:present>
+												<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+													<td><html:submit style="actionButton" disabled="true">Upload</html:submit></td>
+												</logic:notPresent>
 												<td><html:reset style="actionButton">Reset</html:reset></td>
 												<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 											</tr>

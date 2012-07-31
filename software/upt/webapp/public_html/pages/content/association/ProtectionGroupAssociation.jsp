@@ -7,7 +7,7 @@
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
-
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script> 
     <!--
     
@@ -212,7 +212,6 @@ function skipNavigation()
 					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ProtectionGroupDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
-
 							<td class="sidebarTitle" height="20">ASSIGNED PEs</td>
 						</tr>
 						<tr>
@@ -234,22 +233,24 @@ function skipNavigation()
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						<td>
-						<script>
-							var tempURL = window.location+"";			
-
-
-							var url_array= tempURL.split("/");
-							var contextTemp = url_array[3]+"";
-							var temp = contextTemp.toLowerCase();
-
-							document.write('<input type="button" value="Assign PE" style="width:75px;" onclick="closepopup();opennewwin(contextTemp);">');
-						
-						</script>
-
-						</td>
-						<td><input type="button" value="Deassign" style="width:92px;" onclick="selSwitch(this);"></td>
-						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
+						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+							<td>
+							<script>
+								var tempURL = window.location+"";			
+								var url_array= tempURL.split("/");
+								var contextTemp = url_array[3]+"";
+								var temp = contextTemp.toLowerCase();
+								document.write('<input type="button" value="Assign PE" style="width:75px;" onclick="closepopup();opennewwin(contextTemp);">');					
+							</script>
+							</td>
+							<td><input type="button" value="Deassign" style="width:92px;" onclick="selSwitch(this);"></td>
+							<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
+						</logic:present>
+						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+							<td align="center"><input type="button" value="Assign" style="width:75px;" disabled="disabled"/></td>
+							<td align="center"><input type="button" value="Deassign" style="width:95px;" disabled="disabled"></td>
+							<td align="center"><input type="button" value="Update Association" style="width:125px;" disabled="disabled"></td>
+						</logic:notPresent>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
 					</tr>
 				</table>

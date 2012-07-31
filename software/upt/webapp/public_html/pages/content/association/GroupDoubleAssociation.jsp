@@ -13,6 +13,7 @@
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script> 
     <!--
 
@@ -427,14 +428,18 @@ function skipNavigation()
 							<table width="220">
 							<tr>
 							<!-- -->
-							
-							<td align="center"><input type="button" value="Assign"
-								style="width:75px;" onclick="selSwitchRole(this);"> </td>
-						 
-							<td align="center"><input type="button" value="Deassign" style="width:75px;"
-								onclick="selSwitchRole(this);"> 
-							</td>
-							
+							<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+								<td align="center"><input type="button" value="Assign"
+									style="width:75px;" onclick="selSwitchRole(this);"> </td>
+							 
+								<td align="center"><input type="button" value="Deassign" style="width:75px;"
+									onclick="selSwitchRole(this);"> 
+								</td>
+							</logic:present>
+							<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+								<td align="center"><input type="button" value="Assign" style="width:75px;" disabled="disabled"/> </td>
+								<td align="center"><input type="button" value="Deassign" style="width:75px;" disabled="disabled"/> </td>
+							</logic:notPresent>
 							<!-- extra code -->
 							</tr>
 							</table>
@@ -450,7 +455,6 @@ function skipNavigation()
 							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
-
 									<td class="sidebarTitle" height="20">ASSIGNED ROLES</td>
 								</tr>
 								<tr>
@@ -472,31 +476,25 @@ function skipNavigation()
 							</table>
 							</td>
 							</tr>							
-						<!-- end role section -->
-						
-						
-						
-						
-						
-						
+						<!-- end role section -->				
 				</table>
 			</tr>
 			<tr>
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						
-						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
-						<td><input type="button" style="actionButton" onclick="setAndSubmitPG('setDoubleAssociation');" value="Update Association"></td>
-						</logic:notPresent>
-						<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
-						<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
+						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+							<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
+								<td><input type="button" style="actionButton" onclick="setAndSubmitPG('setDoubleAssociation');" value="Update Association"></td>
+							</logic:notPresent>
+							<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
+								<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
+							</logic:present>
 						</logic:present>
-						
-						<td><input type="button" style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');" value="Back">
-
-						
-						</td>
+						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+							<td><input type="button" style="actionButton" disabled="disabled" value="Update Association"/></td>
+						</logic:notPresent>
+						<td><input type="button" style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');" value="Back"></td>
 					</tr>
 				</table>
 				</td>

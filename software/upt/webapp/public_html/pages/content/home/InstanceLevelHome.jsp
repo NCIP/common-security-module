@@ -98,19 +98,23 @@ function skipNavigation()
 							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
-
 									<td class="sidebarTitle" height="20">INSTANCE LEVEL LINKS</td>
 								</tr>
-								<tr>
-									<td class="sidebarContent"><a
-										href="javascript: setAndSubmit('loadUpload');">Upload the Jar File</a><br>
-									Click to upload a Jar File.</td>
-								</tr>
+								<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+									<tr>
+										<td class="sidebarContent"><a
+											href="javascript: setAndSubmit('loadUpload');">Upload the Jar File</a>
+											<br>
+											Click to upload a Jar File.
+										</td>
+									</tr>
+								</logic:present>
 								<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
 									<tr>
 										<td class="sidebarContent"><a
 											href="javascript: setAndSubmit('loadAdd');">Add New Security Filter</a><br>
-										Click to add a new Instance Level Security Setting.</td>
+											Click to add a new Instance Level Security Setting.
+										</td>
 									</tr>
 								</logic:present>
 								<tr>
