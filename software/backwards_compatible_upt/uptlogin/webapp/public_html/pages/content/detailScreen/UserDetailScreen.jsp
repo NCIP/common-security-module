@@ -198,8 +198,7 @@
 										  }
 										%>
 
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>										
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
 										</logic:equal>

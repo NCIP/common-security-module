@@ -89,6 +89,7 @@
 			<forward name="HomePage" path="Tiles.Home.Page" />
 			<forward name="AdminHomePage" path="Tiles.SuperAdmin.Home.Page" />			
 			<forward name="LogoutAction" path="/Logout.do" />
+			<forward name="SystemConfigurationPage" path="Tiles.SystemConfiguration.Page" />
 		</action>
 		
 

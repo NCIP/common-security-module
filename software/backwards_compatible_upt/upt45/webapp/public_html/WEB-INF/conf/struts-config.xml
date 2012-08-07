@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="LoginForm"
+			type="gov.nih.nci.security.upt.forms.LoginForm" />
+		<form-bean name="MenuForm"
+			type="gov.nih.nci.security.upt.forms.MenuForm" />			
+		<form-bean name="PrivilegeForm"
+			type="gov.nih.nci.security.upt.forms.PrivilegeForm" />
+		<form-bean name="RoleForm"
+			type="gov.nih.nci.security.upt.forms.RoleForm" />
+		<form-bean name="ApplicationForm"
+			type="gov.nih.nci.security.upt.forms.ApplicationForm" />
+		<form-bean name="GroupForm"
+			type="gov.nih.nci.security.upt.forms.GroupForm" />
+		<form-bean name="ProtectionGroupForm"
+			type="gov.nih.nci.security.upt.forms.ProtectionGroupForm" />
+		<form-bean name="ProtectionElementForm"
+			type="gov.nih.nci.security.upt.forms.ProtectionElementForm" />
+		<form-bean name="UserForm"
+			type="gov.nih.nci.security.upt.forms.UserForm" />
+		<form-bean name="SearchUserForm"
+			type="gov.nih.nci.security.upt.forms.SearchUserForm" />
+		<form-bean name="SearchProtectionElementForm"
+			type="gov.nih.nci.security.upt.forms.SearchProtectionElementForm" />			
+		<form-bean name="InstanceLevelForm"
+			type="gov.nih.nci.security.upt.forms.InstanceLevelForm" />			
+		<form-bean name="SystemConfigurationForm"
+			type="gov.nih.nci.security.upt.forms.SystemConfigurationForm" />
+
+	</form-beans>
+	<global-exceptions>
+		<exception key="" scope="request" type="java.lang.Exception" path="Tiles.500.Error.Page" handler="gov.nih.nci.security.upt.exceptionHandler.DefaultExceptionHandler"/>
+	</global-exceptions>
+	<global-forwards>
+		<forward name="Login" path="/Login.do" />		
+		<forward name="Home" path="/Home.do" />
+		<forward name="MenuSelection" path="/MenuSelection.do" />
+		<forward name="LoginPage" path="Tiles.Login.Page" />
+		<forward name="AdminHome" path="/AdminHome.do"/>
+		
+	</global-forwards>
+	<action-mappings>
+	
+		<action path="/FooterContactUs" forward="Tiles.Footer.ContactUs"/>
+		<action path="/FooterApplicationSupport" forward="Tiles.Footer.ApplicationSupport"/>
+		<action path="/FooterAccessibility" forward="Tiles.Footer.Accessibility"/>
+		<action path="/FooterPrivacy" forward="Tiles.Footer.Privacy"/>
+		<action path="/FooterDisclaimer" forward="Tiles.Footer.Disclaimer"/>
+
+		<action path="/ViewErrorDetails" forward="Tiles.500.Error.DetailsPage"/>
+
+		<action path="/Home"
+			type="gov.nih.nci.security.upt.actions.HomeAction"
+			input="Tiles.Login.Page">
+			<forward name="LoginPage" path="Tiles.Login.Page" />
+			<forward name="HomePage" path="Tiles.Home.Page" />
+		</action>
+		<action path="/AdminHome"
+			type="gov.nih.nci.security.upt.actions.HomeAction"
+			input="Tiles.Login.Page">
+			<forward name="LoginPage" path="Tiles.Login.Page" />
+			<forward name="HomePage" path="Tiles.SuperAdmin.Home.Page" />
+		</action>
+		
+		
+		<action path="/Login"
+			type="gov.nih.nci.security.upt.actions.LoginAction" 
+			name="LoginForm"
+			scope="session" 
+			validate="true" 
+			input="Tiles.Login.Page">
+			<forward name="LoginSuccess" path="Tiles.Home.Page" />
+			<forward name="AdminLoginSuccess" path="Tiles.SuperAdmin.Home.Page" />
+			<forward name="ChangePassword" path="Tiles.Password.Change.Page" />
+			<forward name="LoginFailure" path="Tiles.Login.Page" />
+		</action>
+		<action path="/Logout"
+			type="gov.nih.nci.security.upt.actions.LogoutAction" >
+			<forward name="LogoutSuccess" path="Tiles.Login.Page" />
+		</action>
+		<action path="/SystemConfiguration"
+			type="gov.nih.nci.security.upt.actions.SystemConfigurationAction"
+			name="SystemConfigurationForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"
+			input="Tiles.SuperAdmin.Home.Page">
+			<forward name="ReadSuccess" path="Tiles.SystemConfiguration.Page" />
+			<forward name="UpdateSuccess" path="Tiles.SystemConfiguration.Page" />
+		</action>		
+		<action path="/MenuSelection"
+			type="gov.nih.nci.security.upt.actions.MenuSelectionAction"
+			name="MenuForm" 
+			scope="session" 
+			validate="true"
+			input="Tiles.Login.Page">
+			<forward name="ApplicationHomePage" path="Tiles.Application.Home" />
+			<forward name="RoleHomePage" path="Tiles.Role.Home" />
+			<forward name="GroupHomePage" path="Tiles.Group.Home" />
+			<forward name="UserHomePage" path="Tiles.User.Home" />
+			<forward name="PrivilegeHomePage" path="Tiles.Privilege.Home" />
+			<forward name="ProtectionGroupHomePage" path="Tiles.ProtectionGroup.Home" />
+			<forward name="ProtectionElementHomePage" path="Tiles.ProtectionElement.Home" />
+			<forward name="InstanceLevelHomePage" path="Tiles.InstanceLevel.Home" />
+			<forward name="HomePage" path="Tiles.Home.Page" />
+			<forward name="AdminHomePage" path="Tiles.SuperAdmin.Home.Page" />			
+			<forward name="LogoutAction" path="/Logout.do" />
+			<forward name="SystemConfigurationAction" path="/SystemConfiguration.do" />
+		</action>
+		<action path="/PrivilegeDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDBAction"
+			name="PrivilegeForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.Privilege.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.Privilege.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.Privilege.Search.Result" />			
+			<forward name="CreateSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.Privilege.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.Privilege.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.Privilege.Home" />
+			<forward name="SearchSuccess" path="Tiles.Privilege.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.Privilege.Detail.Screen" />
+		</action>
+		<action path="/RoleDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			name="RoleForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.Role.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.Role.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.Role.Search.Result" />
+			<forward name="CreateSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.Role.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.Role.Home" />
+			<forward name="SearchSuccess" path="Tiles.Role.Search.Result" />
+			<forward name="LoadAssociationSuccess" path="Tiles.Role.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.Role.Detail.Screen" />
+			<forward name="SearchFailure" path="Tiles.Role.Detail.Screen" />
+		</action>
+		<action path="/ProtectionGroupDBOperation"
+			type="gov.nih.nci.security.upt.actions.ProtectionGroupAction"
+			name="ProtectionGroupForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.ProtectionGroup.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.ProtectionGroup.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.ProtectionGroup.Search.Result" />
+			<forward name="CreateSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.ProtectionGroup.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.ProtectionGroup.Home" />
+			<forward name="SearchSuccess" path="Tiles.ProtectionGroup.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.ProtectionGroup.Detail.Screen" />
+			<forward name="LoadAssociationSuccess" path="Tiles.ProtectionGroup.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />	
+			<forward name="LoadParentAssociationSuccess" path="Tiles.ProtectionGroup.ParentAssociation.Screen" />
+			<forward name="SetParentAssociationSuccess" path="Tiles.ProtectionGroup.Detail.Screen" />	
+					
+		</action>
+		<action path="/GroupDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="GroupForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"
+			input="Tiles.Group.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.Group.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.Group.Search.Result" />
+			<forward name="CreateSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.Group.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.Group.Home" />
+			<forward name="SearchSuccess" path="Tiles.Group.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadAssociationSuccess" path="Tiles.Group.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadDoubleAssociationSuccess" path="Tiles.Group.DoubleAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationSuccess" path="Tiles.Group.ProtectionGroupAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationFailure" path="Tiles.Group.Detail.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationSuccess" path="Tiles.Group.ProtectionElementPrivilegesAssociation.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationFailure" path="Tiles.Group.Detail.Screen" />
+			<forward name="RemoveProtectionGroupAssociationSuccess" path="Tiles.Group.Detail.Screen" />			
+			<forward name="LoadRoleAssociationSuccess" path="Tiles.Group.DoubleAssociation.Screen" />
+			<forward name="SetDoubleAssociationSuccess" path="Tiles.Group.Detail.Screen" />
+			<forward name="SetRoleAssociationSuccess" path="Tiles.Group.Detail.Screen" />			
+		</action>
+		<action path="/ProtectionElementDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			name="ProtectionElementForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.ProtectionElement.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.ProtectionElement.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.ProtectionElement.Search.Result" />
+			<forward name="CreateSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.ProtectionElement.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.ProtectionElement.Home" />
+			<forward name="SearchSuccess" path="Tiles.ProtectionElement.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.ProtectionElement.Detail.Screen" />
+			<forward name="LoadAssociationSuccess" path="Tiles.ProtectionElement.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.ProtectionElement.Detail.Screen" />						
+		</action>
+		<action path="/SearchProtectionElementDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="SearchProtectionElementForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.SearchProtectionElement.Detail.Screen">
+			<forward name="LoadSearchSuccess" path="Tiles.SearchProtectionElement.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.SearchProtectionElement.Search.Result" />
+			<forward name="SearchSuccess" path="Tiles.SearchProtectionElement.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.SearchProtectionElement.Detail.Screen" />
+		</action>
+		<action path="/UserDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="UserForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.User.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.User.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.User.Search.Result" />
+			<forward name="CreateSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.User.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="UnlockSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.User.Home" />
+			<forward name="SearchSuccess" path="Tiles.User.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadAssociationSuccess" path="Tiles.User.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadDoubleAssociationSuccess" path="Tiles.User.DoubleAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationSuccess" path="Tiles.User.ProtectionGroupAssociation.Screen" />
+			<forward name="LoadProtectionGroupAssociationFailure" path="Tiles.User.Detail.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationSuccess" path="Tiles.User.ProtectionElementPrivilegesAssociation.Screen" />
+			<forward name="LoadProtectionElementPrivilegesAssociationFailure" path="Tiles.User.Detail.Screen" />
+			<forward name="RemoveProtectionGroupAssociationSuccess" path="Tiles.User.Detail.Screen" />			
+			<forward name="LoadRoleAssociationSuccess" path="Tiles.User.DoubleAssociation.Screen" />
+			<forward name="SetDoubleAssociationSuccess" path="Tiles.User.Detail.Screen" />
+			<forward name="SetRoleAssociationSuccess" path="Tiles.User.Detail.Screen" />			
+		</action>
+		
+		<action path="/SearchUserDBOperation"
+			type="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="SearchUserForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" 
+			input="Tiles.SearchUser.Detail.Screen">
+			<forward name="LoadSearchSuccess" path="Tiles.SearchUser.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.SearchUser.Search.Result" />
+			<forward name="SearchSuccess" path="Tiles.SearchUser.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.SearchUser.Detail.Screen" />
+		</action>
+		
+		<action path="/ApplicationDBOperation" 
+			type="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			name="ApplicationForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"
+			input="Tiles.Application.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.Application.Home" />
+			<forward name="LoadAddSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="LoadSearchSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.Application.Search.Result" />
+			<forward name="CreateSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.Application.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.Application.Home" />
+			<forward name="SearchSuccess" path="Tiles.Application.Search.Result" />
+			<forward name="LoadAssociationSuccess" path="Tiles.Application.Association.Screen" />
+			<forward name="SetAssociationSuccess" path="Tiles.Application.Detail.Screen" />
+			<forward name="SearchFailure" path="Tiles.Application.Detail.Screen" />
+		</action>
+		
+		<action path="/InstanceLevelOperation" 
+			type="gov.nih.nci.security.upt.actions.InstanceLevelAction"
+			name="InstanceLevelForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"
+			input="Tiles.InstanceLevel.Detail.Screen">
+			<forward name="LoadHomeSuccess" path="Tiles.InstanceLevel.Home" />
+			<forward name="LoadUploadSuccess" path="Tiles.InstanceLevel.Upload.Screen" />
+			<forward name="LoadAddSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="LoadAddFailure" path="Tiles.InstanceLevel.Home" />
+			<forward name="LoadSearchSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="LoadSearchResultSuccess" path="Tiles.InstanceLevel.Search.Result" />
+			<forward name="UploadSuccess" path="Tiles.InstanceLevel.Home" />
+			<forward name="UploadFailure" path="Tiles.InstanceLevel.Upload.Screen" />
+			<forward name="CreateSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="ReadSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="ReadFailure" path="Tiles.InstanceLevel.Search.Result" />
+			<forward name="UpdateSuccess" path="Tiles.InstanceLevel.Detail.Screen" />
+			<forward name="DeleteSuccess" path="Tiles.InstanceLevel.Home" />
+			<forward name="SearchSuccess" path="Tiles.InstanceLevel.Search.Result" />
+			<forward name="SearchFailure" path="Tiles.InstanceLevel.Detail.Screen" />
+		</action>
+		
+
+	</action-mappings>
+
+	<controller bufferSize="4096" debug="0" />
+
+	<message-resources
+		parameter="gov.nih.nci.security.upt.resources.ApplicationResources" />
+
+	<!--Additional plug-ins -->
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/conf/tiles.xml" />
+		<set-property property="debug" value="DEBUG"></set-property>
+	</plug-in>
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/conf/validator-rules.xml,/WEB-INF/conf/validation.xml" />
+	</plug-in>
+
+</struts-config>
+

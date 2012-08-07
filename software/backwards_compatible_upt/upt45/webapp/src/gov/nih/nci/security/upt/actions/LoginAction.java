@@ -108,7 +108,6 @@ import gov.nih.nci.security.upt.util.properties.UPTProperties;
 import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
 import gov.nih.nci.security.util.StringUtilities;
 import gov.nih.nci.security.exceptions.CSCredentialException;
-import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 
 import java.io.File;
 import java.io.IOException;
@@ -274,25 +273,16 @@ public class LoginAction extends Action
 		}
 		catch (CSCredentialException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXPIRED_PASSWORD_MESSAGE));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
 						"||Login|Failure|Password Expired for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.EXPIRED_PASSWORD);
 		}
-		catch (CSFirstTimeLoginException cse)
-		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXPIRED_PASSWORD_MESSAGE));
-			saveErrors( request,errors );
-			if (log.isDebugEnabled())
-				log.debug("|"+loginForm.getLoginId()+
-						"||Login|Failure|Change password for "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward(ForwardConstants.CHANGE_PASSWORD);
-		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.LOGIN_EXCEPTION_MESSAGE));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+

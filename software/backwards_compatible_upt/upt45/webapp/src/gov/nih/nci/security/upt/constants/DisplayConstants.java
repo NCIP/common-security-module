@@ -160,6 +160,7 @@ public class DisplayConstants
 	public static final String APPLICATION_ID = "Application";
 	public static final String LOGOUT_ID = "Logout";
 	public static final String INSTANCE_LEVEL_ID = "InstanceLevel";
+	public static final String SYSTEM_CONFIGURATION_ID = "SystemConfiguration";
 
 	public static final String HOME_NAME = "Home";
 	public static final String PRIVILEGE_NAME = "Privilege";
@@ -223,7 +224,8 @@ public class DisplayConstants
 
 	public static final String EXCEPTION_CONFIGURATION_UPT_LOGIN_APPLICATION_CONTEXT_NAME_INFORMATION="UPT Login Application Context Name unavailable. ";
 	public static final String EXCEPTION_CONFIGURATION_PROPERTY_FILE = "The UPT Properties File does not exist. Verify path configuration.";
-	public static final String EXPIRED_PASSWORD_MESSAGE = "Password is expired";
+	public static final String EXPIRED_PASSWORD_MESSAGE = "Password is expired, Please change the password";
+	public static final String FIRST_TIME_LOGIN_MESSAGE = "User is logging first time, Please change password";
 
 }
 

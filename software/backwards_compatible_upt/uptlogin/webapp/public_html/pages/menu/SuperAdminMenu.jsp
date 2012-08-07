@@ -87,7 +87,8 @@
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="" /></td>
 			
 			
-			
+			<td height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"><a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')">SYSTEM CONFIGURATION</a></td>
+			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="" /></td>
 			<!-- link 4 begins -->			
 			<td height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"><a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')">LOG OUT</a></td>
 			<!-- link 4 ends -->			

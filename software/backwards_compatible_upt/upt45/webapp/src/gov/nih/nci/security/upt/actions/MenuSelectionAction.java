@@ -1,10 +1,10 @@
 /*
- * Created on Dec 9, 2004
+ * Created on Dec 20, 2004
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package gov.nih.nci.security.upt.constants;
+package gov.nih.nci.security.upt.actions;
 
 /**
  *
@@ -95,75 +95,81 @@ package gov.nih.nci.security.upt.constants;
  */
 
 
+import gov.nih.nci.security.upt.constants.DisplayConstants;
+import gov.nih.nci.security.upt.constants.ForwardConstants;
+import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.forms.MenuForm;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public interface ForwardConstants
+public class MenuSelectionAction extends Action
 {
-	public static final String SUCCESS="success" ;
-	public static final String FAILURE="failure" ;
-	public static final String CANCEL="cancel" ;
 
-	public static final String LOAD_HOME_SUCCESS = "LoadHomeSuccess";
-	public static final String LOAD_ADD_SUCCESS="LoadAddSuccess";
-	public static final String LOAD_UPLOAD_SUCCESS="LoadUploadSuccess";
-	public static final String LOAD_SEARCH_SUCCESS="LoadSearchSuccess";
-	public static final String LOAD_SEARCH_RESULT_SUCCESS="LoadSearchResultSuccess";
-	public static final String UPLOAD_SUCCESS="UploadSuccess";
-	public static final String UNLOCK_SUCCESS="UnlockSuccess";
-	public static final String CREATE_SUCCESS="CreateSuccess";
-	public static final String READ_SUCCESS="ReadSuccess";
-	public static final String UPDATE_SUCCESS="UpdateSuccess";
-	public static final String DELETE_SUCCESS="DeleteSuccess";
-	public static final String SEARCH_SUCCESS="SearchSuccess";
-	public static final String LOGIN_SUCCESS="LoginSuccess";
-	public static final String ADMIN_LOGIN_SUCCESS = "AdminLoginSuccess";
-	public static final String LOGIN_FAILURE="LoginFailure";
-	public static final String LOAD_ASSOCIATION_SUCCESS="LoadAssociationSuccess";
-	public static final String SET_ASSOCIATION_SUCCESS="SetAssociationSuccess";
-	public static final String LOAD_PARENT_ASSOCIATION_SUCCESS = "LoadParentAssociationSuccess";
-	public static final String SET_PARENT_ASSOCIATION_SUCCESS = "SetParentAssociationSuccess";
-	public static final String LOAD_OWNERSHIP_ASSOCIATION_SUCCESS = "LoadOwnershipAssociationSuccess";
-	public static final String SET_OWNERSHIP_ASSOCIATION_SUCCESS = "SetOwnershipAssociationSuccess";
-	public static final String LOAD_DOUBLEASSOCIATION_SUCCESS = "LoadDoubleAssociationSuccess";
-	public static final String SET_DOUBLEASSOCIATION_SUCCESS = "SetDoubleAssociationSuccess";
-	public static final String LOAD_PROTECTIONGROUPASSOCIATION_SUCCESS = "LoadProtectionGroupAssociationSuccess";
-	public static final String LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_SUCCESS = "LoadProtectionElementPrivilegesAssociationSuccess";
-	public static final String LOAD_ROLEASSOCIATION_SUCCESS = "LoadRoleAssociationSuccess";
-	public static final String REMOVE_PROTECTIONGROUPASSOCIATION_SUCCESS = "RemoveProtectionGroupAssociationSuccess";
-	public static final String SET_ROLEASSOCIATION_SUCCESS = "SetRoleAssociationSuccess";
+	private static final Logger log = Logger.getLogger(MenuSelectionAction.class);
 
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+	{
+		/* perform login task*/
+		HttpSession session = request.getSession();
+		MenuForm menuSelectionForm = (MenuForm)form;
 
-	public static final String READ_FAILURE = "ReadFailure";
-	public static final String UPLOAD_FAILURE = "UploadFailure";
-	public static final String SEARCH_FAILURE = "SearchFailure";
-	public static final String LOAD_ADD_FAILURE = "LoadAddFailure";
-	public static final String LOAD_PROTECTIONGROUPASSOCIATION_FAILURE = "LoadProtectionGroupAssociationFailure";
-	public static final String LOAD_PROTECTIONELEMENTPRIVILEGESASSOCIATION_FAILURE = "LoadProtectionElementPrivilegesAssociationFailure";
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
+			if (log.isDebugEnabled())
+				log.debug("||||Failure|No Session or User Object Forwarding to the Login Page||");
+			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+		}
 
-	public static final String LOGOUT_SUCCESS="LogoutSuccess";
-	public static final String LOGOUT_ACTION="LogoutAction";
+		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
+		session.removeAttribute(DisplayConstants.CURRENT_FORM);
+		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 
-	public static final String HOME_PAGE="HomePage";
-	public static final String ADMIN_HOME_PAGE="AdminHomePage";
-	public static final String LOGIN_PAGE="LoginPage";
+		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,menuSelectionForm.getTableId());
 
-	public static final String TABLE_HOME_PAGE="TableHomePage";
-	public static final String ROLE_HOME_PAGE="RoleHomePage";
-	public static final String GROUP_HOME_PAGE="GroupHomePage";
-	public static final String PRIVILEGE_HOME_PAGE="PrivilegeHomePage";
-	public static final String USER_HOME_PAGE="UserHomePage";
-	public static final String PROTECTION_GROUP_HOME_PAGE="ProtectionGroupHomePage";
-	public static final String PROTECTION_ELEMENT_HOME_PAGE="ProtectionElementHomePage";
-	public static final String APPLICATION_HOME_PAGE="ApplicationHomePage";
-	public static final String INSTANCE_LEVEL_HOME_PAGE="InstanceLevelHomePage";
+		if (log.isDebugEnabled())
+			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
+					"|"+menuSelectionForm.getTableId()+"|Forward|Success|Forwarding to the "+menuSelectionForm.getTableId()+" Home Page||");
 
-	public static final String DETAILS_PAGE="DetailsPage";
-    public static final String EXPIRED_PASSWORD="ChangePassword";
-    public static final String CHANGE_PASSWORD="ChangePassword";
-    public static final String SYSTEM_CONFIGURATION_PAGE="SystemConfigurationPage";
-    public static final String SYSTEM_CONFIGURATION_ACTION="SystemConfigurationAction";
+		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.HOME_ID))
+			return (mapping.findForward(ForwardConstants.HOME_PAGE));
+		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ADMIN_HOME_ID))
+			return (mapping.findForward(ForwardConstants.ADMIN_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ROLE_ID))
+			return (mapping.findForward(ForwardConstants.ROLE_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.GROUP_ID))
+			return (mapping.findForward(ForwardConstants.GROUP_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.USER_ID))
+			return (mapping.findForward(ForwardConstants.USER_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID))
+			return (mapping.findForward(ForwardConstants.PRIVILEGE_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID))
+			return (mapping.findForward(ForwardConstants.PROTECTION_GROUP_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID))
+			return (mapping.findForward(ForwardConstants.PROTECTION_ELEMENT_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.APPLICATION_ID))
+			return (mapping.findForward(ForwardConstants.APPLICATION_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID))
+			return (mapping.findForward(ForwardConstants.INSTANCE_LEVEL_HOME_PAGE));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.LOGOUT_ID))
+			return (mapping.findForward(ForwardConstants.LOGOUT_ACTION));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.SYSTEM_CONFIGURATION_ID))
+			return (mapping.findForward(ForwardConstants.SYSTEM_CONFIGURATION_ACTION));
+		else
+			return (mapping.findForward(ForwardConstants.HOME_PAGE));
+
+	}
+
 }
