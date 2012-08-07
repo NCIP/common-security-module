@@ -97,7 +97,6 @@ package gov.nih.nci.security;
 
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 
@@ -146,9 +145,9 @@ public class CommonSecurityManager
 	 * @throws CSConfigurationException 
 	 * @throws CSInputException 
 	 * @throws CSLoginException 
-	 * @throws CSFirstTimeLoginException 
+	 * @throws CSFirstTimeLoginExceptionDel 
 	 */
-	public boolean login (String applicationContextName, String userName, String password) throws CSException, CSConfigurationException, CSLoginException, CSInputException, CSFirstTimeLoginException
+	public boolean login (String applicationContextName, String userName, String password) throws CSException, CSConfigurationException, CSLoginException, CSInputException
 	{
 		AuthenticationManager authenticationManager = SecurityServiceProvider.getAuthenticationManager(applicationContextName);
 		return authenticationManager.login(userName,password);

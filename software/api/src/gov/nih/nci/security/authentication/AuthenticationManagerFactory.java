@@ -97,6 +97,7 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.system.ApplicationSecurityConfigurationParser;
 import gov.nih.nci.security.util.ConfigurationHelper;
 
+import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.log4j.Logger;
 
 
@@ -178,7 +179,8 @@ public class AuthenticationManagerFactory
 		String applicationManagerClassName = null;
 		try
 		{
-			LockoutManager.initialize(ConfigurationHelper.getConfiguration().getString("PASSWORD_LOCKOUT_TIME"),ConfigurationHelper.getConfiguration().getString("ALLOWED_LOGIN_TIME"),ConfigurationHelper.getConfiguration().getString("ALLOWED_ATTEMPTS"));
+			AbstractConfiguration config = ConfigurationHelper.getConfiguration();
+			LockoutManager.initialize(config.getString("PASSWORD_LOCKOUT_TIME"),config.getString("ALLOWED_LOGIN_TIME"),config.getString("ALLOWED_ATTEMPTS"));
 			applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthenticationManagerClass(applicationContextName);
 		}
 		catch (CSException cse)

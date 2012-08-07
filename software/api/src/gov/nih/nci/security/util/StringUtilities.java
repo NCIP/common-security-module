@@ -161,9 +161,6 @@ public class StringUtilities {
 		return temp;
 	}
 
-    
-
-
     public static boolean isAlphaNumeric(final String s) {
     	if(isBlank(s)) return false;
       final char[] chars = s.toCharArray();
@@ -178,7 +175,13 @@ public class StringUtilities {
       return true;
     }
 
-
+    public static String bytes2String(byte[] bytes) {
+		StringBuffer stringBuffer = new StringBuffer();
+		for (int i = 0; i < bytes.length; i++) {
+			stringBuffer.append((char) bytes[i]);
+		}
+		return stringBuffer.toString();
+	}
 	
     
 }

@@ -4,7 +4,6 @@ package gov.nih.nci.security.acegi.authentication;
 
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.CSLoginException;
@@ -66,11 +65,7 @@ public class CSMAuthenticationProvider extends AbstractUserDetailsAuthentication
 		} catch (CSException e) {
 			 throw new BadCredentialsException(messages.getMessage(
 	                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"), includeDetailsObject ? userDetails : null);
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
+		} 
     }
 
     protected void doAfterPropertiesSet() throws Exception {

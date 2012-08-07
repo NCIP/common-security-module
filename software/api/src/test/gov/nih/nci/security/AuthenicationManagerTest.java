@@ -3,7 +3,6 @@ package test.gov.nih.nci.security;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 
 import java.net.URL;
 import java.util.Properties;
@@ -101,9 +100,7 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {		
-			e.printStackTrace();
-		}
+		} 
 		assertEquals(true, isValid);
 	}
 
@@ -117,9 +114,7 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {
-			e.printStackTrace();
-		}
+		} 
 		assertEquals(false, isValid);
 	}
 	
@@ -133,10 +128,7 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		assertEquals(false, isValid);
 	}	
 	
@@ -150,10 +142,7 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		assertEquals(true, isValid);
 	}
 	
@@ -167,10 +156,7 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		assertEquals(false, isValid);
 	}
 	
@@ -184,9 +170,6 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		assertEquals(false, isValid);
 	}	
@@ -202,9 +185,6 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		assertEquals(true, isValid);
 	}

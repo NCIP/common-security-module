@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false">
+	<class name="gov.nih.nci.security.authorization.domainobjects.ConfigurationProperties" table="CSM_CONFIGURATION_PROPERTIES">		
+		<id name="propertyKey" type="java.lang.String" column="PROPERTY_KEY" />
+		<property name="propertyValue" type="java.lang.String" column="PROPERTY_VALUE" />
+	</class>
+</hibernate-mapping>

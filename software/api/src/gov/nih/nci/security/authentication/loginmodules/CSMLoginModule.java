@@ -97,7 +97,6 @@ package gov.nih.nci.security.authentication.loginmodules;
 
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
@@ -207,7 +206,12 @@ public abstract class CSMLoginModule implements LoginModule
 				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());
 			throw new LoginException("Error in Creating the CallBack Handler");
 		}
-		
+		if (isFirstTimeLogin(options, userID))
+		{
+			loginSuccessful = false;
+			password 		= null;
+			throw new CredentialExpiredException("First Time Login");
+		}
 		if (isPasswordExpired(options, userID))
 		{
 			loginSuccessful = false;
@@ -220,14 +224,14 @@ public abstract class CSMLoginModule implements LoginModule
 			//now validate user
 			if (validate(options, userID, password, subject))
 			{
-				if (isFirstTimeLogin(options, userID))
+				if (isActive(options, userID))
+					loginSuccessful = true;
+				else
 				{
 					loginSuccessful = false;
 					password 		= null;
-					throw new CSFirstTimeLoginException("First Time Login");
-				}
-				else
-					loginSuccessful = true;
+					throw new LoginException("User Not Active");						
+				}					
 			}
 			else
 			{
@@ -249,7 +253,6 @@ public abstract class CSMLoginModule implements LoginModule
 		return loginSuccessful;
 	}
 	
-
 	public boolean changePassword(String newPassword) throws LoginException, CSInternalLoginException, CSInternalConfigurationException, CSConfigurationException
 	{
 		if (callbackHandler == null)
@@ -374,13 +377,14 @@ public abstract class CSMLoginModule implements LoginModule
 	 * @throws CSInternalInsufficientAttributesException 
 	 */
 	protected abstract boolean validate(Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
-	protected abstract boolean isPasswordExpired(Map options,String user) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
-	protected abstract boolean isFirstTimeLogin(Map options,String user) throws CSFirstTimeLoginException,CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
-	protected abstract boolean changePassword(Map options,String user, String password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
-	protected abstract boolean insertIntoPasswordHistory(Map options,String user, char[] password) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
-	protected abstract boolean resetFirstTimeLogin(Map options,String user) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;	
-	protected abstract boolean passwordMatchs(Map options, String user,String newPassword, int passwordNum) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException ;
-	protected abstract boolean updatePasswordExpiryDate(Map options,String user,Date expiryDate) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	protected abstract boolean isPasswordExpired(Map options,String user) throws CSInternalConfigurationException;
+	protected abstract boolean isFirstTimeLogin(Map options,String user) throws CSInternalConfigurationException;
+	protected abstract boolean changePassword(Map options,String user, String password) throws CSInternalConfigurationException;
+	protected abstract boolean insertIntoPasswordHistory(Map options,String user, char[] password) throws CSInternalConfigurationException;
+	protected abstract boolean resetFirstTimeLogin(Map options,String user) throws CSInternalConfigurationException;	
+	protected abstract boolean passwordMatchs(Map options, String user,String newPassword, int passwordNum) throws CSInternalConfigurationException ;
+	protected abstract boolean updatePasswordExpiryDate(Map options,String user,Date expiryDate) throws CSInternalConfigurationException;
+	protected abstract boolean isActive(Map options,String user) throws CSInternalConfigurationException;
 	
 
 }

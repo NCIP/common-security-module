@@ -4,7 +4,6 @@ import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
 import gov.nih.nci.security.exceptions.CSException;
-import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,10 +75,7 @@ public class CertificateAuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = true;
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		assertEquals(true, isValid);
 	}
 
@@ -94,10 +90,7 @@ public class CertificateAuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} catch (CSFirstTimeLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		assertEquals(true, isValid);
 	}
 	

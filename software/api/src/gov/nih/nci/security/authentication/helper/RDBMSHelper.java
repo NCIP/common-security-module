@@ -192,6 +192,20 @@ public class RDBMSHelper {
 		}
 		return encryptedPassword;
 	}
+	
+	private static String decryptString(String decryptString,
+			String encryptionEnabled) {
+		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
+			StringEncrypter se;
+			try {
+				se = new StringEncrypter();
+				decryptString = se.encrypt(new String(decryptString));
+			} catch (EncryptionException e) {				
+				e.printStackTrace();
+			}
+		}
+		return decryptString;
+	}
 
 	private static boolean authenticateAndObtainSubject(Connection connection, Hashtable connectionProperties, String userID, String password, Subject subject) throws CSInternalInsufficientAttributesException, CSInternalConfigurationException
 	{
@@ -199,7 +213,8 @@ public class RDBMSHelper {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		boolean loginOK = false;
-
+		String encryptionEnabled = (String)connectionProperties.get(Constants.ENCRYPTION_ENABLED);
+		
 		String tableName = (String)connectionProperties.get(Constants.TABLE_NAME);
 
 		String userNameColumn = (String)connectionProperties.get(Constants.USER_LOGIN_ID);
@@ -239,17 +254,17 @@ public class RDBMSHelper {
 				{
 					String firstName = resultSet.getString(firstNameColumn);
 					if (!StringUtilities.isBlank(firstName))
-						subject.getPrincipals().add(new FirstNamePrincipal(firstName));
+						subject.getPrincipals().add(new FirstNamePrincipal(decryptString(firstName,encryptionEnabled)));
 					else
 						throw new CSInternalInsufficientAttributesException("User Attribute First Name not found");
 					String lastName = resultSet.getString(lastNameColumn);
 					if (!StringUtilities.isBlank(lastName))
-						subject.getPrincipals().add(new LastNamePrincipal(lastName));
+						subject.getPrincipals().add(new LastNamePrincipal(decryptString(lastName,encryptionEnabled)));
 					else
 						throw new CSInternalInsufficientAttributesException("User Attribute Last Name not found");
 					String emailId = resultSet.getString(emailIdColumn);
 					if (!StringUtilities.isBlank(emailId))
-						subject.getPrincipals().add(new EmailIdPrincipal(emailId));
+						subject.getPrincipals().add(new EmailIdPrincipal(decryptString(emailId,encryptionEnabled)));
 					else
 						throw new CSInternalInsufficientAttributesException("User Attribute Email Id not found");
 
@@ -656,6 +671,74 @@ public class RDBMSHelper {
 		return firstTimeLogin;				
 	}
 
+	public static boolean isActive(Hashtable connectionProperties, String userID) throws CSInternalConfigurationException {
+		Connection connection = getConnection (connectionProperties);
+		if (connection == null)
+		{
+			return false;
+		}
+
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		boolean activeFlag = false;
+	
+		String query = new String();
+
+		query = "SELECT ACTIVE_FLAG FROM CSM_USER WHERE LOGIN_NAME = ? ";
+
+		try
+		{
+			statement = connection.prepareStatement(query);
+			statement.setString(1, userID);
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to generate query statement to check if the user is active ");
+		}
+
+		try
+		{
+			resultSet = statement.executeQuery();
+		}
+		catch (SQLException e)
+		{
+			throw new CSInternalConfigurationException("Unable to execute the query to check if the user is active ");
+		}
+		if (resultSet != null)
+		{
+			try
+			{
+				while(resultSet.next())
+				{
+					 activeFlag = resultSet.getBoolean("ACTIVE_FLAG");
+					
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new CSInternalConfigurationException("Unable to execute the query to check if the user is active");
+			}
+		}
+		try
+		{
+			if (resultSet != null)
+				resultSet.close();
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		}
+		catch (SQLException sqe)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Failure| Error in closing connections |"+ sqe.getMessage());
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| is Active"+activeFlag+" for the user");
+		return activeFlag;				
+	}
+
+	
 	public static boolean resetFirstTimeLogin(Hashtable connectionProperties, String userID) throws CSInternalConfigurationException {
 		Connection connection = getConnection (connectionProperties);
 		if (connection == null)

@@ -158,6 +158,8 @@ public class Constants
 	public static final String UPT_PRIVILEGE_OPERATION="UPT_PRIVILEGE_OPERATION";
 	public static final String UPT_INSTANCE_LEVEL_OPERATION="UPT_INSTANCE_LEVEL_OPERATION";
 	public static final String UPT_OPERATION_DISABLE_FLAG="Disable Flag for UPT Operation";
+	public static final String DES_ENCRYPTION="DES_ENCRYPTION";
+	public static final String AES_ENCRYPTION="AES_ENCRYPTION";
 }
 
 

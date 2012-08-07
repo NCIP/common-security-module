@@ -14,6 +14,30 @@ public class LockoutManager {
 	private static LockoutManager lockoutManager = null;
 	private static Timer cleanupTimer = new Timer();
 
+	public long getLockoutTime() {
+		return lockoutTime;
+	}
+
+	public void setLockoutTime(long lockoutTime) {
+		this.lockoutTime = lockoutTime;
+	}
+
+	public long getAllowedLoginTime() {
+		return allowedLoginTime;
+	}
+
+	public void setAllowedLoginTime(long allowedLoginTime) {
+		this.allowedLoginTime = allowedLoginTime;
+	}
+
+	public int getAllowedAttempts() {
+		return allowedAttempts;
+	}
+
+	public void setAllowedAttempts(int allowedAttempts) {
+		this.allowedAttempts = allowedAttempts;
+	}
+
 	private long lockoutTime = 1800000;
 	private long allowedLoginTime;
 	private int allowedAttempts;
@@ -91,6 +115,9 @@ public class LockoutManager {
 			}
 			if (null != lockoutInfo) {
 				if (!lockoutInfo.isLockedout()) {
+					System.out.println("NO OF ATTEMPS ::" + lockoutInfo.getNoOfAttempts());
+					System.out.println("ALLOWED ATTEMPTS ::" + allowedAttempts);
+					System.out.println("ALLOWED ATTEMPTS :getAllowedAttempts():" + getAllowedAttempts());
 					if ((System.currentTimeMillis() - lockoutInfo.getFirstLoginTime()) < allowedLoginTime) {
 						lockoutInfo.setNoOfAttempts(lockoutInfo.getNoOfAttempts() + 1);
 						if (lockoutInfo.getNoOfAttempts() >= allowedAttempts) {

@@ -2233,11 +2233,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							.getObjectType()
 							.getName()
 							.equalsIgnoreCase(
-									"gov.nih.nci.security.authorization.domainobjects.Privilege") || searchCriteria
+									"gov.nih.nci.security.authorization.domainobjects.Privilege") || 
+					searchCriteria
 					.getObjectType()
 					.getName()
 					.equalsIgnoreCase(
-							"gov.nih.nci.security.authorization.domainobjects.Application"))) {
+							"gov.nih.nci.security.authorization.domainobjects.Application") || 
+					searchCriteria
+							.getObjectType()
+							.getName()
+							.equalsIgnoreCase(
+									"gov.nih.nci.security.authorization.domainobjects.ConfigurationProperties")
+							
+					)) {
 				criteria.add(Restrictions.eq("application", this.application));
 			}
 
@@ -2246,9 +2254,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Collections.sort(list);
 			result.clear();
 			result.addAll(list);
-
-
-
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -2271,7 +2276,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||getObjects|Success|Successful in Searching objects from the database |");
 		return result;
 	}
-
+	
 	private List getObjects(Session s, SearchCriteria searchCriteria) {
 		List result = new ArrayList();
 		try {
@@ -5542,15 +5547,44 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		if(obj instanceof User){
 			User user = (User)obj;
-
+			System.out.println("PerformEncrytionDecryption:B4:user.getFirstName():" +user.getFirstName());
 			if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(user.getPassword()).length()>0){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
 					user.setPassword(stringEncrypter.encrypt(user.getPassword().trim()));
-				}else{
+					if(user.getFirstName() != null && !user.getFirstName().equals("") )
+						user.setFirstName(stringEncrypter.encrypt(user.getFirstName().trim()));
+					if(user.getLastName() != null && !user.getLastName().equals("") )
+						user.setLastName(stringEncrypter.encrypt(user.getLastName().trim()));
+					if(user.getOrganization() != null && !user.getOrganization().equals("") )
+						user.setOrganization(stringEncrypter.encrypt(user.getOrganization().trim()));
+					if(user.getDepartment() != null && !user.getDepartment().equals("") )
+						user.setDepartment(stringEncrypter.encrypt(user.getDepartment().trim()));
+					if(user.getTitle() != null && !user.getTitle().equals("") )
+						user.setTitle(stringEncrypter.encrypt(user.getTitle().trim()));
+					if(user.getPhoneNumber() != null && !user.getPhoneNumber().equals("") )
+						user.setPhoneNumber(stringEncrypter.encrypt(user.getPhoneNumber().trim()));
+					if(user.getEmailId() != null && !user.getEmailId().equals("") )
+						user.setEmailId(stringEncrypter.encrypt(user.getEmailId().trim()));
+				}else{					
 					user.setPassword(stringEncrypter.decrypt(user.getPassword().trim()));
+					if(user.getFirstName() != null && !user.getFirstName().equals("") )					
+						user.setFirstName(stringEncrypter.decrypt(user.getFirstName().trim()));
+					if(user.getLastName() != null && !user.getLastName().equals("") )
+						user.setLastName(stringEncrypter.decrypt(user.getLastName().trim()));
+					if(user.getOrganization() != null && !user.getOrganization().equals("") )					
+						user.setOrganization(stringEncrypter.decrypt(user.getOrganization().trim()));
+					if(user.getDepartment() != null && !user.getDepartment().equals("") )					
+						user.setDepartment(stringEncrypter.decrypt(user.getDepartment().trim()));
+					if(user.getTitle() != null && !user.getTitle().equals("") )
+						user.setTitle(stringEncrypter.decrypt(user.getTitle().trim()));
+					if(user.getPhoneNumber() != null && !user.getPhoneNumber().equals("") )
+						user.setPhoneNumber(stringEncrypter.decrypt(user.getPhoneNumber().trim()));
+					if(user.getEmailId() != null && !user.getEmailId().equals("") )
+						user.setEmailId(stringEncrypter.decrypt(user.getEmailId().trim()));
 				}
 			}
+			System.out.println("PerformEncrytionDecryption:After:user.getFirstName():" +user.getFirstName());
 			return user;
 		}
 

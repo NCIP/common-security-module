@@ -1,5 +1,6 @@
 package gov.nih.nci.security.util;
 
+import gov.nih.nci.security.authentication.LockoutConfigurationListener;
 import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
@@ -9,6 +10,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.configuration.DataConfiguration;
 import org.apache.commons.configuration.DatabaseConfiguration;
+import org.apache.commons.configuration.event.ConfigurationErrorListener;
+import org.apache.commons.configuration.event.ConfigurationListener;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 
@@ -42,6 +45,10 @@ public final class ConfigurationHelper {
 			//ds = SessionFactoryUtils.getDataSource(ApplicationSessionFactory.getSessionFactory(applicationContextName));				
 	        DatabaseConfiguration config = new DatabaseConfiguration(ds,
 	                        TABLE_NAME, KEY_COLUMN, VALUE_COLUMN);
+			
+	        ConfigurationListener listener = new LockoutConfigurationListener();
+	        config.addConfigurationListener(listener);
+	        config.addErrorListener((ConfigurationErrorListener) listener);			
 	        config.setDelimiterParsingDisabled(true);
 	        return new DataConfiguration(config);
         }
