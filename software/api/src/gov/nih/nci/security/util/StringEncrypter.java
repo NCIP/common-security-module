@@ -24,7 +24,7 @@ public class StringEncrypter {
 			} catch (CSConfigurationException e) {
 				e.printStackTrace();
 			}
-	 		encryption = new AESEncryption(config.getString("AES_ENCRYPTION_KEY"));
+	 		encryption = new AESEncryption(config.getString("AES_ENCRYPTION_KEY"), Boolean.parseBoolean(config.getString("MD5_HASH_KEY")));
 	 	}
 	}
 

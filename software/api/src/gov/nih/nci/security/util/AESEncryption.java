@@ -44,12 +44,12 @@ public class AESEncryption implements Encryption {
     public static final String PASSWORD_HASH_ALGORITHM = "SHA-256";
 
     
-    public AESEncryption(String passphrase) throws EncryptionException
+    public AESEncryption(String passphrase, boolean isMD5Hash) throws EncryptionException
     {
         try
         {
         	this.provider = new BouncyCastleProvider();        
-            SecretKeySpec skey = getSKeySpec(passphrase);
+            SecretKeySpec skey = getSKeySpec(passphrase, isMD5Hash);
             encryptCipher = Cipher.getInstance(AES_ENCRYPTION_SCHEME,provider);
             decryptCipher = Cipher.getInstance(AES_ENCRYPTION_SCHEME,provider);            
             encryptCipher.init(Cipher.ENCRYPT_MODE, skey);
@@ -124,17 +124,18 @@ public class AESEncryption implements Encryption {
 		return StringUtilities.bytes2String(cleartext);
 	}
 			  	
-    private SecretKeySpec getSKeySpec(String passphrase) {	        
+    private SecretKeySpec getSKeySpec(String passphrase,boolean isMD5Hash) {	        
     try 
     {
-    	MessageDigest md = MessageDigest.getInstance(PASSWORD_HASH_ALGORITHM,provider);
+    	MessageDigest md = null;
+    	if(true)
+    		md = MessageDigest.getInstance(MD5_HASH,provider);
+    	else
+    		md = MessageDigest.getInstance(PASSWORD_HASH_ALGORITHM,provider);
+    	
     	md.update((passphrase + getSalt()).getBytes(UNICODE_FORMAT));
     	byte[] thedigest = md.digest();
-           //KeyGenerator kgen = KeyGenerator.getInstance(AES_ENCRYPTION_SCHEME);
-           //kgen.init(256);
-           //kgen.init(128);
-           //SecretKey skey = kgen.generateKey();
-           //bytes = skey.getEncoded();
+    	
         SecretKeySpec skeySpec = new SecretKeySpec(thedigest,AES_ALGORITHM);	
         return skeySpec;
      } 
@@ -156,8 +157,9 @@ public class AESEncryption implements Encryption {
    {
 	   try 
 	   {
-		   DataConfiguration config = ConfigurationHelper.getConfiguration();			
-		   AESEncryption aes = new AESEncryption(config.getString("AES_ENCRYPTION_KEY"));
+		   //DataConfiguration config = ConfigurationHelper.getConfiguration();			
+		  // AESEncryption aes = new AESEncryption(config.getString("AES_ENCRYPTION_KEY"), Boolean.parseBoolean(config.getString("MD5_HASH_KEY")));
+		   AESEncryption aes = new AESEncryption("super secret", Boolean.parseBoolean("true"));
 		   System.out.println("Encripting:: "+args[0] +"::" +aes.encrypt(args[0])); 
 		   System.out.println("Decripting " +args[0] +"::"  +aes.decrypt(aes.encrypt(args[0])));		
 	   } 
@@ -165,8 +167,8 @@ public class AESEncryption implements Encryption {
 	   {		
 		e.printStackTrace();
 	   } 
-	   catch (CSConfigurationException e) {	
-		e.printStackTrace();
-	   }	   
+	 //  catch (CSConfigurationException e) {	
+	//	e.printStackTrace();
+	 //  }	   
    }
 }
