@@ -804,7 +804,7 @@ public class RDBMSHelper {
 		String encryptPassword = encryptPassword(newPassword,(String)connectionProperties.get(Constants.ENCRYPTION_ENABLED));
 		String query = new String();
 
-		query = "SELECT PASSWORD FROM CSM_PASSWORD_HISTORY WHERE LOGIN_NAME = ? ORDER BY ID DESC";
+		query = "SELECT PASSWORD FROM CSM_PASSWORD_HISTORY WHERE LOGIN_NAME = ? ORDER BY CSM_PASSWORD_HISTORY_ID DESC";
 
 		try
 		{

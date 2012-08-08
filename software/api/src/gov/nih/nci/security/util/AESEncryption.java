@@ -90,24 +90,7 @@ public class AESEncryption implements Encryption {
 			throw new EncryptionException(e);			
 		} 
 		BASE64Encoder base64encoder = new BASE64Encoder();
-		BASE64Decoder base64decoder = new BASE64Decoder();
-		String en = base64encoder.encode(ciphertext);
-		//System.out.println("Encoded Sting:BASE64Encoder:"+en);
-		/*try {
-			System.out.println("decoded Sting:BASE64Decoder:"+Arrays.toString(base64decoder.decodeBuffer(en)));
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-					
-		String en1 = Arrays.toString(Base64.encodeBase64(ciphertext));
-		System.out.println("Encoded Sting:BASE64:"+en1);
-		System.out.println("decoded Sting:BASE64:"+Base64.decodeBase64(en1.getBytes()));
-		*/		
-		//Arrays.toString(Base64.encode(ciphertext));
-		//System.out.println("Encoded Sting::"+base64encoder.encode(ciphertext));
 		return base64encoder.encode(ciphertext);
-		//return Arrays.toString(ciphertext);
 	}
 
 	@Override
@@ -142,7 +125,6 @@ public class AESEncryption implements Encryption {
     private SecretKeySpec getSKeySpec(String passphrase) {	        
     try 
     {
-    	//byte[] bytes = (passphrase + getSalt()).getBytes(UNICODE_FORMAT);
     	MessageDigest md = MessageDigest.getInstance(PASSWORD_HASH_ALGORITHM,provider);
     	md.update((passphrase + getSalt()).getBytes(UNICODE_FORMAT));
     	byte[] thedigest = md.digest();
