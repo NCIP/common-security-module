@@ -2211,6 +2211,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					//criteria.add(Restrictions.eq(str, fieldValues.get(str)));
 					criteria.add(Restrictions.eq(str, fieldValue_));
 				}
+
 			}
 			if (fieldValues.size() == 0) {
 				criteria.add(Restrictions.eqProperty("1", "1"));
@@ -2226,7 +2227,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//if(!t){
 			//	criteria.add(Restrictions.eq("application", this.application));
 			//}
-
+			
 			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase(
 					"gov.nih.nci.security.authorization.domainobjects.User")
 					|| searchCriteria
@@ -2251,6 +2252,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			List list =  new ArrayList();
  			list = criteria.list();
+			if (searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User"))
+			{
+				list = decryptUserInformation(list);
+			}
 			Collections.sort(list);
 			result.clear();
 			result.addAll(list);
@@ -2277,6 +2282,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 	
+	private List decryptUserInformation(List list) throws CSObjectNotFoundException
+	{
+		Iterator iterator = list.iterator();
+		List userList = new ArrayList();
+		while(iterator.hasNext()){
+			User user = (User) iterator.next();
+			try {
+				user = (User)performEncrytionDecryption(user, false);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
+			userList.add(user);
+		}
+		return userList;
+	}
+
 	private List getObjects(Session s, SearchCriteria searchCriteria) {
 		List result = new ArrayList();
 		try {
@@ -5547,7 +5568,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		if(obj instanceof User){
 			User user = (User)obj;
-			System.out.println("PerformEncrytionDecryption:B4:user.getFirstName():" +user.getFirstName());
 			if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(user.getPassword()).length()>0){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
@@ -5584,7 +5604,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						user.setEmailId(stringEncrypter.decrypt(user.getEmailId().trim()));
 				}
 			}
-			System.out.println("PerformEncrytionDecryption:After:user.getFirstName():" +user.getFirstName());
 			return user;
 		}
 
@@ -5604,7 +5623,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		return obj;
 	}
-
+		
 	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException
 	{
 		return getApplicationByName(applicationContextName);

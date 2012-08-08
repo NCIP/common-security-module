@@ -1,5 +1,6 @@
 package gov.nih.nci.security.util;
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -19,6 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.configuration.DataConfiguration;
 import org.apache.commons.lang.StringUtils;
 
 import java.security.InvalidKeyException;
@@ -47,7 +49,7 @@ public class AESEncryption implements Encryption {
         try
         {
         	this.provider = new BouncyCastleProvider();        
-            SecretKeySpec skey = getSKeySpec("super secret");
+            SecretKeySpec skey = getSKeySpec(passphrase);
             encryptCipher = Cipher.getInstance(AES_ENCRYPTION_SCHEME,provider);
             decryptCipher = Cipher.getInstance(AES_ENCRYPTION_SCHEME,provider);            
             encryptCipher.init(Cipher.ENCRYPT_MODE, skey);
@@ -152,18 +154,19 @@ public class AESEncryption implements Encryption {
 	
    public static void main(String args[])
    {
-	   try {
-		AESEncryption aes = new AESEncryption("super secret");
-		System.out.println("Encripting superadminfirstname:: " +aes.encrypt("superadminfirstname")); 
-		System.out.println("decripting superadminfirstname:: " +aes.decrypt(aes.encrypt("superadminfirstname")));
-		
-		System.out.println("Encripting superadminlastname:: " +aes.encrypt("superadminlastname")); 
-		System.out.println("decripting superadminlastname:: " +aes.decrypt(aes.encrypt("superadminlastname")));
-		
-	} catch (EncryptionException e) {
-		
+	   try 
+	   {
+		   DataConfiguration config = ConfigurationHelper.getConfiguration();			
+		   AESEncryption aes = new AESEncryption(config.getString("AES_ENCRYPTION_KEY"));
+		   System.out.println("Encripting:: "+args[0] +"::" +aes.encrypt(args[0])); 
+		   System.out.println("Decripting " +args[0] +"::"  +aes.decrypt(aes.encrypt(args[0])));		
+	   } 
+	   catch (EncryptionException e) 
+	   {		
 		e.printStackTrace();
-	}
-	   
+	   } 
+	   catch (CSConfigurationException e) {	
+		e.printStackTrace();
+	   }	   
    }
 }

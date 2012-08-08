@@ -97,6 +97,8 @@ package gov.nih.nci.security.dao;
 
 import java.util.Hashtable;
 import gov.nih.nci.security.authorization.domainobjects.*;
+import gov.nih.nci.security.util.StringEncrypter;
+import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
 /**
  * @author kumarvi
@@ -107,6 +109,7 @@ import gov.nih.nci.security.authorization.domainobjects.*;
 public class UserSearchCriteria extends SearchCriteria{
 
 	private User user;
+
 	public UserSearchCriteria(User user){
 		this.user=user;
 	}
@@ -123,19 +126,19 @@ public class UserSearchCriteria extends SearchCriteria{
 			ht.put("preMigrationLoginName",user.getPreMigrationLoginName());
 		}
 		if(user.getLastName()!=null){
-			ht.put("lastName",user.getLastName());
+			ht.put("lastName",getEncryptedString(user.getLastName()));
 			}
 		if(user.getFirstName()!=null){
-			ht.put("firstName",user.getFirstName());
+			ht.put("firstName",getEncryptedString(user.getFirstName()));
 			}
 		if(user.getOrganization()!=null){
-			ht.put("organization",user.getOrganization());
+			ht.put("organization",getEncryptedString(user.getOrganization()));
 			}
 		if(user.getDepartment()!=null){
-			ht.put("department",user.getDepartment());
+			ht.put("department",getEncryptedString(user.getDepartment()));
 			}
 		if(user.getEmailId()!=null){
-			ht.put("emailId",user.getEmailId());
+			ht.put("emailId",getEncryptedString(user.getEmailId()));
 			}
 		if(ht.size()==0){
 			ht.put("loginName","%");
@@ -155,5 +158,53 @@ public class UserSearchCriteria extends SearchCriteria{
 	public String getMessage() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public String getEncryptedString(String fieldValue) {
+		
+		String encryptedFieldValue = null;
+		
+		int i = fieldValue.indexOf("*");
+		if (i != -1) 
+		{
+			String[] fldValueArray = fieldValue.split("\\*");
+			for(int j =0; j < fldValueArray.length ; j++)
+			{				
+				try 
+				{
+					encryptedFieldValue = encrypt(fldValueArray[j]) + "*";
+				} 
+				catch (EncryptionException e) 
+				{		// TODO Handle it		
+					e.printStackTrace();
+				}
+			}			
+		}else
+		{
+			try 
+			{
+				encryptedFieldValue = encrypt(fieldValue);
+			}
+			catch (EncryptionException e)
+			{
+				// TODO Handle it
+				e.printStackTrace();
+			}
+		}
+			
+			
+		return encryptedFieldValue;
+	}
+
+	private String encrypt(String stringToEncrypt) throws EncryptionException 
+	{
+		StringEncrypter stringEncrypter = new StringEncrypter();
+		return stringEncrypter.encrypt(stringToEncrypt);
+	}
+
+	private String decrypt(String stringToDecrypt) throws EncryptionException 
+	{
+		StringEncrypter stringEncrypter = new StringEncrypter();
+		return stringEncrypter.decrypt(stringToDecrypt);
 	}
 }

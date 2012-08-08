@@ -1,6 +1,9 @@
 package gov.nih.nci.security.util;
 
+import org.apache.commons.configuration.DataConfiguration;
+
 import gov.nih.nci.security.constants.Constants;
+import gov.nih.nci.security.exceptions.CSConfigurationException;
 
 public class StringEncrypter {
 
@@ -14,7 +17,15 @@ public class StringEncrypter {
 	 	if(encryptionScheme != null && encryptionScheme.equals(Constants.DES_ENCRYPTION) )
 	 		encryption = new DESEncryption();
 	 	else
-	 		encryption = new AESEncryption("super secret");
+	 	{	
+	 		DataConfiguration config = null; 
+	 		try {
+				config = ConfigurationHelper.getConfiguration();
+			} catch (CSConfigurationException e) {
+				e.printStackTrace();
+			}
+	 		encryption = new AESEncryption(config.getString("AES_ENCRYPTION_KEY"));
+	 	}
 	}
 
 
