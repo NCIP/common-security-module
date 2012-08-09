@@ -349,27 +349,19 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 	}
 
-	public boolean checkPermissionForUserProvisioningOperation (String linkName, String userId, String applicationContext)
+	public boolean checkPermissionForUserProvisioningOperation (String linkName, String loginName, String applicationContext)
 	throws CSTransactionException
 	{
-		ResultSet rs = null;
+		ResultSet rs =null;
 		PreparedStatement preparedStatement = null;
-		boolean test = false;
 		Session s = null;
 		Long applId=0L;
-		List peIds = new ArrayList();
-
 		Connection connection = null;
 		if (StringUtilities.isBlank(linkName)) {
-			throw new CSTransactionException("Link name can't be null!");
+			throw new CSTransactionException("Link name :"+linkName+" can't be null!");
 		}
-		if (StringUtilities.isBlank(userId)) {
-			throw new CSTransactionException("UserId can't be null!");
-		}
-
-		User user = getUser(userId);
-		if (user==null) {
-			throw new CSTransactionException("User does not exist.");
+		if (StringUtilities.isBlank(loginName)) {
+			throw new CSTransactionException("User loninName :"+loginName+" can't be null!");
 		}
 		
 		try {
@@ -382,35 +374,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			else
 				applId = getApplicationByName(applicationContext).getApplicationId();
 
-			preparedStatement = Queries.getQueryforUptOperationPE(linkName, user.getUserId(), applId, connection);
+			preparedStatement = Queries.getQueryforUptOperationPE(linkName, loginName, applId, connection);
 
 			rs = preparedStatement.executeQuery();
 			if (rs.next())
 				return false;
-
-//			while (rs.next())
-//			{
-//				peIds.add(rs.getString(1));
-//			}
-//
-//			rs.close();
-//			preparedStatement.close();
-//
-//			if(peIds.size() > 0)
-//				return false;
-//			Iterator iterator = peIds.iterator();
-//			while(iterator.hasNext())
-//			{
-//				String peId = (String) iterator.next();
-//				preparedStatement = Queries.getQueryforLinkPEUser(linkName, Integer.parseInt(peId), user.getUserId(), applId, connection);
-//				rs = preparedStatement.executeQuery();
-//
-//				if(rs.next())
-//					return true;
-//				else
-//					return false;
-//
-//			}
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log.debug("Failed to get checkLinkAccessible for " + linkName + "|"

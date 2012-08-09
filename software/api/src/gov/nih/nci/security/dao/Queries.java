@@ -816,7 +816,7 @@ public class Queries {
 	}
 
 
-	protected static PreparedStatement getQueryforUptOperationPE(String peObjectId, Long userId, Long applicationId, Connection cn) throws SQLException
+	protected static PreparedStatement getQueryforUptOperationPE(String peObjectId, String userLoginName, Long applicationId, Connection cn) throws SQLException
 	{
 
 		StringBuffer stbr = new StringBuffer();
@@ -839,7 +839,7 @@ public class Queries {
 		stbr.append("            csm_protection_group pg,");
 		stbr.append("            csm_pg_pe pgpe");
 		stbr.append("      WHERE pe.object_id= ?");
-		stbr.append("        AND u.user_id= ?");
+		stbr.append("        AND u.login_name= ?");
 		stbr.append("        AND pe.application_id=?");
 		stbr.append("        and ugrp.USER_ID=u.USER_ID");
 		stbr.append("        and pg.PROTECTION_GROUP_ID=ugrp.PROTECTION_GROUP_ID");
@@ -850,7 +850,7 @@ public class Queries {
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		int i=1;
 		pstmt.setString(i++,peObjectId);
-		pstmt.setLong(i++, userId);
+		pstmt.setString(i++, userLoginName);
 		pstmt.setLong(i++,applicationId);
 
 		return pstmt;
