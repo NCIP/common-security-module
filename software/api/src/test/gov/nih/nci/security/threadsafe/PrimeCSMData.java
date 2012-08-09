@@ -15,7 +15,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 
 public class PrimeCSMData {
 
-	
+
 	static UserProvisioningManager userProvisioningManager;
 	//	Test Set-up variables
 	private static int NumberOfUsersToTest 				= 10;
@@ -24,7 +24,7 @@ public class PrimeCSMData {
 	private static int NumberOfProtectionElementsToTest 	= 50;  //Must be larger than NumberOfProtectionGroupsToTest?
 	private static int NumberOfProtectionGroupsToTest 		= 10;
 	private static int NumberOfRolesToTest 				= 5;
-	
+
 	private static String[][] UserStringArray 				= new String[NumberOfUsersToTest]				[9];
 	private static String[][] RoleStringArray 				= new String[NumberOfRolesToTest]				[2];
 	private static String[][] GroupStringArray 			= new String[NumberOfGroupsToTest]				[2];
@@ -33,11 +33,11 @@ public class PrimeCSMData {
 	private static String[][] ProtectionGroupStringArray 	= new String[NumberOfProtectionGroupsToTest]	[4];
 	private String[][] PG_PERelationship			= new String[NumberOfProtectionGroupsToTest]	[NumberOfProtectionElementsToTest];
 	private String[][] Group_UserRelationship		= new String[NumberOfGroupsToTest]				[NumberOfUsersToTest];
-	
+
 	private static String	   StrangeCharacters			= new String("");  //-\\\\=[]\\;//,./{}:\"<>?-+/*&&||==.");
 
-	
-	
+
+
 	public static void main(String[] args){
 		System.out.println("Start Populating Users and Groups");
 		intialiseStrings();
@@ -45,16 +45,16 @@ public class PrimeCSMData {
 		association();
 		getUsers();
 		System.out.println("Done....");
-		
+
 	}
-	
-	
+
+
 	private static void getUsers() {
 		try {
 			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("security");
 			for(int i=1;i<10;i++){
 				User user = userProvisioningManager.getUserById(""+i);
-				System.out.println(user.getLoginName()+" ,"+user.getPassword());
+//				System.out.println(user.getLoginName()+" ,"+user.getPassword());
 			}
 		} catch (CSTransactionException e1) {
 
@@ -66,7 +66,7 @@ public class PrimeCSMData {
 
 			e.printStackTrace();
 		}
-		
+
 	}
 
 
@@ -82,14 +82,14 @@ public class PrimeCSMData {
 	public static void createData(){
 		try {
 			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("security");
-			
+
 			testCreateUser();
 			testCreatePrivilege();
 			testCreateProtectionElement();
 			testCreateRole();
 			testCreateGroup();
 			testCreateProtectionGroup();
-				
+
 		} catch (CSTransactionException e1) {
 
 			e1.printStackTrace();
@@ -105,7 +105,7 @@ public class PrimeCSMData {
 	public static void association(){
 		try {
 			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("security");
-			
+
 			testAssignUserToGroup();
 
 		} catch (CSTransactionException e1) {
@@ -116,7 +116,7 @@ public class PrimeCSMData {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	private static void testAssignUserToGroup() throws CSTransactionException {
 		for (int x=0; x<NumberOfUsersToTest; x++)
@@ -142,23 +142,23 @@ public class PrimeCSMData {
 			tempUser.setPassword(UserStringArray[x][6]);
 			tempUser.setTitle(UserStringArray[x][7]);
 			tempUser.setPhoneNumber(UserStringArray[x][8]);
-			
+
 			tempUser.setEndDate(CurrentTime);
 			tempUser.setStartDate(CurrentTime);
 			tempUser.setUpdateDate(CurrentTime);
 
 			userProvisioningManager.createUser(tempUser);
 			//userList.add(x,tempUser);
-			
+
 		}
 	}
-	
-	
+
+
 //	Setup UserStringArray
 	private static void InitializeUserStringArray()
 	{
 		for (int x=0; x<NumberOfUsersToTest; x++)
-		{	
+		{
 			UserStringArray[x][0] = "TestUserLoginName" + StrangeCharacters + x;
 			UserStringArray[x][1] = "TestUserFirstName" + StrangeCharacters + x;
 			UserStringArray[x][2] = "TestUserLastName" + StrangeCharacters + x;
@@ -169,9 +169,9 @@ public class PrimeCSMData {
 			UserStringArray[x][7] = "TestUserTitle" + StrangeCharacters + x;
 			UserStringArray[x][8] = new String("###-###-####").replace('#',Integer.toString(x).charAt(0));
 		}
-	}	
+	}
 
-	
+
 	private static void InitializeRoleStringArray()
 	{
 		for ( int x=0; x<NumberOfRolesToTest; x++)
@@ -181,7 +181,7 @@ public class PrimeCSMData {
 			RoleStringArray[x][1] = "TestRoleDesc" + StrangeCharacters + x;
 		}
 	}
-	
+
 	private static void InitializeGroupStringArray()
 	{
 		for (int x=0; x<NumberOfGroupsToTest; x++)
@@ -190,9 +190,9 @@ public class PrimeCSMData {
 			GroupStringArray[x][1] = "TestGroupDesc" + StrangeCharacters + x;
 		}
 	}
-	
-	
-	
+
+
+
 	private static void InitializePrivilegeStringArray()
 	{
 		for (int x=0; x<NumberOfPrivilegesToTest; x++)
@@ -201,7 +201,7 @@ public class PrimeCSMData {
 			PrivilegeStringArray[x][1] = "TestPrivilegeDesc" + StrangeCharacters + x;
 		}
 	}
-	
+
 	private static void InitializeProtectionElementStringArray()
 	{
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
@@ -212,7 +212,7 @@ public class PrimeCSMData {
 			ProtectionElementStringArray[x][3] = "TestProtectionElementAttribute" + StrangeCharacters + x;
 		}
 	}
-	
+
 	private static void InitializeProtectionGroupStringArray()
 	{
 		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
@@ -221,7 +221,7 @@ public class PrimeCSMData {
 			ProtectionGroupStringArray[x][1] = "TestProtectionGroupDesc" + StrangeCharacters + x;
 		}
 	}
-	
+
 	private static void testCreatePrivilege() throws CSTransactionException {
 
 		for (int x=0; x<NumberOfPrivilegesToTest; x++)
@@ -234,7 +234,7 @@ public class PrimeCSMData {
 			userProvisioningManager.createPrivilege(tempPrivilege);
 		}
 	}
-	private static void testCreateProtectionElement() throws CSTransactionException 
+	private static void testCreateProtectionElement() throws CSTransactionException
 	{
 		for (int x=0; x<NumberOfProtectionElementsToTest; x++)
 		{
@@ -245,17 +245,17 @@ public class PrimeCSMData {
 			tempProtectionElement.setObjectId(ProtectionElementStringArray[x][2]);
 			tempProtectionElement.setAttribute(ProtectionElementStringArray[x][3]);
 			tempProtectionElement.setUpdateDate(CurrentTime);
-			
+
 			userProvisioningManager.createProtectionElement(tempProtectionElement);
-			
+
 			tempProtectionElement = null;
 		}
 	}
 
-	private static void testCreateRole() throws CSTransactionException 
+	private static void testCreateRole() throws CSTransactionException
 	{
 		byte tempFlag = 0;
-		
+
 		for ( int x=0; x<NumberOfRolesToTest; x++)
 		{
 			Role tempRole = new Role();
@@ -263,20 +263,20 @@ public class PrimeCSMData {
 			tempRole.setName(RoleStringArray[x][0]);
 			tempRole.setDesc(RoleStringArray[x][1]);
 			tempRole.setUpdateDate(CurrentTime);
-			
+
 			tempRole.setActive_flag(tempFlag);
 			if (tempFlag == 1)
 				tempFlag = 0;
 			else
 				tempFlag = 1;
-			
+
 			userProvisioningManager.createRole(tempRole);
 		}
 	}
-	
-	private static void testCreateGroup() throws CSTransactionException 
+
+	private static void testCreateGroup() throws CSTransactionException
 	{
-		
+
 		for (int x=0; x<NumberOfGroupsToTest; x++)
 		{
 			Group tempGroup = new Group();
@@ -284,32 +284,32 @@ public class PrimeCSMData {
 			tempGroup.setGroupName(GroupStringArray[x][0]);
 			tempGroup.setGroupDesc(GroupStringArray[x][1]);
 			tempGroup.setUpdateDate(CurrentTime);
-			
+
 			userProvisioningManager.createGroup(tempGroup);
 		}
 
 	}
-	
-	
-	private static void testCreateProtectionGroup() throws CSTransactionException 
+
+
+	private static void testCreateProtectionGroup() throws CSTransactionException
 	{
-		
+
 		byte tempFlag = 0;
 		for (int x=0; x<NumberOfProtectionGroupsToTest; x++)
 		{
 			ProtectionGroup tempProtectionGroup = new ProtectionGroup();
 			java.util.Date CurrentTime = new java.util.Date();
-	
+
 			tempProtectionGroup.setProtectionGroupName(ProtectionGroupStringArray[x][0]);
 			tempProtectionGroup.setProtectionGroupDescription(ProtectionGroupStringArray[x][1]);
 			tempProtectionGroup.setUpdateDate(CurrentTime);
-			
+
 			tempProtectionGroup.setLargeElementCountFlag(tempFlag);
 			if (tempFlag == 1)
 				tempFlag = 0;
 			else
 				tempFlag = 1;
-			
+
 			userProvisioningManager.createProtectionGroup(tempProtectionGroup);
 		}
 	}

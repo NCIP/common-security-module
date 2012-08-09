@@ -363,7 +363,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(loginName)) {
 			throw new CSTransactionException("User loninName :"+loginName+" can't be null!");
 		}
-		
+
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
@@ -2195,25 +2195,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			//if(!t){
 			//	criteria.add(Restrictions.eq("application", this.application));
 			//}
-			
+
 			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase(
 					"gov.nih.nci.security.authorization.domainobjects.User")
 					|| searchCriteria
 							.getObjectType()
 							.getName()
 							.equalsIgnoreCase(
-									"gov.nih.nci.security.authorization.domainobjects.Privilege") || 
+									"gov.nih.nci.security.authorization.domainobjects.Privilege") ||
 					searchCriteria
 					.getObjectType()
 					.getName()
 					.equalsIgnoreCase(
-							"gov.nih.nci.security.authorization.domainobjects.Application") || 
+							"gov.nih.nci.security.authorization.domainobjects.Application") ||
 					searchCriteria
 							.getObjectType()
 							.getName()
 							.equalsIgnoreCase(
 									"gov.nih.nci.security.authorization.domainobjects.ConfigurationProperties")
-							
+
 					)) {
 				criteria.add(Restrictions.eq("application", this.application));
 			}
@@ -2249,7 +2249,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||getObjects|Success|Successful in Searching objects from the database |");
 		return result;
 	}
-	
+
 	private List decryptUserInformation(List list) throws CSObjectNotFoundException
 	{
 		Iterator iterator = list.iterator();
@@ -5554,15 +5554,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						user.setPhoneNumber(stringEncrypter.encrypt(user.getPhoneNumber().trim()));
 					if(user.getEmailId() != null && !user.getEmailId().equals("") )
 						user.setEmailId(stringEncrypter.encrypt(user.getEmailId().trim()));
-				}else{					
+				}else{
 					user.setPassword(stringEncrypter.decrypt(user.getPassword().trim()));
-					if(user.getFirstName() != null && !user.getFirstName().equals("") )					
+					if(user.getFirstName() != null && !user.getFirstName().equals("") )
 						user.setFirstName(stringEncrypter.decrypt(user.getFirstName().trim()));
 					if(user.getLastName() != null && !user.getLastName().equals("") )
 						user.setLastName(stringEncrypter.decrypt(user.getLastName().trim()));
-					if(user.getOrganization() != null && !user.getOrganization().equals("") )					
+					if(user.getOrganization() != null && !user.getOrganization().equals("") )
 						user.setOrganization(stringEncrypter.decrypt(user.getOrganization().trim()));
-					if(user.getDepartment() != null && !user.getDepartment().equals("") )					
+					if(user.getDepartment() != null && !user.getDepartment().equals("") )
 						user.setDepartment(stringEncrypter.decrypt(user.getDepartment().trim()));
 					if(user.getTitle() != null && !user.getTitle().equals("") )
 						user.setTitle(stringEncrypter.decrypt(user.getTitle().trim()));
@@ -5591,7 +5591,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		return obj;
 	}
-		
+
 	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException
 	{
 		return getApplicationByName(applicationContextName);
@@ -6315,11 +6315,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	}
 
 	private void validatePassword(String password) throws CSTransactionException{
-		System.out.println("Validating password "+password+" using REGEX");
-		if(!Pattern.matches("(?=.*[A-Z])(?=.*\\d)(.{8,})$", password))					
+		if(!Pattern.matches("(?=.*[A-Z])(?=.*\\d)(.{8,})$", password))
 			throw new CSTransactionException(
-					"The password has to be atleast 8 characters and have atleast a special character ");
-			
+					"The password has to be atleast 8 characters and have atleast a special character and atleast an uppercase letter");
+
 	}
 
 

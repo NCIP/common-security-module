@@ -512,13 +512,14 @@ public class RDBMSHelper {
 		String encryptionEnabled = (String)connectionProperties.get(Constants.ENCRYPTION_ENABLED);
 		
 		String query = new String();
-		query = "UPDATE CSM_USER SET PASSWORD = ?,PASSWORD_EXPIRED = FALSE WHERE LOGIN_NAME = ? ";
+		query = "UPDATE CSM_USER SET PASSWORD = ?,PASSWORD_EXPIRED = ? WHERE LOGIN_NAME = ? ";
 		
 		try
 		{
 			statement = connection.prepareStatement(query);
 			statement.setString(1, encryptPassword(password,encryptionEnabled ));
-			statement.setString(2, userID);
+			statement.setBoolean(2, Boolean.FALSE);
+			statement.setString(3, userID);
 		}
 		catch (SQLException e)
 		{
@@ -751,12 +752,13 @@ public class RDBMSHelper {
 	
 		String query = new String();
 
-		query = "UPDATE CSM_USER SET FIRST_TIME_LOGIN = FALSE WHERE LOGIN_NAME = ? ";
+		query = "UPDATE CSM_USER SET FIRST_TIME_LOGIN = ? WHERE LOGIN_NAME = ? ";
 
 		try
 		{
 			statement = connection.prepareStatement(query);
-			statement.setString(1, userID);
+			statement.setBoolean(1, Boolean.FALSE);
+			statement.setString(2, userID);
 		}
 		catch (SQLException e)
 		{
