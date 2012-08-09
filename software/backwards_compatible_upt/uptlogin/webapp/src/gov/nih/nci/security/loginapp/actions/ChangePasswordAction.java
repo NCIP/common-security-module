@@ -103,10 +103,6 @@ public class ChangePasswordAction extends Action
 		}
 		try
 		{
-			System.out.println("LOGIN:"+changePasswordForm.getLoginId());
-			System.out.println("PASSWORD:"+changePasswordForm.getPassword());
-			System.out.println("NEW PASSWORD:"+changePasswordForm.getNewPassword());
-			System.out.println("CONFIRM PASSWORD:"+changePasswordForm.getPasswordConfirmation());
 			changePasswordSuccessful = authenticationManager.changePassword(changePasswordForm.getLoginId(),changePasswordForm.getPassword(),changePasswordForm.getNewPassword(),changePasswordForm.getPasswordConfirmation());
 		}
 		catch (CSCredentialException cse)
