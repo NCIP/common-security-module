@@ -179,7 +179,7 @@ public class AuthenticationManagerFactory
 		String applicationManagerClassName = null;
 		try
 		{
-			AbstractConfiguration config = ConfigurationHelper.getConfiguration();
+			AbstractConfiguration config = ConfigurationHelper.getInstance(applicationContextName).getConfiguration();
 			LockoutManager.initialize(config.getString("PASSWORD_LOCKOUT_TIME"),config.getString("ALLOWED_LOGIN_TIME"),config.getString("ALLOWED_ATTEMPTS"));
 			applicationManagerClassName = ApplicationSecurityConfigurationParser.getAuthenticationManagerClass(applicationContextName);
 		}

@@ -455,8 +455,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		return changePasswordSuccessful;
 	}
 
-	private boolean validatePassword(String password){
-		auditLog.info("Validating password "+password+" using REGEX");
+	private boolean validatePassword(String password){		
 		if(!Pattern.matches("(?=.*[A-Z])(?=.*\\d)(.{8,})$", password))
 			return false;
 		else
