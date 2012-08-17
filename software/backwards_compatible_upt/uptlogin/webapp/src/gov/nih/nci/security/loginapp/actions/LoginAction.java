@@ -20,7 +20,6 @@ import gov.nih.nci.security.loginapp.util.properties.exceptions.UPTConfiguration
 import gov.nih.nci.security.exceptions.CSCredentialException;
 
 import gov.nih.nci.security.util.StringUtilities;
-import gov.nih.nci.security.upt.util.BCrypt;
 
 import java.io.File;
 import java.io.IOException;
@@ -183,10 +182,7 @@ public class LoginAction extends Action
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
 
-		System.out.println("Password: "+loginForm.getPassword());
-		String hashedPwd = BCrypt.hashpw(loginForm.getPassword(), BCrypt.gensalt())
-		System.out.println("hashedPwd: "+hashedPwd);
-		loginForm.setPassword(hashedPwd);
+
 
 		ObjectFactory.initialize("upt-beans.xml");
 		UPTProperties uptProperties = null;
