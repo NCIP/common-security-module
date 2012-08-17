@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.io.FileInputStream"%>
+<%@ page import="java.io.IOException"%>
+
 <%
 String path = request.getContextPath();
 String uptLoginHome = path+"/LHome.do";
@@ -90,6 +93,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 <script>
+
+function forwardUPT()
+{
+if(document.LoginForm.uptVersion)
+{
+	if(document.LoginForm.uptVersion.value == "4.5")
+	 document.LoginForm.action="/upt45/Login.do";
+	else if(document.LoginForm.uptVersion.value == "4.2")
+	 document.LoginForm.action="/upt42/Login.do";
+	else if(document.LoginForm.uptVersion.value == "4.1")
+	 document.LoginForm.action="/upt41/Login.do";
+}
+else
+	document.LoginForm.action="/upt45/Login.do";
+return;
+}
   <!--
     	function set(tableId)
     	{
@@ -150,7 +169,26 @@ function MM_swapImage() { //v3.0
                   <!-- target of anchor to skip menus --><a name="content" /></a>
                   
 
+<%
+ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+classLoader.getResourceAsStream("/upt-versions.properties");
+Properties properties = new Properties();
+boolean upt45Installed= true;
+boolean upt42Installed = false;
+boolean upt41Installed = false;
+try {
+	properties.load(classLoader.getResourceAsStream("/upt-versions.properties"));
+	String upt45 = properties.getProperty("upt45");
+	String upt42 = properties.getProperty("upt42");
+	String upt41 = properties.getProperty("upt41");
 
+	upt45Installed = (upt45 != null && upt45.equalsIgnoreCase("true"))?true:false;
+	upt42Installed = (upt42 != null && upt42.equalsIgnoreCase("true"))?true:false;
+	upt41Installed = (upt41 != null && upt41.equalsIgnoreCase("true"))?true:false;
+} catch (IOException e) {
+	e.printStackTrace();
+}
+%>
 
 
 <table cellpadding="0" cellspacing="0" border="0"
@@ -207,7 +245,7 @@ function MM_swapImage() { //v3.0
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-							<form name="LoginForm" method="post" action="<%=uptLoginLogin%>"  autocomplete="off">
+							<form name="LoginForm" method="post" action="<%=uptLoginLogin%>"  autocomplete="off" onsubmit="forwardUPT()">
 								<!-- login begins -->
 								<tr>
 									<td valign="top">
@@ -240,6 +278,27 @@ function MM_swapImage() { //v3.0
 
 													<td class="formFieldLogin"><input type="text" id="applicationContextName" name="applicationContextName" size="14" value="" style="formField"></td>
 												</tr>
+<%
+if(upt45Installed || upt42Installed || upt41Installed) {
+%>
+												<tr>
+													<td class="sidebarLogin" align="right"><label
+														for="applicationVersion">UPT Version</label></td>
+
+													<td class="formFieldLogin"><select type="text" id="uptVersion" name="uptVersion" style="formField">
+<%if(upt45Installed){%>
+<option value="4.5">4.5</option>
+<%}%>
+<%if(upt42Installed){%>
+<option value="4.2">4.2</option>
+<%}%>
+<%if(upt41Installed){%>
+<option value="4.1">4.1</option>
+<%}%>
+</select>
+</td>
+												</tr>
+<%}%>
 												<tr>
 													<td>&nbsp;</td>
 													<td><input type="submit" value="Login" style="actionButton"></td>
