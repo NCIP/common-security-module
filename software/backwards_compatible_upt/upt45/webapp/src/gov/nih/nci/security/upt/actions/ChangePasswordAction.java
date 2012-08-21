@@ -10,14 +10,9 @@ import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSInputException;
-import gov.nih.nci.security.loginapp.constants.DisplayConstants;
-import gov.nih.nci.security.loginapp.constants.ForwardConstants;
-import gov.nih.nci.security.loginapp.forms.ChangePasswordForm;
-import gov.nih.nci.security.loginapp.util.StringUtils;
-import gov.nih.nci.security.loginapp.util.properties.ObjectFactory;
-import gov.nih.nci.security.loginapp.util.properties.UPTApplication;
-import gov.nih.nci.security.loginapp.util.properties.UPTProperties;
-import gov.nih.nci.security.loginapp.util.properties.exceptions.UPTConfigurationException;
+import gov.nih.nci.security.upt.constants.DisplayConstants;
+import gov.nih.nci.security.upt.constants.ForwardConstants;
+import gov.nih.nci.security.upt.forms.ChangePasswordForm;
 import gov.nih.nci.security.exceptions.CSCredentialException;
 
 import gov.nih.nci.security.util.StringUtilities;
@@ -59,7 +54,7 @@ import org.jdom.input.SAXBuilder;
 
 public class ChangePasswordAction extends Action
 {
-	private static final Logger log = Logger.getLogger(LoginAction.class);
+	private static final Logger log = Logger.getLogger(ChangePasswordAction.class);
 
 	@SuppressWarnings("unchecked")
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
