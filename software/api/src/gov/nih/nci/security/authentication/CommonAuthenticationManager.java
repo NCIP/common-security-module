@@ -108,6 +108,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.util.ConfigurationHelper;
+import gov.nih.nci.security.util.StringUtilities;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
@@ -137,7 +138,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 
 	private static final Logger log = Logger.getLogger(CommonAuthenticationManager.class);
 	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Event.Authentication");
-	
+
 
 	private String applicationContextName = null;
 
@@ -241,7 +242,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		LoginContext loginContext = null;
 		try
 		{
-			System.out.println("lockoutManager.getAllowedAttempts:::" + lockoutManager.getAllowedAttempts());
+			//System.out.println("lockoutManager.getAllowedAttempts:::" + lockoutManager.getAllowedAttempts());
 			if (lockoutManager.isUserLockedOut(userName))
 			{
 				auditLog.info("Allowed Attempts Reached ! User " + userName + " is locked out !");
@@ -387,7 +388,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		}
 		if(!validatePassword(passwordConfirmation))
 		{
-			throw new CSInputException("The password has to be atleast 8 characters and have atleast a special character");
+			throw new CSInputException("The password should have atleast 8 characters, a special character, a number and an upper case character");
 		}
 		LockoutManager lockoutManager = LockoutManager.getInstance();
 
@@ -455,14 +456,16 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 		return changePasswordSuccessful;
 	}
 
-	private boolean validatePassword(String password){		
-		if(!Pattern.matches("(?=.*[A-Z])(?=.*\\d)(.{8,})$", password))
-			return false;
-		else
-			return true;
-
+	private boolean validatePassword(String password){
+		String pattern =null;
+		try {
+			pattern = ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_MATCH");
+		} catch (CSConfigurationException e) {
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||Configuration Exception while getting the pattern |" + e.getMessage());
+		}
+		return StringUtilities.checkPatternMatches(password,pattern);
 	}
-
 
 
 }

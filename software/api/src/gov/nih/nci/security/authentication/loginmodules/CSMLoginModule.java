@@ -210,7 +210,7 @@ public abstract class CSMLoginModule implements LoginModule
 		{
 			loginSuccessful = false;
 			password 		= null;
-			throw new CredentialExpiredException("First Time Login");
+			throw new CredentialExpiredException("User logging in first time, Password should be changed ");
 		}
 		if (isPasswordExpired(options, userID))
 		{
@@ -218,7 +218,7 @@ public abstract class CSMLoginModule implements LoginModule
 			userID 			= null;
 			password 		= null;
 			
-			throw new CredentialExpiredException("Password expired");
+			throw new CredentialExpiredException("User password expired, Ceate new password");
 		}		
 		try {
 			//now validate user
@@ -230,7 +230,7 @@ public abstract class CSMLoginModule implements LoginModule
 				{
 					loginSuccessful = false;
 					password 		= null;
-					throw new LoginException("User Not Active");						
+					throw new LoginException("User is not active, Contact the system administrator");						
 				}					
 			}
 			else

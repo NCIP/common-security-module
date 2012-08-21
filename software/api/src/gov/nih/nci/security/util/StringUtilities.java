@@ -1,6 +1,12 @@
 
 package gov.nih.nci.security.util;
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
+
+import java.util.regex.Pattern;
+
+import org.apache.commons.configuration.AbstractConfiguration;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -182,6 +188,11 @@ public class StringUtilities {
 		}
 		return stringBuffer.toString();
 	}
-	
-    
+
+	public static boolean checkPatternMatches(String password, String pattern) {
+		if(Pattern.matches(pattern, password))
+			return true;
+		else
+			return false;
+	}
 }

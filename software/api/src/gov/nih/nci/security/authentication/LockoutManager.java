@@ -117,7 +117,7 @@ public class LockoutManager {
 				if (!lockoutInfo.isLockedout()) {
 					System.out.println("NO OF ATTEMPS ::" + lockoutInfo.getNoOfAttempts());
 					System.out.println("ALLOWED ATTEMPTS ::" + allowedAttempts);
-					System.out.println("ALLOWED ATTEMPTS :getAllowedAttempts():" + getAllowedAttempts());
+					//System.out.println("ALLOWED ATTEMPTS :getAllowedAttempts():" + getAllowedAttempts());
 					if ((System.currentTimeMillis() - lockoutInfo.getFirstLoginTime()) < allowedLoginTime) {
 						lockoutInfo.setNoOfAttempts(lockoutInfo.getNoOfAttempts() + 1);
 						if (lockoutInfo.getNoOfAttempts() >= allowedAttempts) {

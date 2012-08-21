@@ -113,6 +113,7 @@ import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.util.ConfigurationHelper;
 import gov.nih.nci.security.util.ObjectUpdater;
 import gov.nih.nci.security.util.StringEncrypter;
 import gov.nih.nci.security.util.StringUtilities;
@@ -6310,15 +6311,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	@Override
 	public void validateUser(User user) throws CSTransactionException{
-		System.out.println("Validating user in Impl");
 		validatePassword(user.getPassword());
 	}
 
 	private void validatePassword(String password) throws CSTransactionException{
-		if(!Pattern.matches("(?=.*[A-Z])(?=.*\\d)(.{8,})$", password))
-			throw new CSTransactionException(
-					"The password has to be atleast 8 characters and have atleast a special character and atleast an uppercase letter");
-
+		try {
+			if(!StringUtilities.checkPatternMatches(password,ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_MATCH")))
+				throw new CSTransactionException(
+						"The password has to be atleast 8 characters and have atleast a special character and atleast an uppercase letter");
+		} catch (CSConfigurationException e) {
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||Configuration Exception while getting the pattern |" + e.getMessage());
+		}
 	}
 
 
