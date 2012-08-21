@@ -9,6 +9,7 @@ import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.loginapp.constants.DisplayConstants;
 import gov.nih.nci.security.loginapp.constants.ForwardConstants;
 import gov.nih.nci.security.loginapp.forms.ChangePasswordForm;
@@ -112,6 +113,15 @@ public class ChangePasswordAction extends Action
 			if (log.isDebugEnabled())
 				log.debug("|"+changePasswordForm.getLoginId()+
 						"||Login|Failure|Password Expired for user name "+changePasswordForm.getLoginId()+" and"+changePasswordForm.getApplicationContextName()+" application|"+changePasswordForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward("ChangePasswordFailure");
+		}
+		catch (CSInputException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			saveErrors( request,errors );
+			if (log.isDebugEnabled())
+				log.debug("|"+changePasswordForm.getLoginId()+
+						"||Login|Failure|Input exception "+changePasswordForm.getLoginId()+" and"+changePasswordForm.getApplicationContextName()+" application|"+changePasswordForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward("ChangePasswordFailure");
 		}
 		catch (CSException cse)
