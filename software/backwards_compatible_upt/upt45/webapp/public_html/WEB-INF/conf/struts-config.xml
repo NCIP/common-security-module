@@ -7,6 +7,8 @@
 			type="gov.nih.nci.security.upt.forms.LoginForm" />
 		<form-bean name="MenuForm"
 			type="gov.nih.nci.security.upt.forms.MenuForm" />			
+		<form-bean name="ChangePasswordForm"
+			type="gov.nih.nci.security.upt.forms.ChangePasswordForm" />			
 		<form-bean name="PrivilegeForm"
 			type="gov.nih.nci.security.upt.forms.PrivilegeForm" />
 		<form-bean name="RoleForm"
@@ -81,6 +83,15 @@
 			type="gov.nih.nci.security.upt.actions.LogoutAction" >
 			<forward name="LogoutSuccess" path="Tiles.Login.Page" />
 		</action>
+		<action path="/ChangePassword"
+			type="gov.nih.nci.security.loginapp.actions.ChangePasswordAction" 
+			name="ChangePasswordForm"
+			scope="session"
+			validate="true" 
+			input="Tiles.Password.Change.Page">
+			<forward name="ChangePasswordSuccess" path="Tiles.Login.Page" />
+			<forward name="ChangePasswordFailure" path="Tiles.Password.Change.Page" />
+		</action>		
 		<action path="/SystemConfiguration"
 			type="gov.nih.nci.security.upt.actions.SystemConfigurationAction"
 			name="SystemConfigurationForm" 
