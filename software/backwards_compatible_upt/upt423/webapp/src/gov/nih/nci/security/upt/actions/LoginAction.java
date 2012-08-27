@@ -95,6 +95,7 @@ import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
@@ -109,6 +110,7 @@ import gov.nih.nci.security.util.StringUtilities;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import gov.nih.nci.security.upt.util.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -270,7 +272,15 @@ public class LoginAction extends Action
 		}
 		try
 		{
+			System.out.println("loginForm.getLoginId(): "+loginForm.getLoginId());
+			User user = authorizationManager.getUser(loginForm.getLoginId());
+			System.out.println("user: "+user);
+			System.out.println("user.getPassword(): "+user.getPassword());
+			System.out.println("loginForm.getPassword(): "+loginForm.getPassword());
+			loginSuccessful = BCrypt.checkpw(user.getPassword(), loginForm.getPassword());
+			System.out.println("loginSuccessful: "+loginSuccessful);
 			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),loginForm.getPassword());
+			System.out.println("loginSuccessful2: "+loginSuccessful);
 		}
 		catch (CSException cse)
 		{
