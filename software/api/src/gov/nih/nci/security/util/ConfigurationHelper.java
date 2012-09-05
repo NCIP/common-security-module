@@ -1,5 +1,8 @@
 package gov.nih.nci.security.util;
 
+import java.sql.DatabaseMetaData;
+
+import gov.nih.nci.logging.api.logger.hibernate.HibernateSessionFactoryHelper;
 import gov.nih.nci.security.authentication.LockoutConfigurationListener;
 import gov.nih.nci.security.authentication.LockoutManager;
 import gov.nih.nci.security.dao.hibernate.HibernateSessionFactory;
@@ -13,6 +16,10 @@ import org.apache.commons.configuration.DataConfiguration;
 import org.apache.commons.configuration.DatabaseConfiguration;
 import org.apache.commons.configuration.event.ConfigurationErrorListener;
 import org.apache.commons.configuration.event.ConfigurationListener;
+import org.hibernate.SessionFactory;
+import org.hibernate.connection.ConnectionProvider;
+import org.hibernate.connection.DatasourceConnectionProvider;
+import org.hibernate.engine.SessionFactoryImplementor;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 
@@ -28,20 +35,22 @@ public class ConfigurationHelper {
         private static ConfigurationHelper configHelper= null;
         private static final String CSM_CONTEXT_NAME = "csmupt";
         
-        static
-        {
-
-        }
 		private ConfigurationHelper(String applicationContextName) throws CSConfigurationException
         {	
-	        DataSource ds = null;           
+			//DataSource ds = null;
+	        DataSource ds = getDataSourceForContext(applicationContextName);
+	        /*
             try {
             	InitialContext initialContext = new InitialContext();
 				ds = (DataSource) initialContext.lookup("java:/"+applicationContextName);
 			} catch (NamingException ex) {				
 				ex.printStackTrace();
 				throw new CSConfigurationException();
-			}            			
+			} 
+				 DatabaseMetaData s = (DatabaseMetaData) HibernateSessionFactoryHelper.getAuditSession(sf).connection().getMetaData();
+				 System.out.println("URL :"+s.getURL());
+				 System.out.println("UserName:"+s.getUserName());
+			*/           			
 	        DatabaseConfiguration config = new DatabaseConfiguration(ds,
 	                        TABLE_NAME, KEY_COLUMN, VALUE_COLUMN);
 			
@@ -69,6 +78,20 @@ public class ConfigurationHelper {
         {
         	getInstance(CSM_CONTEXT_NAME);
 	        return dataConfig;
+        }
+        
+        private DataSource getDataSourceForContext(String applicationContextName) throws CSConfigurationException
+        {
+			SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
+			//DataSource ds= SessionFactoryUtils.getDataSource(sf);		
+			
+			ConnectionProvider cp = ((SessionFactoryImplementor) sf).getConnectionProvider();
+			DataSource ds = null;
+			
+			if (cp instanceof DatasourceConnectionProvider) {
+				ds = ((DatasourceConnectionProvider) cp).getDataSource();
+			}
+			return ds;
         }
         
 }
