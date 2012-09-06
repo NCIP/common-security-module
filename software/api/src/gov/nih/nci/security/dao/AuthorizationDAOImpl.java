@@ -2165,37 +2165,33 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Criteria criteria = s
 					.createCriteria(searchCriteria.getObjectType());
 			Hashtable fieldValues = searchCriteria.getFieldAndValues();
-			Enumeration en = fieldValues.keys();
-			while (en.hasMoreElements()) {
-				String str = (String) en.nextElement();
-				String fieldValue = (String) fieldValues.get(str);
-				String fieldValue_ = StringUtilities.replaceInString(
-						fieldValue.trim(), "*", "%");
-				//int i = ((String) fieldValues.get(str)).indexOf("%");
-				int i = fieldValue_.indexOf("%");
-				if (i != -1) {
-					//criteria.add(Restrictions.like(str, fieldValues.get(str)));
-					criteria.add(Restrictions.like(str, fieldValue_));
-				} else {
-					//criteria.add(Restrictions.eq(str, fieldValues.get(str)));
-					criteria.add(Restrictions.eq(str, fieldValue_));
+			Enumeration enKeys= fieldValues.keys();
+			boolean defaultApplication=true;
+			while (enKeys.hasMoreElements()) {
+				String fieldKey = (String) enKeys.nextElement();
+				String fieldValue = (String) fieldValues.get(fieldKey);
+				if (fieldKey.equals("applicationName"))
+				{
+					defaultApplication=false;
+					criteria.add(Restrictions.eq("application", this.getApplicationByName(fieldValue)));
 				}
-
+				else
+				{
+					String fieldValue_ = StringUtilities.replaceInString(
+							fieldValue.trim(), "*", "%");
+					int i = fieldValue_.indexOf("%");
+					if (i != -1) {
+						criteria.add(Restrictions.like(fieldKey, fieldValue_));
+					} else {
+						criteria.add(Restrictions.eq(fieldKey, fieldValue_));
+					}
+				}
 			}
 			if (fieldValues.size() == 0) {
 				criteria.add(Restrictions.eqProperty("1", "1"));
 			}
 			log.debug("Message from debug: ObjectType="
 					+ searchCriteria.getObjectType().getName());
-
-			//boolean t =
-			// searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User")||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege");
-
-			//log.debug("Test:"+t);
-
-			//if(!t){
-			//	criteria.add(Restrictions.eq("application", this.application));
-			//}
 
 			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase(
 					"gov.nih.nci.security.authorization.domainobjects.User")
@@ -2215,8 +2211,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							.equalsIgnoreCase(
 									"gov.nih.nci.security.authorization.domainobjects.ConfigurationProperties")
 
-					)) {
-				criteria.add(Restrictions.eq("application", this.application));
+					)) 
+			{
+				if (defaultApplication)
+					criteria.add(Restrictions.eq("application", this.application));
 			}
 
 			List list =  new ArrayList();
@@ -3868,12 +3866,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			app = (Application) list.get(0);
 
-			//decrypt
-			try {
-				app = (Application) performEncrytionDecryption(app, false);
-			} catch (EncryptionException e) {
-				throw new CSObjectNotFoundException(e);
-			}
+//			//decrypt
+//			try {
+//				app = (Application) performEncrytionDecryption(app, false);
+//			} catch (EncryptionException e) {
+//				throw new CSObjectNotFoundException(e);
+//			}
 
 			log.debug("Found the Application");
 
