@@ -9,8 +9,8 @@
 insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 values ("csmupt","UPT Super Admin Application",0,0,sysdate());
 
-insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("SuperAdmin","<<super_admin_first_name >> ","<<super_admin_last_name >> ","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
+insert into csm_user (USER_ID, LOGIN_NAME, MIGRATED_FLAG, FIRST_NAME, LAST_NAME, ORGANIZATION, DEPARTMENT, TITLE, PHONE_NUMBER, PASSWORD, EMAIL_ID, START_DATE, END_DATE, UPDATE_DATE, PREMGRT_LOGIN_NAME, PASSWORD_EXPIRED, PASSWORD_EXPIRY_DATE, FIRST_TIME_LOGIN, ACTIVE_FLAG) 
+values ('1','SuperAdmin','0','aSxDyZ0AlthARx8irRHBhg==','YCwS7U4EuXsCiGXf1QMALA==','','','','','5kJqWYBdWCphljGP2pGUGg==','',NULL,NULL,sysdate,'','0','12-AUG-2013','0','1');
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
 values("csmupt","UPT Super Admin Application","csmupt",1,sysdate());
@@ -53,5 +53,21 @@ VALUES("DELETE","This privilege permits a user to delete a logical entity. This 
 
 INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
 VALUES("EXECUTE","This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc", sysdate());
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('AES_ENCRYPTION_KEY','super secret');
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_ATTEMPTS','3');
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_LOGIN_TIME','600000');
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('MD5_HASH_KEY','true');
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_EXPIRY_DAYS','60');
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_LOCKOUT_TIME','1800000');
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_MATCH_NUM','24');
+
+insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_PATTERN_MATCH','(?=.*[A-Z])(?=.*\\d)(.{8,})$');
 
 commit;
