@@ -2166,25 +2166,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.createCriteria(searchCriteria.getObjectType());
 			Hashtable fieldValues = searchCriteria.getFieldAndValues();
 			Enumeration enKeys= fieldValues.keys();
-			boolean defaultApplication=true;
 			while (enKeys.hasMoreElements()) {
 				String fieldKey = (String) enKeys.nextElement();
 				String fieldValue = (String) fieldValues.get(fieldKey);
-				if (fieldKey.equals("applicationName"))
-				{
-					defaultApplication=false;
-					criteria.add(Restrictions.eq("application", this.getApplicationByName(fieldValue)));
-				}
-				else
-				{
-					String fieldValue_ = StringUtilities.replaceInString(
-							fieldValue.trim(), "*", "%");
-					int i = fieldValue_.indexOf("%");
-					if (i != -1) {
-						criteria.add(Restrictions.like(fieldKey, fieldValue_));
-					} else {
-						criteria.add(Restrictions.eq(fieldKey, fieldValue_));
-					}
+				String fieldValue_ = StringUtilities.replaceInString(
+						fieldValue.trim(), "*", "%");
+				int i = fieldValue_.indexOf("%");
+				if (i != -1) {
+					criteria.add(Restrictions.like(fieldKey, fieldValue_));
+				} else {
+					criteria.add(Restrictions.eq(fieldKey, fieldValue_));
 				}
 			}
 			if (fieldValues.size() == 0) {
@@ -2213,7 +2204,6 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 					)) 
 			{
-				if (defaultApplication)
 					criteria.add(Restrictions.eq("application", this.application));
 			}
 
