@@ -131,32 +131,7 @@ public class InstanceLevelSecurityHelper
 	 */
 	public static void addFiltersForGroups(AuthorizationManager authorizationManager,Configuration configuration)
 	{
-		boolean needsOptimisation = false;
-		Properties props = configuration.getProperties();
-		
-		if(!isExistActiveMappingElement(authorizationManager))
-			needsOptimisation = isMySQLDatabase(props,true);
-		
-		FilterClause searchFilterClause = new FilterClause();
-		searchFilterClause.setClassName("*");
-		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);
-		List list = authorizationManager.getObjects(searchCriteria);
-		Iterator iterator = list.iterator();
-		while (iterator.hasNext())
-		{
-			HashMap parameters = new HashMap();
-			parameters.put("GROUP_NAMES", new StringType());
-			parameters.put("APPLICATION_ID", new LongType());
-
-			FilterClause filterClause = (FilterClause)iterator.next();
-			FilterDefinition filterDefinition = new FilterDefinition (
-					filterClause.getClassName().substring(filterClause.getClassName().lastIndexOf('.') + 1) + filterClause.getId(), "", parameters);
-			configuration.addFilterDefinition(filterDefinition);
-			PersistentClass persistentClass = configuration.getClassMapping(filterClause.getClassName());
-			persistentClass.addFilter(
-					filterClause.getClassName().substring(filterClause.getClassName().lastIndexOf('.') + 1) + filterClause.getId()
-					, optimiseFilterQuery(needsOptimisation,filterClause.getGeneratedSQLForGroup()));
-		}
+		addFiltersForGroups(authorizationManager, configuration, null);
 	}
 	
 	/**
@@ -286,7 +261,7 @@ public class InstanceLevelSecurityHelper
 			persistentClass.addFilter(
 					filterClause.getClassName().substring(filterClause.getClassName().lastIndexOf('.') + 1) + filterClause.getId()
 					,optimiseFilterQuery(needsOptimisation,filterClause.getGeneratedSQLForUser()));
-		}
+		}		
 	}
 	
 	
@@ -300,34 +275,7 @@ public class InstanceLevelSecurityHelper
 	 */
 	public static void addFilters(AuthorizationManager authorizationManager,Configuration configuration)
 	{
-		boolean needsOptimisation = false;
-		Properties props = configuration.getProperties();
-		
-		if(!isExistActiveMappingElement(authorizationManager))
-			needsOptimisation = isMySQLDatabase(props,true);
-		
-		
-		FilterClause searchFilterClause = new FilterClause();
-		searchFilterClause.setClassName("*");
-		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);
-		List list = authorizationManager.getObjects(searchCriteria);
-		Iterator iterator = list.iterator();
-		while (iterator.hasNext())
-		{
-			HashMap parameters = new HashMap();
-			parameters.put("USER_NAME", new StringType());
-			parameters.put("APPLICATION_ID", new LongType());
-
-			FilterClause filterClause = (FilterClause)iterator.next();
-			FilterDefinition filterDefinition = new FilterDefinition (filterClause.getClassName().substring(filterClause.getClassName().lastIndexOf('.') + 1) + filterClause.getId(), "", parameters);
-			configuration.addFilterDefinition(filterDefinition);
-			PersistentClass persistentClass = configuration.getClassMapping(filterClause.getClassName());
-			persistentClass.addFilter(
-					filterClause.getClassName().substring(filterClause.getClassName().lastIndexOf('.') + 1) + filterClause.getId()
-					,optimiseFilterQuery(needsOptimisation,filterClause.getGeneratedSQLForUser()));
-		}
-		
-		
+		addFilters(authorizationManager, configuration, null);
 	}
 
 	/**
@@ -378,9 +326,6 @@ public class InstanceLevelSecurityHelper
 		
 	}
 
-
-	
-	
 	/**
 	 * This method initializes the filter that are already added to the Sessionfactory. This method first obtains the list of all the 
 	 * defined filters from the SessionFactory in the passes Session object. It then just iterates through the filter list and sets 
@@ -392,33 +337,7 @@ public class InstanceLevelSecurityHelper
 	 */
 	public static void initializeFiltersForGroups(String[] groupNames, Session session, AuthorizationManager authorizationManager)
 	{
-		List<String> sessionGroupFilterNamesList = new ArrayList<String>();
-		
-		SessionFactory sessionFactory = session.getSessionFactory();
-		Set sessionFilterNamesSet = sessionFactory.getDefinedFilterNames();
-
-		Iterator sessionFilterNamesSetIterator = sessionFilterNamesSet.iterator();
-		while (sessionFilterNamesSetIterator.hasNext()){
-			String filterName = (String)sessionFilterNamesSetIterator.next();
-			FilterDefinition filterDefinition = sessionFactory.getFilterDefinition(filterName);
-			if(filterDefinition!=null){
-				Set<String> parameterNamesSet = filterDefinition.getParameterNames();
-				if(parameterNamesSet!=null && parameterNamesSet.contains("GROUP_NAMES")){
-					sessionGroupFilterNamesList.add(filterName);
-				}
-			}
-				
-		}
-		
-		Iterator sessionGroupFilterNamesListIterator = sessionGroupFilterNamesList.iterator();
-		while(sessionGroupFilterNamesListIterator.hasNext()){
-			String filterName = (String)sessionGroupFilterNamesListIterator.next();
-			Filter filter = session.enableFilter(filterName);
-			filter.setParameterList("GROUP_NAMES", groupNames);
-			filter.setParameter("APPLICATION_ID", authorizationManager.getApplicationContext().getApplicationId());
-		}
-
-		
+		initializeFiltersForGroups(groupNames, session, authorizationManager, null);
 	}
 	
 	/**
@@ -511,32 +430,7 @@ public class InstanceLevelSecurityHelper
 	 */
 	public static void initializeFilters(String userName, Session session, AuthorizationManager authorizationManager)
 	{
-		
-		List<String> sessionUserFilterNamesList = new ArrayList<String>();
-		
-		SessionFactory sessionFactory = session.getSessionFactory();
-		Set sessionFilterNamesSet = sessionFactory.getDefinedFilterNames();
-	
-		Iterator sessionFilterNamesSetIterator = sessionFilterNamesSet.iterator();
-		while (sessionFilterNamesSetIterator.hasNext()){
-			String filterName = (String)sessionFilterNamesSetIterator.next();
-			FilterDefinition filterDefinition = sessionFactory.getFilterDefinition(filterName);
-			if(filterDefinition!=null){
-				Set<String> parameterNamesSet = filterDefinition.getParameterNames();
-				if(parameterNamesSet!=null && parameterNamesSet.contains("USER_NAME")){
-					sessionUserFilterNamesList.add(filterName);
-				}	
-			}		
-		}
-		
-		Iterator sessionUserFilterNamesListIterator = sessionUserFilterNamesList.iterator();
-		while(sessionUserFilterNamesListIterator.hasNext()){
-			String filterName = (String)sessionUserFilterNamesListIterator.next();
-			Filter filter = session.enableFilter(filterName);
-			filter.setParameter("USER_NAME", userName);
-			filter.setParameter("APPLICATION_ID", authorizationManager.getApplicationContext().getApplicationId());
-		}
-
+		initializeFilters(userName, session,authorizationManager, null );
 	}
 	
 	/**
@@ -639,7 +533,9 @@ public class InstanceLevelSecurityHelper
 					int queryPart2Length = 103;
 					int startInsertCount = filterSQL.indexOf(Constants.CSM_FILTER_GROUP_QUERY_PART_ONE);
 					int endInsertCount = filterSQL.indexOf(Constants.CSM_FILTER_GROUP_QUERY_PART_TWO);
-							
+					//no way to optimize the sql constant string fragment is not found
+					if (startInsertCount<0 ||endInsertCount<0)
+							return filterSQL;
 					strbfr = new StringBuffer();
 					strbfr.append(filterSQL.substring(0,startInsertCount+1));
 					strbfr.append(" select "+Constants.CSM_FILTER_ALIAS+".attribute_value from ");
@@ -655,7 +551,9 @@ public class InstanceLevelSecurityHelper
 					int endInsertCount = filterSQL.indexOf(Constants.CSM_FILTER_USER_QUERY_PART_TWO);
 					//System.out.println(startInsertCount);
 					//System.out.println(endInsertCount);
-	
+					//no way to optimize the sql constant string fragment is not found
+					if (startInsertCount<0 ||endInsertCount<0)
+						return filterSQL;
 					strbfr = new StringBuffer();
 					strbfr.append(filterSQL.substring(0,startInsertCount+1));
 					strbfr.append(" select "+Constants.CSM_FILTER_ALIAS+".attribute_value from ");
@@ -664,9 +562,7 @@ public class InstanceLevelSecurityHelper
 					strbfr.append(filterSQL.substring(endInsertCount+queryPart2Length));
 					//System.out.println(strbfr.toString());
 				}
-	
 			}
-			
 			return strbfr.toString();
 			
 		}else{
