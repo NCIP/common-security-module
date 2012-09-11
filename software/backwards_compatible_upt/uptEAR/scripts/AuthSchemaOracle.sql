@@ -1,72 +1,78 @@
 --
 -- Uncomment the following block if you want to drop existing CSM database objects
 --
---begin execute immediate 'DROP SEQUENCE CSM_APPLICATI_APPLICATION__SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_APPLICATION CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_GROUP_GROUP_ID_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_GROUP CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP TRIGGER SET_CSM_PG_PE_PG_PE_ID'; exception when others then null; end;
---/
---begin execute immediate 'DROP TRIGGER SET_CSM_PG_PE_UPDATE_DATE'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_PG_PE CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_PRIVILEGE_PRIVILEGE_ID_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_PRIVILEGE CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_FILTER_CLAUSE_FILTE_ID_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_FILTER_CLAUSE CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_PROTECTION_ELEMENT CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_PROTECTIO_PROTECTION_E_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_PROTECTIO_PROTECTION_G_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_PROTECTION_GROUP CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_ROLE_ROLE_ID_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_ROLE CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP TRIGGER SET_CSM_ROLE_PRIV_ROLE_PRIVILE'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_ROLE_PRIV_ROLE_PRIVILE_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_ROLE_PRIVILEGE CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_USER_USER_ID_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_USER CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP TRIGGER SET_CSM_USER_GROU_USER_GROUP_I'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_USER_GROU_USER_GROUP_I_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_USER_GROUP CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_USER_GROUP_ROLE_PG CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP TRIGGER SET_CSM_USER_PE_USER_PROTECTIO'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_USER_PE_USER_PROTECTIO_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_USER_PE CASCADE CONSTRAINTS'; exception when others then null; end;
---/
---begin execute immediate 'DROP SEQUENCE CSM_MAPPING_SEQ'; exception when others then null; end;
---/
---begin execute immediate 'DROP TABLE CSM_MAPPING CASCADE CONSTRAINTS'; exception when others then null; end;
---/
+begin execute immediate 'DROP TABLE CSM_PASSWORD_HISTORY'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_CONFIGURATION_PROPERTIES'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_PASSWORD_HISTORY_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_APPLICATI_APPLICATION__SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_APPLICATION CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_GROUP_GROUP_ID_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_GROUP CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP TRIGGER SET_CSM_PG_PE_PG_PE_ID'; exception when others then null; end;
+/
+begin execute immediate 'DROP TRIGGER SET_CSM_PG_PE_UPDATE_DATE'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_PG_PE CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_PRIVILEGE_PRIVILEGE_ID_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_PRIVILEGE CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_FILTER_CLAUSE_FILTE_ID_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_FILTER_CLAUSE CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_PROTECTION_ELEMENT CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_PROTECTIO_PROTECTION_E_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_PROTECTIO_PROTECTION_G_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_PROTECTION_GROUP CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_ROLE_ROLE_ID_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_ROLE CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP TRIGGER SET_CSM_ROLE_PRIV_ROLE_PRIVILE'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_ROLE_PRIV_ROLE_PRIVILE_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_ROLE_PRIVILEGE CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_USER_USER_ID_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_USER CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP TRIGGER SET_CSM_USER_GROU_USER_GROUP_I'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_USER_GROU_USER_GROUP_I_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_USER_GROUP CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_USER_GROUP_ROLE_PG CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP TRIGGER SET_CSM_USER_PE_USER_PROTECTIO'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_USER_PE_USER_PROTECTIO_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_USER_PE CASCADE CONSTRAINTS'; exception when others then null; end;
+/
+begin execute immediate 'DROP SEQUENCE CSM_MAPPING_SEQ'; exception when others then null; end;
+/
+begin execute immediate 'DROP TABLE CSM_MAPPING CASCADE CONSTRAINTS'; exception when others then null; end;
+/
 
 
 CREATE TABLE CSM_APPLICATION ( 
@@ -304,13 +310,17 @@ CREATE TABLE CSM_USER (
 	ORGANIZATION VARCHAR2(100),
 	DEPARTMENT VARCHAR2(100),
 	TITLE VARCHAR2(100),
-	PHONE_NUMBER VARCHAR2(15),
+	PHONE_NUMBER VARCHAR2(100),
 	PASSWORD VARCHAR2(100),
 	EMAIL_ID VARCHAR2(100),
 	START_DATE DATE,
 	END_DATE DATE,
 	UPDATE_DATE DATE NOT NULL,
-	PREMGRT_LOGIN_NAME VARCHAR2(100)
+	PREMGRT_LOGIN_NAME VARCHAR2(100),
+  PASSWORD_EXPIRED NUMBER(1),
+  PASSWORD_EXPIRY_DATE DATE ,
+  FIRST_TIME_LOGIN NUMBER(1),
+  ACTIVE_FLAG NUMBER(1)
 ) 
 /
 
@@ -417,6 +427,41 @@ nocache
 noorder
 /
 
+CREATE TABLE CSM_PASSWORD_HISTORY (
+	CSM_PASSWORD_HISTORY_ID NUMBER(38) NOT NULL,
+	LOGIN_NAME VARCHAR2(100),
+	PASSWORD VARCHAR2(255)
+)
+/
+
+CREATE SEQUENCE CSM_PASSWORD_HISTORY_SEQ
+increment by 1
+start with 1
+NOMAXVALUE
+minvalue 1
+nocycle
+nocache
+noorder
+/
+
+
+CREATE OR REPLACE TRIGGER SET_CSM_PASSWORD_HISTORY
+BEFORE INSERT
+ON CSM_PASSWORD_HISTORY
+FOR EACH ROW
+BEGIN
+  SELECT CSM_PASSWORD_HISTORY_SEQ.NEXTVAL
+  INTO :NEW.CSM_PASSWORD_HISTORY_ID
+  FROM DUAL;
+END;
+/
+
+CREATE TABLE CSM_CONFIGURATION_PROPERTIES (
+  PROPERTY_KEY VARCHAR(300) NOT NULL,
+  PROPERTY_VALUE VARCHAR(3000)
+) 
+/
+
 CREATE OR REPLACE TRIGGER SET_CSM_USER_PE_USER_PROTECTIO
 BEFORE INSERT
 ON CSM_USER_PE
@@ -478,6 +523,10 @@ PRIMARY KEY (USER_GROUP_ROLE_PG_ID)
 
 ALTER TABLE CSM_USER_PE ADD CONSTRAINT PK_USER_PROTECTION_ELEMENT 
 PRIMARY KEY (USER_PROTECTION_ELEMENT_ID) 
+/
+
+ALTER TABLE CSM_CONFIGURATION_PROPERTIES ADD CONSTRAINT PK_CSM_CONFIGURATION_PROPERTIES
+PRIMARY KEY (PROPERTY_KEY) 
 /
 
 
@@ -626,3 +675,4 @@ ALTER TABLE CSM_APPLICATION ADD ( CSM_VERSION VARCHAR2(20))
 
 COMMIT
 /
+
