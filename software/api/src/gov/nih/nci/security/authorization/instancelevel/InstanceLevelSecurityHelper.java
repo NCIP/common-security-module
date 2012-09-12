@@ -54,46 +54,31 @@ public class InstanceLevelSecurityHelper
 	 * 						and rest of the list will be ignored. 
 	 * 						
 	 */
-	public static void addFiltersForGroups(AuthorizationManager authorizationManager,Configuration configuration, List<String> definedFilterNamesList)
+	public static void addFiltersForGroups(AuthorizationManager authorizationManager,Configuration configuration, List<String> toKeepFilterNamesList)
+	{
+		//clean existing filters of configuration
+		cleanConfigurationFilters(configuration, toKeepFilterNamesList);
+		//add filters defined by CSM
+		addFiltersForGroups(authorizationManager, configuration);
+	}
+	
+	/**
+	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
+	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
+	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.
+	 * It then adds the filter to the persistent class by setting the filtering query.
+	 * @param authorizationManager The CSM AuthorizationManager instance for this application
+	 * @param configuration The Hibernate Configuration initialized for this application
+	 * 
+	 */
+	public static void addFiltersForGroups(AuthorizationManager authorizationManager,Configuration configuration)
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
 		
-		
 		//If using InstanceLevel Query Performance Enhancements of 4.2, then no need to optimize query for MySQL Db.
 		if(!isExistActiveMappingElement(authorizationManager))	
 			needsOptimisation = isMySQLDatabase(props,true);
-		
-		// Inject/Remove Defined Filters in HBM/Classes/Package.
-		if(null!=definedFilterNamesList && !definedFilterNamesList.isEmpty()){
-			if(definedFilterNamesList.contains("ALL")){
-				// All Defined filters need to be added. 
-				//No actions needed.
-			}else{
-				// Remove all except the specified Filters from Configuration.
-				
-				Map filterDefinitions = configuration.getFilterDefinitions();
-				Set keySet = filterDefinitions.keySet();
-				Iterator keySetIterator = keySet.iterator();
-				while(keySetIterator.hasNext()){
-					String key = (String)keySetIterator.next();
-					if(definedFilterNamesList.contains(key)){
-						//keep the Filter
-					}else{
-						//Remove Filter from Configuration.
-						filterDefinitions.remove(key);
-					}
-				}
-			}
-		}else{
-			// Remove all Filters from Configuration.
-			Map filterDefinitions = configuration.getFilterDefinitions();
-			Set keySet = filterDefinitions.keySet();
-			Iterator keySetIterator = keySet.iterator();
-			while(keySetIterator.hasNext()){
-				filterDefinitions.remove((String)keySetIterator.next());
-			}
-		}
 		
 		// Inject CSM Filters for Group
 		FilterClause searchFilterClause = new FilterClause();
@@ -116,22 +101,6 @@ public class InstanceLevelSecurityHelper
 					filterClause.getClassName().substring(filterClause.getClassName().lastIndexOf('.') + 1) + filterClause.getId()
 					, optimiseFilterQuery(needsOptimisation,filterClause.getGeneratedSQLForGroup()));
 		}
-	}
-	
-	
-
-	/**
-	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
-	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
-	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.
-	 * It then adds the filter to the persistent class by setting the filtering query.
-	 * @param authorizationManager The CSM AuthorizationManager instance for this application
-	 * @param configuration The Hibernate Configuration initialized for this application
-	 * 
-	 */
-	public static void addFiltersForGroups(AuthorizationManager authorizationManager,Configuration configuration)
-	{
-		addFiltersForGroups(authorizationManager, configuration, null);
 	}
 	
 	/**
@@ -198,49 +167,35 @@ public class InstanceLevelSecurityHelper
 	 * <li>It then adds the filter to the persistent class by setting the filtering query.
 	 * @param authorizationManager The CSM AuthorizationManager instance for this application
 	 * @param configuration The Hibernate Configuration initialized for this application
-	 * @param definedFilterNamesList The List of filter names (non CSM Database Filters) that need to be added. This list contains defined filter names that need to be added. 
+	 * @param toKeepFilterNamesList The List of filter names (non CSM Database Filters) that need to be added. This list contains defined filter names that need to be added. 
 	 * 					   It does not include CSM Filters defined via UPT.<br> If the list contains filter name 'ALL' then all filters will be added 
 	 * 						and rest of the list will be ignored. 
 	 * 						
 	 */
-	public static void addFilters(AuthorizationManager authorizationManager,Configuration configuration, List<String> definedFilterNamesList)
+	public static void addFilters(AuthorizationManager authorizationManager,Configuration configuration, List<String> toKeepFilterNamesList)
+	{
+		//clean  existing filters of configuration
+		cleanConfigurationFilters(configuration, toKeepFilterNamesList);
+		//add filters defined by CSM
+		addFilters(authorizationManager, configuration);
+	}
+	
+	
+	/**
+	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
+	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
+	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.
+	 * It then adds the filter to the persistent class by setting the filtering query.
+	 * @param authorizationManager The CSM AuthorizationManager instance for this application
+	 * @param configuration The Hibernate Configuration initialized for this application
+	 */
+	public static void addFilters(AuthorizationManager authorizationManager,Configuration configuration)
 	{
 		boolean needsOptimisation = false;
 		Properties props = configuration.getProperties();
 		
 		if(!isExistActiveMappingElement(authorizationManager))
 			needsOptimisation = isMySQLDatabase(props,true);
-		
-		// Add/Remove Non-CSM defined filters.
-		if(null!=definedFilterNamesList && !definedFilterNamesList.isEmpty()){
-			if(definedFilterNamesList.contains("ALL")){
-				// All Defined filters need to be added. 
-				//No actions needed.
-			}else{
-				// Remove all except the specified Filters from Configuration.
-				
-				Map filterDefinitions = configuration.getFilterDefinitions();
-				Set keySet = filterDefinitions.keySet();
-				Iterator keySetIterator = keySet.iterator();
-				while(keySetIterator.hasNext()){
-					String key = (String)keySetIterator.next();
-					if(definedFilterNamesList.contains(key)){
-						//keep the Filter
-					}else{
-						//Remove Filter from Configuration.
-						filterDefinitions.remove(key);
-					}
-				}
-			}
-		}else{
-			// Remove all Filters from Configuration.
-			Map filterDefinitions = configuration.getFilterDefinitions();
-			Set keySet = filterDefinitions.keySet();
-			Iterator keySetIterator = keySet.iterator();
-			while(keySetIterator.hasNext()){
-				filterDefinitions.remove((String)keySetIterator.next());
-			}
-		}
 		
 		// Inject CSM defined Filters
 		FilterClause searchFilterClause = new FilterClause();
@@ -261,21 +216,7 @@ public class InstanceLevelSecurityHelper
 			persistentClass.addFilter(
 					filterClause.getClassName().substring(filterClause.getClassName().lastIndexOf('.') + 1) + filterClause.getId()
 					,optimiseFilterQuery(needsOptimisation,filterClause.getGeneratedSQLForUser()));
-		}		
-	}
-	
-	
-	/**
-	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
-	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
-	 * It then retrieves the Persistent Class from the passed Configuration Object using the class name for which the filter is defined.
-	 * It then adds the filter to the persistent class by setting the filtering query.
-	 * @param authorizationManager The CSM AuthorizationManager instance for this application
-	 * @param configuration The Hibernate Configuration initialized for this application
-	 */
-	public static void addFilters(AuthorizationManager authorizationManager,Configuration configuration)
-	{
-		addFilters(authorizationManager, configuration, null);
+		}	
 	}
 
 	/**
@@ -415,8 +356,6 @@ public class InstanceLevelSecurityHelper
 			String filterName = (String)sessionDefinedFilterNamesListIterator.next();
 			Filter filter = session.enableFilter(filterName);
 		}
-		
-
 	}
 
 	
@@ -450,53 +389,44 @@ public class InstanceLevelSecurityHelper
 	 */
 	public static void initializeFilters(String userName, Session session, AuthorizationManager authorizationManager, Map<String,String> definedFilterNamesMap)
 	{
+		List<String> initUserFilterNames = new ArrayList<String>();
+		List<String> initSessionDefinedFilterNames = new ArrayList<String>();
 		
-		List<String> sessionUserFilterNamesList = new ArrayList<String>();
-		List<String> sessionDefinedFilterNamesList = new ArrayList<String>();
-		
-		boolean enableAllDefinedFilterNames = false;
+		boolean enableAllSessionDefinedFilters = false;
 		
 		Set definedFilterNames =null ;
 		if(definedFilterNamesMap!=null && !definedFilterNamesMap.isEmpty()){
 			definedFilterNames = definedFilterNamesMap.keySet();
-			if(definedFilterNames.contains("ALL")) enableAllDefinedFilterNames = true;
+			if(definedFilterNames.contains("ALL")) 
+				enableAllSessionDefinedFilters = true;
 		}
-				
-		SessionFactory sessionFactory = session.getSessionFactory();
-		Set sessionFilterNamesSet = sessionFactory.getDefinedFilterNames();
-
-		Iterator sessionFilterNamesSetIterator = sessionFilterNamesSet.iterator();
-		while (sessionFilterNamesSetIterator.hasNext()){
+		
+		Iterator sessionFilterNamesSetIterator = session.getSessionFactory().getDefinedFilterNames().iterator();
+		while (sessionFilterNamesSetIterator.hasNext())
+		{
 			String filterName = (String)sessionFilterNamesSetIterator.next();
-			
-			if(null!=definedFilterNames){
-				if(enableAllDefinedFilterNames){  
-					sessionDefinedFilterNamesList.add(filterName);
-				}else{
-					if(definedFilterNames.contains(filterName)){
-						String value = (String)definedFilterNamesMap.get(filterName);
-						if(Constants.ENABLE.equalsIgnoreCase(value)){
-							sessionDefinedFilterNamesList.add(filterName);
-						}
+			if(enableAllSessionDefinedFilters){  
+					initSessionDefinedFilterNames.add(filterName);
+			}else if(definedFilterNames!=null&&definedFilterNames.contains(filterName)){
+					String value = (String)definedFilterNamesMap.get(filterName);
+					if(Constants.ENABLE.equalsIgnoreCase(value)){
+						initSessionDefinedFilterNames.add(filterName);
 					}
-				}
 			}
 			
-			FilterDefinition filterDefinition = sessionFactory.getFilterDefinition(filterName);
-			if(filterDefinition!=null){
-				
+			FilterDefinition filterDefinition =  session.getSessionFactory().getFilterDefinition(filterName);
+			if(filterDefinition!=null){		
 				Set<String> parameterNamesSet = filterDefinition.getParameterNames();
 				if(parameterNamesSet!=null && parameterNamesSet.contains("USER_NAME")){
-					sessionUserFilterNamesList.add(filterName);
+					initUserFilterNames.add(filterName);
 					// remove this filter name from sessionDefinedFilterNamesList if it exists in there.
-					if(sessionDefinedFilterNamesList.contains(filterName)) 
-							sessionDefinedFilterNamesList.remove(filterName);
+					initSessionDefinedFilterNames.remove(filterName);
 				}
 			}		
 		}
 		
 		//Enable the User Filters from CSM database for the application
-		Iterator sessionUserFilterNamesListIterator = sessionUserFilterNamesList.iterator();
+		Iterator sessionUserFilterNamesListIterator = initUserFilterNames.iterator();
 		while(sessionUserFilterNamesListIterator.hasNext()){
 			String filterName = (String)sessionUserFilterNamesListIterator.next();
 			Filter filter = session.enableFilter(filterName);
@@ -504,13 +434,11 @@ public class InstanceLevelSecurityHelper
 			filter.setParameter("APPLICATION_ID", authorizationManager.getApplicationContext().getApplicationId());
 		}
 		//Enable the Defined Filters available in HBM/Classes.
-		Iterator sessionDefinedFilterNamesListIterator = sessionDefinedFilterNamesList.iterator();
+		Iterator sessionDefinedFilterNamesListIterator = initSessionDefinedFilterNames.iterator();
 		while(sessionDefinedFilterNamesListIterator.hasNext()){
 			String filterName = (String)sessionDefinedFilterNamesListIterator.next();
 			Filter filter = session.enableFilter(filterName);
 		}
-		
-
 	}
 	
 	private static String optimiseFilterQuery(Boolean needsOptimisation, String filterSQL) {
@@ -567,11 +495,8 @@ public class InstanceLevelSecurityHelper
 			
 		}else{
 			return filterSQL;
-		}
-		
+		}	
 	}
-	
-	
 	
 	/** 
 	 * This method checks if the connection properties provided is for a MySQL Database.
@@ -625,4 +550,31 @@ public class InstanceLevelSecurityHelper
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param configuration Configuration to clean
+	 * @param toKeepFilterNamesList Name list of filters to keep
+	 */
+	private static void cleanConfigurationFilters (Configuration configuration, List<String> toKeepFilterNamesList)
+	{
+		// Add/Remove Non-CSM defined filters.
+		if(toKeepFilterNamesList==null||toKeepFilterNamesList.isEmpty())
+			configuration.getFilterDefinitions().clear();
+		else if(!toKeepFilterNamesList.contains("ALL"))
+			return;
+		else		
+		{
+			// Remove all except the specified Filters from Configuration.		
+			Map filterDefinitions = configuration.getFilterDefinitions();
+			Set keySet = filterDefinitions.keySet();
+			Iterator keySetIterator = keySet.iterator();
+			while(keySetIterator.hasNext()){
+				String key = (String)keySetIterator.next();
+				if(!toKeepFilterNamesList.contains(key)){
+					//Remove Filter from Configuration.
+					filterDefinitions.remove(key);
+				}
+			}
+		}
+	}
 }
