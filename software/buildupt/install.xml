@@ -1556,6 +1556,7 @@
 				</then>
 				</if>
 				<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/upt45/WEB-INF/lib/clm-4.1.1.jar"/>
+				<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/bcprov-jdk15on-147.jar"/>
 				<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig/" overwrite="true">
 					<fileset dir="${temp.ear.dir}/upt45/WEB-INF/classes">
 						<include name="csmupt45.csm.new.hibernate.cfg.xml" />
@@ -1596,6 +1597,7 @@
 		</then>
 		</if>
 		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/uptlogin/WEB-INF/lib/clm-4.1.1.jar"/>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/bcprov-jdk15on-147.jar"/>
 		<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig/" overwrite="true">
 			<fileset dir="${temp.ear.dir}/uptlogin/WEB-INF/classes">
 				<include name="csmupt.csm.new.hibernate.cfg.xml" />
