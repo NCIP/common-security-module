@@ -27,6 +27,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.engine.FilterDefinition;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -85,13 +86,6 @@ public class InstanceLevelSecurityTest extends TestCase {
 		
 		Session session = null;
 		session = sf.openSession();
-//		SessionFactory sf = null;
-//		try {
-//			sf = ApplicationSessionFactory.getSessionFactory(csmApplicationContext);
-//		} catch (CSConfigurationException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
 		session = HibernateSessionFactoryHelper.getAuditSession(sf);
 		FilterClause searchClause = new FilterClause();
 		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchClause);
@@ -123,7 +117,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		for(Object obj : list)
 		{
 			try {
-				printObject(obj);
+				printObject(obj, false);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -131,22 +125,78 @@ public class InstanceLevelSecurityTest extends TestCase {
 		assertEquals("Incorrect number of FilterClause retrieved",list.size(), 1); // Expecting all cards in the deck including the joker.
 	}
 	private void testGetObjects() throws Exception {
-
 		FilterClause searchClause = new FilterClause();	
 		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchClause);
-		System.out.println("InstanceLevelSecurityTest.testGetObjects()...searchCriteria.getFieldAndValues():"+searchCriteria.getFieldAndValues());
 		List list = authorizationManager.getObjects(searchCriteria);
 		System.out.println("InstanceLevelSecurityTest.testGetObjects()...result size:"+list.size());
 		for(Object obj : list)
 		{
 			try {
-				printObject(obj);
+				printObject(obj, false);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
 	}
-	private void testInstanceLevelSecurityForUser() throws Exception {
+	 
+	public void testInstanceLevelSecurityCriteriaForUser() throws Exception
+	{
+		SessionFactory sf=null;
+		Configuration configuration = null;
+		if(null == sf || sf.isClosed()){
+			configuration = new Configuration().configure(hibernateCfgFileName);
+			InstanceLevelSecurityHelper.enableFilterCriteriaForUser(authorizationManager, configuration, csmApplicationContext, userName);
+			sf = configuration.buildSessionFactory();
+		}
+		Session session= sf.openSession();
+		
+//		DetachedCriteria detachedCriteria  = (DetachedCriteria)InstanceLevelSecurityHelper.findDetachedCriteriaForClass("gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Project");
+//		DetachedCriteria detachedCriteria  = (DetachedCriteria)InstanceLevelSecurityHelper.findDetachedCriteriaForClass("gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Employee");
+		DetachedCriteria detachedCriteria  = (DetachedCriteria)InstanceLevelSecurityHelper.findObjectDetachedCriteriaForUser("gov.nih.nci.cacoresdk.domain.manytomany.unidirectional.Book", userName);
+		System.out
+				.println("InstanceLevelSecurityTest.testStrongInstanceLevelSecurityForUser()..:"+detachedCriteria);
+		List results=detachedCriteria.getExecutableCriteria(session).list();		
+		for(Object obj : results)
+		{
+			printObject(obj, true);
+		}
+				
+		session.close();
+		sf.close();
+		
+		assertEquals("Correct number of Objects retrieved",results.size(), 1); 
+	}
+	
+	public void testInstanceLevelSecurityCriteriaForGroup() throws Exception {
+		
+		SessionFactory sf=null;
+		Configuration configuration = null;
+		if(null == sf || sf.isClosed()){
+			configuration = new Configuration().configure(hibernateCfgFileName);
+			InstanceLevelSecurityHelper.enableFilterCriteriaForGroup(authorizationManager, configuration, csmApplicationContext, "instanceGroup");
+			sf = configuration.buildSessionFactory();
+		}
+		Session session = sf.openSession();
+		
+//		DetachedCriteria detachedCriteria  = (DetachedCriteria)InstanceLevelSecurityHelper.findObjectDetachedCriteriaForGroup("gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Project");
+		DetachedCriteria detachedCriteria  = (DetachedCriteria)InstanceLevelSecurityHelper.findObjectDetachedCriteriaForGroup("gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Employee", "instanceGroup");
+//		DetachedCriteria detachedCriteria  = (DetachedCriteria)InstanceLevelSecurityHelper.findObjectDetachedCriteriaForGroup("gov.nih.nci.cacoresdk.domain.manytomany.unidirectional.Book");
+		System.out
+				.println("InstanceLevelSecurityTest.testStrongInstanceLevelSecurityForUser()..:"+detachedCriteria);
+		List results=detachedCriteria.getExecutableCriteria(session).list();
+		System.out.println("Total no of Object on which user has access= "+results.size());
+		
+		for(Object obj : results)
+		{
+			printObject(obj, true);
+		}
+				
+		session.close();
+		sf.close();
+		
+		assertEquals("Correct number of Objects retrieved",results.size(), 1); 
+	}
+	public void testInstanceLevelSecurityForUser() throws Exception {
 		SessionFactory sf=null;
 		Configuration configuration = null;
 		if(null == sf || sf.isClosed()){
@@ -164,8 +214,9 @@ public class InstanceLevelSecurityTest extends TestCase {
 		if(session==null){
 			session = sf.openSession();
 		}
-		Criteria criteria = session.createCriteria(gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Employee.class);
-//		Criteria criteria = session.createCriteria(gov.nih.nci.cacoresdk.domain.manytomany.unidirectional.Book.class);
+//		Criteria criteria = session.createCriteria(gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Project.class);
+//		Criteria criteria = session.createCriteria(gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Employee.class);
+		Criteria criteria = session.createCriteria(gov.nih.nci.cacoresdk.domain.manytomany.unidirectional.Book.class);
 		List results = criteria.list();
 		int size =results.size();
 		System.out.println("============= INSTANCE LEVEL ONLY - FOR USER ONLY ==================");
@@ -174,7 +225,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		
 		for(Object obj : results)
 		{
-			printObject(obj);
+			printObject(obj, true);
 		}
 				
 		session.close();
@@ -212,7 +263,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		for(Object obj : results)
 		{
 			
-				printObject(obj);
+				printObject(obj, false);
 				/*Card c = (Card)obj;
 				if(StringUtilities.isBlank(c.getImage())){
 					assertEquals("Attribute Not available or is null. Attribute Level security fails.",true,false);
@@ -263,7 +314,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 			try {
 				
 				if(((Card)obj).getId() ==1) {
-					printObject(obj);
+					printObject(obj, false);
 					Card c = (Card)obj;
 					if(StringUtilities.isBlank(c.getImage())){
 						assertEquals("Attribute Not available or is null. Attribute Level security fails.",true,false);
@@ -305,7 +356,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		for(Object obj : results)
 		{
 			try {
-				printObject(obj); 
+				printObject(obj, false); 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -337,7 +388,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		{
 			try {
 				if(((Card)obj).getId() ==1) {
-					printObject(obj);
+					printObject(obj, false);
 					Card c = (Card)obj;
 					if(StringUtilities.isBlank(c.getImage())){
 						assertEquals("Attribute Not available or is null. Attribute Level security fails.",true,false);
@@ -383,7 +434,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		{
 			try {
 				if(((Card)obj).getId() ==1) {
-					printObject(obj);
+					printObject(obj, false);
 					Card c = (Card)obj;
 					if(StringUtilities.isBlank(c.getImage())){
 						assertEquals("Attribute Not available or is null. Attribute Level security fails.",true,false);
@@ -400,7 +451,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		assertEquals("Incorrect number of cards retrieved",size, 52); // Expecting all cards in the deck
 	}
 	
-	private void testGetFiltersForUsers() throws Exception {
+	public void testGetFiltersForUsers() throws Exception {
 		SessionFactory sf=null;
 		Configuration configuration = null;
 		if(null == sf || sf.isClosed()){
@@ -412,7 +463,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		sf.close();
 		for (Object filter:filterList)	
 		{	try {
-			printObject(filter);
+			printObject(filter, false);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -433,7 +484,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		sf.close();
 		for (Object filter:filterList)	
 		{	try {
-			printObject(filter);
+			printObject(filter, false);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -442,7 +493,7 @@ public class InstanceLevelSecurityTest extends TestCase {
 		assertEquals("GetFiltersForGroups Method successful",2, filterList.size()); 
 	}
 	
-	private void printObject(Object obj) throws Exception {
+	private void printObject(Object obj, boolean recursive) throws Exception {
 		Class klass=obj.getClass();
 		System.out.println("Printing "+ klass.getName());
 		Method[] methods = klass.getMethods();
@@ -453,7 +504,18 @@ public class InstanceLevelSecurityTest extends TestCase {
 				System.out.print("\t"+method.getName().substring(3)+":");
 				Object val = method.invoke(obj, (Object[])null);
 				if(val instanceof java.util.Set)
+				{
+					java.util.Set<Object> childCollection=(java.util.Set)val;
+					for (Object refObj:childCollection)
+					{		
+						if (recursive)
+							printObject(refObj, false);
+						else
+							System.out
+									.println("\t\tReferred child: "+refObj.getClass().getName());
+					}
 					System.out.println("size="+((Collection)val).size());
+				}
 				else
 					System.out.println(val);
 			}

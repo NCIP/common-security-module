@@ -9,7 +9,7 @@
         <!-- properties  -->
 	        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>        	
         	<property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
-	        <property name="connection.url">jdbc:mysql://localhost:3306/csmnew</property>
+	        <property name="connection.url">jdbc:mysql://localhost:3306/sdk441core</property>
 	        <property name="connection.username">sdk</property>
 	        <property name="connection.password">sdk</property>	
 	<property name="hibernate.show_sql">false</property>
@@ -35,5 +35,5 @@
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.hbm.xml"/>
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/UserProtectionElement.hbm.xml"/>  
         <mapping resource="gov/nih/nci/security/authorization/domainobjects/ConfigurationProperties.hbm.xml"/>
-    </session-factory>
+      </session-factory>
 </hibernate-configuration>

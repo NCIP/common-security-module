@@ -12,6 +12,7 @@ import gov.nih.nci.security.exceptions.CSException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +20,13 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.hibernate.Filter;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
 import org.hibernate.engine.FilterDefinition;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.type.LongType;
@@ -30,7 +35,34 @@ import org.hibernate.type.StringType;
 
 public class InstanceLevelSecurityHelper
 {
+	private static HashMap <String, Hashtable<String, DetachedCriteria>> userFilterStoreHash=new HashMap<String, Hashtable<String, DetachedCriteria>>();
+	private static HashMap <String, Hashtable<String, DetachedCriteria>> groupFilterStoreHash=new HashMap<String, Hashtable<String, DetachedCriteria>>();
+	private static String userPeSql="SELECT pe.OBJECT_ID, pe.ATTRIBUTE_VALUE FROM csm_protection_group pg, csm_protection_element pe, csm_pg_pe pgpe, csm_user_group_role_pg ugrpg,  csm_role_privilege rp, csm_role r, csm_privilege p, csm_filter_clause filter, csm_user u, csm_application app " 
+			+ " WHERE app.application_name=? AND u.login_name=? AND pe.application_id=app.application_id AND pe.object_id IN (filter.class_name,filter.target_class_alias, filter.target_class_name) AND   ugrpg.role_id = r.role_id AND ugrpg.user_id = u.user_id AND ugrpg.protection_group_id = ANY  "
+			+" (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.protection_group_id = pg.protection_group_id OR pg1.protection_group_id = (SELECT pg2.parent_protection_group_id FROM csm_protection_group pg2 WHERE pg2.protection_group_id = pg.protection_group_id)) AND pg.protection_group_id = pgpe.protection_group_id AND pgpe.protection_element_id = pe.protection_element_id AND r.role_id = rp.role_id AND rp.privilege_id = p.privilege_id AND p.privilege_name='READ' ";
 	
+	private static String groupPeSql="SELECT pe.OBJECT_ID, pe.ATTRIBUTE_VALUE FROM CSM_PROTECTION_GROUP pg, CSM_PROTECTION_ELEMENT pe, CSM_PG_PE pgpe, CSM_USER_GROUP_ROLE_PG ugrpg, CSM_ROLE_PRIVILEGE rp, CSM_ROLE r, CSM_PRIVILEGE p, csm_filter_clause filter, CSM_GROUP g,  csm_application app "
+			+" WHERE app.application_name=? AND g.GROUP_NAME=? AND pe.application_id=app.application_id AND pe.object_id IN (filter.class_name,filter.target_class_alias, filter.target_class_name) AND ugrpg.role_id = r.role_id AND ugrpg.group_id = g.group_id AND ugrpg.protection_group_id = ANY "
+			+" (SELECT pg1.protection_group_id FROM csm_protection_group pg1  WHERE pg1.protection_group_id = pg.protection_group_id OR pg1.protection_group_id =  (SELECT pg2.parent_protection_group_id FROM csm_protection_group pg2 WHERE pg2.protection_group_id = pg.protection_group_id) ) AND pg.protection_group_id = pgpe.protection_group_id AND pgpe.protection_element_id = pe.protection_element_id AND r.role_id = rp.role_id AND rp.privilege_id = p.privilege_id AND p.privilege_name='READ'";
+
+	
+	public static DetachedCriteria  findObjectDetachedCriteriaForUser(String keyName, String loginName)
+	{
+		Hashtable<String, DetachedCriteria> userFilters=userFilterStoreHash.get(loginName);
+		if (userFilters!=null)
+		return userFilters.get(keyName);
+		
+		return null;
+	}
+	
+	public static DetachedCriteria  findObjectDetachedCriteriaForGroup(String keyName, String groupName)
+	{
+		Hashtable<String, DetachedCriteria> groupFilters=groupFilterStoreHash.get(groupName);
+		if (groupFilters!=null)
+			return groupFilters.get(keyName);
+		
+		return null; 
+	}
 	/**
 	 * 
 	 * This method injects <br>
@@ -81,10 +113,7 @@ public class InstanceLevelSecurityHelper
 			needsOptimisation = isMySQLDatabase(props,true);
 		
 		// Inject CSM Filters for Group
-		FilterClause searchFilterClause = new FilterClause();
-		searchFilterClause.setClassName("*");
-		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);
-		List list = authorizationManager.getObjects(searchCriteria);
+		List list = retriveAllCsmFilterClause(authorizationManager);
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext())
 		{
@@ -125,12 +154,8 @@ public class InstanceLevelSecurityHelper
 		if(!isExistActiveMappingElement(authorizationManager))
 			needsOptimisation = isMySQLDatabase(props,false);
 		
-
 		List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>();
-		FilterClause searchFilterClause = new FilterClause();
-		searchFilterClause.setClassName("*");
-		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);
-		List list = authorizationManager.getObjects(searchCriteria);
+		List list = retriveAllCsmFilterClause(authorizationManager);
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext())
 		{
@@ -198,10 +223,7 @@ public class InstanceLevelSecurityHelper
 			needsOptimisation = isMySQLDatabase(props,true);
 		
 		// Inject CSM defined Filters
-		FilterClause searchFilterClause = new FilterClause();
-		searchFilterClause.setClassName("*");
-		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);
-		List list = authorizationManager.getObjects(searchCriteria);
+		List list = retriveAllCsmFilterClause(authorizationManager);
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext())
 		{
@@ -218,7 +240,38 @@ public class InstanceLevelSecurityHelper
 					,optimiseFilterQuery(needsOptimisation,filterClause.getGeneratedSQLForUser()));
 		}	
 	}
-
+	/**
+	 * Enable pre-defined instance level security filter of given user, create DetachedCriteria instance for each enabled CSM filter
+	 * @param authorizationManager current instance of CSM AuthorizationManager
+	 * @param configuration Hibernate configuration instance of current CSM application 
+	 * @param applicationName name of application registered with CSMUPT 
+	 * @param userLogin login name a CSM user
+	 */
+	public static void enableFilterCriteriaForUser(AuthorizationManager authorizationManager,Configuration configuration, String applicationName , String userLogin)
+	{
+		Hashtable<String, DetachedCriteria> userFilters=userFilterStoreHash.get(userLogin);
+		if (userFilters==null)
+			userFilters=new Hashtable<String, DetachedCriteria>();
+		enableSelectedFilter(authorizationManager,configuration, userPeSql, applicationName, userLogin, userFilters);
+		userFilterStoreHash.put(userLogin, userFilters);
+	}
+	
+	/**
+	 * Enable pre-defined instance level security filter of given group, create DetachedCriteria instance for each enabled CSM filter
+	 * @param authorizationManager current instance of CSM AuthorizationManager
+	 * @param configuration Hibernate configuration instance of current CSM application 
+	 * @param applicationName name of application registered with CSMUPT
+	 * @param groupName name a CSM user group
+	 */
+	public static void enableFilterCriteriaForGroup(AuthorizationManager authorizationManager, Configuration configuration, String applicationName , String groupName)
+	{
+		Hashtable<String, DetachedCriteria> groupFilters=groupFilterStoreHash.get(groupName);
+		if (groupFilters==null)
+			groupFilters=new Hashtable<String, DetachedCriteria>();
+		enableSelectedFilter(authorizationManager,configuration, groupPeSql, applicationName, groupName, groupFilters );
+		groupFilterStoreHash.put(groupName, groupFilters);	
+	}
+	
 	/**
 	 * This method injects the security filters which are created for this application. It retrieves a list of all the filters which have 
 	 * been defined for this application from the CSM Database. Now for each filter in the list, it creates a new FilterDefinition object.
@@ -243,11 +296,7 @@ public class InstanceLevelSecurityHelper
 			needsOptimisation = isMySQLDatabase(props,false);
 		
 		List<FilterDefinition> filterDefinitionList = new ArrayList<FilterDefinition>();
-		
-		FilterClause searchFilterClause = new FilterClause();
-		searchFilterClause.setClassName("*");
-		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);
-		List list = authorizationManager.getObjects(searchCriteria);
+		List list = retriveAllCsmFilterClause(authorizationManager);
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext())
 		{
@@ -576,5 +625,78 @@ public class InstanceLevelSecurityHelper
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Retrieve all CSM FilterClause from DB
+	 * @param authorizationManager
+	 * @return FilterClauses found
+	 */
+	@SuppressWarnings("unchecked")
+	private static List<FilterClause>retriveAllCsmFilterClause (AuthorizationManager authorizationManager )
+	{
+		List<FilterClause> rtnList=null;
+		// Inject CSM defined Filters
+		FilterClause searchFilterClause = new FilterClause();
+		searchFilterClause.setClassName("*");
+		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(searchFilterClause);
+		rtnList = (List<FilterClause>)authorizationManager.getObjects(searchCriteria);
+		return rtnList;
+	}
+	
+	private static void enableSelectedFilter(AuthorizationManager authorizationManager, Configuration configuration, String sqlString, String sqlParameterOne, String sqlParameterTwo,
+			Hashtable<String, DetachedCriteria> criteriaHolderHash)
+	{
+		//search values for all filter attributes, which are set by associated ProtectionElement
+		Hashtable<String, String> filterValueHash=new Hashtable<String, String>();
+		SessionFactory sf=configuration.buildSessionFactory();
+		Session session=sf.openSession();
+		Query query = session.createSQLQuery(sqlString);
+		query.setParameter(0, sqlParameterOne, Hibernate.STRING);
+		query.setParameter(1, sqlParameterTwo, Hibernate.STRING);
+			
+		List results  = query.list();
+		for (Object peObj:results)
+		{
+			Object[] resultArray=(Object[])peObj;
+			filterValueHash.put((String)resultArray[0],(String) resultArray[1]);		
+		}
+		
+		//process all FilterClause and generate required DetachedCriteria
+		List <FilterClause> filterClauseList=retriveAllCsmFilterClause(authorizationManager);
+		for (FilterClause filterClause:filterClauseList)
+		{
+			String filterValue=filterValueHash.get(filterClause.getTargetClassName());
+			if (filterValue==null || filterValue.length()==0)
+				filterValue=filterValueHash.get(filterClause.getTargetClassAlias());
+			if (filterValue==null || filterValue.length()==0)
+				filterValue=filterValueHash.get(filterClause.getClassName());
+			if (filterValue==null || filterValue.length()==0)
+				continue; // this filter is not enabled
+			
+			DetachedCriteria filterQuery=(DetachedCriteria)criteriaHolderHash.get(filterClause.getClassName());
+			if (filterQuery==null)
+				try {
+					filterQuery=DetachedCriteria.forClass(Class.forName(filterClause.getClassName()));
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			//if self filter
+			//"gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Employee - self"
+			if (filterClause.getFilterChain().contains(filterClause.getClassName()))
+				filterQuery.add(Property.forName(filterClause.getTargetClassAttributeName()).eq(filterValue));
+			else
+			{
+				//filter on referred object
+				//"gov.nih.nci.cacoresdk.domain.manytomany.bidirectional.Project - projectCollection"
+//				String referredClassName=filterClause.getFilterChain().substring(0, filterClause.getTargetClassName().indexOf(" "));
+				String referenceName=filterClause.getFilterChain();
+				filterQuery.createCriteria(referenceName)
+					.add(Property.forName(filterClause.getTargetClassAttributeName()).eq(filterValue));
+			}
+			criteriaHolderHash.put(filterClause.getClassName(),filterQuery);
+		}	
 	}
 }
