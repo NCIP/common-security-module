@@ -48,31 +48,31 @@
 			</column>
 		</addColumn>
 		<insert tableName="CSM_CONFIGURATION_PROPERTIES">
-		    <column name="PROPERTY_KEY" valueNumeric="ALLOWED_ATTEMPTS"/>
+		    <column name="PROPERTY_KEY" value="ALLOWED_ATTEMPTS"/>
 		    <column name="PROPERTY_VALUE" value="3"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPERTIES">
-		    <column name="PROPERTY_KEY" valueNumeric="ALLOWED_LOGIN_TIME"/>
+		    <column name="PROPERTY_KEY" value="ALLOWED_LOGIN_TIME"/>
 		    <column name="PROPERTY_VALUE" value="600000"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPERTIES">
-		    <column name="PROPERTY_KEY" valueNumeric="PASSWORD_EXPIRY_DAYS"/>
+		    <column name="PROPERTY_KEY" value="PASSWORD_EXPIRY_DAYS"/>
 		    <column name="PROPERTY_VALUE" value="60"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPERTIES">
-		    <column name="PROPERTY_KEY" valueNumeric="PASSWORD_LOCKOUT_TIME"/>
+		    <column name="PROPERTY_KEY" value="PASSWORD_LOCKOUT_TIME"/>
 		    <column name="PROPERTY_VALUE" value="1800000"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPERTIES">
-		    <column name="PROPERTY_KEY" valueNumeric="PASSWORD_MATCH_NUM"/>
+		    <column name="PROPERTY_KEY" value="PASSWORD_MATCH_NUM"/>
 		    <column name="PROPERTY_VALUE" value="24"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPERTIES">
-		    <column name="PROPERTY_KEY" valueNumeric="AES_ENCRYPTION_KEY"/>
+		    <column name="PROPERTY_KEY" value="AES_ENCRYPTION_KEY"/>
 		    <column name="PROPERTY_VALUE" value="super secret"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPERTIES">
-		    <column name="PROPERTY_KEY" valueNumeric="PASSWORD_PATTERN_MATCH"/>
+		    <column name="PROPERTY_KEY" value="PASSWORD_PATTERN_MATCH"/>
 		    <column name="PROPERTY_VALUE" value="(?=.*[A-Z])(?=.*\\d)(.{8,})$"/>
 		</insert>		
 	</changeSet>
