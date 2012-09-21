@@ -92,7 +92,9 @@
 	<target name="compile" depends="-init" description="compile the source ">
 
 		<!-- Compile the java code from ${src.dir} into ${classes.dir} -->
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" deprecation="true" classpathref="project.compile.classpath" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" deprecation="true" classpathref="project.compile.classpath">
+		<exclude name="**/test/**" />
+		</javac>
 
 		<copy todir="${classes.dir}/gov/nih/nci/security/authorization/domainobjects">
 			<fileset dir="${src.dir}/gov/nih/nci/security/authorization/domainobjects">
