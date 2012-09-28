@@ -2129,4 +2129,30 @@
 	</target>
 	 <target name="upgrade:post:jboss">
 	 </target>
+	 
+	<target name="migration:set-classpath" description="">
+		<unzip dest="./tempEAR/uptlogin" src="./tempEAR/uptlogin.war"/>
+	</target>
+
+	<target name="migration:run" depends="migration:set-classpath" description="">
+		<path id="project.classpath">
+			<fileset dir="./tempEAR/uptlogin/WEB-INF/lib">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${build-utils.dir}">
+				<include name="**/*.jar" />
+			</fileset>			
+		</path>
+	       <java classname="gov.nih.nci.migration.MigrationDriver"	       		
+			classpathref="project.classpath">
+			
+			<arg value="${upt.45.database.type}"/>
+			<arg value="${upt.45.database.user}"/>
+			<arg value="${upt.45.database.password}"/>
+			
+			<arg value="${upt.45.database.server}"/>
+			<arg value="${upt.45.database.port}"/>
+			<arg value="${upt.45.database.name}"/>
+		</java>
+	</target>	 
 </project>
