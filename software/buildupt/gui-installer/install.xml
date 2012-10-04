@@ -21,8 +21,8 @@
 	<property name="project.name" value="csmupt"/>
 	<property name="installer.dir" value=".installer-${project.name}"/>
 	<property name="gui-installer.dist.base.name" value="csmupt_gui_distribution_${csm.version}.jar"/>
-	<property name="install.zip.file" value="csm_install4.5.zip"/>
-	<property name="upgrade.zip.file" value="csm_upgrade4.5.zip"/>
+	<property name="install.zip.file" value="csm_install${csm.version}.zip"/>
+	<property name="upgrade.zip.file" value="csm_upgrade${csm.version}.zip"/>
 
 	<echoproperties/>
 <echo message="compile.jar.dir ::: ${compile.jar.dir}"/>

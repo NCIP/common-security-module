@@ -1209,7 +1209,7 @@ $HeadURL$
 		upgrade:database,
 		install:jboss:validation:pre-install:ports,
 		install:common:clean,
-		install:backwards-compatible-upt:databases,
+		install:upt:databases,
 		install:jboss,
 		install:common:post,
 		install:jboss:start,
