@@ -1,0 +1,5 @@
+<application-policy name="@application.context.name@">
+	<authentication>
+	
+	</authentication>
+</application-policy>

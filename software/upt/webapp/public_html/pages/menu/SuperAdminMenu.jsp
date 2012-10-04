@@ -88,11 +88,15 @@
 			<!-- link 3 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator" /></td>
 			
-			
-			
 			<!-- link 4 begins -->			
-			<td height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"><a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')" id="saLogout">LOG OUT</a></td>
+			<td height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"><a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.SYSTEM_CONFIGURATION_ID%>')" id="saSystemConfiguration">SYSTEM CONFIGURATION</a></td>
 			<!-- link 4 ends -->			
+			<td><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator" /></td>
+			
+			
+			<!-- link 5 begins -->			
+			<td height="20" class="mainMenuItem" onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()" onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"><a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')" id="saLogout">LOG OUT</a></td>
+			<!-- link 5 ends -->			
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator" /></td>
 			</tr>
 		</logic:present>
