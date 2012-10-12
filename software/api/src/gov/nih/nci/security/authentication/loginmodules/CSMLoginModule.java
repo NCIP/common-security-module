@@ -113,6 +113,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.AccountExpiredException;
 import javax.security.auth.login.CredentialExpiredException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
@@ -230,7 +231,7 @@ public abstract class CSMLoginModule implements LoginModule
 				{
 					loginSuccessful = false;
 					password 		= null;
-					throw new LoginException("User is not active, Contact the system administrator");						
+					throw new AccountExpiredException("User is not active, Contact the system administrator");						
 				}					
 			}
 			else
@@ -240,7 +241,7 @@ public abstract class CSMLoginModule implements LoginModule
 				userID 			= null;
 				password 		= null;
 				
-				throw new FailedLoginException("Invalid Login Credentials");
+				throw new LoginException("Invalid Login Credentials");
 			}
 		} catch (FailedLoginException fle) {
 			if (log.isDebugEnabled())

@@ -100,12 +100,14 @@ import gov.nih.nci.security.authentication.callback.CSMCallbackHandler;
 import gov.nih.nci.security.authentication.loginmodules.CSMLoginModule;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSCredentialException;
+import gov.nih.nci.security.exceptions.CSCredentialExpiredException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.exceptions.CSUserDisabledException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.util.ConfigurationHelper;
@@ -113,6 +115,7 @@ import gov.nih.nci.security.util.StringUtilities;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.login.AccountExpiredException;
 import javax.security.auth.login.CredentialExpiredException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginContext;
@@ -287,7 +290,17 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 
 			auditLog.info("User Loging in first time: Must change password "+ userName);
 			throw new CSFirstTimeLoginException (le.getMessage(), le);
-		}		
+		}
+		catch (AccountExpiredException le)
+		{
+			le.printStackTrace();
+			loginSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| User is not active "+userName+"|" + le.getMessage());
+
+			auditLog.info("User is not active "+ userName);
+			throw new CSUserDisabledException (le.getMessage(), le);
+		}				
 		catch (CredentialExpiredException le)
 		{
 			le.printStackTrace();
@@ -296,7 +309,7 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Password expired for user "+userName+"|" + le.getMessage());
 
 			auditLog.info("Password expired for user "+ userName);
-			throw new CSCredentialException (le.getMessage(), le);
+			throw new CSCredentialExpiredException (le.getMessage(), le);
 		}
 		catch (LoginException le)
 		{
