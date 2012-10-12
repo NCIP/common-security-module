@@ -241,6 +241,7 @@ public class AuthenticationManagerFactory
 	 */
 	public static AuthenticationManager getAuthenticationManager(String applicationContextName, String lockoutTime, String allowedLoginTime, String allowedAttempts) throws CSException, CSConfigurationException
 	{
+		ConfigurationHelper.getInstance(applicationContextName);
 		LockoutManager.initialize(lockoutTime, allowedLoginTime, allowedAttempts);
 		AuthenticationManager authenticationManager = null;
 		authenticationManager = (AuthenticationManager)new CommonAuthenticationManager();

@@ -2564,24 +2564,30 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			User search = new User();
 			search.setLoginName(loginName);
-
+			
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			List list = s.createCriteria(User.class)
-					.add(Example.create(search)).list();
+			
+					
+			SearchCriteria sc = new UserSearchCriteria(search);
+
+			List list = getObjects(sc);
+			
+//			List list = s.createCriteria(User.class)
+//					.add(Example.create(search)).list();
 			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
 
 			if (list.size() != 0) {
 				user = (User) list.get(0);
 			}
-
+/*
 			try {
 				user = (User)performEncrytionDecryption(user, false);
 			} catch (EncryptionException e) {
 				throw new CSObjectNotFoundException(e);
 			}
-
+*/
 
 
 

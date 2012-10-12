@@ -101,6 +101,7 @@ import gov.nih.nci.security.authentication.loginmodules.CSMLoginModule;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSCredentialException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.CSLoginException;
@@ -113,6 +114,7 @@ import gov.nih.nci.security.util.StringUtilities;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.CredentialExpiredException;
+import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
@@ -276,6 +278,16 @@ public class CommonAuthenticationManager implements AuthenticationManager{
 				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| Error in Configuration for "+userName+"|" + csice.getMessage());
 			throw new CSConfigurationException(csice.getMessage());
 		}
+		catch (FailedLoginException le)
+		{
+			le.printStackTrace();
+			loginSuccessful = false;
+			if (log.isDebugEnabled())
+				log.debug("Authentication|"+applicationContextName+"|"+userName+"|login|Failure| User Loging in first time: Must change password "+userName+"|" + le.getMessage());
+
+			auditLog.info("User Loging in first time: Must change password "+ userName);
+			throw new CSFirstTimeLoginException (le.getMessage(), le);
+		}		
 		catch (CredentialExpiredException le)
 		{
 			le.printStackTrace();

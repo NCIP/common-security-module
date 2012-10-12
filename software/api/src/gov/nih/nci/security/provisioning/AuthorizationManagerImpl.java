@@ -112,6 +112,7 @@ import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
+import gov.nih.nci.security.util.ConfigurationHelper;
 
 import java.net.URL;
 import java.security.Principal;
@@ -169,6 +170,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		 */
 		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName);
+		ConfigurationHelper.getInstance(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);
 		authorizationDAO = (AuthorizationDAO)(adi);
 		try
@@ -188,6 +190,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		 *  to get appropriate sessionFcatory for a application.
 		 */
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, connectionProperties);
+		ConfigurationHelper.getInstance(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);
 		authorizationDAO = (AuthorizationDAO)(adi);
 		try
@@ -204,6 +207,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	public AuthorizationManagerImpl(String applicationContextName, URL url) throws CSConfigurationException
 	{
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
+		ConfigurationHelper.getInstance(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName);
 		authorizationDAO = (AuthorizationDAO)(adi);
 		try
@@ -252,6 +256,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		 */
 		//SessionFactory sf = AuthorizationDAOSessionFactory.getHibernateSessionFactory(applicationContextName);
 		SessionFactory sf = ApplicationSessionFactory.getSessionFactory(applicationContextName, url);
+		ConfigurationHelper.getInstance(applicationContextName);
 		AuthorizationDAOImpl adi = new AuthorizationDAOImpl(sf,applicationContextName, userOrGroupName, isUserName);
 		authorizationDAO = (AuthorizationDAO)(adi);
 		try

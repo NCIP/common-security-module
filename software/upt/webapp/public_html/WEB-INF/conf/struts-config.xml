@@ -87,7 +87,7 @@
 			type="gov.nih.nci.security.loginapp.actions.ChangePasswordAction" 
 			name="ChangePasswordForm"
 			scope="session"
-			validate="true" 
+			validate="false" 
 			input="Tiles.Password.Change.Page">
 			<forward name="ChangePasswordSuccess" path="Tiles.Login.Page" />
 			<forward name="ChangePasswordFailure" path="Tiles.Password.Change.Page" />

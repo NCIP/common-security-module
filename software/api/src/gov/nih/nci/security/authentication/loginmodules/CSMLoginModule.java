@@ -210,7 +210,7 @@ public abstract class CSMLoginModule implements LoginModule
 		{
 			loginSuccessful = false;
 			password 		= null;
-			throw new CredentialExpiredException("User logging in first time, Password should be changed ");
+			throw new FailedLoginException("User logging in first time, Password should be changed ");
 		}
 		if (isPasswordExpired(options, userID))
 		{

@@ -280,6 +280,15 @@ public class LoginAction extends Action
 						"||Login|Failure|Password Expired for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.EXPIRED_PASSWORD);
 		}
+		catch (CSFirstTimeLoginException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			saveErrors( request,errors );
+			if (log.isDebugEnabled())
+				log.debug("|"+loginForm.getLoginId()+
+						"||Login|Failure|Password Expired for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward(ForwardConstants.EXPIRED_PASSWORD);
+		}
 		catch (CSException cse)
 		{
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
@@ -413,7 +422,7 @@ public class LoginAction extends Action
 		checkPermissionForUptOperation(uptManager,Constants.UPT_ROLE_OPERATION, userId, applicationName, session );
 		checkPermissionForUptOperation(uptManager,Constants.UPT_INSTANCE_LEVEL_OPERATION, userId, applicationName, session );
 	}
-	
+
 	private void checkPermissionForUptOperation(UserProvisioningManager uptManager, String uptOperation, String userId, String applicationName, HttpSession session  ) throws CSTransactionException
 	{
 		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_ACCESS_PRIVILEGE, userId, applicationName, session);
@@ -426,9 +435,9 @@ public class LoginAction extends Action
 		String uptPersionKey=privilege+"_"+uptOperation;
 		boolean uptPermission=uptManager.checkPermissionForProvisioningOperation(uptOperation, privilege, userId, applicationName);
 		if (uptPermission)
-			session.setAttribute(uptPersionKey, "true");		
+			session.setAttribute(uptPersionKey, "true");
 	}
-	
+
 //	private static String getUPTContextName() throws Exception
 //	{
 //		Document configDocument = null;

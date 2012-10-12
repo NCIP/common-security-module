@@ -44,6 +44,30 @@
   		</field>
 	</form>
    
+     	<form name="ChangePasswordForm">
+    		<field property="loginId" depends="required,mask">
+   			<msg name="mask" key="errors.special.characters"/>  			
+   			<arg0 key="ChangePasswordForm.loginId.displayLabel"/>
+   			<var>
+     				<var-name>mask</var-name>
+     				<var-value>^[0-9a-zA-Z/_]*$</var-value>
+     			</var>
+   			
+     		</field>
+     		<field property="password" depends="required" >
+     			<arg0 key="ChangePasswordForm.password.displayLabel"/>
+     		</field>
+    		<field property="newPassword" depends="required" >
+     			<arg0 key="ChangePasswordForm.newPassword.displayLabel"/>
+     		</field>
+    		<field property="passwordConfirmation" depends="required" >
+     			<arg0 key="ChangePasswordForm.passwordConfirmation.displayLabel"/>
+     		</field>     		
+     		<field property="applicationContextName" depends="required" >
+     			<arg0 key="ChangePasswordForm.applicationContextName.displayLabel"/>
+     		</field>
+	</form>
+   
   	<form name="MenuForm">
  		<field property="tableId" depends="required">
   			<arg0 key="MenuForm.tableId.displayLabel"/>
