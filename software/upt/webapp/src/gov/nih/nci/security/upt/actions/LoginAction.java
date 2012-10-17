@@ -109,6 +109,7 @@ import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationExcep
 import gov.nih.nci.security.util.StringUtilities;
 import gov.nih.nci.security.exceptions.CSCredentialException;
 import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
+import gov.nih.nci.security.exceptions.CSCredentialExpiredException;
 
 import java.io.File;
 import java.io.IOException;
@@ -272,7 +273,7 @@ public class LoginAction extends Action
 		{
 			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),loginForm.getPassword());
 		}
-		catch (CSCredentialException cse)
+		catch (CSCredentialExpiredException cse)
 		{
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 			saveErrors( request,errors );
