@@ -3862,12 +3862,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			app = (Application) list.get(0);
 
-//			//decrypt
-//			try {
-//				app = (Application) performEncrytionDecryption(app, false);
-//			} catch (EncryptionException e) {
-//				throw new CSObjectNotFoundException(e);
-//			}
+			//decrypt
+				try {
+					app = (Application) performEncrytionDecryption(app, false);
+				} catch (EncryptionException e) {
+					throw new CSObjectNotFoundException(e);
+				}
 
 			log.debug("Found the Application");
 
