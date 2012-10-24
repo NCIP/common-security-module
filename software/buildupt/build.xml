@@ -24,6 +24,7 @@
 	<property name="ivy.settings.file" value="ivysettings.xml" />
 
 	<import file="build-master-build.xml"/>
+	<import file="install.xml"/>
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
@@ -133,7 +134,7 @@
 		<dist-prep />
 	</target>
 
-<target name="dist:installer" depends="build:all,dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
+	<target name="dist:installer" depends="build:all,dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
 		<delete file="${dist.dir}/${csmupt.install.zip.file}" />
 		<!-- Set environment name to external -->
 		<delete file="${dist.exploded.dir}/upgrade.properties"/>
@@ -209,6 +210,120 @@
 
 	</target>
 
+	<target name="dist:anthill" depends="clean,init,configure:pre-build,build:upt,dist:anthill:prep,dist:anthill:login:config,dist:anthill:configure:datasources,dist:anthill:configure:application:context" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
+			
+	</target>
+
+	<target name="configure:pre-build" description="Configures UPT">
+		<filterset id="upt.filterset">
+			<filter token="upt.version.database.url.prefix" value="${upt.central.database.url.prefix}" />
+			<filter token="upt.version.database.server" value="${upt.central.database.server}" />
+			<filter token="upt.version.database.port" value="${upt.central.database.port}" />
+			<filter token="upt.version.database.name" value="${upt.central.database.name}" />
+			<filter token="upt.version.database.user" value="${upt.central.database.user}" />
+			<filter token="upt.version.database.password" value="${upt.central.database.password}" />
+			<filter token="upt.version.database.dialect" value="${upt.central.database.dialect}" />
+			<filter token="upt.version.database.driver.class" value="${upt.central.database.driver.class}" />
+			<filter token="datasource.jndi.name" value="${upt.central.jndi.name}" />			
+		</filterset>
+
+		<filterset id="upt.context.filterset">
+			<filter token="upt.context.name" value="csmupt" />
+		</filterset>
+	
+		<copy todir="${upt.base.dir}/webapp/src" overwrite="true">
+			<fileset dir="${upt.resources.dir}">
+				<include name="*csmupt*.csm.new.hibernate.cfg.xml" />
+			</fileset>
+			<filterset>
+				<filterset refid="upt.filterset"/>
+				<filterset refid="upt.context.filterset"/>
+				<filterset>
+					<filtersfile file="install.properties"/>
+					<filtersfile file="project.properties"/>
+				</filterset>
+			</filterset>
+		</copy>			
+	</target>
+
+	<target name="dist:anthill:prep" description="Package for anthill to pickup">
+		<filterset id="upt.filterset">
+			<filter token="upt.version.database.url.prefix" value="${upt.central.database.url.prefix}" />
+			<filter token="upt.version.database.server" value="${upt.central.database.server}" />
+			<filter token="upt.version.database.port" value="${upt.central.database.port}" />
+			<filter token="upt.version.database.name" value="${upt.central.database.name}" />
+			<filter token="upt.version.database.user" value="${upt.central.database.user}" />
+			<filter token="upt.version.database.password" value="${upt.central.database.password}" />
+			<filter token="upt.version.database.dialect" value="${upt.central.database.dialect}" />
+			<filter token="upt.version.database.driver.class" value="${upt.central.database.driver.class}" />
+		</filterset>
+
+		<filterset id="upt.context.filterset">
+			<filter token="upt.context.name" value="csmupt" />
+		</filterset>	
+
+		<copy todir="${dist.exploded.dir}" overwrite="true">
+			<fileset dir="${upt.resources.dir}">
+				<include name="*ApplicationSecurityConfig.xml" />
+				<include name="*upt-ds-template.xml" />
+				<include name="*login-config-template.xml" />
+			</fileset>
+			<filterset>
+				<filterset refid="upt.filterset"/>
+				<filterset refid="upt.context.filterset"/>
+				<filterset>
+					<filtersfile file="install.properties"/>
+					<filtersfile file="project.properties"/>
+				</filterset>
+			</filterset>
+		</copy>
+		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
+
+		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>		
+	</target>
+
+	<target name="dist:anthill:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml">
+		<echo
+			message="Inserting into ${dist.exploded.dir}/login-config-template.xml" />
+
+		<configure-login-config 
+			authentication.type="${upt.central.authentication.type}" application.context.name="${application.context.name}"
+			database.driver="${upt.central.database.driver.class}" database.url="${upt.central.database.url}"
+			database.user="${upt.central.database.user}" database.password="${upt.central.database.password}"
+			database.encrypt.enabled="${upt.central.database.encrypt.enabled}" 
+			ldaps.url="${upt.central.ldaps.url}" ldaps.basedn="${upt.central.ldaps.basedn}" ldaps.userid.label="${upt.central.ldaps.userid.label}"
+			ldap.url="${upt.central.ldap.url}" ldap.searchable.base="${upt.central.ldap.searchable.base}"
+			ldap.userid.label="${upt.central.ldap.userid.label}"
+			ldap.admin.user.name="${upt.central.ldap.admin.user.name}" 
+			ldap.admin.user.password="${upt.central.ldap.admin.user.password}"
+			login.config.file="${dist.exploded.dir}/login-config-template.xml"
+		/>
+	</target>
+
+	<target name="dist:anthill:configure:datasources" description="Configure login config /deploy/upt-ds.xml">
+		<configure-datasources 	database.url="${upt.central.database.url}" 
+			database.user="${upt.central.database.user}" 
+			database.password="${upt.central.database.password}" jndi.name="${upt.central.jndi.name}"
+			driver.class="${upt.central.database.driver.class}"
+			datasource.file="${dist.exploded.dir}/upt-ds-template.xml"
+		/>
+	</target>
+	
+	<target name="dist:anthill:configure:application:context"
+			description="Configure application context config ${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"
+			>
+		<configure-application-context-application context.name="${upt.central.context.name}" 
+			hibernate.config.file="" 
+			application.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
+			/>
+		<configure-application-context-upt-application
+				context.name="${upt.central.context.name}" url.context.name="${upt.central.url.context.name}"
+				hibernate.config.file="${upt.central.hibernate.config.file}" 
+				application.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
+				/>
+	</target>
+	
+	
 	<!-- Adding the dist:gui-installer target here to copy over eng.xml in izpack -->
 	<target name="dist:gui-installer" description="Makes Gui-Installer distribution">
 		<delete>

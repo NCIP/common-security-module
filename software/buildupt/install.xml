@@ -324,17 +324,19 @@
 		<attribute name="database.user" default="NOT SET" />
 		<attribute name="database.password" default="NOT SET" />
 		<attribute name="database.encrypt.enabled" default="NOT SET" />
+		<attribute name="login.config.file" default="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml" />
 			
 		<sequential>
+		<echo message="@{login.config.file}"/>
 			<if>
 				<equals arg1="@{authentication.type}" arg2="ldaps" />
 				<then>
 					<xmltask preservetype="true" failWithoutMatch="true"
-							source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
-							dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+							source="@{login.config.file}"
+							dest="@{login.config.file}">
 						<xmlcatalog refid="build.xml.catalog" />
 						<insert
-								path="//policy/application-policy[@name='@{application.context.name}']/authentication"
+								path="//application-policy[@name='@{application.context.name}']/authentication"
 								position="under">
 							<![CDATA[
 									<login-module
@@ -351,11 +353,11 @@
 				<equals arg1="@{authentication.type}" arg2="ldap" />
 				<then>
 					<xmltask preservetype="true" failWithoutMatch="true"
-									source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
-									dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+									source="@{login.config.file}"
+									dest="@{login.config.file}">
 						<xmlcatalog refid="build.xml.catalog" />
 						<insert
-										path="//policy/application-policy[@name='@{application.context.name}']/authentication"
+										path="//application-policy[@name='@{application.context.name}']/authentication"
 										position="under">
 							<![CDATA[			
 							<login-module
@@ -375,11 +377,11 @@
 			<equals arg1="@{authentication.type}" arg2="db" />
 			<then>
 				<xmltask preservetype="true" failWithoutMatch="true"
-									source="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml"
-									dest="${jboss.home}/server/${jboss.server.name}/conf/login-config.xml">
+									source="@{login.config.file}"
+									dest="@{login.config.file}">
 					<xmlcatalog refid="build.xml.catalog" />
 					<insert
-										path="//policy/application-policy[@name='@{application.context.name}']/authentication"
+										path="//application-policy[@name='@{application.context.name}']/authentication"
 										position="under">
 						<![CDATA[			
 						<login-module
@@ -409,12 +411,13 @@
 		<attribute name="database.url" default="NOT SET" />
 		<attribute name="jndi.name" default="NOT SET" />
 		<attribute name="driver.class" default="NOT SET" />
+		<attribute name="datasource.file" default="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml" />
 	
 		<sequential>
 		
 			<xmltask preservetype="true" failWithoutMatch="true"
-				source="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml"
-				dest="${jboss.home}/server/${jboss.server.name}/deploy/upt-ds.xml">
+				source="@{datasource.file}"
+				dest="@{datasource.file}">
 				<xmlcatalog refid="build.xml.catalog" />
 					<insert path="//datasources" position="under">
 						<![CDATA[						
@@ -434,8 +437,10 @@
 	<macrodef name="configure-application-context-application">
 		<attribute name="context.name" default="NOT SET" />
 		<attribute name="hibernate.config.file" default="NOT SET" />
+		<attribute name="application.context.file" default="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" />
+		
 		<sequential>
-			<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
+			<xmltask preservetype="true" failWithoutMatch="true" source="@{application.context.file}" dest="@{application.context.file}">
 			<xmlcatalog refid="build.xml.catalog" />
 				<insert path="/security-config/application-list" position="under">
 				<![CDATA[
@@ -463,9 +468,10 @@
 		<attribute name="context.name" default="NOT SET" />
 		<attribute name="url.context.name" default="NOT SET" />
 		<attribute name="hibernate.config.file" default="NOT SET" />
+		<attribute name="application.context.file" default="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"/>
 	
 		<sequential>
-			<xmltask preservetype="true" failWithoutMatch="true" source="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml" dest="${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml">
+			<xmltask preservetype="true" failWithoutMatch="true" source="@{application.context.file}" dest="@{application.context.file}">
 			<xmlcatalog refid="build.xml.catalog" />
 			<insert path="//security-config/backwards-compatibility/upt-application-list" position="under">
 				<![CDATA[
@@ -994,6 +1000,23 @@
 		install:jboss:start,
 		install:jboss:validation:post-install
 		" >
+	</target>
+
+
+	<target name="upgrade:jboss" description="Wrapper target to call all targets required to upgrade jboss container." unless="exclude.jboss"
+		depends="
+		upgrade:jboss:init,
+		common:init,
+		common:jboss:init,
+		-set:jboss:upt:application:url,
+		install:jboss:stop,
+		install:jboss:validation:pre-install:ports,
+		install:jboss:upt-ear,
+		install:jboss:upt-ear:configure,
+		install:jboss:configure:application:context,
+		install:jboss:configure:datasources,
+		install:jboss:start"
+		 >
 	</target>
 
 	<target name="upgrade:jboss:readers:build" if="jboss.exists">
