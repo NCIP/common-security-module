@@ -4,7 +4,7 @@
 	<application-list>
 	</application-list>
 	<backwards-compatibility>
-		<login-application-context-name>uptlogin</login-application-context-name>
+		<login-application-context-name>upt50</login-application-context-name>
 		<central-upt-configuration>@upt.central.config@</central-upt-configuration>
 		<upt-application-list>
 		</upt-application-list>
