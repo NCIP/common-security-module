@@ -300,13 +300,14 @@
 		/>
 	</target>
 
-	<target name="dist:anthill:configure:datasources" description="Configure login config /deploy/upt-ds.xml">
+	<target name="dist:anthill:configure:datasources" description="Configure login config /deploy/upt-ds.xml">	
 		<configure-datasources 	database.url="${upt.central.database.url}" 
 			database.user="${upt.central.database.user}" 
 			database.password="${upt.central.database.password}" jndi.name="${upt.central.jndi.name}"
 			driver.class="${upt.central.database.driver.class}"
 			datasource.file="${dist.exploded.dir}/upt-ds-template.xml"
 		/>
+		<move file="${dist.exploded.dir}/upt-ds-template.xml" tofile="${dist.exploded.dir}/upt-ds.xml"/>
 	</target>
 	
 	<target name="dist:anthill:configure:application:context"
