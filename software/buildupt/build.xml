@@ -324,6 +324,38 @@
 				/>
 	</target>
 	
+	<target name="anthill:install-database"
+			description="Run liqubase to upgrade database"
+			>
+		<for list="${upt.central.db.install.create.mysql.file.list}" param="db.install.file">
+			<sequential>
+				<run-sql-script database.url="${upt.central.database.url}"
+					database.user="${upt.central.database.user}"
+					database.password="${upt.central.database.password}"
+					database.driver="${upt.central.database.driver.class}"
+					database.driver.file="${build-utils.dir}/mysql-connector-java-5.1.13.jar"
+					sql.delimiter=";"
+					sql.delimitertype="normal"
+					sql.file="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/uptcentral/mysql/@{db.install.file}"
+					onerror="abort"/>	
+			</sequential>
+		</for>
+	</target>
+		
+	<target name="anthill:upgrade-database"
+			description="Run liqubase to upgrade database"
+			>			
+		<database-upgrade			
+			database.driver="${upt.central.database.driver.class}"			
+			database.driver.file="${build-utils.dir}/mysql-connector-java-5.1.13.jar"
+			database.url="${upt.central.database.url}"
+			database.user="${upt.central.database.user}"
+			database.password="${upt.central.database.password}"
+			database.schema="${upt.central.database.name}"
+			database.changelog.file="${dist.exploded.dir}/common/resources/db/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql/db-upgrade-central-bkwrds.xml"
+			/>			
+	</target>
+	
 	
 	<!-- Adding the dist:gui-installer target here to copy over eng.xml in izpack -->
 	<target name="dist:gui-installer" description="Makes Gui-Installer distribution">
@@ -381,7 +413,7 @@
 					<include name="*Postgres.sql" />
 					<exclude name="*Migration*Postgres.sql" />
 				</fileset>
-			</copy>
+			</copy>	
 		</sequential>
 	</macrodef>
 
