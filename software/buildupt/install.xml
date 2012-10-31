@@ -790,7 +790,7 @@
 		<echo message="execute for non central database"/>		
 		<mkdir dir="${os.temp.dir}/${project.name}"/>
 		<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
-			<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/${upt.45.url.context.name}">
+			<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/${upt.central.url.context.name}">
 				<include name="**/db-upgrade*.xml"/>
 				<include name="**/MigrationScript*.xml"/>
 			</fileset>
