@@ -7,6 +7,10 @@
   </description>
   <testcase>
   	<title>demo: junit test suite controller</title>
-  	<testclass>test.gov.nih.nci.security.HelloWorldCase</testclass>
+  	<testclass>gov.nih.nci.security.test.HelloWorldCase</testclass>
+  </testcase>
+    <testcase>
+  	<title>demo: junit test client</title>
+  	<testclass>gov.nih.nci.security.test.TestClient</testclass>
   </testcase>
 </suiteController>

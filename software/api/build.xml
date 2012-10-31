@@ -19,6 +19,7 @@
 
 	<property name="data.dir" location="${basedir}/data" />
 	<property name="classes.dir" location="${basedir}/classes" />
+	<property name="test.dir" location="${basedir}/test" />
 	<property name="common.resources" location="../common/resources/jboss-conf" />
 	<property name="jar.name" value="csmapi.jar" />
 
@@ -50,7 +51,6 @@
 		</fileset>
 		<fileset dir="${local.lib.dir}">
 			<include name="*.jar" />
-
 		</fileset>
 	</path>
 
@@ -147,7 +147,53 @@
 
 	<target name="run" depends="dist, -post-clean" description="Default project target" />
 
+	<target name="test.compile" depends="compile" description="Compile test cases !!">
+		<echo message="compile test case code!!"/> 
+		<delete dir="${test.dir}/classes" />
+		<mkdir dir="${test.dir}/classes" />
+		<javac destdir="${test.dir}/classes" debug="true" deprecation="true" >
+			<src path="${src.dir}"/>
+			<exclude name="**/*.class" />
+			<classpath>
+				<path refid="project.compile.classpath" />
+				<path>
+					<fileset dir="${test.dir}/lib">
+							<include name="*.jar" />
+					</fileset>
+				</path>
+			</classpath>
+			<include name="test/**/*.java" />
+		</javac>
 
+		<javac destdir="${test.dir}/classes" debug="true" deprecation="true" >
+			<src path="${test.dir}/src"/>
+			<classpath>
+				<path refid="project.compile.classpath" />
+				<path>
+					<fileset dir="${test.dir}/lib">
+							<include name="*.jar" />
+					</fileset>
+				</path>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name ="test" depends="test.compile" description="Execute Junit test cases!">
+		<echo message="Execute test cases!!"/> 
+		<junit>
+			<classpath>
+				<path refid="project.compile.classpath" />
+				<path>
+					<fileset dir="${test.dir}/lib">
+							<include name="*.jar" />
+					</fileset>
+				</path>
+				<path location="${test.dir}/classes"/>
+			</classpath>
+			<formatter type="brief" usefile="false" />
+			<test name="gov.nih.nci.security.test.ApiTestControlSuite" />
+		</junit>
+	</target>
 	<target name="makepom">
 		<ivy:makepom ivyfile="ivy.xml" pomfile="$module.pom">
 		   <mapping conf="default" scope="compile"/>
