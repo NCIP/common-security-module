@@ -128,10 +128,12 @@
 		</copy>
 
 		<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
-		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
+		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
 
-		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
+		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
+		
 		<dist-prep />
+		
 	</target>
 
 	<target name="dist:installer" depends="build:all,dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
@@ -422,12 +424,13 @@
 		<attribute name="upt.version" default="NOT SET" />
 		<attribute name="input.dir" default="NOT SET" />
 		<sequential>
+		<echo message="*******Copine from @{input.dir} FILES TO ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/@{upt.version}/mysql**********"/>
 			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
 				<fileset dir="@{input.dir}">
 					<include name="**/db-upgrade*.xml" />
 					<include name="**/MigrationScript*.xml" />
 				</fileset>
-			</copy>
+			</copy>		
 		</sequential>
 	</macrodef>
 
