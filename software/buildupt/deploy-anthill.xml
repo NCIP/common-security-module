@@ -6,12 +6,13 @@
 
 	<property file="project.properties" />
 	<property name="lib.dir" location="${basedir}/lib" />
-	<property name="upt.central.database.url" value="jdbc:mysql://localhost:3306/upttest"/>
 	<property name="upt.central.database.user" value="upttest"/>
 	<property name="upt.central.database.password" value="upttest"/>
 	<property name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver"/>
-	<property name="upt.central.database.name" value="upttest"/>		
-	<property name="upt.central.database.url" value="${lib.dir}/mysql-connector-java-5.1.13.jar"/>
+	<property name="upt.central.database.name" value="upttest"/>
+	<property name="upt.central.database.server" value="localhost"/>
+	<property name="upt.central.database.port" value="3306"/>
+	<property name="upt.central.database.url" value="jdbc:mysql://${upt.central.database.server}:${upt.central.database.port}/${upt.central.database.name}"/>
 
 	<path id="macrodef.classpath">
 		<fileset dir="${lib.dir}">
