@@ -281,7 +281,11 @@
 		</copy>
 		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
 
-		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>		
+		<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql" overwrite="true">
+			<fileset dir="${upt.dir}/resources">
+				<include name="**/db-upgrade-central.xml" />
+			</fileset>
+		</copy>			
 		
 		<copy todir="${dist.exploded.dir}" overwrite="true">
 			<fileset dir="${basedir}">
