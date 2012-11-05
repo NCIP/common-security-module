@@ -280,7 +280,7 @@
 			</filterset>
 		</copy>
 		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
-
+<echo message="Coping the Upgrade Files to ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql"/>
 		<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql" overwrite="true">
 			<fileset dir="${upt.dir}/resources">
 				<include name="**/db-upgrade-central.xml" />
