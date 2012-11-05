@@ -280,7 +280,7 @@
 			</filterset>
 		</copy>
 		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
-<echo message="Coping the Upgrade Files to ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql"/>
+		<echo message="Coping the Upgrade Files to ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql"/>
 		<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql" overwrite="true">
 			<fileset dir="${upt.dir}/resources">
 				<include name="**/db-upgrade-central.xml" />
@@ -298,8 +298,10 @@
 				<include name="mysql-connector-java-5.1.13.jar" />
 				<include name="liquibase-core-1.9.3.jar" />
 				<include name="ant-contrib-1.0nci.jar" />
+				<include name="bcprov-jdk15on-147.jar" />
+				<include name="clm-4.1.1.jar" />				
 			</fileset>
-		</copy>		
+		</copy>
 	</target>
 
 	<target name="dist:anthill:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml">
