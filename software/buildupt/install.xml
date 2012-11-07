@@ -808,7 +808,7 @@
 			database.user="${upt.central.database.user}" 
 			database.password="${upt.central.database.password}" 
 			database.type="${upt.central.database.type}" 
-			database.upgrade.schema.file="MigrationScript${upgrade.upt.central.db.previous.version}MySQL.xml" />
+			database.upgrade.schema.file="${upt.central.db.upgrade.file}" />
 	</target>
 	
 	<macrodef name="upgrade-upt-database">
@@ -1079,12 +1079,12 @@
 	 </target>
 	 
 	<target name="migration:set-classpath" description="">
-		<unzip dest="./tempEAR/uptlogin" src="./tempEAR/uptlogin.war"/>
+		<unzip dest="./tempEAR/${upt.central.url.context.name}" src="./tempEAR/${upt.central.url.context.name}.war"/>
 	</target>
 
 	<target name="migration:run" depends="migration:set-classpath" description="">
 		<path id="project.classpath">
-			<fileset dir="./tempEAR/uptlogin/WEB-INF/lib">
+			<fileset dir="./tempEAR/${upt.central.url.context.name}/WEB-INF/lib">
 				<include name="**/*.jar" />
 			</fileset>
 			<fileset dir="${build-utils.dir}">
@@ -1094,13 +1094,13 @@
 	       <java classname="gov.nih.nci.migration.MigrationDriver"	       		
 			classpathref="project.classpath">
 			
-			<arg value="${upt.45.database.type}"/>
-			<arg value="${upt.45.database.user}"/>
-			<arg value="${upt.45.database.password}"/>
+			<arg value="${upt.central.database.type}"/>
+			<arg value="${upt.central.database.user}"/>
+			<arg value="${upt.central.database.password}"/>
 			
-			<arg value="${upt.45.database.server}"/>
-			<arg value="${upt.45.database.port}"/>
-			<arg value="${upt.45.database.name}"/>
+			<arg value="${upt.central.database.server}"/>
+			<arg value="${upt.central.database.port}"/>
+			<arg value="${upt.central.database.name}"/>
 		</java>
 	</target>	 
 </project>
