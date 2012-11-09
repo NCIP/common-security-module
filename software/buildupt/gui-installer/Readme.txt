@@ -1,13 +1,13 @@
-Release Name: CSM UPT 4.5
+Release Name: CSM UPT 5.0
 
 Notes:
-CSM UPT Release Name: 4.5
+CSM UPT Release Name: 5.0
 Notes:
 Release Notes
 =============
  
   #Product:#	csmupt
-  #Version:#	4.5
+  #Version:#	5.0
   #Date:#	September 2011
 
 Contents
@@ -23,18 +23,18 @@ Contents
 
 Introduction
 ---------------------------
-CSM/UPT 4.5 release is to support NCI CBIIT 2011 technology stack - Future . 
+CSM/UPT 5.0 release is to support NCI CBIIT 2011 technology stack - Future . 
 Please see https://wiki.nci.nih.gov/display/TechStack/Technology+Stack+Overview for details on technology stack
 
 Release History
 ------------------------
  
-    * CSM UPT v4.5		-- September 2012
+    * CSM UPT v5.0		-- September 2012
 
 
 Features
 ------------------------
-CSM/UPT 4.5 release is to support NCI CBIIT 2011 technology stack - Current . 
+CSM/UPT 5.0 release is to support NCI CBIIT 2011 technology stack - Current . 
 Please see https://wiki.nci.nih.gov/display/TechStack/Technology+Stack+Overview for details on technology stack
 
 
