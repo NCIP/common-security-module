@@ -37,13 +37,11 @@ public class SystemConfigurationAction extends CommonDBAction
 
 		if (configForm != null && configForm.getOperation() != null && configForm.getOperation().equalsIgnoreCase("update"))
 		{
-			System.out.println("UPDATING CONFIGURATION");
 			update(mapping,  form, request, response);
 			return read(mapping,  form, request, response);
 		}
 		else
 		{
-			System.out.println("READING CONFIGURATION");
 			return read(mapping,  form, request, response);
 		}
 	}

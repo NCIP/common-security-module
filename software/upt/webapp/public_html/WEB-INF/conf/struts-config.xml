@@ -31,6 +31,8 @@
 			type="gov.nih.nci.security.upt.forms.InstanceLevelForm" />			
 		<form-bean name="SystemConfigurationForm"
 			type="gov.nih.nci.security.upt.forms.SystemConfigurationForm" />
+		<form-bean name="AppUserForm"
+			type="gov.nih.nci.security.upt.forms.AppUserForm" />			
 
 	</form-beans>
 	<global-exceptions>
@@ -75,7 +77,8 @@
 			validate="true" 
 			input="Tiles.Login.Page">
 			<forward name="LoginSuccess" path="Tiles.Home.Page" />
-			<forward name="AdminLoginSuccess" path="Tiles.SuperAdmin.Home.Page" />
+			<forward name="AdminLoginSuccess" path="Tiles.SuperAdmin.Home.Page" />			
+			<forward name="AppUserLoginSuccess" path="/AppUserLogin.do" />
 			<forward name="ChangePassword" path="Tiles.Password.Change.Page" />
 			<forward name="LoginFailure" path="Tiles.Login.Page" />
 		</action>
@@ -101,6 +104,16 @@
 			input="Tiles.SuperAdmin.Home.Page">
 			<forward name="ReadSuccess" path="Tiles.SystemConfiguration.Page" />
 			<forward name="UpdateSuccess" path="Tiles.SystemConfiguration.Page" />
+		</action>
+		<action path="/AppUserLogin"
+			type="gov.nih.nci.security.upt.actions.AppUserLoginAction"
+			name="AppUserForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"
+			input="Tiles.AppUser.Detail.Screen">
+			<forward name="ReadSuccess" path="Tiles.AppUser.Detail.Screen" />
+			<forward name="UpdateSuccess" path="Tiles.AppUser.Detail.Screen" />
 		</action>		
 		<action path="/MenuSelection"
 			type="gov.nih.nci.security.upt.actions.MenuSelectionAction"

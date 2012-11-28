@@ -5,7 +5,10 @@
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-
+<%
+String path = request.getContextPath();
+String appProfileAction = path + "/AppUserLogin.do";
+%>
 <table width="100%" height="50" border="0" cellspacing="0" cellpadding="0" class="subhdrBG">
 							<tr>
 							
@@ -32,7 +35,7 @@
 									<!--
 									<tr><td class="appMenu" width="200" align="right">&nbsp;</td><td class="appMenu" width="50" align="center">&nbsp;</td></tr>
 									-->
-									<tr><td class="appMenu" width="60%" align="right">Login ID :</td><td class="appMenu2" width="40%" align="left"><bean:write name="loginObject" property="loginId" /></td></tr>
+									<tr><td class="appMenu" width="60%" align="right">Login ID :</td><td class="appMenu2" width="40%" align="left"><a class="mainMenuLink" href="<%=appProfileAction%>" id="appUser"><bean:write name="loginObject" property="loginId" /></a></td></tr>
 									<tr><td class="appMenu" width="60%" align="right">Application :</td><td class="appMenu2" width="40%" align="left"><bean:write name="loginObject" property="applicationContextName" /></td></tr>
 					                <logic:present name="<%=DisplayConstants.ADMIN_USER%>">
 									<tr><td class="appMenu" width="60%" align="right">Role :</td><td class="appMenu2" width="40%" align="left">Super&nbsp;Admin</td></tr>
@@ -45,5 +48,5 @@
 									</table>
 								</td>
 								</logic:present>
-							</tr>
+							</tr>							
 </table>

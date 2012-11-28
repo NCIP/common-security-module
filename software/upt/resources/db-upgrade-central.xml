@@ -16,4 +16,9 @@
 		<comment>Need to have at least one changeset to allow tagging to work.</comment> 
 		<sql>select now()</sql>
 	</changeSet>
+	<changeSet author="uptdb" id="2">
+		<modifyColumn tableName="CSM_USER">
+			<column name="PHONE_NUMBER" type="varchar(100)"/>
+		</modifyColumn>
+	</changeSet>	
 </databaseChangeLog>

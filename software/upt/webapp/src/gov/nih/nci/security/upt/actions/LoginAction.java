@@ -328,12 +328,36 @@ public class LoginAction extends Action
 			hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
 			if (!hasPermission)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
-				saveErrors( request,errors );
-				if (log.isDebugEnabled())
-					log.debug("|"+loginForm.getLoginId()+
-							"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");
-				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+				application = authorizationManager.getApplication(loginForm.getApplicationContextName());
+				if (!StringUtilities.isBlank(application.getDatabaseURL()))
+				{
+					HashMap hashMap = new HashMap();
+					hashMap.put("hibernate.connection.url", application.getDatabaseURL());
+					hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
+					hashMap.put("hibernate.connection.password", application.getDatabasePassword());
+					hashMap.put("hibernate.dialect", application.getDatabaseDialect());
+					hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
+					userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName(),hashMap);
+				}
+//				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
+//				saveErrors( request,errors );
+//				if (log.isDebugEnabled())
+//					log.debug("|"+loginForm.getLoginId()+
+//							"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");
+				HttpSession session = request.getSession(true);
+				session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER, userProvisioningManager);
+				session.setAttribute(DisplayConstants.LOGIN_OBJECT,form);
+				session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
+
+				session.setAttribute(Constants.UPT_USER_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_PRIVILEGE_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_GROUP_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_ROLE_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				//return mapping.findForward(ForwardConstants.APPUSER_LOGIN_SUCCESS);
+				return mapping.findForward(ForwardConstants.LOGIN_SUCCESS);
 			}
 		}
 		catch (CSException cse)

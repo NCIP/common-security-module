@@ -270,16 +270,14 @@ function MM_swapImage() { //v3.0
 								<table summary="What is new" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSectionLogin">
 									<tr>
-										<td class="sidebarTitle" height="20">WHAT'S NEW IN 4.2</td>
+										<td class="sidebarTitle" height="20">WHAT'S NEW IN 5.0</td>
 									</tr>
 									<tr>
 										<td class="sidebarContent">
-											<li>NCI CBIIT 2011 technology stack upgrade
-											<li>Instance Level Security performance enhancements
-											<li>AuthorizationManager enhancements
+											<li>NIH Password Policy
+											<li>Configurable UPT
 											<li>Several API enhancements and bug fixes
 										</td>
-
 									</tr>
 								</table>
 								</td>

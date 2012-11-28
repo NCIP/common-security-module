@@ -200,4 +200,7 @@
 	<definition name="Tiles.SystemConfiguration.Page" extends="Base">
 		<put name="Content" value="/pages/content/home/SystemConfiguration.jsp" />
 	</definition>
+	<definition name="Tiles.AppUser.Detail.Screen" extends="Base">
+		<put name="Content" value="/pages/content/detailScreen/AppUserDetailScreen.jsp" />
+	</definition>	
 </tiles-definitions>

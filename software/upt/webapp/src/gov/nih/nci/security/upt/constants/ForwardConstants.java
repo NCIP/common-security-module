@@ -27,6 +27,7 @@ public interface ForwardConstants
 	public static final String SEARCH_SUCCESS="SearchSuccess";
 	public static final String LOGIN_SUCCESS="LoginSuccess";
 	public static final String ADMIN_LOGIN_SUCCESS = "AdminLoginSuccess";
+	public static final String APPUSER_LOGIN_SUCCESS = "AppUserLoginSuccess";	
 	public static final String LOGIN_FAILURE="LoginFailure";
 	public static final String LOAD_ASSOCIATION_SUCCESS="LoadAssociationSuccess";
 	public static final String SET_ASSOCIATION_SUCCESS="SetAssociationSuccess";
