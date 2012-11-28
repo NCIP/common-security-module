@@ -339,6 +339,19 @@ public class LoginAction extends Action
 					hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
 					userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName(),hashMap);
 				}
+				else
+				{
+					userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());
+				}
+				if (null == userProvisioningManager)
+				{
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
+					saveErrors( request,errors );
+					if (log.isDebugEnabled())
+						log.debug("|"+loginForm.getLoginId()+
+								"||Login|Failure|Unable to instantiate User Provisioning Manager for "+loginForm.getApplicationContextName()+" application||");
+					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+				}
 //				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
 //				saveErrors( request,errors );
 //				if (log.isDebugEnabled())
