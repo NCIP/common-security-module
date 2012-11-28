@@ -328,35 +328,28 @@ public class LoginAction extends Action
 			hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
 			if (!hasPermission)
 			{
-				application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-				if (!StringUtilities.isBlank(application.getDatabaseURL()))
+				try
 				{
-					HashMap hashMap = new HashMap();
-					hashMap.put("hibernate.connection.url", application.getDatabaseURL());
-					hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
-					hashMap.put("hibernate.connection.password", application.getDatabasePassword());
-					hashMap.put("hibernate.dialect", application.getDatabaseDialect());
-					hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
-					userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName(),hashMap);
+					userProvisioningManager = getUserProvisioningManager(authorizationManager,loginForm.getApplicationContextName());
+					if (null == userProvisioningManager)
+					{
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
+						saveErrors( request,errors );
+						if (log.isDebugEnabled())
+							log.debug("|"+loginForm.getLoginId()+
+									"||Login|Failure|Unable to instantiate User Provisioning Manager for "+loginForm.getApplicationContextName()+" application||");
+						return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+					}
 				}
-				else
+				catch (CSException cse)
 				{
-					userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());
-				}
-				if (null == userProvisioningManager)
-				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
-								"||Login|Failure|Unable to instantiate User Provisioning Manager for "+loginForm.getApplicationContextName()+" application||");
+								"||Login|Failure|Unable to instantiate User Provisioning Manager for |"+loginForm.toString()+"|"+cse.getMessage());
 					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 				}
-//				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
-//				saveErrors( request,errors );
-//				if (log.isDebugEnabled())
-//					log.debug("|"+loginForm.getLoginId()+
-//							"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");
 				HttpSession session = request.getSession(true);
 				session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER, userProvisioningManager);
 				session.setAttribute(DisplayConstants.LOGIN_OBJECT,form);
@@ -369,7 +362,13 @@ public class LoginAction extends Action
 				session.setAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
 				session.setAttribute(Constants.UPT_ROLE_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
 				session.setAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
-				//return mapping.findForward(ForwardConstants.APPUSER_LOGIN_SUCCESS);
+
+//				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
+//				saveErrors( request,errors );
+//				if (log.isDebugEnabled())
+//					log.debug("|"+loginForm.getLoginId()+
+//							"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");
+				
 				return mapping.findForward(ForwardConstants.LOGIN_SUCCESS);
 			}
 		}
@@ -382,24 +381,11 @@ public class LoginAction extends Action
 						"||Login|Failure|Error in checking permission|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
+		
 		try
 		{
 			//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
-			application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-			if (!StringUtilities.isBlank(application.getDatabaseURL()))
-			{
-				HashMap hashMap = new HashMap();
-				hashMap.put("hibernate.connection.url", application.getDatabaseURL());
-				hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
-				hashMap.put("hibernate.connection.password", application.getDatabasePassword());
-				hashMap.put("hibernate.dialect", application.getDatabaseDialect());
-				hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
-				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName(),hashMap);
-			}
-			else
-			{
-				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());
-			}
+			userProvisioningManager = getUserProvisioningManager(authorizationManager,loginForm.getApplicationContextName());
 			if (null == userProvisioningManager)
 			{
 				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
@@ -451,6 +437,30 @@ public class LoginAction extends Action
 		}
 	}
 
+	private UserProvisioningManager getUserProvisioningManager(AuthorizationManager authorizationManager,String applictionContextName) throws CSException
+	{
+		UserProvisioningManager userProvisioningManager = null;
+		
+		Application application = authorizationManager.getApplication(applictionContextName);
+		if (!StringUtilities.isBlank(application.getDatabaseURL()))
+		{
+			HashMap hashMap = new HashMap();
+			hashMap.put("hibernate.connection.url", application.getDatabaseURL());
+			hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
+			hashMap.put("hibernate.connection.password", application.getDatabasePassword());
+			hashMap.put("hibernate.dialect", application.getDatabaseDialect());
+			hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
+			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(applictionContextName,hashMap);
+		}
+		else
+		{
+			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(applictionContextName);
+		}
+		
+		return userProvisioningManager;
+	}
+
+	
 	private void processUptOperation(UserProvisioningManager uptManager, String userId, String applicationName, HttpSession session) throws CSTransactionException
 	{
 		checkPermissionForUptOperation(uptManager,Constants.UPT_USER_OPERATION, userId, applicationName, session );
