@@ -466,6 +466,8 @@ public class RDBMSHelper {
 				{
 					passwordExpiryDate = resultSet.getTimestamp("PASSWORD_EXPIRY_DATE");
 					
+					if (passwordExpiryDate != null && Calendar.getInstance().getTime().after(passwordExpiryDate)) 		 
+						passwordExpired = true; 
 				}
 			}
 			catch (SQLException e)
@@ -490,10 +492,7 @@ public class RDBMSHelper {
 		if (log.isDebugEnabled())
 			log.debug("Authentication||"+userID+"|executeQuery|Success| Password expired is "+passwordExpired+" for the user");
 		
-		if (Calendar.getInstance().getTime().after(passwordExpiryDate)) 		 
-			passwordExpired = true; 
-		else
-			passwordExpired = false;
+
 		
 		return passwordExpired;				
 	}
