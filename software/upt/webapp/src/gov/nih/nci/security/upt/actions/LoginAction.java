@@ -385,6 +385,7 @@ public class LoginAction extends Action
 		try
 		{
 			//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
+			application = authorizationManager.getApplication(loginForm.getApplicationContextName());
 			userProvisioningManager = getUserProvisioningManager(authorizationManager,loginForm.getApplicationContextName());
 			if (null == userProvisioningManager)
 			{
@@ -414,7 +415,7 @@ public class LoginAction extends Action
 		authenticationManager = null;
 		authorizationManager = null;
 
-		try {
+		try {			
 			processUptOperation(userProvisioningManager ,loginForm.getLoginId(),application.getApplicationName(),session);
 		} catch (CSTransactionException e) {
 			// TODO Auto-generated catch block
