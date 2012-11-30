@@ -200,11 +200,9 @@ public class AppUserForm extends UserForm
 		else
 		{
 			user = userProvisioningManager.getUserById(getUserId());
-		}
-		user.setLoginName(this.getUserLoginName());
+		}		
 		user.setFirstName(this.getUserFirstName());
-		user.setLastName(this.getUserLastName());
-		user.setPreMigrationLoginName(this.getUserPreMigratedLogin());
+		user.setLastName(this.getUserLastName());		
 		user.setOrganization(this.getUserOrganization());
 		user.setDepartment(this.getUserDepartment());
 		user.setTitle(this.getUserTitle());
