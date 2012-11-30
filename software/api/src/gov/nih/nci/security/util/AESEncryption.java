@@ -150,25 +150,4 @@ public class AESEncryption implements Encryption {
    {	        
         return this.SALT;
    }
-   
-
-	
-   public static void main(String args[])
-   {
-	   try 
-	   {
-		   //DataConfiguration config = ConfigurationHelper.getConfiguration();			
-		  // AESEncryption aes = new AESEncryption(config.getString("AES_ENCRYPTION_KEY"), Boolean.parseBoolean(config.getString("MD5_HASH_KEY")));
-		   AESEncryption aes = new AESEncryption("super secret", Boolean.parseBoolean("true"));
-		   System.out.println("Encripting:: "+args[0] +"::" +aes.encrypt(args[0])); 
-		   System.out.println("Decripting " +args[0] +"::"  +aes.decrypt(aes.encrypt(args[0])));		
-	   } 
-	   catch (EncryptionException e) 
-	   {		
-		e.printStackTrace();
-	   } 
-	 //  catch (CSConfigurationException e) {	
-	//	e.printStackTrace();
-	 //  }	   
-   }
 }

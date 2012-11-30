@@ -1089,6 +1089,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#modifyUser(User)
 	 */
 	public void modifyUser(User user)throws CSTransactionException{
+		authorizationDAO.validateUser(user);
 		user.setUpdateDate(new java.util.Date());
 		authorizationDAO.modifyObject(user);
 	}
