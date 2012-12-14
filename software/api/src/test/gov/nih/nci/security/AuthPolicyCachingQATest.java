@@ -32,7 +32,7 @@ public class AuthPolicyCachingQATest extends TestCase
         Properties props = System.getProperties();
         URL url = this.getClass().getClassLoader().getSystemResource("ApplicationSecurityConfig.xml");
         String path = url.getPath();
-        props.setProperty("gov.nih.nci.security.configFile", "C:/securityconfig/ApplicationSecurityConfig.xml");
+        props.setProperty("gov.nih.nci.security.configFile", "ApplicationSecurityConfig.xml");
 
 		try
 		{
@@ -51,7 +51,7 @@ public class AuthPolicyCachingQATest extends TestCase
 		catch (Exception e)
 		{
 			throw new RuntimeException("Error in creating the Authorization Manager");
-		}		
+		}
 	}
 
 	protected void tearDown() throws Exception
@@ -60,7 +60,7 @@ public class AuthPolicyCachingQATest extends TestCase
 	}
 
 	////////////USER//////////
-		
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.UserProvisioningManagerImpl(String, String, boolean)'
 	 */
@@ -77,17 +77,17 @@ public class AuthPolicyCachingQATest extends TestCase
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
 	}
-	
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
 	 */
 	public void testCheckPermissionStringStringStringString1() throws InterruptedException
-	{		
+	{
 		try
 		{
 			boolean hasPermission = authorizationManagerUser.checkPermission("modik", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
 			assertEquals(true,hasPermission);
-			
+
 			//TEST CODE, UNCOMMENT THIS CODE AS NEEDED
 //			Thread.sleep(30000);  //Change or remove permissions in the database during this time
 //			hasPermission = authorizationManagerUser.checkPermission("modik", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
@@ -98,7 +98,7 @@ public class AuthPolicyCachingQATest extends TestCase
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
 	}
-	
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
 	 */
@@ -112,10 +112,10 @@ public class AuthPolicyCachingQATest extends TestCase
 		catch (CSException e)
 		{
 			throw new RuntimeException("Error in creating the Authorization Manager");
-		}		
+		}
 	}
 
-	
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
 	 */
@@ -132,8 +132,8 @@ public class AuthPolicyCachingQATest extends TestCase
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
 	}
-	
-	
+
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String)'
 	 */
@@ -165,20 +165,20 @@ public class AuthPolicyCachingQATest extends TestCase
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
 	}
-	
+
 	public void testCheckPermissionStringStringString3() throws InterruptedException, CSException
 	{
 		//Checks how CheckPermission() handles a user that is not in session
 		boolean hasPermission = false;
-		try 
-		{	
+		try
+		{
 			hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
 		} catch (CSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(true,hasPermission);
-		
+
 		//Test code!!!  Comment this code out as needed
 		//Thread.sleep(30000);  //Change or remove permissions in the database during this time
 		hasPermission = authorizationManagerUser.checkPermission("asdf", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
@@ -197,20 +197,20 @@ public class AuthPolicyCachingQATest extends TestCase
 		{
 			localAuthorizationManager = SecurityServiceProvider.getAuthorizationManager("security", "AuthPolicyTest", false);
 			assertNotNull(localAuthorizationManager);
-			
+
 		}
 		catch (Exception e)
 		{
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
-	}	
-	
+	}
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
 	 * This test is designed to ensure that the group checkpermission() is caching properly
 	 */
 	public void testCheckPermissionForGroupStringStringStringString1() throws InterruptedException
-	{		
+	{
 		/* QA - during the sleep() use UPT to remove the permissions to the group.
 		 * Since the group is not the group that was acquired in the getAuthorizationManager(),
 		 * the group authorization policy should NOT be cached and therefore the same assertion
@@ -221,7 +221,7 @@ public class AuthPolicyCachingQATest extends TestCase
 			//boolean hasPermission = authorizationManagerGroup.checkPermissionForGroup("GroupNotInSession", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
 			boolean hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
 			assertEquals(true,hasPermission);
-			
+
 			//TEST CODE, UNCOMMENT THIS CODE AS NEEDED
 			//Thread.sleep(30000);  //Unplug internet cable OR Change or remove permissions in the database during this time
 			//hasPermission = authorizationManagerGroup.checkPermissionForGroup("GroupNotInSession", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
@@ -232,7 +232,7 @@ public class AuthPolicyCachingQATest extends TestCase
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
 	}
-	
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
 	 */
@@ -242,7 +242,7 @@ public class AuthPolicyCachingQATest extends TestCase
 		{
 			boolean hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
 			assertEquals(true,hasPermission);
-			
+
 			//TEST CODE, UNCOMMENT THIS CODE AS NEEDED
 			//Thread.sleep(30000);  //Change or remove permissions in the database during this time
 			hasPermission = authorizationManagerGroup.checkPermissionForGroup("AuthPolicyTest", "AuthPolicyTest2", "AuthPolicyTest2", "UPDATE");
@@ -254,7 +254,7 @@ public class AuthPolicyCachingQATest extends TestCase
 		}
 	}
 
-	
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String, String)'
 	 */
@@ -270,8 +270,8 @@ public class AuthPolicyCachingQATest extends TestCase
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
 	}
-	
-	
+
+
 	/*
 	 * Test method for 'gov.nih.nci.security.provisioning.UserProvisioningManagerImpl.checkPermission(String, String, String)'
 	 */
@@ -303,7 +303,7 @@ public class AuthPolicyCachingQATest extends TestCase
 			throw new RuntimeException("Error in creating the Authorization Manager");
 		}
 	}
-	
+
 }
 
 

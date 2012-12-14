@@ -11,6 +11,7 @@
 	<property name="src.dir" location="src" />
 
 	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="config.dir" value="${basedir}/config" />
 	<property name="dist.dir" value="${basedir}/dist" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
@@ -153,7 +154,6 @@
 		<mkdir dir="${test.dir}/classes" />
 		<javac destdir="${test.dir}/classes" debug="true" deprecation="true" >
 			<src path="${src.dir}"/>
-			<exclude name="**/*.class" />
 			<classpath>
 				<path refid="project.compile.classpath" />
 				<path>
@@ -162,20 +162,34 @@
 					</fileset>
 				</path>
 			</classpath>
-			<include name="test/**/*.java" />
 		</javac>
 
-		<javac destdir="${test.dir}/classes" debug="true" deprecation="true" >
-			<src path="${test.dir}/src"/>
-			<classpath>
-				<path refid="project.compile.classpath" />
-				<path>
-					<fileset dir="${test.dir}/lib">
-							<include name="*.jar" />
-					</fileset>
-				</path>
-			</classpath>
-		</javac>
+		<copy todir="${test.dir}/classes/gov/nih/nci/security/authorization/domainobjects">
+			<fileset dir="${src.dir}/gov/nih/nci/security/authorization/domainobjects">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+
+		<copy todir="${test.dir}/classes/gov/nih/nci/security/dao/hibernate">
+			<fileset dir="${src.dir}/gov/nih/nci/security/dao/hibernate">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+
+		<!---<copy file="${src.dir}/hibernate.properties" todir="${classes.dir}" />-->
+		<copy file="${common.resources}/ObjectStateLoggerConfig.xml" todir="${test.dir}/classes" />
+		<copy file="${src.dir}/ApplicationSecurityConfig.xsd" todir="${test.dir}/classes" />
+		<copy todir="${test.dir}/classes">
+			<fileset dir="${src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<copy file="${config.dir}/login.config" todir="${test.dir}/classes" />
+		<copy file="${config.dir}/ApplicationSecurityConfig.xml" todir="${test.dir}/classes" />
+		<copy file="${config.dir}/ApplicationSecurityConfig.xsd" todir="${test.dir}/classes" />
+		<copy file="${config.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${test.dir}/classes" />
+		
 	</target>
 
 	<target name ="test" depends="test.compile" description="Execute Junit test cases!">
@@ -191,9 +205,10 @@
 				<path location="${test.dir}/classes"/>
 			</classpath>
 			<formatter type="brief" usefile="false" />
-			<test name="gov.nih.nci.security.test.ApiTestControlSuite" />
+			<test name="test.gov.nih.nci.security.SecurityTestSuite" />
 		</junit>
 	</target>
+	
 	<target name="makepom">
 		<ivy:makepom ivyfile="ivy.xml" pomfile="$module.pom">
 		   <mapping conf="default" scope="compile"/>

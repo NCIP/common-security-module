@@ -25,19 +25,19 @@ import java.util.Set;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class TempTest 
+public class TempTest
 {
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
 
-		try 
+		try
 		{
 			Properties p = System.getProperties();
-			p.setProperty("gov.nih.nci.security.configFile","C:/securityConfig/ApplicationSecurityConfig.xml");
+			p.setProperty("gov.nih.nci.security.configFile","ApplicationSecurityConfig.xml");
 			UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManager("security");
 
 			Set privileges = new HashSet();
-			
+
 			Role r = new Role();
 			r.setName("MockTestknm");
 			r.setDesc("MockTestknm");
@@ -50,22 +50,22 @@ public class TempTest
 			p1.setDesc("MockTestknm1");
 			upm.createPrivilege(p1);
 			privileges.add(p1);
-			
+
 			Privilege p2 = new Privilege();
 			p2.setName("MockTestknm2");
 			p2.setDesc("MockTestknm2");
 			upm.createPrivilege(p2);
 			privileges.add(p2);
-			
+
 			addChildren(r, privileges, "privileges");
 			upm.modifyRole(r);
-			
+
 		} catch (CSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void addChildren(Object parent, Set children, String propertyName)
 	{
 		Class parentClass = parent.getClass();

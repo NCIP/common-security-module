@@ -1,117 +1,34 @@
-<security-config>
-    <upt-context-name>
-        csmupt
-    </upt-context-name>
-    <application-list>
-        <!-- For every application using the security api an entry should be made here -->
-        <application>
-            <context-name>
-                csmupt
-            </context-name>
-            <authentication>
-                <authentication-provider-class>
-                    <!-- Fully qualified class name-->
-                </authentication-provider-class>
-				<lockout-time>
-					1800000
-				</lockout-time>
-				<allowed-login-time>
-					60000
-				</allowed-login-time>
-				<allowed-attempts>
-					3
-				</allowed-attempts>
-				
-            </authentication>
-            <authorization>
-                <authorization-provider-class>String</authorization-provider-class>
-                <hibernate-config-file>
-                    <!-- Fully qualified file path -->
-                     C:/projectSVN/caCoreSecurity/CSM_45_BRANCH/software/api/config/csmupt.csm.new.hibernate.cfg.xml
-                </hibernate-config-file>
-            </authorization>
-        </application>
-        <!-- application>
-            <context-name>CLM</context-name>
-            <authentication>
-                <authentication-provider-class>
-                    <!-- Fully qualified class name-->
-                </authentication-provider-class>
-				<lockout-time>
-					60000
-				</lockout-time>
-				<allowed-login-time>
-					60000
-				</allowed-login-time>
-				<allowed-attempts>
-					3
-				</allowed-attempts>
-				
-            </authentication>
-            <authorization>
-                <authorization-provider-class>
-                </authorization-provider-class>
-                <hibernate-config-file>
-                    c:/securityconfig/csmupt.hibernate.cfg.xml
-                </hibernate-config-file>
-            </authorization>
-        </application -->
-       
-        <!-- application>
-            <context-name>
-                EDirectory
-            </context-name>
-            <authentication>
-                <authentication-provider-class>
-                    <!-- Fully qualified class name-->
-                </authentication-provider-class>
-				<lockout-time>
-					60000
-				</lockout-time>
-				<allowed-login-time>
-					60000
-				</allowed-login-time>
-				<allowed-attempts>
-					3
-				</allowed-attempts>
-            </authentication>
-            <authorization>
-                <authorization-provider-class>
-                    <!-- Fully qualified class name-->
-                </authorization-provider-class>
-                <hibernate-config-file>
-                    <!-- Fully qualified file path -->
-                     C:/Prasad/OM/CSM_423_BRANCH/api/config/csmupt.hibernate.cfg.xml
-                </hibernate-config-file>
-            </authorization>
-        </application -->
-        <!-- application>
-            <context-name>
-                OpenLDAP
-            </context-name>
-            <authentication>
-                <authentication-provider-class>
-                    <!-- Fully qualified class name-->
-                </authentication-provider-class>
-				<lockout-time>
-					60000
-				</lockout-time>
-				<allowed-login-time>
-					60000
-				</allowed-login-time>
-				<allowed-attempts>
-					3
-				</allowed-attempts>
-            </authentication>
-            <authorization>
-                <authorization-provider-class>
-                    <!-- Fully qualified class name-->
-                </authorization-provider-class>
-                <hibernate-config-file>
-                    <!-- Fully qualified file path -->
-                    C:/Prasad/OM/CSM_423_BRANCH/api/config/csmupt.hibernate.cfg.xml
-                </hibernate-config-file>
-            </authorization>
-        </application -->
-    </application-list>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<security-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<upt-context-name>csmupt</upt-context-name>
+	<application-list>
+<application>
+						<context-name>csmupt</context-name>
+							<authentication>
+								<authentication-provider-class/>
+								<lockout-time>1800000</lockout-time>
+								<allowed-login-time>60000</allowed-login-time>
+								<allowed-attempts>3</allowed-attempts>
+							</authentication>
+							<authorization>
+								<authorization-provider-class>
+								</authorization-provider-class>
+								<hibernate-config-file/>
+							</authorization>
+					</application>
+</application-list>
+	<backwards-compatibility>
+		<login-application-context-name>upt50</login-application-context-name>
+		<central-upt-configuration>true</central-upt-configuration>
+		<upt-application-list>
+<upt-application>
+					<context-name>csmupt</context-name>
+					<url-context-name>upt50</url-context-name>
+					<authorization>
+						<authorization-provider-class>String</authorization-provider-class>
+						<hibernate-config-file>csmupt.csm.new.hibernate.cfg.xml</hibernate-config-file>
+					</authorization>
+				</upt-application>
+</upt-application-list>
+	</backwards-compatibility>
 </security-config>

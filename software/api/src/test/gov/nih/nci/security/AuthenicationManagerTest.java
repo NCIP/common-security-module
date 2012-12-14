@@ -10,13 +10,13 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 public class AuthenicationManagerTest extends TestCase {
-	
+
 	Properties props = null;
 	private static AuthenticationManager authenticationManagerOpenLdap = null;
 	private static AuthenticationManager authenticationManagerEDirectory = null;
 	private static AuthenticationManager authenticationManagerCLM = null;
 
-	
+
 	public static void main(String[] args) {
 	}
 
@@ -28,16 +28,14 @@ public class AuthenicationManagerTest extends TestCase {
 		URL url = null;
 		String path = null;
 		super.setUp();
-		
-		props = System.getProperties();
-		/*url = this.getClass().getClassLoader().getSystemResource("ApplicationSecurityConfig.xml");
-		path = url.getPath();
-		props.setProperty("gov.nih.nci.security.configFile", path.substring(1,(path.length())));*/
+
+/*		props = System.getProperties();
 		url = this.getClass().getClassLoader().getSystemResource("login.config");
-		path = url.getPath();		
+		path = url.getPath();
 		props.setProperty("java.security.auth.login.config", path);
+*/
 	}
-	
+
 	private AuthenticationManager getAuthenticationManagerOpenLDAP(){
 		if (authenticationManagerOpenLdap == null )
 		{
@@ -52,7 +50,7 @@ public class AuthenicationManagerTest extends TestCase {
 		}
 		return authenticationManagerOpenLdap;
 	}
-	
+
 	private AuthenticationManager getAuthenticationManagerEDirectory(){
 		if (authenticationManagerEDirectory == null )
 		{
@@ -67,7 +65,7 @@ public class AuthenicationManagerTest extends TestCase {
 		}
 		return authenticationManagerEDirectory;
 	}
-	
+
 	private AuthenticationManager getAuthenticationManagerCLM(){
 		if (authenticationManagerCLM == null )
 		{
@@ -92,7 +90,7 @@ public class AuthenicationManagerTest extends TestCase {
 	 */
 	public void testLoginOpenLDAP1() {
 
-		boolean isValid = false;		
+		boolean isValid = false;
 		try
 		{
 			isValid = getAuthenticationManagerOpenLDAP().login( "csmuser1", "CSMt3st!" );
@@ -100,12 +98,12 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} 
+		}
 		assertEquals(true, isValid);
 	}
 
 	public void testLoginOpenLDAP2() {
-		
+
 		boolean isValid = false;
 		try
 		{
@@ -114,12 +112,12 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} 
+		}
 		assertEquals(false, isValid);
 	}
-	
+
 	public void testLoginOpenLDAP3() {
-		
+
 		boolean isValid = false;
 		try
 		{
@@ -128,12 +126,12 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} 
+		}
 		assertEquals(false, isValid);
-	}	
-	
+	}
+
 	public void testLoginEDirectory1() {
-		
+
 		boolean isValid = false;
 		try
 		{
@@ -142,12 +140,12 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} 
+		}
 		assertEquals(true, isValid);
 	}
-	
+
 	public void testLoginEDirectory2() {
-		
+
 		boolean isValid = false;
 		try
 		{
@@ -156,12 +154,12 @@ public class AuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		} 
+		}
 		assertEquals(false, isValid);
 	}
-	
+
 	public void testLoginEDirectory3() {
-		
+
 		boolean isValid = false;
 		try
 		{
@@ -172,10 +170,10 @@ public class AuthenicationManagerTest extends TestCase {
 			isValid = false;
 		}
 		assertEquals(false, isValid);
-	}	
-	
+	}
+
 	public void testLoginWithEncryptedPassword1() {
-		
+
 		boolean isValid = false;
 		try
 		{
@@ -188,8 +186,8 @@ public class AuthenicationManagerTest extends TestCase {
 		}
 		assertEquals(true, isValid);
 	}
-	
-	
-	
-	
+
+
+
+
 }
