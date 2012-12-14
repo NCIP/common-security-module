@@ -6305,7 +6305,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	@Override
 	public void validateUser(User user) throws CSTransactionException{
-		validatePassword(user.getPassword());
+		//For LDAP user, password is empty. Password is not a required field.
+		if(user.getPassword() != null && user.getPassword().trim().length() > 0)
+			validatePassword(user.getPassword());
 	}
 
 	private void validatePassword(String password) throws CSTransactionException{

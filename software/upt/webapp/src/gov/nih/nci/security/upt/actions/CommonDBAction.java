@@ -376,7 +376,7 @@ public class CommonDBAction extends DispatchAction
 
 	public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		System.out.println("IN UPDATE COMMON DB ACTION");
+//		System.out.println("IN UPDATE COMMON DB ACTION");
 		ActionErrors errors = new ActionErrors();
 		ActionMessages messages = new ActionMessages();
 
@@ -496,6 +496,9 @@ public class CommonDBAction extends DispatchAction
 				saveMessages( request, messages );
 			}
 
+
+			session.setAttribute(DisplayConstants.SEARCH_RESULT, null);
+			session.setAttribute(DisplayConstants.CURRENT_FORM, null);
 			if(session.getAttribute(DisplayConstants.SEARCH_RESULT)!=null){
 
 				String str = (String) session.getAttribute(DisplayConstants.CREATE_WORKFLOW);
