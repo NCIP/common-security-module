@@ -54,20 +54,22 @@ VALUES("DELETE","This privilege permits a user to delete a logical entity. This 
 INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
 VALUES("EXECUTE","This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc", sysdate());
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('AES_ENCRYPTION_KEY','super secret');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('AES_ENCRYPTION_KEY','super secret');
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_ATTEMPTS','3');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_ATTEMPTS','3');
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_LOGIN_TIME','600000');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_LOGIN_TIME','600000');
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('MD5_HASH_KEY','true');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('MD5_HASH_KEY','true');
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_EXPIRY_DAYS','60');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_EXPIRY_DAYS','60');
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_LOCKOUT_TIME','1800000');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_LOCKOUT_TIME','1800000');
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_MATCH_NUM','24');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_MATCH_NUM','24');
 
-insert into csm_configuration_properties (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_PATTERN_MATCH','(?=.*[A-Z])(?=.*\\d)(.{8,})$');
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_PATTERN_MATCH','^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$');
+
+insert into csm_configuration_props (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_PATTERN_DESCRIPTION','At least one Upper case alphabet, at least one lower case alphabet, at least one number and minimum 8 characters length');
 
 commit;
