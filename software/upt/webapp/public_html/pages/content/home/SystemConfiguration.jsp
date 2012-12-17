@@ -122,7 +122,7 @@ function skipNavigation()
 										<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" /></label>
 									</logic:equal>
 									<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
-										<html:text  style="formFieldSized" size="30" maxlength="100" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>
+										<html:text  style="formFieldSized" size="30" maxlength="3000" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>
 									</logic:notEqual>
 									</td>
 								</logic:equal>
