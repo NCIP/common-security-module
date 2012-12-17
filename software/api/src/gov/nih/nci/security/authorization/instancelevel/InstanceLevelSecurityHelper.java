@@ -519,7 +519,7 @@ public class InstanceLevelSecurityHelper
 					strbfr.append(filterSQL.substring(startInsertCount,endInsertCount+queryPart2Length));
 					strbfr.append(") "+Constants.CSM_FILTER_ALIAS+" ");
 					strbfr.append(filterSQL.substring(endInsertCount+queryPart2Length));
-					System.out.println(strbfr.toString());
+					//System.out.println(strbfr.toString());
 					
 				}
 				if(filterSQL.indexOf(":USER_NAME")>0){

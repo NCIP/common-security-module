@@ -56,7 +56,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 public class ConfigurationHelper {
         private static final String KEY_COLUMN = "PROPERTY_KEY";
         private static final String VALUE_COLUMN = "PROPERTY_VALUE";
-        private static final String TABLE_NAME = "CSM_CONFIGURATION_PROPERTIES";                
+        private static final String TABLE_NAME = "CSM_CONFIGURATION_PROPS";                
         private static DataConfiguration dataConfig = null;
         private static ConfigurationHelper configHelper= null;
         private static final String CSM_CONTEXT_NAME = "csmupt";
