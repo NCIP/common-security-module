@@ -517,7 +517,7 @@ public class RDBMSHelper {
 		{
 			statement = connection.prepareStatement(query);
 			statement.setString(1, encryptPassword(password,encryptionEnabled ));
-			statement.setBoolean(2, Boolean.FALSE);
+			statement.setInt(2, 0);
 			statement.setString(3, userID);
 		}
 		catch (SQLException e)
@@ -531,6 +531,7 @@ public class RDBMSHelper {
 		}
 		catch (SQLException e)
 		{
+			e.printStackTrace();
 			throw new CSInternalConfigurationException("Unable to execute the query to check if the password is expired ");
 		}
 		try

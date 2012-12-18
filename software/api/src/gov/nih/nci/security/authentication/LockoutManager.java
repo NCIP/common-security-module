@@ -47,12 +47,16 @@ public class LockoutManager {
 	
 	private class CleanupTask extends TimerTask {
 		public void run() {
+			//System.out.println("CleanupTask:************** ");
 			synchronized (mutex) {
 				Collection<String> userIds = (Collection<String>) lockoutCache.keySet();
 				Iterator iter = userIds.iterator();
 				while (iter.hasNext()) {
 					String userId = (String) iter.next();
+					//System.out.println("CleanupTask:************** "+userId);
+					//System.out.println("CleanupTask:************** "+delayTime);
 					LockoutInfo lockoutInfo = (LockoutInfo) lockoutCache.get(userId);
+					//System.out.println("CleanupTask:************** "+(System.currentTimeMillis() - lockoutInfo.getFirstLoginTime()));
 					if (delayTime < (System.currentTimeMillis() - lockoutInfo.getFirstLoginTime())) {
 						lockoutCache.remove(userId);
 					}
@@ -63,6 +67,7 @@ public class LockoutManager {
 
 	private LockoutManager(String lockoutTime, String allowedLoginTime,String allowedAttempts) {
 		lockoutManager = new LockoutManager();
+		//System.out.println("LockoutManager (((((((((((((((((((((((((((((((((((");
 		mutex=new Object();
 		if (lockoutTime.equals("0") || allowedLoginTime.equals("0")
 				|| allowedAttempts.equals("0"))
@@ -73,7 +78,8 @@ public class LockoutManager {
 			this.allowedAttempts = Integer.parseInt(allowedAttempts);
 			this.disableLockoutManager = false;
 			this.delayTime = this.lockoutTime + this.allowedLoginTime;
-			cleanupTimer.schedule(new CleanupTask(), delayTime, delayTime);
+			//System.out.println("Setting cleanup timer**************************************************************************: "+delayTime);
+			cleanupTimer.schedule(new CleanupTask(), 0, this.delayTime);
 		}
 	}
 	
@@ -89,6 +95,8 @@ public class LockoutManager {
 	}
 	
 	public static LockoutManager getInstance() {
+		//System.out.println("getInstance:************** ");
+
 		LockoutManager.initialize(Constants.LOCKOUT_TIME,Constants.ALLOWED_LOGIN_TIME, Constants.ALLOWED_ATTEMPTS);
 		return lockoutManager;
 	}
@@ -115,12 +123,17 @@ public class LockoutManager {
 			}
 			if (null != lockoutInfo) {
 				if (!lockoutInfo.isLockedout()) {
-					System.out.println("NO OF ATTEMPS ::" + lockoutInfo.getNoOfAttempts());
-					System.out.println("ALLOWED ATTEMPTS ::" + allowedAttempts);
-					System.out.println("ALLOWED ATTEMPTS :getAllowedAttempts():" + getAllowedAttempts());
+					//System.out.println("getInstance:**************allowedLoginTime "+allowedLoginTime);
+					//System.out.println("getInstance:**************lockoutInfo.getFirstLoginTime() "+lockoutInfo.getFirstLoginTime());
+					
+					
+					//System.out.println("NO OF ATTEMPS ::" + lockoutInfo.getNoOfAttempts());
+					//System.out.println("ALLOWED ATTEMPTS ::" + allowedAttempts);
+					//System.out.println("ALLOWED ATTEMPTS :getAllowedAttempts():" + getAllowedAttempts());
 					if ((System.currentTimeMillis() - lockoutInfo.getFirstLoginTime()) < allowedLoginTime) {
 						lockoutInfo.setNoOfAttempts(lockoutInfo.getNoOfAttempts() + 1);
 						if (lockoutInfo.getNoOfAttempts() >= allowedAttempts) {
+							System.out.println("Locked*****************"+userId);
 							lockoutInfo.setLockedout(true);
 							isUserLockedout = true;
 						}
@@ -142,6 +155,7 @@ public class LockoutManager {
 	}
 
 	public void unLockUser(String userId) {
+		System.out.println("UnLocking User*****************"+userId);
 		synchronized (mutex) {
 			lockoutCache.remove(userId);
 		}
