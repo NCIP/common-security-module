@@ -158,7 +158,7 @@ public class MigrationDriver {
 		Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 
-		ResultSet resultSet = stmt.executeQuery("SELECT * FROM CSM_CONFIGURATION_PROPERTIES");
+		ResultSet resultSet = stmt.executeQuery("SELECT * FROM CSM_CONFIGURATION_PROPS");
 		String aesEncryptionKey = null;
 		String md5HashKey = null;
 		while(resultSet.next())
