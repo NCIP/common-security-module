@@ -5531,9 +5531,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		if(obj instanceof User){
 			User user = (User)obj;
-			if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(user.getPassword()).length()>0){
+			//if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(user.getPassword()).length()>0){
+			if(this.isEncryptionEnabled){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
+					if(user.getPassword() != null && !user.getPassword().equals("") )
 					user.setPassword(stringEncrypter.encrypt(user.getPassword().trim()));
 					if(user.getFirstName() != null && !user.getFirstName().equals("") )
 						user.setFirstName(stringEncrypter.encrypt(user.getFirstName().trim()));
@@ -5550,6 +5552,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					if(user.getEmailId() != null && !user.getEmailId().equals("") )
 						user.setEmailId(stringEncrypter.encrypt(user.getEmailId().trim()));
 				}else{
+					if(user.getPassword() != null && !user.getPassword().equals("") )
 					user.setPassword(stringEncrypter.decrypt(user.getPassword().trim()));
 					if(user.getFirstName() != null && !user.getFirstName().equals("") )
 						user.setFirstName(stringEncrypter.decrypt(user.getFirstName().trim()));
