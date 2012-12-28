@@ -213,6 +213,16 @@ public abstract class CSMLoginModule implements LoginModule
 			password 		= null;
 			throw new FailedLoginException("User logging in first time, Password should be changed ");
 		}
+		DataConfiguration config;
+		try {
+			config = ConfigurationHelper.getConfiguration();
+		} catch (CSConfigurationException e) {
+			// TODO Auto-generated catch block
+			throw new CSInternalConfigurationException("Exception while reading config data!!");
+		}
+		// added PV start
+		updatePasswordExpiryDate(options, userID,DateUtils.addDays(Calendar.getInstance().getTime(),Integer.parseInt(config.getString("PASSWORD_EXPIRY_DAYS"))));
+		// added PV end
 		if (isPasswordExpired(options, userID))
 		{
 			loginSuccessful = false;
@@ -220,7 +230,9 @@ public abstract class CSMLoginModule implements LoginModule
 			password 		= null;
 			
 			throw new CredentialExpiredException("User password expired, Ceate new password");
-		}		
+		}
+		
+		
 		try {
 			//now validate user
 			if (validate(options, userID, password, subject))
