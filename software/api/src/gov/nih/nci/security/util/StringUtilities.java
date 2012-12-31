@@ -190,6 +190,7 @@ public class StringUtilities {
 	}
 
 	public static boolean checkPatternMatches(String password, String pattern) {
+		Pattern.quote(password);
 		if(Pattern.matches(pattern, password))
 			return true;
 		else
