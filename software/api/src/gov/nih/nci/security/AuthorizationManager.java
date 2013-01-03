@@ -115,6 +115,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginException;
 
 
 
@@ -1025,8 +1026,10 @@ public interface AuthorizationManager {
 	 * @param user the User object that needs to be modified in the database
 	 *
 	 * @throws CSTransactionException if there is any exception in modifying the User in the database
+	 * @throws CSException 
+	 * @throws LoginException 
 	 */
-	public void modifyUser(User user)throws CSTransactionException;
+	public void modifyUser(User user)throws CSTransactionException, CSException, LoginException;
 
 	/**
 	 * Removes the User object from the database for the User id passed. The User id is assigned to the User when
