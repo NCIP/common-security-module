@@ -102,6 +102,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginException;
 
 /**
  * This interface is used for persistence to the appropriate application. The
@@ -517,7 +518,9 @@ public interface AuthorizationDAO {
 
 	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException;
 
-	public void validateUser(User user) throws CSTransactionException;
+	public void validateUser(User user) throws CSTransactionException, LoginException, CSException;
+
+	public void insertIntoPasswordHistory(String loginName, String password)throws CSTransactionException;
 
 
 }

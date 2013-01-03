@@ -90,6 +90,7 @@ package gov.nih.nci.security.dao;
 
 
 import gov.nih.nci.logging.api.logger.hibernate.HibernateSessionFactoryHelper;
+import gov.nih.nci.security.authentication.helper.RDBMSHelper;
 import gov.nih.nci.security.authorization.ObjectAccessMap;
 import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.Application;
@@ -113,6 +114,7 @@ import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.util.ConfigurationHelper;
 import gov.nih.nci.security.util.ObjectUpdater;
 import gov.nih.nci.security.util.StringEncrypter;
@@ -143,6 +145,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginException;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -156,6 +159,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.GenericJDBCException;
 
+import org.apache.commons.configuration.DataConfiguration;
 import org.apache.log4j.Logger;
 
 
@@ -2777,6 +2781,69 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ protectionGroupId + "|");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroupFromProtectionGroup(java.lang.String,
+	 *      java.lang.String)
+	 */
+	public void insertIntoPasswordHistory(String userID, String password) throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		Connection connection = null;
+
+		try {
+			log.info("inserting record into password history tables!!!");
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			t = s.beginTransaction();
+			connection = s.connection();
+			String sql = "INSERT INTO CSM_PASSWORD_HISTORY (LOGIN_NAME, PASSWORD) VALUES (?, ?) ";;
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, userID);
+			statement.setString(2, encryptPassword(new String(password),"YES" ));
+			int i = statement.executeUpdate();
+			
+			t.commit();
+			s.flush();
+			
+			auditLog.info("inserting record into password history tables!!!");
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||insertIntoPasswordHistory|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||insertIntoPasswordHistory|Failure|Error Occured in insert "
+								+ "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occured in while inserting record into insertIntoPasswordHistory\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			try {
+
+				s.close();
+
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||insertIntoPasswordHistory|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||insertIntoPasswordHistory|Success|Success in inserting into password history ");
+	}
+	
+	
+	
+	
 	/*
 	 * (non-Javadoc)
 	 *
@@ -6307,10 +6374,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	}
 
 	@Override
-	public void validateUser(User user) throws CSTransactionException{
+	public void validateUser(User user) throws CSException{
 		//For LDAP user, password is empty. Password is not a required field.
+		DataConfiguration config = ConfigurationHelper.getConfiguration();
+		log.info("******Inside Validate User(((((()))))))))....");
 		if(user.getPassword() != null && user.getPassword().trim().length() > 0)
+		{
 			validatePassword(user.getPassword());
+			// added PV below 
+			if(checkPasswordHistory(user.getLoginName(), user.getPassword(),Integer.parseInt(config.getString("PASSWORD_MATCH_NUM"))))
+			{
+				throw new CSException("The password should be different from the previous passwords");
+			}
+			
+		}
 	}
 
 	private void validatePassword(String password) throws CSTransactionException{
@@ -6329,5 +6406,102 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 	}
 
+	
+	// added PV start
+	
+	private static String encryptPassword(String encryptedPassword,
+			String encryptionEnabled) {
+		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
+			StringEncrypter se;
+			try {
+				se = new StringEncrypter();
+				encryptedPassword = se.encrypt(new String(encryptedPassword));
+			} catch (EncryptionException e) {				
+				e.printStackTrace();
+			}
+		}
+		return encryptedPassword;
+	}
+	
+	public boolean checkPasswordHistory(String userID, String newPassword, int passwordNum) throws CSException
+	{
+		boolean passwordMatch = false;
+		log.info("******Inside passwordhistory check....");
+		Session session = null;
+		PreparedStatement preparedStatement= null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		String encryptPassword = encryptPassword(newPassword,"YES");
+		String query = new String();
+		query = "SELECT PASSWORD FROM CSM_PASSWORD_HISTORY WHERE LOGIN_NAME = ? ORDER BY CSM_PASSWORD_HISTORY_ID DESC";
+
+
+		try {
+
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			connection = session.connection();
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, userID);
+			//preparedStatement= Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet != null)
+			{
+			try
+			{
+				int matchCount = 0;
+				while(resultSet.next())
+				{
+					log.info("New password "+encryptPassword+"...."+"Old password from hist"+resultSet.getString("PASSWORD"));
+					if(matchCount < passwordNum)
+					{
+					String prevPassword = resultSet.getString("PASSWORD");
+					if (encryptPassword != null && prevPassword.equals(encryptPassword))
+					{
+						log.info("******Password matched with earlier passwords....");
+						log.info("New password "+encryptPassword+"...."+"Old password from hist"+prevPassword);
+						passwordMatch = true;
+						break;
+					}
+					matchCount++;
+					}									
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new CSInternalConfigurationException("Unable to execute the query to check if the passwords are matched");
+			}
+			
+			
+			}
+			resultSet.close();
+			preparedStatement.close();
+
+		} catch (Exception ex)
+		{
+			log.error(ex);
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+passwordMatch+" for the user");
+			throw new CSException( "An error occurred while checking permissions\n"	+ ex.getMessage(), ex);
+		} finally {
+			try {
+
+				session.close();
+				resultSet.close();
+				preparedStatement.close();
+
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+passwordMatch+" for the user");
+		return passwordMatch;
+	}
+
+	
+	// added PV end
+	
 
 }
