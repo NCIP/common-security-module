@@ -8,8 +8,10 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LockoutManager {
+import org.apache.log4j.Logger;
 
+public class LockoutManager {
+	private static final Logger log = Logger.getLogger(LockoutManager.class);
 	private static Hashtable<String,LockoutInfo> lockoutCache = null;
 	private static LockoutManager lockoutManager = null;
 	private static Timer cleanupTimer = new Timer();
@@ -48,6 +50,7 @@ public class LockoutManager {
 	private class CleanupTask extends TimerTask {
 		public void run() {
 			//System.out.println("CleanupTask:************** ");
+			log.info("Inside the lockout Timer Task...");
 			synchronized (mutex) {
 				Collection<String> userIds = (Collection<String>) lockoutCache.keySet();
 				Iterator iter = userIds.iterator();
@@ -57,7 +60,12 @@ public class LockoutManager {
 					//System.out.println("CleanupTask:************** "+delayTime);
 					LockoutInfo lockoutInfo = (LockoutInfo) lockoutCache.get(userId);
 					//System.out.println("CleanupTask:************** "+(System.currentTimeMillis() - lockoutInfo.getFirstLoginTime()));
+					log.info("Inside the lockout clean up task...");
+					log.info("task timing..."+"Delay Time"+delayTime);
+					log.info("task timing..."+"System.currentTimeMillis()"+System.currentTimeMillis());
+					log.info("task timing..."+"lockoutInfo.getFirstLoginTime()"+lockoutInfo.getFirstLoginTime());
 					if (delayTime < (System.currentTimeMillis() - lockoutInfo.getFirstLoginTime())) {
+						log.info("Inside the task timing removal..."+"Delay Time"+delayTime);
 						lockoutCache.remove(userId);
 					}
 				}
@@ -96,7 +104,6 @@ public class LockoutManager {
 	
 	public static LockoutManager getInstance() {
 		//System.out.println("getInstance:************** ");
-
 		LockoutManager.initialize(Constants.LOCKOUT_TIME,Constants.ALLOWED_LOGIN_TIME, Constants.ALLOWED_ATTEMPTS);
 		return lockoutManager;
 	}
@@ -105,8 +112,16 @@ public class LockoutManager {
 		if (!disableLockoutManager) {
 			synchronized (mutex) {
 				LockoutInfo lockoutInfo = (LockoutInfo) lockoutCache.get(userId);
-				if (null != lockoutInfo)
+				if (null != lockoutInfo && lockoutInfo.isLockedout())
+				{	// PV added below loop
+					if ((System.currentTimeMillis() - lockoutInfo.getFirstLoginTime()) > lockoutTime) {
+						// unlock user if the necessary time has elapsed
+						unLockUser(userId);
+						return false;
+					}
+					
 					return lockoutInfo.isLockedout();
+				}
 				else
 					return false;
 			}
