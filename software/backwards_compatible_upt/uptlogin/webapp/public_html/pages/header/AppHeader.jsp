@@ -16,7 +16,7 @@
 							 </logic:present>
 								
 							<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
-							<td height="50" width="400" align="left"><html:link forward="LHome"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></html:link></td>
+							<td height="50" width="400" align="left"><html:img src="images/appLogo.gif" alt="UPT Home" hspace="10" border="0"/></td>
 							</logic:notPresent>		
 								
 							<!-- end home links -->	

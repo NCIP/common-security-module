@@ -116,7 +116,7 @@
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.2-504.jdbc3.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-2.3.1.jar" />
-
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/bcprov-jdk15on-147.jar" />
 	</target>
 
 	<target name="prepare" depends="prepareDir,prepareBuild" />
@@ -339,6 +339,7 @@
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/security.hibernate.cfg.xml" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/hibernate.properties" />
 		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/ObjectStateLoggerConfig.xml" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/bcprov-jdk15on-147.jar" />
 	</target>
 
 	<target name="distLogin" depends="initLogin,compileLogin" description="Creates war file">

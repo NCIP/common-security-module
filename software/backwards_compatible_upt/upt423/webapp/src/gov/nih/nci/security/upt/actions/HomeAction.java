@@ -138,12 +138,13 @@ public class HomeAction extends Action
 			throws Exception
 	{
 		HttpSession session = request.getSession();
+		//System.out.println("*****************************423 home");
 		ActionErrors errors = new ActionErrors();
-
+		LoginForm form2 = new LoginForm() ;
 		if(request.getAttribute(DisplayConstants.LOGIN_ID)!=null &&
 				request.getAttribute(DisplayConstants.APPLICATION_CONTEXT)!=null ){
 
-			LoginForm form2 = new LoginForm() ;
+
 			form2.setApplicationContextName((String)request.getAttribute(DisplayConstants.APPLICATION_CONTEXT));
 			form2.setLoginId((String)request.getAttribute(DisplayConstants.LOGIN_ID));
 
@@ -157,10 +158,14 @@ public class HomeAction extends Action
 			// Set in Session.
 			UserProvisioningManager upm = null;
 			try{
-				upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager("csmupt423");
+				if(form2.getApplicationContextName() != null)
+					upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager(form2.getApplicationContextName());
+				else
+					upm = (UserProvisioningManager) SecurityServiceProvider.getAuthorizationManager("csmupt423");
 			}catch(Exception e){
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
+
 			session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER,upm);
 		}
 		if(request.getAttribute(DisplayConstants.ADMIN_USER)!=null ){

@@ -18,6 +18,7 @@ import gov.nih.nci.security.loginapp.util.properties.UPTApplication;
 import gov.nih.nci.security.loginapp.util.properties.UPTProperties;
 import gov.nih.nci.security.loginapp.util.properties.exceptions.UPTConfigurationException;
 
+import gov.nih.nci.security.loginapp.util.AESEncryption;
 import gov.nih.nci.security.util.StringUtilities;
 import gov.nih.nci.security.upt.util.BCrypt;
 
@@ -64,7 +65,7 @@ public class LoginAction extends Action
 	{
 
 
-//System.out.println("LoginAction execute**************************************************************");
+////System.out.println("LoginAction execute**************************************************************");
 
 		ActionErrors errors = new ActionErrors();
 
@@ -149,7 +150,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -170,17 +171,25 @@ public class LoginAction extends Action
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
 
-		System.out.println("Password: "+loginForm.getPassword());
-		String hashedPwd = BCrypt.hashpw(loginForm.getPassword(), BCrypt.gensalt(10));
-		System.out.println("hashedPwd: "+hashedPwd);
-		loginForm.setPassword(hashedPwd);
+		String passkey = System.getProperty("UPTPASSKEY");
+		if(passkey == null)
+			passkey="csmuptloginpassphrase1234!@#$";
+		try
+		{
+		AESEncryption aesencrpyt = new AESEncryption(passkey, true);
+		String encPassrd = aesencrpyt.encrypt(loginForm.getPassword());
+		loginForm.setPassword(encPassrd);
+		}
+		catch (gov.nih.nci.security.util.StringEncrypter.EncryptionException cse)
+		{
+			cse.printStackTrace();
+		}
 
 		ObjectFactory.initialize("upt-beans.xml");
 		UPTProperties uptProperties = null;
 		try {
 			uptProperties = (UPTProperties)ObjectFactory.getObject("UPTProperties");
 		} catch (UPTConfigurationException e) {
-
 			e.printStackTrace();
 		}
 
@@ -327,7 +336,7 @@ public class LoginAction extends Action
 				}
 				catch (CSException cse)
 				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
@@ -405,7 +414,7 @@ public class LoginAction extends Action
 				}
 				catch (CSException cse)
 				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
@@ -487,12 +496,10 @@ public class LoginAction extends Action
 
 			Context ctx = new InitialContext();
 			DataSource ds = null;
-			////System.out.println("Looking up initial context for: "+applicationContextName);
             if (gov.nih.nci.security.loginapp.util.ServerDetector.isJBoss()) {
             	ds = (DataSource)ctx.lookup("java:"+applicationContextName);
             } else if (gov.nih.nci.security.loginapp.util.ServerDetector.isTomcat()) {
             	ds = (DataSource)ctx.lookup("java:/comp/env/"+applicationContextName);
-            	//System.out.println("Looking up initial context for tomcat ");
             }
 
 

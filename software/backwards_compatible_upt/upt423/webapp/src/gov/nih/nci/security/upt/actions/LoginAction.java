@@ -106,11 +106,11 @@ import gov.nih.nci.security.upt.util.properties.ObjectFactory;
 import gov.nih.nci.security.upt.util.properties.UPTProperties;
 import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
 import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.upt.util.AESEncryption;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import gov.nih.nci.security.upt.util.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -143,7 +143,7 @@ public class LoginAction extends Action
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
-//		System.out.println("In 423 **********************************Action....................");
+		//System.out.println("In 423 **********************************Action....................");
 		ActionErrors errors = new ActionErrors();
 
 		AuthenticationManager authenticationManager = null;
@@ -154,11 +154,13 @@ public class LoginAction extends Action
 		String uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 		Application application = null;
 
+		//System.out.println("*****************************423 context");
 		String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
 		ObjectFactory.initialize("upt-beans.xml");
 		UPTProperties uptProperties = null;
 		String urlContextForLoginApp = "";
 		String centralUPTConfiguration = "";
+		LoginForm loginForm = (LoginForm)form;
 		try {
 			uptProperties = (UPTProperties) ObjectFactory
 					.getObject("UPTProperties");
@@ -179,16 +181,9 @@ public class LoginAction extends Action
 
 		}
 
-//		System.out.println("centralUPTConfiguration: "+centralUPTConfiguration);
-//		System.out.println("urlContextForLoginApp: "+urlContextForLoginApp);
-//		System.out.println("serverInfoPathPort: "+serverInfoPathPort);
 
-		LoginForm loginForm = (LoginForm)form;
 		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
 				|| StringUtils.isBlank(loginForm.getPassword())){
-
-
-
 
 			ActionForward newActionForward = new ActionForward();
 			newActionForward.setPath(serverInfoPathPort);
@@ -203,7 +198,7 @@ public class LoginAction extends Action
 
 		try
 		{
-//			System.out.println("uptContextName1: "+uptContextName);
+//			//System.out.println("uptContextName1: "+uptContextName);
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
@@ -239,7 +234,7 @@ public class LoginAction extends Action
 			}
 			catch (Exception ex)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, ex.getMessage()));
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(ex.getMessage())));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
@@ -263,7 +258,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -272,15 +267,13 @@ public class LoginAction extends Action
 		}
 		try
 		{
-			System.out.println("loginForm.getLoginId(): "+loginForm.getLoginId());
-			User user = authorizationManager.getUser(loginForm.getLoginId());
-			System.out.println("user: "+user);
-			System.out.println("user.getPassword(): "+user.getPassword());
-			System.out.println("loginForm.getPassword(): "+loginForm.getPassword());
-			loginSuccessful = BCrypt.checkpw(user.getPassword(), loginForm.getPassword());
-			System.out.println("loginSuccessful: "+loginSuccessful);
-			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),loginForm.getPassword());
-			System.out.println("loginSuccessful2: "+loginSuccessful);
+			String passkey = System.getProperty("UPTPASSKEY");
+			if(passkey == null)
+				passkey="csmuptloginpassphrase1234!@#$";
+
+			AESEncryption aesencrpyt = new AESEncryption(passkey, true);
+			String decPassrd = aesencrpyt.decrypt(loginForm.getPassword());
+			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),decPassrd);
 		}
 		catch (CSException cse)
 		{
@@ -291,6 +284,16 @@ public class LoginAction extends Action
 						"||Login|Failure|Login Failed for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
+		catch (gov.nih.nci.security.util.StringEncrypter.EncryptionException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.LOGIN_EXCEPTION_MESSAGE));
+			saveErrors( request,errors );
+			if (log.isDebugEnabled())
+				log.debug("|"+loginForm.getLoginId()+
+						"||Login|Failure|Login Failed for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+		}
+
 
 		try
 		{
@@ -307,7 +310,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -329,7 +332,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -366,7 +369,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
