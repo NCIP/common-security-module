@@ -2791,23 +2791,41 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		Connection connection = null;
-
+		boolean recordExists = false;
 		try {
-			log.info("inserting record into password history tables!!!");
+			
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			connection = s.connection();
-			String sql = "INSERT INTO CSM_PASSWORD_HISTORY (LOGIN_NAME, PASSWORD) VALUES (?, ?) ";;
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement = connection.prepareStatement(sql);
-			statement.setString(1, userID);
-			statement.setString(2, encryptPassword(new String(password),"YES" ));
-			int i = statement.executeUpdate();
+			// PV check if the password already exists
+			String sqlSelect = "select * from CSM_PASSWORD_HISTORY where LOGIN_NAME = ? and PASSWORD = ?";
+			PreparedStatement statementSelect = connection.prepareStatement(sqlSelect);
+			statementSelect.setString(1,userID);
+			statementSelect.setString(2,encryptPassword(password,"YES" ));
+			ResultSet rs = statementSelect.executeQuery();
+			auditLog.info("Before select in.... password history tables!!!");
+			while (rs.next()) {
+				auditLog.info("Inside select in.... password history tables!!!");
+				recordExists = true;
+				break;
+			}
+			rs.close();
+			statementSelect.close();
+			// PV
+			if(!recordExists)
+			{
+				String sql = "INSERT INTO CSM_PASSWORD_HISTORY (LOGIN_NAME, PASSWORD) VALUES (?, ?) ";;
+				PreparedStatement statement = connection.prepareStatement(sql);
+				statement = connection.prepareStatement(sql);
+				statement.setString(1, userID);
+				statement.setString(2, encryptPassword(password,"YES" ));
+				int i = statement.executeUpdate();
+				t.commit();
+				s.flush();
+				statement.close();
+				auditLog.info("inserting record into password history tables!!!");
+			}
 			
-			t.commit();
-			s.flush();
-			
-			auditLog.info("inserting record into password history tables!!!");
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -2826,8 +2844,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					"An error occured in while inserting record into insertIntoPasswordHistory\n"
 							+ ex.getMessage(), ex);
 		} finally {
+			
 			try {
-
 				s.close();
 
 			} catch (Exception ex2) {
