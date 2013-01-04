@@ -25,10 +25,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		 <!-- GUI installer assumed Central/Typical installation with all CSM versions supported -->
 		<variable name="installation.type" value="central"/>
 		<variable name="upt.central.config" value="true"/>
-		<variable name="upt.41.installed" value="true"/>
-		<variable name="upt.42.installed" value="true"/>
-	   	<variable name="upt.45.installed" value="true"/>
-
 	</panel>
 
 
@@ -97,12 +93,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="space"/>
 		<field type="divider" align="top"/>
 		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing 4.2.3 CSM UPT Schema to CSM UPT Schema version 5.0. Specify current original CSM UPT Schema version."/>
-		<!--
+		
 		<field type="text" variable="upgrade.upt.central.db.previous.version">
 			<spec txt="Original CSM Schema Version" size="15" set="4.2.3"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Original CSM Schema Version is a required field" />
 		</field>
-		-->
+	
 		<fileextractor>
 			<extractfile filename="pre-install" toDirName="."/>
 		</fileextractor>

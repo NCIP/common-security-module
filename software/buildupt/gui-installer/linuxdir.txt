@@ -1,1 +1,1 @@
-${APPLICATIONS_DEFAULT_ROOT}/apps/backwards_compatible_upt
+${APPLICATIONS_DEFAULT_ROOT}/apps/upt

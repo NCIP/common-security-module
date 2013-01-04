@@ -29,12 +29,12 @@ Please see https://wiki.nci.nih.gov/display/TechStack/Technology+Stack+Overview 
 Release History
 ------------------------
  
-    * CSM UPT v5.0		-- September 2012
+    * CSM UPT v5.0		-- February 2013
 
 
 Features
 ------------------------
-CSM/UPT 5.0 release is to support NCI CBIIT 2011 technology stack - Current . 
+CSM/UPT 5.0 release is to support NCI CBIIT 2012 technology stack - Current . 
 Please see https://wiki.nci.nih.gov/display/TechStack/Technology+Stack+Overview for details on technology stack
 
 

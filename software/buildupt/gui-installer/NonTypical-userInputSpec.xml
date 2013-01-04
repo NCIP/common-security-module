@@ -19,14 +19,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	    <!-- GUI installer assumed Central/Typical installation with all CSM versions supported -->
 		<variable name="installation.type" value="central"/>
 		<variable name="upt.central.config" vakue="true"/>
-		<variable name="upt.31.installed" value="true"/>
-		<variable name="upt.31.installed" value="true"/>
-		<variable name="upt.32.installed" value="true"/>
-		<variable name="upt.40.installed" value="true"/>
 		<variable name="upt.41.installed" value="true"/>
 		<variable name="upt.42.installed" value="true"/>
 		<variable name="upt.423.installed" value="true"/>
-		<variable name="upt.45.installed" value="true"/>
+		<variable name="upt.50.installed" value="true"/>
 	</panel>
 
 	<!-- Select component -->
@@ -54,15 +50,15 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="staticText" align="left" txt="The password you enter below is the password used to access the JBoss web console. This is a password you are creating, so you must keep track of this password for future use."/>
 		<field type="divider" align="top"/>
 		<field type="dir" variable="application.base.path">
-			<spec txt="Application Root Directory:" size="25" set="c:/apps/bda"/>
+			<spec txt="Application Root Directory:" size="25" set="c:/apps/upt"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Application Root Directory is a required field" />
 		</field>
 		<field type="dir" variable="jboss.home">
-			<spec txt="JBoss Home:" size="25" set="c:/apps/bda/${jboss.binaries.relative.dir}"/>
+			<spec txt="JBoss Home:" size="25" set="c:/apps/upt/${jboss.binaries.relative.dir}"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Home is a required field" />
 		</field>
 		<field type="dir" variable="tomcat.home">
-			<spec txt="Tomcat Home:" size="25" set="c:/apps/bda/${tomcat.binaries.relative.dir}"/>
+			<spec txt="Tomcat Home:" size="25" set="c:/apps/upt/${tomcat.binaries.relative.dir}"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Tomcat Home is a required field" />
 		</field>
 		<field type="text" variable="jboss.server.name">
@@ -391,7 +387,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.PasswordEqualityValidator" txt="Passwords do not match. Please re-enter your JBoss Web Console passwords"/>
 		</field>
 		<field type="text" variable="jboss.java.opts">
-			<spec txt="JBoss Server JAVA_OPTS:" size="135" set="-server -Xms256m -Xmx512m -XX:ThreadStackSize=128 -XX:SurvivorRatio=10 -XX:PermSize=128m -XX:MaxPermSize=128m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.awt.headless=true"/>
+			<spec txt="JBoss Server JAVA_OPTS:" size="135" set="-server -Xms512m -Xmx1024m -XX:ThreadStackSize=256 -XX:SurvivorRatio=10 -XX:PermSize=256m -XX:MaxPermSize=256m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.awt.headless=true"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="JBoss Server JAVA_OPTS is a required field" />
 		</field>
 
@@ -604,7 +600,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Type is a required field" />
 		</field>
 		<field type="text" variable="upt.central.database.version">
-			<spec txt="Database Version:" size="25" set="5.0.27"/>
+			<spec txt="Database Version:" size="25" set="5.1.0"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
 		</field>
 		<field type="text" variable="upt.central.jndi.name">
