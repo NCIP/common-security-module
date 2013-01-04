@@ -313,7 +313,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -357,7 +357,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -407,7 +407,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -445,7 +445,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -491,7 +491,7 @@ public class CommonDBAction extends DispatchAction
 			}
 			if (searchResult.getSearchResultMessage() != null && !(searchResult.getSearchResultMessage().trim().equalsIgnoreCase("")))
 			{
-				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, searchResult.getSearchResultMessage()));
+				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(searchResult.getSearchResultMessage())));
 				saveMessages( request, messages );
 			}
 			
@@ -509,7 +509,7 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -556,12 +556,12 @@ public class CommonDBAction extends DispatchAction
 			String message = JDBCHelper.testConnectionHibernate(baseDBForm);
 							
 			//
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, message));
+			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(message)));
 			saveMessages( request, messages );
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID,  org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
