@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
 <%
 String path = request.getContextPath();
-String uptLoginHome = path+"/LHome.do";
+String uptLoginHome = path+"/Home.do";
 String uptLoginLogin= path+"/Login.do";
 String uptLoginMenuSelection= path+"/MenuSelection.do";
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
