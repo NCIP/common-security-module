@@ -6,7 +6,7 @@
 	
 	<property name="software.dir" location="../../.." />
 	<property name="build-utils.lib.dir" location="${software.dir}/common/build-utils" />
-	<property name="uptlogin.lib.dir" location="${software.dir}/backwards_compatible_upt/uptlogin/webapp/public_html/WEB-INF/lib" />
+	<property name="uptlogin.lib.dir" location="${software.dir}/upt/webapp/public_html/WEB-INF/lib" />
 
 	
 	<target name="migration:compile"  description="Compile the build monitor source">
