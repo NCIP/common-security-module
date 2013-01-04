@@ -131,6 +131,7 @@ public class CommonAssociationAction extends CommonDBAction
 		
 		HttpSession session = request.getSession();
 		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;
+		session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 		
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logAssociation.isDebugEnabled())
@@ -172,6 +173,7 @@ public class CommonAssociationAction extends CommonDBAction
 		}
 		try
 		{
+			session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 			baseAssociationForm.buildDisplayForm(request);
 			baseAssociationForm.setAssociationObject(request);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Update Successful"));

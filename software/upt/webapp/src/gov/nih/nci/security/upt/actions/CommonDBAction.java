@@ -219,17 +219,15 @@ public class CommonDBAction extends DispatchAction
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
 
-
-
 		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){
-			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
+			//session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
 			session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
 			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));
 		}else{
-				if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
+				if(session.getAttribute(DisplayConstants.SEARCH_RESULT) == null && session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
 					session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));
-					session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
+					//session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
 				}
 			}
 
@@ -237,7 +235,6 @@ public class CommonDBAction extends DispatchAction
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|loadSearchResult|Success|Loading the Search Result Page||");
-
 		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));
 	}
 
@@ -274,7 +271,6 @@ public class CommonDBAction extends DispatchAction
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|loadSearchResult|Success|Loading the Search Result Page||");
-
 		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));
 	}
 
@@ -498,9 +494,10 @@ public class CommonDBAction extends DispatchAction
 
 
 			session.setAttribute(DisplayConstants.SEARCH_RESULT, null);
+			session.setAttribute(DisplayConstants.CREATE_WORKFLOW, null);
+			session.setAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT, null);
 			session.setAttribute(DisplayConstants.CURRENT_FORM, null);
 			if(session.getAttribute(DisplayConstants.SEARCH_RESULT)!=null){
-
 				String str = (String) session.getAttribute(DisplayConstants.CREATE_WORKFLOW);
 				if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)==null){
 						if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT)==null){
