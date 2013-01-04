@@ -19,6 +19,11 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
 <!--
    	function setAndSubmit(target)
    	{
+		if(target == "update")
+		{
+			document.UserForm.operation.value=target;
+			return;
+		}
    		if (target == "delete")
    		{
    			if (confirm("Are you sure you want to delete the record?"))
