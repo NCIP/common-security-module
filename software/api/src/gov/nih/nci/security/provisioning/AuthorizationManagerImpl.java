@@ -101,6 +101,7 @@ import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.AuthorizationDAO;
 import gov.nih.nci.security.dao.AuthorizationDAOImpl;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
@@ -113,6 +114,9 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.system.ApplicationSessionFactory;
 import gov.nih.nci.security.util.ConfigurationHelper;
+import gov.nih.nci.security.util.StringEncrypter;
+import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
 import java.net.URL;
 import java.security.Principal;
@@ -123,7 +127,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginException;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 
 
@@ -145,6 +151,8 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	 */
 	private AuthorizationDAO authorizationDAO;
 
+	static final Logger log = Logger.getLogger(AuthorizationManagerImpl.class.getName());
+	
 	/**
 	 * The application context object for the given application
 	 * peristence.
@@ -975,7 +983,15 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	 * @see gov.nih.nci.security.UserProvisioningManager#createUser(User)
 	 */
 	public void createUser(User user) throws CSTransactionException{
-		authorizationDAO.validateUser(user);
+		try {
+			authorizationDAO.validateUser(user);
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		user.setUpdateDate(new Date());
 		authorizationDAO.createObject(user);
 		//authorizationDAO.createUser(user);
@@ -1088,12 +1104,42 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	 * @throws CSTransactionException
 	 * @see gov.nih.nci.security.UserProvisioningManager#modifyUser(User)
 	 */
-	public void modifyUser(User user)throws CSTransactionException{
-		authorizationDAO.validateUser(user);
+	public void modifyUser(User user)throws CSException,LoginException{
+		
+		User currUser = authorizationDAO.getUser(user.getLoginName());
+		log.info("before validate user passwords..."+currUser.getPassword()+"...."+user.getPassword());
+		if(!currUser.getPassword().equalsIgnoreCase(user.getPassword()))
+		{
+			authorizationDAO.validateUser(user);
+		}
+		
 		user.setUpdateDate(new java.util.Date());
 		authorizationDAO.modifyObject(user);
+		// update the password history here!!!
+		log.info("before insert into password history0000..."+currUser.getPassword()+"...."+user.getPassword());
+		if(!user.getPassword().equalsIgnoreCase(encryptPassword(currUser.getPassword(),"YES" )))
+		{
+			log.info("before insert into password history1111..."+currUser.getPassword()+"...."+user.getPassword());
+			// insert into password history!!
+			authorizationDAO.insertIntoPasswordHistory(currUser.getLoginName(), currUser.getPassword());
+			
+		}
 	}
-
+	
+	private static String encryptPassword(String encryptedPassword,
+			String encryptionEnabled) {
+		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
+			StringEncrypter se;
+			try {
+				se = new StringEncrypter();
+				encryptedPassword = se.encrypt(new String(encryptedPassword));
+			} catch (EncryptionException e) {				
+				e.printStackTrace();
+			}
+		}
+		return encryptedPassword;
+	}
+	
 	/**
 	 * Method removeUser.
 	 * @param userId String
