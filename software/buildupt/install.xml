@@ -42,6 +42,7 @@
 			</default>
 		</switch>
 		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${database.driver.file}"/>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/bcprov-jdk15on-147.jar"/>
 	</target>
 
 	<target name="install:jboss:backwards-compatible-upt-ear:configure" depends="common:init">
