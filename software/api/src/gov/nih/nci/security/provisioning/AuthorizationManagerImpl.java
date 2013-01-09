@@ -999,7 +999,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 			e.printStackTrace();
 		} catch (CSException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CSTransactionException(e.getMessage());
 		}
 		user.setUpdateDate(new Date());
 		authorizationDAO.createObject(user);
@@ -1116,7 +1116,6 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	public void modifyUser(User user)throws CSException,LoginException{
 		
 		User currUser = authorizationDAO.getUser(user.getLoginName());
-		log.info("before validate user passwords..."+currUser.getPassword()+"...."+user.getPassword());
 		if(!currUser.getPassword().equalsIgnoreCase(user.getPassword()))
 		{
 			authorizationDAO.validateUser(user);
@@ -1125,10 +1124,10 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		user.setUpdateDate(new java.util.Date());
 		authorizationDAO.modifyObject(user);
 		// update the password history here!!!
-		log.info("before insert into password history0000..."+currUser.getPassword()+"...."+user.getPassword());
-		if(!user.getPassword().equalsIgnoreCase(encryptPassword(currUser.getPassword(),"YES" )))
+		
+		if(!user.getPassword().equalsIgnoreCase(encryptPassword(currUser.getPassword(),"YES" ))&& currUser.getPassword()!=null)
 		{
-			log.info("before insert into password history1111..."+currUser.getPassword()+"...."+user.getPassword());
+			
 			// insert into password history!!
 			authorizationDAO.insertIntoPasswordHistory(currUser.getLoginName(), currUser.getPassword());
 			
