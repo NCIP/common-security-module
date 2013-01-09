@@ -321,6 +321,15 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	}
 
 	/**
+	 *
+	 * @return Users
+	 * @see gov.nih.nci.security.AuthorizationManager#getUser(String)
+	 */
+	public List<User> getUsers(){
+		return authorizationDAO.getUsers();
+	}
+	
+	/**
 	 * @param authorizationDAO
 	 *
 	 */
