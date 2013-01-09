@@ -2620,6 +2620,54 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return user;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getUser(java.lang.String)
+	 */
+	public List<User> getUsers() {
+		Session s = null;
+		List<User> list = null;
+		try {
+			log.info("AuthorizationDAOImpl inside getUsers list******");
+			User search = new User();
+			//search.setLoginName(loginName);
+			
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+					
+			SearchCriteria sc = new UserSearchCriteria(search);
+
+			list = getObjects(sc);
+			
+
+		} catch (Exception ex) {
+
+			if (log.isDebugEnabled())
+				log.error(
+						"Authorization|||getUser|Failure|Error Occured in Getting User for Name "
+								+ "|", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||getUser|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||getUser|Success|Success in Getting User for Name "
+							 + "|");
+		return list;
+	}
+	
+	
 
 	public Set getUsers(String groupId) throws CSObjectNotFoundException {
 		//todo
@@ -6399,6 +6447,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if(user.getPassword() != null && user.getPassword().trim().length() > 0)
 		{
 			validatePassword(user.getPassword());
+			// added PV below
+			if(user.getLoginName().equalsIgnoreCase(user.getPassword()))
+			{
+				throw new CSException("The password and LoginName should be different values...");
+			}
+			
 			// added PV below 
 			if(checkPasswordHistory(user.getLoginName(), user.getPassword(),Integer.parseInt(config.getString("PASSWORD_MATCH_NUM"))))
 			{

@@ -128,6 +128,8 @@ public interface AuthorizationDAO {
 	public User getUser(String loginName);
 
 	public Set getUsers(String groupId) throws CSObjectNotFoundException;
+	
+	public List<User> getUsers();
 
 	public ApplicationContext getApplicationContext();
 
