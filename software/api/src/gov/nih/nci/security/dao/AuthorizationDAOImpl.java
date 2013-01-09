@@ -6448,6 +6448,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		{
 			validatePassword(user.getPassword());
 			// added PV below
+			
 			if(user.getLoginName().equalsIgnoreCase(user.getPassword()))
 			{
 				throw new CSException("The password and LoginName should be different values...");
