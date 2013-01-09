@@ -1021,6 +1021,9 @@ public interface AuthorizationManager {
 	public Set getUsers(String groupId) throws CSObjectNotFoundException;
 
 
+	public List<User> getUsers();
+	
+	
 	/**
 	 * Modifies an entry for an existing User in the database based on the data passed
 	 * @param user the User object that needs to be modified in the database
