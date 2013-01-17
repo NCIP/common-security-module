@@ -838,14 +838,13 @@ public class RDBMSHelper {
 				int matchCount = 0;
 				while(resultSet.next())
 				{
-					log.info("New password "+encryptPassword+"...."+"Old password from hist"+resultSet.getString("PASSWORD"));
+					
 					if(matchCount < passwordNum)
 					{
 					String prevPassword = resultSet.getString("PASSWORD");
 					if (encryptPassword != null && prevPassword.equals(encryptPassword))
 					{
 						log.info("******Password matched with earlier passwords....");
-						log.info("New password "+encryptPassword+"...."+"Old password from hist"+prevPassword);
 						passwordMatch = true;
 						break;
 					}
