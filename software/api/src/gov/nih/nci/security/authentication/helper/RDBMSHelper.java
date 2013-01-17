@@ -757,7 +757,7 @@ public class RDBMSHelper {
 		try
 		{
 			statement = connection.prepareStatement(query);
-			statement.setBoolean(1, Boolean.FALSE);
+			statement.setInt(1, 0);
 			statement.setString(2, userID);
 		}
 		catch (SQLException e)
@@ -815,6 +815,7 @@ public class RDBMSHelper {
 		}
 		catch (SQLException e)
 		{
+			e.printStackTrace();
 			throw new CSInternalConfigurationException("Unable to generate query statement to check if the passwords are matched ");
 		}
 
@@ -824,6 +825,7 @@ public class RDBMSHelper {
 		}
 		catch (SQLException e)
 		{
+			e.printStackTrace();
 			throw new CSInternalConfigurationException("Unable to execute the query to check if the passwords are matched ");
 		}
 		if (resultSet != null)
@@ -847,6 +849,7 @@ public class RDBMSHelper {
 			}
 			catch (SQLException e)
 			{
+				e.printStackTrace();
 				throw new CSInternalConfigurationException("Unable to execute the query to check if the passwords are matched");
 			}
 		}
