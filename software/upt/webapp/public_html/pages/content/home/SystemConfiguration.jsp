@@ -20,7 +20,7 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
    	function setAndSubmit(target)
    	{
 		document.SystemConfigurationForm.operation.value=target;
-		document.SystemConfigurationForm.submit();
+		//document.SystemConfigurationForm.submit();
  	}
  	<!--
 function skipNavigation()
