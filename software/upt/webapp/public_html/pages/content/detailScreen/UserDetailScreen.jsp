@@ -19,7 +19,7 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
 <!--
    	function setAndSubmit(target)
    	{
-		if(target == "update")
+		if(target == "update" || target == "create")
 		{
 			document.UserForm.operation.value=target;
 			return;
