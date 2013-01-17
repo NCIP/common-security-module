@@ -220,9 +220,7 @@ public abstract class CSMLoginModule implements LoginModule
 			// TODO Auto-generated catch block
 			throw new CSInternalConfigurationException("Exception while reading config data!!");
 		}
-		// added PV start
-		updatePasswordExpiryDate(options, userID,DateUtils.addDays(Calendar.getInstance().getTime(),Integer.parseInt(config.getString("PASSWORD_EXPIRY_DAYS"))));
-		// added PV end
+		
 		if (isPasswordExpired(options, userID))
 		{
 			loginSuccessful = false;
