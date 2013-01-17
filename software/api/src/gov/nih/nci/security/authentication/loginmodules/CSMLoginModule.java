@@ -95,6 +95,7 @@ package gov.nih.nci.security.authentication.loginmodules;
  */
 
 
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSLoginException;
@@ -102,6 +103,9 @@ import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 import gov.nih.nci.security.util.ConfigurationHelper;
+import gov.nih.nci.security.util.StringEncrypter;
+import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -310,6 +314,13 @@ public abstract class CSMLoginModule implements LoginModule
 			if (validate(options, userID, password, subject))
 			{
 				DataConfiguration config = ConfigurationHelper.getConfiguration();
+				String encryptedPassword= new String(password);
+				encryptedPassword = StringUtilities.initTrimmedString(encryptPassword(encryptedPassword,"YES" ));
+				log.info("Old Password and New password.....>>>???"+encryptedPassword+"  "+encryptPassword(newPassword,"YES"));
+				if(encryptedPassword.equals(encryptPassword(newPassword,"YES")))
+				{
+					throw new LoginException("The password should be different from the previous passwords");
+				}
 				if (passwordMatchs(options, userID,newPassword,Integer.parseInt(config.getString("PASSWORD_MATCH_NUM"))))
 				{
 					throw new LoginException("The password should be different from the previous passwords");
@@ -342,6 +353,20 @@ public abstract class CSMLoginModule implements LoginModule
 		if (log.isDebugEnabled())
 			log.debug("Authentication|||login|Success| Authentication is "+loginSuccessful+"|");
 		return loginSuccessful;
+	}
+	
+	private static String encryptPassword(String encryptedPassword,
+			String encryptionEnabled) {
+		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
+			StringEncrypter se;
+			try {
+				se = new StringEncrypter();
+				encryptedPassword = se.encrypt(new String(encryptedPassword));
+			} catch (EncryptionException e) {				
+				e.printStackTrace();
+			}
+		}
+		return encryptedPassword;
 	}
 	
 	/**
