@@ -425,6 +425,7 @@ public class RDBMSHelper {
 	}
 
 	public static boolean isPasswordExpired(Hashtable connectionProperties, String userID) throws CSInternalConfigurationException {
+		
 		Connection connection = getConnection (connectionProperties);
 		if (connection == null)
 		{
@@ -466,7 +467,9 @@ public class RDBMSHelper {
 				{
 					passwordExpiryDate = resultSet.getTimestamp("PASSWORD_EXPIRY_DATE");
 					
-					if (passwordExpiryDate != null && Calendar.getInstance().getTime().after(passwordExpiryDate)) 		 
+					log.info("BEFORE EXPIRY DATE COMPARISION...");
+					log.info("VALUES FOR EXPIRY DATE COMPARISION..."+passwordExpiryDate+"......"+Calendar.getInstance().getTime());
+					if (passwordExpiryDate != null && (Calendar.getInstance().getTime().after(passwordExpiryDate)||Calendar.getInstance().getTime().equals(passwordExpiryDate))) 		 
 						passwordExpired = true; 
 				}
 			}
@@ -835,11 +838,14 @@ public class RDBMSHelper {
 				int matchCount = 0;
 				while(resultSet.next())
 				{
+					log.info("New password "+encryptPassword+"...."+"Old password from hist"+resultSet.getString("PASSWORD"));
 					if(matchCount < passwordNum)
 					{
 					String prevPassword = resultSet.getString("PASSWORD");
 					if (encryptPassword != null && prevPassword.equals(encryptPassword))
 					{
+						log.info("******Password matched with earlier passwords....");
+						log.info("New password "+encryptPassword+"...."+"Old password from hist"+prevPassword);
 						passwordMatch = true;
 						break;
 					}
