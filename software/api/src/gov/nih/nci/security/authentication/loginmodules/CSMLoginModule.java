@@ -316,7 +316,6 @@ public abstract class CSMLoginModule implements LoginModule
 				DataConfiguration config = ConfigurationHelper.getConfiguration();
 				String encryptedPassword= new String(password);
 				encryptedPassword = StringUtilities.initTrimmedString(encryptPassword(encryptedPassword,"YES" ));
-				log.info("Old Password and New password.....>>>???"+encryptedPassword+"  "+encryptPassword(newPassword,"YES"));
 				if(encryptedPassword.equals(encryptPassword(newPassword,"YES")))
 				{
 					throw new LoginException("The password should be different from the previous passwords");
