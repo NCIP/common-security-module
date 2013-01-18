@@ -158,25 +158,27 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 		  	Object value = thisEntry.getValue();
 			
 		}
-		
-		if(!prevExpiryVal.equalsIgnoreCase(currExpiryVal[0]))
+		if(prevExpiryVal!=null && currExpiryVal[0]!=null)
 		{
-			// update expiry dates here
-			UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-			List<User> list = userProvisioningManager.getUsers();
-			if(list != null)
+			if(!prevExpiryVal.equalsIgnoreCase(currExpiryVal[0]))
 			{
-			
-				Iterator UserListIterator = list.iterator();
-				while(UserListIterator.hasNext()){
-				User user = (User) UserListIterator.next();
-				if(user !=null ){
-					// compare and update the expiry dates here
-					int dateDiff = Integer.parseInt(currExpiryVal[0])-Integer.parseInt(prevExpiryVal);
-					user.setPasswordExpiryDate(DateUtils.addDays(user.getPasswordExpiryDate(),dateDiff));
-					userProvisioningManager.modifyUser(user);
-				}
-				
+				// update expiry dates here
+				UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+				List<User> list = userProvisioningManager.getUsers();
+				if(list != null)
+				{
+
+					Iterator UserListIterator = list.iterator();
+					while(UserListIterator.hasNext()){
+						User user = (User) UserListIterator.next();
+						if(user !=null ){
+							// compare and update the expiry dates here
+							int dateDiff = Integer.parseInt(currExpiryVal[0])-Integer.parseInt(prevExpiryVal);
+							user.setPasswordExpiryDate(DateUtils.addDays(user.getPasswordExpiryDate(),dateDiff));
+							userProvisioningManager.modifyUser(user);
+						}
+
+					}
 				}
 			}
 		}
