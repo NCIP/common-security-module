@@ -1124,7 +1124,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 		user.setUpdateDate(new java.util.Date());
 		authorizationDAO.modifyObject(user);
 		// update the password history here!!!
-		if(currUser.getPassword()!=null && !currUser.getPassword().equals(""))
+		if(currUser.getPassword()!=null && currUser.getPassword().length()>0)
 		{
 			if(!user.getPassword().equals(encryptPassword(currUser.getPassword(),"YES" )))
 			{
