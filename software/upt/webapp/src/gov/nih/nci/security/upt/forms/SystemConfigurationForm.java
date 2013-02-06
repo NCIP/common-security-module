@@ -123,7 +123,6 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 
 		//SearchCriteria searchCriteria = new SystemConfigurationSearchCriteria(configurationProperties);
 
-		System.out.println("BUILDING DB OBJECT");
 		//List configList = userProvisioningManager.getObjects(searchCriteria);
 
 		//DataConfiguration dataConfig = ConfigurationHelper.getConfiguration();
@@ -215,6 +214,27 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 	{
 		ActionErrors errors = new ActionErrors();
 		errors = super.validate(mapping,request);
+		Iterator entries = request.getParameterMap().entrySet().iterator();
+		while (entries.hasNext())
+		{
+			Entry thisEntry = (Entry) entries.next();
+		  	Object key = thisEntry.getKey();
+		  	String keyString = (String) thisEntry.getKey();
+		  	if(keyString!=null && keyString.equalsIgnoreCase("PASSWORD_EXPIRY_DAYS"))
+		  	{
+		  		String[] keyValue = (String[]) thisEntry.getValue();
+		  		if(keyValue != null)
+		  		{
+			  		int intValue = new Integer(keyValue[0]).intValue();
+			  		if(intValue <= 0)
+			  		{
+			  			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Invalid Password expiry days. Value should be more than 0."));
+			  		}
+		  		}
+		  		else
+		  			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Password expiry days value is missing. Value should be more than 0."));
+		  	}
+		}
 		return errors;
 	}
 
