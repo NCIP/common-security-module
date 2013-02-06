@@ -18,12 +18,14 @@
    			{
    				document.ApplicationForm.operation.value=target;
 				document.ApplicationForm.submit();
+				return false;
 			}
 		}
 		else
 		{
 	  		document.ApplicationForm.operation.value=target;
 	  		document.ApplicationForm.submit();
+	  		return false;
 	  	}
  	}
  	

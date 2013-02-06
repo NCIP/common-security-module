@@ -20,12 +20,14 @@
    			{
    				document.PrivilegeForm.operation.value=target;
 				document.PrivilegeForm.submit();
+				return false;
 			}
 		}
 		else
 		{
 	  		document.PrivilegeForm.operation.value=target;
 	  		document.PrivilegeForm.submit();
+	  		return false;
 	  	}
  	}
  	

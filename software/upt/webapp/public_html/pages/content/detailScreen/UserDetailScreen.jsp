@@ -8,7 +8,7 @@
 <%@ page import='gov.nih.nci.security.upt.viewobjects.*'%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
-
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <%
 response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 response.setHeader("Pragma","no-cache"); //HTTP 1.0
@@ -22,7 +22,7 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
 		if(target == "update" || target == "create")
 		{
 			document.UserForm.operation.value=target;
-			return;
+			return false;
 		}
    		if (target == "delete")
    		{
@@ -30,12 +30,14 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
    			{
    				document.UserForm.operation.value=target;
 				document.UserForm.submit();
+				return false;
 			}
 		}
 		else
 		{
 	  		document.UserForm.operation.value=target;
 	  		document.UserForm.submit();
+	  		return false;
 	  	}
  	}
  	
@@ -255,8 +257,12 @@ function skipNavigation()
 										<%
 										  }
 										%>
-
+										<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>										
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+										<td><html:submit disabled="true">Update</html:submit></td>
+										</logic:notPresent>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
 										</logic:equal>
