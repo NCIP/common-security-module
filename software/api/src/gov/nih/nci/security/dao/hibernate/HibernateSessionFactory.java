@@ -165,7 +165,14 @@ public class HibernateSessionFactory {
 			session.close();
 		}
 	}
+	
+    public static Configuration getConfiguration() {
+        return cfg;
+    }
 
+    public static SessionFactory getSessionFactory () {
+        return sessionFactory;
+    }
 	/**
 	 * Default constructor.
 	 */

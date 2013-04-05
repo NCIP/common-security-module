@@ -109,7 +109,7 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
-		}
+		} 
 		assertNull(subject);
 	}
 
@@ -126,7 +126,7 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
-		}
+		} 
 		assertNull(subject);
 	}
 	
@@ -158,7 +158,7 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
-		}
+		} 
 		assertNull(subject);
 	}
 
@@ -175,7 +175,7 @@ public class GridAuthenticationTest extends TestCase
 		catch(CSException cse)
 		{
 			assertTrue(true);
-		}
+		} 
 		assertNull(subject);
 	}
 	

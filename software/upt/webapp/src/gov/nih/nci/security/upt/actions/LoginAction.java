@@ -12,7 +12,7 @@ package gov.nih.nci.security.upt.actions;
  *(the 'UPT Software').  The UPT Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This UPT Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -20,7 +20,7 @@ package gov.nih.nci.security.upt.actions;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -95,12 +95,21 @@ import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
+import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.util.StringUtils;
+import gov.nih.nci.security.upt.util.properties.ObjectFactory;
+import gov.nih.nci.security.upt.util.properties.UPTProperties;
+import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
 import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.exceptions.CSCredentialException;
+import gov.nih.nci.security.exceptions.CSFirstTimeLoginException;
+import gov.nih.nci.security.exceptions.CSCredentialExpiredException;
 
 import java.io.File;
 import java.io.IOException;
@@ -128,13 +137,16 @@ import org.jdom.input.SAXBuilder;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class LoginAction extends Action 
-{	
+public class LoginAction extends Action
+{
 	private static final Logger log = Logger.getLogger(LoginAction.class);
-	
+
+
+
+
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
-		ActionErrors errors = new ActionErrors();		
+		ActionErrors errors = new ActionErrors();
 
 		AuthenticationManager authenticationManager = null;
 		AuthorizationManager authorizationManager = null;
@@ -143,13 +155,54 @@ public class LoginAction extends Action
 		boolean hasPermission = false;
 		String uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 		Application application = null;
-		
+
+		String serverInfoPathPort = (request.isSecure()?"https://":"http://")+ request.getServerName()+ ":"+ request.getServerPort();
+		ObjectFactory.initialize("upt-beans.xml");
+		UPTProperties uptProperties = null;
+		String urlContextForLoginApp = "";
+		String centralUPTConfiguration = "";
+		try {
+			uptProperties = (UPTProperties) ObjectFactory
+					.getObject("UPTProperties");
+			urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
+			if (!StringUtils.isBlank(urlContextForLoginApp)) {
+				serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
+			} else {
+				serverInfoPathPort = serverInfoPathPort + "/"
+						+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+			}
+
+			centralUPTConfiguration = uptProperties.getBackwardsCompatibilityInformation().getCentralUPTConfiguration();
+			if("true".equalsIgnoreCase(centralUPTConfiguration)){
+				uptContextName = DisplayConstants.UPT_AUTHENTICATION_CONTEXT_NAME;
+			}
+		} catch (UPTConfigurationException e) {
+			serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+
+		}
+
+//		System.out.println("centralUPTConfiguration: "+centralUPTConfiguration);
+//		System.out.println("urlContextForLoginApp: "+urlContextForLoginApp);
+//		System.out.println("serverInfoPathPort: "+serverInfoPathPort);
+
 		LoginForm loginForm = (LoginForm)form;
+		if(StringUtils.isBlank(loginForm.getApplicationContextName()) || StringUtils.isBlank(loginForm.getLoginId())
+				|| StringUtils.isBlank(loginForm.getPassword())){
+
+			ActionForward newActionForward = new ActionForward();
+			newActionForward.setPath(serverInfoPathPort);
+			newActionForward.setRedirect(true);
+
+			return newActionForward;
+		}
+
+
 		UserInfoHelper.setUserInfo(loginForm.getLoginId(), request.getSession().getId());
 		errors.clear();
 
 		try
 		{
+//			System.out.println("uptContextName1: "+uptContextName);
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
@@ -163,12 +216,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-//			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
-//			saveErrors( request,errors );
-//			if (log.isDebugEnabled())
-//				log.debug("|"+loginForm.getLoginId()+
-//						"||Login|Failure|Unable to instantiate AuthorizationManager for UPT application|"+loginForm.toString()+"|"+cse.getMessage());
-//			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+
 			authorizationManager = null;
 		}
 
@@ -177,10 +225,10 @@ public class LoginAction extends Action
 
 			try
 			{
-				uptContextName = getUPTContextName();
+
 				if (null == uptContextName || uptContextName.equalsIgnoreCase(""))
 				{
-					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));			
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to read the UPT Context Name from Security Config File"));
 					saveErrors( request,errors );
 					if (log.isDebugEnabled())
 						log.debug("|"+loginForm.getLoginId()+
@@ -190,7 +238,7 @@ public class LoginAction extends Action
 			}
 			catch (Exception ex)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, ex.getMessage()));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(ex.getMessage())));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
@@ -200,10 +248,11 @@ public class LoginAction extends Action
 		}
 		try
 		{
-			authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);
+
+			authenticationManager = SecurityServiceProvider.getAuthenticationManager(DisplayConstants.UPT_AUTHENTICATION_CONTEXT_NAME);
 			if (null == authenticationManager)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authentication Manager for the given application context"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authentication Manager for the given application context"));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
@@ -213,7 +262,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -224,22 +273,40 @@ public class LoginAction extends Action
 		{
 			loginSuccessful = authenticationManager.login(loginForm.getLoginId(),loginForm.getPassword());
 		}
+		catch (CSCredentialExpiredException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
+			saveErrors( request,errors );
+			if (log.isDebugEnabled())
+				log.debug("|"+loginForm.getLoginId()+
+						"||Login|Failure|Password Expired for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward(ForwardConstants.EXPIRED_PASSWORD);
+		}
+		catch (CSFirstTimeLoginException cse)
+		{
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
+			saveErrors( request,errors );
+			if (log.isDebugEnabled())
+				log.debug("|"+loginForm.getLoginId()+
+						"||Login|Failure|Password Expired for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
+			return mapping.findForward(ForwardConstants.EXPIRED_PASSWORD);
+		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.LOGIN_EXCEPTION_MESSAGE));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
 						"||Login|Failure|Login Failed for user name "+loginForm.getLoginId()+" and"+loginForm.getApplicationContextName()+" application|"+loginForm.toString()+"|"+cse.getMessage());
 			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
-		
+
 		try
 		{
 			authorizationManager = SecurityServiceProvider.getAuthorizationManager(uptContextName);
 			if (null == authorizationManager)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
@@ -249,7 +316,7 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
@@ -261,44 +328,68 @@ public class LoginAction extends Action
 			hasPermission = authorizationManager.checkPermission(loginForm.getLoginId(),loginForm.getApplicationContextName(),null);
 			if (!hasPermission)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));				
-				saveErrors( request,errors );
-				if (log.isDebugEnabled())
-					log.debug("|"+loginForm.getLoginId()+
-							"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");
-				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+				try
+				{
+					userProvisioningManager = getUserProvisioningManager(authorizationManager,loginForm.getApplicationContextName());
+					if (null == userProvisioningManager)
+					{
+						errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
+						saveErrors( request,errors );
+						if (log.isDebugEnabled())
+							log.debug("|"+loginForm.getLoginId()+
+									"||Login|Failure|Unable to instantiate User Provisioning Manager for "+loginForm.getApplicationContextName()+" application||");
+						return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+					}
+				}
+				catch (CSException cse)
+				{
+					errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
+					saveErrors( request,errors );
+					if (log.isDebugEnabled())
+						log.debug("|"+loginForm.getLoginId()+
+								"||Login|Failure|Unable to instantiate User Provisioning Manager for |"+loginForm.toString()+"|"+cse.getMessage());
+					return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+				}
+				HttpSession session = request.getSession(true);
+				session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER, userProvisioningManager);
+				session.setAttribute(DisplayConstants.LOGIN_OBJECT,form);
+				session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
+
+				session.setAttribute(Constants.UPT_USER_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_PROTECTION_ELEMENT_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_PRIVILEGE_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_GROUP_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_PROTECTION_GROUP_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_ROLE_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+				session.setAttribute(Constants.UPT_INSTANCE_LEVEL_OPERATION+"_"+Constants.CSM_ACCESS_PRIVILEGE, "false");
+
+//				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Access permission denied for the application" ));
+//				saveErrors( request,errors );
+//				if (log.isDebugEnabled())
+//					log.debug("|"+loginForm.getLoginId()+
+//							"||Login|Failure|User "+loginForm.getLoginId()+" doesnot have permission on "+loginForm.getApplicationContextName()+" application||");
+				
+				return mapping.findForward(ForwardConstants.LOGIN_SUCCESS);
 			}
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
 						"||Login|Failure|Error in checking permission|"+loginForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			
-		}		
+			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+		}
+		
 		try
 		{
 			//UserProvisioningManager upm = (UserProvisioningManager)authorizationManager;
 			application = authorizationManager.getApplication(loginForm.getApplicationContextName());
-			if (!StringUtilities.isBlank(application.getDatabaseURL()))
-			{
-				HashMap hashMap = new HashMap();
-				hashMap.put("hibernate.connection.url", application.getDatabaseURL());
-				hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
-				hashMap.put("hibernate.connection.password", application.getDatabasePassword());
-				hashMap.put("hibernate.dialect", application.getDatabaseDialect());
-				hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
-				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName(),hashMap);
-			}
-			else
-			{
-				userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(loginForm.getApplicationContextName());				
-			}
+			userProvisioningManager = getUserProvisioningManager(authorizationManager,loginForm.getApplicationContextName());
 			if (null == userProvisioningManager)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));			
+				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authorization Manager for the given application context"));
 				saveErrors( request,errors );
 				if (log.isDebugEnabled())
 					log.debug("|"+loginForm.getLoginId()+
@@ -308,22 +399,28 @@ public class LoginAction extends Action
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (log.isDebugEnabled())
 				log.debug("|"+loginForm.getLoginId()+
 						"||Login|Failure|Unable to instantiate User Provisioning Manager for |"+loginForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);			
+			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
 		}
-		
-		HttpSession session = request.getSession(true);		
+
+		HttpSession session = request.getSession(true);
 		session.setAttribute(DisplayConstants.USER_PROVISIONING_MANAGER, userProvisioningManager);
 		session.setAttribute(DisplayConstants.LOGIN_OBJECT,form);
 		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
-		
+
 		authenticationManager = null;
 		authorizationManager = null;
-		
+
+		try {			
+			processUptOperation(userProvisioningManager ,loginForm.getLoginId(),application.getApplicationName(),session);
+		} catch (CSTransactionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (((LoginForm)form).getApplicationContextName().equalsIgnoreCase(uptContextName))
 		{
 			session.setAttribute(DisplayConstants.ADMIN_USER,DisplayConstants.ADMIN_USER);
@@ -340,35 +437,85 @@ public class LoginAction extends Action
 			return (mapping.findForward(ForwardConstants.LOGIN_SUCCESS));
 		}
 	}
-	
-	private static String getUPTContextName() throws Exception
+
+	private UserProvisioningManager getUserProvisioningManager(AuthorizationManager authorizationManager,String applictionContextName) throws CSException
 	{
-		Document configDocument = null;
-		String uptContextNameValue = null;
-		String configFilePath = System.getProperty(DisplayConstants.CONFIG_FILE_PATH_PROPERTY_NAME);
-		if (null == configFilePath || configFilePath.trim().equals(""))
-			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
+		UserProvisioningManager userProvisioningManager = null;
 		
-		SAXBuilder builder = new SAXBuilder();
-		try
+		Application application = authorizationManager.getApplication(applictionContextName);
+		if (!StringUtilities.isBlank(application.getDatabaseURL()))
 		{
-			configDocument = builder.build(new File(configFilePath));
+			HashMap hashMap = new HashMap();
+			hashMap.put("hibernate.connection.url", application.getDatabaseURL());
+			hashMap.put("hibernate.connection.username", application.getDatabaseUserName());
+			hashMap.put("hibernate.connection.password", application.getDatabasePassword());
+			hashMap.put("hibernate.dialect", application.getDatabaseDialect());
+			hashMap.put("hibernate.connection.driver_class", application.getDatabaseDriver());
+			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(applictionContextName,hashMap);
 		}
-		catch (JDOMException e)
+		else
 		{
-			throw new CSConfigurationException("Error in parsing the Application Security Config file");
+			userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager(applictionContextName);
 		}
-		catch (IOException e)
-		{
-			throw new CSConfigurationException("Error in reading the Application Security Config file");
-		}
-		if (configDocument != null)
-		{
-			Element securityConfig = configDocument.getRootElement();
-			Element uptContextName = securityConfig.getChild("upt-context-name");
-			uptContextNameValue = uptContextName.getText().trim();
-		}
-		return uptContextNameValue;
+		
+		return userProvisioningManager;
 	}
+
 	
+	private void processUptOperation(UserProvisioningManager uptManager, String userId, String applicationName, HttpSession session) throws CSTransactionException
+	{
+		checkPermissionForUptOperation(uptManager,Constants.UPT_USER_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_PROTECTION_ELEMENT_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_PRIVILEGE_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_GROUP_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_PROTECTION_GROUP_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_ROLE_OPERATION, userId, applicationName, session );
+		checkPermissionForUptOperation(uptManager,Constants.UPT_INSTANCE_LEVEL_OPERATION, userId, applicationName, session );
+	}
+
+	private void checkPermissionForUptOperation(UserProvisioningManager uptManager, String uptOperation, String userId, String applicationName, HttpSession session  ) throws CSTransactionException
+	{
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_ACCESS_PRIVILEGE, userId, applicationName, session);
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_CREATE_PRIVILEGE, userId, applicationName, session);
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_UPDATE_PRIVILEGE, userId, applicationName, session);
+		checkUptPrivilegeForOperation(uptManager, uptOperation, Constants.CSM_DELETE_PRIVILEGE, userId, applicationName, session);
+	}
+	private void checkUptPrivilegeForOperation(UserProvisioningManager uptManager, String uptOperation, String privilege, String userId, String applicationName, HttpSession session ) throws CSTransactionException
+	{
+		String uptPersionKey=privilege+"_"+uptOperation;
+		boolean uptPermission=uptManager.checkPermissionForProvisioningOperation(uptOperation, privilege, userId, applicationName);
+		if (uptPermission)
+			session.setAttribute(uptPersionKey, "true");
+	}
+
+//	private static String getUPTContextName() throws Exception
+//	{
+//		Document configDocument = null;
+//		String uptContextNameValue = null;
+//		String configFilePath = System.getProperty(DisplayConstants.CONFIG_FILE_PATH_PROPERTY_NAME);
+//		if (null == configFilePath || configFilePath.trim().equals(""))
+//			throw new CSConfigurationException("The system property gov.nih.nci.security.configFile is not set");
+//
+//		SAXBuilder builder = new SAXBuilder();
+//		try
+//		{
+//			configDocument = builder.build(new File(configFilePath));
+//		}
+//		catch (JDOMException e)
+//		{
+//			throw new CSConfigurationException("Error in parsing the Application Security Config file");
+//		}
+//		catch (IOException e)
+//		{
+//			throw new CSConfigurationException("Error in reading the Application Security Config file");
+//		}
+//		if (configDocument != null)
+//		{
+//			Element securityConfig = configDocument.getRootElement();
+//			Element uptContextName = securityConfig.getChild("upt-context-name");
+//			uptContextNameValue = uptContextName.getText().trim();
+//		}
+//		return uptContextNameValue;
+//	}
+
 }

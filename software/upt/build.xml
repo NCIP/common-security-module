@@ -1,31 +1,32 @@
-<project name="csm-upt" default="all" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
-	<description>CSM UPT Project Build File</description>
+<project name="backwards-compatible-upt" basedir="./" default="clean">
+	<description>Backwards Compatible UPT Project Build File</description>
+
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="common.dir" value="${basedir}/../" />
-	<property name="target.dir" value="${common.dir}/target/dist/exploded/upt" />
+	<property name="target.dir" value="${common.dir}/target/upt" />
+	<property name="exploded.dir" value="${common.dir}/target/dist/exploded/upt" />
 	<property name="local.repo.dir" value="${common.dir}/local-ivy-repo" />
 	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
+	<property name="bda-utils.dir" location="${common.dir}/build/bda-utils" />
+	<property name="software.dir" location=".." />
+	<property name="upt.dir" value="${software.dir}/upt" />
 
 	<!-- set global properties for this build -->
-	<property name="src.dir" location="webapp/src" />
-	<property name="lib.dir" value="${common.dir}/target/lib/" />
+
+	<property name="dist.relative.ear.dir" value="uptEAR" />
+	<property name="upt.ear.file" value="uptEAR.ear" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
-	<property name="web.dir" value="${basedir}/webapp/public_html" />
-	<property name="build.dir" value="build" />
-	<property name="classes.dir" value="${web.dir}/WEB-INF/classes" />
-	<property name="war.file" value="upt.war" />
-
-	<property file="../build/project.properties"/>
+	<!--
+	<property name="properties.file" location="../buildupt/project.properties">
 	
-	<!-- Paths -->
-	<path id="common.classpath">
-		<fileset dir="${common.dir}/target/lib">
-			<include name="ivy-core-2.0.0-beta2.jar" />
-			<include name="ivy-2.0.0-beta2.jar" />
-		</fileset>
-	</path>
+	<fail unless="properties.file" message="The ${properties.file} file does not exist." />
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=(.*[\w\d\/\{\}\\]+)[ \t]+\r*$" replace="\1=\2" />
+	<replaceregexp file="${properties.file}" byline="true" match="^([\w\d.]+)=[ \t]+(.*[\w\d\/\{\}\\]+)\r*$" replace="\1=\2" />
+	<property file="${properties.file}" />
+	-->
+	<property file="../buildupt/project.properties"/>
 
 	<path id="project.compile.classpath">
 		<fileset dir="${lib.dir}/upt/compile">
@@ -33,72 +34,253 @@
 		</fileset>
 	</path>
 
-	<!-- Task definitions -->
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="common.classpath" />
+	<macrodef name="executeUPT">
+		<attribute name="app.name" default="NOT SET"/>
+		<attribute name="war.file" default="@{app.name}"/>
+		<sequential>
+			<property name="app.name" value="@{app.name}" />
+			<property name="resources.home" value="${upt.dir}/webapp/resources" />
+			<property name="src.home" value="${upt.dir}/webapp/src" />
+			<property name="web.home" value="${upt.dir}/webapp/public_html" />
+			<property name="webinf.home" value="${web.home}/WEB-INF" />
+			<property name="lib.home" value="${webinf.home}/lib" />
+			<property name="otherlib.home" value="${target.dir}/${app.name}/otherlib" />
+			<property name="build.home" value="${basedir}/build/${app.name}" />
+			<property name="dist.home" value="${basedir}/dist/${app.name}" />
+			<property name="classes.home" value="${webinf.home}/classes" />
+			<property name="war.file" value="${dist.home}/@{war.file}.war" />
 
-	<!-- Targets -->
+			<antcall target="build" inheritall="true"/>
+		</sequential>
+	</macrodef>
 
-	<target name="ivy-settings" depends="-init">
-		<ivy:settings  file="${ivy.settings.file}" />
+	<target name="clean" description="Delete the Build and Dist directories">
+		<delete dir="${basedir}/build" />
+		<delete dir="${basedir}/dist" />
 	</target>
 
-	<target name="ivy-compile" depends="ivy-settings" description="Updates the local ivy repository">
-		<ivy:resolve refresh="true" conf="compile" />
-		<ivy:retrieve pattern="${lib.dir}/upt/[conf]/[artifact]-[revision].[ext]" conf="compile" />
+	<target name="prepareDir">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/WEB-INF" />
+		<mkdir dir="${build.home}/WEB-INF/tld" />
+		<mkdir dir="${build.home}/WEB-INF/conf" />
+		<mkdir dir="${build.home}/WEB-INF/lib" />
+		<mkdir dir="${build.home}/META-INF" />
+		<mkdir dir="${classes.home}" />
+		<mkdir dir="${dist.home}" />
 	</target>
 
-	<target name="ivy-runtime" depends="ivy-settings" description="Updates the local ivy repository">
-		<ivy:resolve refresh="true" conf="runtime" />
-		<ivy:retrieve pattern="${lib.dir}/upt/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
-	</target>
-
-	<target name="ivy-clean-cache" description="Cleans project Ivy cache">
-		<ivy:settings file="${ivy.settings.file}" />
-		<ivy:cleancache />
-	</target>
-
-	<target name="-pre-clean" description="Performs all necessary clean-up before a build">
-		<delete dir="${classes.dir}" quiet="false" />
-	</target>
-
-	<target name="-init" description="Initializes the system before a build">
-		<!-- Create the time stamp -->
-		<tstamp />
-		<mkdir dir="${classes.dir}" />
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${lib.dir}/upt/compile" />
-		<mkdir dir="${lib.dir}/upt/runtime" />
-		<!--  MAKE SURE TO REMOVE THE LIB JARS from WEB-INF/lib folder once runtime jars are ivyfied.-->
-		<copy todir="${build.dir}">
-			<fileset dir="${web.dir}" />
+	<target name="prepareBuild" depends="prepareDir">
+		<copy todir="${build.home}/WEB-INF/">
+			<fileset dir="${upt.dir}/webapp/public_html/WEB-INF" />
 		</copy>
-	</target>
-
-	<target name="compile" depends="-pre-clean, -init, ivy-compile" description="Compiles all the files in the project">
-		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="true" deprecation="true" classpathref="project.compile.classpath" />
-	</target>
-
-	<target name="-post-compile" depends="compile" description="Post-compile operations">
-		<copy file="${src.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${build.dir}/WEB-INF/classes" filtering="true">
+	
+	
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}" />
 		</copy>
-		<mkdir dir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
-		<copy file="${src.dir}/gov/nih/nci/security/upt/resources/ApplicationResources.properties" todir="${build.dir}/WEB-INF/classes/gov/nih/nci/security/upt/resources" />
+		<copy todir="${build.home}/WEB-INF/">
+			<fileset dir="${webinf.home}" />
+		</copy>
+		<echo message="${lib.home}" />
+
+
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta-1.0.1B.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jaas.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xerces-2.6.2.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xercesImpl.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xml-apis.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jdbc2_0-stdext.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/mysql-connector-java-3.1.11.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.2-504.jdbc3.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-2.3.1.jar" />
+
 	</target>
 
-	<target name="war" depends="compile, -post-compile, ivy-runtime" description="Generate upt.war">
-		<copy todir="${build.dir}/WEB-INF/lib">
-			<fileset dir="${lib.dir}/upt/runtime" includes="**/*.jar" />
-		</copy>		
-		<jar jarfile="${target.dir}/${war.file}" basedir="${build.dir}" />
+	<target name="prepare" depends="prepareDir,prepareBuild" />
+
+	<target name="compile" depends="prepare" description="Compiles all the files in the project">
+
+		<echo message="${src.home} ${build.home}  ${lib.home}" />
+		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true">
+			<classpath>
+				<fileset dir="${lib.home}" includes="*.jar" />
+			</classpath>
+		</javac>
+		<copy todir="${build.home}/WEB-INF/classes">
+			<fileset dir="${src.home}" excludes="**/*.java" />
+		</copy>
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/ApplicationSecurityConfig.xml" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/csmupt.hibernate.cfg.xml" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/security.hibernate.cfg.xml" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/hibernate.properties" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/upt/resources/ObjectStateLoggerConfig.xml" />
+		
+		<if>
+			<equals arg1="${app.name}" arg2="upt"/>
+			<then>
+				<delete quiet="true" file="${build.home}/WEB-INF/lib/csmapi-4.2.jar" />
+			</then>
+		</if>		
 	</target>
 
-	<target name="dist" depends="war" description="generate the distribution">
+	<target name="build" depends="compile" description="Creates war file">
+		<copy todir="${dist.home}/${app.name}">
+			<fileset dir="${upt.dir}/resources">
+				<exclude name="ObjectStateLoggerConfig.xml" />
+			</fileset>
+		</copy>
+		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
 
-	<target name="-post-clean" description="Performs necessary clean-up after a build">
-		<delete dir="${classes.dir}" quiet="false" />
-		<delete dir="${build.dir}" quiet="false" />
+
+	<target name="distUPT">
+		<executeUPT app.name="${upt.central.url.context.name}" war.file="${upt.central.url.context.name}"/>
 	</target>
 
-	<target name="all" depends="dist, -post-clean" description="Default project target" />
+
+	<target name="dist">
+		<antcall target="distUPT" inheritall="false" />
+	</target>
+
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- seperate targets for upt login no need for macro-->
+	<target name="initLogin">
+		<property name="app.name" value="uptlogin" />
+		<property name="src.home" value="${basedir}/${app.name}/webapp/src" />
+		<property name="web.home" value="${basedir}/${app.name}/webapp/public_html" />
+		<property name="webinf.home" value="${web.home}/WEB-INF" />
+		<property name="lib.home" value="${webinf.home}/lib" />
+
+		<property name="build.home" value="${basedir}/build/${app.name}" />
+		<property name="dist.home" value="${basedir}/dist/${app.name}" />
+		<property name="classes.home" value="${webinf.home}/classes" />
+		<property name="war.file" value="${dist.home}/${app.name}.war" />
+	</target>
+
+	<target name="cleanLogin" depends="initLogin" description="Delete the Build and Dist directories">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+	</target>
+
+	<target name="prepareDirLogin" depends="initLogin">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/WEB-INF" />
+		<mkdir dir="${build.home}/WEB-INF/tld" />
+		<mkdir dir="${build.home}/WEB-INF/conf" />
+		<mkdir dir="${build.home}/WEB-INF/lib" />
+		<mkdir dir="${build.home}/META-INF" />
+		<mkdir dir="${classes.home}" />
+		<mkdir dir="${dist.home}" />
+	</target>
+
+	<target name="prepareBuildLogin" depends="prepareDirLogin">
+		<copy todir="${build.home}">
+			<fileset dir="${web.home}" />
+		</copy>
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/commons-logging.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/commons-logging-1.0.4.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/log4j-1.2.9.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/jta.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/clm.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta-1.0.1B.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jaas.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xerces-2.6.2.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xercesImpl.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xml-apis.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jdbc2_0-stdext.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/mysql-connector-java-3.1.11.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.2-504.jdbc3.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-2.3.1.jar" />
+
+
+
+	</target>
+
+
+	<target name="prepareLogin" depends="prepareDirLogin,prepareBuildLogin" />
+
+	<target name="compileLogin" depends="initLogin,prepareLogin" description="Compiles all the files in the project">
+		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true">
+			<classpath>
+				<fileset dir="${lib.home}" includes="*.jar" />
+			</classpath>
+		</javac>
+		<copy todir="${build.home}/WEB-INF/classes">
+			<fileset dir="${src.home}" excludes="**/*.java" />
+		</copy>
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/ApplicationSecurityConfig.xml" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/csmupt.hibernate.cfg.xml" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/security.hibernate.cfg.xml" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/hibernate.properties" />
+		<delete quiet="true" file="${build.home}/WEB-INF/classes/gov/nih/nci/security/uptlogin/resources/ObjectStateLoggerConfig.xml" />
+	</target>
+
+	<target name="distLogin" depends="initLogin,compileLogin" description="Creates war file">
+		<delete file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+		<delete file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar"/>
+
+		<jar jarfile="${war.file}" basedir="${build.home}" />
+	</target>
+
+	<target name="cleanupLogin" description="Delete the Build directory">
+		<delete dir="${build.home}" />
+	</target>
+	<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+	<!-- Create the EAR File -->
+	<target name="initEar">
+		<property name="build.home.ear" value="${basedir}/build/uptEAR" />
+		<property name="dist.home.ear" value="${exploded.dir}/${dist.relative.ear.dir}" />
+	</target>
+
+	<target name="prepareDirEar" depends="initEar">
+		<mkdir dir="${dist.home.ear}" />
+		<!-- Create Meta-inf and classes directories -->
+		<mkdir dir="${build.home.ear}/META-INF" />
+	</target>
+
+	<macrodef name="configure-application-xml">
+		<attribute name="upt.war" default="NOT SET" />
+		<attribute name="context.root" default="NOT SET" />
+		<sequential>
+			<xmltask preservetype="true" failWithoutMatch="true"
+				source="${build.home.ear}/META-INF/application.xml"
+				dest="${build.home.ear}/META-INF/application.xml">
+				<insert
+					path="//application/display-name"
+					position="after">
+					<![CDATA[
+					<module id="@{context.root}">
+					<web>
+						<web-uri>@{upt.war}</web-uri>
+						<context-root>/@{context.root}</context-root>
+					</web>
+				</module>    
+					]]>
+				</insert>
+		</xmltask>
+	</sequential>
+</macrodef>
+
+<target name="buildEar" depends="prepareDirEar">
+	<copy  file="${basedir}/uptEAR/META-INF/application-template.xml" tofile="${build.home.ear}/META-INF/application.xml" overwrite="true"/>
+	<copy todir="${build.home.ear}/META-INF">
+		<fileset dir="${basedir}/uptEAR/META-INF" includes="MANIFEST.MF" />
+	</copy>
+	<configure-application-xml context.root="${upt.central.url.context.name}" upt.war="${upt.central.url.context.name}.war" />
+
+	<copy todir="${build.home.ear}">
+		<fileset dir="${basedir}/dist/${upt.central.url.context.name}" includes="${upt.central.url.context.name}.war" />
+	</copy>
+	<!-- Create ear file and place in ear directory -->
+	<jar jarfile="${dist.home.ear}/${upt.ear.file}" basedir="${build.home.ear}" />
+</target>
+
+<target name="all" depends="clean,dist,buildEar,cleanupLogin" description="Builds and deploys the entire application by cleaning the build and dist directories" />
 </project>

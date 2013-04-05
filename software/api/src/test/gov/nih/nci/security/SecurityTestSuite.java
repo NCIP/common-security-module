@@ -13,7 +13,7 @@ package test.gov.nih.nci.security;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -21,7 +21,7 @@ package test.gov.nih.nci.security;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -99,28 +99,26 @@ import junit.framework.TestSuite;
 /**
  * Test Suite for executing all of the Security Junit tests.
  * @author Brian Husted
- 
+
  */
 public class SecurityTestSuite {
 	static{
-			
+
 			Properties p = System.getProperties();
-			p.setProperty("gov.nih.nci.security.configFile","c:/securityConfig/ApplicationSecurityConfig.xml");
-			
+			p.setProperty("gov.nih.nci.security.configFile", "ApplicationSecurityConfig.xml");
+			p.setProperty("java.security.auth.login.config", "login.config");
+
 	}
-	
+
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for gov.nih.nci.security");
 		//$JUnit-BEGIN$
 
-		// To test obtaining the various managers
-//		suite.addTest(new TestSuite(SecurityServiceProviderTest.class));
-		// To test authentication functionalities
-//		suite.addTest(new TestSuite(AuthenticationManagerTest.class));
-		// To test authorization functionalities
-		suite.addTest(new TestSuite(UserProvisioningManagerTest.class));
-		
+		suite.addTest(new TestSuite(AuthenicationManagerTest.class));
+		//suite.addTest(new TestSuite(UserProvisioningManagerTest.class));
+		//suite.addTest(new TestSuite(AuthPolicyCachingQATest.class));
+		//suite.addTest(new TestSuite(QACertificateAuthenicationManagerTest.class));
 		//$JUnit-END$
 		return suite;
 	}

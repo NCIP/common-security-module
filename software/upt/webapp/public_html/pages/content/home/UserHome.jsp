@@ -10,8 +10,15 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
+<%
+response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
+response.setHeader("Pragma","no-cache"); //HTTP 1.0
+response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
+%>
+
 <script>
     <!--
     	function setAndSubmit(target)
@@ -20,15 +27,61 @@
     		document.UserForm.submit();
     	}
     // -->
+    
+function skipNavigation()
+{
+	document.getElementById("userHome").focus();
+	window.location.hash="userHome";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+	if(document.getElementById("menuHome"))
+		document.getElementById("menuHome").tabIndex = -1;
+	if(document.getElementById("menuUser"))
+		document.getElementById("menuUser").tabIndex = -1;
+	if(document.getElementById("menuPE"))	
+		document.getElementById("menuPE").tabIndex = -1;
+	if(document.getElementById("menuPrivilege"))	
+		document.getElementById("menuPrivilege").tabIndex = -1;
+	if(document.getElementById("menuGroup"))
+		document.getElementById("menuGroup").tabIndex = -1;
+	if(document.getElementById("menuPG"))
+		document.getElementById("menuPG").tabIndex = -1;
+	if(document.getElementById("menuRole"))
+		document.getElementById("menuRole").tabIndex = -1;
+	if(document.getElementById("menuInstance"))
+		document.getElementById("menuInstance").tabIndex = -1;
+	if(document.getElementById("menulogout"))
+		document.getElementById("menulogout").tabIndex = -1;
+
+	if(document.getElementById("saHome"))
+		document.getElementById("saHome").tabIndex = -1;
+	if(document.getElementById("saApp"))	
+		document.getElementById("saApp").tabIndex = -1;
+	if(document.getElementById("saUser"))
+		document.getElementById("saUser").tabIndex = -1;
+	if(document.getElementById("saPriv"))
+		document.getElementById("saPriv").tabIndex = -1;
+	if(document.getElementById("saLogout"))
+		document.getElementById("saLogout").tabIndex = -1;
+
+}
+    
     </script>
 
 
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<table summary="User Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 
 <html:form styleId="UserForm" action="/UserDBOperation">
 	
 		<html:hidden property="operation" value="error" />
+		<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>
 		<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0"
@@ -38,7 +91,7 @@
 
 					<h2>User</h2>
 
-					<h3>User Home</h3>
+					<h3><a id="userHome"></a>User Home</h3>
 					<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
 					<p>This is the User section of the User Provisioning Tool. A User
 					is simply someone that requires access to your application. Users
@@ -57,7 +110,7 @@
 				</tr>
 				<tr>
 					<td valign="top" width="40%"><!-- sidebar begins -->
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
@@ -68,17 +121,19 @@
 						<tr><td><br></td></tr>
 						<tr>
 							<td valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" height="100%" class="sidebarSection">
 								<tr>
 
 									<td class="sidebarTitle" height="20">USER LINKS</td>
 								</tr>
-								<tr>
-									<td class="sidebarContent"><a
-										href="javascript: setAndSubmit('loadAdd')">Create a New User</a><br>
-									Click to add a new user.</td>
-								</tr>
+								<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+									<tr>
+										<td class="sidebarContent"><a
+											href="javascript: setAndSubmit('loadAdd')">Create a New User</a><br>
+										Click to add a new user.</td>
+									</tr>
+								</logic:present>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an

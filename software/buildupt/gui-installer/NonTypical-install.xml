@@ -19,14 +19,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<property name="software.location" location="${this.dir}/../.." />
 	<property name="target.location" location="${software.location}/target" />
 	<property name="dist.location" location="${target.location}/dist" />
-	<property name="bda-utils.dir" location="${target.location}/bda-utils" />
+	<property name="bda-utils.dir" location="${software.location}/common/build-utils" />
 	<property name="ant.lib.dir" location="${target.location}/apache-ant-1.7.0/lib" />
 	<property name="custom.resource.dir" location="${target.location}/izpack-custom/resources"/>
 	<property name="project.name" value="csmupt"/>
 	<property name="installer.dir" value=".installer-${project.name}"/>
 	<property name="gui-installer.dist.base.name" value="csmupt_gui_distribution_${csm.version}.jar"/>
-	<property name="install.zip.file" value="csm_install4.2.zip"/>
-	<property name="upgrade.zip.file" value="csm_upgrade4.2.zip"/>
+	<property name="install.zip.file" value="csm_install5.0.zip"/>
+	<property name="upgrade.zip.file" value="csm_upgrade5.0.zip"/>
 
 	<echoproperties/>
 <echo message="compile.jar.dir ::: ${compile.jar.dir}"/>
@@ -150,6 +150,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</condition>
 
 					<!-- UPT Installation  non-central  - UPT 31,32,40,41,42 installed?-->
+					<condition type="variable" id="install.upt423">
+						<name>upt.423.installed</name>
+						<value>true</value>
+					</condition>
 					<condition type="variable" id="install.upt42">
 						<name>upt.42.installed</name>
 						<value>true</value>
@@ -172,6 +176,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</condition>
 
 					<!-- Recreate Schema  - central,31,32,40,41,42 ? -->
+					<condition type="variable" id="recreate.schema.upt423">
+						<name>upt.423.database.re-create</name>
+						<value>true</value>
+					</condition>
 					<condition type="variable" id="recreate.schema.upt42">
 						<name>upt.42.database.re-create</name>
 						<value>true</value>
@@ -226,7 +234,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					<variable name="build.file.target" value="upgrade:database" condition="upgrade+container.database" />
 
 					<!-- conditionals for containers not chosen -->
-					<variable name="jboss.relative.path" value="" condition="container.database|container.tomcat"/>
+					<variable name="jboss.relative.path" value="jboss.binaries.relative.dir" condition="container.database|container.tomcat"/>
 					<variable name="jboss.server.hostname" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.user" value="" condition="container.database|container.tomcat"/>
 					<variable name="jboss.web.password" value="" condition="container.database|container.tomcat"/>
@@ -284,12 +292,9 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 					<!-- Conditionals for chosen Central Installation -->
 
-
+					<variable name="upt.423.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
 					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.40.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.32.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.31.database.re-create" value="false" condition="central.installation"/>
 
 
 					<!-- Condition to Recreate --> 
@@ -439,13 +444,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 					</pack>
 
 				</packs>
-				<jar src="@{bda-utils.dir}/ant-1.7.0.jar" stage="both" />
-				<jar src="@{bda-utils.dir}/ant-launcher-1.7.0.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/ant-nodeps-1.7.0.jar" stage="both"/>
+				
+				<jar src="@{bda-utils.dir}/ant-1.8.0.jar" stage="both" />
+				<jar src="@{bda-utils.dir}/ant-launcher-1.8.0.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/ant-nodeps-1.8.0.jar" stage="both"/>
 				<jar src="@{bda-utils.dir}/xml-commons-resolver-1.2.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/mysql-connector-java-5.0.8.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/ojdbc14-10.2.0.4.0.jar" stage="both"/>
-				<jar src="@{bda-utils.dir}/postgresql-jdbc3-8.3-604.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/mysql-connector-java-5.1.13.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/ojdbc14-10.2.0.3.0.jar" stage="both"/>
+				<jar src="@{bda-utils.dir}/postgresql-8.4-701.jdbc3.jar" stage="both"/>
 				<!-- added to address issues with missing libraries -->
 				<jar src="@{ant.lib.dir}/ant-antlr.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-apache-bcel.jar" stage="both" />
@@ -454,6 +460,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<jar src="@{ant.lib.dir}/ant-apache-oro.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-apache-regexp.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-apache-resolver.jar" stage="both" />
+				<jar src="@{ant.lib.dir}/ant-apache-xalan2.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-commons-logging.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-commons-net.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-jai.jar" stage="both" />
@@ -466,15 +473,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 				<jar src="@{ant.lib.dir}/ant-launcher.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-netrexx.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-nodeps.jar" stage="both" />
-				<jar src="@{ant.lib.dir}/ant-starteam.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-stylebook.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-swing.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-testutil.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/ant-trax.jar" stage="both" />
-				<jar src="@{ant.lib.dir}/ant-weblogic.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/xercesImpl.jar" stage="both" />
 				<jar src="@{ant.lib.dir}/xml-apis.jar" stage="both" />
-
 			</installation>
 		]]></config>
 		</IzPack>
@@ -485,7 +489,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<copy tofile="${pre-install.dir}/project.properties" file="${build.dir}/project.properties" overwrite="true"/>
 		<echo file="${pre-install.dir}/install.properties" message=""/>
 
-		<copy todir="${pre-install.dir}/bda-utils" overwrite="true">
+		<copy todir="${pre-install.dir}/build-utils" overwrite="true">
 			<fileset dir="${bda-utils.dir}">
 				<include name="**/*" />                 
 			</fileset>                      

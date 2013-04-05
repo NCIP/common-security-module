@@ -4,16 +4,18 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
-    <script> 
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
+<script> 
     <!--
     	function setAndSubmit(target)
     	{
     		if (target == "read")
     		{
 	    		document.ProtectionGroupForm.operation.value=target;
+	    		document.ProtectionGroupForm.submit();
     		}
     		else
     		{		
@@ -82,16 +84,41 @@
 	         if (options[0] != null)
 	            options[0].selected = true;
 	      } // end with isavailableIds
-		}    // -->
+		}    
+
+function skipNavigation()
+{
+	document.getElementById("pgAssoc").focus();
+	window.location.hash="pgAssoc";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+} 	
+		
+		// -->
     </script>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 			<tr>
 				<td colspan="3">
-					<h2>Protection Group and Parent Protection Group Association</h2>
+					<h2><a id="pgAssoc"></a>Protection Group and Parent Protection Group Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="ProtectionGroupForm" property="protectionGroupName" value="<%=DisplayConstants.BLANK%>">
@@ -102,7 +129,7 @@
 							<td class="formTitle" height="20" colspan="2">SELECTED PROTECTION GROUP</td>
 						</tr>
 						<tr class="dataRowDark">
-							<td class="formRequiredLabel" width="40%" scope="row"><label>Protection Group Name</label></td>
+							<td class="formRequiredLabel" width="40%" scope="row"><label for="protectionGroupName">Protection Group Name</label></td>
 							<td class="formField" width="60%"><bean:write name="ProtectionGroupForm" property="protectionGroupName" /></td>
 						</tr>
 					</table>
@@ -111,7 +138,7 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%">
+				<table cellpadding="3" cellspacing="10" border="0" height="100%">
 					<tr>
 						<td class="infoMessage">
 		  				<html:messages id="message" message="true">
@@ -145,7 +172,7 @@
 					
 					<td width="100%" valign="top">
 					<form name="dummyForm">
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">AVAILABLE PGs</td>
@@ -173,32 +200,35 @@
 							<table width="220">
 							<tr>
 							<!-- -->
-					
-					<td align="center">
-						<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
-						</td>
-						
-					<td align="center">	
-						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
-					</td>
-					
-					
+								<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+									<td align="center">
+										<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
+										</td>
+									<td align="center">	
+										<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
+									</td>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+									<td align="center">
+										<input type="button" value="Assign" style="width:75px;" disabled="disabled"/>
+									</td>
+									<td align="center">	
+										<input type="button" value="Deassign" style="width:75px;" disabled="disabled"/>
+									</td>
+								</logic:notPresent>
 					<!-- extra code -->
 							</tr>
 							</table>
 							</td>
 							<!-- -->	
-					
-					
 					</tr>
 					<!-- end second, start third -->
 					<tr>
-					
-					
 					<td width="100%" valign="top">
-					<html:form styleId="ProtectionGroupForm" action = '<%="/ProtectionGroupDBOperation"%>'>
+					<html:form styleId="ProtectionGroupForm" action="/ProtectionGroupDBOperation">
 					<html:hidden property="operation" value="read"/>
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ProtectionGroupDBOperation'/>"/>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">ASSIGNED PARENT PG</td>
@@ -214,18 +244,18 @@
 						</tr>
 					</table>
 					</td>
-					
-					
 					</tr>
 					<!-- end third section -->
-					
-					
 					<tr>
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-
-						<td><button class="actionButton" onclick="setAndSubmit('setParentAssociation');">Update Association</button></td>
+						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+							<td><button class="actionButton" onclick="setAndSubmit('setParentAssociation');">Update Association</button></td>
+						</logic:present>
+						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+							<td><button class="actionButton" disabled="disabled">Update Association</button></td>
+						</logic:notPresent>
 						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
 					</tr>
 				</table>

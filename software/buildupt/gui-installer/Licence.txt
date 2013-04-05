@@ -1,4 +1,4 @@
-Copyright Notice. Copyright 2006 Ekagra Software Technologies (Ekagra) (“caBIG™ Participant”). 
+Copyright Notice. Copyright 2011 Ekagra Software Technologies (Ekagra) (“caBIG™ Participant”). 
 Common Security Module (CSM) software was created with NCI funding and is part of the caBIG™ 
 initiative. The software subject to this notice and license includes both human readable source 
 code form and machine readable, binary, object code form (the “caBIG™ Software”).

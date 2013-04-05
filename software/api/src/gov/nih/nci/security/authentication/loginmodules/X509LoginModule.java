@@ -1,6 +1,8 @@
 package gov.nih.nci.security.authentication.loginmodules;
 
 import gov.nih.nci.security.authentication.principal.LoginIdPrincipal;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
+import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -536,5 +538,4 @@ public final class X509LoginModule implements LoginModule {
 		}
 		return false;
 	}
-
 }

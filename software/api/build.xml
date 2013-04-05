@@ -1,4 +1,4 @@
-<project name="csm-api" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csm-api" default="run" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 	<description>CSM API Project Build File</description>
 
 	<property name="common.dir" value="${basedir}/.." />
@@ -6,11 +6,13 @@
 	<property name="local.repo.dir" value="${basedir}/../local-ivy-repo/${ant.project.name}" />
 
 	<property name="ivy.settings.file" location="${common.dir}/common/ivysettings.xml" />
-
+	<property name="src.javadoc.dir" value="${basedir}/../javadoc" />
 	<!-- set global properties for this build -->
 	<property name="src.dir" location="src" />
 
-	<property name="lib.dir" value="${common.dir}/target/lib" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="config.dir" value="${basedir}/config" />
+	<property name="dist.dir" value="${basedir}/dist" />
 
 	<!-- This will be removed once all jars are retrieved from Ivy -->
 	<property name="local.lib.dir" value="lib" />
@@ -18,10 +20,25 @@
 
 	<property name="data.dir" location="${basedir}/data" />
 	<property name="classes.dir" location="${basedir}/classes" />
+	<property name="test.dir" location="${basedir}/test" />
 	<property name="common.resources" location="../common/resources/jboss-conf" />
 	<property name="jar.name" value="csmapi.jar" />
 
 	<!-- Paths -->
+	<echo message="ant home= ${ant.home}"/>
+	
+	  <path id="ant.classpath">
+	    <fileset dir="${ant.home}/lib">
+	      <include name="*.jar" />
+	    </fileset>
+	  </path>
+
+  	<taskdef uri="antlib:org.apache.maven.artifact.ant"
+           resource="org/apache/maven/artifact/ant/antlib.xml"
+           classpathref="ant.classpath" />
+
+
+
 	<path id="common.classpath">
 		<fileset dir="${common.dir}/target/lib">
 			<include name="ivy-core-2.0.0-beta2.jar" />
@@ -30,21 +47,28 @@
 	</path>
 
 	<path id="project.compile.classpath">
-		<fileset dir="${lib.dir}/api/compile">
+		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${local.lib.dir}">
 			<include name="*.jar" />
-
 		</fileset>
 	</path>
 
-	<!-- Task definitions -->
-	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="common.classpath" />
+	  <target name="resolve" description="--> retrieve dependencies with maven">
+	      <!-- Resolve dependencies -->
+	      <artifact:dependencies filesetId="dependency.fileset">
+		  <pom file="pom.xml" />
+	      </artifact:dependencies>
+	      <!-- Copy all dependencies to the correct location. -->
+	      <copy todir="${lib.dir}">
+		  <fileset refid="dependency.fileset" />
+		  <!-- This mapper strips off all leading directory information -->
+		  <mapper type="flatten" />
+	      </copy>
+	  </target>
 
-	<!-- Targets -->
-
-	<target name="ivy-settings">
+	<target name="ivy-settings" depends="-init">
 		<ivy:settings file="${ivy.settings.file}" />
 	</target>
 
@@ -58,14 +82,6 @@
 		<ivy:retrieve pattern="${lib.dir}/api/[conf]/[artifact]-[revision].[ext]" conf="runtime" />
 	</target>
 
-	<target name="ivy-clean-cache" description="Cleans project Ivy cache">
-		<ivy:settings file="${ivy.settings.file}" />
-		<ivy:cleancache />
-	</target>
-
-	<target name="-pre-clean" depends="ivy-clean-cache" description="Performs all necessary clean-up before a build">
-		<delete dir="${classes.dir}" quiet="false" />
-	</target>
 
 	<target name="-init" description="Initializes the system before a build">
 		<!-- Create the time stamp -->
@@ -74,10 +90,12 @@
 		<mkdir dir="${local.repo.dir}" />
 	</target>
 
-	<target name="compile" depends="-pre-clean, -init, ivy-compile" description="compile the source ">
+	<target name="compile" depends="-init" description="compile the source ">
 
 		<!-- Compile the java code from ${src.dir} into ${classes.dir} -->
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" deprecation="true" classpathref="project.compile.classpath" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" deprecation="true" classpathref="project.compile.classpath">
+		<exclude name="**/test/**" />
+		</javac>
 
 		<copy todir="${classes.dir}/gov/nih/nci/security/authorization/domainobjects">
 			<fileset dir="${src.dir}/gov/nih/nci/security/authorization/domainobjects">
@@ -103,10 +121,11 @@
 	</target>
 
 	<target name="jar" depends="compile" description="generate the distribution">
-		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<jar jarfile="${dist.dir}/${jar.name}" basedir="${classes.dir}" />
 	</target>
 
-	<target name="dist" depends="jar, ivy-runtime" description="generate the distribution">
+	<target name="dist" depends="jar" description="generate the distribution">
 		<copy todir="${target.dir}">
 			<fileset dir="${lib.dir}">
 				<include name="**/*.jar" />
@@ -128,5 +147,87 @@
 	</target>
 
 	<target name="run" depends="dist, -post-clean" description="Default project target" />
+
+	<target name="test.compile" depends="compile" description="Compile test cases !!">
+		<echo message="compile test case code!!"/> 
+		<delete dir="${test.dir}/classes" />
+		<mkdir dir="${test.dir}/classes" />
+		<javac destdir="${test.dir}/classes" debug="true" deprecation="true" >
+			<src path="${src.dir}"/>
+			<classpath>
+				<path refid="project.compile.classpath" />
+				<path>
+					<fileset dir="${test.dir}/lib">
+							<include name="*.jar" />
+					</fileset>
+				</path>
+			</classpath>
+		</javac>
+
+		<copy todir="${test.dir}/classes/gov/nih/nci/security/authorization/domainobjects">
+			<fileset dir="${src.dir}/gov/nih/nci/security/authorization/domainobjects">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+
+		<copy todir="${test.dir}/classes/gov/nih/nci/security/dao/hibernate">
+			<fileset dir="${src.dir}/gov/nih/nci/security/dao/hibernate">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+
+		<!---<copy file="${src.dir}/hibernate.properties" todir="${classes.dir}" />-->
+		<copy file="${common.resources}/ObjectStateLoggerConfig.xml" todir="${test.dir}/classes" />
+		<copy file="${src.dir}/ApplicationSecurityConfig.xsd" todir="${test.dir}/classes" />
+		<copy todir="${test.dir}/classes">
+			<fileset dir="${src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<copy file="${config.dir}/login.config" todir="${test.dir}/classes" />
+		<copy file="${config.dir}/ApplicationSecurityConfig.xml" todir="${test.dir}/classes" />
+		<copy file="${config.dir}/ApplicationSecurityConfig.xsd" todir="${test.dir}/classes" />
+		<copy file="${config.dir}/csmupt.csm.new.hibernate.cfg.xml" todir="${test.dir}/classes" />
+		
+	</target>
+
+	<target name ="test" depends="test.compile" description="Execute Junit test cases!">
+		<echo message="Execute test cases!!"/> 
+		<junit>
+			<classpath>
+				<path refid="project.compile.classpath" />
+				<path>
+					<fileset dir="${test.dir}/lib">
+							<include name="*.jar" />
+					</fileset>
+				</path>
+				<path location="${test.dir}/classes"/>
+			</classpath>
+			<formatter type="brief" usefile="false" />
+			<test name="test.gov.nih.nci.security.SecurityTestSuite" />
+		</junit>
+	</target>
+	
+	<target name="makepom">
+		<ivy:makepom ivyfile="ivy.xml" pomfile="$module.pom">
+		   <mapping conf="default" scope="compile"/>
+		   <mapping conf="runtime" scope="runtime"/>
+		</ivy:makepom>
+	</target>
+
+	<target name="javadoc" description="Generates javadocs" depends="compile">
+		<javadoc packagenames="*" destdir="${src.javadoc.dir}" author="true"
+			private="true" version="true" use="true" windowtitle="CSM 4.2.4 API Documentation"
+			doctitle="CSM 4.5 API Documentation" useexternalfile="yes" verbose="false">
+			<classpath refid="project.compile.classpath" />
+			<bottom>This API was generated by the Common Security Module</bottom>
+			<fileset dir="${src.dir}" includes="**/*.java"/>
+		</javadoc>
+	</target>
+	
+	<target name="src">
+		<zip destfile="${dist.dir}/csm-api-src4.2.3.zip" basedir="${src.dir}" />
+	</target>
 
 </project>

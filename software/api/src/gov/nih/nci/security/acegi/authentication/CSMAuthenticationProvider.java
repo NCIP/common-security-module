@@ -65,8 +65,7 @@ public class CSMAuthenticationProvider extends AbstractUserDetailsAuthentication
 		} catch (CSException e) {
 			 throw new BadCredentialsException(messages.getMessage(
 	                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"), includeDetailsObject ? userDetails : null);
-		}
-        
+		} 
     }
 
     protected void doAfterPropertiesSet() throws Exception {

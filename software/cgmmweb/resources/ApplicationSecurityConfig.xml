@@ -32,4 +32,35 @@
             </authorization>
         </application>
     </application-list>
+	<backwards-compatibility>
+		<login-application-context-name>uptlogin</login-application-context-name>
+		<central-upt-configuration>true</central-upt-configuration>
+		<upt-application-list>
+		<upt-application>
+					<context-name>csmupt</context-name>
+					<url-context-name>upt43</url-context-name>
+					<authorization>
+						<authorization-provider-class>String</authorization-provider-class>
+						<hibernate-config-file>placeholder_string_val</hibernate-config-file>
+					</authorization>
+		</upt-application>
+		<upt-application>
+					<context-name>csmupt42</context-name>
+					<url-context-name>upt42</url-context-name>
+					<authorization>
+						<authorization-provider-class>String</authorization-provider-class>
+						<hibernate-config-file>placeholder_string_val</hibernate-config-file>
+					</authorization>
+		</upt-application>
+		<upt-application>
+					<context-name>csmupt40</context-name>
+					<url-context-name>upt40</url-context-name>
+					<authorization>
+						<authorization-provider-class>String</authorization-provider-class>
+						<hibernate-config-file>placeholder_string_val</hibernate-config-file>
+					</authorization>
+		</upt-application>
+</upt-application-list>
+	</backwards-compatibility>
+    
 </security-config>

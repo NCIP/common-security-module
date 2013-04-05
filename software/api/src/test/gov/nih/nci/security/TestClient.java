@@ -19,7 +19,7 @@ package test.gov.nih.nci.security;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -27,7 +27,7 @@ package test.gov.nih.nci.security;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -131,22 +131,22 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author Vinay Kumar (Ekagra Software Technologies Ltd.)
  */
 public class TestClient {
 	static UserProvisioningManager upm = null;
 	static AuthorizationManager am = null;
 	static AuthenticationManager am1 = null;
-	
+
 	public TestClient()
 	{
 		try{
 			Properties p = System.getProperties();
-			p.setProperty("gov.nih.nci.security.configFile", "C:/securityconfig/ApplicationSecurityConfig.xml");
-			
-			upm = SecurityServiceProvider.getUserProvisioningManager("security");
+			p.setProperty("gov.nih.nci.security.configFile", "ApplicationSecurityConfig.xml");
+
+			upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 			//upm = SecurityServiceProvider.getUserProvisioningManager("c3pr");
 			//upm = SecurityServiceProvider.getUserProvisioningManager("csmupt");
 			}catch(Exception ex){
@@ -161,9 +161,9 @@ public class TestClient {
 //			{
 //				PropertyConfigurator.configure(ClassLoader.getSystemResource(log4jConfigFile));
 //			}
-			
+
 	}
-	
+
 	public void testPrivilegeCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 		Privilege p1 = new Privilege();
@@ -190,44 +190,44 @@ public class TestClient {
 	}
 	public void testGetProtectionElements(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			java.util.Set pes = upm.getProtectionElements("7");
 			System.out.println(pes.size());
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	public void getProtectionGroups(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			 upm.getProtectionGroups();
 			//System.out.println(pes.size());
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	public void testPrivilegeDelete(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			upm.removePrivilege("1");
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	public void getProtectionGroupById(String id){
-		
-		
+
+
 		try{
 			ProtectionGroup child = upm.getProtectionGroupById(id);
 //			ProtectionGroup parent = child.getParentProtectionGroup();
 			System.out.println(" >>>>>>>>>>>>> " + child.getProtectionGroupId());
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -235,20 +235,20 @@ public class TestClient {
 	/**
 	public void testPrivilegeFind(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			Privilege p = upm.getPrivilege("Read");
 			System.out.println("The returned Name:"+p.getName());
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	*/
-	
+
 	public void testModifyCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			//Privilege p = upm.getPrivilege("2");
 			Privilege p = new Privilege();
@@ -261,7 +261,7 @@ public class TestClient {
 	}
 	public void testRoleCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
 			//for(int i=1;i<11;i++){
 				Role r = new Role();
@@ -275,45 +275,45 @@ public class TestClient {
 				System.out.println("Name: " + myRole.getName());
 				System.out.println("Desc: " + myRole.getDesc());
 				System.out.println("Application: " + myRole.getApplication());
-				
+
 			//}
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testRoleDelete(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			upm.removeRole("2");
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	public void getPrincipals(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			AuthorizationManager am = (AuthorizationManager)upm;
 			am.getPrincipals("  ");
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	public void secureCollection(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			AuthorizationManager am = (AuthorizationManager)upm;
 			am.secureCollection("  ",new ArrayList());
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -346,7 +346,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void getPrivilegeMap2(){
 		// both object id and attribute
 		try{
@@ -431,21 +431,21 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testUserDelete(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			upm.removeUser("1000");
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testModifyRole(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			Role r = upm.getRoleById("3");
 			r.setDesc("Updated Test Role Desc 2");
@@ -457,7 +457,7 @@ public class TestClient {
 
 	public void testGetProtectionGroupById(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		try{
 			ProtectionElement pe = upm.getProtectionElementById("20044");
 			System.out.println("Protection Element" + pe.getProtectionElementName());
@@ -466,7 +466,7 @@ public class TestClient {
 		}
 	}
 
-	
+
 	public void assignPrivilegeToRoles(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
 		//String[] privilegeIds = {"1", "2","3"};
@@ -480,11 +480,11 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void assignToProtectionGroups(){
-		
+
 		String[] protectionGroupIds = {"80","81","87","93"};
-		
+
 		String protectionElementId = "19";
 		try{
 			upm.assignToProtectionGroups(protectionElementId,protectionGroupIds);
@@ -492,10 +492,10 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void getPrivileges(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("security");
-		
+
 		String roleId = "1";
 		try{
 			java.util.Collection result = upm.getPrivileges(roleId);
@@ -508,10 +508,10 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testGroupCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
 			for(int i=1;i<101;i++){
 				Group grp = new Group();
@@ -519,37 +519,37 @@ public class TestClient {
 				grp.setGroupDesc("Group_Desc_"+i);
 				upm.createGroup(grp);
 			}
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	public void testUserCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
 
 				User user = new User();
-				user.setLoginName("vinaykumar" + 1 );//Math.random());
+				user.setLoginName("vinaykumar" + 2 );//Math.random());
 				user.setFirstName("User_first_name_");
 				user.setLastName("User_last_name_");
 				user.setDepartment("NCI_");
 				user.setEmailId(user.getLastName()+"@mail.nih.nci.gov");
 				user.setOrganization("NIH");
-				
+
 				upm.createUser(user);
 				System.out.println("The returned id is "+user.getUserId());
 				System.out.println("The user Name is "+user.getLoginName());
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void getUser(String userName){
-		
+
 		String loginName = userName;
 		try{
 			User user = upm.getUser(loginName);
@@ -558,20 +558,21 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testProtectionGroupCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
+			AuthorizationManager authorizationManager = SecurityServiceProvider.getAuthorizationManager("sdk");
 			for(int i=1;i<101;i++){
 				ProtectionGroup pg = new ProtectionGroup();
 				pg.setProtectionGroupName("protection_group_name_="+i);
 				pg.setProtectionGroupDescription("PG_Desc_"+i);
-				upm.createProtectionGroup(pg);
+				authorizationManager.createProtectionGroup(pg);
 				System.out.println("The returned id is"+pg.getProtectionGroupId());
 			}
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -579,14 +580,14 @@ public class TestClient {
 	/**
 	public void testProtectionGroupModify(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
 			ProtectionGroup pg = upm.getProtectionGroup(new Long("2"));
 			ProtectionGroup pg1 = upm.getProtectionGroup(new Long("50"));
 			pg1.setParentProtectionGroup(pg);
 			upm.modifyProtectionGroup(pg1);
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -594,7 +595,7 @@ public class TestClient {
 	*/
 	public void testProtectionElementCreate(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
 			/**
 			for(int i=1;i<100000;i++){
@@ -602,7 +603,7 @@ public class TestClient {
 				pe.setProtectionElementName("PE_Name_"+i);
 				pe.setObjectId("X_Y_Z_"+i);
 				pe.setProtectionElementDescription("PE_Desc"+i);
-				
+
 				upm.createProtectionElement(pe);
 				System.out.println("The returned id is"+pe.getProtectionElementId());
 			}
@@ -610,23 +611,23 @@ public class TestClient {
 			ProtectionElement pe = new ProtectionElement();
 			pe.setProtectionElementId(new Long(20));
 			upm.createProtectionElement(pe);
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 			System.out.println("Error:"+ex.getMessage());
 		}
 	}
-	
+
 	public void getProtectionElement(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
-			
+
 			ProtectionElement pe = upm.getProtectionElement("X_Y_Z_9");
 			System.out.println("The name is"+pe.getProtectionElementName());
 			//pe = upm.getProtectionElement(new Long("15"));
 			System.out.println("The name is"+pe.getProtectionElementName());
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -634,9 +635,9 @@ public class TestClient {
 	/**
 	public void addUserToGroup(){
 		UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
-			
+
 			upm.addUserToGroup("2","15");
 			upm.addUserToGroup("34","15");
 			upm.addUserToGroup("33","15");
@@ -644,7 +645,7 @@ public class TestClient {
 			upm.addUserToGroup("2","16");
 			upm.addUserToGroup("2","445");
 			upm.addUserToGroup("5","45");
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -652,35 +653,35 @@ public class TestClient {
 	*/
 	public void removeUserFromGroup(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
-			
+
 			//upm.addUserToGroup("2","15");
 			upm.removeUserFromGroup("2","15");
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void assignProtectioElement(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
 			String[] peIds = {"22","33","44","55"};
 			String pgId = "3";
 			//upm.assignProtectionElements(pgId,peIds);
 			AuthorizationManager am = (AuthorizationManager)upm;
 			am.assignProtectionElement("protection_group_name_=1","45 ","yrh");
-			
+
 		}catch(Exception ex){
 			System.out.println("Error:"+ex.getMessage());
 		}
 	}
-	
+
 	public void assignUserRoleToProtectionGroup(){
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
-		
+
 		try{
 			//String[] peIds = {"10","12","13","15"};
 			//String pgId = "10";
@@ -688,34 +689,34 @@ public class TestClient {
 			//Role r = upm.getRoleById("2");
 			//upm.assignUserRoleToProtectionGroup("700",new String[]{"54"},"35");
 			upm.assignGroupRoleToProtectionGroup("151","162",new String[]{"60","57"});
-			
-			
+
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
+
 	private void priv_populatePgPe(){
 		RandomIntGenerator rit = new RandomIntGenerator(19,20015);
 		String[] peIds = new String[100];
-		for(int i=0;i<100;i++){	    	 	
+		for(int i=0;i<100;i++){
 			int k = rit.draw();
 			peIds[i]= String.valueOf(k);
 		}
 		rit = new RandomIntGenerator(35,132);
 		String pg_id = String.valueOf(rit.draw());
-		
+
 		try{
 			upm.assignProtectionElements(pg_id,peIds);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
+
 	private void priv_populateUgrpg(){
 		RandomIntGenerator rit = new RandomIntGenerator(55,63);
 		String[] roleIds = new String[2];
-		for(int i=0;i<2;i++){	    	 	
+		for(int i=0;i<2;i++){
 			int k = rit.draw();
 			roleIds[i]= String.valueOf(k);
 		}
@@ -723,7 +724,7 @@ public class TestClient {
 		String user_id = String.valueOf(rit.draw());
 		rit = new RandomIntGenerator(34,133);
 		String pg_id = String.valueOf(rit.draw());
-		
+
 		try{
 			upm.assignUserRoleToProtectionGroup(user_id,roleIds,pg_id);
 		}catch(Exception ex){
@@ -731,13 +732,13 @@ public class TestClient {
 		}
 	}
 	public void populateUgrpg(){
-		for(int i=1;i<10000;i++){	    	 	
+		for(int i=1;i<10000;i++){
 			priv_populateUgrpg();
 		}
 	}
-	
+
 	public void populatePgPe(){
-		for(int i=1;i<100;i++){	    	 	
+		for(int i=1;i<100;i++){
 			priv_populatePgPe();
 		}
 	}
@@ -751,7 +752,7 @@ public class TestClient {
 			//System.out.println(System.currentTimeMillis());
 			boolean f = am.checkPermission("kumar1234","PE3","READ");
 			//boolean f = am.checkPermission("login_name_3","X_Y_Z_999","abc","update");
-			
+
 			System.out.println("Got result"+f);
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -761,7 +762,7 @@ public class TestClient {
 	public void deAssignProtectionElement(){
 		try{
 			AuthorizationManager am = (AuthorizationManager)upm;
-			
+
 			am.deAssignProtectionElements("  rrrrr","X_Y_Z_2121");
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -780,7 +781,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void getGroups(String id){
 		try{
 			Collection cal = upm.getGroups("5020");
@@ -793,7 +794,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void getProtectionGroupRoleContextForUser(String id){
 		try{
 			Collection cal = upm.getProtectionGroupRoleContextForUser(id);
@@ -807,7 +808,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void getProtectionGroupRoleContextForGroup(String id){
 		try{
 			Collection cal = upm.getProtectionGroupRoleContextForGroup(id);
@@ -821,7 +822,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void getObjects(){
 		try{
 			//Role role = new Role();
@@ -852,7 +853,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void assignOwners(){
 		try{
 			String[] uids = {"1","2"};
@@ -862,7 +863,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testSecureObject(){
 		try{
 			//Role r = upm.getRoleById("55");
@@ -871,7 +872,7 @@ public class TestClient {
 			pr.setName("ABD");
 			pr.setId(new Long("23"));
 			pr.setDesc("SUJHBikhnkjnik");
-			
+
 			Privilege r1 = (Privilege)upm.secureObject("kumar1234",pr);
 			System.out.println(r1.getDesc());
 			System.out.println(r1.getId());
@@ -880,7 +881,7 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testUserPEPrivilegeObject() {
 		try {
 			upm.getProtectionElementPrivilegeContextForUser("1");
@@ -888,8 +889,8 @@ public class TestClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 	public void testGroupPEPrivilegeObject() {
 		try {
@@ -899,7 +900,7 @@ public class TestClient {
 			e.printStackTrace();
 		}
 	}
-		
+
 	public void testSetOwnerForProtectionElement() {
 		try {
 			upm.setOwnerForProtectionElement("620_TigerWoods","620_golf_score",null);
@@ -909,7 +910,7 @@ public class TestClient {
 		}
 	}
 	/**
-	 * Test cases for parent protection Group 
+	 * Test cases for parent protection Group
 	 *
 	 */
 	public void getProtectionElementPrivilegeContextForUser(){
@@ -928,29 +929,29 @@ public class TestClient {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void secureUpdate(){
 		try{
 			Privilege orig = new Privilege();
 			orig.setId(new Long("23"));
 			orig.setName("Testing");
 			orig.setDesc("vinay kumar");
-			
+
 			Privilege mut = new Privilege();
 			mut.setId(new Long("231"));
 			mut.setName("Testing1");
 			mut.setDesc("vinay kumar1");
-			
+
 			Privilege obj = (Privilege)upm.secureUpdate("kumar1234",orig,mut);
 			System.out.println(obj.getId());
 			System.out.println(obj.getName());
 			System.out.println(obj.getDesc());
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void testAuthenticationManager()
 	{
 		try {
@@ -986,7 +987,7 @@ public class TestClient {
 		}
 	}
 
-		
+
 	public static void main(String[] args) {
 
 		TestClient ts = new TestClient();
@@ -1006,9 +1007,9 @@ public class TestClient {
 ////		ts.getPrivilegeMap4();
 //=======
 //=======
-		ts.testUserCreate();
-		ts.testUserCreate();
-		
+		ts.testProtectionGroupCreate();
+		//ts.testUserCreate();
+
 //		ts.testRoleCreate();
 //>>>>>>> 1.57
 //		//ts.getPrivilegeMap1();

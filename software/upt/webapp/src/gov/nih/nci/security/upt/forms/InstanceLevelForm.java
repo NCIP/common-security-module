@@ -48,8 +48,19 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	private String generatedSQLForUser;
 	private String generatedSQLForGroup;
 	private String updateDate;
+	//private String OWASP_CSM_CSRFTOKEN;
 
 
+/*	public String getOWASP_CSM_CSRFTOKEN()
+	{
+		return OWASP_CSM_CSRFTOKEN;
+	}
+
+	public void setOWASP_CSM_CSRFTOKEN(String OWASP_CSM_CSRFTOKEN)
+	{
+		this.OWASP_CSM_CSRFTOKEN = OWASP_CSM_CSRFTOKEN;
+	}
+*/
 	/**
 	 * @return Returns the uploaded file.
 	 */
@@ -57,7 +68,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	{
 		return uploadedFile1;
 	}
-	
+
 	/**
 	 * @return Returns the uploaded file.
 	 */
@@ -70,7 +81,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	{
 		return hibernateFileName;
 	}
-	
+
 	public void setHibernateFileName(String hibernateFileName)
 	{
 		this.hibernateFileName = hibernateFileName;
@@ -80,13 +91,13 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	{
 		this.uploadedFile1 = uploadedFile1;
 	}
-	
+
 	public void setUploadedFile2(FormFile uploadedFile2)
 	{
 		this.uploadedFile2 = uploadedFile2;
 	}
-	
-	
+
+
 	/**
 	 * @return Returns the className.
 	 */
@@ -95,7 +106,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return className;
 	}
 
-	
+
 	/**
 	 * @param className The className to set.
 	 */
@@ -104,7 +115,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.className = className;
 	}
 
-	
+
 	/**
 	 * @return Returns the filterChain.
 	 */
@@ -113,7 +124,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return filterChain;
 	}
 
-	
+
 	/**
 	 * @param filterChain The filterChain to set.
 	 */
@@ -122,7 +133,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.filterChain = filterChain;
 	}
 
-	
+
 	/**
 	 * @return Returns the generatedSQL.
 	 */
@@ -131,7 +142,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return generatedSQL;
 	}
 
-	
+
 	/**
 	 * @param generatedSQL The generatedSQL to set.
 	 */
@@ -140,7 +151,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.generatedSQL = generatedSQL;
 	}
 
-	
+
 	/**
 	 * @return Returns the id.
 	 */
@@ -149,7 +160,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return id;
 	}
 
-	
+
 	/**
 	 * @param id The id to set.
 	 */
@@ -158,7 +169,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.id = id;
 	}
 
-	
+
 	/**
 	 * @return Returns the targetClassAlias.
 	 */
@@ -167,7 +178,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return targetClassAlias;
 	}
 
-	
+
 	/**
 	 * @param targetClassAlias The targetClassAlias to set.
 	 */
@@ -176,7 +187,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassAlias = targetClassAlias;
 	}
 
-	
+
 	/**
 	 * @return Returns the targetClassAttributeAlias.
 	 */
@@ -185,7 +196,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return targetClassAttributeAlias;
 	}
 
-	
+
 	/**
 	 * @param targetClassAttributeAlias The targetClassAttributeAlias to set.
 	 */
@@ -194,7 +205,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassAttributeAlias = targetClassAttributeAlias;
 	}
 
-	
+
 	/**
 	 * @return Returns the targetClassAttributeName.
 	 */
@@ -203,7 +214,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return targetClassAttributeName;
 	}
 
-	
+
 	/**
 	 * @param targetClassAttributeName The targetClassAttributeName to set.
 	 */
@@ -212,7 +223,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassAttributeName = targetClassAttributeName;
 	}
 
-	
+
 	/**
 	 * @return Returns the targetClassAttributeType.
 	 */
@@ -221,7 +232,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return targetClassAttributeType;
 	}
 
-	
+
 	/**
 	 * @param targetClassAttributeType The targetClassAttributeType to set.
 	 */
@@ -230,7 +241,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassAttributeType = targetClassAttributeType;
 	}
 
-	
+
 	/**
 	 * @return Returns the targetClassName.
 	 */
@@ -239,7 +250,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return targetClassName;
 	}
 
-	
+
 	/**
 	 * @param targetClassName The targetClassName to set.
 	 */
@@ -248,7 +259,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.targetClassName = targetClassName;
 	}
 
-	
+
 	/**
 	 * @return Returns the updateDate.
 	 */
@@ -257,7 +268,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return updateDate;
 	}
 
-	
+
 	/**
 	 * @param updateDate The updateDate to set.
 	 */
@@ -289,9 +300,9 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.generatedSQLForUser = null;
 		this.updateDate = null;
 	}
-	
-	
-	
+
+
+
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
 		this.uploadedFile1 = null;
@@ -308,8 +319,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.generatedSQLForGroup = null;
 		this.generatedSQLForUser = null;
 	}
-	
-	
+
+
 
 	public ArrayList getAddFormElements()
 	{
@@ -320,7 +331,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		formElementList.add(new FormElement("Target Class Attribute Name ", "targetClassAttributeName", StringUtils.initString(getTargetClassAttributeName()), DisplayConstants.INPUT_COMBOBOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Target Class Alias", "targetClassAlias", getTargetClassAlias(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Target Class Attribute Alias", "targetClassAttributeAlias", getTargetClassAttributeAlias(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		
+
 		return formElementList;
 	}
 
@@ -338,7 +349,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		formElementList.add(new FormElement("Generated SQL For Group", "generatedSQLForGroup", getGeneratedSQLForGroup(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Generated SQL For User", "generatedSQLForUser", getGeneratedSQLForUser(), DisplayConstants.INPUT_TEXTAREA, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Update Date", "updateDate", StringUtils.initString(getUpdateDate()), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED));
-		
+
 		return formElementList;
 	}
 
@@ -365,7 +376,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		this.generatedSQLForUser = filterClause.getGeneratedSQLForUser();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		this.updateDate = simpleDateFormat.format(filterClause.getUpdateDate());
-		
+
 	}
 
 	public void buildDBObject(HttpServletRequest request) throws Exception
@@ -374,7 +385,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 
 
 		FilterClause filterClause = null;
-		
+
 		if (StringUtils.isBlank(this.id))
 		{
 			filterClause = new FilterClause();
@@ -383,16 +394,16 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		{
 			filterClause = userProvisioningManager.getFilterClauseById(this.id);
 		}
-		
+
 		filterClause.setClassName(this.className);
 		filterClause.setFilterChain(this.filterChain);
 		filterClause.setTargetClassName(this.targetClassName);
 		filterClause.setTargetClassAttributeName(this.targetClassAttributeName);
-		
+
 		if(this.targetClassAttributeType!=null || this.targetClassAttributeType.length()!=0){
 			if(this.targetClassAttributeType.indexOf("-_-")>0){
 				int index1 = this.targetClassAttributeType.indexOf("-");
-				this.targetClassAttributeType = this.targetClassAttributeType.substring(index1+3); 
+				this.targetClassAttributeType = this.targetClassAttributeType.substring(index1+3);
 			}
 		}
 		filterClause.setTargetClassAttributeType(this.targetClassAttributeType);
@@ -404,9 +415,9 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 			// Check if InstanceLevelMappingElement for this object exists. If so, ensure the tables are maintained already
 			boolean isActiveInstanceLevelMappingElement = false, isMaintainedAlready = false;
 			boolean isObjectNameEqual = false,isObjectPackageNameEqual = false;
-			
-			
-			String targetClassAttributeName= this.targetClassAttributeName; 
+
+
+			String targetClassAttributeName= this.targetClassAttributeName;
 			String className = this.className ;
 			String objectName2 = null;
 			String objectPackageName2 = null;
@@ -415,16 +426,16 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 				objectPackageName2 = className.substring(0,index1);
 				objectName2 = className.substring(index1+1);
 			}
-			
+
 			String mappingElementId = String.valueOf(0.00);
 			String peiTableOrViewNameUser = "",peiTableOrViewNameGroup = "";
-			
-			
+
+
 			if(!StringUtils.isBlank(targetClassAttributeName) && !StringUtils.isBlank(objectName2) ){
 				InstanceLevelMappingElement ilme = new InstanceLevelMappingElement();
 				ilme.setObjectName(objectName2);
 				ilme.setAttributeName(targetClassAttributeName);
-				
+
 				SearchCriteria sc = new InstanceLevelMappingElementSearchCriteria(ilme);
 				List ilmeObjects = userProvisioningManager.getObjects(sc);
 				if(ilmeObjects!=null && ilmeObjects.size()>0){
@@ -446,7 +457,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 								isActiveInstanceLevelMappingElement = (ilme2.getActiveFlag()==1?true:false);
 								isMaintainedAlready = (ilme2.getMaintainedFlag()==1?true:false);
 								mappingElementId = Long.toString(ilme2.getMappingId());
-								
+
 								peiTableOrViewNameUser = ilme2.getTableNameForUser();
 								peiTableOrViewNameGroup = ilme2.getTableNameForGroup();
 								break;
@@ -456,12 +467,12 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 			}
 			if(isActiveInstanceLevelMappingElement){
 				//If so, ensure the tables are maintained already
-								
+
 				if(!isMaintainedAlready){
 					userProvisioningManager.maintainInstanceTables(mappingElementId);
 				}
 			}
-			
+
 			filterClause.setGeneratedSQLForGroup(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),true,peiTableOrViewNameGroup));
 			filterClause.setGeneratedSQLForUser(HibernateHelper.getGeneratedSQL(filterClause, (SessionFactory)request.getSession().getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY),false,peiTableOrViewNameUser));
 			userProvisioningManager.createFilterClause(filterClause);
@@ -494,7 +505,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		FilterClause filterClause = new FilterClause();
 		if (this.className != null && !(this.className.trim().equalsIgnoreCase("")))
 			filterClause.setClassName(this.className);
-		
+
 		SearchCriteria searchCriteria = new FilterClauseSearchCriteria(filterClause);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();

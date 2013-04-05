@@ -161,6 +161,7 @@ public interface AuthenticationManager {
 	 * @throws CSLoginException is thrown when the credentials are invalid or other errors occur during validation
 	 * @throws CSInputException is thrown occurs when the provided input is incorrect
 	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
+	 * @throws CSFirstTimeLoginExceptionDel 
 	 */
 	public boolean login(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException;
 
@@ -188,6 +189,7 @@ public interface AuthenticationManager {
 	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
 	 * @throws CSInsufficientAttributesException is thrown when the attributes required to form the {@link Subject} are not present in the credential provider. Since the  {@link Subject} 
 	 * 			should contain all the valid {@link Principal} for the grid component to be able to generate a <code>SAML</code> from it.
+	 * @throws CSFirstTimeLoginExceptionDel 
 	 */
 	public Subject authenticate(String userName, String password) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException;
 
@@ -217,6 +219,7 @@ public interface AuthenticationManager {
 	 * @throws CSConfigurationException is thrown if there is any error in the JAAS or the CSM API configurations
 	 * @throws CSInsufficientAttributesException is thrown when the {@link Subject} does not have the required public principals. Since the  {@link Subject} 
 	 * 			should contain all the valid {@link Principal} for validating the certificate against the keystore.
+	 * @throws CSFirstTimeLoginExceptionDel 
 	 */
 	public boolean authenticate(Subject subject) throws CSException, CSLoginException, CSInputException, CSConfigurationException, CSInsufficientAttributesException;
 
@@ -276,6 +279,6 @@ public interface AuthenticationManager {
 	 */
 	public void logout(String userName) throws CSException;
 
-	
+	public boolean changePassword(String userName, String password,String newPassword, String confirmPassword) throws CSException, CSLoginException, CSInputException, CSConfigurationException;
 
 }

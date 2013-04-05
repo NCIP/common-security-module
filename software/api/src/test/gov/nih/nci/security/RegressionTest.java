@@ -63,7 +63,7 @@ public class RegressionTest extends TestCase
 		super.setUp();
 
 		System.out.println("setUp()");
-		System.setProperty("gov.nih.nci.security.configFile", "C:/securityConfig/ApplicationSecurityConfig.xml");
+		System.setProperty("gov.nih.nci.security.configFile", "ApplicationSecurityConfig.xml");
 		userProvisioningManager = SecurityServiceProvider.getUserProvisioningManager("TestApplication");
 
 		// Initialize the userList - used to check the "get" functions
@@ -95,8 +95,8 @@ public class RegressionTest extends TestCase
 		testCreateRole();
 		testCreateGroup();
 		testCreateProtectionGroup();
-		
-		// test 
+
+		// test
 		testGetApplicationById();
 		testGetUser();
 		testGetUserById();
@@ -108,8 +108,8 @@ public class RegressionTest extends TestCase
 		testGetGroupById();
 		testGetProtectionGroupById();
 		//testGetProtectionGroups();
-		
-		
+
+
 		// remove the objects.
 		testRemoveApplication();
 		testRemoveUser();
@@ -149,7 +149,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testRemoveApplication() throws CSTransactionException
 	{
 		try
@@ -248,7 +248,7 @@ public class RegressionTest extends TestCase
 
 	private void testRemovePrivilege() throws CSTransactionException
 	{
-		
+
 		try
 		{
 			for (int x = 0; x < NumberOfPrivilegesToTest; x++)
@@ -265,7 +265,7 @@ public class RegressionTest extends TestCase
 		{
 			assertTrue(false);
 		}
-		
+
 	}
 
 	private void testCreateProtectionElement() throws CSTransactionException
@@ -285,7 +285,7 @@ public class RegressionTest extends TestCase
 			tempProtectionElement = null;
 		}
 	}
-	
+
 	private void testRemoveProtectionElement() throws CSTransactionException
 	{
 		try
@@ -305,7 +305,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testCreateRole() throws CSTransactionException
 	{
 		byte tempFlag = 0;
@@ -326,7 +326,7 @@ public class RegressionTest extends TestCase
 			userProvisioningManager.createRole(tempRole);
 		}
 	}
-	
+
 	private void testRemoveRole() throws CSTransactionException
 	{
 		try
@@ -346,7 +346,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testCreateGroup() throws CSTransactionException
 	{
 
@@ -362,7 +362,7 @@ public class RegressionTest extends TestCase
 		}
 
 	}
-	
+
 	private void testRemoveGroup() throws CSTransactionException
 	{
 
@@ -405,7 +405,7 @@ public class RegressionTest extends TestCase
 			userProvisioningManager.createProtectionGroup(tempProtectionGroup);
 		}
 	}
-	
+
 	private void testRemoveProtectionGroup() throws CSTransactionException
 	{
 		try
@@ -425,7 +425,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testGetApplicationById() throws CSObjectNotFoundException
 	{
 		try
@@ -448,7 +448,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testGetUser()
 	{
 		User tempUser;
@@ -457,13 +457,13 @@ public class RegressionTest extends TestCase
 		{
 			/*
 			 *  Retrieve the User based off the login ID (see setup() for  initialization of UserStringArray)
-			 *  UserStringArray[x][0] contains user login name. 
+			 *  UserStringArray[x][0] contains user login name.
 			 */
-			tempUser = userProvisioningManager.getUser(UserStringArray[x][0]); 
+			tempUser = userProvisioningManager.getUser(UserStringArray[x][0]);
 			AssertEqualsForUsers(x, tempUser);
 		}
 	}
-	
+
 	private void testGetUserById() throws CSObjectNotFoundException
 	{
 		try
@@ -485,7 +485,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testGetPrivilegeById() throws CSObjectNotFoundException
 	{
 		try
@@ -508,7 +508,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testGetProtectionElementById() throws CSObjectNotFoundException
 	{
 		try
@@ -529,7 +529,7 @@ public class RegressionTest extends TestCase
 			assertTrue(false);
 		}
 	}
-	
+
 	private void testGetProtectionElementString() throws CSObjectNotFoundException
 	{
 		ProtectionElement tempProtectionElement;
@@ -540,7 +540,7 @@ public class RegressionTest extends TestCase
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
-	
+
 	private void testGetProtectionElementStringString()
 	{
 		ProtectionElement tempProtectionElement;
@@ -550,32 +550,32 @@ public class RegressionTest extends TestCase
 			AssertEqualsForProtectionElements(x, tempProtectionElement);
 		}
 	}
-	
+
 	private void testGetRoleById() throws CSObjectNotFoundException
 	{
 		Role tempRole;
 		byte tempFlag = 0;
 		for (int x = 0; x < NumberOfRolesToTest; x++)
 		{
-			
+
 			Role obj = new Role();
 			obj.setName(RoleStringArray[x][0]);
 			SearchCriteria sc = new RoleSearchCriteria(obj);
 			List objList = userProvisioningManager.getObjects(sc);
 			tempRole = userProvisioningManager.getRoleById(((Role) objList.get(0)).getId().toString());
-			
+
 			assertEquals("\nIncorrect Role Name\n", RoleStringArray[x][0], tempRole.getName());
 			assertEquals("\nIncorrect Role Desc\n", RoleStringArray[x][1], tempRole.getDesc());
-			/*  TODO: Confirm dates in general (we don't store time anyway, so 
+			/*  TODO: Confirm dates in general (we don't store time anyway, so
 			 *  should be easy)
 			 *  assertEquals("\nIncorrect Update Date\n", CurrentTime,
 			 *  tempRole.getUpdateDate() );
 			 */
 			//assertEquals("\nIncorrect Active_Flag\n", tempFlag, tempRole.getActive_flag());
-			
+
 		}
 	}
-	
+
 	private void testGetGroupById() throws CSObjectNotFoundException
 	{
 		Group tempGroup;
@@ -586,13 +586,13 @@ public class RegressionTest extends TestCase
 			SearchCriteria sc = new GroupSearchCriteria(obj);
 			List objList = userProvisioningManager.getObjects(sc);
 			tempGroup = userProvisioningManager.getGroupById(((Group) objList.get(0)).getGroupId().toString());
-			
+
 			assertEquals("\nIncorrect Group Name\n", GroupStringArray[x][0], tempGroup.getGroupName());
 			assertEquals("\nIncorrect Group Desc\n", GroupStringArray[x][1], tempGroup.getGroupDesc());
-			
+
 		}
 	}
-	
+
 	private void testGetProtectionGroupById() throws CSObjectNotFoundException
 	{
 		ProtectionGroup tempProtectionGroup;
@@ -606,11 +606,11 @@ public class RegressionTest extends TestCase
 			AssertEqualsForTextInProtectionGroup(x,tempProtectionGroup);
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	private void AssertEqualsForUsers(int iteration, User tempUser)
 	{
 		long tempLong;
@@ -645,7 +645,7 @@ public class RegressionTest extends TestCase
 		assertEquals("\nIncorrect PG Name\n", ProtectionGroupStringArray[iteration][0], tempPG.getProtectionGroupName());
 		assertEquals("\nIncorrect PG Description\n", ProtectionGroupStringArray[iteration][1], tempPG.getProtectionGroupDescription());
 	}
-	
+
 	private void InitializeUserStringArray()
 	{
 		for (int x = 0; x < NumberOfUsersToTest; x++)
@@ -655,7 +655,7 @@ public class RegressionTest extends TestCase
 			UserStringArray[x][2] = "TestUserLastName" + StrangeCharacters + x;
 			UserStringArray[x][3] = "TestUserDepartment" + StrangeCharacters + x;
 			UserStringArray[x][4] = "TestUserEmailID" + x + "@TestUserEmailID" + x + ".com";// TODO:
-			/* Make a separate StringCharacters variable to test this. */ 
+			/* Make a separate StringCharacters variable to test this. */
 
 			UserStringArray[x][5] = "TestUserOrganizationName" + StrangeCharacters + x;
 			UserStringArray[x][6] = "TestUserPassword" + StrangeCharacters + x;

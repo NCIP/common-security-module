@@ -145,13 +145,14 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadDoubleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 		try
 		{
 			baseDoubleAssociationForm.buildDoubleAssociationObject(request);
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -188,7 +189,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -215,6 +216,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadProtectionGroupAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 		try
 		{
 			
@@ -244,7 +246,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -272,6 +274,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadProtectionElementPrivilegesAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 		try
 		{
 			Collection temp = baseDoubleAssociationForm.buildProtectionElementPrivilegesObject(request);
@@ -298,7 +301,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -344,7 +347,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -371,6 +374,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 				logDoubleAssociation.debug("||"+baseDoubleAssociationForm.getFormName()+"|loadRoleAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
 			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
 		}
+		session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 		if (baseDoubleAssociationForm.getProtectionGroupAssociatedId() == null || baseDoubleAssociationForm.getProtectionGroupAssociatedId().equalsIgnoreCase(""))
 		{
 			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "A record needs to be selected first" ));
@@ -386,7 +390,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -423,7 +427,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -463,7 +467,7 @@ public class CommonDoubleAssociationAction extends CommonAssociationAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logDoubleAssociation.isDebugEnabled())
 				logDoubleAssociation.debug(session.getId()+"|"+userLoginName+

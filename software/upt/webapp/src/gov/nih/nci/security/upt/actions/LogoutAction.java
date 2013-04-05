@@ -88,15 +88,17 @@ package gov.nih.nci.security.upt.actions;
  *
  */
 
-
-import java.io.File;
-
 import gov.nih.nci.logging.api.user.UserInfoHelper;
 import gov.nih.nci.security.AuthenticationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
-import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
+import gov.nih.nci.security.upt.util.StringUtils;
+import gov.nih.nci.security.upt.util.properties.ObjectFactory;
+import gov.nih.nci.security.upt.util.properties.UPTProperties;
+import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationException;
+
+import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -113,67 +115,94 @@ import org.jdom.input.SAXBuilder;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
  */
-public class LogoutAction extends Action 
-{
-	
+public class LogoutAction extends Action {
+
 	private static final Logger log = Logger.getLogger(LogoutAction.class);
-	
-	
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-	{
-		/* perform login task*/
+
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		
 		HttpSession session = request.getSession();
 		String uptContextName = "";
-
-		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
+	
 		
-		try
-		{
+		UserInfoHelper.setUserInfo(((LoginForm) session
+				.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(),session.getId());
+
+		try {
 			uptContextName = DisplayConstants.UPT_CONTEXT_NAME;
 			AuthenticationManager authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);
-			authenticationManager.logout(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId());
-		}
-		catch (Exception e)
-		{
+			authenticationManager.logout(((LoginForm) session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId());
+		} catch (Exception e) {
 			if (log.isDebugEnabled())
-				log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-						"||Logout|Failure|Logout Called and Error occured||"+ e.getMessage());		
+				log.debug(session.getId()+ "|"+ ((LoginForm) session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+ "||Logout|Failure|Logout Called and Error occured||"						+ e.getMessage());
 			e.printStackTrace();
 		}
 		if (log.isDebugEnabled())
-			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-					"||Logout|Success|Logout Called and Forwarding to the Login Page||");		
+			log.debug(session.getId()+ "|"+ ((LoginForm) session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+ "||Logout|Success|Logout Called and Forwarding to the Login Page||");
 		session.removeAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		session.removeAttribute(DisplayConstants.LOGIN_OBJECT);
+		session.removeAttribute(DisplayConstants.ADMIN_USER);
 		session.removeAttribute(DisplayConstants.CURRENT_TABLE_ID);
 		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
-		
+
 		session.invalidate();
+
+		request.removeAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		request.removeAttribute(DisplayConstants.LOGIN_OBJECT);
+		request.removeAttribute(DisplayConstants.CURRENT_TABLE_ID);
+		request.removeAttribute(DisplayConstants.CURRENT_ACTION);
+		request.removeAttribute(DisplayConstants.CURRENT_FORM);
+		request.removeAttribute(DisplayConstants.SEARCH_RESULT);
+
+		String serverInfoPathPort = (request.isSecure()?"https://":"http://") + request.getServerName() + ":"+ request.getServerPort();
+
+		ObjectFactory.initialize("upt-beans.xml");
+		UPTProperties uptProperties = null;
+		String urlContextForLoginApp = "";
+		try {
+			uptProperties = (UPTProperties) ObjectFactory.getObject("UPTProperties");
+			urlContextForLoginApp = uptProperties.getBackwardsCompatibilityInformation().getLoginApplicationContextName();
+			if (!StringUtils.isBlank(urlContextForLoginApp)) {
+				serverInfoPathPort = serverInfoPathPort + "/"+urlContextForLoginApp+"/";
+			} else {
+				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+			}
+			
+		} catch (UPTConfigurationException e) {
+			serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
+
+		}
+
+
+		ActionForward newActionForward = new ActionForward();
+		newActionForward.setPath(serverInfoPathPort);
+		newActionForward.setRedirect(true);
+
+		return newActionForward;
+
 		
-		return (mapping.findForward(ForwardConstants.LOGOUT_SUCCESS));
+		
 	}
-	
-	private static String getUPTContextName() throws Exception
-	{
+
+	private static String getUPTContextName() throws Exception {
 		Document configDocument = null;
 		String uptContextNameValue = null;
 		String configFilePath = System.getProperty(DisplayConstants.CONFIG_FILE_PATH_PROPERTY_NAME);
 		SAXBuilder builder = new SAXBuilder();
 		configDocument = builder.build(new File(configFilePath));
-		if (configDocument != null)
-		{
+		if (configDocument != null) {
 			Element securityConfig = configDocument.getRootElement();
 			Element uptContextName = securityConfig.getChild("upt-context-name");
 			uptContextNameValue = uptContextName.getText().trim();
 		}
 		return uptContextNameValue;
 	}
-
 
 }

@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
@@ -34,6 +38,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.CacheException;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.engine.SessionFactoryImplementor;
@@ -49,30 +54,39 @@ public class HibernateHelper
 	public static SessionFactory loadSessionFactory (String fileName, HttpSession sess) throws CSConfigurationException
 	{
 		FileLoader fileLoader = FileLoader.getInstance();
-		URL url = fileLoader.getFileAsURL(fileName);
+		InputStream stream = fileLoader.getFileAsStream(fileName);
+
 		SessionFactory sessionFactory = null;
 		try
 		{
-			AnnotationConfiguration configuration = new AnnotationConfiguration().configure(url);
+		DocumentBuilderFactory dbf =
+            DocumentBuilderFactory.newInstance();
+
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.parse(stream);
+
+			//File file = new File(url.toURI());
+			//AnnotationConfiguration configuration = new AnnotationConfiguration().configure(doc);
+			Configuration configuration = new Configuration().configure(doc);
 			if(configuration.getProperty("hibernate.cache.use_second_level_cache")==null || configuration.getProperty("cache.use_second_level_cache")==null){
 				configuration.setProperty("hibernate.cache.use_second_level_cache","false");
 				configuration.setProperty("cache.use_second_level_cache","false");
 			}
 			JDBCHelper.testConnectionHibernate(configuration);
-			
 			sessionFactory = configuration.buildSessionFactory();
 		}
 		catch (CacheException e)
 		{
-			
+			e.printStackTrace();
 			ClassPathLoader.releaseJarsFromClassPath(sess);
 			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+"<BR>"+e.getMessage());
 		}
 		catch (Exception exception)
 		{
+			exception.printStackTrace();
 			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+"<BR>"+exception.getMessage());
 		}
-		
+
 		if (null == sessionFactory)
 			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File");
 		else
@@ -84,6 +98,7 @@ public class HibernateHelper
 			}
 			catch (Exception exception)
 			{
+				exception.printStackTrace();
 				throw new CSConfigurationException("Error in creating a Session from the Loaded Session Factory");
 			}
 			if (null == session)
@@ -91,7 +106,7 @@ public class HibernateHelper
 		}
 		return sessionFactory;
 	}
-	
+
 	public static List getAllClassNames (SessionFactory sessionFactory)
 	{
 		Map map = sessionFactory.getAllClassMetadata();
@@ -103,23 +118,23 @@ public class HibernateHelper
 		}
 		return list;
 	}
-	
+
 	public static HashMap getAssociatedClasses(String className) throws CSException
 	{
-		
-	
-	
+
+
+
 		boolean isParentClass = false;
 		HttpSession session = WebContextFactory.get().getHttpServletRequest().getSession();
-		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) 
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null))
 		{
 			throw new CSException("Session Expired - Please Relogin!");
 		}
-		
+
 		if(className.contains(" - self")){
 			throw new CSException("No Associations allowed for direct security filter clause.");
 		}
-		
+
 		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY);
 		HashMap map = new HashMap();
 		if (!(className.contains(" - ")))
@@ -151,7 +166,7 @@ public class HibernateHelper
 		}
 		if (map.size() == 0)
 			throw new CSException("No associated Classes Found!");
-		
+
 		return map;
 	}
 
@@ -159,14 +174,14 @@ public class HibernateHelper
 	{
 		className = className.substring(0, className.indexOf(" - "));
 		HttpSession session = WebContextFactory.get().getHttpServletRequest().getSession();
-		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) 
+		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null))
 		{
 			throw new CSException("Session Expired - Please Relogin!");
 		}
-		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY); 
+		SessionFactory sessionFactory = (SessionFactory) session.getAttribute(DisplayConstants.HIBERNATE_SESSIONFACTORY);
 		HashMap map = new HashMap();
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(className);
-		
+
 		List propertiesList = new ArrayList();
 		String[] properties1 = classMetadata.getPropertyNames();
 		for(int count = 0;count<properties1.length; count++){
@@ -182,14 +197,14 @@ public class HibernateHelper
 				map.put(property+"-_-"+(type.getReturnedClass()).getName(),property);
 			}
 		}
-		
+
 		if (map.size() == 0)
 			throw new CSException("No associated Classes Found!");
-		
+
 		return map;
 	}
-	
-	public static String getGeneratedSQL(FilterClause filterClause, SessionFactory sessionFactory, 
+
+	public static String getGeneratedSQL(FilterClause filterClause, SessionFactory sessionFactory,
 			boolean isSecurityForGroup, String peiTableOrViewName)
 	{
 
@@ -201,10 +216,10 @@ public class HibernateHelper
 			filterClause.setGeneratedSQLForGroup(generatedSQL);
 		else
 			filterClause.setGeneratedSQLForUser(generatedSQL);
-		
+
 		return generatedSQL;
 	}
-	
+
 	private static String generateSQL(FilterClause filterClause, Criteria criteria, Session session, boolean isSecurityForGroup, String peiTableOrViewName)
 	{
 		String capturedSQL = null;
@@ -232,7 +247,7 @@ public class HibernateHelper
 			e.printStackTrace();
 		}
 		logger.removeAppender(appender);
-		
+
 		String filterSQL;
 		if(isSecurityForGroup){
 			filterSQL = modifySQLForGroup(filterClause, capturedSQL, session,peiTableOrViewName);
@@ -242,7 +257,7 @@ public class HibernateHelper
 		}
 		return filterSQL;
 	}
-	
+
 	private static Criteria createCriterias(FilterClause filterClause, Session session)
 	{
 		List<Criteria> criteriaList = new ArrayList();
@@ -274,13 +289,13 @@ public class HibernateHelper
 			e.printStackTrace();
 		}
 		Object valueArray = Array.newInstance(attributeType, 1);
-		
+
 		try
 		{
 			if(attributeType.equals(IntegerType)){
 				Array.set(valueArray, 0, new Integer(0));
 			}else{
-				Array.set(valueArray, 0, attributeType.newInstance());	
+				Array.set(valueArray, 0, attributeType.newInstance());
 			}
 		}
 		catch (ArrayIndexOutOfBoundsException e)
@@ -303,14 +318,14 @@ public class HibernateHelper
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		targetCriteria.add(Expression.in(attributeName, (Object[]) valueArray));
 		Criteria mainCriteria = (Criteria)criteriaList.get(0);
 		mainCriteria.setProjection(Projections.id());
-		
+
 		return mainCriteria;
 	}
-	
+
 	private static String modifySQLForUser (FilterClause filterClause, String generatedSQL, Session session, String peiTableOrViewName)
 	{
 		String targetClassName = null;
@@ -323,7 +338,7 @@ public class HibernateHelper
 			targetClassAttributeName = filterClause.getTargetClassAttributeName();
 		else
 			targetClassAttributeName = filterClause.getTargetClassAttributeAlias();
-		
+
 		String CSM_QUERY = " select pe.attribute_value from " +
 		"csm_protection_group pg, " +
 		"csm_protection_element pe, " +
@@ -351,12 +366,12 @@ public class HibernateHelper
 		"and pe.attribute='" + targetClassAttributeName + "' " +
 		"and p.privilege_name='READ' "  +
 		"and u.login_name=:USER_NAME " +
-		"and pe.application_id=:APPLICATION_ID" ; 
-		
+		"and pe.application_id=:APPLICATION_ID" ;
+
 		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" upei where " +
 				"upei.login_name=:USER_NAME and upei.application_id =:APPLICATION_ID and upei.privilege_name='READ'";
-			
-		
+
+
 		StringBuffer result = new StringBuffer();
 		String query = generatedSQL.substring(generatedSQL.indexOf('-')+1, generatedSQL.length());
 		query = query.trim();
@@ -379,7 +394,7 @@ public class HibernateHelper
 	    SessionFactory sessionFactory = session.getSessionFactory();
 	    ClassMetadata classMetadata =sessionFactory.getClassMetadata(filterClause.getClassName());
 	    String columnName = null;
-	    if (classMetadata instanceof AbstractEntityPersister) 
+	    if (classMetadata instanceof AbstractEntityPersister)
 	    {
 	    	AbstractEntityPersister abstractEntityPersister = (AbstractEntityPersister) classMetadata;
 	    	String Id = abstractEntityPersister.getIdentifierPropertyName();
@@ -391,11 +406,11 @@ public class HibernateHelper
 		}else{
 	    	query = columnName + " in (" +result.toString() + CSM_QUERY + "))";
 		}
-	    	
-	    	
+
+
 		return query.toString();
 	}
-	
+
 	private static String modifySQLForGroup (FilterClause filterClause, String generatedSQL, Session session, String peiTableOrViewName)
 	{
 		String targetClassName = null;
@@ -408,8 +423,8 @@ public class HibernateHelper
 			targetClassAttributeName = filterClause.getTargetClassAttributeName();
 		else
 			targetClassAttributeName = filterClause.getTargetClassAttributeAlias();
-		
-		
+
+
 		String CSM_QUERY = "SELECT Distinct pe.attribute_value " +
 				"FROM CSM_PROTECTION_GROUP pg, " +
 				"	CSM_PROTECTION_ELEMENT pe, " +
@@ -438,7 +453,7 @@ public class HibernateHelper
 
 		String CSM_QUERY_2 = "select upei.attribute_value from "+peiTableOrViewName+" upei where " +
 		"upei.group_name IN (:GROUP_NAMES) and upei.application_id =:APPLICATION_ID and upei.privilege_name='READ'";
-		
+
 		/*String CSM_QUERY = " select pe.attribute_value from " +
 		"csm_protection_group pg, " +
 		"csm_protection_element pe, " +
@@ -467,7 +482,7 @@ public class HibernateHelper
 		"and p.privilege_name='READ' "  +
 		"and u.login_name=:USER_NAME " +
 		"and pe.application_id=:APPLICATION_ID" ; */
-		
+
 		StringBuffer result = new StringBuffer();
 		String query = generatedSQL.substring(generatedSQL.indexOf('-')+1, generatedSQL.length());
 		query = query.trim();
@@ -490,7 +505,7 @@ public class HibernateHelper
 	    SessionFactory sessionFactory = session.getSessionFactory();
 	    ClassMetadata classMetadata =sessionFactory.getClassMetadata(filterClause.getClassName());
 	    String columnName = null;
-	    if (classMetadata instanceof AbstractEntityPersister) 
+	    if (classMetadata instanceof AbstractEntityPersister)
 	    {
 	    	AbstractEntityPersister abstractEntityPersister = (AbstractEntityPersister) classMetadata;
 	    	String Id = abstractEntityPersister.getIdentifierPropertyName();
@@ -502,10 +517,10 @@ public class HibernateHelper
 		}else{
 	    	query = columnName + " in (" +result.toString() + CSM_QUERY+ "))";
 		}
-	    
+
 		return query.toString();
 	}
-	
+
 	private static Appender startSQLCapture(ByteArrayOutputStream byteArrayOutputStream)
 	{
 		Appender appender = new WriterAppender(new SimpleLayout(), byteArrayOutputStream);
@@ -513,7 +528,7 @@ public class HibernateHelper
 		logger.addAppender(appender);
 		return appender;
 	}
-	
+
 	private static String stopSQLCapture(Appender appender, ByteArrayOutputStream byteArrayOutputStream)
 	{
 		Logger logger = Logger.getLogger("org.hibernate.SQL");
@@ -532,7 +547,7 @@ public class HibernateHelper
 		}
 		catch (IOException e)
 		{
-		
+
 			e.printStackTrace();
 		}
 		return null;

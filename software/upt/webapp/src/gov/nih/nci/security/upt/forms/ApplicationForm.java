@@ -97,12 +97,15 @@ package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.ApplicationSearchCriteria;
 import gov.nih.nci.security.dao.UserSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
@@ -113,6 +116,7 @@ import gov.nih.nci.security.util.StringUtilities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -502,12 +506,50 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		
 		if ((this.applicationId == null) || ((this.applicationId).equalsIgnoreCase("")))
 		{
+			System.out.println("ApplicationForm.buildDBObject()...create application:"+application.getApplicationName());
 			userProvisioningManager.createApplication(application);
 			userProvisioningManager.createProtectionElement(protectionElement);
 			this.applicationId = application.getApplicationId().toString();
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 			this.associatedProtectionElementId = protectionElement.getProtectionElementId();
+			//create associated UPT operation protection group--Admin user, application user
+			String pgName ="UPT Operation Protection Group for Admin Users";
+			ProtectionGroup gpAdmin=createDefaultUptProtectionGroup(userProvisioningManager, pgName, application);
+			pgName ="UPT Operation Protection Group for Application Users";
+			ProtectionGroup gpApp=createDefaultUptProtectionGroup(userProvisioningManager, pgName, application);
+			
+			//create Protection Elements for each UPT operation
+			//and associate them with protection group
+			//Application users are excluded from CUD operations
+			
+			String groupUPTOperation =Constants.UPT_GROUP_OPERATION;
+			String[] peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, groupUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
+			
+			String instanceUPTOperation =Constants.UPT_INSTANCE_LEVEL_OPERATION;
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, instanceUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
+			
+			String privilegeUPTOperation =Constants.UPT_PRIVILEGE_OPERATION;
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, privilegeUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
+			
+			String peUPTOperation =Constants.UPT_PROTECTION_ELEMENT_OPERATION;
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, peUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
+			
+			String pgUPTOperation =Constants.UPT_PROTECTION_GROUP_OPERATION;
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, pgUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
+			
+			String roleUPTOperation =Constants.UPT_ROLE_OPERATION;
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, roleUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
+			
+			String userUPTOperation =Constants.UPT_USER_OPERATION;
+			peIds=cceateDefaultProtectionElementsForProvisioningOperation(userProvisioningManager, userUPTOperation, application);
+			userProvisioningManager.addProtectionElements(gpApp.getProtectionGroupId().toString(), peIds);
 		}
 		else
 		{
@@ -516,7 +558,56 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 			this.applicationUpdateDate = simpleDateFormat.format(application.getUpdateDate());
 		}
-
+	}
+	
+	private ProtectionGroup createDefaultUptProtectionGroup(UserProvisioningManager upManager, String pgName, Application application) throws CSTransactionException
+	{
+		ProtectionGroup pg=new ProtectionGroup();
+		pg.setProtectionGroupName(pgName);
+		pg.setProtectionGroupDescription("Default protection group for \""+pgName +"\"; Do not chnage name.");
+		upManager.createProtectionGroup(pg);
+		// pg has been as to current application
+		//set it to target application
+		pg.setApplication(application);
+		upManager.modifyProtectionGroup(pg);
+		return pg;
+	}
+	private String[] cceateDefaultProtectionElementsForProvisioningOperation(UserProvisioningManager upManager, String uptOperationName, Application application) throws CSTransactionException
+	{
+		String[] rtnIds=new String[3];
+		String objectId= Constants.CSM_ACCESS_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement accessPe=createUptOperationProtectionElement(upManager, objectId, application);
+		
+		objectId= Constants.CSM_CREATE_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement createPe=createUptOperationProtectionElement(upManager, objectId, application);
+		rtnIds[0]=createPe.getProtectionElementId().toString();
+		
+		objectId= Constants.CSM_DELETE_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement deletePe=createUptOperationProtectionElement(upManager, objectId, application);
+		rtnIds[1]=deletePe.getProtectionElementId().toString();
+		
+		objectId= Constants.CSM_UPDATE_PRIVILEGE +"_"+uptOperationName;
+		ProtectionElement updatePe=createUptOperationProtectionElement(upManager, objectId, application);
+		rtnIds[2]=updatePe.getProtectionElementId().toString();
+		
+		return rtnIds;
+	}
+	
+	private ProtectionElement createUptOperationProtectionElement(UserProvisioningManager upManager, String objectId, Application application) throws CSTransactionException
+	{
+		ProtectionElement pe = new ProtectionElement();
+		String peName=Constants.UPT_OPERATION_DISABLE_FLAG+":"+objectId;
+		pe.setProtectionElementName(peName);
+		pe.setObjectId(objectId);
+		
+		String peDesc="System required protection element :"+objectId +"'\n Do not change its unique object ID.";
+		pe.setProtectionElementDescription(peDesc);
+		upManager.createProtectionElement(pe);
+		// pe has been as to current application
+		//set it to target application
+		pe.setApplication(application);			
+		upManager.modifyProtectionElement(pe);
+		return pe;
 	}
 
 	/* (non-Javadoc)

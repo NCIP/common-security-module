@@ -1,14 +1,13 @@
 
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-
-
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
+<table cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top"><!-- target of anchor to skip menus --><a
 			name="content" /></a>
-		<table summary="" cellpadding="0" cellspacing="0" border="0"
+		<table cellpadding="0" cellspacing="0" border="1"
 			class="contentPage" width="100%" height="100%">
 
 			<!-- banner begins -->
@@ -21,14 +20,14 @@
 				<td height="100%"><!-- target of anchor to skip menus --><a
 					name="content" /></a>
 
-				<table summary="" cellpadding="0" cellspacing="0" border="0"
+				<table cellpadding="0" cellspacing="0" border="0"
 					height="100%">
 					<tr>
 						<td width="70%"><!-- welcome begins -->
-						<table summary="" cellpadding="0" cellspacing="0" border="0"
+						<table summary="Welcome" cellpadding="0" cellspacing="0" border="0"
 							height="100%">
 							<tr>
-								<td class="welcomeTitle" height="20">WELCOME TO THE USER
+								<td class="welcomeTitle" height="20">ELCOME TO THE USER
 								PROVISIONING TOOL</td>
 							</tr>
 							<tr>
@@ -52,13 +51,14 @@
 						</table>
 						<!-- welcome ends --></td>
 						<td valign="top" width="30%"><!-- sidebar begins -->
-						<table summary="" cellpadding="0" cellspacing="0" border="0"
+						<table cellpadding="0" cellspacing="0" border="0"
 							height="100%">
 							<html:form action="/Login"  focus="loginId">
+							<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/Login'/>"/>
 								<!-- login begins -->
 								<tr>
 									<td valign="top">
-									<table summary="" cellpadding="2" cellspacing="0" border="0"
+									<table summary="Login" cellpadding="2" cellspacing="0" border="0"
 										width="100%" class="sidebarSectionLogin">
 										<tr>
 											<td class="sidebarTitle" height="20">LOGIN TO U.P.T.</td>
@@ -98,20 +98,21 @@
 									</td>
 								</tr>
 								<!-- login ends -->
+								
 							</html:form>
 							<!-- what's new begins -->
 							<tr>
 								<td valign="top">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table summary="What is new" cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSectionLogin">
 									<tr>
-										<td class="sidebarTitle" height="20">WHAT'S NEW IN 4.0</td>
+										<td class="sidebarTitle" height="20">WHAT'S NEW IN 5.0</td>
 									</tr>
 									<tr>
 										<td class="sidebarContent">
-											<li>You can now provision Instance Level Security by creating new security filters
-											<li>Protection Element now has a new "Value" field to store value of object attributes.
-											<li>Test button provided for newly entered database connection parameters to avoid errors
+											<li>NIH Password Policy
+											<li>Configurable UPT
+											<li>Several API enhancements and bug fixes
 										</td>
 									</tr>
 								</table>
@@ -122,7 +123,7 @@
 							<!-- did you know? begins -->
 							<tr>
 								<td valign="top">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table summary="Did you know?" cellpadding="0" cellspacing="0" border="0"
 									width="100%" height="100%" class="sidebarSectionLogin">
 									<tr>
 										<td class="sidebarTitle" height="20">DID YOU KNOW?</td>
@@ -142,7 +143,7 @@
 							<!-- spacer cell begins (keep for dynamic expanding) -->
 							<tr>
 								<td valign="top" height="100%">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table cellpadding="0" cellspacing="0" border="0"
 									width="100%" height="100%" class="sidebarSectionLogin">
 									<tr>
 										<td class="sidebarContent" valign="top">&nbsp;</td>

@@ -18,7 +18,7 @@ package gov.nih.nci.security.upt.forms;
  *(the 'UPT Software').  The UPT Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This UPT Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -26,7 +26,7 @@ package gov.nih.nci.security.upt.forms;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -118,7 +118,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionError;
@@ -135,10 +135,10 @@ import org.apache.struts.validator.ValidatorForm;
  */
 public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 {
-	
+
 	private String userId;
 	private String userLoginName;
-	
+
 	private String userPreMigratedLogin;
 	private String userFirstName;
 	private String userLastName;
@@ -152,12 +152,14 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	private String userStartDate;
 	private String userEndDate;
 	private String userUpdateDate;
-	
+	private boolean firstTimeLogin;
+
 	private String[] associatedIds;
 	private String[] roleAssociatedIds;
 	private String[] protectionGroupAssociatedIds;
 	private String protectionGroupAssociatedId;
 	private String userMigratedFlag;
+	private String activeFlag;
 
 	/**
 	 * @return Returns the userDepartment.
@@ -275,7 +277,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	{
 		return userPasswordConfirm;
 	}
-	
+
 	/**
 	 * @param userPasswordConfirm The userPassword to set.
 	 */
@@ -283,7 +285,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	{
 		this.userPasswordConfirm = userPasswordConfirm;
 	}
-	
+
 	/**
 	 * @return Returns the userPhoneNumber.
 	 */
@@ -368,8 +370,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	public void setRoleAssociatedIds(String[] roleAssociatedIds) {
 		this.roleAssociatedIds = roleAssociatedIds;
 	}
-	
-	
+
+
 	/**
 	 * @return Returns the protectionGroupAssociatedId.
 	 */
@@ -383,15 +385,22 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 			String protectionGroupAssociatedId) {
 		this.protectionGroupAssociatedId = protectionGroupAssociatedId;
 	}
-	
-	
+
+
 	public String getUserMigratedFlag() {
 		return userMigratedFlag;
 	}
 	public void setUserMigratedFlag(String userMigratedFlag) {
 		this.userMigratedFlag = userMigratedFlag;
 	}
-	
+
+	public String getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(String activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
 	public void resetForm()
 	{
 		this.userId = "";
@@ -410,12 +419,13 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.userEndDate = "";
 		this.userUpdateDate = "";
 		this.associatedIds = null;
-		this.protectionGroupAssociatedId = "";		
+		this.protectionGroupAssociatedId = "";
 		this.protectionGroupAssociatedIds = null;
 		this.roleAssociatedIds = null;
 		this.userMigratedFlag = DisplayConstants.NO;
+		this.activeFlag = DisplayConstants.YES;
 	}
-	
+
 	public void reset(ActionMapping mapping, HttpServletRequest request)
 	{
 		this.userLoginName = "";
@@ -434,44 +444,46 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.associatedIds = null;
 		this.roleAssociatedIds = null;
 		this.userMigratedFlag = DisplayConstants.NO;
+		this.activeFlag = DisplayConstants.YES;
 	}
 
 	public ArrayList getAddFormElements()
 	{
 		ArrayList formElementList = new ArrayList();
-	
+
 		formElementList.add(new FormElement("User Login Name", "userLoginName", getUserLoginName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User First Name", "userFirstName", getUserFirstName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Last Name", "userLastName", getUserLastName(), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Organization", "userOrganization", getUserOrganization(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("User Department", "userDepartment", getUserDepartment(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
-		formElementList.add(new FormElement("User Title", "userTitle", getUserTitle(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
-		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", getUserPhoneNumber(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));	
+		formElementList.add(new FormElement("User Department", "userDepartment", getUserDepartment(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("User Title", "userTitle", getUserTitle(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", getUserPhoneNumber(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Password", "userPassword", getUserPassword(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", getUserPasswordConfirm(), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Email Id", "userEmailId", getUserEmailId(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Start Date", "userStartDate", getUserStartDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User End Date", "userEndDate", getUserEndDate(), DisplayConstants.INPUT_DATE, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 
-		formElementList.add(new FormElement("User Pre-Migrated Login", "userPreMigratedLogin", getUserPreMigratedLogin(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
+		formElementList.add(new FormElement("User Pre-Migrated Login", "userPreMigratedLogin", getUserPreMigratedLogin(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Migrated Flag", "userMigratedFlag", getUserMigratedFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		
-		return formElementList;	
+		formElementList.add(new FormElement("Active Flag", "activeFlag", getActiveFlag(), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+
+		return formElementList;
 	}
 
 	public ArrayList getDisplayFormElements()
 	{
 		ArrayList formElementList = new ArrayList();
-	
+
 		formElementList.add(new FormElement("User Login Name", "userLoginName", StringUtils.initString(getUserLoginName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED, DisplayConstants.READONLY));
-		
-		
+
+
 		formElementList.add(new FormElement("User First Name", "userFirstName", StringUtils.initString(getUserFirstName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Last Name", "userLastName", StringUtils.initString(getUserLastName()), DisplayConstants.INPUT_BOX, DisplayConstants.REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Organization", "userOrganization",StringUtils.initString(getUserOrganization()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("User Department", "userDepartment", StringUtils.initString(getUserDepartment()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
-		formElementList.add(new FormElement("User Title", "userTitle", StringUtils.initString(getUserTitle()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
-		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", StringUtils.initString(getUserPhoneNumber()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));	
+		formElementList.add(new FormElement("User Department", "userDepartment", StringUtils.initString(getUserDepartment()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("User Title", "userTitle", StringUtils.initString(getUserTitle()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
+		formElementList.add(new FormElement("User Phone Number", "userPhoneNumber", StringUtils.initString(getUserPhoneNumber()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Password", "userPassword", StringUtils.initString(getUserPassword()), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("Confirm Password", "userPasswordConfirm", StringUtils.initString(getUserPasswordConfirm()), DisplayConstants.PASSWORD, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Email Id", "userEmailId", StringUtils.initString(getUserEmailId()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
@@ -484,32 +496,35 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		else
 			formElementList.add(new FormElement("User Pre Migrated Login", "userPreMigratedLogin", StringUtils.initString(getUserPreMigratedLogin()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Migrated Flag", "userMigratedFlag", StringUtils.initString(getUserMigratedFlag()), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED, DisplayConstants.READONLY));
-		
-		return formElementList;	
+		formElementList.add(new FormElement("Active Flag", "activeFlag", StringUtils.initString(getActiveFlag()), DisplayConstants.INPUT_RADIO, DisplayConstants.NOT_REQUIRED, DisplayConstants.DISABLED, DisplayConstants.READONLY));
+
+		return formElementList;
 	}
-	
+
 	public ArrayList getSearchFormElements()
 	{
 		ArrayList formElementList = new ArrayList();
-	
+
 		formElementList.add(new FormElement("User Login Name", "userLoginName", getUserLoginName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User First Name", "userFirstName", getUserFirstName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Last Name", "userLastName", getUserLastName(), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Organization", "userOrganization", StringUtils.initString(getUserOrganization()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-		formElementList.add(new FormElement("User Department", "userDepartment", StringUtils.initString(getUserDepartment()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));		
+		formElementList.add(new FormElement("User Department", "userDepartment", StringUtils.initString(getUserDepartment()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
 		formElementList.add(new FormElement("User Email Id", "userEmailId", StringUtils.initString(getUserEmailId()), DisplayConstants.INPUT_BOX, DisplayConstants.NOT_REQUIRED, DisplayConstants.NOT_DISABLED));
-	
-		return formElementList;	
+
+		return formElementList;
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDisplayForm(HttpServletRequest request) throws Exception 
+	public void buildDisplayForm(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		User user = userProvisioningManager.getUserById(this.userId);
-		
+
 		this.userLoginName = user.getLoginName();
+		if (user.getActiveFlag() == DisplayConstants.ONE) this.activeFlag = DisplayConstants.YES;
+		else this.activeFlag = DisplayConstants.NO;
 		if (user.getMigratedFlag() == DisplayConstants.ONE) this.userMigratedFlag= DisplayConstants.YES;
 		else this.userMigratedFlag = DisplayConstants.NO;
 		this.userPreMigratedLogin= user.getPreMigrationLoginName();
@@ -530,10 +545,10 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 			this.userEndDate = simpleDateFormat.format(user.getEndDate());
 		if (user.getUpdateDate() != null)
 			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());
-		
-		
+
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
 	 */
@@ -558,7 +573,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		user.setPhoneNumber(this.getUserPhoneNumber());
 		user.setPassword(this.getUserPassword());
 		user.setEmailId(this.getUserEmailId());
-		
+
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		if (this.userStartDate != null && !this.userStartDate.equalsIgnoreCase(""))
 			user.setStartDate(simpleDateFormat.parse(this.getUserStartDate()));
@@ -567,9 +582,18 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 
 		if (this.userMigratedFlag.equals(DisplayConstants.YES)) user.setMigratedFlag(DisplayConstants.ONE);
 		else user.setMigratedFlag(DisplayConstants.ZERO);
-		
+		if (this.activeFlag.equals(DisplayConstants.YES))
+			user.setActiveFlag(DisplayConstants.ONE);
+		else
+			user.setActiveFlag(DisplayConstants.ZERO);
+
+
+
 		if ((this.userId == null) || ((this.userId).equalsIgnoreCase("")))
 		{
+			user.setPasswordExpiryDate(simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime())));
+			user.setFirstTimeLogin(DisplayConstants.ONE);
+			user.setFirstTimeLogin(DisplayConstants.ONE);
 			userProvisioningManager.createUser(user);
 			this.userId = user.getUserId().toString();
 			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());
@@ -577,21 +601,35 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		else
 		{
 			userProvisioningManager.modifyUser(user);
-			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());			
+			this.userUpdateDate = simpleDateFormat.format(user.getUpdateDate());
 		}
-		
-		
-		
-		
+
+
+
+
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
 	 */
 	public void removeDBObject(HttpServletRequest request) throws Exception {
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		userProvisioningManager.removeUser(this.userId);
+		User user = userProvisioningManager.getUserById(this.userId);
+		user.setActiveFlag(DisplayConstants.ZERO);
+		userProvisioningManager.modifyUser(user);
 		this.resetForm();
-		
+
+	}
+
+	/* (non-Javadoc)
+	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
+	 */
+	public void deActivateUser(HttpServletRequest request) throws Exception {
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		User user = userProvisioningManager.getUserById(this.userId);
+		user.setActiveFlag(DisplayConstants.ZERO);
+		userProvisioningManager.modifyUser(user);
+		this.resetForm();
+
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest, org.apache.struts.action.ActionErrors, org.apache.struts.action.ActionMessages)
@@ -600,10 +638,10 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		User user = new User();
-		
+
 		if (this.userLoginName != null && !(this.userLoginName.trim().equalsIgnoreCase("")))
 			user.setLoginName(this.userLoginName);
-		
+
 		if (this.userPreMigratedLogin!= null && !(this.userPreMigratedLogin.trim().equalsIgnoreCase("")))
 			user.setPreMigrationLoginName(this.userPreMigratedLogin);
 		if (this.userFirstName != null && !(this.userFirstName.trim().equalsIgnoreCase("")))
@@ -618,7 +656,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 			user.setEmailId(this.userEmailId);
 		if (user.getMigratedFlag() == DisplayConstants.ONE) this.userMigratedFlag= DisplayConstants.YES;
 		else this.userMigratedFlag = DisplayConstants.NO;
-		
+
 		SearchCriteria searchCriteria = new UserSearchCriteria(user);
 		List list = userProvisioningManager.getObjects(searchCriteria);
 		SearchResult searchResult = new SearchResult();
@@ -626,7 +664,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		searchResult.setSearchResultObjects(list);
 		return searchResult;
 
-		
+
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getPrimaryId()
@@ -646,7 +684,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildAssociationObject(HttpServletRequest request) throws Exception 
+	public void buildAssociationObject(HttpServletRequest request) throws Exception
 	{
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 
@@ -656,10 +694,10 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		Collection totalGroups = (Collection)userProvisioningManager.getObjects(searchCriteria);
 
 		Collection availableGroups = ObjectSetUtil.minus(totalGroups,associatedGroups);
-		
+
 		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedGroups);
 		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableGroups);
-		
+
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
@@ -679,7 +717,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 
 		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForUser(this.userId);
 		Collection associatedProtectionGroups = (Collection)new HashSet();
-		
+
 		if (protectionGroupRoleContextList != null && !(protectionGroupRoleContextList.size() == 0))
 		{
 			Iterator iterator = protectionGroupRoleContextList.iterator();
@@ -697,35 +735,35 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 
 		Role role = new Role();
 		SearchCriteria roleSearchCriteria = new RoleSearchCriteria(role);
-		Collection totalRoles = (Collection)userProvisioningManager.getObjects(roleSearchCriteria);		
-		
-		
-		request.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET, availableProtectionGroups);		
+		Collection totalRoles = (Collection)userProvisioningManager.getObjects(roleSearchCriteria);
+
+
+		request.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET, availableProtectionGroups);
 		request.setAttribute(DisplayConstants.AVAILABLE_ROLE_SET, totalRoles);
 
 		Collection associatedRoles = (Collection)new HashSet();
 		request.setAttribute(DisplayConstants.ASSIGNED_ROLE_SET, associatedRoles);
-		
+
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#setDoubleAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
 	public void setDoubleAssociationObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);		
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.assignUserRoleToProtectionGroup(this.userId,this.roleAssociatedIds,this.protectionGroupAssociatedIds[0]);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#removeGroupAssociation(javax.servlet.http.HttpServletRequest)
 	 */
 	public void removeProtectionGroupAssociation(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);		
-		userProvisioningManager.removeUserFromProtectionGroup(this.protectionGroupAssociatedId, this.userId);		
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+		userProvisioningManager.removeUserFromProtectionGroup(this.protectionGroupAssociatedId, this.userId);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#updateRoleAssociation(javax.servlet.http.HttpServletRequest)
 	 */
 	public void updateRoleAssociation(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);		
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.assignUserRoleToProtectionGroup(this.userId,this.roleAssociatedIds,this.protectionGroupAssociatedId);
 	}
 	/* (non-Javadoc)
@@ -736,12 +774,12 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 
 		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForUser(this.userId);
 		Collection associatedProtectionGroupRoleContexts = (Collection)new HashSet();
-		
+
 		if (protectionGroupRoleContextList != null && !(protectionGroupRoleContextList.size() == 0))
 		{
 			associatedProtectionGroupRoleContexts = protectionGroupRoleContextList;
 		}
-		
+
 		return associatedProtectionGroupRoleContexts;
 	}
 	/* (non-Javadoc)
@@ -750,7 +788,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	public void buildRoleAssociationObject(HttpServletRequest request) throws Exception {
 
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		
+
 		Collection protectionGroupRoleContextList = (Collection)(request.getSession()).getAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET);
 		Collection associatedRoles = (Collection)new HashSet();
 		if (protectionGroupRoleContextList != null && !(protectionGroupRoleContextList.size() == 0))
@@ -769,44 +807,44 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 				}
 			}
 		}
-		
+
 		Role role = new Role();
 		SearchCriteria roleSearchCriteria = new RoleSearchCriteria(role);
-		Collection totalRoles = (Collection)userProvisioningManager.getObjects(roleSearchCriteria);		
+		Collection totalRoles = (Collection)userProvisioningManager.getObjects(roleSearchCriteria);
 
 		Collection availableRoles = ObjectSetUtil.minus(totalRoles,associatedRoles);
-		
-		request.setAttribute(DisplayConstants.ASSIGNED_ROLE_SET, associatedRoles);	
+
+		request.setAttribute(DisplayConstants.ASSIGNED_ROLE_SET, associatedRoles);
 		request.setAttribute(DisplayConstants.AVAILABLE_ROLE_SET, availableRoles);
-		
-		request.setAttribute(DisplayConstants.ONLY_ROLES, DisplayConstants.ONLY_ROLES);	
+
+		request.setAttribute(DisplayConstants.ONLY_ROLES, DisplayConstants.ONLY_ROLES);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#getFormName()
 	 */
 	public String getFormName() {
 		return DisplayConstants.USER_ID;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildProtectionElementPrivilegesObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public Collection buildProtectionElementPrivilegesObject(HttpServletRequest request) throws Exception 
+	public Collection buildProtectionElementPrivilegesObject(HttpServletRequest request) throws Exception
 	{
-		
+
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 
 		Collection protectionElementPrivilegesContextList = (Collection)userProvisioningManager.getProtectionElementPrivilegeContextForUser(this.userId);
-		
+
 		return protectionElementPrivilegesContextList;
-		
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.apache.struts.action.ActionForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
 	 */
-	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) 
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
 	{
 		ActionErrors errors = new ActionErrors();
 		errors = super.validate(mapping,request);
@@ -822,6 +860,6 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	public void setUserPreMigratedLogin(String userPreMigratedLogin) {
 		this.userPreMigratedLogin = userPreMigratedLogin;
 	}
-	
-	
+
+
 }

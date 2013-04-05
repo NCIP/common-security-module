@@ -145,6 +145,7 @@ public class CommonSecurityManager
 	 * @throws CSConfigurationException 
 	 * @throws CSInputException 
 	 * @throws CSLoginException 
+	 * @throws CSFirstTimeLoginExceptionDel 
 	 */
 	public boolean login (String applicationContextName, String userName, String password) throws CSException, CSConfigurationException, CSLoginException, CSInputException
 	{

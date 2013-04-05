@@ -110,10 +110,21 @@ public class FilterClauseSearchCriteria extends SearchCriteria
 {
 	
 	private FilterClause filterClause;
+	private Hashtable<String, String> keyValueHash=new Hashtable<String, String>();
 
 	public FilterClauseSearchCriteria(FilterClause filterClause)
 	{
 		this.filterClause = filterClause;
+		keyValueHash=new Hashtable<String, String>();
+
+		if (filterClause.getClassName() != null)
+		{
+			keyValueHash.put("className", filterClause.getClassName());
+		}
+		if (keyValueHash.size() == 0)
+		{
+			keyValueHash.put("className", "%");
+		}
 	}
 
 	/*
@@ -123,16 +134,8 @@ public class FilterClauseSearchCriteria extends SearchCriteria
 	 */
 	public Hashtable getFieldAndValues()
 	{
-		Hashtable hashtable = new Hashtable();
-		if (filterClause.getClassName() != null)
-		{
-			hashtable.put("className", filterClause.getClassName());
-		}
-		if (hashtable.size() == 0)
-		{
-			hashtable.put("className", "%");
-		}
-		return hashtable;
+
+		return keyValueHash;
 	}
 
 	/*

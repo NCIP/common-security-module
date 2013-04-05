@@ -19,7 +19,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.CacheException;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
@@ -32,16 +32,16 @@ import com.mysql.jdbc.CommunicationsException;
 /**
  * JDBC Helper class is created to test the database connection parameters
  * available from UPT's ApplicationForm.
- * 
+ *
  * @author parmarv
- * 
+ *
  */
 public class JDBCHelper {
 
 	/**
-	 * This method uses Hibernates SessionFactory to get a Session and using Hibernates Criteria does a sample query 
+	 * This method uses Hibernates SessionFactory to get a Session and using Hibernates Criteria does a sample query
 	 * to connection and obtain results as part of testing for successful connection.
-	 * 
+	 *
 	 * Based on the kind of exceptions this method throws CSException with appropriate message.
 	 * @param appForm -
 	 *            The ApplicationForm with application database parameters to
@@ -54,10 +54,10 @@ public class JDBCHelper {
 	 */
 	public static String testConnectionHibernate(BaseDBForm appForm) throws CSException {
 		ApplicationForm appform = (ApplicationForm) appForm;
-		
+
 		SessionFactory sf = null;
 		try {
-			
+
 			Configuration configuration = new Configuration();
 			configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Application.hbm.xml");
 			configuration.setProperty("hibernate.connection.url",appform.getApplicationDatabaseURL());
@@ -68,21 +68,21 @@ public class JDBCHelper {
 			configuration.setProperty("hibernate.connection.pool_size","1");
 			sf = configuration.buildSessionFactory();
 			Session session = sf.openSession();
-			
+
 			Criteria criteria = session.createCriteria(ApplicationContext.class);
 			criteria.add(Expression.eq("applicationName", appform.getApplicationName().trim()));
 			criteria.setProjection(Projections.rowCount());
-			
+
 			List results = criteria.list();
 			Integer integer = (Integer) results.iterator().next();
 			if (integer == null) {
 				session.close();
 				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED);
 			}
-			
+
 			session.close();
 			return DisplayConstants.APPLICATION_DATABASE_CONNECTION_SUCCESSFUL;
-		
+
 		} catch(Throwable t){
 			// Depending on the cause of the exception obtain message and throw a CSException.
 			if(t instanceof SQLGrammarException){
@@ -103,19 +103,19 @@ public class JDBCHelper {
 			if(t instanceof HibernateException){
 				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
 			}
-			
+
 			throw new CSException(
 					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED);
 		}
 
 	}
 
-	
-	
+
+
 	/**
-	 * This method uses Hibernates SessionFactory to get a Session and using Hibernates Criteria does a sample query 
+	 * This method uses Hibernates SessionFactory to get a Session and using Hibernates Criteria does a sample query
 	 * to connection and obtain results as part of testing for successful connection.
-	 * 
+	 *
 	 * Based on the kind of exceptions this method throws CSException with appropriate message.
 	 * @param appForm -
 	 *            The ApplicationForm with application database parameters to
@@ -126,27 +126,35 @@ public class JDBCHelper {
 	 *             The exception message indicates which kind of application
 	 *             database parameters are invalid.
 	 */
-	public static String testConnectionHibernate(AnnotationConfiguration configuration) throws CSException {
-		
-		
+	public static String testConnectionHibernate(Configuration configuration) throws CSException {
+
+
 		SessionFactory sf = null;
 		ResultSet rs = null;
 		Statement stmt=null;
 		Connection conn = null;
 		Session session = null;
 		try {
+			//System.out.println("testConnectionHibernate*****1");
 			sf = configuration.buildSessionFactory();
+			//System.out.println("testConnectionHibernate*****2");
 			session = sf.openSession();
+			//System.out.println("testConnectionHibernate*****3");
 			conn = session.connection();
+			//System.out.println("testConnectionHibernate*****4");
 			stmt = conn.createStatement();
+			//System.out.println("testConnectionHibernate*****5");
 			stmt.execute("select count(*) from csm_application");
+			//System.out.println("testConnectionHibernate*****6");
 			rs = stmt.getResultSet();
+			//System.out.println("testConnectionHibernate*****7");
 
-			System.out.println(rs.getMetaData().getColumnCount());
-			
+			//System.out.println(rs.getMetaData().getColumnCount());
+
 			return DisplayConstants.APPLICATION_DATABASE_CONNECTION_SUCCESSFUL;
-		
+
 		} catch(Throwable t){
+			t.printStackTrace();
 			// Depending on the cause of the exception obtain message and throw a CSException.
 			if(t instanceof SQLGrammarException){
 				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getCause().getMessage());
@@ -165,12 +173,12 @@ public class JDBCHelper {
 			}
 			if(t instanceof CacheException){
 				throw new CacheException("Please Try Again.\n ");
-				
+
 			}
 			if(t instanceof HibernateException){
 				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
 			}
-			
+
 			throw new CSException(
 					DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS);
 		}finally{
@@ -185,10 +193,10 @@ public class JDBCHelper {
 		}
 
 	}
-	
+
 	/**
 	 * testConnection method accepts
-	 * 
+	 *
 	 * @param appForm -
 	 *            The ApplicationForm with application database parameters to
 	 *            test connection for.
@@ -240,8 +248,8 @@ public class JDBCHelper {
 
 		return message;
 	}
-	
-	
-	
+
+
+
 
 }

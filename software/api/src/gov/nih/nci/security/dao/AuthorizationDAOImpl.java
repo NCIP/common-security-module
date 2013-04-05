@@ -12,7 +12,7 @@ package gov.nih.nci.security.dao;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -20,7 +20,7 @@ package gov.nih.nci.security.dao;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -90,6 +90,7 @@ package gov.nih.nci.security.dao;
 
 
 import gov.nih.nci.logging.api.logger.hibernate.HibernateSessionFactoryHelper;
+import gov.nih.nci.security.authentication.helper.RDBMSHelper;
 import gov.nih.nci.security.authorization.ObjectAccessMap;
 import gov.nih.nci.security.authorization.ObjectPrivilegeMap;
 import gov.nih.nci.security.authorization.domainobjects.Application;
@@ -105,6 +106,7 @@ import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.authorization.domainobjects.UserGroupRoleProtectionGroup;
 import gov.nih.nci.security.authorization.jaas.AccessPermission;
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.hibernate.ProtectionGroupProtectionElement;
 import gov.nih.nci.security.dao.hibernate.UserGroup;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
@@ -112,6 +114,8 @@ import gov.nih.nci.security.exceptions.CSDataAccessException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
+import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
+import gov.nih.nci.security.util.ConfigurationHelper;
 import gov.nih.nci.security.util.ObjectUpdater;
 import gov.nih.nci.security.util.StringEncrypter;
 import gov.nih.nci.security.util.StringUtilities;
@@ -138,8 +142,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginException;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -153,6 +159,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.GenericJDBCException;
 
+import org.apache.commons.configuration.DataConfiguration;
 import org.apache.log4j.Logger;
 
 
@@ -163,26 +170,26 @@ import org.apache.log4j.Logger;
 public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	static final Logger log = Logger.getLogger(AuthorizationDAOImpl.class.getName());
-	
+
 	/**
 	 * auditLog is an instance of Logger , which is used for Audit Logging
 	 */
-	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Event.Authorization");		
+	private static final Logger auditLog = Logger.getLogger("CSM.Audit.Logging.Event.Authorization");
 
-	
+
 	private SessionFactory sf = null;
 
 	private Application application = null;
-	
+
 	private boolean isEncryptionEnabled  = true;
 
 	private String typeOfAccess = "MIXED";
 	private static final String SEPERATOR = "#@#";
 
 	private String localUserOrGroupName = "";
-	
+
 	private int cacheLevel = 0;
-	
+
 	private HashMap localCache = new HashMap();
 
 	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName) throws CSConfigurationException {
@@ -217,10 +224,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|"
 							+ applicationContextName
 							+ "||AuthorizationDAOImpl|Success|Instantiated AuthorizationDAOImpl|");
-		
+
 	}
 
-	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName, String userOrGroupName, boolean isUserName) 
+	public AuthorizationDAOImpl(SessionFactory sf, String applicationContextName, String userOrGroupName, boolean isUserName)
 	{
 		setHibernateSessionFactory(sf);
 		try {
@@ -237,21 +244,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log.debug("Authorization|" + applicationContextName	+ "||AuthorizationDAOImpl|Failure|Cannot instantiate AuthorizationDAOImpl|"	+ ex.getMessage());
 			throw new RuntimeException(	"Unable to Instantiate the AuthorizationDAOImpl");
 		}
-		
+
 		populateCache(userOrGroupName, isUserName);
-		
+
 		localUserOrGroupName = userOrGroupName;
 		if (isUserName)
 			cacheLevel = 1;
 		else
 			cacheLevel = 2;
-		
+
 		if (log.isDebugEnabled())
 			log.debug("Authorization|" + applicationContextName + "||AuthorizationDAOImpl|Success|Instantiated AuthorizationDAOImpl|");
-		
+
 	}
-	
-	
+
+
 	private void populateCache(String userOrGroupName, boolean isUserName)
 	{
 		Collection protectionElementPrivilegeContexts = null;
@@ -307,7 +314,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				if (protectionElement.getAttribute() != null && protectionElement.getAttribute().trim().length() != 0)
 					key = protectionElement.getObjectId() + AuthorizationDAOImpl.SEPERATOR + protectionElement.getAttribute();
 				else
-					key = protectionElement.getObjectId();					
+					key = protectionElement.getObjectId();
 				localCache.put(key,privilegesName);
 			}
 		}
@@ -319,7 +326,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				log.debug("Authorization|||populateCache|Success|Loaded Cache for Group "+ userOrGroupName +"|");
 		}
 	}
-	
+
 	private boolean checkCachedPermission(String userOrGroupName, String objectId, String attribute, String privilege)
 	{
 		boolean isAllowed = false;
@@ -329,7 +336,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			key = objectId + AuthorizationDAOImpl.SEPERATOR + attribute;
 		else
 			key = objectId;
-		
+
 		if (localCache.containsKey(key))
 		{
 			privileges = (List) localCache.get(key);
@@ -347,9 +354,63 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		this.sf = sf;
 	}
 
+	public boolean checkPermissionForUserProvisioningOperation (String linkName, String loginName, String applicationContext)
+	throws CSTransactionException
+	{
+		ResultSet rs =null;
+		PreparedStatement preparedStatement = null;
+		Session s = null;
+		Long applId=0L;
+		Connection connection = null;
+		if (StringUtilities.isBlank(linkName)) {
+			throw new CSTransactionException("Link name :"+linkName+" can't be null!");
+		}
+		if (StringUtilities.isBlank(loginName)) {
+			throw new CSTransactionException("User loninName :"+loginName+" can't be null!");
+		}
+
+		try {
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+
+			connection = s.connection();
+
+			if(this.application.getApplicationName().equals(applicationContext))
+				applId = this.application.getApplicationId();
+			else
+				applId = getApplicationByName(applicationContext).getApplicationId();
+
+			preparedStatement = Queries.getQueryforUptOperationPE(linkName, loginName, applId, connection);
+
+			rs = preparedStatement.executeQuery();
+			if (rs.next())
+				return false;
+		} catch (Exception ex) {
+			if (log.isDebugEnabled())
+				log.debug("Failed to get checkLinkAccessible for " + linkName + "|"
+						+ ex.getMessage());
+			throw new CSTransactionException("Failed to get checkLinkAccessible for " + linkName
+					+ "|" + ex.getMessage(), ex);
+		} finally {
+			try {
+
+				s.close();
+				rs.close();
+				preparedStatement.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||checkLinkAccessible|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+
+		return true;
+
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.UserProvisioningManager#assignUserToGroup(java.lang.String,
 	 *      java.lang.String)
 	 */
@@ -385,8 +446,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug("The User ID: " + user.getUserId());
 			Set groups = getGroups("" + user.getUserId());
 
-			
-			
+
+
 			boolean hasGroupAlready = false;
 			if ((null != groups) && (!groups.isEmpty())) {
 				Iterator i = groups.iterator();
@@ -398,8 +459,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					}
 				}
 			}
-			
-			s = HibernateSessionFactoryHelper.getAuditSession(sf);			
+
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
 			if (!hasGroupAlready) {
@@ -407,9 +468,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				ug.setGroup(group);
 				ug.setUser(user);
 				s.save(ug);
-				
+
 			}
-			
+
 			t.commit();
 			s.flush();
 		} catch (Exception ex) {
@@ -426,31 +487,31 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 
 			} catch (Exception ex2) {
 			}
 		}
 		auditLog.info("Assigning User " + userName + " to Group " + groupName);
-		
+
 
 	}
-	
+
 	public void addGroupsToUser(String userId, String[] groupIds)
 	throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			User user = (User) s.load(User.class,new Long(userId));
 			if(user==null) throw new CSTransactionException("Authorization|||addGroupsToUser || Unable to retrieve User with Id :"+userId);
-			
-			
+
+
 			Set groupSet = user.getGroups();
 			if(groupSet==null) groupSet = new HashSet();
-			
+
 			for (int i = 0; i < groupIds.length; i++) {
 				boolean assigned= false;
 				Iterator iterator = groupSet.iterator();
@@ -465,7 +526,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						groupSet.add(group);
 				}
 			}
-			
+
 			t = s.beginTransaction();
 			s.update(user);
 			t.commit();
@@ -490,7 +551,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -504,8 +565,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||addGroupsToUser|Success|Successful in assigning Groups "
 							+ StringUtilities.stringArrayToString(groupIds)
 							+ " to User " + userId + "|");
-		auditLog.info("Assigning User " + userId + " to Groups");		
-		
+		auditLog.info("Assigning User " + userId + " to Groups");
+
 	}
 
 
@@ -517,11 +578,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
-			
+
 			HashSet newGroups = new HashSet();
 			for (int k = 0; k < groupIds.length; k++) {
 				Group group = (Group) this.getObjectByPrimaryKey(Group.class,
@@ -561,7 +622,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -575,21 +636,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||assignGroupsToUser|Success|Successful in assigning Groups "
 							+ StringUtilities.stringArrayToString(groupIds)
 							+ " to User " + userId + "|");
-		auditLog.info("Assigning User " + userId + " to Groups");		
+		auditLog.info("Assigning User " + userId + " to Groups");
 	}
-	
+
 	public void addUsersToGroup(String groupId, String[] userIds)
 	throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			Group group = (Group) s.load(Group.class,new Long(groupId));
 			if(group==null) throw new CSTransactionException("Authorization|||addUsersToGroup|| Unable to retrieve Group with Id :"+groupId);
-			
+
 			Set userSet = group.getUsers();
-						
+
 			for (int k = 0; k < userIds.length; k++) {
 				boolean assigned= false;
 				Iterator iterator  = userSet.iterator();
@@ -604,14 +665,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						userSet.add(user);
 				}
 			}
-			
+
 			t = s.beginTransaction();
 			s.update(group);
 			t.commit();
 			s.flush();
-			
-			
-			
+
+
+
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -632,7 +693,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -646,7 +707,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||addUsersToGroup|Success|Successful in assigning Users "
 							+ StringUtilities.stringArrayToString(userIds)
 							+ " to Group " + groupId + "|");
-		auditLog.info("Adding Group " + groupId + " to Users");		
+		auditLog.info("Adding Group " + groupId + " to Users");
 	}
 
 
@@ -656,11 +717,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
-		
+
+
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
-			
+
 			HashSet newUsers = new HashSet();
 			for (int k = 0; k < userIds.length; k++) {
 				User user = (User) this.getObjectByPrimaryKey(User.class,
@@ -670,12 +731,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				} catch (EncryptionException e) {
 					throw new CSObjectNotFoundException(e);
 				}
-				
+
 				if (user != null) {
 					newUsers.add(user);
 				}
 			}
-		
+
 			group.setUsers(newUsers);
 			t = s.beginTransaction();
 			s.update(group);
@@ -701,7 +762,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -715,13 +776,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||assignUsersToGroup|Success|Successful in assigning Users "
 							+ StringUtilities.stringArrayToString(userIds)
 							+ " to Group " + groupId + "|");
-		auditLog.info("Assigning Group " + groupId + " to Users");		
+		auditLog.info("Assigning Group " + groupId + " to Users");
 	}
 
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignGroupRoleToProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
@@ -735,8 +796,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
-			
+
+
 			for (int i = 0; i < rolesId.length; i++){
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
@@ -748,12 +809,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			Group group = (Group) s.load(Group.class,new Long(groupId));
 			if(group==null) throw new CSTransactionException("Authorization|||addGroupRoleToProtectionGroup || Unable to retrieve Group with Id :"+groupId);
-						
+
 			Criteria criteria = s
 					.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
 			criteria.add(Restrictions.eq("group", group));
-			
+
 			List list = criteria.list();
 			for(int k=0;k<list.size();k++){
 				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
@@ -799,7 +860,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -818,10 +879,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ protectionGroupId + "|");
 	}
 
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignGroupRoleToProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
@@ -835,8 +896,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
-			
+
+
 			for (int i = 0; i < rolesId.length; i++){
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
@@ -849,13 +910,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
-			
-						
+
+
 			Criteria criteria = s
 					.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
 			criteria.add(Restrictions.eq("group", group));
-			
+
 			List list = criteria.list();
 			t = s.beginTransaction();
 			for(int k=0;k<list.size();k++){
@@ -863,12 +924,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				Role r = ugrpg.getRole();
 				  if(!roles.contains(r)){
 				  	s.delete(ugrpg);
-				  	
+
 				  }else{
 				  	roles.remove(r);
 				  }
 			}
-			
+
 			for(int j=0;j<roles.size();j++){
 				Role leftOverRole = (Role)roles.get(j);
 				UserGroupRoleProtectionGroup toBeSaved = new UserGroupRoleProtectionGroup();
@@ -905,7 +966,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -926,7 +987,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignPrivilegesToRole(java.lang.String[],
 	 *      java.lang.String)
 	 */
@@ -941,9 +1002,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			Role role = (Role) s.load(Role.class,new Long(roleId));
 			if(role==null) throw new CSTransactionException("Authorization|||addPrivilegesToRole|| Unable to retrieve Role with Id :"+roleId);
-			
+
 			Set<Privilege> privs = role.getPrivileges();
-			
+
 			for (int k = 0; k < privilegeIds.length; k++) {
 				boolean assigned = false;
 				if(privilegeIds[k]!=null && privilegeIds[k].length()>0){
@@ -958,7 +1019,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					}
 				}
 			}
-			
+
 			role.setPrivileges(privs);
 			t = s.beginTransaction();
 			s.update(role);
@@ -986,7 +1047,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -1004,7 +1065,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignPrivilegesToRole(java.lang.String[],
 	 *      java.lang.String)
 	 */
@@ -1016,7 +1077,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 					new Long(roleId));
@@ -1059,7 +1120,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -1077,7 +1138,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElements(java.lang.String,
 	 *      java.lang.String[], java.lang.String[])
 	 */
@@ -1151,7 +1212,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -1172,7 +1233,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignProtectionElement(java.lang.String,
 	 *      java.lang.String[])
 	 */
@@ -1186,21 +1247,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignUserRoleToProtectionGroup(java.lang.String,
 	 *      java.lang.String[], java.lang.String)
 	 */
 	public void addUserRoleToProtectionGroup(String userId,
 			String[] rolesId, String protectionGroupId)
 			throws CSTransactionException {
-		
+
 		Session s = null;
 		Transaction t = null;
 		ArrayList roles = new ArrayList();
 
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			for (int i = 0; i < rolesId.length; i++){
 				Role role = (Role) s.load( Role.class,new Long(rolesId[i]));
 				if(role!=null)
@@ -1211,11 +1272,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			User user =(User) s.load(User.class,new Long(userId));
 			if(user==null) throw new CSTransactionException("Authorization|||addUserRoleToProtectionGroup || Unable to retrieve User with ID :"+userId);
-			
+
 			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
 			criteria.add(Restrictions.eq("user", user));
-			
+
 			List list = criteria.list();
 			for(int k=0;k<list.size();k++){
 				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
@@ -1261,7 +1322,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -1282,21 +1343,21 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#assignUserRoleToProtectionGroup(java.lang.String,
 	 *      java.lang.String[], java.lang.String)
 	 */
 	public void assignUserRoleToProtectionGroup(String userId,
 			String[] rolesId, String protectionGroupId)
 			throws CSTransactionException {
-		
+
 		Session s = null;
 		Transaction t = null;
 		ArrayList roles = new ArrayList();
 
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			for (int i = 0; i < rolesId.length; i++){
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
@@ -1313,11 +1374,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			} catch (EncryptionException e) {
 				throw new CSObjectNotFoundException(e);
 			}
-			
+
 			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
 			criteria.add(Restrictions.eq("user", user));
-			
+
 			t = s.beginTransaction();
 			List list = criteria.list();
 			for(int k=0;k<list.size();k++){
@@ -1325,12 +1386,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				Role r = ugrpg.getRole();
 				  if(!roles.contains(r)){
 				  	s.delete(ugrpg);
-				  	
+
 				  }else{
 				  	roles.remove(r);
 				  }
 			}
-			
+
 			for(int j=0;j<roles.size();j++){
 				Role leftOverRole = (Role)roles.get(j);
 				UserGroupRoleProtectionGroup toBeSaved = new UserGroupRoleProtectionGroup();
@@ -1340,7 +1401,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
                 toBeSaved.setUpdateDate(new Date());
                 s.save(toBeSaved);
 			}
-			
+
 			t.commit();
 			s.flush();
 			auditLog.info("Assigning Roles to User " + user.getLoginName() + " for Protection Group " + pgroup.getProtectionGroupName());
@@ -1368,7 +1429,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -1389,7 +1450,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#checkPermission(gov.nih.nci.security.authorization.jaas.AccessPermission,
 	 *      java.lang.String)
 	 */
@@ -1407,7 +1468,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#checkPermission(gov.nih.nci.security.authorization.jaas.AccessPermission,
 	 *      javax.security.auth.Subject)
 	 */
@@ -1442,7 +1503,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#checkPermission(java.lang.String,
 	 *      java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -1461,11 +1522,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(objectId)) {
 			throw new CSException("objectId can't be null!");
 		}
-		
+
 		// Check if cache is enabled for user
 		if (cacheLevel == 1 && localUserOrGroupName.equals(userName))
 			return checkCachedPermission(userName, objectId, attributeName, privilegeName);
-		
+
 		test = this.checkOwnership(userName, objectId);
 		if (test)
 			return true;
@@ -1479,12 +1540,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			connection = s.connection();
-			
 
-			
+
+
 			preparedStatement = Queries.getQueryForUserAndGroupForAttribute(userName,
 					objectId, attributeName, privilegeName, this.application.getApplicationId().intValue(), connection);
-			
+
 			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
@@ -1502,7 +1563,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					+ "|" + ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 				rs.close();
 				preparedStatement.close();
@@ -1531,7 +1592,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(objectId)) {
 			throw new CSException("objectId can't be null!");
 		}
-		
+
 		test = this.checkOwnership(userName, objectId);
 		if (test)
 			return true;
@@ -1544,11 +1605,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = s.connection();
-			
-			
+
+
 			preparedStatement = Queries.getQueryForUserAndGroupForAttributeValue(userName,
 					objectId, attributeName, attributeValue, privilegeName, this.application.getApplicationId().intValue(), connection);
-			
+
 			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
@@ -1566,7 +1627,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					+ "|" + ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 				rs.close();
 				preparedStatement.close();
@@ -1581,7 +1642,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return test;
 	}
 
-	
+
 	public boolean checkPermission(String userName, String objectId,
 			String privilegeName) throws CSException {
 		boolean test = false;
@@ -1595,7 +1656,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		// Check if cache is enabled for user
 		if (cacheLevel == 1 && localUserOrGroupName.equals(userName))
 			return checkCachedPermission(userName, objectId, null, privilegeName);
-		
+
 		test = this.checkOwnership(userName, objectId);
 		if (test)
 			return true;
@@ -1623,7 +1684,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		return test;
 	}
-	
+
 	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String privilegeName) throws CSException
 	{
 		boolean hasAccess = false;
@@ -1632,7 +1693,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Connection connection = null;
-		
+
 		if (StringUtilities.isBlank(groupName)) {
 			throw new CSException("Group name can't be null!");
 		}
@@ -1642,16 +1703,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(privilegeName)) {
 			throw new CSException("Privilege can't be null!");
 		}
-		
+
 		// Check if cache is enabled for group
 		if (cacheLevel == 2 && localUserOrGroupName.equals(groupName))
 			return checkCachedPermission(groupName, objectId, attributeName, privilegeName);
-		
+
 		try {
 
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = session.connection();
-			
+
 			preparedStatement = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, attributeName, privilegeName, this.application.getApplicationId().intValue(),connection);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next())
@@ -1673,7 +1734,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				session.close();
 				resultSet.close();
 				preparedStatement.close();
-				
+
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
@@ -1681,10 +1742,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		if (log.isDebugEnabled())
 			log.debug("Authorization||" + groupName + "|checkPermission|Success|Successful in checking permissions with group id "	+ groupName + " object id: " + objectId	+ " and privilege name " + privilegeName + " and the result is " + hasAccess + "|");
-		
+
 		return hasAccess;
 	}
-	
+
 	public boolean checkPermissionForGroup(String groupName, String objectId, String attributeName, String attributeValue, String privilegeName) throws CSException {
 		boolean hasAccess = false;
 
@@ -1692,7 +1753,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Connection connection = null;
-		
+
 		if (StringUtilities.isBlank(groupName)) {
 			throw new CSException("Group name can't be null!");
 		}
@@ -1702,12 +1763,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(privilegeName)) {
 			throw new CSException("Privilege can't be null!");
 		}
-				
+
 		try {
 
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = session.connection();
-			
+
 			preparedStatement = Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, attributeName, attributeValue, privilegeName, this.application.getApplicationId().intValue(),connection);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next())
@@ -1729,7 +1790,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				session.close();
 				resultSet.close();
 				preparedStatement.close();
-				
+
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermissionForGroup|Failure|Error in Closing Session |" + ex2.getMessage());
@@ -1737,9 +1798,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		if (log.isDebugEnabled())
 			log.debug("Authorization||" + groupName + "|checkPermissionForGroup|Success|Successful in checking permissions with group id "	+ groupName + " object id: " + objectId	+ " and privilege name " + privilegeName + " and the result is " + hasAccess + "|");
-		
+
 		return hasAccess;
-		
+
 	}
 
 	public boolean checkPermissionForGroup(String groupName, String objectId, String privilegeName) throws CSException
@@ -1750,7 +1811,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		PreparedStatement preparedStatement= null;
 		ResultSet resultSet = null;
 		Connection connection = null;
-		
+
 		if (StringUtilities.isBlank(groupName)) {
 			throw new CSException("Group name can't be null!");
 		}
@@ -1760,16 +1821,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		if (StringUtilities.isBlank(privilegeName)) {
 			throw new CSException("Privilege can't be null!");
 		}
-		
+
 		// Check if cache is enabled for group
 		if (cacheLevel == 2 && localUserOrGroupName.equals(groupName))
 			return checkCachedPermission(groupName, objectId, null, privilegeName);
-		
+
 		try {
 
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = session.connection();
-			
+
 			preparedStatement= Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next())
@@ -1791,7 +1852,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				session.close();
 				resultSet.close();
 				preparedStatement.close();
-				
+
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
@@ -1799,14 +1860,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		if (log.isDebugEnabled())
 			log.debug("Authorization||" + groupName + "|checkPermission|Success|Successful in checking permissions with group id "	+ groupName + " object id: " + objectId	+ " and privilege name " + privilegeName + " and the result is " + hasAccess + "|");
-		
+
 		return hasAccess;
 	}
 
 
 	public List getAccessibleGroups(String objectId, String privilegeName) throws CSException
 	{
-	
+
 		return getAccessibleGroups(objectId, null, privilegeName);
 	}
 
@@ -1819,7 +1880,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Connection connection = null;
 		List groupIds = new ArrayList();
 		List groups = null;
-		
+
 		if (StringUtilities.isBlank(objectId)) {
 			throw new CSException("Object Id can't be null!");
 		}
@@ -1828,18 +1889,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		}
 		if (attributeName != null && (attributeName.trim()).equals(""))
 			throw new CSException("Attribute can't be null!");
-		try 
+		try
 		{
 
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = session.connection();
-			
-			
+
+
 			if (null == attributeName)
 				preparedStatement = Queries.getQueryForAccessibleGroups(objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
 			else
 				preparedStatement = Queries.getQueryForAccessibleGroupsWithAttribute(objectId, attributeName, privilegeName, this.application.getApplicationId().intValue(),connection);
-			
+
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next())
 			{
@@ -1850,17 +1911,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				//Group group = (Group) this.getObjectByPrimaryKey(session, Group.class, new Long(groupId));
 				//groups.add(group);
 			}
-			
-			
-			
+
+
+
 			resultSet.close();
 			preparedStatement.close();
-			
+
 			for (int i = 0; i < groupIds.size(); i++) {
 				Group group = (Group) this.getObjectByPrimaryKey(session, Group.class, new Long(groupIds.get(i).toString()));
 				groups.add(group);
 			}
-			
+
 		}
 		catch (Exception e) {
 			throw new CSException("Attribute can't be null!");
@@ -1877,10 +1938,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									+ ex2.getMessage());
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		return groups;
 	}
 
@@ -1900,7 +1961,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			connection = s.connection();
 
-			
+
 
 			preparedStatement = Queries.getQueryForCheckPermissionForUser(userName,	objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
 			rs = preparedStatement.executeQuery();
@@ -1926,7 +1987,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 				rs.close();
 				preparedStatement.close();
@@ -1967,7 +2028,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			connection = s.connection();
 
-			
+
 
 			preparedStatement = Queries.getQueryForCheckPermissionForUserAndGroup(userName, objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
 			//log.debug("The User/Group query is: " + sql);
@@ -1994,7 +2055,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 				rs.close();
 				preparedStatement.close();
@@ -2031,17 +2092,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			connection = s.connection();
-			
+
 			preparedStatement= Queries.getQueryForCheckPermissionForGroup(userName,
 					objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
-			
+
 			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				test = true;
 			}
 			rs.close();
 			preparedStatement.close();
-			
+
 
 		} catch (Exception ex) {
 			log.error(ex);
@@ -2059,7 +2120,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 				rs.close();
 				preparedStatement.close();
@@ -2081,10 +2142,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return test;
 	}
 
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getApplicationContext()
 	 */
 	public ApplicationContext getApplicationContext() {
@@ -2096,7 +2157,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getObjects(gov.nih.nci.security.dao.SearchCriteria)
 	 */
 	public List getObjects(SearchCriteria searchCriteria) {
@@ -2108,20 +2169,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Criteria criteria = s
 					.createCriteria(searchCriteria.getObjectType());
 			Hashtable fieldValues = searchCriteria.getFieldAndValues();
-			Enumeration en = fieldValues.keys();
-			while (en.hasMoreElements()) {
-				String str = (String) en.nextElement();
-				String fieldValue = (String) fieldValues.get(str);
+			Enumeration enKeys= fieldValues.keys();
+			while (enKeys.hasMoreElements()) {
+				String fieldKey = (String) enKeys.nextElement();
+				String fieldValue = (String) fieldValues.get(fieldKey);
 				String fieldValue_ = StringUtilities.replaceInString(
 						fieldValue.trim(), "*", "%");
-				//int i = ((String) fieldValues.get(str)).indexOf("%");
 				int i = fieldValue_.indexOf("%");
 				if (i != -1) {
-					//criteria.add(Restrictions.like(str, fieldValues.get(str)));
-					criteria.add(Restrictions.like(str, fieldValue_));
+					criteria.add(Restrictions.like(fieldKey, fieldValue_));
 				} else {
-					//criteria.add(Restrictions.eq(str, fieldValues.get(str)));
-					criteria.add(Restrictions.eq(str, fieldValue_));
+					criteria.add(Restrictions.eq(fieldKey, fieldValue_));
 				}
 			}
 			if (fieldValues.size() == 0) {
@@ -2130,37 +2188,38 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug("Message from debug: ObjectType="
 					+ searchCriteria.getObjectType().getName());
 
-			//boolean t =
-			// searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User")||searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.Privilege");
-
-			//log.debug("Test:"+t);
-
-			//if(!t){
-			//	criteria.add(Restrictions.eq("application", this.application));
-			//}
-
 			if (!(searchCriteria.getObjectType().getName().equalsIgnoreCase(
 					"gov.nih.nci.security.authorization.domainobjects.User")
 					|| searchCriteria
 							.getObjectType()
 							.getName()
 							.equalsIgnoreCase(
-									"gov.nih.nci.security.authorization.domainobjects.Privilege") || searchCriteria
+									"gov.nih.nci.security.authorization.domainobjects.Privilege") ||
+					searchCriteria
 					.getObjectType()
 					.getName()
 					.equalsIgnoreCase(
-							"gov.nih.nci.security.authorization.domainobjects.Application"))) {
-				criteria.add(Restrictions.eq("application", this.application));
+							"gov.nih.nci.security.authorization.domainobjects.Application") ||
+					searchCriteria
+							.getObjectType()
+							.getName()
+							.equalsIgnoreCase(
+									"gov.nih.nci.security.authorization.domainobjects.ConfigurationProperties")
+
+					)) 
+			{
+					criteria.add(Restrictions.eq("application", this.application));
 			}
 
 			List list =  new ArrayList();
- 			list = criteria.list();			
+ 			list = criteria.list();
+			if (searchCriteria.getObjectType().getName().equalsIgnoreCase("gov.nih.nci.security.authorization.domainobjects.User"))
+			{
+				list = decryptUserInformation(list);
+			}
 			Collections.sort(list);
 			result.clear();
 			result.addAll(list);
-
-			
-					
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -2182,6 +2241,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log
 					.debug("Authorization|||getObjects|Success|Successful in Searching objects from the database |");
 		return result;
+	}
+
+	private List decryptUserInformation(List list) throws CSObjectNotFoundException
+	{
+		Iterator iterator = list.iterator();
+		List userList = new ArrayList();
+		while(iterator.hasNext()){
+			User user = (User) iterator.next();
+			try {
+				user = (User)performEncrytionDecryption(user, false);
+			} catch (EncryptionException e) {
+				throw new CSObjectNotFoundException(e);
+			}
+			userList.add(user);
+		}
+		return userList;
 	}
 
 	private List getObjects(Session s, SearchCriteria searchCriteria) {
@@ -2238,7 +2313,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			result = criteria.list();
 			Collections.sort(result);
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			if (log.isDebugEnabled())
@@ -2251,10 +2326,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.debug("Authorization|||getObjects|Success|Successful in Searching objects from the database |");
 		return result;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getPrincipals(java.lang.String)
 	 */
 	public Principal[] getPrincipals(String userName) {
@@ -2289,13 +2364,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getPrivilege(java.lang.String)
 	 */
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.String)
 	 */
 	public ProtectionElement getProtectionElement(String objectId,
@@ -2365,7 +2440,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionElement(java.lang.String)
 	 */
 	public ProtectionElement getProtectionElement(String objectId)
@@ -2376,7 +2451,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getProtectionGroup(java.lang.String)
 	 */
 	public ProtectionGroup getProtectionGroup(String protectionGroupName)
@@ -2435,7 +2510,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getRole(java.lang.String)
 	 */
 	public Role getRole(String roleName) throws CSObjectNotFoundException {
@@ -2484,7 +2559,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getUser(java.lang.String)
 	 */
 	public User getUser(String loginName) {
@@ -2493,27 +2568,33 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 			User search = new User();
 			search.setLoginName(loginName);
-
+			
 			//String query = "FROM
 			// gov.nih.nci.security.authorization.domianobjects.Application";
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			List list = s.createCriteria(User.class)
-					.add(Example.create(search)).list();
+			
+					
+			SearchCriteria sc = new UserSearchCriteria(search);
+
+			List list = getObjects(sc);
+			
+//			List list = s.createCriteria(User.class)
+//					.add(Example.create(search)).list();
 			//p = (Privilege)s.load(Privilege.class,new Long(privilegeId));
 
 			if (list.size() != 0) {
 				user = (User) list.get(0);
 			}
-			
+/*
 			try {
 				user = (User)performEncrytionDecryption(user, false);
 			} catch (EncryptionException e) {
 				throw new CSObjectNotFoundException(e);
 			}
-			
-			
-			
-		
+*/
+
+
+
 
 		} catch (Exception ex) {
 
@@ -2538,8 +2619,56 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ loginName + "|");
 		return user;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#getUser(java.lang.String)
+	 */
+	public List<User> getUsers() {
+		Session s = null;
+		List<User> list = null;
+		try {
+			log.info("AuthorizationDAOImpl inside getUsers list******");
+			User search = new User();
+			//search.setLoginName(loginName);
+			
+			//String query = "FROM
+			// gov.nih.nci.security.authorization.domianobjects.Application";
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			
+					
+			SearchCriteria sc = new UserSearchCriteria(search);
+
+			list = getObjects(sc);
+			
+
+		} catch (Exception ex) {
+
+			if (log.isDebugEnabled())
+				log.error(
+						"Authorization|||getUser|Failure|Error Occured in Getting User for Name "
+								+ "|", ex);
+
+		} finally {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||getUser|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log
+					.debug("Authorization|||getUser|Success|Success in Getting User for Name "
+							 + "|");
+		return list;
+	}
 	
 	
+
 	public Set getUsers(String groupId) throws CSObjectNotFoundException {
 		//todo
 		Session s = null;
@@ -2550,7 +2679,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
 			users = group.getUsers();
-			
+
 			List list = new ArrayList();
 			Iterator toSortIterator = users.iterator();
 			while(toSortIterator.hasNext()){
@@ -2560,13 +2689,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				} catch (EncryptionException e) {
 					throw new CSObjectNotFoundException(e);
 				}
-				list.add(user); 
-				
+				list.add(user);
+
 			}
 			Collections.sort(list);
 			users.clear();
 			users.addAll(list);
-			
+
 			log.debug("The result size:" + users.size());
 
 		} catch (Exception ex) {
@@ -2596,7 +2725,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 
-	
+
 
 	private Group getGroup(String groupName) {
 		Session s = null;
@@ -2634,7 +2763,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroupFromProtectionGroup(java.lang.String,
 	 *      java.lang.String)
 	 */
@@ -2682,9 +2811,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
-				
+
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -2702,7 +2831,88 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
+	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroupFromProtectionGroup(java.lang.String,
+	 *      java.lang.String)
+	 */
+	public void insertIntoPasswordHistory(String userID, String password) throws CSTransactionException {
+		Session s = null;
+		Transaction t = null;
+		Connection connection = null;
+		boolean recordExists = false;
+		try {
+			
+			s = HibernateSessionFactoryHelper.getAuditSession(sf);
+			t = s.beginTransaction();
+			connection = s.connection();
+			// PV check if the password already exists
+			String sqlSelect = "select * from CSM_PASSWORD_HISTORY where LOGIN_NAME = ? and PASSWORD = ?";
+			PreparedStatement statementSelect = connection.prepareStatement(sqlSelect);
+			statementSelect.setString(1,userID);
+			statementSelect.setString(2,encryptPassword(password,"YES" ));
+			ResultSet rs = statementSelect.executeQuery();
+			auditLog.info("Before select in.... password history tables!!!");
+			while (rs.next()) {
+				auditLog.info("Inside select in.... password history tables!!!");
+				recordExists = true;
+				break;
+			}
+			rs.close();
+			statementSelect.close();
+			// PV
+			if(!recordExists)
+			{
+				String sql = "INSERT INTO CSM_PASSWORD_HISTORY (LOGIN_NAME, PASSWORD) VALUES (?, ?) ";;
+				PreparedStatement statement = connection.prepareStatement(sql);
+				statement = connection.prepareStatement(sql);
+				statement.setString(1, userID);
+				statement.setString(2, encryptPassword(password,"YES" ));
+				int i = statement.executeUpdate();
+				t.commit();
+				s.flush();
+				statement.close();
+				auditLog.info("inserting record into password history tables!!!");
+			}
+			
+		} catch (Exception ex) {
+			log.error(ex);
+			try {
+				t.rollback();
+			} catch (Exception ex3) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||insertIntoPasswordHistory|Failure|Error in Rolling Back Transaction|"
+									+ ex3.getMessage());
+			}
+			if (log.isDebugEnabled())
+				log
+						.debug("Authorization|||insertIntoPasswordHistory|Failure|Error Occured in insert "
+								+ "|" + ex.getMessage());
+			throw new CSTransactionException(
+					"An error occured in while inserting record into insertIntoPasswordHistory\n"
+							+ ex.getMessage(), ex);
+		} finally {
+			
+			try {
+				s.close();
+
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log
+							.debug("Authorization|||insertIntoPasswordHistory|Failure|Error in Closing Session |"
+									+ ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authorization|||insertIntoPasswordHistory|Success|Success in inserting into password history ");
+	}
+	
+	
+	
+	
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeGroupRoleFromProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String[])
 	 */
@@ -2714,37 +2924,37 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			ProtectionGroup pgroup = (ProtectionGroup) this
 			.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 					protectionGroupId));
-			
+
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
-			
-			
-			
+
+
+
 			ArrayList roles = new ArrayList();
 			for (int i = 0; i < rolesId.length; i++) {
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
 				roles.add(role);
 			}
-			
+
 			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
 			criteria.add(Restrictions.eq("group", group));
-	
+
 			List list = criteria.list();
 			t = s.beginTransaction();
 			for(int k=0;k<list.size();k++){
 				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
 				Role r = ugrpg.getRole();
 				if(roles.contains(r)){
-					s.delete(ugrpg);	
+					s.delete(ugrpg);
 				}
 			}
-			
+
 			t.commit();
 			s.flush();
 			auditLog.info("Deassigning Roles From Group " + group.getGroupName() + " for Protection Group " + pgroup.getProtectionGroupName());
@@ -2772,7 +2982,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -2793,13 +3003,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeRole(java.lang.String)
 	 */
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserFromGroup(java.lang.String,
 	 *      java.lang.String)
 	 */
@@ -2811,29 +3021,29 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
 			Group group = (Group) this.getObjectByPrimaryKey(s, Group.class,
 					new Long(groupId));
-			
-			
-			
+
+
+
 			Set groups = user.getGroups();
 			if (groups.contains(group)) {
 				groups.remove(group);
 				user.setGroups(groups);
-				
+
 				try {
 					user = (User)performEncrytionDecryption(user, true);
 				} catch (EncryptionException e) {
 					throw new CSObjectNotFoundException(e);
 				}
-			
-				
+
+
 				t = s.beginTransaction();
 				s.update(user);
-				
+
 				t.commit();
 				s.flush();
 			}else{
@@ -2866,7 +3076,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -2883,7 +3093,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserFromProtectionGroup(java.lang.String,
 	 *      java.lang.String)
 	 */
@@ -2931,8 +3141,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
-				
+
+
 				s.close();
 
 			} catch (Exception ex2) {
@@ -2952,7 +3162,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#removeUserRoleFromProtectionGroup(java.lang.String,
 	 *      java.lang.String, java.lang.String[])
 	 */
@@ -2964,7 +3174,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			ProtectionGroup pgroup = (ProtectionGroup) this
 			.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 					protectionGroupId));
@@ -2973,23 +3183,23 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			new Long(userId));
 			//encrypt password for User.
 			this.performEncrytionDecryption(user,true);
-			
+
 			ArrayList roles = new ArrayList();
 			for (int i = 0; i < rolesId.length; i++) {
 				Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 						new Long(rolesId[i]));
 				roles.add(role);
 			}
-			
-			
+
+
 			Criteria criteria = s.createCriteria(UserGroupRoleProtectionGroup.class);
 			criteria.add(Restrictions.eq("protectionGroup", pgroup));
 			criteria.add(Restrictions.eq("user", user));
 			List list = criteria.list();
-			
-			
+
+
 			t = s.beginTransaction();
-			
+
 			for(int k=0;k<list.size();k++){
 				UserGroupRoleProtectionGroup ugrpg = (UserGroupRoleProtectionGroup)list.get(k);
 				Role r = ugrpg.getRole();
@@ -2997,8 +3207,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				  	s.delete(ugrpg);
 				  }
 			}
-			
-			
+
+
 			t.commit();
 			s.flush();
 
@@ -3025,7 +3235,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3044,7 +3254,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	}
 
 	/**
-	 *  
+	 *
 	 */
 	private User getLightWeightUser(String loginName) {
 		Session s = null;
@@ -3080,7 +3290,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#setOwnerForProtectionElement(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
@@ -3097,12 +3307,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
-			User user = getLightWeightUser(loginName);
-			
-			
 
-			
+			User user = getLightWeightUser(loginName);
+
+
+
+
 			if (user == null) {
 				throw new CSTransactionException("No user found for this login name");
 			}
@@ -3111,14 +3321,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			pe.setApplication(application);
 			if (protectionElementAttributeName != null && protectionElementAttributeName.length() > 0) {
 				pe.setAttribute(protectionElementAttributeName);
-			}			
+			}
 			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
 			List l = this.getObjects(s,sc);
 
 			if (l.size() == 0) {
 				throw new CSTransactionException("No Protection Element found for the given object id and attribute");
 			}
-			
+
 			ProtectionElement protectionElement = (ProtectionElement) l.get(0);
 
 			Set ownerList = protectionElement.getOwners();
@@ -3163,7 +3373,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3184,7 +3394,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#setOwnerForProtectionElement(java.lang.String,
 	 *      java.lang.String)
 	 */
@@ -3197,7 +3407,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSTransactionException("object Id can't be null!");
 		}
 		try {
-			
+
 
 			Set users = new HashSet();
 
@@ -3221,7 +3431,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s.update(protectionElement);
 			t.commit();
 			s.flush();
-			auditLog.info("Assigning Users as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());		
+			auditLog.info("Assigning Users as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -3246,7 +3456,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3272,14 +3482,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Role role = (Role) this.getObjectByPrimaryKey(s, Role.class,
 					new Long(roleId));
 			result = role.getPrivileges();
-			
+
 			List list = new ArrayList();
 			Iterator toSortIterator = result.iterator();
 			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
 			Collections.sort(list);
 			result.clear();
 			result.addAll(list);
-			
+
 			log.debug("The result size is: " + result.size());
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
@@ -3323,14 +3533,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Set pes = new HashSet();
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-		
+
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
-			
-			
-			
+
+
+
 			for (int i = 0; i < protectionElementIds.length; i++) {
 
 				ProtectionElement protectionElement = (ProtectionElement) this
@@ -3369,7 +3579,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3385,22 +3595,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									.stringArrayToString(protectionElementIds)
 							+ " to Protection Group" + protectionGroupId + "|");
 	}
-	
+
 	public void addProtectionElements(String protectionGroupId,
 			String[] protectionElementIds) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		
+
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-		
+
 			ProtectionGroup protectionGroup = (ProtectionGroup) s.load(ProtectionGroup.class,new Long(protectionGroupId));
 			if(protectionGroup==null) throw new CSTransactionException("Authorization|||addProtectionElements|| Unable to retrieve ProtectionGroup with Id :"+protectionGroupId);
-			
-			
+
+
 			Set protectionElementSet = protectionGroup.getProtectionElements();
 			if(protectionElementSet==null) protectionElementSet = new HashSet();
-			
+
 			for (int i = 0; i < protectionElementIds.length; i++) {
 				boolean assigned= false;
 				Iterator iterator = protectionElementSet.iterator();
@@ -3415,7 +3625,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						protectionElementSet.add(protectionElement);
 				}
 			}
-			
+
 			t = s.beginTransaction();
 			s.update(protectionGroup);
 			t.commit();
@@ -3444,7 +3654,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3460,17 +3670,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									.stringArrayToString(protectionElementIds)
 							+ " to Protection Group" + protectionGroupId + "|");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.dao.AuthorizationDAO#deAssignProtectionElements(java.lang.String[],
 	 *      java.lang.String)
 	 */
 	/**
 	 * @param protectionGroupName
 	 * @param protectionElementObjectId
-	 *  
+	 *
 	 */
 	public void deAssignProtectionElements(String protectionGroupName,
 			String protectionElementObjectId)
@@ -3495,7 +3705,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ProtectionGroup protectionGroup = getProtectionGroup(protectionGroupName);
 			ProtectionElement protectionElement = getProtectionElement(
 					protectionElementObjectId, null);
-			
+
 			ProtectionGroup newPG = new ProtectionGroup();
 			newPG.setProtectionGroupId(protectionGroup.getProtectionGroupId());
 			ProtectionElement newPE = new ProtectionElement();
@@ -3511,7 +3721,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			if (list.size() == 0) {
 				throw new CSTransactionException(
 				"Protection Element association to Protection Group does not exist!");
-				
+
 			} else {
 				ProtectionGroupProtectionElement pgpe = (ProtectionGroupProtectionElement) list.iterator().next();
 				s.delete(pgpe);
@@ -3541,7 +3751,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3565,32 +3775,32 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
-		
+
 		Set pgpes = new HashSet();
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 
 			ProtectionGroup protectionGroup = (ProtectionGroup) this
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
 
 			for (int i = 0; i < protectionElementIds.length; i++) {
-				
+
 				ProtectionElement protectionElement = (ProtectionElement) this
 						.getObjectByPrimaryKey(s, ProtectionElement.class,
 								new Long(protectionElementIds[i]));
 
-			
-				
+
+
 				Criteria criteria = s.createCriteria(ProtectionGroupProtectionElement.class);
 				criteria.add(Restrictions.eq("protectionGroup", protectionGroup));
 				criteria.add(Restrictions.eq("protectionElement", protectionElement));
 				List list = criteria.list();
 				if (list !=null && !list.isEmpty()) {
 					Iterator it = list.iterator();
-					while(it.hasNext()) pgpes.add(it.next()); 
-					
+					while(it.hasNext()) pgpes.add(it.next());
+
 				} else {
 					throw new CSTransactionException("This association does not exist!");
 				}
@@ -3628,7 +3838,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3652,13 +3862,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSObjectNotFoundException("The primary key can't be null");
 		}
 		Object obj = s.load(objectType, primaryKey);
-		
+
 		try {
 			obj = performEncrytionDecryption(obj, false);
 		} catch (EncryptionException e) {
 			throw new CSObjectNotFoundException(e);
 		}
-		
+
 
 		if (obj == null) {
 			log
@@ -3685,8 +3895,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			oj = getObjectByPrimaryKey(s, objectType, new Long(primaryKey));
-			
-			
+
+
 
 		} catch (Exception ex) {
 			log
@@ -3746,7 +3956,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -3769,10 +3979,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Application search = new Application();
 			search.setApplicationName(contextName);
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-		
+
 			Query q = s.createQuery("from Application as app where app.applicationName='"+contextName+"'");
 			List list = q.list();
-			
+
 			if (list.size() == 0) {
 				if (log.isDebugEnabled())
 					log
@@ -3784,14 +3994,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						"No Application Found for the given Context Name");
 			}
 			app = (Application) list.get(0);
-			
+
 			//decrypt
-			try {
-				app = (Application) performEncrytionDecryption(app, false);
-			} catch (EncryptionException e) {
-				throw new CSObjectNotFoundException(e);
-			}
-			
+				try {
+					app = (Application) performEncrytionDecryption(app, false);
+				} catch (EncryptionException e) {
+					throw new CSObjectNotFoundException(e);
+				}
+
 			log.debug("Found the Application");
 
 		} catch (GenericJDBCException eex) {
@@ -3801,7 +4011,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								+ contextName
 								+ "||getApplicationByName|Failure|Error in obtaining database connection. Invalid database login credentials in the application hibernate configuration file");
 			throw new CSObjectNotFoundException(" Invalid database login credentials in the application hibernate configuration file.", eex);
-			
+
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log
@@ -3834,7 +4044,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.AuthorizationManager#initialize(java.lang.String)
 	 */
 	public void initialize(String applicationContextName) {
@@ -3844,7 +4054,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see gov.nih.nci.security.UserProvisioningManager#getProtectionGroupRoleContext()
 	 *      We might not implement this method
 	 */
@@ -3856,23 +4066,23 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Connection connection = null;
 		ArrayList pgIds = new ArrayList();
 		try {
-			
+
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			connection = s.connection();
 
 			StringBuffer stbr = new StringBuffer();
-			stbr.append("SELECT distinct ugrp.protection_group_id "); 
+			stbr.append("SELECT distinct ugrp.protection_group_id ");
 			stbr.append("FROM csm_user_group_role_pg  ugrp , csm_protection_group pg ");
 			stbr.append("where ugrp.protection_group_id  = pg.protection_group_id and  ");
 			stbr.append("ugrp.user_id = ?");
 			stbr.append(" and pg.application_id = ?");
-			
+
 			PreparedStatement preparedStatement = connection.prepareStatement(stbr.toString());;
-			int i=1;			
+			int i=1;
 			preparedStatement.setInt(i++,new Integer(userId).intValue());
 			preparedStatement.setInt(i++,this.application.getApplicationId().intValue());
-			
+
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				String pg_id = rs.getString(1);
@@ -3880,7 +4090,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			rs.close();
 			preparedStatement.close();
-			
+
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log
@@ -3900,10 +4110,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									+ ex2.getMessage());
 			}
 		}
-		
+
 		try{
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
+
 			User user = (User) this.getObjectByPrimaryKey(User.class, userId);
 			for (int i = 0; i < pgIds.size(); i++) {
 
@@ -3961,29 +4171,29 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	public Set getProtectionGroupRoleContextForGroup(String groupId)
 			throws CSObjectNotFoundException {
 		Set result = new HashSet();
-		
+
 		Session s = null;
 		Connection connection = null;
 		ArrayList pgIds = new ArrayList();
 		try {
-			
+
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			connection = s.connection();
 
 
 			StringBuffer stbr = new StringBuffer();
-			stbr.append("SELECT distinct ugrp.protection_group_id "); 
+			stbr.append("SELECT distinct ugrp.protection_group_id ");
 			stbr.append("FROM csm_user_group_role_pg  ugrp , csm_group g ");
 			stbr.append("where ugrp.group_id  = g.group_id and  ");
 			stbr.append("ugrp.group_id = ?");
 			stbr.append(" and g.application_id = ?");
 
 			PreparedStatement preparedStatement = connection.prepareStatement(stbr.toString());;
-			int i=1;			
+			int i=1;
 			preparedStatement.setInt(i++,new Integer(groupId).intValue());
 			preparedStatement.setInt(i++,this.application.getApplicationId().intValue());
-			
+
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -4002,9 +4212,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		}finally {
 			try {
-				
+
 				s.close();
-				
+
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -4012,7 +4222,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									+ ex2.getMessage());
 			}
 		}
-			
+
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			Group group = (Group) this.getObjectByPrimaryKey(Group.class,
@@ -4080,25 +4290,25 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		
+
 		String currPEId = null;
 		String prevPEId = null;
 
 		String currPrivilegeId = null;
 		Set privileges = null;
 		Privilege privilege = null;
-		
+
 		List peList = new ArrayList();
 		List privList = new ArrayList();
-		
+
 		boolean firstTime = true;
 		ProtectionElementPrivilegeContext protectionElementPrivilegeContext = null;
-		
+
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = s.connection();
-			
+
 			preparedStatement= Queries.getQueryforUserPEPrivilegeMap(userId, this.application.getApplicationId().intValue(),connection);
 
 			rs = preparedStatement.executeQuery();
@@ -4106,17 +4316,17 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			while(rs.next()){
 				peList.add(rs.getString(1));
 				privList.add(rs.getString(2));
-				
+
 			}
-			
+
 			Iterator currPEIdIterator = peList.iterator();
 			Iterator currPrivilegeIdIterator = privList.iterator();
-			
+
 			while(currPEIdIterator.hasNext()){
-				
+
 				currPEId = (String)currPEIdIterator.next();
 				currPrivilegeId = (String)currPrivilegeIdIterator.next();
-				
+
 				if (!currPEId.equals(prevPEId))
 				{
 					protectionElementPrivilegeContext = new ProtectionElementPrivilegeContext();
@@ -4138,8 +4348,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}
 				privileges.add(privilege);
 			}
-			
-			
+
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			if (log.isDebugEnabled())
@@ -4148,7 +4358,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				preparedStatement.close();
 				rs.close();
-				
+
 			} catch (Exception ex2) {
 			}
 
@@ -4173,44 +4383,44 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		
+
 		String currPEId = null;
 		String prevPEId = null;
 
 		String currPrivilegeId = null;
 		Set privileges = null;
 		Privilege privilege = null;
-		
+
 		List peList = new ArrayList();
 		List privList = new ArrayList();
 
 		boolean firstTime = true;
 		ProtectionElementPrivilegeContext protectionElementPrivilegeContext = null;
-		
+
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			connection = s.connection();
 
 			preparedStatement = Queries.getQueryforGroupPEPrivilegeMap(groupId, this.application.getApplicationId().intValue(),connection);
-			
+
 			rs = preparedStatement.executeQuery();
-			
+
 			while(rs.next()){
 				peList.add(rs.getString(1));
 				privList.add(rs.getString(2));
-				
+
 			}
-			
+
 			Iterator currPEIdIterator = peList.iterator();
 			Iterator currPrivilegeIdIterator = privList.iterator();
-			
+
 			while(currPEIdIterator.hasNext()){
-				
+
 				currPEId = (String)currPEIdIterator.next();
 				currPrivilegeId = (String)currPrivilegeIdIterator.next();
 
-				
+
 				if (!currPEId.equals(prevPEId))
 				{
 					protectionElementPrivilegeContext = new ProtectionElementPrivilegeContext();
@@ -4240,7 +4450,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				preparedStatement.close();
 				rs.close();
-				
+
 			} catch (Exception ex2) {
 			}
 
@@ -4255,7 +4465,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug("Authorization|||getProtectionElementPrivilegeContextForGroup|Success|Successful in Obtaining the PE Privileges Map|");
 		return protectionElementPrivilegeContextSet;
 	}
-	
+
 	public void modifyObject(Object obj) throws CSTransactionException {
 		Session s = null;
 		Transaction t = null;
@@ -4263,7 +4473,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 
-			
+
 			try {
 				obj = performEncrytionDecryption(obj, true);
 			} catch (EncryptionException e) {
@@ -4274,13 +4484,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}catch(Exception e){
 				throw new CSObjectNotFoundException(e);
 			}
-			
-			
+
+
 			s.update(obj);
 			t.commit();
 			s.flush();
 			auditLog.info("Updating the " + obj.getClass().getName().substring(obj.getClass().getName().lastIndexOf(".")+1) + " Object ");
-		} 
+		}
 		catch (PropertyValueException pve)
 		{
 			try {
@@ -4331,7 +4541,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									.getName()) + "\n" + ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -4347,7 +4557,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 	}
 
-	
+
 
 	public Application getApplication() {
 		return this.application;
@@ -4357,29 +4567,29 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 		Transaction t = null;
 		try {
-			
+
 			try {
 				obj = performEncrytionDecryption(obj, true);
 			} catch (EncryptionException e) {
 				throw new CSObjectNotFoundException(e);
 			}
-			
-			
+
+
 			try{
 				obj = ObjectUpdater.trimObjectsStringFieldValues(obj);
 			}catch(Exception e){
 				throw new CSObjectNotFoundException(e);
 			}
-			
-				
-			
+
+
+
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			s.save(obj);
 			t.commit();
 			s.flush();
-			auditLog.info("Creating the " + obj.getClass().getName().substring(obj.getClass().getName().lastIndexOf(".")+1) + " Object ");			
-		} 
+			auditLog.info("Creating the " + obj.getClass().getName().substring(obj.getClass().getName().lastIndexOf(".")+1) + " Object ");
+		}
 		catch (PropertyValueException pve)
 		{
 			try {
@@ -4407,7 +4617,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						.debug("Authorization|||createObject|Failure|Error in Rolling Back Transaction|" + cve.getMessage());
 			throw new CSTransactionException(
 					"An error occured in creating the "	+ StringUtilities.getClassName(obj.getClass().getName()) + ".\n" + " Duplicate entry was found in the database for the entered data" , cve);
-		}		
+		}
 		catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -4430,7 +4640,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 									.getName()) + "\n" + ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -4462,15 +4672,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			User user = (User) this.getObjectByPrimaryKey(s, User.class,
 					new Long(userId));
 			groups = user.getGroups();
-			
-			
+
+
 			Iterator groupIterator = groups.iterator();
 			Set removedGroups = new HashSet();
 			while(groupIterator.hasNext()){
 				Group g = (Group)groupIterator.next();
 				if( g.getApplication().getApplicationId().intValue() != this.application.getApplicationId().intValue()){
 					removedGroups.add(g);
-				}	
+				}
 			}
 			groups.removeAll(removedGroups);
 			List list = new ArrayList();
@@ -4479,7 +4689,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			Collections.sort(list);
 			groups.clear();
 			groups.addAll(list);
-			
+
 			log.debug("The result size:" + groups.size());
 
 		} catch (Exception ex) {
@@ -4519,14 +4729,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							protectionGroupId));
 			result = protectionGroup.getProtectionElements();
-			
+
 			List list = new ArrayList();
 			Iterator toSortIterator = result.iterator();
 			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
 			Collections.sort(list);
 			result.clear();
 			result.addAll(list);
-			
+
 			log.debug("The result size is: " + result.size());
 
 		} catch (Exception ex) {
@@ -4567,14 +4777,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getObjectByPrimaryKey(s, ProtectionElement.class,
 							new Long(protectionElementId));
 			result = protectionElement.getProtectionGroups();
-			
+
 			List list = new ArrayList();
 			Iterator toSortIterator = result.iterator();
 			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
 			Collections.sort(list);
 			result.clear();
 			result.addAll(list);
-			
+
 			log.debug("The result size:" + result.size());
 
 		} catch (Exception ex) {
@@ -4612,7 +4822,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ProtectionElement protectionElement = (ProtectionElement) s.load(ProtectionElement.class,new Long(protectionElementId));
 			if(protectionElement==null)
 				throw new CSTransactionException("Authorization|||addToProtectionGroups|| Unable to retrieve Protection Element with ProtectionElementId :"+protectionElementId);
-			
+
 			Set<ProtectionGroup> protectionGroups = protectionElement.getProtectionGroups();
 			if(protectionGroups==null)
 				protectionGroups = new HashSet();
@@ -4631,10 +4841,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					}
 				}
 			}
-			
-			
+
+
 			protectionElement.setProtectionGroups(protectionGroups);
-			
+
 			t = s.beginTransaction();
 			s.update(protectionElement);
 			t.commit();
@@ -4662,7 +4872,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -4680,7 +4890,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ protectionElementId + "|");
 	}
 
-	
+
 	public void assignToProtectionGroups(String protectionElementId,
 			String[] protectionGroupIds) throws CSTransactionException {
 		Session s = null;
@@ -4691,7 +4901,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			ProtectionElement protectionElement = (ProtectionElement) this
 			.getObjectByPrimaryKey(s, ProtectionElement.class,
 					new Long(protectionElementId));
-			
+
 			s.close();
 
 			Set newSet = new HashSet();
@@ -4734,7 +4944,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -4765,8 +4975,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					.getObjectByPrimaryKey(s, ProtectionGroup.class, new Long(
 							childProtectionGroupId));
 
-			
-			
+
+
 			if (parentProtectionGroupId != null) {
 				parent = (ProtectionGroup) this.getObjectByPrimaryKey(s,
 						ProtectionGroup.class,
@@ -4776,13 +4986,13 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 
 			child.setParentProtectionGroup(parent);
-		
-		
+
+
 			t = s.beginTransaction();
 			s.update(child);
 			t.commit();
 			s.flush();
-			if ( parent == null ) 
+			if ( parent == null )
 			{
 				auditLog.info("Parent of Protection Group " + child.getProtectionGroupName() + " successfully removed");
 			}
@@ -4813,7 +5023,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -4845,9 +5055,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			connection = s.connection();
 
-			
+
 			preparedStatement= Queries.getQueryForObjectMap(loginName,objectTypeName,privilegeName,this.application.getApplicationId().intValue(),connection);
-			
+
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -4865,10 +5075,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								+ ex.getMessage());
 		} finally {
 			try {
-				
+
 				preparedStatement.close();
 				rs.close();
-				
+
 			} catch (Exception ex2) {
 				ex2.printStackTrace();
 			}
@@ -4899,7 +5109,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Field[] fields = obj.getClass().getDeclaredFields();
 		for (int i=0; i < fields.length; i++)
 		{
-			if (fields[i].getType().isPrimitive()) 
+			if (fields[i].getType().isPrimitive())
 				throw new CSException("The Object to be secured does not follow Java Bean Specification");
 		}
 		try {
@@ -4908,8 +5118,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName, "READ");
-			
-			
+
+
 
 			log.debug(accessMap.toString());
 
@@ -5030,8 +5240,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			log.debug(cl.getName());
 			ObjectAccessMap accessMap = this.getObjectAccessMap(cl.getName(),
 					userName, "UPDATE");
-             
-			
+
+
 			//o = cl.newInstance();
 			Method methods[] = cl.getDeclaredMethods();
 
@@ -5087,7 +5297,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Session s = null;
 
 		Set result = new TreeSet();
-		
+
 		try {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			ProtectionElement protectionElement = (ProtectionElement) this
@@ -5095,15 +5305,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							new Long(protectionElementId));
 
 			Set reresult = protectionElement.getOwners();
-			
+
 			List list = new ArrayList();
 			Iterator toSortIterator = reresult.iterator();
 			while(toSortIterator.hasNext()){ list.add(toSortIterator.next()); }
-			
+
 			Collections.sort(list);
 			result.addAll(list);
-			
-			
+
+
 			log.debug("The result size is: " + result.size());
 
 		} catch (Exception ex) {
@@ -5130,20 +5340,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ protectionElementId + "|");
 		return result;
 	}
-	
+
 	public void addOwners(String protectionElementId, String[] userIds) throws CSTransactionException{
 
 		Session s = null;
 		Transaction t = null;
-		
+
 		try {
-			
+
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			ProtectionElement protectionElement = (ProtectionElement) s.load(ProtectionElement.class,Long.parseLong(protectionElementId));
 			if(protectionElement==null) throw new CSTransactionException("Authorization|||addOwners|| Unable to retrieve ProtectionElement with Id :"+protectionElementId);
 			Set userSet = protectionElement.getOwners();
 			if(userSet==null) userSet=new HashSet();
-			
+
 			for (int i = 0; i < userIds.length; i++) {
 				boolean assigned= false;
 				Iterator iterator = userSet.iterator();
@@ -5158,7 +5368,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						userSet.add(user);
 				}
 			}
-			
+
 			t = s.beginTransaction();
 			s.update(protectionElement);
 			t.commit();
@@ -5185,7 +5395,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -5210,7 +5420,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Transaction t = null;
 
 		try {
-			
+
 
 			Set users = new HashSet();
 
@@ -5251,7 +5461,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -5286,15 +5496,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			stbr
 					.append("Select  user_protection_element_id from"
 							+ " csm_user_pe upe, csm_user u, csm_protection_element pe"
-							+ " where pe.object_id = ?  and u.login_name = ?" 
+							+ " where pe.object_id = ?  and u.login_name = ?"
 							+ " and upe.protection_element_id=pe.protection_element_id"
 							+ " and upe.user_id = u.user_id");
 
 			preparedStatement = connection.prepareStatement(stbr.toString());;
-			int i=1;			
+			int i=1;
 			preparedStatement.setString(i++,protectionElementObjectId);
 			preparedStatement.setString(i++,userName);
-			
+
 			rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				test = true;
@@ -5313,7 +5523,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			try {
 				rs.close();
 				preparedStatement.close();
-				
+
 
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -5363,7 +5573,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 
 			connection = s.connection();
-			
+
 
 			StringBuffer stbr = new StringBuffer();
 			stbr.append(" select distinct(p.privilege_name)");
@@ -5420,11 +5630,11 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				ObjectPrivilegeMap opm = new ObjectPrivilegeMap(pe, privs);
 				result.add(opm);
 			}
-			
+
 			//Collections.sort(result);
 
 			pstmt.close();
-			
+
 		} catch (Exception ex) {
 			if (log.isDebugEnabled())
 				log.debug("Failed to get privileges for " + userName + "|"
@@ -5437,7 +5647,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				s.close();
 				rs.close();
 				pstmt.close();
-				
+
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
 					log
@@ -5449,26 +5659,56 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		return result;
 	}
 
-	
+
 	private Object performEncrytionDecryption(Object obj, boolean encrypt) throws EncryptionException {
-		
+
 		if(obj instanceof User){
 			User user = (User)obj;
-			
-			if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(user.getPassword()).length()>0){
+			//if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(user.getPassword()).length()>0){
+			if(this.isEncryptionEnabled){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
+					if(user.getPassword() != null && !user.getPassword().equals("") )
 					user.setPassword(stringEncrypter.encrypt(user.getPassword().trim()));
+					if(user.getFirstName() != null && !user.getFirstName().equals("") )
+						user.setFirstName(stringEncrypter.encrypt(user.getFirstName().trim()));
+					if(user.getLastName() != null && !user.getLastName().equals("") )
+						user.setLastName(stringEncrypter.encrypt(user.getLastName().trim()));
+					if(user.getOrganization() != null && !user.getOrganization().equals("") )
+						user.setOrganization(stringEncrypter.encrypt(user.getOrganization().trim()));
+					if(user.getDepartment() != null && !user.getDepartment().equals("") )
+						user.setDepartment(stringEncrypter.encrypt(user.getDepartment().trim()));
+					if(user.getTitle() != null && !user.getTitle().equals("") )
+						user.setTitle(stringEncrypter.encrypt(user.getTitle().trim()));
+					if(user.getPhoneNumber() != null && !user.getPhoneNumber().equals("") )
+						user.setPhoneNumber(stringEncrypter.encrypt(user.getPhoneNumber().trim()));
+					if(user.getEmailId() != null && !user.getEmailId().equals("") )
+						user.setEmailId(stringEncrypter.encrypt(user.getEmailId().trim()));
 				}else{
+					if(user.getPassword() != null && !user.getPassword().equals("") )
 					user.setPassword(stringEncrypter.decrypt(user.getPassword().trim()));
+					if(user.getFirstName() != null && !user.getFirstName().equals("") )
+						user.setFirstName(stringEncrypter.decrypt(user.getFirstName().trim()));
+					if(user.getLastName() != null && !user.getLastName().equals("") )
+						user.setLastName(stringEncrypter.decrypt(user.getLastName().trim()));
+					if(user.getOrganization() != null && !user.getOrganization().equals("") )
+						user.setOrganization(stringEncrypter.decrypt(user.getOrganization().trim()));
+					if(user.getDepartment() != null && !user.getDepartment().equals("") )
+						user.setDepartment(stringEncrypter.decrypt(user.getDepartment().trim()));
+					if(user.getTitle() != null && !user.getTitle().equals("") )
+						user.setTitle(stringEncrypter.decrypt(user.getTitle().trim()));
+					if(user.getPhoneNumber() != null && !user.getPhoneNumber().equals("") )
+						user.setPhoneNumber(stringEncrypter.decrypt(user.getPhoneNumber().trim()));
+					if(user.getEmailId() != null && !user.getEmailId().equals("") )
+						user.setEmailId(stringEncrypter.decrypt(user.getEmailId().trim()));
 				}
 			}
 			return user;
 		}
-		
+
 		if(obj instanceof Application){
 			Application application = (Application)obj;
-			
+
 			if(this.isEncryptionEnabled && StringUtilities.initTrimmedString(application.getDatabasePassword()).length()>0){
 				StringEncrypter stringEncrypter = new StringEncrypter();
 				if(encrypt){
@@ -5479,15 +5719,15 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			return application;
 		}
-		
-		return obj;		
+
+		return obj;
 	}
 
 	public Application getApplication(String applicationContextName) throws CSObjectNotFoundException
 	{
 		return getApplicationByName(applicationContextName);
 	}
-	
+
 	public void removeOwnerForProtectionElement(String loginName, String protectionElementObjectId, String protectionElementAttributeName)	throws CSTransactionException {
 
 		Session s = null;
@@ -5501,12 +5741,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		try {
 
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
-			
-			User user = getLightWeightUser(loginName);
-			
-			
 
-			
+			User user = getLightWeightUser(loginName);
+
+
+
+
 			if (user == null) {
 				throw new CSTransactionException("No user found for this login name");
 			}
@@ -5515,14 +5755,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			pe.setApplication(application);
 			if (protectionElementAttributeName != null && protectionElementAttributeName.length() > 0) {
 				pe.setAttribute(protectionElementAttributeName);
-			}			
+			}
 			SearchCriteria sc = new ProtectionElementSearchCriteria(pe);
 			List l = this.getObjects(s,sc);
 
 			if (l.size() == 0) {
 				throw new CSTransactionException("No Protection Element found for the given object id and attribute");
 			}
-			
+
 			ProtectionElement protectionElement = (ProtectionElement) l.get(0);
 
 			Set ownerList = protectionElement.getOwners();
@@ -5567,7 +5807,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -5585,7 +5825,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ " for user "
 							+ loginName + "|");
 	}
-	
+
 	public void removeOwnerForProtectionElement(String protectionElementObjectId,
 			String[] userNames) throws CSTransactionException {
 
@@ -5595,7 +5835,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			throw new CSTransactionException("object Id can't be null!");
 		}
 		try {
-			
+
 
 			Set users = new HashSet();
 
@@ -5625,14 +5865,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					}
 				}
 			}
-			
+
 			protectionElement.setOwners(ownerList);
 			s = HibernateSessionFactoryHelper.getAuditSession(sf);
 			t = s.beginTransaction();
 			s.update(protectionElement);
 			t.commit();
 			s.flush();
-			auditLog.info("Removing Users as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());		
+			auditLog.info("Removing Users as Owner for Protection Element with Object Id " + protectionElement.getObjectId() + " and Attribute " + protectionElement.getAttribute());
 		} catch (Exception ex) {
 			log.error(ex);
 			try {
@@ -5657,7 +5897,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							+ ex.getMessage(), ex);
 		} finally {
 			try {
-				
+
 				s.close();
 			} catch (Exception ex2) {
 				if (log.isDebugEnabled())
@@ -5679,12 +5919,12 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 	{
 		List attributeList = new ArrayList();
 		ResultSet resultSet = null;
-		
+
 		Session session = HibernateSessionFactoryHelper.getAuditSession(sf);
 		Connection connection = session.connection();
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try
 		{
 			preparedStatement = Queries.getQueryforUserAttributeMap(userName, className, privilegeName, this.application.getApplicationId().intValue(),connection);
@@ -5692,52 +5932,52 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			while(resultSet.next())
 			{
-				attributeList.add(resultSet.getString(1));				
+				attributeList.add(resultSet.getString(1));
 			}
-		} 
-		catch (Exception ex) 
+		}
+		catch (Exception ex)
 		{
 			ex.printStackTrace();
 			if (log.isDebugEnabled())
 				log.debug("Authorization|||getAttributeMap|Failure|Error in Obtaining the Attribute Map|" + ex.getMessage());
-		} 
-		finally 
+		}
+		finally
 		{
-			try 
+			try
 			{
 				preparedStatement.close();
 				resultSet.close();
-			} 
-			catch (Exception ex2) 
+			}
+			catch (Exception ex2)
 			{
 			}
-			try 
+			try
 			{
 				session.close();
-			} 
-			catch (Exception ex2) 
+			}
+			catch (Exception ex2)
 			{
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||getAttributeMap|Failure|Error in Closing Session |" + ex2.getMessage());
 			}
 		}
-		
+
 		if (log.isDebugEnabled())
 			log.debug("Authorization|||getAttributeMap|Success|Successful in Obtaining the Attribute Map|");
-		return attributeList; 		
+		return attributeList;
 	}
 
 	public List getAttributeMapForGroup(String groupName, String className, String privilegeName)
 	{
-		
+
 		List attributeList = new ArrayList();
 		ResultSet resultSet = null;
-		
+
 		Session session = HibernateSessionFactoryHelper.getAuditSession(sf);
 		Connection connection = session.connection();
-		
+
 		PreparedStatement preparedStatement = null;
-		
+
 		try
 		{
 			preparedStatement = Queries.getQueryforGroupAttributeMap(groupName, className, privilegeName, this.application.getApplicationId().intValue(),connection);
@@ -5745,46 +5985,46 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			while(resultSet.next())
 			{
-				attributeList.add(resultSet.getString(1));				
+				attributeList.add(resultSet.getString(1));
 			}
-		} 
-		catch (Exception ex) 
+		}
+		catch (Exception ex)
 		{
 			ex.printStackTrace();
 			if (log.isDebugEnabled())
 				log.debug("Authorization|||getAttributeMapForGroups|Failure|Error in Obtaining the Attribute Map|" + ex.getMessage());
-		} 
-		finally 
+		}
+		finally
 		{
-			try 
+			try
 			{
 				preparedStatement.close();
 				resultSet.close();
-			} 
-			catch (Exception ex2) 
+			}
+			catch (Exception ex2)
 			{
 			}
-			try 
+			try
 			{
 				session.close();
-			} 
-			catch (Exception ex2) 
+			}
+			catch (Exception ex2)
 			{
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||getAttributeMapForGroups|Failure|Error in Closing Session |" + ex2.getMessage());
 			}
 		}
-		
+
 		if (log.isDebugEnabled())
 			log.debug("Authorization|||getAttributeMapForGroups|Success|Successful in Obtaining the Attribute Map|");
-		return attributeList; 		
+		return attributeList;
 	}
 
 	public void refreshInstanceTables(boolean instanceLevelSecurityForUser) throws CSObjectNotFoundException, CSDataAccessException {
-	
-		
-		
-		
+
+
+
+
 		//Get Mapping Table Entries for Instance Level Security performance.
 		InstanceLevelMappingElement mappingElement = new InstanceLevelMappingElement();
 		List<InstanceLevelMappingElement> mappingElements = getObjects(new InstanceLevelMappingElementSearchCriteria(mappingElement));
@@ -5800,14 +6040,14 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Connection connection = null;
 
 		try{
-			
+
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			transaction = session.beginTransaction();
 			//transaction.setTimeout(10000);
 			connection = session.connection();
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
-			
+
 			Iterator mappingElementsIterator = mappingElements.iterator();
 			while(mappingElementsIterator.hasNext()){
 				InstanceLevelMappingElement instanceLevelMappingEntry = (InstanceLevelMappingElement) mappingElementsIterator.next();
@@ -5815,18 +6055,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					if(instanceLevelMappingEntry.getActiveFlag()==0){
 						// Not active, so ignore this Object + Attribute from refresh logic.
 						continue;
-					}	
+					}
 					if( !StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getAttributeName()) || !StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectName()) ){
 							//Mapping Entry is invalid.
 							throw new CSObjectNotFoundException("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
-					}	
+					}
 				}else{
 					//Mapping Entry is invalid.
 					continue;
 					//throw new Exception("Invalid Instance Level Mapping Element. Instance Level Security breach is possible.");
 				}
 				//get the Table Name and View Name for each object.
-				
+
 				String applicationID = this.application.getApplicationId().toString();
 				String peiTableName,tableNameUser,viewNameUser ,tableNameGroup,viewNameGroup = null;
 				String peiObjectId = null;
@@ -5835,16 +6075,16 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}else{
 					peiObjectId = instanceLevelMappingEntry.getObjectPackageName().trim()+"."+ instanceLevelMappingEntry.getObjectName().trim();
 				}
-				
+
 				String peiAttribute = instanceLevelMappingEntry.getAttributeName().trim();
-				
-				
+
+
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableName())){
 					peiTableName = "CSM_PEI_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();
 				}else{
 					peiTableName = instanceLevelMappingEntry.getTableName();
 				}
-				
+
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser())){
 					tableNameUser= "CSM_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_USER";
 				}else{
@@ -5865,18 +6105,18 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}else{
 					viewNameGroup = instanceLevelMappingEntry.getViewNameForGroup();
 				}
-				
-	
-				/* Optional: Add Additional checks regarding Table and View record count. 
-				 * At the time of delete, if the MINUS is close to or greater than 50% of the records of the Table, 
+
+
+				/* Optional: Add Additional checks regarding Table and View record count.
+				 * At the time of delete, if the MINUS is close to or greater than 50% of the records of the Table,
 	             * then truncate table instead of deleting using delete statement.
 	             *
-	             * Note: No buffering until real tests warrant buffering. 
+	             * Note: No buffering until real tests warrant buffering.
 				 */
-				
+
 				byte activeFlag = instanceLevelMappingEntry.getActiveFlag();
-				if(activeFlag==1){	
-					
+				if(activeFlag==1){
+
 					//refresh PEI Table
 					statement.addBatch("alter table "+peiTableName+" disable keys");
 					statement.addBatch("truncate "+peiTableName);
@@ -5885,7 +6125,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							"	 not in (" +
 							"	 select pe.protection_element_id from csm_protection_element pe" +
 							"    where pe.object_id = '"+peiObjectId+"' and  pe.attribute = '"+peiAttribute+"' and  pe.application_id = "+applicationID+" )");
-					
+
 					statement.executeBatch();
 					statement.addBatch("insert into "+peiTableName+" (protection_element_id, attribute_value, application_id) " +
 							"		select protection_element_id, attribute_value,application_id from csm_protection_element pe" +
@@ -5893,10 +6133,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" 		 and pe.attribute_value is not null ");
 							//"and protection_element_id not in (select protection_element_id from "+peiTableName+" )");
 					statement.addBatch("alter table "+peiTableName+" enable keys");
-					
+
 					statement.executeBatch();
-					
-					
+
+
 					if(instanceLevelSecurityForUser){
 						statement.addBatch("alter table "+tableNameUser+" disable keys");
 						statement.addBatch("truncate "+tableNameUser);
@@ -5905,7 +6145,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								"	 not in (" +
 								"	 select user_id,privilege_name,attribute_value,application_id from "+viewNameUser+
 								     ");");*/
-						
+
 						statement.executeBatch();
 						statement.addBatch("insert into "+tableNameUser+" (user_id,login_name,privilege_name,attribute_value,application_id) " +
 								"		select distinct user_id,login_name,privilege_name,attribute_value,application_id from "+viewNameUser+" " +
@@ -5913,7 +6153,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						/*and (user_id,privilege_name,attribute_value,application_id) " +
 								"			not in ( select user_id,privilege_name,attribute_value,application_id from "+tableNameUser+" )");*/
 						statement.addBatch("alter table "+tableNameUser+" enable keys");
-						
+
 						statement.executeBatch();
 					}else{
 						statement.addBatch("alter table "+tableNameGroup+" disable keys");
@@ -5923,7 +6163,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 								"	 not in (" +
 								"	 select group_id,privilege_name,attribute_value,application_id from "+viewNameGroup+
 								     ")");*/
-						
+
 						statement.addBatch("insert into "+tableNameGroup+" (group_id,group_name,privilege_name,attribute_value,application_id) " +
 								"		select distinct group_id,group_name,privilege_name,attribute_value,application_id from "+viewNameGroup+" " +
 								"		where attribute_value is not null");
@@ -5933,9 +6173,9 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 						statement.addBatch("alter table "+tableNameGroup+" enable keys");
 						statement.executeBatch();
 					}
-				}				
+				}
 			}
-				
+
 			transaction.commit();
 			statement.close();
 		}catch(CSObjectNotFoundException e1){
@@ -5963,23 +6203,23 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 			}
 			throw new CSDataAccessException("Unable to perform data refresh for instance level security.");
 		}
-		finally 
+		finally
 		{
 			try{
 				connection.close();
-			}catch (Exception ex2) 
+			}catch (Exception ex2)
 			{ }
-			try{ 
+			try{
 				session.close();
-			}catch (Exception ex2) 
+			}catch (Exception ex2)
 			{
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||refreshInstanceTables|Failure|Error in Closing Session |" + ex2.getMessage());
 			}
 		}
 	}
-	
-	
+
+
 
 	public void maintainInstanceTables(String instanceLevelMappingElementId) throws CSObjectNotFoundException, CSDataAccessException {
 //		Get Mapping Table Entries for Instance Level Security performance.
@@ -6000,22 +6240,22 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 		Connection connection = null;
 
 		try{
-			
+
 			session = HibernateSessionFactoryHelper.getAuditSession(sf);
 			transaction = session.beginTransaction();
 			connection = session.connection();
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
-			
+
 			//create view CSM_VW_ROLE_PRIV
 			statement.addBatch("   create or replace view csm_vw_role_priv"
 								+" as"
 								+" select crp.role_id, substr(cp.privilege_name, 1, 30) privilege_name, cr.application_id"
 								+" from csm_role_privilege crp, csm_privilege cp, csm_role cr"
-								+" where crp.role_id = cr.role_id and crp.privilege_id = cp.privilege_id" 
+								+" where crp.role_id = cr.role_id and crp.privilege_id = cp.privilege_id"
 								+" and cr.active_flag = 1");
 
-			
+
 			Iterator mappingElementsIterator = mappingElements.iterator();
 			while(mappingElementsIterator.hasNext()){
 				InstanceLevelMappingElement instanceLevelMappingEntry = (InstanceLevelMappingElement) mappingElementsIterator.next();
@@ -6023,10 +6263,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 					if(instanceLevelMappingEntry.getActiveFlag()==0){
 						// Not active, so ignore this Object + Attribute from table/view maintain logic.
 						continue;
-					}	
-					if( StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getAttributeName()) && StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectName()) ){ 
+					}
+					if( StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getAttributeName()) && StringUtilities.isAlphaNumeric(instanceLevelMappingEntry.getObjectName()) ){
 						//Mapping Entry is valid.
-						
+
 					}else{
 						//	Mapping Entry is invalid.
 						//ignore this mapping element.
@@ -6040,20 +6280,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				//mark this mappging entry is maintained.
 				statement.addBatch("update csm_mapping set maintained_flag = '1' " +
 						"where mapping_id = "+instanceLevelMappingEntry.getMappingId());
-							
+
 				//get the Table Name and View Name for each object.
-				
+
 				String peiTableName,tableNameUser,viewNameUser ,tableNameGroup,viewNameGroup = null;
-				
-				
+
+
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableName())){
-					peiTableName = "csm_pei_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();	
+					peiTableName = "csm_pei_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName();
 				}else{
 					peiTableName = instanceLevelMappingEntry.getTableName();
-				}			
+				}
 				if(StringUtilities.isBlank(instanceLevelMappingEntry.getTableNameForUser())){
 					tableNameUser= "csm_"+instanceLevelMappingEntry.getObjectName()+"_"+instanceLevelMappingEntry.getAttributeName()+"_user";
-					
+
 				}else{
 					tableNameUser = instanceLevelMappingEntry.getTableNameForUser();
 				}
@@ -6072,20 +6312,20 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 				}else{
 					viewNameGroup = instanceLevelMappingEntry.getViewNameForGroup();
 				}
-				
-	
-				/* Optional: Add Additional checks regarding Table and View record count. 
-				 * At the time of delete, if the MINUS is close to or greater than 50% of the records of the Table, 
+
+
+				/* Optional: Add Additional checks regarding Table and View record count.
+				 * At the time of delete, if the MINUS is close to or greater than 50% of the records of the Table,
 	             * then truncate table instead of deleting using delete statement.
 	             *
-	             * Note: No buffering until real tests warrant buffering. 
+	             * Note: No buffering until real tests warrant buffering.
 				 */
-				
+
 				byte activeFlag = instanceLevelMappingEntry.getActiveFlag();
-				if(activeFlag==1){	
-					
-					
-					
+				if(activeFlag==1){
+
+
+
 					//create pei table
 					statement.addBatch("create table if not exists "+peiTableName+" (" +
 							" application_id bigint(20) not null," +
@@ -6096,8 +6336,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" key idx_application_id (application_id)," +
 							" constraint fk_pe_application1 foreign key fk_pe_application1 (application_id) references csm_application (application_id) on delete cascade on update cascade"+
 							"  );");
-					
-					//create tableNameForUser							
+
+					//create tableNameForUser
 					statement.addBatch("create table if not exists "+tableNameUser+" (" +
 							" user_id bigint(20) not null," +
 							" login_name varchar(200) not null," +
@@ -6111,8 +6351,8 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" key idx_application_id (application_id)," +
 							" key idx_privilege_name (privilege_name)," +
 							" key idx_attribute_value(attribute_value)" +
-							" );"); 
-					
+							" );");
+
 					//create tableNameForGroup
 					statement.addBatch("create table if not exists "+tableNameGroup+" (" +
 							" group_id bigint(20) not null," +
@@ -6142,7 +6382,7 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" from "+viewNameUser+"_temp pe,csm_vw_role_priv pr" +
 							" where pe.role_id = pr.role_id");
 
-					
+
 					//create viewNameForGroup
 					statement.addBatch("create or replace view "+viewNameGroup+"_temp" +
 							" as" +
@@ -6157,10 +6397,10 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 							" from "+viewNameGroup+"_temp pe, csm_vw_role_priv pr" +
 							" where pe.role_id = pr.role_id");
 
-					
-				}				
+
+				}
 			}
-				
+
 			statement.executeBatch();
 			transaction.commit();
 			statement.close();
@@ -6182,22 +6422,159 @@ public class AuthorizationDAOImpl implements AuthorizationDAO {
 
 			throw new CSDataAccessException("Unable to maintain tables/views for instance level security.");
 		}
-		finally 
+		finally
 		{
 			try{
 				connection.close();
-			}catch (Exception ex2) 
+			}catch (Exception ex2)
 			{ }
-			try{ 
+			try{
 				session.close();
-			}catch (Exception ex2) 
+			}catch (Exception ex2)
 			{
 				if (log.isDebugEnabled())
 					log.debug("Authorization|||maintainInstanceTables|Failure|Error in Closing Session |" + ex2.getMessage());
 			}
 		}
+
+	}
+
+	@Override
+	public void validateUser(User user) throws CSException{
+		//For LDAP user, password is empty. Password is not a required field.
+		DataConfiguration config = ConfigurationHelper.getConfiguration();
+		log.info("******Inside Validate User(((((()))))))))....");
+		if(user.getPassword() != null && user.getPassword().trim().length() > 0)
+		{
+			validatePassword(user.getPassword());
+			// added PV below
+			
+			if(user.getLoginName().equalsIgnoreCase(user.getPassword()))
+			{
+				throw new CSException("The password and LoginName should be different values...");
+			}
+			
+			// added PV below 
+			if(checkPasswordHistory(user.getLoginName(), user.getPassword(),Integer.parseInt(config.getString("PASSWORD_MATCH_NUM"))))
+			{
+				throw new CSException("The password should be different from the previous passwords");
+			}
+			
+		}
+	}
+
+	private void validatePassword(String password) throws CSTransactionException{
 		
+									
+		//String passwordDesc = "The password has to be atleast 8 characters and have atleast a special character and atleast an uppercase letter";
+		try {
+			String passwordDesc = "Password should have: " + ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_DESCRIPTION");
+			System.out.println("Pattern: "+ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_MATCH"));
+			if(!StringUtilities.checkPatternMatches(password,ConfigurationHelper.getConfiguration().getString("PASSWORD_PATTERN_MATCH")))
+				throw new CSTransactionException(passwordDesc
+						);
+		} catch (CSConfigurationException e) {
+			if (log.isDebugEnabled())
+				log.debug("Authorization|||Configuration Exception while getting the pattern |" + e.getMessage());
+		}
+	}
+
+	
+	// added PV start
+	
+	private static String encryptPassword(String encryptedPassword,
+			String encryptionEnabled) {
+		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
+			StringEncrypter se;
+			try {
+				se = new StringEncrypter();
+				encryptedPassword = se.encrypt(new String(encryptedPassword));
+			} catch (EncryptionException e) {				
+				e.printStackTrace();
+			}
+		}
+		return encryptedPassword;
 	}
 	
+	public boolean checkPasswordHistory(String userID, String newPassword, int passwordNum) throws CSException
+	{
+		boolean passwordMatch = false;
+		log.info("******Inside passwordhistory check....");
+		Session session = null;
+		PreparedStatement preparedStatement= null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		String encryptPassword = encryptPassword(newPassword,"YES");
+		String query = new String();
+		query = "SELECT PASSWORD FROM CSM_PASSWORD_HISTORY WHERE LOGIN_NAME = ? ORDER BY CSM_PASSWORD_HISTORY_ID DESC";
+
+
+		try {
+
+			session = HibernateSessionFactoryHelper.getAuditSession(sf);
+			connection = session.connection();
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, userID);
+			//preparedStatement= Queries.getQueryForCheckPermissionForOnlyGroup(groupName, objectId, privilegeName, this.application.getApplicationId().intValue(),connection);
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet != null)
+			{
+			try
+			{
+				int matchCount = 0;
+				while(resultSet.next())
+				{
+					log.info("New password "+encryptPassword+"...."+"Old password from hist"+resultSet.getString("PASSWORD"));
+					if(matchCount < passwordNum)
+					{
+					String prevPassword = resultSet.getString("PASSWORD");
+					if (encryptPassword != null && prevPassword.equals(encryptPassword))
+					{
+						log.info("******Password matched with earlier passwords....");
+						log.info("New password "+encryptPassword+"...."+"Old password from hist"+prevPassword);
+						passwordMatch = true;
+						break;
+					}
+					matchCount++;
+					}									
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new CSInternalConfigurationException("Unable to execute the query to check if the passwords are matched");
+			}
+			
+			
+			}
+			resultSet.close();
+			preparedStatement.close();
+
+		} catch (Exception ex)
+		{
+			log.error(ex);
+			if (log.isDebugEnabled())
+				log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+passwordMatch+" for the user");
+			throw new CSException( "An error occurred while checking permissions\n"	+ ex.getMessage(), ex);
+		} finally {
+			try {
+
+				session.close();
+				resultSet.close();
+				preparedStatement.close();
+
+			} catch (Exception ex2) {
+				if (log.isDebugEnabled())
+					log.debug("Authorization|||checkPermission|Failure|Error in Closing Session |" + ex2.getMessage());
+			}
+		}
+		if (log.isDebugEnabled())
+			log.debug("Authentication||"+userID+"|executeQuery|Success| is Login First Time"+passwordMatch+" for the user");
+		return passwordMatch;
+	}
+
 	
+	// added PV end
+	
+
 }

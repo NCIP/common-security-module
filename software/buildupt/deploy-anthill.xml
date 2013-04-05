@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="csm-bkwrds" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+	<description>
+		Builds the CSM/UPT application.
+	</description>
+
+	<property file="project.properties" />
+	<property name="lib.dir" location="${basedir}/lib" />
+	<property name="upt.central.database.user" value="upttest"/>
+	<property name="upt.central.database.password" value="upttest"/>
+	<property name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver"/>
+	<property name="upt.central.database.name" value="upttest"/>
+	<property name="upt.central.database.server" value="localhost"/>
+	<property name="upt.central.database.port" value="3306"/>
+	<property name="upt.central.database.url" value="jdbc:mysql://${upt.central.database.server}:${upt.central.database.port}/${upt.central.database.name}"/>
+
+	<path id="macrodef.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef name="for" classname="net.sf.antcontrib.logic.ForTask" classpathref="macrodef.classpath"/>
+	<taskdef resource="liquibasetasks.properties" classpathref="macrodef.classpath"/>	
+
+		
+	
+	<target name="anthill:install-database"
+			description="Run liqubase to upgrade database"
+			>
+		<for list="${upt.central.db.install.create.mysql.file.list}" param="db.install.file">
+			<sequential>
+				<run-sql-script database.url="${upt.central.database.url}"
+					database.user="${upt.central.database.user}"
+					database.password="${upt.central.database.password}"
+					database.driver="${upt.central.database.driver.class}"
+					database.driver.file="${lib.dir}/mysql-connector-java-5.1.13.jar"
+					sql.delimiter=";"
+					sql.delimitertype="normal"
+					sql.file="${basedir}/common/resources/db/db-install/upt/uptcentral/mysql/@{db.install.file}"
+					onerror="abort"/>	
+			</sequential>
+		</for>
+	</target>
+		
+	<target name="anthill:upgrade-database"
+			description="Run liqubase to upgrade database"
+			>			
+		<database-upgrade			
+			database.driver="${upt.central.database.driver.class}"			
+			database.driver.file="${lib.dir}/mysql-connector-java-5.1.13.jar"
+			database.url="${upt.central.database.url}"
+			database.user="${upt.central.database.user}"
+			database.password="${upt.central.database.password}"
+			database.schema="${upt.central.database.name}"
+			database.changelog.file="${basedir}/common/resources/db/db-upgrade/upt/uptcentral/mysql/db-upgrade-central.xml"
+			/>			
+	</target>
+	
+	<macrodef name="database-upgrade">
+		<attribute name="database.driver" default="${database.driver}" />
+		<attribute name="database.driver.file" default="${database.driver.file}" />
+		<attribute name="database.url" default="${database.url}" />
+		<attribute name="database.user" default="${database.user}" />
+		<attribute name="database.password" default="${database.password}" />
+		<attribute name="database.schema" default="${database.schema}" />
+		<attribute name="database.changelog.file" default="${os.temp.dir}/${project.name}/db-upgrade.xml" />
+		<sequential>
+
+		<path id="jdbc.driver.classpath">
+			<pathelement location="@{database.driver.file}"/>
+		</path>
+		
+			<updateDatabase
+				driver="@{database.driver}"
+				url="@{database.url}"
+				username="@{database.user}"
+				password="@{database.password}"
+				classpathref="jdbc.driver.classpath"
+				defaultSchemaName="@{database.schema}"
+				changeLogFile="@{database.changelog.file}"
+				/>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="run-sql-script" description="By default this will use the database.url, to use drop database &amp; user use the database.system.url property">
+		<attribute name="sql.file" />
+		<attribute name="sql.delimiter" default=";" />
+		<attribute name="sql.delimitertype" default="normal" />
+		<attribute name="database.url" default="${database.url}" />
+		<attribute name="database.user" default="${database.user}" />
+		<attribute name="database.password" default="${database.password}" />
+		<attribute name="onerror" default="abort" />
+		<attribute name="database.driver" default="${database.driver}"/>
+		<attribute name="database.driver.file" default="${database.driver.file}"/>
+		<sequential>
+			<sql driver="@{database.driver}" url="@{database.url}" userid="@{database.user}" password="@{database.password}" src="@{sql.file}" onerror="@{onerror}" autocommit="true" delimiter="@{sql.delimiter}" delimitertype="@{sql.delimitertype}" keepformat="true">
+				<classpath>
+					<pathelement location="@{database.driver.file}" />
+				</classpath>
+			</sql>
+		</sequential>
+	</macrodef>
+	
+</project>

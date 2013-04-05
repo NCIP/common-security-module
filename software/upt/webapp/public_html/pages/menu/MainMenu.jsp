@@ -10,9 +10,12 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
-<%@ page import="gov.nih.nci.security.upt.constants.*"%>
-
+<%@ taglib uri="http://java.sun.com/jstl/core"
+	prefix="c"%>
+	
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
+<%@ page import="gov.nih.nci.security.upt.constants.DisplayConstants"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
   <!--
     	function set(tableId)
@@ -51,197 +54,164 @@ function MM_swapImage() { //v3.0
 
 <html:form styleId="menuForm" action='<%="/MenuSelection"%>'>
 	<%
-	String tableId;
-	try
-	{
-		tableId = (String)session.getAttribute(DisplayConstants.CURRENT_TABLE_ID);
-		if (tableId.equalsIgnoreCase(DisplayConstants.BLANK))
+		String tableId;
+		try
+		{
+			tableId = (String)session.getAttribute(DisplayConstants.CURRENT_TABLE_ID);
+			if (tableId.equalsIgnoreCase(DisplayConstants.BLANK))
+			{
+		tableId = DisplayConstants.HOME_ID;
+		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
+			}
+		}
+		catch (Exception e)
 		{
 			tableId = DisplayConstants.HOME_ID;
 			session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
 		}
-	}
-	catch (Exception e)
-	{
-		tableId = DisplayConstants.HOME_ID;
-		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,DisplayConstants.HOME_ID);
-	}
+		
 	%>
 	<html:hidden property="tableId" value="error" />
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='<%="/MenuSelection"%>'/>"/>
 	<td class="mainMenu" height="20">
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
-		height="16">
+	<table cellpadding="0" cellspacing="0" border="0" height="16">
 		<logic:present name="<%=DisplayConstants.LOGIN_OBJECT%>">
-			<tr	height="16">
-				<td  height="16" width="1"><!-- anchor to skip main menu --><a href="#content"><img
-					src="images/shim.gif" alt="Skip Menu" width="1" height="1"
-					border="0"></a></td>
-				<!-- link 1 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.HOME_ID)){%>
+		<tr height="16">
+			<!-- link 1 begins -->
+			<td height="16" class="mainMenuItemOver"
+				onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+				onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
+				onclick="javascript: set('<%=DisplayConstants.HOME_ID%>')">
+				<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.HOME_ID%>')" id="menuHome">
+				HOME</a>
+			</td>
+			<!-- link 1 ends -->
+			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
+
+			<!-- link 2 begins -->
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.HOME_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.HOME_ID%>')">HOME</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.HOME_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.HOME_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.HOME_ID%>')">HOME</a>
-			<%}%>
-				<!-- link 1 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 7 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.USER_ID)){%>
+					onclick="javascript: set('<%=DisplayConstants.USER_ID%>')">
+					<a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.USER_ID%>')" id="menuUser">
+					USER</a>
+				</td>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+				<td height="16" class="mainMenuItemOver">USER</td>
+			</logic:notPresent>
+			<!-- link 2 ends -->
+			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator"/>
+
+			<!-- link 3 begins -->
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.USER_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.USER_ID%>')">USER</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.USER_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.USER_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.USER_ID%>')">USER</a>
-				<%}%>
-				<!-- link 7 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 4 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID)){%>
+					onclick="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')">
+					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')" id="menuPE">
+					PROTECTION ELEMENT</a>
+				</td>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+				<td height="16" class="mainMenuItemOver">PROTECTION ELEMENT</td> 
+			</logic:notPresent>
+			<!-- link 3 ends -->
+			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
+
+			<!-- link 4 begins -->
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')">PROTECTION
-				ELEMENT</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')">PROTECTION
-				ELEMENT</a>
-				<%}%>
-				<!-- link 4 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 3 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID)){%>
+					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">
+					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')" id="menuPrivilege">
+					PRIVILEGE</a>
+				</td>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+				<td height="16" class="mainMenuItemOver">PRIVILEGE</td> 
+			</logic:notPresent>
+			<!-- link 4 ends -->
+			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
+
+			<!-- link 5 begins -->
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">PRIVILEGE</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">PRIVILEGE</a>
-				<%}%>
-				<!-- link 3 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 2 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.GROUP_ID)){%>
+					onclick="javascript: set('<%=DisplayConstants.GROUP_ID%>')">
+					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.GROUP_ID%>')" id="menuGroup">
+					GROUP</a>
+				</td>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+				<td height="16" class="mainMenuItemOver">GROUP</td> 
+			</logic:notPresent>
+
+			<!-- link 5 ends -->
+			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
+
+			<!-- link 6 begins -->
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.GROUP_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.GROUP_ID%>')">GROUP</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.GROUP_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.GROUP_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.GROUP_ID%>')">GROUP</a>
-				<%}%>
-				<!-- link 2 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 5 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID)){%>
+					onclick="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')">
+					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')" id="menuPG">
+					PROTECTION GROUP</a>
+				</td>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+				<td height="16" class="mainMenuItemOver">PROTECTION GROUP</td> 
+			</logic:notPresent>
+			<!-- link 6 ends -->
+			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
+
+			<!-- link 7 begins -->
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')">PROTECTION
-				GROUP</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')">PROTECTION
-				GROUP</a>
-				<%}%>
-				<!-- link 5 ends -->
-				<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 6 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.ROLE_ID)){%>
+					onclick="javascript: set('<%=DisplayConstants.ROLE_ID%>')">
+					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.ROLE_ID%>')" id="menuRole">
+					ROLE</a>
+				</td>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
+				<td height="16" class="mainMenuItemOver">ROLE</td> 
+			</logic:notPresent>
+			<!-- link 6 ends -->
+			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
+
+			<!-- link 8 begins -->
+			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.ROLE_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.ROLE_ID%>')">ROLE</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.ROLE_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.ROLE_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.ROLE_ID%>')">ROLE</a>
-				<%}%>
-				<!-- link 6 ends -->
-				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 7 begins -->
-				<%if (tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID)){%>
-				<td height="16" class="mainMenuItemOver"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">INSTANCE LEVEL</a>
-				<%}if (!tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID)){%>
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')"><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">INSTANCE LEVEL</a>
-				<%}%>
-				<!-- link 7 ends -->
-				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"
-					/>
-				<!-- link 8 begins -->
-				<td height="16" class="mainMenuItem"
-					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
-					onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()"
-					><a
-					class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')">LOG OUT</a>
-				<!-- link 8 ends -->
-				<td><img src="images/mainMenuSeparator.gif" width="1" height="16"/></td>
-			</tr>
+					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">
+					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')" id="menuInstance">
+					INSTANCE LEVEL</a>
+				</td>
+			</logic:present>
+			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+				<td height="16" class="mainMenuItemOver">INSTANCE LEVEL</td> 
+			</logic:notPresent>
+			<!-- link 8 ends -->
+			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
+
+			<!-- link 9 begins -->
+			<td height="16" class="mainMenuItem"
+				onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
+				onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()">
+				<a class="mainMenuLink"
+					href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')" id="menulogout">
+				LOG OUT</a>
+			</td>
+			<!-- link 9 ends -->
+			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/></td>
+		</tr>
 		</logic:present>
 	</table>
 	</td>

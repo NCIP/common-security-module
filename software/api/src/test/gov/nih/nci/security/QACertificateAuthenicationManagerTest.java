@@ -94,7 +94,7 @@ public class QACertificateAuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		}
+		} 
 		assertEquals(true, isValid);
 	}
 	

@@ -10,6 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
@@ -18,19 +19,43 @@
 	function setAndSubmit(target)
 	{
 		document.ApplicationForm.operation.value=target;
+		document.ApplicationForm.submit();
 	}
+	
+function skipNavigation()
+{
+	document.getElementById("appResult").focus();
+	window.location.hash="appResult";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("saHome").tabIndex = -1;
+	document.getElementById("saApp").tabIndex = -1;
+	document.getElementById("saUser").tabIndex = -1;
+	document.getElementById("saPriv").tabIndex = -1;
+	document.getElementById("saLogout").tabIndex = -1;
+}
+	
 // -->
 </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="ApplicationForm"
-	action='<%="/ApplicationDBOperation"%>'>
+	action="/ApplicationDBOperation">
 	<html:hidden property="operation" value="read" />
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ApplicationDBOperation'/>"/>
+	
 		<tr>
 			<td>
-			<h2>Application</h2>
+			<h2><a id="appResult"></a>Application</h2>
 			</td>
 		</tr>
 		<tr>
@@ -39,7 +64,7 @@
 				width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						width="100%">
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
@@ -50,7 +75,7 @@
 							<bean:define id="oddRow" value="true" />
 							<tr>
 								<td>
-								<table summary="Enter summary of data here" cellpadding="3"
+								<table summary="Search results for Application search" cellpadding="3"
 									cellspacing="0" border="0" class="dataTable" width="100%">
 									<tr>
 										<th class="dataTableHeader" scope="col" align="center"

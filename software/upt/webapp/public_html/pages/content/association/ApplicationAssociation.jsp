@@ -4,7 +4,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 
@@ -29,6 +29,7 @@
     		newwin.document.open();
     		newwin.document.writeln('<form name="UserForm" method="post" action="/'+appContext+'/SearchUserDBOperation.do" id="UserForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
+    		newwin.document.writeln('<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>">');
     		newwin.document.writeln('</form>');
     		newwin.document.close();
    			newwin.document.UserForm.operation.value='loadSearch';
@@ -42,6 +43,7 @@
     			if (target == "read")
     			{
 	    			document.ApplicationForm.operation.value=target;
+	    			document.ApplicationForm.submit();
     			}
     			else
     			{		
@@ -101,16 +103,37 @@
 	         if (options[0] != null)
 	            options[0].selected = true;
 	      } // end with isavailableIds
-		}    // -->
+		}   
+		
+function skipNavigation()
+{
+	document.getElementById("appAssoc").focus();
+	window.location.hash="appAssoc";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("saHome").tabIndex = -1;
+	document.getElementById("saApp").tabIndex = -1;
+	document.getElementById("saUser").tabIndex = -1;
+	document.getElementById("saPriv").tabIndex = -1;
+	document.getElementById("saLogout").tabIndex = -1;
+}
+		// -->
     </script>
 <body onUnload="closepopup();">
-<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
 		<table width="100%" cellpadding="0" cellspacing="0" border="0" class="contentBegins">
 			<tr>
 				<td colspan="3">
-					<h2>Application And Admin Association</h2>
+					<h2><a id="appAssoc"></a>Application And Admin Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="ApplicationForm" property="applicationName" value="<%=DisplayConstants.BLANK%>">
@@ -121,7 +144,7 @@
 							<td class="formTitle" height="20" colspan="2">SELECTED APPLICATION</td>
 						</tr>
 						<tr class="dataRowDark">
-							<td class="formRequiredLabel" width="40%" scope="row"><label>Application Name</label></td>
+							<td class="formRequiredLabel" width="40%" scope="row"><label for="applicationName">Application Name</label></td>
 							<td class="formField" width="60%"><bean:write name="ApplicationForm" property="applicationName" /></td>
 						</tr>
 					</table>
@@ -130,7 +153,7 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table summary="" cellpadding="3" cellspacing="10" border="0" height="100%" width="100%">
+				<table cellpadding="3" cellspacing="10" border="0" height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
 		  				<html:messages id="message" message="true">
@@ -183,9 +206,10 @@
 					<tr>		
 					
 					<td width="100%" valign="top">
-					<html:form styleId="ApplicationForm" action = '<%="/ApplicationDBOperation"%>'>
+					<html:form styleId="ApplicationForm" action = "/ApplicationDBOperation">
 					<html:hidden property="operation" value="read"/>
-					<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
+					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ApplicationDBOperation'/>"/>
+					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
 
 							<td class="sidebarTitle" height="20">ASSIGNED ADMINISTRATORS</td>

@@ -100,7 +100,9 @@ import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
+import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Hashtable;
 
@@ -132,5 +134,45 @@ public class RDBMSLoginModule extends CSMLoginModule
 	{
 		return RDBMSHelper.authenticate (new Hashtable(options), user, password, subject);
 	}
+
+	protected boolean isPasswordExpired(Map options, String user) throws CSInternalConfigurationException
+	{
+		return RDBMSHelper.isPasswordExpired (new Hashtable(options), user);
+	}
+
+	protected boolean isFirstTimeLogin(Map options, String user) throws CSInternalConfigurationException
+	{
+		return RDBMSHelper.isFirstTimeLogin (new Hashtable(options), user);
+	}
 	
+	protected boolean changePassword(Map options, String user,String newPassword) throws CSInternalConfigurationException
+	{
+		return RDBMSHelper.changePassword (new Hashtable(options), user, newPassword);
+	}
+	protected boolean insertIntoPasswordHistory(Map options, String user,char[] password) throws CSInternalConfigurationException
+	{
+		return RDBMSHelper.insertIntoPasswordHistory(new Hashtable(options), user, password);
+	}
+
+	protected boolean isActive(Map options, String user) throws CSInternalConfigurationException
+	{
+		return RDBMSHelper.isActive (new Hashtable(options), user);
+	}
+	@Override
+	protected boolean resetFirstTimeLogin(Map options, String user)
+			throws CSInternalConfigurationException {
+		return RDBMSHelper.resetFirstTimeLogin(new Hashtable(options),user);
+	}
+
+	@Override
+	protected boolean passwordMatchs(Map options, String user,
+			String newPassword, int passwordNum) throws CSInternalConfigurationException{
+		return RDBMSHelper.passwordMatchs(new Hashtable(options),user,newPassword,passwordNum);
+	}
+
+	@Override
+	protected boolean updatePasswordExpiryDate(Map options, String user,Date expiryDate)
+			throws CSInternalConfigurationException{
+		return RDBMSHelper.updatePasswordExpiryDate(new Hashtable(options),user, expiryDate);
+	}
 }

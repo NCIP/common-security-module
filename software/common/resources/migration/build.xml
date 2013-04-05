@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="migration" basedir="." default="migration:jar" xmlns:antunit="antlib:org.apache.ant.antunit" xmlns="antlib:org.apache.tools.ant">
+	<property name="src.dir" location="src" />
+	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="classes.dir" location="${basedir}/classes" />
+	
+	<property name="software.dir" location="../../.." />
+	<property name="build-utils.lib.dir" location="${software.dir}/common/build-utils" />
+	<property name="uptlogin.lib.dir" location="${software.dir}/upt/webapp/public_html/WEB-INF/lib" />
+
+	
+	<target name="migration:compile"  description="Compile the build monitor source">
+		<path id="project.classpath">
+			<fileset dir="${uptlogin.lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${build-utils.lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="project.classpath"/>
+	</target>
+		
+	<target name="migration:jar" depends="migration:compile" description="generate the distribution">
+		<mkdir dir="${dist.dir}" />
+		<jar jarfile="${dist.dir}/migration.jar" basedir="${classes.dir}" />
+	</target>		
+</project>

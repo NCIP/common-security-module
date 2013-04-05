@@ -187,6 +187,11 @@ public class User implements Principal, Comparable, Serializable {
 	 */
 	private byte migratedFlag;	
 	
+	private byte firstTimeLogin;
+	
+	private byte activeFlag;
+	
+	private java.util.Date passwordExpiryDate;		
 
 	public User(){
 
@@ -468,6 +473,30 @@ public class User implements Principal, Comparable, Serializable {
 		this.migratedFlag = migratedFlag;
 	}
 
+	public byte getFirstTimeLogin() {
+		return firstTimeLogin;
+	}
+
+	public void setFirstTimeLogin(byte firstTimeLogin) {
+		this.firstTimeLogin = firstTimeLogin;
+	}
+	
+	public java.util.Date getPasswordExpiryDate() {
+		return passwordExpiryDate;
+	}
+
+	public void setPasswordExpiryDate(java.util.Date passwordExpiryDate) {
+		this.passwordExpiryDate = passwordExpiryDate;
+	}
+
+	public byte getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(byte activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+	
 	public String toString() {
         return new ToStringBuilder(this)
         	.append("userId", userId)

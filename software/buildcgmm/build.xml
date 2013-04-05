@@ -21,7 +21,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="ivy.settings.file" value="ivysettings.xml" />
 	
-	<import file="bda-master-build.xml"/>
+	<import file="build-bda-master.xml"/>
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->

@@ -194,5 +194,13 @@
 	<definition name="Tiles.ProtectionElement.Association.Screen" extends="Base">
 		<put name="Content" value="/pages/content/association/ProtectionElementAssociation.jsp" />
 	</definition>
-
+	<definition name="Tiles.Password.Change.Page" extends="Base">
+		<put name="Content" value="/pages/content/main/ChangePassword.jsp" />
+	</definition>
+	<definition name="Tiles.SystemConfiguration.Page" extends="Base">
+		<put name="Content" value="/pages/content/home/SystemConfiguration.jsp" />
+	</definition>
+	<definition name="Tiles.AppUser.Detail.Screen" extends="Base">
+		<put name="Content" value="/pages/content/detailScreen/AppUserDetailScreen.jsp" />
+	</definition>	
 </tiles-definitions>

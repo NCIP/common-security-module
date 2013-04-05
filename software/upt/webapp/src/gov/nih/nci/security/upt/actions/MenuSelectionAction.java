@@ -18,7 +18,7 @@ package gov.nih.nci.security.upt.actions;
  *(the 'UPT Software').  The UPT Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This UPT Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -26,7 +26,7 @@ package gov.nih.nci.security.upt.actions;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -116,17 +116,17 @@ import org.apache.struts.action.ActionMapping;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class MenuSelectionAction extends Action 
+public class MenuSelectionAction extends Action
 {
-	
+
 	private static final Logger log = Logger.getLogger(MenuSelectionAction.class);
-	
+
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	{
 		/* perform login task*/
 		HttpSession session = request.getSession();
-		MenuForm menuSelectionForm = (MenuForm)form; 
-		
+		MenuForm menuSelectionForm = (MenuForm)form;
+
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (log.isDebugEnabled())
 				log.debug("||||Failure|No Session or User Object Forwarding to the Login Page||");
@@ -137,12 +137,12 @@ public class MenuSelectionAction extends Action
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 
-		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,menuSelectionForm.getTableId());		
-		
+		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,menuSelectionForm.getTableId());
+
 		if (log.isDebugEnabled())
 			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-					"|"+menuSelectionForm.getTableId()+"|Forward|Success|Forwarding to the "+menuSelectionForm.getTableId()+" Home Page||");		
-		
+					"|"+menuSelectionForm.getTableId()+"|Forward|Success|Forwarding to the "+menuSelectionForm.getTableId()+" Home Page||");
+
 		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.HOME_ID))
 			return (mapping.findForward(ForwardConstants.HOME_PAGE));
 		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ADMIN_HOME_ID))
@@ -165,9 +165,11 @@ public class MenuSelectionAction extends Action
 			return (mapping.findForward(ForwardConstants.INSTANCE_LEVEL_HOME_PAGE));
 		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.LOGOUT_ID))
 			return (mapping.findForward(ForwardConstants.LOGOUT_ACTION));
+		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.SYSTEM_CONFIGURATION_ID))
+			return (mapping.findForward(ForwardConstants.SYSTEM_CONFIGURATION_ACTION));
 		else
 			return (mapping.findForward(ForwardConstants.HOME_PAGE));
-		
+
 	}
 
 }

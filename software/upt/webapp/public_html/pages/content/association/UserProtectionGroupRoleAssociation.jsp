@@ -10,30 +10,57 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="java.util.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
 <!--
    	function setAndSubmit(target)
    	{
   		document.UserForm.operation.value=target;
+  		document.UserForm.submit();
  	}
+ 	
+function skipNavigation()
+{
+	document.getElementById("userPGAssoc").focus();
+	window.location.hash="userPGAssoc";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+} 	
+ 	
 // -->
 </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		
 		<html:form styleId="UserForm"
-	action='<%="/UserDBOperation"%>'>
+	action="/UserDBOperation">
 	<html:hidden property="operation" value="read" />
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>
 		
 		<tr>
 			<td>
-			<h2>Associated Protection Groups and Roles</h2>
+			<h2><a id="userPGAssoc"></a>Associated Protection Groups and Roles</h2>
 			</td>
 		</tr>
 		<tr>
@@ -48,7 +75,7 @@
 								<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
 							</tr>
 							<tr class="dataRowDark">
-								<td class="formRequiredLabel" width="40%" scope="row"><label>User Login Name</label></td>
+								<td class="formRequiredLabel" width="40%" scope="row"><label for="userLoginName">User Login Name</label></td>
 								<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
 							</tr>
 						</table>
@@ -57,7 +84,7 @@
 				</logic:notEqual>
 				<tr>
 					<td>
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						width="100%">
 						<tr>
 							<td>
@@ -80,7 +107,7 @@
 							<!-- paging ends -->
 							<tr>
 								<td>
-								<table summary="Enter summary of data here" cellpadding="3"
+								<table summary="Assign Protection Group, User, Role" cellpadding="3"
 									cellspacing="0" border="0" class="dataTable" width="100%">
 									<tr>
 										<th class="dataTableHeader" scope="col" align="center"
@@ -145,9 +172,13 @@
 								<td align="right" class="actionSection"><!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
-
-										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove PG & Roles</html:submit></td>											
+										<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+											<td><html:submit style="actionButton"
+												onclick="setAndSubmit('removeProtectionGroupAssociation');">Remove PG & Roles</html:submit></td>											
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+											<td><html:submit style="actionButton" disabled="true">Remove PG & Roles</html:submit></td>
+										</logic:notPresent>
 										<td><html:submit style="actionButton"
 											onclick="setAndSubmit('loadRoleAssociation');">Associated Roles</html:submit></td>
 										<td><html:submit style="actionButton"

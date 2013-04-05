@@ -10,8 +10,9 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
     <!--
     	function setAndSubmit(target)
@@ -19,14 +20,39 @@
     		document.ProtectionGroupForm.operation.value=target;
     		document.ProtectionGroupForm.submit();
     	}
+    	
+function skipNavigation()
+{
+	document.getElementById("pgHome").focus();
+	window.location.hash="pgHome";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
+    	
     // -->
     </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table summary="Protection Group Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="ProtectionGroupForm" action="/ProtectionGroupDBOperation">
 		<html:hidden property="operation" value="error" />
+		<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ProtectionGroupDBOperation'/>"/>
 		<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0"
@@ -36,7 +62,7 @@
 
 					<h2>Protection Group</h2>
 
-					<h3>Protection Group Home</h3>
+					<h3><a id="pgHome"></a>Protection Group Home</h3>
 
 					<p>This is the Protection Group section of the User Provisioning
 					Tool. A Protection Group is simply a collection of application
@@ -53,7 +79,7 @@
 				</tr>
 				<tr>
 					<td valign="top" width="40%"><!-- sidebar begins -->
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
@@ -64,18 +90,20 @@
 						<tr><td><br></td></tr>
 						<tr>
 							<td valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 
 									<td class="sidebarTitle" height="20">PROTECTION GROUP LINKS</td>
 								</tr>
-								<tr>
-									<td class="sidebarContent"><a
-										href="javascript: setAndSubmit('loadAdd')">Create a New
-									Protection Group</a><br>
-									Click to add a new protection group.</td>
-								</tr>
+								<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+									<tr>
+										<td class="sidebarContent"><a
+											href="javascript: setAndSubmit('loadAdd')">Create a New
+										Protection Group</a><br>
+										Click to add a new protection group.</td>
+									</tr>
+								</logic:present>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an

@@ -95,13 +95,20 @@ package gov.nih.nci.security.authentication.loginmodules;
  */
 
 
+import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.exceptions.CSConfigurationException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
+import gov.nih.nci.security.util.ConfigurationHelper;
+import gov.nih.nci.security.util.StringEncrypter;
+import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -110,10 +117,14 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.AccountExpiredException;
+import javax.security.auth.login.CredentialExpiredException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
  
+import org.apache.commons.configuration.DataConfiguration;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -200,12 +211,128 @@ public abstract class CSMLoginModule implements LoginModule
 				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());
 			throw new LoginException("Error in Creating the CallBack Handler");
 		}
-
+		if (isFirstTimeLogin(options, userID))
+		{
+			loginSuccessful = false;
+			password 		= null;
+			throw new FailedLoginException("User logging in first time, Password should be changed ");
+		}
+		DataConfiguration config;
+		try {
+			config = ConfigurationHelper.getConfiguration();
+		} catch (CSConfigurationException e) {
+			// TODO Auto-generated catch block
+			throw new CSInternalConfigurationException("Exception while reading config data!!");
+		}
+		
+		if (isPasswordExpired(options, userID))
+		{
+			loginSuccessful = false;
+			userID 			= null;
+			password 		= null;
+			
+			throw new CredentialExpiredException("User password expired, Ceate new password");
+		}
+		
+		
 		try {
 			//now validate user
 			if (validate(options, userID, password, subject))
 			{
-				loginSuccessful = true;
+				if (isActive(options, userID))
+					loginSuccessful = true;
+				else
+				{
+					loginSuccessful = false;
+					password 		= null;
+					throw new AccountExpiredException("User is not active, Contact the system administrator");						
+				}					
+			}
+			else
+			{
+				// clear the values			
+				loginSuccessful = false;
+				userID 			= null;
+				password 		= null;
+				
+				throw new LoginException("Invalid Login Credentials");
+			}
+		} catch (FailedLoginException fle) {
+			if (log.isDebugEnabled())
+				if (log.isDebugEnabled())
+					log.debug("Authentication|||login|Failure| Invalid Login Credentials |"+ fle.getMessage() );
+				throw new LoginException("Invalid Login Credentials");
+		} 
+		if (log.isDebugEnabled())
+			log.debug("Authentication|||login|Success| Authentication is "+loginSuccessful+"|");
+		return loginSuccessful;
+	}
+	
+	public boolean changePassword(String newPassword) throws LoginException, CSInternalLoginException, CSInternalConfigurationException, CSConfigurationException
+	{
+		if (callbackHandler == null)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in obtaining the CallBack Handler |" );			
+			throw new LoginException("Error in obtaining Callback Handler");
+		}
+		Callback[] callbacks = new Callback[2];
+		callbacks[0] = new NameCallback("userid: ");
+		callbacks[1] = new PasswordCallback("password: ", false);
+
+		try
+		{
+			callbackHandler.handle(callbacks);
+			userID = ((NameCallback) callbacks[0]).getName();
+			char[] tmpPassword = ((PasswordCallback) callbacks[1]).getPassword();
+
+			if (tmpPassword == null)
+			{
+				// treat a NULL password as an empty password
+				tmpPassword = new char[0];
+			}
+			password = new char[tmpPassword.length];
+			System.arraycopy(tmpPassword, 0, password, 0, tmpPassword.length);
+			((PasswordCallback) callbacks[1]).clearPassword();
+		}
+		catch (java.io.IOException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());			
+			throw new LoginException("Error in Creating the CallBack Handler");
+		}
+		catch (UnsupportedCallbackException e)
+		{
+			if (log.isDebugEnabled())
+				log.debug("Authentication|||login|Failure| Error in creating the CallBack Handler |" + e.getMessage());
+			throw new LoginException("Error in Creating the CallBack Handler");
+		}
+		
+		
+		try {
+			//now validate user
+			if (validate(options, userID, password, subject))
+			{
+				DataConfiguration config = ConfigurationHelper.getConfiguration();
+				String encryptedPassword= new String(password);
+				encryptedPassword = StringUtilities.initTrimmedString(encryptPassword(encryptedPassword,"YES" ));
+				if(encryptedPassword.equals(encryptPassword(newPassword,"YES")))
+				{
+					throw new LoginException("The password should be different from the previous passwords");
+				}
+				if (passwordMatchs(options, userID,newPassword,Integer.parseInt(config.getString("PASSWORD_MATCH_NUM"))))
+				{
+					throw new LoginException("The password should be different from the previous passwords");
+				}
+				else
+				{
+					changePassword(options, userID, newPassword);
+					if (isFirstTimeLogin(options, userID))
+						resetFirstTimeLogin(options, userID);
+				
+					insertIntoPasswordHistory(options, userID, password);
+					updatePasswordExpiryDate(options, userID,DateUtils.addDays(Calendar.getInstance().getTime(),Integer.parseInt(config.getString("PASSWORD_EXPIRY_DAYS"))));
+				}
 			}
 			else
 			{
@@ -227,6 +354,19 @@ public abstract class CSMLoginModule implements LoginModule
 		return loginSuccessful;
 	}
 	
+	private static String encryptPassword(String encryptedPassword,
+			String encryptionEnabled) {
+		if (!StringUtilities.isBlank(encryptionEnabled) && encryptionEnabled.equalsIgnoreCase(Constants.YES)){
+			StringEncrypter se;
+			try {
+				se = new StringEncrypter();
+				encryptedPassword = se.encrypt(new String(encryptedPassword));
+			} catch (EncryptionException e) {				
+				e.printStackTrace();
+			}
+		}
+		return encryptedPassword;
+	}
 	
 	/**
 	 * @see javax.security.auth.spi.LoginModule#commit()
@@ -272,5 +412,14 @@ public abstract class CSMLoginModule implements LoginModule
 	 * @throws CSInternalInsufficientAttributesException 
 	 */
 	protected abstract boolean validate(Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException;
+	protected abstract boolean isPasswordExpired(Map options,String user) throws CSInternalConfigurationException;
+	protected abstract boolean isFirstTimeLogin(Map options,String user) throws CSInternalConfigurationException;
+	protected abstract boolean changePassword(Map options,String user, String password) throws CSInternalConfigurationException;
+	protected abstract boolean insertIntoPasswordHistory(Map options,String user, char[] password) throws CSInternalConfigurationException;
+	protected abstract boolean resetFirstTimeLogin(Map options,String user) throws CSInternalConfigurationException;	
+	protected abstract boolean passwordMatchs(Map options, String user,String newPassword, int passwordNum) throws CSInternalConfigurationException ;
+	protected abstract boolean updatePasswordExpiryDate(Map options,String user,Date expiryDate) throws CSInternalConfigurationException;
+	protected abstract boolean isActive(Map options,String user) throws CSInternalConfigurationException;
+	
 
 }

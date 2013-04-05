@@ -3,16 +3,38 @@
 <%@ taglib uri="/tags/struts-logic" prefix="logic"%>
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="gov.nih.nci.security.upt.forms.LoginForm"%>
+<%@ page import="gov.nih.nci.security.UserProvisioningManager"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 
 <script>
-  <!--
-    	
-//-->
-
+function skipNavigation()
+{
+	//window.location.hash.refresh();
+	document.getElementById("uptHeader").focus();
+	window.location.hash="uptHeader";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
 </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table summary="User Provisioning Tool Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<tr>
 			<td valign="top">
@@ -21,7 +43,7 @@
 				<tr>
 					<td colspan="3">
 
-					<h2>User Provisioning Tool</h2>
+					<h2  id="UPT"><a id="uptHeader"></a>User Provisioning Tool</h2>
 
 					<h3>Welcome!</h3>
 
@@ -35,7 +57,12 @@
 				</tr>
 
 
-
+<%
+	String urlStr = request.getRequestURL().toString();
+	urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
+	urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
+	LoginForm form = (LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT);
+%>
 
 				<!--
 				<!-- diagram -->
@@ -51,41 +78,70 @@
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.USER_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
-										onMouseOver="MM_swapImage('user','','images/Users.gif',1)"><img
+										onMouseOver="MM_swapImage('user','','images/Users.gif',1)" id="userA" tabindex=1><img
 										name="user" border="0" src="images/Users2.gif" width="98"
-										height="50" alt="A User is someone that requires access to your application. Users can become part of a Group, and can have an associated Protection Group and Roles."
-										Title="A User is someone that requires access to your application. Users can become part of a Group, and can have an associated Protection Group and Roles."></a></td>
+										alt="User"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Application User"></a></td>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+									<td width="100%" height="50"><img
+										name="user" border="0" src="images/Users2.gif" width="98"
+										alt="User"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Application User"></td>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
-										onMouseOver="MM_swapImage('PEs','','images/protectionelements.gif',1)"><img
+										onMouseOver="MM_swapImage('PEs','','images/protectionelements.gif',1)" tabindex=2><img
 										name="PEs" border="0" src="images/protectionelements2.gif"
-										width="98" height="50" alt="A Protection Element is any entity (typically data) that has controlled access. Examples include Social Security Number, City, and Salary."
-										Title="A Protection Element is any entity (typically data) that has controlled access. Examples include Social Security Number, City, and Salary."></a></td>
+										alt="Protection Element"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Protection Element"></a></td>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+									<td width="100%" height="50"><img
+										name="PEs" border="0" src="images/protectionelements2.gif"
+										alt="Protection Element"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Protection Element"></td>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
-										onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)"><img
+										onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)" tabindex=3><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
-										height="50" alt="A Privilege refers to any operation performed upon data. Examples include DELETE or UPDATE."
-										Title="A Privilege refers to any operation performed upon data. Examples include DELETE or UPDATE."></a></td>
+										alt="Privilege"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Privilege"></a></td>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+									<td width="100%" height="50"><img
+										name="priv" border="0" src="images/privileges2.gif" width="98"
+										alt="Privilege"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										Title="Privilege"></td>
+								</logic:notPresent>
 								</tr>
-
 								<tr>
-									<td width="100%" height="50"><img src="images/create.gif"
+									<td width="100%" height="50"><img src="images/create.gif" alt="Create" 
 										width="98" height="50"></td>
 								</tr>
 							</table>
@@ -96,21 +152,21 @@
 								width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<td height="100"><img src="images/elbow.gif" width="98"
-										height="100"></td>
+										height="100" alt=""></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
-										src="images/horizontal_line.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50" alt=""></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
-										src="images/horizontal_line.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50" alt=""></td>
 								</tr>
 
 								<tr>
@@ -121,46 +177,74 @@
 							<td height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.GROUP_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
-										onMouseOver="MM_swapImage('group','','images/groups.gif',1)"><img
+										onMouseOver="MM_swapImage('group','','images/groups.gif',1)" tabindex=4><img
 										name="group" border="0" src="images/groups2.gif" width="98"
-										height="50" alt="A Group is a collection of application users. By combining users into a Group, it becomes easier to manage their collective roles and access rights in your application."
-										title="A Group is a collection of application users. By combining users into a Group, it becomes easier to manage their collective roles and access rights in your application."></a></td>
+										alt="Group"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Group"></a></td>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+									<td width="100%" height="50"><img name="group" border="0" src="images/groups2.gif" width="98"
+										alt="Group" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Group"></td>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
-										src="images/horizontal_line.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50" alt=""></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
-										onMouseOver="MM_swapImage('pgs','','images/protectiongroups.gif',1)"><img
+										onMouseOver="MM_swapImage('pgs','','images/protectiongroups.gif',1)" tabindex=5><img
 										name="pgs" border="0" src="images/protectiongroups2.gif"
-										width="98" height="50" alt="A Protection Group is a collection of application Protection Elements. By combining Protection Elements into a Protection Group, it becomes easier to associate Users and Groups with rights to a particular data set. Examples include Address and Personal Information."
-										title="A Protection Group is a collection of application Protection Elements. By combining Protection Elements into a Protection Group, it becomes easier to associate Users and Groups with rights to a particular data set. Examples include Address and Personal Information."></a></td>
+										alt="Protectoin Group"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Protection Group"></a></td>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+									<td width="100%" height="50"><img
+										name="pgs" border="0" src="images/protectiongroups2.gif"
+										alt="Protectoin Group"
+										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Protection Group"></td>
+								</logic:notPresent>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
+								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
 									<td width="100%" height="50"><a
 										href="javascript: set('<%=DisplayConstants.ROLE_ID%>')"
 										onMouseOut="MM_swapImgRestore()"
-										onMouseOver="MM_swapImage('roles','','images/roles.gif',1)"><img
+										onMouseOver="MM_swapImage('roles','','images/roles.gif',1)" tabindex=6><img
 										name="roles" border="0" src="images/roles2.gif" width="98"
-										height="50" alt="A Role is a collection of application Privileges. Examples include Record Admin. and EmployeeModify."
-										title="A Role is a collection of application Privileges. Examples include Record Admin. and EmployeeModify."></a></td>
+										alt="Role"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Role"></a></td>
+								</logic:present>
+								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
+									<td width="100%" height="50"><img
+										name="roles" border="0" src="images/roles2.gif" width="98"
+										alt="Role"
+										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										title="Role"></td>
+								</logic:notPresent>
 								</tr>
 
 								<tr>
 									<td width="100%" height="50"><img src="images/assign.gif"
-										width="98" height="50"></td>
+										width="98" height="50" alt=""></td>
 								</tr>
 							</table>
 							</td>
@@ -170,25 +254,25 @@
 								width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<td width="100%" height="50"><img
-										src="images/horizontal_line.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50" alt=""></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
-										src="images/horizontal_line.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50" alt=""></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
-										src="images/horizontal_line.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50" alt=""></td>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
-										src="images/horizontal_line.gif" width="98" height="50"></td>
+										src="images/horizontal_line.gif" width="98" height="50" alt=""></td>
 								</tr>
 
 								<tr>
@@ -199,12 +283,12 @@
 							<td valign="top" height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Each User assumes Roles for Protection Groups.  For example, User John has a Role EmployeeModify for all elements in the Address Protection Group. Assign PGs and Roles from the User or Group sections of the UPT." /></td>
+									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Final Association" longdesc="<%=urlStr%>/content/home/longdescription.html" /></td>
 								</tr>
 
 								<tr>
 									<td width="100%" height="50"><img src="images/associate.gif"
-										width="98" height="50"></td>
+										width="98" height="50" alt="Associate"></td>
 								</tr>
 							</table>
 							</td>
@@ -215,11 +299,6 @@
 					
 					<td colspan="2" width="50%">&nbsp;</td>
 				</tr>
-
-
-
-
-
 
 				<tr class="home">
 					<td class="home" colspan="4">&nbsp;</td>
@@ -352,9 +431,6 @@
 				</td>
 				</tr>
 				<!-- workflow ends, association begins -->
-
-
-				
 			</table>
 			</td>
 		</tr>

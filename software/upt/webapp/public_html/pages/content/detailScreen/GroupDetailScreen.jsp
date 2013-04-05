@@ -4,10 +4,11 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
 <!--
    	function setAndSubmit(target)
@@ -23,8 +24,33 @@
 		else
 		{
 	  		document.GroupForm.operation.value=target;
+	  		document.GroupForm.submit();
 	  	}
  	}
+ 	
+function skipNavigation()
+{
+	document.getElementById("groupDetail").focus();
+	window.location.hash="groupDetail";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
+ 	
 // -->
 </script>
 <bean:define id="submitValue" value="error" />
@@ -45,15 +71,16 @@
 	</logic:equal>
 </logic:notEqual>
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="GroupForm" action="/GroupDBOperation"   focus="groupName">
+	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
+	<html:form styleId="GroupForm" action="/GroupDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/GroupDBOperation'/>"/>
 			<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0"  width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+					<table summary="Group detail" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
 							<td class="infoMessage" colspan="3">
 			  				<html:messages id="message" message="true">
@@ -71,7 +98,7 @@
 							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
-									<td class="formMessage" colspan="3">Enter the details to add a new Group. 
+									<td class="formMessage" colspan="3"><a id="groupDetail"></a>Enter the details to add a new Group. 
 									The <b>Group Name</b> uniquely identifies the Group and is a required field. 
 									The <b>Group Description</b> is a brief summary about the Group.</td>
 								</tr>
@@ -81,7 +108,7 @@
 								</logic:equal>
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing Group by entering the <b>Group Name</b>.</td>
+									<td class="formMessage" colspan="3"><a id="groupDetail"></a>Search for an existing Group by entering the <b>Group Name</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -90,7 +117,7 @@
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3">Update the details of the displayed Group. 
+									<td class="formMessage" colspan="3"><a id="groupDetail"></a>Update the details of the displayed Group. 
 									The <b>Group Name</b> uniquely identifies the Group and is a required field. 
 									The <b>Group Description</b> is a brief summary about the Group. The <b>Update Date</b> indicates the date when this Group's Details were last updated.</td>
 								</tr>							
@@ -123,34 +150,34 @@
 								<tr>
 									<logic:equal name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">*</td>
-										<td class="formRequiredLabel2"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formRequiredLabel2"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:equal>
 									<logic:notEqual name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">&nbsp;</td>
-										<td class="formLabel"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formLabel"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:notEqual>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
-										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
+										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
 										<td class="formField">
 										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-											<label><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 										</logic:equal>
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
 											<% if(formElement.getPropertyDisabled()){ %>
-												<label><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+												<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 											<% }else{ %>
-											<html:text  style="formFieldSized" size="10" maxlength="10" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
+											<html:text  style="formFieldSized" size="10" maxlength="10" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
 											<% } %>											
 										</logic:notEqual>
 										</td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
+										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-										<td class="formField"><html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
+										<td class="formField"><html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
 									</logic:equal>
 								</tr>
 							</logic:iterate>
@@ -170,8 +197,18 @@
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" disabled="true">Update</html:submit></td>
+										</logic:notPresent>
+										<logic:present name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><button class="actionButton" disabled="true">Delete</button></td>
+										</logic:notPresent>
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
 										</logic:equal>
@@ -186,7 +223,12 @@
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadAssociation');">Associated Users</html:submit></td>									
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionElementPrivilegesAssociation');">Associated PE & Privileges</html:submit></td>
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadProtectionGroupAssociation');">Associated PG & Roles</html:submit></td>
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
+										<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" onclick="setAndSubmit('loadDoubleAssociation');">Assign PG & Roles</html:submit></td>
+										</logic:present>
+										<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+											<td><html:submit style="actionButton" disabled="true">Assign PG & Roles</html:submit></td>
+										</logic:notPresent>
 									</logic:notEqual>
 								</tr>
 							</table>

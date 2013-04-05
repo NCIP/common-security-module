@@ -75,7 +75,7 @@ public class CertificateAuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = true;
-		}
+		} 
 		assertEquals(true, isValid);
 	}
 
@@ -90,7 +90,7 @@ public class CertificateAuthenicationManagerTest extends TestCase {
 		catch(CSException cse)
 		{
 			isValid = false;
-		}
+		} 
 		assertEquals(true, isValid);
 	}
 	

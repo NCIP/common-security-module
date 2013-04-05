@@ -89,7 +89,7 @@
         name="phoneNumber"
         type="java.lang.String"
         column="PHONE_NUMBER"
-        length="15"
+        length="100"
     >
         
     </property>
@@ -142,6 +142,31 @@
     	length="1" >
     </property>
     
+    <property
+        name="passwordExpiryDate"
+        type="java.sql.Date"
+        column="PASSWORD_EXPIRY_DATE"
+        not-null="true"
+        length="10"
+    >    
+    </property>
+    
+    <property 
+    	name="firstTimeLogin" 
+    	type="byte" 
+    	column="FIRST_TIME_LOGIN" 
+    	not-null="true" 
+    	length="1" >
+    </property>
+    
+    <property 
+    	name="activeFlag" 
+    	type="byte" 
+    	column="ACTIVE_FLAG" 
+    	not-null="true" 
+    	length="1" >
+    </property>    
+           
     <set name="groups" lazy="true" table="CSM_USER_GROUP">
            <key column="user_id"/>
            <many-to-many column="group_id" class="gov.nih.nci.security.authorization.domainobjects.Group"/>

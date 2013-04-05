@@ -131,6 +131,7 @@ public class CommonAssociationAction extends CommonDBAction
 		
 		HttpSession session = request.getSession();
 		BaseAssociationForm baseAssociationForm = (BaseAssociationForm)form;
+		session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 		
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logAssociation.isDebugEnabled())
@@ -143,7 +144,7 @@ public class CommonAssociationAction extends CommonDBAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));			
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));			
 			saveErrors( request,errors );
 			if (logAssociation.isDebugEnabled())
 				logAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
@@ -172,6 +173,7 @@ public class CommonAssociationAction extends CommonDBAction
 		}
 		try
 		{
+			session.setAttribute(DisplayConstants.CREATE_WORKFLOW, "0");
 			baseAssociationForm.buildDisplayForm(request);
 			baseAssociationForm.setAssociationObject(request);
 			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Update Successful"));
@@ -179,7 +181,7 @@ public class CommonAssociationAction extends CommonDBAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, cse.getMessage()));
+			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
 			saveErrors( request,errors );
 			if (logAssociation.isDebugEnabled())
 				logAssociation.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?dsd href="recipes.dsd"?>
+<suiteController xmlns="http://csm.nci.nih.gov"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <description>
+     CSM API test cases.
+  </description>
+  <testcase>
+  	<title>demo: junit test suite controller</title>
+  	<testclass>gov.nih.nci.security.test.HelloWorldCase</testclass>
+  </testcase>
+    <testcase>
+  	<title>demo: junit test client</title>
+  	<testclass>gov.nih.nci.security.test.TestClient</testclass>
+  </testcase>
+</suiteController>

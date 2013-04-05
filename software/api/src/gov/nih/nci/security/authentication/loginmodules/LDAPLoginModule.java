@@ -96,16 +96,19 @@ package gov.nih.nci.security.authentication.loginmodules;
 
 
 import gov.nih.nci.security.authentication.helper.LDAPHelper;
+import gov.nih.nci.security.authentication.helper.RDBMSHelper;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.exceptions.internal.CSInternalConfigurationException;
 import gov.nih.nci.security.exceptions.internal.CSInternalInsufficientAttributesException;
 import gov.nih.nci.security.exceptions.internal.CSInternalLoginException;
 
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 
 import javax.security.auth.Subject;
+import javax.security.auth.callback.CallbackHandler;
 
 /**
  * This class is the implementation of the LoginModule interface and is used to 
@@ -132,6 +135,51 @@ public class LDAPLoginModule extends CSMLoginModule
 	protected boolean validate (Map options, String user, char[] password, Subject subject) throws CSInternalConfigurationException, CSInternalLoginException, CSInternalInsufficientAttributesException
 	{
 		return LDAPHelper.authenticate (new Hashtable(options), user, password, subject);
+	}
+	
+	protected boolean isPasswordExpired(Map options, String user) throws CSInternalConfigurationException
+	{
+		return false;
+	}	
+	protected boolean changePassword(Map options, String user,String newPassword) throws CSInternalConfigurationException
+	{
+		return true;
+	}
+
+	@Override
+	protected boolean isFirstTimeLogin(Map options, String user)
+			throws CSInternalConfigurationException{
+		return false;
+	}
+
+	@Override
+	protected boolean insertIntoPasswordHistory(Map options, String user,
+			char[] password) throws CSInternalConfigurationException{
+		return true;
+	}
+
+	@Override
+	protected boolean resetFirstTimeLogin(Map options, String user)
+			throws CSInternalConfigurationException{
+		return true;
+	}
+
+	@Override
+	protected boolean passwordMatchs(Map options, String user,
+			String newPassword, int i) throws CSInternalConfigurationException {
+		return true;
+	}
+
+	@Override
+	protected boolean updatePasswordExpiryDate(Map options, String user,
+			Date expiryDate) throws CSInternalConfigurationException {
+		return true;
+	}
+
+	@Override
+	protected boolean isActive(Map options, String user)
+			throws  CSInternalConfigurationException{
+		return true;
 	}
 	
 }

@@ -20,7 +20,7 @@
 	<!-- Page Title ends -->
 </head>
 <body>
-<table summary="" cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" height="100%">
 
 	<!-- NCI hdr begins -->
   <tr>
@@ -30,7 +30,7 @@
   <!-- NCI hdr ends -->
   <tr>
     <td height="100%" align="center" valign="top">
-      <table summary="" cellpadding="0" cellspacing="0" border="0" height="100%" width="771">
+      <table cellpadding="0" cellspacing="0" border="0" height="100%" width="771">
 				<!-- application hdr begins -->
 				<tr>
 					<td height="50"><tiles:get name="AppHeader"/>

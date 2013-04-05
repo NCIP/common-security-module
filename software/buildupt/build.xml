@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- bda-build-template version 1.0.1 -->
-<!--
-$Id: build.xml 1593 2009-04-27 21:29:25Z saksass $
-$HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-template/software/build/build.xml $
--->
-
 <project name="csm-bkwrds" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
 	<description>
 		Builds the CSM/UPT application.
@@ -15,36 +9,41 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 	<property name="software.dir" location=".." />
 	<property name="db.src.dir" value="${software.dir}/${db-install.dist.relative.dir}" />
 
-	<property name="backwards-compatible-upt.dir" value="${software.dir}/backwards_compatible_upt" />
-	<property name="upt.central.scripts.dir" value="${backwards-compatible-upt.dir}/uptEAR/scripts/" />
+	<property name="upt.dir" value="${software.dir}/upt" />
+	<property name="upt.central.scripts.dir" value="${upt.dir}/uptEAR/scripts/" />
 
-	<property name="csmupt.install.zip.file" value="${csm.install.zip.file}"/>
-	<property name="csmupt.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
+	<property name="build-blueprints-webapp.install.zip.file" value="${csm.install.zip.file}"/>
+    <property name="build-blueprints-webapp.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
+    <property name="csmupt.install.zip.file" value="${csm.install.zip.file}"/>
+    <property name="csmupt.upgrade.zip.file" value="${csm.upgrade.zip.file}"/>
+
 
 	<property name="db-upgrade.dist.dir" value="${dist.exploded.dir}/${db-upgrade.dist.relative.dir}" />
 
 	<property name="ivy.settings.dir" value="${basedir}/../common" />
 	<property name="ivy.settings.file" value="ivysettings.xml" />
 
-	<import file="bda-master-build.xml"/>
+	<import file="build-master-build.xml"/>
+	<import file="install.xml"/>
 
 	<!-- Properties that relate to how to call build targets from sub-projects-->
 	<!-- Working directory passed to Ant tasks -->
-	<property name="backwards.compatible.upt.base.dir" location="${software.dir}/backwards_compatible_upt" />
-	<property name="backwards.compatible.upt.resources.dir" location="${backwards.compatible.upt.base.dir}/uptEAR/resources" />
-	<property name="backwards.compatible.upt.build.file" value="build.xml" />
-	<property name="backwards.compatible.upt.dist.dir" location="${dist.exploded.dir}/${backwards.compatible.upt.dist.relative.dir}" />
+	<property name="upt.base.dir" location="${software.dir}/upt" />
+	<property name="upt.resources.dir" location="${upt.base.dir}/uptEAR/resources" />
+	<property name="upt.build.file" value="build.xml" />
+	<property name="upt.dist.dir" location="${dist.exploded.dir}/${upt.dist.relative.dir}" />
 
 	<target name="clean">
 		<delete dir="${dist.dir}" />
 		<delete dir="${temp.dir}" />
+		<delete dir="${target.dir}" failonerror="false"/>
 	</target>
 
 	<target name="init"  description="Sets up build are and initalizes variables">
 		<mkdir dir="${target.dir}" />
 		<mkdir dir="${dist.dir}" />
 		<mkdir dir="${dist.exploded.dir}" />
-		<mkdir dir="${backwards.compatible.upt.dist.dir}" />
+		<mkdir dir="${upt.dist.dir}" />
 		<mkdir dir="${common.dist.dir}" />
 		<mkdir dir="${tools.dist.dir}" />
 		<mkdir dir="${temp.dir}" />
@@ -89,49 +88,37 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</if>
 	</target>
 
-	<target name="ivy:clean" description="Cleans up the ivy cache of this project and all sub-projects">
-		<ivy:settings file="${ivy.settings.dir}/${ivy.settings.file}" />
-		<ivy:cleancache />
-		<ant inheritAll="false" inheritRefs="false" antfile="bda-ivy-build.xml" target="ivy-cleancache" dir="${bda-download.dir}">
-			<property name="bda-utils.dir" value="${bda-utils.dir}" />
-			<property name="lib.dir" value="${lib.dir}" />
-			<property name="software.dir" value="${software.dir}" />
-		</ant>
-		<!-- Clean subproject ivy caches -->
-		<ant inheritAll="false" inheritRefs="false" dir="${backwards.compatible.upt.base.dir}" antfile="${backwards.compatible.upt.build.file}" target="cleanupLogin" />
-	</target>
-
-	<target name="build:backwards:compatible:upt" depends="init,clean">
-		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="all" dir="${backwards.compatible.upt.base.dir}">
+	<target name="build:upt" depends="init,clean">
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="all" dir="${upt.base.dir}">
 		</ant>
 	</target>
 
 	<target name="compile:all" description="Used by static-analysis, required since dist target cleans up generated classes that are required by some static analysis tools" depends="
 			init,
-			compile:backwards.compatible.upt
+			compile:upt
 	"/>
 
-	<target name="compile:backwards.compatible.upt" depends="init">
-		<ant inheritAll="false" inheritRefs="false" antfile="${backwards.compatible.upt.build.file}" target="compile" dir="${backwards.compatible.upt.base.dir}" />
+	<target name="compile:upt" depends="init">
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="compile" dir="${upt.base.dir}" />
 	</target>
 
 	<target name="build:all" description="Builds all the sub projects, putting artifacts in the project level target directory, used by distribution targets to make distributions" depends="
 		clean,
 		init,
-		build:backwards:compatible:upt">
+		build:upt">
 	</target>
 
 	<target name="dist:installer:prep" depends="dist:tools:retrieve,dist:tools:retrieve:jboss-bindings" description="Copies artifacts not generated by sub-project builds into the install distribution area">
 
 		<copy todir="${dist.exploded.dir}" overwrite="true">
 			<fileset dir="${build.dir}">
-				<include name="bda-master-install.xml" />
+				<include name="build-master-install.xml" />
 			</fileset>
-			<fileset dir="${backwards.compatible.upt.resources.dir}">
+			<fileset dir="${upt.resources.dir}">
 				<include name="*ApplicationSecurityConfig.xml" />
 				<include name="*upt-ds-template.xml" />
 				<include name="*login-config-template.xml" />
-				<include name="*csmupt31.hibernate.cfg.xml" />
+				<!--<include name="*csmupt*.csm.hibernate.cfg.xml" />-->
 			</fileset>
 			<filterset>
 				<filterset>
@@ -141,24 +128,15 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		</copy>
 
 		<!-- copies sql files to exploded folder for application : upt31,upt32,upt40,upt41,upt42,uptcentral and required xml and properties files -->
-		<copyInstallSQLFiles upt.version="${upt.31.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.31.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.32.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.32.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
+		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
 
-		<copyUpgradeSQLFiles upt.version="${upt.31.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.31.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.32.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.32.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.central.scripts.dir}"/>
-
+		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
+		
 		<dist-prep />
+		
 	</target>
 
-<target name="dist:installer" depends="build:all,dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
+	<target name="dist:installer" depends="build:all,dist:installer:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
 		<delete file="${dist.dir}/${csmupt.install.zip.file}" />
 		<!-- Set environment name to external -->
 		<delete file="${dist.exploded.dir}/upgrade.properties"/>
@@ -172,19 +150,21 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<zip destfile="${dist.dir}/${csmupt.install.zip.file}" basedir="${dist.exploded.dir}" />
 	</target>
 
+
+
 	<target name="dist:upgrader:prep" depends="dist:tools:retrieve" description="Copies artifacts not generated by sub-project builds into the install distribution area">
 		<!-- Copy db-upgrade scripts from source into distribution area. The db files need to be under db-upgrade/${database.type}. This has not been moved to the macro because the source and dest structure may not be the same and thus this would need to be custom. -->
 		<!-- upgrade sql scripts for remote deployment -->
 
 		<copy todir="${dist.exploded.dir}" overwrite="true">
 			<fileset dir="${build.dir}">
-				<include name="bda-master-install.xml" />
+				<include name="build-master-install.xml" />
 			</fileset>
-			<fileset dir="${backwards.compatible.upt.resources.dir}">
+			<fileset dir="${upt.resources.dir}">
 				<include name="*ApplicationSecurityConfig.xml" />
 				<include name="*upt-ds-template.xml" />
 				<include name="*login-config-template.xml" />
-				<include name="*csmupt31.hibernate.cfg.xml" />
+				<!--<include name="*csmupt*.csm.hibernate.cfg.xml" />-->
 			</fileset>
 			<filterset>
 				<filterset>
@@ -193,12 +173,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</filterset>
 		</copy>
 
-		<copyUpgradeSQLFiles upt.version="${upt.31.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.31.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.32.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.32.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.40.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.40.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.41.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.41.url.context.name}/resources/"/>
-		<copyUpgradeSQLFiles upt.version="${upt.42.url.context.name}" input.dir="${target.dir}/${backwards.compatible.upt.dist.relative.dir}/svncheckout/${upt.42.url.context.name}/resources/"/>
-
 		<!-- For non DAC upgrades -->
 		<dist-prep
 			copy.tools.flag="N"
@@ -206,12 +180,12 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		/>
 
 
-		<!-- For DAC upgrades 
+		<!-- For DAC upgrades -->
 		<dist-prep
 			copy.tools.flag="Y"
 			default.target="upgrade"
 			/>
-		-->
+		
 	</target>
 
 	<target name="dist:upgrader" depends="build:all,dist:upgrader:prep" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
@@ -238,6 +212,173 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 
 	</target>
 
+	<target name="dist:anthill" depends="clean,init,configure:pre-build,build:upt,dist:anthill:prep,dist:anthill:login:config,dist:anthill:configure:datasources,dist:anthill:configure:application:context" description="Produces zip file based on installer distribution area. Zip is used by deploy:remote:* or external installations">
+			
+	</target>
+
+	<target name="configure:pre-build" description="Configures UPT">
+		<filterset id="upt.filterset">
+			<filter token="upt.version.database.url.prefix" value="${upt.central.database.url.prefix}" />
+			<filter token="upt.version.database.server" value="${upt.central.database.server}" />
+			<filter token="upt.version.database.port" value="${upt.central.database.port}" />
+			<filter token="upt.version.database.name" value="${upt.central.database.name}" />
+			<filter token="upt.version.database.user" value="${upt.central.database.user}" />
+			<filter token="upt.version.database.password" value="${upt.central.database.password}" />
+			<filter token="upt.version.database.dialect" value="${upt.central.database.dialect}" />
+			<filter token="upt.version.database.driver.class" value="${upt.central.database.driver.class}" />
+			<filter token="datasource.jndi.name" value="${upt.central.jndi.name}" />			
+		</filterset>
+
+		<filterset id="upt.context.filterset">
+			<filter token="upt.context.name" value="csmupt" />
+		</filterset>
+	
+		<copy todir="${upt.base.dir}/webapp/src" overwrite="true">
+			<fileset dir="${upt.resources.dir}">
+				<include name="*csmupt*.csm.new.hibernate.cfg.xml" />
+			</fileset>
+			<filterset>
+				<filterset refid="upt.filterset"/>
+				<filterset refid="upt.context.filterset"/>
+				<filterset>
+					<filtersfile file="install.properties"/>
+					<filtersfile file="project.properties"/>
+				</filterset>
+			</filterset>
+		</copy>			
+	</target>
+
+	<target name="dist:anthill:prep" description="Package for anthill to pickup">
+		<filterset id="upt.filterset">
+			<filter token="upt.version.database.url.prefix" value="${upt.central.database.url.prefix}" />
+			<filter token="upt.version.database.server" value="${upt.central.database.server}" />
+			<filter token="upt.version.database.port" value="${upt.central.database.port}" />
+			<filter token="upt.version.database.name" value="${upt.central.database.name}" />
+			<filter token="upt.version.database.user" value="${upt.central.database.user}" />
+			<filter token="upt.version.database.password" value="${upt.central.database.password}" />
+			<filter token="upt.version.database.dialect" value="${upt.central.database.dialect}" />
+			<filter token="upt.version.database.driver.class" value="${upt.central.database.driver.class}" />
+		</filterset>
+
+		<filterset id="upt.context.filterset">
+			<filter token="upt.context.name" value="csmupt" />
+		</filterset>	
+
+		<copy todir="${dist.exploded.dir}" overwrite="true">
+			<fileset dir="${upt.resources.dir}">
+				<include name="*ApplicationSecurityConfig.xml" />
+				<include name="*upt-ds-template.xml" />
+				<include name="*login-config-template.xml" />
+			</fileset>
+			<filterset>
+				<filterset refid="upt.filterset"/>
+				<filterset refid="upt.context.filterset"/>
+				<filterset>
+					<filtersfile file="install.properties"/>
+					<filtersfile file="project.properties"/>
+				</filterset>
+			</filterset>
+		</copy>
+		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${upt.dir}/resources"/>
+		<echo message="Coping the Upgrade Files to ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql"/>
+		<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql" overwrite="true">
+			<fileset dir="${upt.dir}/resources">
+				<include name="**/db-upgrade-central.xml" />
+			</fileset>
+		</copy>			
+		
+		<copy todir="${dist.exploded.dir}" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="deploy-anthill.xml" />
+				<include name="project.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.exploded.dir}/lib" overwrite="true">
+			<fileset dir="${build-utils.dir}">
+				<include name="mysql-connector-java-5.1.13.jar" />
+				<include name="liquibase-core-1.9.3.jar" />
+				<include name="ant-contrib-1.0nci.jar" />
+				<include name="bcprov-jdk15on-147.jar" />
+				<include name="clm-4.1.1.jar" />				
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="dist:anthill:login:config" description="Configure login config software/common/resource/jboss-conf/login-config.block.xml">
+		<echo
+			message="Inserting into ${dist.exploded.dir}/login-config-template.xml" />
+
+		<configure-login-config 
+			authentication.type="${upt.central.authentication.type}" application.context.name="${application.context.name}"
+			database.driver="${upt.central.database.driver.class}" database.url="${upt.central.database.url}"
+			database.user="${upt.central.database.user}" database.password="${upt.central.database.password}"
+			database.encrypt.enabled="${upt.central.database.encrypt.enabled}" 
+			ldaps.url="${upt.central.ldaps.url}" ldaps.basedn="${upt.central.ldaps.basedn}" ldaps.userid.label="${upt.central.ldaps.userid.label}"
+			ldap.url="${upt.central.ldap.url}" ldap.searchable.base="${upt.central.ldap.searchable.base}"
+			ldap.userid.label="${upt.central.ldap.userid.label}"
+			ldap.admin.user.name="${upt.central.ldap.admin.user.name}" 
+			ldap.admin.user.password="${upt.central.ldap.admin.user.password}"
+			login.config.file="${dist.exploded.dir}/login-config-template.xml"
+		/>
+	</target>
+
+	<target name="dist:anthill:configure:datasources" description="Configure login config /deploy/upt-ds.xml">	
+		<configure-datasources 	database.url="${upt.central.database.url}" 
+			database.user="${upt.central.database.user}" 
+			database.password="${upt.central.database.password}" jndi.name="${upt.central.jndi.name}"
+			driver.class="${upt.central.database.driver.class}"
+			datasource.file="${dist.exploded.dir}/upt-ds-template.xml"
+		/>
+		<move file="${dist.exploded.dir}/upt-ds-template.xml" tofile="${dist.exploded.dir}/upt-ds.xml"/>
+	</target>
+	
+	<target name="dist:anthill:configure:application:context"
+			description="Configure application context config ${jboss.home}/server/${jboss.server.name}/csmconfig/ApplicationSecurityConfig.xml"
+			>
+		<configure-application-context-application context.name="${upt.central.context.name}" 
+			hibernate.config.file="" 
+			application.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
+			/>
+		<configure-application-context-upt-application
+				context.name="${upt.central.context.name}" url.context.name="${upt.central.url.context.name}"
+				hibernate.config.file="${upt.central.hibernate.config.file}" 
+				application.context.file="${dist.exploded.dir}/ApplicationSecurityConfig.xml"
+				/>
+	</target>
+	
+	<target name="anthill:install-database"
+			description="Run liqubase to upgrade database"
+			>
+		<for list="${upt.central.db.install.create.mysql.file.list}" param="db.install.file">
+			<sequential>
+				<run-sql-script database.url="${upt.central.database.url}"
+					database.user="${upt.central.database.user}"
+					database.password="${upt.central.database.password}"
+					database.driver="${upt.central.database.driver.class}"
+					database.driver.file="${build-utils.dir}/mysql-connector-java-5.1.13.jar"
+					sql.delimiter=";"
+					sql.delimitertype="normal"
+					sql.file="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/uptcentral/mysql/@{db.install.file}"
+					onerror="abort"/>	
+			</sequential>
+		</for>
+	</target>
+		
+	<target name="anthill:upgrade-database"
+			description="Run liqubase to upgrade database"
+			>			
+		<database-upgrade	
+			database.driver="${upt.central.database.driver.class}"			
+			database.driver.file="${build-utils.dir}/mysql-connector-java-5.1.13.jar"
+			database.url="${upt.central.database.url}"
+			database.user="${upt.central.database.user}"
+			database.password="${upt.central.database.password}"
+			database.schema="${upt.central.database.name}"
+			database.changelog.file="${dist.exploded.dir}/common/resources/db/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql/db-upgrade-central-bkwrds.xml"
+			/>			
+	</target>
+	
+	
 	<!-- Adding the dist:gui-installer target here to copy over eng.xml in izpack -->
 	<target name="dist:gui-installer" description="Makes Gui-Installer distribution">
 		<delete>
@@ -246,7 +387,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 			</fileset>
 		</delete>
 
-		<gui-installer-prep product.name="${csmupt.install.name}" product.version="${bda-blueprints-webapp.version}" />
+		<gui-installer-prep product.name="${csmupt.install.name}" product.version="${build-blueprints-webapp.version}" build-utils.dir="${build-utils.dir}"/>
 		<!-- <delete file="${target.dir}/izpack-4.3/src/lib/resources/eng.xml"/>-->
 		<copy todir="${target.dir}/izpack-4.3/src/lib/resources" overwrite="true">
 			<fileset dir="${build.dir}/gui-installer">
@@ -277,24 +418,24 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<attribute name="upt.version" default="NOT SET" />
 		<attribute name="input.dir" default="NOT SET" />
 		<sequential>
-			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
+			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
 				<fileset dir="@{input.dir}">
 					<include name="*MySQL.sql" />
 					<exclude name="*Migration*MySQL.sql" />
 				</fileset>
 			</copy>
-			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
+			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
 				<fileset dir="@{input.dir}">
 					<include name="*Oracle.sql" />
 					<exclude name="*Migration*Oracle.sql" />
 				</fileset>
 			</copy>
-			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/postgres" overwrite="true">
+			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/@{upt.version}/postgresql" overwrite="true">
 				<fileset dir="@{input.dir}">
 					<include name="*Postgres.sql" />
 					<exclude name="*Migration*Postgres.sql" />
 				</fileset>
-			</copy>
+			</copy>	
 		</sequential>
 	</macrodef>
 
@@ -303,13 +444,27 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build
 		<attribute name="upt.version" default="NOT SET" />
 		<attribute name="input.dir" default="NOT SET" />
 		<sequential>
-			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${backwards.compatible.upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
+		<echo message="*******Copine from @{input.dir} FILES TO ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/@{upt.version}/mysql**********"/>
+			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
 				<fileset dir="@{input.dir}">
 					<include name="**/db-upgrade*.xml" />
 					<include name="**/MigrationScript*.xml" />
 				</fileset>
-			</copy>
+			</copy>		
 		</sequential>
 	</macrodef>
 
+	<target name="deploy:local:upgrade" depends="build:all,dist:upgrader:prep" description="Upgrades and configures the application and database  on the local machine. Used for developer desktops and ci environments.">
+		<deploy-local
+			target.name="${upgrade.target}"
+			properties.file="${properties.file}"
+			/>
+	</target>
+	
+	<target name="src" depends="init,clean">
+		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="src" dir="${upt.base.dir}">
+		</ant>
+	</target>
+
+	
 </project>

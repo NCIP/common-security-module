@@ -8,6 +8,8 @@
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script>
 <!--
    	function setAndSubmit(target)
@@ -18,13 +20,60 @@
    			{
    				document.PrivilegeForm.operation.value=target;
 				document.PrivilegeForm.submit();
+				return false;
 			}
 		}
 		else
 		{
 	  		document.PrivilegeForm.operation.value=target;
+	  		document.PrivilegeForm.submit();
+	  		return false;
 	  	}
  	}
+ 	
+function skipNavigation()
+{
+	document.getElementById("privDetail").focus();
+	window.location.hash="privDetail";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	if(document.getElementById("homeLink"))
+		document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+	if(document.getElementById("menuHome"))
+		document.getElementById("menuHome").tabIndex = -1;
+	if(document.getElementById("menuUser"))
+		document.getElementById("menuUser").tabIndex = -1;
+	if(document.getElementById("menuPE"))	
+		document.getElementById("menuPE").tabIndex = -1;
+	if(document.getElementById("menuPrivilege"))	
+		document.getElementById("menuPrivilege").tabIndex = -1;
+	if(document.getElementById("menuGroup"))
+		document.getElementById("menuGroup").tabIndex = -1;
+	if(document.getElementById("menuPG"))
+		document.getElementById("menuPG").tabIndex = -1;
+	if(document.getElementById("menuRole"))
+		document.getElementById("menuRole").tabIndex = -1;
+	if(document.getElementById("menuInstance"))
+		document.getElementById("menuInstance").tabIndex = -1;
+	if(document.getElementById("menulogout"))
+		document.getElementById("menulogout").tabIndex = -1;
+
+	if(document.getElementById("saHome"))
+		document.getElementById("saHome").tabIndex = -1;
+	if(document.getElementById("saApp"))	
+		document.getElementById("saApp").tabIndex = -1;
+	if(document.getElementById("saUser"))
+		document.getElementById("saUser").tabIndex = -1;
+	if(document.getElementById("saPriv"))
+		document.getElementById("saPriv").tabIndex = -1;
+	if(document.getElementById("saLogout"))
+		document.getElementById("saLogout").tabIndex = -1;
+
+} 	
 // -->
 </script>
 <bean:define id="submitValue" value="error" />
@@ -46,15 +95,15 @@
 </logic:notEqual>
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="PrivilegeForm" action="/PrivilegeDBOperation" focus="privilegeName">
+	<html:form styleId="PrivilegeForm" action="/PrivilegeDBOperation">
 	<html:hidden property="operation" value="<%=submitValue%>"/>
-
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/PrivilegeDBOperation'/>"/>
 			<tr>
 			<td valign="top">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+					<table summary="Privilege Details" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
 							<td class="infoMessage" colspan="3">
 			  				<html:messages id="message" message="true">
@@ -75,7 +124,7 @@
 								<!--3.0.1-->
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
 								<tr>
-									<td class="formMessage" colspan="3">Enter the details to add a new Privilege. 
+									<td class="formMessage" colspan="3"><a id="privDetail"></a>Enter the details to add a new Privilege. 
 									The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
 									The <b>Privilege Description</b> is a brief summary about the Privilege.</td>
 								</tr>
@@ -88,7 +137,7 @@
 								<!--3.0.1-->
 								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 								<tr>
-									<td class="formMessage" colspan="3">Search for an existing Privilege by entering the <b>Privilege Name</b>.</td>
+									<td class="formMessage" colspan="3"><a id="privDetail"></a>Search for an existing Privilege by entering the <b>Privilege Name</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
@@ -97,7 +146,7 @@
 							</logic:equal>
 							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
 								<tr>
-									<td class="formMessage" colspan="3"> 
+									<td class="formMessage" colspan="3"> <a id="privDetail"></a>
 									The <b>Privilege Name</b> uniquely identifies the Privilege. 
 									The <b>Privilege Description</b> is a brief summary about the Privilege. The <b>Update Date</b> indicates the date when this Privilege's Details were last updated.</td>
 								</tr>							
@@ -139,34 +188,34 @@
 								<tr>
 									<logic:equal name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">*</td>
-										<td class="formRequiredLabel2"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formRequiredLabel2"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:equal>
 									<logic:notEqual name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
 										<td class="formRequiredNotice" width="5">&nbsp;</td>
-										<td class="formLabel"><label><bean:write name="formElement" property="propertyLabel" /></label></td>
+										<td class="formLabel"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
 									</logic:notEqual>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
-										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
+										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
 										<td class="formField">
 										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-											<label><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 										</logic:equal>
 										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
 											<% if(formElement.getPropertyDisabled()){ %>
-												<label><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
+												<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
 											<% }else{ %>
-											<html:text  style="formFieldSized" size="10" maxlength="10" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
+											<html:text  style="formFieldSized" size="10" maxlength="10" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
 											<% } %>											
 										</logic:notEqual>
 										</td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
+										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
 									</logic:equal>
 									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-										<td class="formField"><html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
+										<td class="formField"><html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
 									</logic:equal>
 								</tr>
 							</logic:iterate>
@@ -174,9 +223,7 @@
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
-										
+									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">						
 										<!--3.0.1-->
 										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
 										<!--3.0.1-->
@@ -199,15 +246,22 @@
 										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
 									</logic:equal>
 									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										
-										
-										
 										<!--3.0.1-->
 										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
 										<!--3.0.1-->
-										<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-										<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-										<!--3.0.1-->
+											<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
+											</logic:present>
+											<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><html:submit disabled="true">Update</html:submit></td>
+											</logic:notPresent>
+											<logic:present name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
+											</logic:present>
+											<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+												<td><html:submit disabled="true">Delete</html:submit></td>
+											</logic:notPresent>
+											<!--3.0.1-->
 										</logic:present>
 
 										<!--3.0.1-->
@@ -218,14 +272,9 @@
 										</logic:equal>
 										<!--3.0.1-->
 										</logic:present>		
-										
-										
-										
 										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
 											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
 										</logic:equal>
-										
-										
 									</logic:notEqual>
 								</tr>
 							</table>

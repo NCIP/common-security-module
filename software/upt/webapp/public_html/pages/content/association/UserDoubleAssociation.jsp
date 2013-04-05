@@ -10,15 +10,17 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
+<%@ page import="gov.nih.nci.security.constants.Constants"%>
 <script> 
     <!--
     	
   	function setAndSubmit(target)
 	{
 		document.UserForm.operation.value=target;
+		document.UserForm.submit();
 	}
 	
 	<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
@@ -175,10 +177,35 @@
          if (options[0] != null)
             options[0].selected = true;
       } // end with isavailableRoleIds
-	}    //-->
+	}   
+
+function skipNavigation()
+{
+	document.getElementById("usrAssoc").focus();
+	window.location.hash="usrAssoc";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
+	
+	//-->
     </script>
 
-<table summary="" cellpadding="0" cellspacing="0" border="0"
+<table cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top" width="100%">
@@ -186,7 +213,7 @@
 			class="contentBegins">
 			<tr>
 				<td>
-				<h2>User, Protection Group and Roles Association</h2>
+				<h2><a id="usrAssoc"></a>User, Protection Group and Roles Association</h2>
 				</td>
 			</tr>
 			<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
@@ -197,7 +224,7 @@
 								<td class="formTitle" height="20" colspan="2">SELECTED USER</td>
 							</tr>
 							<tr class="dataRowDark">
-								<td class="formRequiredLabel" width="40%" scope="row"><label>User Login Name</label></td>
+								<td class="formRequiredLabel" width="40%" scope="row"><label for="userLoginName">User Login Name</label></td>
 								<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
 							</tr>
 						</table>
@@ -206,7 +233,7 @@
 			</logic:notEqual>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
-				<table summary="" cellpadding="3" cellspacing="10" border="0"
+				<table cellpadding="3" cellspacing="10" border="0"
 					height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
@@ -229,8 +256,9 @@
 					</logic:present> -->
 					
 					<html:form styleId="UserForm"
-						action='<%="/UserDBOperation"%>'>
+						action="/UserDBOperation">
 						<html:hidden property="operation" value="read" />
+						<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>
 						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
 							<tr>
 							
@@ -249,7 +277,7 @@
 									name="<%=DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET%>"
 									id="availableProtectionGroupIds" type="java.util.Collection" />
 								<td width="100%" valign="top">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSection">
 									<tr>
 										<td class="sidebarTitle" height="20">AVAILABLE PROTECTION
@@ -306,7 +334,7 @@
 								
 								
 								<td width="100%" valign="top">
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
+								<table cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSection">
 									<tr>
 
@@ -380,7 +408,7 @@
 							<bean:define name="<%=DisplayConstants.ASSIGNED_ROLE_SET%>"
 								id="roleAssociatedIds" type="java.util.Collection" />
 							<td width="100%" valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 									<td class="sidebarTitle" height="20">AVAILABLE ROLES</td>
@@ -408,14 +436,18 @@
 							<tr>
 							<!-- -->
 							
-							
-							<td align="center"><input type="button" value="Assign"
-								style="width:75px;" onclick="selSwitchRole(this);"> </td>
-							<td align="center">
-							<input type="button" value="Deassign" style="width:75px;"
-								onclick="selSwitchRole(this);"> 
-							</td>
-							
+							<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+								<td align="center"><input type="button" value="Assign"
+									style="width:75px;" onclick="selSwitchRole(this);"> </td>
+								<td align="center">
+								<input type="button" value="Deassign" style="width:75px;"
+									onclick="selSwitchRole(this);"> 
+								</td>
+							</logic:present>
+							<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+								<td align="center"><input type="button" value="Assign"	style="width:75px;" disabled="disabled"></td>
+								<td align="center"><input type="button" value="Deassign" style="width:75px;" disabled="disabled"></td>
+							</logic:notPresent>
 							
 							<!-- extra code -->
 							</tr>
@@ -430,7 +462,7 @@
 							
 							
 							<td width="100%" valign="top">
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
+							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
 								<tr>
 
@@ -468,13 +500,17 @@
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-
-						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
-						<td><input type="button" style="actionButton" onclick="setAndSubmitPG('setDoubleAssociation');" value="Update Association"></td>
-						</logic:notPresent>
-						<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
-						<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
+						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+							<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
+								<td><input type="button" style="actionButton" onclick="setAndSubmitPG('setDoubleAssociation');" value="Update Association"></td>
+							</logic:notPresent>
+							<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
+								<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
+							</logic:present>
 						</logic:present>
+						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+							<td><input type="button" style="actionButton" disabled="disabled" value="Update Association"/></td>
+						</logic:notPresent>
 						<td><html:submit style="actionButton"
 							onclick="setAndSubmit('loadProtectionGroupAssociation');">Back</html:submit></td>
 					</tr>

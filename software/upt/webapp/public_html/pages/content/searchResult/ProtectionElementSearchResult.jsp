@@ -10,7 +10,7 @@
 	prefix="template"%>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
 	prefix="nested"%>
-
+<%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 <% int cntResObj=1; // - Count the number of objects to display %>
@@ -19,19 +19,45 @@
    	function setAndSubmit(target)
    	{
   		document.ProtectionElementForm.operation.value=target;
+  		document.ProtectionElementForm.submit();
  	}
+ 	
+function skipNavigation()
+{
+	document.getElementById("peResult").focus();
+	window.location.hash="peResult";
+	document.getElementById("ncilink").tabIndex = -1;
+	document.getElementById("nihlink").tabIndex = -1;
+	document.getElementById("skipmenu").tabIndex = -1;
+	
+	document.getElementById("homeLink").tabIndex = -1;
+	if(document.getElementById("adminhomeLink"))
+		document.getElementById("adminhomeLink").tabIndex = -1;
+		
+	document.getElementById("menuHome").tabIndex = -1;
+	document.getElementById("menuUser").tabIndex = -1;
+	document.getElementById("menuPE").tabIndex = -1;
+	document.getElementById("menuPrivilege").tabIndex = -1;
+	document.getElementById("menuGroup").tabIndex = -1;
+	document.getElementById("menuPG").tabIndex = -1;
+	document.getElementById("menuRole").tabIndex = -1;
+	document.getElementById("menuInstance").tabIndex = -1;
+	document.getElementById("menulogout").tabIndex = -1;
+}
+ 	
 // -->
 </script>
 
 
-	<table summary="" cellpadding="0" cellspacing="0" border="0"
+	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<html:form styleId="ProtectionElementForm"
-	action='<%="/ProtectionElementDBOperation"%>'>
+	action="/ProtectionElementDBOperation">
 	<html:hidden property="operation" value="read" />
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ProtectionElementDBOperation'/>"/>
 		<tr>
 			<td>
-			<h2>Protection Element</h2>
+			<h2><a id="peResult"></a>Protection Element</h2>
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +66,7 @@
 				width="100%" class="contentBegins">
 				<tr>
 					<td>
-					<table summary="" cellpadding="0" cellspacing="0" border="0"
+					<table cellpadding="0" cellspacing="0" border="0"
 						width="100%">
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
@@ -68,7 +94,7 @@
 											width="20%">Value</th>
 									</tr>
 									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="ProtectionElement" length="200">
+										id="searchResultObject" type="ProtectionElement" length="1000">
 										<%if (oddRow.equals("true")) { oddRow ="false";%>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%"><html:radio

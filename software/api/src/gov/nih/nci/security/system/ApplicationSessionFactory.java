@@ -12,7 +12,7 @@ package gov.nih.nci.security.system;
  *(the 'CSM Software').  The CSM Software was developed in conjunction with the
  *National Cancer Institute ('NCI') by NCI employees and employees of Ekagra.  To
  *the extent government employees are authors, any rights in such works shall be
- *subject to Title 17 of the United States Code, section 105.    
+ *subject to Title 17 of the United States Code, section 105.
  *
  *This CSM Software License (the 'License') is between NCI and You.  'You (or
  *'Your') shall mean a person or an entity, and all other entities that control,
@@ -20,7 +20,7 @@ package gov.nih.nci.security.system;
  *purposes of this definition means (i) the direct or indirect power to cause the
  *direction or management of such entity, whether by contract or otherwise, or
  *(ii) ownership of fifty percent (50%) or more of the outstanding shares, or
- *(iii) beneficial ownership of such entity.  
+ *(iii) beneficial ownership of such entity.
  *
  *This License is granted provided that You agree to the conditions described
  *below.  NCI grants You a non-exclusive, worldwide, perpetual, fully-paid-up,
@@ -113,33 +113,33 @@ import org.hibernate.cfg.Configuration;
 public class ApplicationSessionFactory {
 
 	public static Hashtable appSessionFactories = new Hashtable();
-	  	
+
 	public static SessionFactory getSessionFactory(String applicationContextName) throws CSConfigurationException{
 		SessionFactory sf = null;
-		
+
 		 sf = (SessionFactory)appSessionFactories.get(applicationContextName);
 		 if(sf==null){
 		 	sf = ApplicationSecurityConfigurationParser.getApplicationSessionFactoryFromHotInitialization(applicationContextName);
 		 	appSessionFactories.put(applicationContextName, sf);
 		 }
-		
+
 		 if(sf==null){
 		 	throw new CSConfigurationException("Could not initialize session factory");
 		 }
 		return sf;
 	}
-	
+
 	public static SessionFactory initSessionFactory(String fileName) throws CSConfigurationException{
 		SessionFactory sf = null;
-		
+
 		File f = new File(fileName);
 		if (!f.exists())
 			throw new CSConfigurationException("Error in reading the Hibernate Configuration File");
 		sf = new Configuration().configure(f).buildSessionFactory();
-		
+
 		return sf;
 	}
-	
+
 	public static SessionFactory getSessionFactory(String applicationContextName, HashMap connectionProperties) throws CSConfigurationException{
 		SessionFactory sessionFactory = null;
 
@@ -156,13 +156,14 @@ public class ApplicationSessionFactory {
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Role.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/dao/hibernate/RolePrivilege.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/dao/hibernate/UserGroup.hbm.xml");
-				configuration.addResource("gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.hbm.xml");     
+				configuration.addResource("gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/Group.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/User.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/ProtectionElement.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.hbm.xml");
 				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/UserProtectionElement.hbm.xml");
+				configuration.addResource("gov/nih/nci/security/authorization/domainobjects/ConfigurationProperties.hbm.xml");
 				configuration.setProperty("hibernate.connection.url",(String)connectionProperties.get("hibernate.connection.url"));
 				configuration.setProperty("hibernate.connection.username",(String)connectionProperties.get("hibernate.connection.username"));
 				configuration.setProperty("hibernate.connection.password",(String)connectionProperties.get("hibernate.connection.password"));
@@ -173,10 +174,10 @@ public class ApplicationSessionFactory {
 				configuration.setProperty("hibernate.c3p0.timeout","300");
 				configuration.setProperty("hibernate.c3p0.max_statements","50");
 				configuration.setProperty("hibernate.c3p0.idle_test_period","3000");
-				
+
 				sessionFactory = configuration.buildSessionFactory();
 			}
-			catch (Exception e) 
+			catch (Exception e)
 			{
 				throw new CSConfigurationException("Error in initializing the hibernate session factory using the provided connection parameters",e);
 			}
@@ -188,7 +189,7 @@ public class ApplicationSessionFactory {
 	public static SessionFactory getSessionFactory(String applicationContextName, URL url) throws CSConfigurationException
 	{
 		SessionFactory sf = null;
-		
+
 		sf = (SessionFactory)appSessionFactories.get(applicationContextName);
 		if(sf==null)
 		{

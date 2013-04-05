@@ -1,6 +1,12 @@
 
 package gov.nih.nci.security.util;
 
+import gov.nih.nci.security.exceptions.CSConfigurationException;
+
+import java.util.regex.Pattern;
+
+import org.apache.commons.configuration.AbstractConfiguration;
+
 /**
  *
  *<!-- LICENSE_TEXT_START -->
@@ -161,9 +167,6 @@ public class StringUtilities {
 		return temp;
 	}
 
-    
-
-
     public static boolean isAlphaNumeric(final String s) {
     	if(isBlank(s)) return false;
       final char[] chars = s.toCharArray();
@@ -178,7 +181,19 @@ public class StringUtilities {
       return true;
     }
 
+    public static String bytes2String(byte[] bytes) {
+		StringBuffer stringBuffer = new StringBuffer();
+		for (int i = 0; i < bytes.length; i++) {
+			stringBuffer.append((char) bytes[i]);
+		}
+		return stringBuffer.toString();
+	}
 
-	
-    
+	public static boolean checkPatternMatches(String password, String pattern) {
+		Pattern.quote(password);
+		if(Pattern.matches(pattern, password))
+			return true;
+		else
+			return false;
+	}
 }
