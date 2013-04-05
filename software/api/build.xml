@@ -227,7 +227,7 @@
 	</target>
 	
 	<target name="src">
-		<zip destfile="${dist.dir}/csm-api-src4.2.3.zip" basedir="${src.dir}" />
+		<zip destfile="${dist.dir}/csm-api-src5.0.zip" basedir="${src.dir}" />
 	</target>
 
 </project>
