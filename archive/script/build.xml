@@ -1,3 +1,11 @@
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <project name="CSM_BUILD_ALL" default="all" basedir="..">
 
    <description>This build file is to build the CSM API, UPT, and RI.  If the build process fails, check which task it failed on.  If it failed on the &quot;BUILD_CSM_API&quot; task, make sure the api project can be built alone.  This also goes for the &quot;UPT&quot; and &quot;RI&quot; tasks, if they fail, then check the project specific builds.  This build file will create a local.properties file if one doesn't exist in the ${basedir} directory.  The user should check the local.properties file after it has been create to make sure the settings are correct.</description>

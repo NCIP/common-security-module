@@ -1,3 +1,11 @@
+/*L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L*/
+
 use <dbname>;
 
 INSERT INTO csm_protection_element (PROTECTION_ELEMENT_NAME, PROTECTION_ELEMENT_DESCRIPTION, OBJECT_ID, ATTRIBUTE, ATTRIBUTE_VALUE, PROTECTION_ELEMENT_TYPE, APPLICATION_ID, UPDATE_DATE) VALUES('Disable Flag for UPT Operation:ACCESS_UPT_GROUP_OPERATION', 'System required protection element :ACCESS_UPT_GROUP_OPERATION\'\n Do not change its unique object ID.', 'ACCESS_UPT_GROUP_OPERATION', '', '', '', '<APPLICATION_ID>', '2012-12-20');

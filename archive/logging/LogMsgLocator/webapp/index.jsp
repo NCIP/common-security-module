@@ -1,3 +1,11 @@
+<%--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L--%>
+
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles" %>
 <tiles:insert page="layout.jsp" flush="true" >
 	<tiles:put name="title"  value="Log Tracker" />

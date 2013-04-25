@@ -1,3 +1,11 @@
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <Context path="/upt" docBase="upt" debug="1" crossContext="true">
 	<Logger className="org.apache.catalina.logger.FileLogger"
 		prefix="localhost_upt_log." suffix=".txt" timestamp="true" />

@@ -1,3 +1,11 @@
+<%--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L--%>
+
 <%@ include file= "/pages/imports.jsp" %>
 
 <table summary="" cellpadding="0" cellspacing="0" border="0" height="100" width="100%">
