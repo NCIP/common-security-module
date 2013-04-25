@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
 
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <!-- 
     A sample installation file.
     Use it as a base for your own installers :-)
