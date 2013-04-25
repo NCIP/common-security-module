@@ -1,3 +1,11 @@
+/*L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L*/
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('FK_CSM_GROUP_CSM_APPLICATION') AND OBJECTPROPERTY(id, 'IsForeignKey') = 1)
 ALTER TABLE CSM_GROUP DROP CONSTRAINT FK_CSM_GROUP_CSM_APPLICATION
 ;
