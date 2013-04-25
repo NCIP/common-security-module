@@ -1,3 +1,11 @@
+/*L
+ *  Copyright Ekagra Software Technologies Ltd.
+ *  Copyright SAIC
+ *
+ *  Distributed under the OSI-approved BSD 3-Clause License.
+ *  See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+ */
+
 /* Copyright 2004, 2005, 2006 Acegi Technology Pty Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
