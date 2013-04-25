@@ -1,3 +1,11 @@
+/*L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L*/
+
 CREATE TABLE CSM_FILTER_CLAUSE (
             FILTER_CLAUSE_ID NUMBER(38) NOT NULL,
             CLASS_NAME VARCHAR2(100) NOT NULL,

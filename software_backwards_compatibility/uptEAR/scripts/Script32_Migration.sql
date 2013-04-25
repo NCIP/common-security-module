@@ -1,3 +1,11 @@
+/*L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L*/
+
 ﻿Use csm_dev_bkwrdscmptbl_3_2;
 
 ALTER TABLE csm_application MODIFY COLUMN UPDATE_DATE DATE NOT NULL DEFAULT '0000-00-00';
