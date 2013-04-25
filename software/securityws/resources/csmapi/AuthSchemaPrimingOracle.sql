@@ -1,3 +1,11 @@
+/*L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L*/
+
 INSERT INTO csm_application (APPLICATION_ID,APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 VALUES (1,'<<application_context_name>>','Application Description',0,0,sysdate);
 SELECT CSM_APPLICATI_APPLICATION__SEQ.nextval FROM dual;

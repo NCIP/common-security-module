@@ -1,4 +1,13 @@
 <?xml version='1.0'?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <!DOCTYPE policy PUBLIC
       "-//JBoss//DTD JBOSS Security Config 3.0//EN"
       "http://www.jboss.org/j2ee/dtd/security_config.dtd">

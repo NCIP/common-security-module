@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <pmd version="4.2.1" timestamp="2008-06-06T15:18:12.791">
 <file name="nih/nci/security/upt/actions/CommonAssociationAction.java">
 <violation beginline="130" endline="130" begincolumn="32" endcolumn="39" rule="UnusedLocalVariable" ruleset="Unused Code Rules" package="gov.nih.nci.security.upt.actions" class="CommonAssociationAction" method="loadAssociation" variable="messages" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedLocalVariable" priority="3">

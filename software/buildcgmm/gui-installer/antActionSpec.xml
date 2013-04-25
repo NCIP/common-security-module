@@ -1,3 +1,11 @@
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <!--
 $Id: antActionSpec.xml 1767 2009-06-24 20:06:18Z saksass $
 $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/software/bda-build-template/software/build/gui-installer/antActionSpec.xml $

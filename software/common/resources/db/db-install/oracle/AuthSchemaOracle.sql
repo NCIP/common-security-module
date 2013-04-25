@@ -1,3 +1,11 @@
+/*L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L*/
+
 --
 -- Uncomment the following block if you want to drop existing CSM database objects
 --
