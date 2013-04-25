@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <sync:SyncDescription xmlns:sync="http://cagrid.nci.nih.gov/12/SyncGTS">
     <sync:SyncDescriptor>
         <sync:gtsServiceURI>https://cbiovdev5037.nci.nih.gov:8443/wsrf/services/cagrid/GTS</sync:gtsServiceURI>

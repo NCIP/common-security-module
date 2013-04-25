@@ -1,4 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
 <hudson.tasks.Mailer_-DescriptorImpl>
   <defaultSuffix>@mail.nih.gov</defaultSuffix>
   <hudsonUrl>http://cbvapp-c1002.nci.nih.gov:48080/hudson/</hudsonUrl>
