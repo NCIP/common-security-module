@@ -1,7 +1,7 @@
 Welcome to the Common Security Module Project!
 ==============================================
 
-The CBIIT Common Security Module (CSM) provides a comprehensive solution to common security objectives, with flexible delivery of security tools to allow application developers to integrate security with minimal coding effort. This helps eliminate the need for development teams to create their own security methodology. CSM provides solutions for authentication, authorization, and user provisioning.
+The Common Security Module (CSM) provides a comprehensive solution to common security objectives, with flexible delivery of security tools to allow application developers to integrate security with minimal coding effort. This helps eliminate the need for development teams to create their own security methodology. CSM provides solutions for authentication, authorization, and user provisioning.
 
 CSM provides solutions for:
 
