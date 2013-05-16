@@ -19,11 +19,10 @@ You will find more details about the Common Security Module in the following lin
  * [Issue Tracker] (https://tracker.nci.nih.gov/browse/CSM)
  * [Code Repository] (https://github.com/NCIP/common-security-module)
  * [Documentation] (https://wiki.nci.nih.gov/x/J5V8)
+ * [Developer Documentation] (https://github.com/NCIP/common-security-module-docs module)
  * [Release Notes] (https://wiki.nci.nih.gov/x/KZt4B)
  * [Installation packages] (https://wiki.nci.nih.gov/x/4wBB)
  * [Forum] (https://cabig-kc.nci.nih.gov/CaGrid/forums/viewforum.php?f=29&sid=b7801af4ac91d1a2bdd9b0b7eb85157f)
- 
-For developer documentation, please see https://github.com/NCIP/common-security-module-docs module.
 
 Please join us in further developing and improving Common Security Module.
 
