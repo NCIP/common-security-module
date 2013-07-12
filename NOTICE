@@ -4,13 +4,7 @@ Copyright (c) 2006, Ekagra Software Technologies Ltd., SAIC and SAIC-Frederick.
 This project is distributed under the BSD 3-Clause License.
 Please see LICENSE file for details.
 
-
 This project was developed as part of the NCI caBIG initiative.
-
-The Common Security Module provides a comprehensive solution to common security objectives, with flexible delivery of security tools to allow application developers to integrate security with minimal coding effort. This helps eliminate the need for development teams to create their own security methodology. CSM provides solutions for authentication, authorization, and user provisioning.
-
-The project was initially developed by Ekagra Software Technologies Ltd., SAIC and SAIC-Frederick
-under funding from the CBIIT office of the National Cancer Institute.
 
 In 2013, as part of the National Cancer Informatics Program (NCIP) Open Development Initiative, 
 the Common Security Module source code was migrated to GitHub to allow further development by the broader community.
