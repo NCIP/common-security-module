@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC, SAIC-Frederick
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<preConditions>
+		<or>
+			<dbms type="oracle" />
+			<dbms type="mysql" />
+			<dbms type="postgresql" />
+		</or>
+	</preConditions>
+
+	<changeSet author="uptdb41" id="1">
+		<modifyColumn tableName="CSM_USER">
+			<column name="LOGIN_NAME" type="VARCHAR(500)" />
+		</modifyColumn>
+		<addColumn tableName="CSM_USER">
+			<column name="MIGRATED_FLAG" type="BOOL" defaultValue="0">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<addColumn tableName="CSM_USER">
+			<column name="PREMGRT_LOGIN_NAME" type="VARCHAR(100)"></column>
+		</addColumn>
+		<dropColumn tableName="CSM_ROLE_PRIVILEGE" columnName="UPDATE_DATE" />
+		<dropColumn tableName="CSM_USER_PE" columnName="UPDATE_DATE" />
+		<addColumn tableName="CSM_FILTER_CLAUSE">
+			<column name="GENERATED_SQL_GROUP" type="VARCHAR(4000)">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+</databaseChangeLog>
