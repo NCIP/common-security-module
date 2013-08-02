@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC, SAIC-Frederick
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<preConditions>
+		<dbms type="oracle" />
+	</preConditions>
+
+	<changeSet author="upt40" id="1">
+		<createTable tableName="CSM_FILTER_CLAUSE">
+			<column name="FILTER_CLAUSE_ID" type="NUMBER(38)">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="CLASS_NAME" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="FILTER_CHAIN" type="VARCHAR2(2000)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_NAME" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_ATTRIBUTE_NAME" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_ATTRIBUTE_TYPE" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TARGET_CLASS_ALIAS" type="VARCHAR2(100)">
+			</column>
+			<column name="TARGET_CLASS_ATTRIBUTE_ALIAS" type="VARCHAR2(100)">
+			</column>
+			<column name="GENERATED_SQL" type="VARCHAR2(4000)">
+				<constraints nullable="false" />
+			</column>
+			<column name="APPLICATION_ID" type="NUMBER(38)">
+				<constraints nullable="false" />
+			</column>
+			<column name="UPDATE_DATE" type="date" defaultValue="sysdate">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createSequence sequenceName="CSM_FILTER_CLAUSE_FILTE_ID_SEQ"
+			incrementBy="1"
+			startValue="1"		            
+			minValue="1"
+			cycle="false"
+			ordered="false"
+            	/>
+            	<!-- maxValue not defined in the sequence above, takes the default maxValue which is 10 exp 27-->		
+
+		<addForeignKeyConstraint baseTableName="CSM_FILTER_CLAUSE"
+			referencedTableName="CSM_APPLICATION" baseColumnNames="APPLICATION_ID"
+			referencedColumnNames="APPLICATION_ID" constraintName="FK_CSM_FC_CSM_APPLICATION" />
+
+		<addColumn tableName="CSM_PROTECTION_ELEMENT">
+			<column name="ATTRIBUTE_VALUE" type="VARCHAR2(100)"></column>
+		</addColumn>
+		<addUniqueConstraint tableName="CSM_PROTECTION_ELEMENT"
+			columnNames="OBJECT_ID, ATTRIBUTE, ATTRIBUTE_VALUE, APPLICATION_ID"
+			constraintName="UQ_PE_OBJ_ATT_VAL_APP_ID" />
+	</changeSet>
+</databaseChangeLog>
+

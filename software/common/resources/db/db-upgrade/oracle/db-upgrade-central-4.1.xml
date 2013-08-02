@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC, SAIC-Frederick
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<preConditions>
+		<dbms type="oracle" />
+	</preConditions>
+
+	<changeSet author="uptdb41" id="1">
+		<modifyColumn tableName="CSM_USER">
+			<column name="LOGIN_NAME" type="VARCHAR2(500)" />
+		</modifyColumn>
+		<addColumn tableName="CSM_USER">
+			<column name="MIGRATED_FLAG" type="NUMBER(1)" defaultValue="0">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		<addColumn tableName="CSM_USER">
+			<column name="PREMGRT_LOGIN_NAME" type="VARCHAR2(100)"></column>
+		</addColumn>
+		<modifyColumn tableName="CSM_PG_PE">
+			<column name="UPDATE_DATE" type="DATE" defaultValue="sysdate"/>
+		</modifyColumn>
+				<dropColumn tableName="CSM_ROLE_PRIVILEGE" columnName="UPDATE_DATE" />
+		<dropColumn tableName="CSM_USER_PE" columnName="UPDATE_DATE" />
+		<renameColumn columnDataType="VARCHAR2(4000)"
+            		newColumnName="GENERATED_SQL_USER"
+            		oldColumnName="GENERATED_SQL"
+            		tableName="CSM_FILTER_CLAUSE">
+			<constraints nullable="false" />
+		</renameColumn>
+		<addColumn tableName="CSM_FILTER_CLAUSE">
+			<column name="GENERATED_SQL_GROUP" type="VARCHAR2(4000)">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	</changeSet>
+</databaseChangeLog>

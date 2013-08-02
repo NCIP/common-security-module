@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC, SAIC-Frederick
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<preConditions>
+		<dbms type="oracle" />
+	</preConditions>
+
+	<changeSet author="uptdb42" id="1">
+
+		<createTable tableName="CSM_MAPPING">
+			<column name="MAPPING_ID" type="NUMBER(38)">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="APPLICATION_ID" type="NUMBER(38)">
+				<constraints nullable="false" />
+			</column>
+			<column name="OBJECT_NAME" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="ATTRIBUTE_NAME" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="OBJECT_PACKAGE_NAME" type="VARCHAR2(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="TABLE_NAME" type="VARCHAR2(100)" />
+			<column name="TABLE_NAME_GROUP" type="VARCHAR2(100)" />
+			<column name="TABLE_NAME_USER" type="VARCHAR2(100)" />
+			<column name="VIEW_NAME_GROUP" type="VARCHAR2(100)" />
+			<column name="VIEW_NAME_USER" type="VARCHAR2(100)" />
+			<column name="ACTIVE_FLAG" type="NUMBER(1)" defaultValue="0"> 
+				<constraints nullable="false" />
+			/column>
+			<column name="MAINTAINED_FLAG" type="NUMBER(1)" defaultValue="0"> 
+				<constraints nullable="false" />
+			/column>
+			<column name="UPDATE_DATE" type="DATE" defaultValue="sysdate"/>
+		</createTable>
+		
+		<createSequence sequenceName="CSM_MAPPING_SEQ"
+			incrementBy="1"
+			startValue="1"		            
+			minValue="1"
+			cycle="false"
+			ordered="false"
+            	/>
+            	<!-- maxValue not defined in the sequence above, takes the default maxValue which is 10 exp 27-->
+		
+
+		<addForeignKeyConstraint baseTableName="CSM_MAPPING"
+			referencedTableName="CSM_APPLICATION" baseColumnNames="APPLICATION_ID"
+			referencedColumnNames="APPLICATION_ID" constraintName="FK_MAPPING_APPLICATION" />
+
+		<addUniqueConstraint tableName="CSM_MAPPING"
+			columnNames="OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID"
+			constraintName="UQ_MP_OBJ_NAME_ATTRNAME_APP_ID" />
+	
+		<addColumn tableName="CSM_APPLICATION">
+			<column name="CSM_VERSION" type="VARCHAR(20)"></column>
+		</addColumn>
+	</changeSet>
+	
+	
+
+</databaseChangeLog>

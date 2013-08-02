@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--L
+   Copyright Ekagra Software Technologies Ltd.
+   Copyright SAIC, SAIC-Frederick
+
+   Distributed under the OSI-approved BSD 3-Clause License.
+   See http://ncip.github.com/common-security-module/LICENSE.txt for details.
+L-->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<preConditions>
+			<dbms type="oracle" />
+	</preConditions>
+
+	<changeSet author="uptdb50" id="1">
+		<modifyColumn tableName="CSM_USER">
+			<column name="PHONE_NUMBER" type="VARCHAR2(100)"/>
+		</modifyColumn>
+		<addColumn tableName="CSM_USER">
+			<column name="PASSWORD_EXPIRED" type="NUMBER(1)" defaultValue="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="FIRST_TIME_LOGIN" type="NUMBER(1)" defaultValue="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACTIVE_FLAG" type="NUMBER(1)" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="PASSWORD_EXPIRY_DATE" type="DATE" defaultValue="sysdate">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+	
+		<createTable tableName="CSM_PASSWORD_HISTORY">
+			<column name="CSM_PASSWORD_HISTORY_ID" type="NUMBER(38)">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="LOGIN_NAME" type="VARCHAR2(100)">
+			</column>
+			<column name="PASSWORD" type="VARCHAR2(255)">
+			</column>
+		</createTable>
+		<createSequence sequenceName="CSM_PASSWORD_HISTORY_SEQ"
+			incrementBy="1"
+			startValue="1"		            
+			minValue="1"
+			cycle="false"
+			ordered="false"
+            	/>
+            	<!-- maxValue not defined in the sequence above, takes the default maxValue which is 10 exp 27-->
+            	
+            	<createProcedure>
+			CREATE OR REPLACE TRIGGER SET_CSM_PASSWORD_HISTORY
+			BEFORE INSERT
+			ON CSM_PASSWORD_HISTORY
+			FOR EACH ROW
+			BEGIN
+			  SELECT CSM_PASSWORD_HISTORY_SEQ.NEXTVAL
+			  INTO :NEW.CSM_PASSWORD_HISTORY_ID
+			  FROM DUAL;
+			END;
+			
+			CREATE TABLE CSM_CONFIGURATION_PROPS (
+			  PROPERTY_KEY VARCHAR2(300) NOT NULL,
+			  PROPERTY_VALUE VARCHAR2(3000)
+			);
+		</createProcedure>
+            	
+		<createTable tableName="CSM_CONFIGURATION_PROPS">
+			<column name="PROPERTY_KEY" type="VARCHAR2(300)">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="PROPERTY_VALUE" type="VARCHAR2(3000)">
+			</column>
+		</createTable>
+	
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="AES_ENCRYPTION_KEY"/>
+		    <column name="PROPERTY_VALUE" value="super secret"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="ALLOWED_ATTEMPTS"/>
+		    <column name="PROPERTY_VALUE" value="3"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="ALLOWED_LOGIN_TIME"/>
+		    <column name="PROPERTY_VALUE" value="600000"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="MD5_HASH_KEY"/>
+		    <column name="PROPERTY_VALUE" value="true"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="PASSWORD_EXPIRY_DAYS"/>
+		    <column name="PROPERTY_VALUE" value="60"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="PASSWORD_LOCKOUT_TIME"/>
+		    <column name="PROPERTY_VALUE" value="1800000"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="PASSWORD_MATCH_NUM"/>
+		    <column name="PROPERTY_VALUE" value="24"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="PASSWORD_PATTERN_MATCH"/>
+		    <column name="PROPERTY_VALUE" value="^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$"/>
+		</insert>		
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="PASSWORD_PATTERN_DESCRIPTION"/>
+		    <column name="PROPERTY_VALUE" value="At least one Upper case alphabet, at least one lower case alphabet, at least one number and minimum 8 characters length"/>
+		</insert>		
+	</changeSet>
+</databaseChangeLog>
