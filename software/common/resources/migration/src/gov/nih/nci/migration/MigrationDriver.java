@@ -31,10 +31,10 @@ public class MigrationDriver {
 	// The Type of Database. Use one of the three values 'MySQL', 'Oracle', 'SQLServer'.
 	static String DATABASE_TYPE = "MySQL";
 	//	Name of the Database.
-	static String DATABASE_NAME = "upt";
+	static String DATABASE_NAME = "upt32";
 	// Database User name
-	static String DATABASE_USERNAME = "root";
-	static String DATABASE_PASSWORD = "mysql";
+	static String DATABASE_USERNAME = "csmadmin";
+	static String DATABASE_PASSWORD = "csmadmin";
 	static String DATABASE_DRIVER = "org.gjt.mm.mysql.Driver";
 
 

@@ -14,31 +14,28 @@ L*/
 # authorization schema, these enteries are not used and hence they can be left as 
 # it is.
 #
-
 insert into csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-values ("csmupt","CSM UPT Super Admin Application",0,0,sysdate());
+values ("csmupt","UPT Super Admin Application",0,0,sysdate());
 
-insert into csm_user (LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values ("SuperAdmin","@super.admin.first.name@","@super.admin.last.name@","zJPWCwDeSgG8j2uyHEABIQ==",sysdate());
-
+INSERT INTO CSM_USER (USER_ID, LOGIN_NAME, MIGRATED_FLAG, FIRST_NAME, LAST_NAME, ORGANIZATION, DEPARTMENT, TITLE, PHONE_NUMBER, PASSWORD, EMAIL_ID, START_DATE, END_DATE, UPDATE_DATE, PREMGRT_LOGIN_NAME, PASSWORD_EXPIRED, PASSWORD_EXPIRY_DATE, FIRST_TIME_LOGIN, ACTIVE_FLAG) 
+VALUES ('1','SuperAdmin','0','aSxDyZ0AlthARx8irRHBhg==','YCwS7U4EuXsCiGXf1QMALA==','','','','','5kJqWYBdWCphljGP2pGUGg==','',NULL,NULL,'2012-10-01','','0','2013-12-31','1','1');
  
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("csmupt","CSM UPT Super Admin Application Protection Element","csmupt",1,sysdate());
+values("csmupt","UPT Super Admin Application","csmupt",1,sysdate());
 
 insert into csm_user_pe(PROTECTION_ELEMENT_ID,USER_ID)
 values(1,1);
 
 # 
 # The following entry is for your application. 
-# Replace <<application_context_name>> with your application name.
+# Replace <<application_context>> with your application name.
 #
 
 INSERT INTO csm_application(APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
-VALUES ("@application.context.name.remote@","@application.context.name.remote@",0,0,sysdate());
+VALUES ("<<application_context_name>>","Application Description",0,0,sysdate());
 
 insert into csm_protection_element(PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
-values("@application.context.name.remote@","@application.context.name.remote@","@application.context.name.remote@",1,sysdate());
-
+values("<<application_context_name>>","<<application_context_name>> Admin Application Protection Element","<<application_context_name>>",1,sysdate());
 
 #
 # The following entries are Common Set of Privileges
@@ -65,33 +62,22 @@ VALUES("DELETE","This privilege permits a user to delete a logical entity. This 
 INSERT INTO csm_privilege (privilege_name, privilege_description, update_date)
 VALUES("EXECUTE","This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc", sysdate());
 
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('AES_ENCRYPTION_KEY','super secret');
 
-INSERT CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES
-(1, 'UPT_UI_USERS_LINK', 'Protection Group representing User link in UPT. Do not change the name.', 1, 0, sysdate());
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_ATTEMPTS','3');
 
-INSERT CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES
-(2, 'UPT_UI_PROTECTION_ELEMENTS_LINK', 'Protection Group representing Protection Element link in UPT. Do not change the name.', 1, 0, sysdate());
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('ALLOWED_LOGIN_TIME','600000');
 
-INSERT CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES
-(3, 'UPT_UI_PRIVILEGES_LINK', 'Protection Group representing Privilege link in UPT. Do not change the name.', 1, 0, sysdate());
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('MD5_HASH_KEY','true');
 
-INSERT CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES
-(4, 'UPT_UI_GROUPS_LINK', 'Protection Group representing Group link in UPT. Do not change the name.', 1, 0, sysdate());
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_EXPIRY_DAYS','60');
 
-INSERT CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES
-(5, 'UPT_UI_PROTECTION_GROUPS_LINK', 'Protection Group representing Protection Group link in UPT. Do not change the name.', 1, 0, sysdate());
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_LOCKOUT_TIME','1800000');
 
-INSERT CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES
-(6, 'UPT_UI_ROLE_LINK', 'Protection Group representing Role link in UPT. Do not change the name.', 1, 0, sysdate());
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_MATCH_NUM','24');
 
-INSERT CSM_PROTECTION_GROUP (PROTECTION_GROUP_ID, PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION, APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG, UPDATE_DATE)
-VALUES
-(7, 'UPT_UI_INSTANCE_LEVEL_LINK', 'Protection Group representing Instance Level link in UPT. Do not change the name.', 1, 0, sysdate());
+insert into CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) values('PASSWORD_PATTERN_MATCH','^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$');
 
-COMMIT;
+INSERT INTO CSM_CONFIGURATION_PROPS (PROPERTY_KEY, PROPERTY_VALUE) VALUES('PASSWORD_PATTERN_DESCRIPTION','At least one upper case alphabet, at least one lower case alphabet, at least one number and minimum 8 characters length');
+
+commit;

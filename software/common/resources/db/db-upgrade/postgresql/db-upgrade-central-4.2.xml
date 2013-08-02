@@ -13,52 +13,47 @@ L-->
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 	<preConditions>
-		<or>
-			<dbms type="oracle" />
-			<dbms type="mysql" />
-			<dbms type="postgresql" />
-		</or>
+		<dbms type="postgresql" />
 	</preConditions>
 
 	<changeSet author="uptdb42" id="1">
 
-		<createTable tableName="CSM_MAPPING">
-			<column name="MAPPING_ID" type="bigint(20)">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
-			<column name="APPLICATION_ID" type="BIGINT">
-				<constraints nullable="false" />
-			</column>
-			<column name="OBJECT_NAME" type="varchar(100)">
-				<constraints nullable="false" />
-			</column>
-			<column name="ATTRIBUTE_NAME" type="varchar(100)">
-				<constraints nullable="false" />
-			</column>
-			<column name="OBJECT_PACKAGE_NAME" type="varchar(100)">
-				<constraints nullable="false" />
-			</column>
-			<column name="TABLE_NAME" type="varchar(100)" />
-			<column name="TABLE_NAME_GROUP" type="varchar(100)" />
-			<column name="TABLE_NAME_USER" type="varchar(100)" />
-			<column name="VIEW_NAME_GROUP" type="varchar(100)" />
-			<column name="VIEW_NAME_USER" type="varchar(100)" />
-			<column name="ACTIVE_FLAG" type="tinyint" />
-			<column name="MAINTAINED_FLAG" type="tinyint" />
-			<column name="UPDATE_DATE" type="date" />
-		</createTable>
+		<createSequence sequenceName="CSM_MAPPING_SEQ"
+			incrementBy="1"
+			startValue="1"		            
+			minValue="1"
+            	/>
+		<!-- The following SQL block is used as default nextval has no equivalent syntax in Liquibase. -->
+    		<sql>
+			CREATE TABLE CSM_MAPPING (
+  			MAPPING_ID int8 NOT NULL default nextval('CSM_MAPPING_SEQ'),
+  			APPLICATION_ID int8 NOT NULL,
+  			OBJECT_NAME character varying(100) NOT NULL,
+  			ATTRIBUTE_NAME character varying(100) NOT NULL,
+  			OBJECT_PACKAGE_NAME character varying(100),
+  			TABLE_NAME character varying(100),
+  			TABLE_NAME_GROUP character varying(100),
+  			TABLE_NAME_USER character varying(100),
+  			VIEW_NAME_GROUP character varying(100),
+  			VIEW_NAME_USER character varying(100),
+  			ACTIVE_FLAG character varying(1) DEFAULT 0 NOT NULL,
+  			MAINTAINED_FLAG character varying(1) DEFAULT 0 NOT NULL,	
+  			UPDATE_DATE date DEFAULT CURRENT_DATE NOT NULL,
+  			PRIMARY KEY(MAPPING_ID)
+			);
+    		</sql>
 
 		<addForeignKeyConstraint baseTableName="CSM_MAPPING"
-			referencedTableName="csm_application" baseColumnNames="APPLICATION_ID"
-			referencedColumnNames="APPLICATION_ID" constraintName="FK_CSM_MAPPING_APPLICATION" />
+			referencedTableName="CSM_APPLICATION" baseColumnNames="APPLICATION_ID"
+			referencedColumnNames="APPLICATION_ID" constraintName="FK_PE_APPLICATION" />
 
 
 		<addUniqueConstraint tableName="CSM_MAPPING"
 			columnNames="OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID"
-			constraintName="UQMP_OBNMATTRNAM_APID" />
+			constraintName="UQ_MP_OBJ_NAME_ATTRI_NAME_APP_ID" />
 	
 		<addColumn tableName="CSM_APPLICATION">
-			<column name="CSM_VERSION" type="VARCHAR(20)"></column>
+			<column name="CSM_VERSION" type="character varying(20)"></column>
 		</addColumn>
 	</changeSet>
 	

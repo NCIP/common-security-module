@@ -8,7 +8,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L-->
 
-<project name="csmupt-installer" default="install" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csmupt-installer" default="upgrade" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
 
@@ -280,7 +280,7 @@ L-->
 	</target>
 	
 	<target name="install:upt:databases" description="Runs datbase creation scripts then calls uprade database." unless="exclude.database">
-		
+		<!--
 		<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
 			<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}">
 				<include name="**/db-upgrade*.xml"/>
@@ -290,6 +290,7 @@ L-->
 				<filter token="project.name" value="${project.name}" />
 			</filterset>
 		</copy>		
+		-->
 		<if>
 			<or>
 				<equals arg1="${upt.central.database.re-create}" arg2="true" />
@@ -305,8 +306,8 @@ L-->
 							database.name="${upt.central.database.name}" database.type="${upt.central.database.type}"
 							database.schema="${upt.central.database.name}"  database.re-create="${upt.central.database.re-create}"
 							database.drop-schema="${upt.central.database.drop-schema}"
-							db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install/${upt.dist.relative.dir}/uptcentral"
-							database.dir.src="${db-install.dist.relative.dir}/db-install/${upt.dist.relative.dir}/uptcentral"
+							db.install.dir="${working.dir}/${db-install.dist.relative.dir}/db-install"
+							database.dir.src="${db-install.dist.relative.dir}/db-install"
 							db.install.create.oracle.file.list="${upt.central.db.install.create.oracle.file.list}"
 							db.install.create.mysql.file.list="${upt.central.db.install.create.mysql.file.list}"
 							db.install.create.postgresql.file.list="${upt.central.db.install.create.postgresql.file.list}"
@@ -797,26 +798,63 @@ L-->
 	<target name="upgrade:upt:databases" description="Upgrades database using build Datbase Upgrade process." unless="exclude.database">
 		<echo message="execute for non central database"/>		
 		<mkdir dir="${os.temp.dir}/${project.name}"/>
-		<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
-			<fileset dir="${db-install.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral">
-				<include name="**/db-upgrade*.xml"/>
-				<include name="**/MigrationScript*.xml"/>
-			</fileset>
-			<filterset>
-				<filter token="os.temp.dir" value="${os.temp.dir}" />
-				<filter token="project.name" value="${project.name}" />
-			</filterset>
-		</copy>
+
+		<switch value="${upt.central.database.type}">
+			<case value="oracle">
+				<property name="database.upgrade.type" value="Oracle"/>
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/oracle">
+						<include name="db-upgrade*.xml"/>
+						<include name="MigrationScript*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+			</case>
+			<case value="mysql">
+				<property name="database.upgrade.type" value="MySQL"/>
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/mysql">
+						<include name="db-upgrade*.xml"/>
+						<include name="MigrationScript*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+			</case>
+			<case value="postgresql">
+				<property name="database.upgrade.type" value="PostgreSQL"/>
+				<copy todir="${os.temp.dir}/${project.name}" filtering="true" flatten="true" overwrite="true">
+					<fileset dir="${db-install.dist.relative.dir}/db-upgrade/postgresql">
+						<include name="db-upgrade*.xml"/>
+						<include name="MigrationScript*.xml"/>
+					</fileset>
+					<filterset>
+						<filter token="os.temp.dir" value="${os.temp.dir}" />
+						<filter token="project.name" value="${project.name}" />
+					</filterset>
+				</copy>
+			</case>
+			<default>
+				<fail message="Invalid database type ${database.type}"/>
+			</default>
+		</switch>
+
 
 		<upgrade-upt-database
 			database.system.url="${upt.central.database.system.url}" database.name="${upt.central.database.name}" 
+			schema.name="${upt.central.database.schema.name}"
 			database.system.password="${upt.central.database.system.password}"  
 			database.system.user="${upt.central.database.system.user}"
 			database.url="${upt.central.database.url}" 
 			database.user="${upt.central.database.user}" 
 			database.password="${upt.central.database.password}" 
 			database.type="${upt.central.database.type}" 
-			database.upgrade.schema.file="${upt.central.db.upgrade.file}" />
+			database.upgrade.schema.file="MigrationScript${upgrade.upt.central.db.previous.version}${database.upgrade.type}.xml" />
 	</target>
 	
 	<macrodef name="upgrade-upt-database">
@@ -827,6 +865,7 @@ L-->
 		<attribute name="database.user" default="NOT SET" />
 		<attribute name="database.password" default="NOT SET" />
 		<attribute name="database.name" default="NOT SET" />
+		<attribute name="schema.name" default="NOT SET" />
 		<attribute name="database.type" default="NOT SET"/>
 		<attribute name="database.upgrade.schema.file" default="NOT SET"/>
 		
@@ -856,6 +895,7 @@ L-->
             <echo message="database.user=@{database.user} "/>
             <echo message="database.password=@{database.password}"/>
             <echo message="database.name=@{database.name}"/>
+            <echo message="schema.name=@{schema.name}"/>
             <echo message="database.type=@{database.type}"/>
 			<validate-pre-install-database
 						database.driver="${database.upgrade.driver}" database.system.url="@{database.system.url}" 
@@ -864,14 +904,33 @@ L-->
 						database.password="@{database.password}"
 						database.name="@{database.name}" database.type="@{database.type}"
 			/>
-			<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
-							  database.user="@{database.user}" database.password="@{database.password}" 
-							  database.schema="@{database.name}"
-							  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
+			<switch value="@{database.type}">
+				<case value="oracle">
+					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
+									  database.user="@{database.user}" database.password="@{database.password}" 
+									  database.schema="@{database.user}"
+									  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
+				</case>
+				<case value="mysql">
+					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
+									  database.user="@{database.user}" database.password="@{database.password}" 
+									  database.schema="@{database.name}"
+									  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
+				</case>
+				<case value="postgresql">
+					<database-upgrade database.driver="${database.upgrade.driver}" database.url="@{database.url}" 
+									  database.user="@{database.user}" database.password="@{database.password}" 
+									  database.schema="@{schema.name}"
+									  database.changelog.file="${os.temp.dir}/${project.name}/@{database.upgrade.schema.file}"/>
+				</case>
+				<default>
+					<fail message="Invalid database type ${database.type}"/>
+				</default>
+			</switch>
 
 			<database-tag database.driver="${database.upgrade.driver}" database.url="@{database.url}"
 						  database.user="@{database.user}" database.password="@{database.password}" 
-						  database.schema="@{database.name}" />
+						  database.schema="@{schema.name}" />
 	   </sequential>
 	</macrodef>
 

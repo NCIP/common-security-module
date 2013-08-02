@@ -95,7 +95,9 @@ L-->
 		<!-- Create the time stamp -->
 		<tstamp />
 		<mkdir dir="${classes.dir}" />
-		<mkdir dir="${local.repo.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/lib" />
+		<!--<mkdir dir="${local.repo.dir}" />-->
 	</target>
 
 	<target name="compile" depends="-init" description="compile the source ">
@@ -238,4 +240,22 @@ L-->
 		<zip destfile="${dist.dir}/csm-api-src5.0.zip" basedir="${src.dir}" />
 	</target>
 
+	<target name="getDependencies" depends="-init">
+		<path id="maven-ant-tasks.classpath" path="${basedir}${file.separator}maven${file.separator}lib${file.separator}maven-ant-tasks.jar" />
+		<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
+
+		<artifact:dependencies filesetId="dependency.fileset" type="jar">
+		    <pom file="pom.xml" />
+		</artifact:dependencies>
+
+		<!--TODO take care of existing duplicates in the case of changed/upgraded dependencies-->
+		<copy todir="${dist.dir}/lib">
+		    <fileset refid="dependency.fileset" />
+		    <mapper type="flatten" from="${dependency.versions}" />
+		</copy>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${dist.dir}" quiet="false" />	
+	</target>
 </project>

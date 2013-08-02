@@ -27,10 +27,6 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	    <!-- GUI installer assumed Central/Typical installation with all CSM versions supported -->
 		<variable name="installation.type" value="central"/>
 		<variable name="upt.central.config" vakue="true"/>
-		<variable name="upt.41.installed" value="true"/>
-		<variable name="upt.42.installed" value="true"/>
-		<variable name="upt.423.installed" value="true"/>
-		<variable name="upt.50.installed" value="true"/>
 	</panel>
 
 	<!-- Select component -->

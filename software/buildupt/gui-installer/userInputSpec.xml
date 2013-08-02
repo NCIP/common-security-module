@@ -424,6 +424,15 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<variable name="install.path" value="$INSTALL_PATH"/>
 		<variable name="baseDir" value="$INSTALL_PATH"/>
 
+		<field type="combo" variable="upt.central.database.type">
+			<spec txt="Database Type:" id="upt.central.database.type">
+			          <choice txt="MySQL" id="MySQL" value="MySQL"/>
+			          <choice txt="Oracle" id="Oracle" value="Oracle" />
+			          <choice txt="PostgreSQL" id="PostgreSQL" value="PostgreSQL" />
+			</spec>			
+		    <validator class="com.izforge.izpack.util.DatabaseTypeValidator" txt="Select a database type"/>
+		</field>
+
 		<field type="text" variable="upt.central.database.server">
 			<spec txt="Database Host Name:" size="25" set=""/>
 			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>

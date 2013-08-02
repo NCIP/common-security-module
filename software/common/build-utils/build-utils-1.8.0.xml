@@ -2650,14 +2650,6 @@ L-->
 			<pathelement location="${database.driver.file}"/>
 		</path>
 		
-			<database-upgrade-fix
-				database.driver="@{database.driver}"
-				database.url="@{database.url}"
-				database.user="@{database.user}"
-				database.password="@{database.password}"
-				database.driver.file="@{database.driver.file}"
-				database.changelog.file="@{database.changelog.file}"
-				/>
 			<updateDatabase
 				driver="@{database.driver}"
 				url="@{database.url}"
@@ -2666,7 +2658,20 @@ L-->
 				classpathref="jdbc.driver.classpath"
 				defaultSchemaName="@{database.schema}"
 				changeLogFile="@{database.changelog.file}"
+				databaseChangeLogTableName="databasechangelog"
+				databaseChangeLogLockTableName="CSM_DB_UPGRADE_CHANGE_LOCK_LOG"
+				/>			
+			<database-upgrade-fix
+				database.driver="@{database.driver}"
+				database.url="@{database.url}"
+				database.user="@{database.user}"
+				database.password="@{database.password}"
+				database.driver.file="@{database.driver.file}"
+				database.changelog.file="@{database.changelog.file}"
+				databaseChangeLogTableName="databasechangelog"
+				database.schema="@{database.schema}"
 				/>
+			
 		</sequential>
 	</macrodef>
 	<macrodef name="database-genchangelog">
@@ -5477,9 +5482,11 @@ L-->
 		<attribute name="database.password" default="${database.password}" />
 		<attribute name="database.driver.file" default="${database.driver.file}" />
 		<attribute name="database.changelog.file" default="${os.temp.dir}/${project.name}/db-upgrade.xml" />
+		<attribute name="databaseChangeLogTableName" default="databasechangelog" />
+		<attribute name="database.schema" default="${upt.central.database.schema.name}" />
 		<sequential>
 			<basename property="changelog.file" file="@{database.changelog.file}"/>
-			<echo message="Updateing liquibase metadata file name to @{database.changelog.file}  where filename includes ${changelog.file}"/>
+			<echo message="Updating liquibase metadata file name to @{database.changelog.file}  where filename includes ${changelog.file}"/>
 			<sql
 				driver="@{database.driver}"
 				url="@{database.url}"
@@ -5492,7 +5499,7 @@ L-->
 				<classpath>
 					<pathelement location="@{database.driver.file}" />
 				</classpath>
-				update databasechangelog set filename='@{database.changelog.file}' where filename like '%${changelog.file}';
+				update @{database.schema}.@{databaseChangeLogTableName} set filename='@{database.changelog.file}' where filename like '%${changelog.file}';
 			</sql>
 		</sequential>
 	</macrodef>
