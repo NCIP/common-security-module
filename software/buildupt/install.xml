@@ -8,7 +8,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L-->
 
-<project name="csmupt-installer" default="upgrade" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="csmupt-installer" default="install" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="jboss.grid.configure" value="false"/>
 	<property name="tomcat.grid.configure" value="false"/>
 
