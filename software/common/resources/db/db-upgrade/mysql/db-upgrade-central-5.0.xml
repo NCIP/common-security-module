@@ -13,29 +13,30 @@ L-->
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 	<preConditions>
-		<or>
-			<dbms type="oracle" />
-			<dbms type="mysql" />
-			<dbms type="postgresql" />
-		</or>
+		<dbms type="mysql" />
 	</preConditions>
 
 	<changeSet author="uptdb50" id="1">
 		<modifyColumn tableName="CSM_USER">
 			<column name="PHONE_NUMBER" type="varchar(100)"/>
 		</modifyColumn>
+		<addColumn tableName="CSM_USER">
+			<column name="PASSWORD_EXPIRED" type="TINYINT(1)" defaultValue="0" />
+			<column name="FIRST_TIME_LOGIN" type="TINYINT(1)" defaultValue="0" />
+			<column name="ACTIVE_FLAG" type="TINYINT(1)" defaultValue="1" />
+			<column name="PASSWORD_EXPIRY_DATE" type="DATE" defaultValue="2012-10-10" />
+		</addColumn>
 	
 		<createTable tableName="CSM_PASSWORD_HISTORY">
-			<column name="CSM_PASSWORD_HISTORY_ID" type="bigint(38)">
+			<column name="CSM_PASSWORD_HISTORY_ID" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="LOGIN_NAME" type="varchar(500)">
-				<constraints nullable="false" />
-			</column>
-			<column name="PASSWORD" type="varchar(255)">
-				<constraints nullable="false" />
-			</column>
+			<column name="LOGIN_NAME" type="varchar(500)" />
+			<column name="PASSWORD" type="varchar(255)" />
 		</createTable>
+		<addAutoIncrement columnDataType="BIGINT"
+			columnName="CSM_PASSWORD_HISTORY_ID"
+			tableName="CSM_PASSWORD_HISTORY"/>		
 
 		<createTable tableName="CSM_CONFIGURATION_PROPS">
 			<column name="PROPERTY_KEY" type="varchar(300)">
@@ -45,20 +46,10 @@ L-->
 			</column>
 		</createTable>
 	
-		<addColumn tableName="CSM_USER">
-			<column name="PASSWORD_EXPIRED" type="BOOL" defaultValue="0">
-				<constraints nullable="false" />
-			</column>
-			<column name="PASSWORD_EXPIRY_DATE"  type="date" defaultValue="2012-10-10">
-				<constraints nullable="false" />
-			</column>
-			<column name="FIRST_TIME_LOGIN" type="BOOL" defaultValue="0">
-				<constraints nullable="false" />
-			</column>
-			<column name="ACTIVE_FLAG" type="BOOL" defaultValue="1">
-				<constraints nullable="false" />
-			</column>
-		</addColumn>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="AES_ENCRYPTION_KEY"/>
+		    <column name="PROPERTY_VALUE" value="super secret"/>
+		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPS">
 		    <column name="PROPERTY_KEY" value="ALLOWED_ATTEMPTS"/>
 		    <column name="PROPERTY_VALUE" value="3"/>
@@ -66,6 +57,10 @@ L-->
 		<insert tableName="CSM_CONFIGURATION_PROPS">
 		    <column name="PROPERTY_KEY" value="ALLOWED_LOGIN_TIME"/>
 		    <column name="PROPERTY_VALUE" value="600000"/>
+		</insert>
+		<insert tableName="CSM_CONFIGURATION_PROPS">
+		    <column name="PROPERTY_KEY" value="MD5_HASH_KEY"/>
+		    <column name="PROPERTY_VALUE" value="true"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPS">
 		    <column name="PROPERTY_KEY" value="PASSWORD_EXPIRY_DAYS"/>
@@ -78,10 +73,6 @@ L-->
 		<insert tableName="CSM_CONFIGURATION_PROPS">
 		    <column name="PROPERTY_KEY" value="PASSWORD_MATCH_NUM"/>
 		    <column name="PROPERTY_VALUE" value="24"/>
-		</insert>
-		<insert tableName="CSM_CONFIGURATION_PROPS">
-		    <column name="PROPERTY_KEY" value="AES_ENCRYPTION_KEY"/>
-		    <column name="PROPERTY_VALUE" value="super secret"/>
 		</insert>
 		<insert tableName="CSM_CONFIGURATION_PROPS">
 		    <column name="PROPERTY_KEY" value="PASSWORD_PATTERN_MATCH"/>

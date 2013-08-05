@@ -13,11 +13,7 @@ L-->
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 	<preConditions>
-		<or>
-			<dbms type="oracle" />
-			<dbms type="mysql" />
-			<dbms type="postgresql" />
-		</or>
+		<dbms type="mysql" />
 	</preConditions>
 
 	<changeSet author="uptdb42" id="1">
@@ -43,25 +39,28 @@ L-->
 			<column name="TABLE_NAME_USER" type="varchar(100)" />
 			<column name="VIEW_NAME_GROUP" type="varchar(100)" />
 			<column name="VIEW_NAME_USER" type="varchar(100)" />
-			<column name="ACTIVE_FLAG" type="tinyint" />
-			<column name="MAINTAINED_FLAG" type="tinyint" />
-			<column name="UPDATE_DATE" type="date" />
+			<column name="ACTIVE_FLAG" type="tinyint(1)" defaultValue="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="MAINTAINED_FLAG" type="tinyint(1)" defaultValue="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="UPDATE_DATE" type="date" defaultValue="0000-00-00" />
 		</createTable>
-
+		<addAutoIncrement columnDataType="bigint(20)"
+			columnName="MAPPING_ID"
+			tableName="CSM_MAPPING"/>		
+    		<dropForeignKeyConstraint baseTableName="CSM_PROTECTION_ELEMENT"
+            		constraintName="FK_PE_APPLICATION"/>
 		<addForeignKeyConstraint baseTableName="CSM_MAPPING"
 			referencedTableName="csm_application" baseColumnNames="APPLICATION_ID"
-			referencedColumnNames="APPLICATION_ID" constraintName="FK_CSM_MAPPING_APPLICATION" />
-
-
+			referencedColumnNames="APPLICATION_ID" constraintName="FK_PE_APPLICATION" />
 		<addUniqueConstraint tableName="CSM_MAPPING"
 			columnNames="OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID"
-			constraintName="UQMP_OBNMATTRNAM_APID" />
-	
+			constraintName="UQ_MP_OBJ_NAME_ATTRI_NAME_APP_ID" />
 		<addColumn tableName="CSM_APPLICATION">
 			<column name="CSM_VERSION" type="VARCHAR(20)"></column>
 		</addColumn>
 	</changeSet>
 	
-	
-
 </databaseChangeLog>

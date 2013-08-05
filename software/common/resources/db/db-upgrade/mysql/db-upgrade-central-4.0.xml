@@ -13,11 +13,7 @@ L-->
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
 	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
 	<preConditions>
-		<or>
-			<dbms type="oracle" />
 			<dbms type="mysql" />
-			<dbms type="postgresql" />
-		</or>
 	</preConditions>
 
 	<changeSet author="upt40" id="1">
@@ -52,14 +48,18 @@ L-->
 			<column name="APPLICATION_ID" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
-			<column name="UPDATE_DATE" type="date">
+			<column name="UPDATE_DATE" type="date" defaultValue="0000-00-00">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
-		<dropUniqueConstraint tableName="CSM_PROTECTION_ELEMENT" constraintName="UQ_PE_PE_NAME_ATTRIBUTE_APP_ID"/>
+		<addAutoIncrement columnDataType="BIGINT"
+			columnName="FILTER_CLAUSE_ID"
+			tableName="CSM_FILTER_CLAUSE"/>
+
 		<addColumn tableName="CSM_PROTECTION_ELEMENT">
 			<column name="ATTRIBUTE_VALUE" type="VARCHAR(100)"></column>
 		</addColumn>
+		<dropUniqueConstraint tableName="CSM_PROTECTION_ELEMENT" constraintName="UQ_PE_PE_NAME_ATTRIBUTE_APP_ID"/>
 		<addUniqueConstraint tableName="CSM_PROTECTION_ELEMENT"
 			columnNames="OBJECT_ID, ATTRIBUTE, ATTRIBUTE_VALUE, APPLICATION_ID"
 			constraintName="UQ_PE_PE_NAME_ATTRIBUTE_VALUE_APP_ID" />
