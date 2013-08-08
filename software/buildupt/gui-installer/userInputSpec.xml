@@ -100,7 +100,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 		<field type="space"/>
 		<field type="divider" align="top"/>
-		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing 5.1 CSM UPT Schema to CSM UPT Schema version 5.1. Specify current original CSM UPT Schema version."/>
+		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing 4.2 CSM UPT Schema to CSM UPT Schema version 5.1. Specify current original CSM UPT Schema version. Valid values for MySQL are: 3.1, 3.2, 4.0, 4.1, 4.2 | for Oracle: 4.0, 4.1, 4.2 | for Postgresql: 4.1, 4.2. There is no migration between 4.2 and 4.2.x. Please use 4.2 if you are on 4.2.x."/>
 		
 		<field type="text" variable="upgrade.upt.central.db.previous.version">
 			<spec txt="Original CSM Schema Version" size="15" set="5.1"/>

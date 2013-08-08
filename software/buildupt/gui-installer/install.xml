@@ -264,6 +264,10 @@ L-->
 					<variable name="upt.central.database.url" value="${upt.central.database.system.url}/${upt.central.database.name}" condition="db.type.mysql"/>
 					<variable name="upt.central.database.url" value="${upt.central.database.system.url}:${upt.central.database.name}" condition="db.type.oracle"/>
 					<variable name="upt.central.database.url" value="${upt.central.database.system.url}" condition="db.type.postgresql"/>
+					
+					<variable name="upt.central.database.schema.name" value="${upt.central.database.name}" condition="db.type.mysql"/>
+					<variable name="upt.central.database.schema.name" value="${upt.central.database.user}" condition="db.type.oracle"/>
+					<variable name="upt.central.database.schema.name" value="PUBLIC" condition="db.type.postgresql"/>
 
 					<variable name="upt.central.ldaps.url" value="" condition="db.setup|ldap.setup"/>
 					<variable name="upt.central.ldaps.basedn=ou=nci,o=nih" value="" condition="db.setup|ldap.setup"/>
