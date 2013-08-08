@@ -74,7 +74,7 @@ L-->
 					<authors>
 					    <author name="NCI CBIIT" email=""/>
 					</authors>
-					<url>https://cabig.nci.nih.gov/tools/CSM</url>
+					<url>https://wiki.nci.nih.gov/x/4wBB</url>
 					<javaversion>1.6</javaversion>
 				</info>
 
@@ -152,45 +152,6 @@ L-->
 						<value>db</value>
 					</condition>
 
-					<!-- UPT Installation Central or non-central -->
-					<condition type="variable" id="central.installation">
-						<name>installation.type</name>
-						<value>central</value>
-					</condition>
-					<condition type="variable" id="noncentral.installation">
-						<name>installation.type</name>
-						<value>noncentral</value>
-					</condition>
-
-					<!-- UPT Installation  non-central  - UPT 31,32,40,41,42 installed?-->
-					<condition type="variable" id="install.upt45">
-						<name>upt.45.installed</name>
-						<value>true</value>
-					</condition>
-					<condition type="variable" id="install.upt42">
-						<name>upt.42.installed</name>
-						<value>false</value>
-					</condition>
-					<condition type="variable" id="install.upt41">
-						<name>upt.41.installed</name>
-						<value>false</value>
-					</condition>
-
-					<!-- Recreate Schema  - central,31,32,40,41,42 ? -->
-					<condition type="variable" id="recreate.schema.upt45">
-						<name>upt.45.database.re-create</name>
-						<value>true</value>
-					</condition>
-					<condition type="variable" id="recreate.schema.upt42">
-						<name>upt.42.database.re-create</name>
-						<value>false</value>
-					</condition>
-					<condition type="variable" id="recreate.schema.upt41">
-						<name>upt.41.database.re-create</name>
-						<value>false</value>
-					</condition>
-
-
 					<!-- Container selection -->
 					<condition type="variable" id="container.all">
 						<name>install.selection</name>
@@ -207,6 +168,18 @@ L-->
 					<condition type="variable" id="container.database">
 						<name>install.selection</name>
 						<value>install.database</value>
+					</condition>
+					<condition type="variable" id="db.type.mysql">
+						<name>database.type</name>
+						<value>mysql</value>
+					</condition>
+					<condition type="variable" id="db.type.oracle">
+						<name>database.type</name>
+						<value>oracle</value>
+					</condition>
+					<condition type="variable" id="db.type.postgresql">
+						<name>database.type</name>
+						<value>postgresql</value>
 					</condition>
 
 				</conditions>
@@ -272,7 +245,25 @@ L-->
 					<variable name="tomcat.port.shutdown" value="" condition="container.database|container.jboss"/>
 					<variable name="exclude.tomcat.backup" value="" condition="container.database|container.jboss"/>
 
-
+					<variable name="upt.central.database.url.prefix" value="jdbc:mysql" condition="db.type.mysql"/>
+					<variable name="upt.central.database.url.prefix" value="jdbc:oracle:thin" condition="db.type.oracle"/>
+					<variable name="upt.central.database.url.prefix" value="jdbc:postgresql" condition="db.type.postgresql"/>
+					
+					<variable name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver" condition="db.type.mysql"/>
+					<variable name="upt.central.database.driver.class" value="oracle.jdbc.driver.OracleDriver" condition="db.type.oracle"/>
+					<variable name="upt.central.database.driver.class" value="org.postgresql.Driver" condition="db.type.postgresql"/>
+					
+					<variable name="upt.central.database.dialect" value="org.hibernate.dialect.MySQLDialect" condition="db.type.mysql"/>
+					<variable name="upt.central.database.dialect" value="org.hibernate.dialect.OracleDialect" condition="db.type.oracle"/>
+					<variable name="upt.central.database.dialect" value="org.hibernate.dialect.PostgreSQLDialect" condition="db.type.postgresql"/>
+					
+					<variable name="upt.central.database.system.url" value="${upt.central.database.url.prefix}://${upt.central.database.server}:${upt.central.database.port}" condition="db.type.mysql"/>
+					<variable name="upt.central.database.system.url" value="${upt.central.database.url.prefix}:@${upt.central.database.server}:${upt.central.database.port}" condition="db.type.oracle"/>
+					<variable name="upt.central.database.system.url" value="${upt.central.database.url.prefix}://${upt.central.database.server}:${upt.central.database.port}/${upt.central.database.name}" condition="db.type.postgresql"/>
+					
+					<variable name="upt.central.database.url" value="${upt.central.database.system.url}/${upt.central.database.name}" condition="db.type.mysql"/>
+					<variable name="upt.central.database.url" value="${upt.central.database.system.url}:${upt.central.database.name}" condition="db.type.oracle"/>
+					<variable name="upt.central.database.url" value="${upt.central.database.system.url}" condition="db.type.postgresql"/>
 
 					<variable name="upt.central.ldaps.url" value="" condition="db.setup|ldap.setup"/>
 					<variable name="upt.central.ldaps.basedn=ou=nci,o=nih" value="" condition="db.setup|ldap.setup"/>
@@ -287,11 +278,6 @@ L-->
 					<variable name="ldap.url" value="" condition="container.database"/>
 					<variable name="ldap.basedn" value="" condition="container.database"/>
 					<variable name="mail.smtp.server" value=""  condition="container.database"/>
-
-					<!-- Conditionals for chosen Central Installation -->
-					<variable name="upt.45.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.42.database.re-create" value="false" condition="central.installation"/>
-					<variable name="upt.41.database.re-create" value="false" condition="central.installation"/>
 
 
 					<variable name="upt.central.authentication.type" value="ldaps" condition="ldaps.setup"/>
@@ -380,16 +366,16 @@ L-->
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Choose Authentication Type  -->								
-					<panel classname="UserInputPanel"  id="UserInputPanel.7" condition="central.installation">
+					<panel classname="UserInputPanel"  id="UserInputPanel.7">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					
 					<!-- Authentication LDAPS data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.8" condition="central.installation+ldaps.setup">
+					<panel classname="UserInputPanel"  id="UserInputPanel.8" condition="ldaps.setup">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Authentication LDAP data entry -->
-					<panel classname="UserInputPanel"  id="UserInputPanel.9" condition="central.installation+ldap.setup">
+					<panel classname="UserInputPanel"  id="UserInputPanel.9" condition="ldap.setup">
 						<help iso3="eng" src="@{this.dir}/Help.html" />
 					</panel>
 					<!-- Authentication DB Properties -->
@@ -440,12 +426,12 @@ L-->
 
 					<pack name="parse-install" required="no" preselected="no" condition="install">
 					    <description>parse the input values</description>
-					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/backwards-compatible-upt_installer/install.properties" type="javaprop" />
+					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/upt_installer/install.properties" type="javaprop" />
 					</pack>
 
 					<pack name="parse-upgrade" required="no" preselected="no" condition="upgrade">
 					    <description>parse the input values</description>
-					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/backwards-compatible-upt_installer/upgrade.properties" type="javaprop" />
+					    <parsable targetfile="$SYSTEM_user_home/@{installer.dir}/upt_installer/upgrade.properties" type="javaprop" />
 					</pack>
 
 					<pack name="convert-install-path" required="no" preselected="no" condition="install">

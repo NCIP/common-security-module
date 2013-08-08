@@ -483,8 +483,11 @@ L-->
 	</target>
 	
 	<target name="src" depends="init,clean">
+		<!--
 		<ant inheritAll="false" inheritRefs="false" antfile="${upt.build.file}" target="src" dir="${upt.base.dir}">
 		</ant>
+		-->
+		<zip destfile="${dist.dir}/csm-upt-src5.0.zip" basedir="${upt.base.dir}/webapp" />
 	</target>
 
 	
