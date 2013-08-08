@@ -34,7 +34,7 @@ public class MigrationDriver {
 	static String PROPERTIES_FILE_NAME = "";
 	static String DATABASE_SERVER_NAME = "localhost";
 	static String DATABASE_SERVER_PORT_NUMBER = "3306";
-	// The Type of Database. Use one of the three values 'MySQL', 'Oracle', 'SQLServer'.
+	// The Type of Database. Use one of the three values 'MySQL', 'Oracle', 'PostgreSQL'.
 	static String DATABASE_TYPE = "MySQL";
 	//	Name of the Database.
 	static String DATABASE_NAME = "upt32";
@@ -54,14 +54,14 @@ public class MigrationDriver {
 	private Connection connection = null;
 
 	public static void main(String[] args) {
-		System.out.println("***** Inside the main method of MigrationDriver *****");
+
 		try
 		{
 			if (args.length > 0 )
 			{
 				PROPERTIES_FILE_NAME=args[0];
 			}
-			System.out.println("***** Inside the main method of MigrationDriver, obtained the properties file as arugument *****");
+
 			MigrationDriver migrationDriver = new MigrationDriver();
 			migrationDriver.encryptDecryptUserInformation();
 			migrationDriver.encryptDecryptApplicationInformation();
@@ -87,7 +87,13 @@ public class MigrationDriver {
 	{
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CSM_USER");
+
+			ResultSet resultSet = null;
+			if("oracle".equals(DATABASE_TYPE)) {
+				 resultSet = stmt.executeQuery("SELECT CSM_USER.* FROM CSM_USER FOR UPDATE");
+			} else {
+				 resultSet = stmt.executeQuery("SELECT * FROM CSM_USER");
+			}
 			String userPassword = null;
 			String firstName = null;
 			String lastName = null;
@@ -146,7 +152,14 @@ public class MigrationDriver {
 
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CSM_APPLICATION");
+
+			ResultSet resultSet = null;
+			if("oracle".equals(DATABASE_TYPE)) {
+				 resultSet = stmt.executeQuery("SELECT CSM_APPLICATION.* FROM CSM_APPLICATION FOR UPDATE");
+			} else {
+				 resultSet = stmt.executeQuery("SELECT * FROM CSM_APPLICATION");
+			}
+
 			String databasePassword = null;
 			String encryptedDatabasePassword = null;
 
