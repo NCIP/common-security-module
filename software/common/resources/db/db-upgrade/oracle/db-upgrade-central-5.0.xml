@@ -30,11 +30,11 @@ L-->
 			<column name="ACTIVE_FLAG" type="NUMBER(1)" defaultValue="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="PASSWORD_EXPIRY_DATE" type="DATE" defaultValue="sysdate">
-				<constraints nullable="false" />
-			</column>
 		</addColumn>
-	
+    		<!-- The following SQL block is used as default sysdate was causing syntax issues in Liquibase. -->
+    		<sql>
+			ALTER TABLE CSM_USER ADD PASSWORD_EXPIRY_DATE DATE DEFAULT sysdate;
+    		</sql>
 		<createTable tableName="CSM_PASSWORD_HISTORY">
 			<column name="CSM_PASSWORD_HISTORY_ID" type="NUMBER(38)">
 				<constraints nullable="false" primaryKey="true" />
@@ -48,7 +48,6 @@ L-->
 			incrementBy="1"
 			startValue="1"		            
 			minValue="1"
-			cycle="false"
 			ordered="false"
             	/>
             	<!-- maxValue not defined in the sequence above, takes the default maxValue which is 10 exp 27-->

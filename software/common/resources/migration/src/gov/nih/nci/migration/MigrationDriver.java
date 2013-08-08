@@ -24,11 +24,17 @@ import java.util.Date;
 import java.util.Calendar;
 import org.apache.commons.lang.time.DateUtils;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 
 public class MigrationDriver {
+	static String PROPERTIES_FILE_NAME = "";
 	static String DATABASE_SERVER_NAME = "localhost";
 	static String DATABASE_SERVER_PORT_NUMBER = "3306";
-	// The Type of Database. Use one of the three values 'MySQL', 'Oracle', 'SQLServer'.
+	// The Type of Database. Use one of the three values 'MySQL', 'Oracle', 'PostgreSQL'.
 	static String DATABASE_TYPE = "MySQL";
 	//	Name of the Database.
 	static String DATABASE_NAME = "upt32";
@@ -36,7 +42,11 @@ public class MigrationDriver {
 	static String DATABASE_USERNAME = "csmadmin";
 	static String DATABASE_PASSWORD = "csmadmin";
 	static String DATABASE_DRIVER = "org.gjt.mm.mysql.Driver";
+	static String DATABASE_URL = "jdbc:mysql://localhost:3306/csm42";
 
+	static String DATABASE_URL_PREFIX = "jdbc:mysql";
+	static String DATABASE_URL_SEPARATOR = "//";
+	static String DATABASE_NAME_SEPARATOR = "/";
 
 	private	AESEncryption aesEncryption = null;
 	private DESEncryption desEncryption = null;
@@ -44,18 +54,14 @@ public class MigrationDriver {
 	private Connection connection = null;
 
 	public static void main(String[] args) {
+
 		try
 		{
 			if (args.length > 0 )
 			{
-
-				DATABASE_TYPE=args[0];
-				DATABASE_USERNAME=args[1];
-				DATABASE_PASSWORD=args[2];
-				DATABASE_SERVER_NAME=args[3];
-				DATABASE_SERVER_PORT_NUMBER=args[4];
-				DATABASE_NAME=args[5];
+				PROPERTIES_FILE_NAME=args[0];
 			}
+
 			MigrationDriver migrationDriver = new MigrationDriver();
 			migrationDriver.encryptDecryptUserInformation();
 			migrationDriver.encryptDecryptApplicationInformation();
@@ -72,6 +78,7 @@ public class MigrationDriver {
 
 	public MigrationDriver() throws EncryptionException, SQLException
 	{
+			setProperties();
 			setAESEncryption();
 			setDESEncryption();
 	}
@@ -80,7 +87,13 @@ public class MigrationDriver {
 	{
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CSM_USER");
+
+			ResultSet resultSet = null;
+			if("oracle".equals(DATABASE_TYPE)) {
+				 resultSet = stmt.executeQuery("SELECT CSM_USER.* FROM CSM_USER FOR UPDATE");
+			} else {
+				 resultSet = stmt.executeQuery("SELECT * FROM CSM_USER");
+			}
 			String userPassword = null;
 			String firstName = null;
 			String lastName = null;
@@ -139,7 +152,14 @@ public class MigrationDriver {
 
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CSM_APPLICATION");
+
+			ResultSet resultSet = null;
+			if("oracle".equals(DATABASE_TYPE)) {
+				 resultSet = stmt.executeQuery("SELECT CSM_APPLICATION.* FROM CSM_APPLICATION FOR UPDATE");
+			} else {
+				 resultSet = stmt.executeQuery("SELECT * FROM CSM_APPLICATION");
+			}
+
 			String databasePassword = null;
 			String encryptedDatabasePassword = null;
 
@@ -195,6 +215,8 @@ public class MigrationDriver {
 		        Class.forName(DATABASE_DRIVER);
 
 		        // Create a connection to the database
+		        String url = DATABASE_URL;
+		        /*
 		        String url ="";
 		        if("MySQL".equalsIgnoreCase(DATABASE_TYPE)){
 		        	url = "jdbc:mysql://" + DATABASE_SERVER_NAME  +":"+DATABASE_SERVER_PORT_NUMBER+  "/" + DATABASE_NAME; // a JDBC url
@@ -205,6 +227,7 @@ public class MigrationDriver {
 		        if("SQLServer".equalsIgnoreCase(DATABASE_TYPE)){
 		        	 url = "jdbc:JSQLConnect://" + DATABASE_SERVER_NAME + ":" + DATABASE_SERVER_PORT_NUMBER; // a JDBC url
 		        }
+		        */
 		        connection = DriverManager.getConnection(url, DATABASE_USERNAME, DATABASE_PASSWORD);
 		    } catch (ClassNotFoundException e) {
 		    	e.printStackTrace();
@@ -230,6 +253,47 @@ public class MigrationDriver {
 
 		return connection;
 	}
+
+
+	private void setProperties() {
+
+				try {
+			        //Reading properties file
+			        Properties props = new Properties();
+			        FileInputStream fis = new FileInputStream(PROPERTIES_FILE_NAME);
+
+			        //loading properties from properties file
+			        props.load(fis);
+
+			        //reading properties
+			        DATABASE_SERVER_NAME = props.getProperty("upt.central.database.server");
+			        DATABASE_SERVER_PORT_NUMBER = props.getProperty("upt.central.database.port");
+			        DATABASE_TYPE = props.getProperty("database.type");
+			        DATABASE_NAME = props.getProperty("upt.central.database.name");
+			        DATABASE_USERNAME = props.getProperty("upt.central.database.user");
+			        DATABASE_PASSWORD = props.getProperty("upt.central.database.password");
+			        DATABASE_DRIVER = props.getProperty("upt.central.database.driver.class");
+
+					DATABASE_URL_PREFIX = props.getProperty("upt.central.database.url.prefix");
+
+					if("oracle".equals(DATABASE_TYPE)) {
+						DATABASE_URL_SEPARATOR = "@";
+						DATABASE_NAME_SEPARATOR = ":";
+					}
+
+			        DATABASE_URL = DATABASE_URL_PREFIX+":"+DATABASE_URL_SEPARATOR+DATABASE_SERVER_NAME+":"
+			        				+DATABASE_SERVER_PORT_NUMBER+DATABASE_NAME_SEPARATOR+DATABASE_NAME;
+
+			        System.out.println("*****Database URL: " + DATABASE_URL);
+			        System.out.println("*****Database Driver: " + DATABASE_DRIVER);
+			    } catch (FileNotFoundException e) {
+		    		e.printStackTrace();
+		        	// Could not find the properties file
+		    	} catch (IOException e) {
+		    		e.printStackTrace();
+		        	// Could not open the properties file
+		    	}
+		}
 
 	public String getExpiryDays() {
 		return expiryDays;
