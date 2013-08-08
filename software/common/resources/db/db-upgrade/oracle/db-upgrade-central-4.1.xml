@@ -33,12 +33,10 @@ L-->
 		</modifyColumn>
 				<dropColumn tableName="CSM_ROLE_PRIVILEGE" columnName="UPDATE_DATE" />
 		<dropColumn tableName="CSM_USER_PE" columnName="UPDATE_DATE" />
-		<renameColumn columnDataType="VARCHAR2(4000)"
-            		newColumnName="GENERATED_SQL_USER"
-            		oldColumnName="GENERATED_SQL"
-            		tableName="CSM_FILTER_CLAUSE">
-			<constraints nullable="false" />
-		</renameColumn>
+
+		<modifyColumn tableName="CSM_FILTER_CLAUSE">
+			<column name="GENERATED_SQL" type="VARCHAR2(4000)"/>
+		</modifyColumn>
 		<addColumn tableName="CSM_FILTER_CLAUSE">
 			<column name="GENERATED_SQL_GROUP" type="VARCHAR2(4000)">
 				<constraints nullable="false" />

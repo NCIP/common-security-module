@@ -2659,7 +2659,7 @@ L-->
 				defaultSchemaName="@{database.schema}"
 				changeLogFile="@{database.changelog.file}"
 				databaseChangeLogTableName="databasechangelog"
-				databaseChangeLogLockTableName="CSM_DB_UPGRADE_CHANGE_LOCK_LOG"
+				databaseChangeLogLockTableName="CSM_DB_UPG_CHANGE_LOCK_LOG"
 				/>			
 			<database-upgrade-fix
 				database.driver="@{database.driver}"

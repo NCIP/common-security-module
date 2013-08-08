@@ -41,10 +41,10 @@ L-->
 			<column name="VIEW_NAME_USER" type="VARCHAR2(100)" />
 			<column name="ACTIVE_FLAG" type="NUMBER(1)" defaultValue="0"> 
 				<constraints nullable="false" />
-			/column>
+			</column>
 			<column name="MAINTAINED_FLAG" type="NUMBER(1)" defaultValue="0"> 
 				<constraints nullable="false" />
-			/column>
+			</column>
 			<column name="UPDATE_DATE" type="DATE" defaultValue="sysdate"/>
 		</createTable>
 		
@@ -52,7 +52,6 @@ L-->
 			incrementBy="1"
 			startValue="1"		            
 			minValue="1"
-			cycle="false"
 			ordered="false"
             	/>
             	<!-- maxValue not defined in the sequence above, takes the default maxValue which is 10 exp 27-->

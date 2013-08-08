@@ -1160,14 +1160,14 @@ L-->
 		</path>
 	       <java classname="gov.nih.nci.migration.MigrationDriver"	       		
 			classpathref="project.classpath">
-			
-			<arg value="${upt.central.database.type}"/>
+			<arg value="${properties.file}"/>
+			<!-- <arg value="${upt.central.database.type}"/>
 			<arg value="${upt.central.database.user}"/>
 			<arg value="${upt.central.database.password}"/>
 			
 			<arg value="${upt.central.database.server}"/>
 			<arg value="${upt.central.database.port}"/>
-			<arg value="${upt.central.database.name}"/>
+			<arg value="${upt.central.database.name}"/> -->
 		</java>
 	</target>	 
 </project>
