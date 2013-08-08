@@ -52,6 +52,9 @@ L-->
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<addForeignKeyConstraint baseTableName="CSM_FILTER_CLAUSE"
+			referencedTableName="CSM_APPLICATION" baseColumnNames="APPLICATION_ID"
+			referencedColumnNames="APPLICATION_ID" constraintName="FK_APPLICATION_FILTER_CLAUSE" />		
 		<addAutoIncrement columnDataType="BIGINT"
 			columnName="FILTER_CLAUSE_ID"
 			tableName="CSM_FILTER_CLAUSE"/>
@@ -63,6 +66,14 @@ L-->
 		<addUniqueConstraint tableName="CSM_PROTECTION_ELEMENT"
 			columnNames="OBJECT_ID, ATTRIBUTE, ATTRIBUTE_VALUE, APPLICATION_ID"
 			constraintName="UQ_PE_PE_NAME_ATTRIBUTE_VALUE_APP_ID" />
+		<createIndex indexName="idx_OBJ_ATTR_APP"
+		        tableName="CSM_PROTECTION_ELEMENT"
+		        unique="true">
+		        <column name="OBJECT_ID" type="varchar(100)"/>
+		        <column name="ATTRIBUTE" type="varchar(100)"/>
+		        <column name="APPLICATION_ID" type="BIGINT(20)"/>
+		</createIndex>
+
 	</changeSet>
 </databaseChangeLog>
 

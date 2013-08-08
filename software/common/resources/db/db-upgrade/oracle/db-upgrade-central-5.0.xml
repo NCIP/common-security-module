@@ -41,7 +41,7 @@ L-->
 			</column>
 			<column name="LOGIN_NAME" type="VARCHAR2(100)">
 			</column>
-			<column name="PASSWORD" type="VARCHAR2(255)">
+			<column name="PASSWORD" type="VARCHAR2(300)">
 			</column>
 		</createTable>
 		<createSequence sequenceName="CSM_PASSWORD_HISTORY_SEQ"

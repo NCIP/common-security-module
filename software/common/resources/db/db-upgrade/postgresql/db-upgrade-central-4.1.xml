@@ -18,7 +18,9 @@ L-->
 
 	<changeSet author="uptdb41" id="1">
 		<modifyColumn tableName="CSM_USER">
-			<column name="LOGIN_NAME" type="character varying(500)" />
+			<column name="LOGIN_NAME" type="character varying(500)">
+				<constraints nullable="false" />
+			</column>
 		</modifyColumn>
 		<addColumn tableName="CSM_USER">
 			<column name="MIGRATED_FLAG" type="smallint" defaultValue="0">

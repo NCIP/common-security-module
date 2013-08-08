@@ -19,6 +19,7 @@ L-->
 	<changeSet author="uptdb41" id="1">
 		<modifyColumn tableName="CSM_USER">
 			<column name="LOGIN_NAME" type="VARCHAR(500)" />
+				<constraints nullable="false" />
 		</modifyColumn>
 		<addColumn tableName="CSM_USER">
 			<column name="MIGRATED_FLAG" type="BOOL" defaultValue="0">

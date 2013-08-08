@@ -32,7 +32,7 @@ L-->
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="LOGIN_NAME" type="varchar(500)" />
-			<column name="PASSWORD" type="varchar(255)" />
+			<column name="PASSWORD" type="varchar(300)" />
 		</createTable>
 		<addAutoIncrement columnDataType="BIGINT"
 			columnName="CSM_PASSWORD_HISTORY_ID"
