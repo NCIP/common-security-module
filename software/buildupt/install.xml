@@ -1149,15 +1149,23 @@ L-->
 		<unzip dest="./tempEAR/${upt.central.url.context.name}" src="./tempEAR/${upt.central.url.context.name}.war"/>
 	</target>
 
-	<target name="migration:run" depends="migration:set-classpath" description="">
+	<target name="migration:run" description="">
 		<path id="project.classpath">
-			<fileset dir="./tempEAR/${upt.central.url.context.name}/WEB-INF/lib">
-				<include name="**/*.jar" />
-			</fileset>
 			<fileset dir="${build-utils.dir}">
 				<include name="**/*.jar" />
 			</fileset>			
 		</path>
+
+		<input message="To Protect PII in CSM tables, CSM 5.0 has started encrypting PII with AES encryption. Existing data in CSM_USER table will be migrated to new encryption.  Do you want to proceed?"
+			validargs="y,n"
+			addproperty="accept.application.dir.update" />
+		<if>
+			<equals arg1="${accept.application.dir.update}" arg2="n"/>
+			<then>
+				<fail message="User tereminated the migration."/>
+			</then>
+		</if>
+		
 	       <java classname="gov.nih.nci.migration.MigrationDriver"	       		
 			classpathref="project.classpath">
 			<arg value="${properties.file}"/>
