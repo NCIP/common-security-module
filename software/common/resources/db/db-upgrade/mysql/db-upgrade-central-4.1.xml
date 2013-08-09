@@ -17,11 +17,10 @@ L-->
 	</preConditions>
 
 	<changeSet author="uptdb41" id="1">
-		<modifyColumn tableName="CSM_USER">
-			<column name="LOGIN_NAME" type="VARCHAR(500)">
-				<constraints nullable="false" />
-			</column>
-		</modifyColumn>
+            	<!-- Used this SQL tag due to NOT NULL not being set through XML-->
+            	<sql>
+            		ALTER TABLE CSM_USER MODIFY COLUMN LOGIN_NAME VARCHAR(500) NOT NULL;
+            	</sql>		
 		<addColumn tableName="CSM_USER">
 			<column name="MIGRATED_FLAG" type="BOOL" defaultValue="0">
 				<constraints nullable="false" />
@@ -30,15 +29,16 @@ L-->
 		<addColumn tableName="CSM_USER">
 			<column name="PREMGRT_LOGIN_NAME" type="VARCHAR(100)"></column>
 		</addColumn>
-		<modifyColumn tableName="CSM_PG_PE">
-			<column name="UPDATE_DATE" type="DATE" defaultValue="0000-00-00" />
-		</modifyColumn>
+		<!-- Used this SQL tag due to DEFAULT value not being set through XML-->
+		<sql>
+			ALTER TABLE CSM_PG_PE MODIFY COLUMN UPDATE_DATE DATE DEFAULT '0000-00-00';
+		</sql>
 		<dropColumn tableName="CSM_ROLE_PRIVILEGE" columnName="UPDATE_DATE" />
 		<dropColumn tableName="CSM_USER_PE" columnName="UPDATE_DATE" />
-		<renameColumn columnDataType="VARCHAR(4000)"
-			newColumnName="GENERATED_SQL_USER"
-            		oldColumnName="GENERATED_SQL"
-            		tableName="CSM_FILTER_CLAUSE" />
+            	<!-- Used this SQL tag due to NOT NULL not being set through XML-->
+            	<sql>
+            		ALTER TABLE CSM_FILTER_CLAUSE CHANGE GENERATED_SQL GENERATED_SQL_USER VARCHAR (4000) NOT NULL;
+            	</sql>
 		<addColumn tableName="CSM_FILTER_CLAUSE">
 			<column name="GENERATED_SQL_GROUP" type="VARCHAR(4000)">
 				<constraints nullable="false" />
