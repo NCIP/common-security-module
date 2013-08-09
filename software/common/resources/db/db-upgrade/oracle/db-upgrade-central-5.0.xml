@@ -62,13 +62,8 @@ L-->
 			  INTO :NEW.CSM_PASSWORD_HISTORY_ID
 			  FROM DUAL;
 			END;
-			
-			CREATE TABLE CSM_CONFIGURATION_PROPS (
-			  PROPERTY_KEY VARCHAR2(300) NOT NULL,
-			  PROPERTY_VALUE VARCHAR2(3000)
-			);
-		</createProcedure>
-            	
+		</createProcedure>	
+
 		<createTable tableName="CSM_CONFIGURATION_PROPS">
 			<column name="PROPERTY_KEY" type="VARCHAR2(300)">
 				<constraints nullable="false" primaryKey="true" />
