@@ -13,7 +13,7 @@ L-->
 <langpack>
 
     <!-- Heading messages START -->
-    <str id="CheckedHelloPanel.headline" txt="Welcome to CSM UPT 5.0"/>
+    <str id="CheckedHelloPanel.headline" txt="Welcome to CSM UPT 5.1"/>
     <str id="CompilePanel.headline" txt="Compile Java Sources"/>
     <str id="ConditionalUserInputPanel.headline" txt="User Data"/>
     <str id="ExtendedInstallPanel.headline" txt="Installation and Configuration"/>
@@ -37,7 +37,7 @@ L-->
     <str id="InstallationTypePanel.headline" txt="Installation Type"/>
 
     <!-- General installer strings -->
-    <str id="installer.title" txt="Common Security Module (CSM) User Provisioning Tool 5.0 Installation Wizard: "/>
+    <str id="installer.title" txt="Common Security Module (CSM) User Provisioning Tool 5.1 Installation Wizard: "/>
     <str id="installer.next" txt="Next"/>
     <str id="installer.prev" txt="Previous"/>
     <str id="installer.quit" txt="Quit"/>

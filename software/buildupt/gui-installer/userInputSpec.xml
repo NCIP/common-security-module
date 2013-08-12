@@ -20,7 +20,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="space"/>
 		<field type="staticText" align="left" txt="Choose Upgrade if CSM UPT has previously been installed."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="WARNING: When choosing Install, the installer will remove any previously installed application servers (using caBIG installers) or databases installed based on the information you specify, so be sure to backup your application server and database instance if they exist. For detailed descriptions on each of the properties in this installer, see https://cabig.nci.nih.gov/tools/CSM"/>
+		<field type="staticText" align="left" txt="WARNING: When choosing Install, the installer will remove any previously installed application servers (using NCIP installers) or databases installed based on the information you specify, so be sure to backup your application server and database instance if they exist. For detailed descriptions on each of the properties in this installer, see https://wiki.nci.nih.gov/x/4wBB"/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="setup.type">
 			<description align="left" txt="Choose a new Install or Upgrade an existing installation"/>
@@ -41,7 +41,7 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 	<!-- Installation Type -->
 	<panel order="1">
 		<field type="title" txt="Installation Type" bold="true" size="1" />
-		<field type="staticText" align="left" txt="This installation wizard allows Typical installation of UPT v5.0 (Single CSM UPT in a container that refers to a single CSM UPT Schema)."/>
+		<field type="staticText" align="left" txt="This installation wizard allows Typical installation of UPT v5.1 (Single CSM UPT in a container that refers to a single CSM UPT Schema)."/>
 		<field type="divider" align="top"/>
 		<field type="radio" variable="installation.type">
 			<description align="left" txt="Installation Type?"/>
@@ -100,10 +100,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 
 		<field type="space"/>
 		<field type="divider" align="top"/>
-		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing 4.2.3 CSM UPT Schema to CSM UPT Schema version 5.0. Specify current original CSM UPT Schema version."/>
+		<field type="staticText" align="left" txt="A typical upgrade process migrates an existing 4.2 CSM UPT Schema to CSM UPT Schema version 5.1. Specify current original CSM UPT Schema version. Valid values for MySQL are: 3.1, 3.2, 4.0, 4.1, 4.2 | for Oracle: 4.0, 4.1, 4.2 | for Postgresql: 4.1, 4.2. There is no migration between 4.2 and 4.2.x. Please use 4.2 if you are on 4.2.x."/>
 		
 		<field type="text" variable="upgrade.upt.central.db.previous.version">
-			<spec txt="Original CSM Schema Version" size="15" set="4.2.3"/>
+			<spec txt="Original CSM Schema Version" size="15" set="5.1"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Original CSM Schema Version is a required field" />
 		</field>
 	
@@ -416,23 +416,21 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <!-- Typical Database Properties -->
 	<panel order="6">
 		<field type="title" txt="Configuring your database connection" bold="true" size="1" />
-		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database System User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. "/>
+		<field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL/Oracle/Postgresql database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database System User' must have full access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information. "/>
 		<field type="space"/>
 		<field type="staticText" align="left" txt="NOTE: All database objects for 'Database Name' will be dropped and recreated during the installation process. For detailed descriptions on each of the properties below, see the Database Settings section of the Help page"/>
 		<field type="divider" align="top"/>
 
 		<variable name="install.path" value="$INSTALL_PATH"/>
 		<variable name="baseDir" value="$INSTALL_PATH"/>
-
-		<field type="combo" variable="upt.central.database.type">
-			<spec txt="Database Type:" id="upt.central.database.type">
-			          <choice txt="MySQL" id="MySQL" value="MySQL"/>
-			          <choice txt="Oracle" id="Oracle" value="Oracle" />
-			          <choice txt="PostgreSQL" id="PostgreSQL" value="PostgreSQL" />
+		<field type="radio" variable="database.type" >
+		<description align="left" txt="Database Type:"/>
+			<spec>
+			          <choice txt="MySQL" id="MySQL" value="mysql" set="true"/>
+			          <choice txt="Oracle" id="Oracle" value="oracle" />
+			          <choice txt="PostgreSQL" id="PostgreSQL" value="postgresql" />
 			</spec>			
-		    <validator class="com.izforge.izpack.util.DatabaseTypeValidator" txt="Select a database type"/>
 		</field>
-
 		<field type="text" variable="upt.central.database.server">
 			<spec txt="Database Host Name:" size="25" set=""/>
 			<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
@@ -444,6 +442,10 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="text" variable="upt.central.database.name">
 			<spec txt="Database Name:" size="25" set="uptdb"/>
 			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Name is a required field" />
+		</field>
+		<field type="text" variable="upt.central.database.version">
+			<spec txt="Database Version:" size="25" set="5.1.0"/>
+			<validator class="com.izforge.izpack.util.NotEmptyValidator" txt=" Database Version is a required field" />
 		</field>
 		<field type="text" variable="upt.central.database.system.user">
 			<spec txt="Database Application System User:" size="25" set=""/>
@@ -475,12 +477,8 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 			</spec>
 		</field>
 		
-		<variable name="upt.central.database.driver.class" value="org.gjt.mm.mysql.Driver"/>
-		<variable name="upt.central.database.version" value="5.1.0"/>
-		<variable name="upt.central.database.type" value="mysql"/>
+		<variable name="upt.central.database.type" value="${database.type}"/>
 		<variable name="upt.central.jndi.name" value="csmupt"/>
-		<variable name="upt.central.database.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-
 	</panel>
 <!-- Choose Authentication Type -->
 	<panel order="7">
@@ -560,16 +558,25 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 <!--  Authentication DB data entry-->
 	<panel order="10">
 
-            <field type="title" txt="MySQL Database Connection configuration" bold="true" size="1" />
-            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing MySQL database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information."/>
+            <field type="title" txt="Database Connection configuration" bold="true" size="1" />
+            <field type="staticText" align="left" txt="The information you enter below will connect you to an existing database. It's highly recommended that 'Database Host Name' NOT be the machine from which you are currently installing. The 'Database User' must have access to 'Database Name'. It's highly recommended you contact your database administrator to obtain this information."/>
             <field type="divider" align="top"/>
 
             <variable name="install.path" value="$INSTALL_PATH"/>
             <variable name="baseDir" value="$INSTALL_PATH"/>
 
+            <field type="text" variable="upt.central.database.type">
+                <spec txt="Database Type:" size="25" set="${upt.central.database.type}"/>
+				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Enter a valid database type"/>
+            </field>
             <field type="text" variable="upt.central.database.server">
                 <spec txt="Database Host Name:" size="25" set="${upt.central.database.server}"/>
 				<validator class="com.izforge.izpack.util.HostNameValidator" txt="Enter a valid Host name or the Host is not reachable"/>
+            </field>
+            
+            <field type="text" variable="upt.central.database.version">
+                <spec txt="Database Version:" size="25" set="${upt.central.database.version}"/>
+				<validator class="com.izforge.izpack.util.NotEmptyValidator" txt="Database Version is a required field" />
             </field>
             <field type="text" variable="upt.central.database.port">
                 <spec txt="Database Port:" size="25" set="${upt.central.database.port}"/>
@@ -616,12 +623,14 @@ $HeadURL: https://gforge.nci.nih.gov/svnroot/automation/tags/automation-1.2.0/so
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Server Port [${jboss.server.port}] - This is the HTTP port for JBoss.  If you want to make this Application avaliable from the internet you may need to provide this to your network administrator."/>
 		<field type="space"/>
-		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach CSM UPT 5.0 application when the installation process is finished."/>
+		<field type="staticText" align="left" txt="JBoss URL [http://${jboss.server.hostname}:${jboss.server.port}/uptlogin] - This will be the url to reach CSM UPT 5.1 application when the installation process is finished."/>
 		<field type="space"/>
 		<field type="staticText" align="left" txt="JBoss Log Dir [${jboss.home}/server/${jboss.server.name}] - This is where the logs can be found."/>
 
 		<field type="space"/>
-		<field type="staticText" align="left" txt="Database URL [jdbc:mysql://${upt.central.database.server}:${upt.central.database.port}/${upt.central.database.name}] "/>
+		<field type="staticText" align="left" txt="Database Type [${upt.central.database.type}] "/>
+		<field type="space"/>
+		<field type="staticText" align="left" txt="Database URL [${upt.central.database.url}] "/>
 		<field type="space"/>
 		<field type="staticText" align="left" txt="Database User [${upt.central.database.user}] "/>
 	</panel>
