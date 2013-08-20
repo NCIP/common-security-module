@@ -25,7 +25,7 @@ L-->
 			<column name="ACTIVE_FLAG" type="TINYINT(1)" defaultValue="1" />
 			<column name="PASSWORD_EXPIRY_DATE" type="DATE" defaultValue="2012-10-10" />
 		</addColumn>
-	
+		
 		<createTable tableName="CSM_PASSWORD_HISTORY">
 			<column name="CSM_PASSWORD_HISTORY_ID" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
