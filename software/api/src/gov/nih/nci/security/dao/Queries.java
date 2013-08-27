@@ -653,62 +653,43 @@ public class Queries {
 		StringBuffer stbr = new StringBuffer();
 
 		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");
-		stbr.append("      FROM  csm_protection_element pe,");
-		stbr.append("            csm_protection_group pg,");
-		stbr.append("            csm_privilege p,");
-		stbr.append("            csm_group g,");
-		stbr.append("            csm_user_group ug,");
-		stbr.append("            csm_user u,");
-		stbr.append("            csm_pg_pe pgpe,");
-		stbr.append("            csm_role r,");
-		stbr.append("            csm_role_privilege rp,");
-		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
-		stbr.append("            AND ugrpg.role_id = rp.role_id");
-		stbr.append("            AND rp.privilege_id = p.privilege_id");
-		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
-		stbr.append(" 			 AND pg.application_id=?");
-		stbr.append(" 			 AND pe.application_id=?");
-		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append("            AND ug.group_id = ugrpg.group_id");
-		stbr.append("            AND ug.user_id = ?");
+		stbr.append("	FROM csm_protection_element pe");
+		stbr.append("		INNER JOIN csm_pg_pe pgpe ON pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("       INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("       INNER JOIN csm_user_group ug ON ug.group_id = ugrpg.group_id");
+		stbr.append("       INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id");
+		stbr.append("       INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
+		stbr.append("	WHERE pe.application_id=?");
+		stbr.append("		AND ug.user_id = ?");
 		stbr.append(" UNION ALL ");
 		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");
-		stbr.append("      FROM  csm_protection_element pe,");
-		stbr.append("            csm_protection_group pg,");
-		stbr.append("            csm_privilege p,");
-		stbr.append("            csm_user u,");
-		stbr.append("            csm_pg_pe pgpe,");
-		stbr.append("            csm_role r,");
-		stbr.append("            csm_role_privilege rp,");
-		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
-		stbr.append("            AND ugrpg.role_id = rp.role_id");
-		stbr.append("            AND rp.privilege_id = p.privilege_id");
-		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
-		stbr.append(" 			 AND pg.application_id=?");
-		stbr.append(" 			 AND pe.application_id=?");
-		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append("            AND ugrpg.user_id = ?");
+		stbr.append("	FROM csm_protection_element pe");
+		stbr.append("		INNER JOIN csm_pg_pe pgpe ON pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("		INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("		INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id");
+		stbr.append("		INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
+		stbr.append("	WHERE pe.application_id=?");
+		stbr.append("		AND ugrpg.user_id = ?");
 		stbr.append(" UNION ALL ");
 		stbr.append("SELECT DISTINCT upe.protection_element_id as pe_id, 0 as p_id");
-		stbr.append("      FROM csm_user_pe upe, csm_protection_element cpe");
-		stbr.append("      WHERE cpe.protection_element_id = upe.protection_element_id ");
-		stbr.append("      and upe.user_id = ?");
-		stbr.append("      and cpe.application_id = ?");
+		stbr.append("	FROM csm_protection_element cpe");
+		stbr.append("		INNER JOIN csm_user_pe upe ON upe.protection_element_id = cpe.protection_element_id");
+		stbr.append("	WHERE cpe.application_id = ?");
+		stbr.append("		AND upe.user_id = ?");
 		stbr.append(" ORDER BY pe_id, p_id");
 
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
+		pstmt.setInt(i++,new Integer(user_id).intValue());
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,new Integer(user_id).intValue());
 		pstmt.setInt(i++,application_id);
-		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,new Integer(user_id).intValue());
-		pstmt.setInt(i++,new Integer(user_id).intValue());
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		return pstmt;
 
 	}
@@ -717,28 +698,18 @@ public class Queries {
 	{
 		StringBuffer stbr = new StringBuffer();
 
-		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, p.privilege_id as p_id");
-		stbr.append("      FROM  csm_protection_element pe,");
-		stbr.append("            csm_protection_group pg,");
-		stbr.append("            csm_privilege p,");
-		stbr.append("            csm_group g,");
-		stbr.append("            csm_pg_pe pgpe,");
-		stbr.append("            csm_role r,");
-		stbr.append("            csm_role_privilege rp,");
-		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
-		stbr.append("            AND ugrpg.role_id = rp.role_id");
-		stbr.append("            AND rp.privilege_id = p.privilege_id");
-		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
-		stbr.append(" 			 AND pg.application_id=?");
-		stbr.append(" 			 AND pe.application_id=?");
-		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append("            AND ugrpg.group_id = ?");
-		stbr.append("      ORDER BY pe_id, p_id");
+		stbr.append("SELECT DISTINCT pe.protection_element_id as pe_id, rp.privilege_id as p_id");
+		stbr.append("	FROM csm_role_privilege rp");
+		stbr.append("		INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.role_id = rp.role_id");
+		stbr.append("		INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = ugrpg.protection_group_id");
+		stbr.append("		INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append("	WHERE pe.application_id=?");
+		stbr.append("		AND ugrpg.group_id = ?");
+		stbr.append("	ORDER BY pe_id, p_id");
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,new Integer(group_id).intValue());
 
@@ -753,25 +724,17 @@ public class Queries {
 		StringBuffer stbr = new StringBuffer();
 
 		stbr.append("SELECT DISTINCT pe.attribute");
-		stbr.append("      FROM  csm_protection_element pe,");
-		stbr.append("            csm_protection_group pg,");
-		stbr.append("            csm_privilege p,");
-		stbr.append("            csm_user u,");
-		stbr.append("            csm_pg_pe pgpe,");
-		stbr.append("            csm_role r,");
-		stbr.append("            csm_role_privilege rp,");
-		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
-		stbr.append("            AND ugrpg.role_id = rp.role_id");
-		stbr.append("            AND rp.privilege_id = p.privilege_id");
-		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
-		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append("            AND ugrpg.user_id = u.user_id");
-		stbr.append("            AND (pe.attribute is not null or pe.attribute <> '')");
-		stbr.append("            AND pe.object_id=?");
-		stbr.append("            AND u.login_name=?");
-		stbr.append("            AND p.privilege_name=?");
-		stbr.append("            AND pe.application_id=?");
+		stbr.append("	FROM csm_protection_element pe");
+		stbr.append("		INNER JOIN csm_pg_pe pgpe ON pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("		INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("		INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id");
+		stbr.append("		INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
+		stbr.append("		INNER JOIN csm_user u ON u.user_id = ugrpg.user_id");
+		stbr.append("	WHERE (pe.attribute is not null or pe.attribute != '')");
+		stbr.append("		AND pe.object_id=?");
+		stbr.append("		AND u.login_name=?");
+		stbr.append("		AND p.privilege_name=?");
+		stbr.append("		AND pe.application_id=?");
 
 
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
@@ -791,25 +754,17 @@ public class Queries {
 		StringBuffer stbr = new StringBuffer();
 
 		stbr.append("SELECT DISTINCT pe.attribute");
-		stbr.append("      FROM  csm_protection_element pe,");
-		stbr.append("            csm_protection_group pg,");
-		stbr.append("            csm_privilege p,");
-		stbr.append("            csm_group g,");
-		stbr.append("            csm_pg_pe pgpe,");
-		stbr.append("            csm_role r,");
-		stbr.append("            csm_role_privilege rp,");
-		stbr.append("            csm_user_group_role_pg ugrpg");
-		stbr.append("      WHERE pgpe.protection_group_id = ANY (SELECT pg1.protection_group_id FROM csm_protection_group pg1 WHERE pg1.parent_protection_group_id = ugrpg.protection_group_id OR pg1.protection_group_id = ugrpg.protection_group_id)");
-		stbr.append("            AND ugrpg.role_id = rp.role_id");
-		stbr.append("            AND rp.privilege_id = p.privilege_id");
-		stbr.append("            AND pg.protection_group_id = pgpe.protection_group_id");
-		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append("            AND ugrpg.group_id = g.group_id");
-		stbr.append("            AND (pe.attribute is not null or pe.attribute <> '')");
-		stbr.append("            AND pe.object_id=?");
-		stbr.append("            AND g.group_name =?");
-		stbr.append("            AND p.privilege_name=?");
-		stbr.append("            AND pe.application_id=?");
+		stbr.append("	FROM csm_protection_element pe");
+		stbr.append("		INNER JOIN csm_pg_pe pgpe ON pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append("		INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("		INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id");
+		stbr.append("		INNER JOIN csm_group g ON g.group_id = ugrpg.group_id");
+		stbr.append("		INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
+		stbr.append("	WHERE (pe.attribute is not null or pe.attribute != '')");
+		stbr.append("		AND pe.object_id=?");
+		stbr.append("		AND g.group_name =?");
+		stbr.append("		AND p.privilege_name=?");
+		stbr.append("		AND pe.application_id=?");
 
 
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
@@ -839,7 +794,7 @@ public class Queries {
 //		stbr.append("            AND pgpe.protection_element_id = pe.protection_element_id");
 //		stbr.append("            AND pe.application_id=?");
 //		stbr.append("            AND pe.application_id = app.application_id");
-		
+
 		stbr.append("SELECT pe.protection_element_id");
 		stbr.append("      FROM  csm_protection_element pe,");
 		stbr.append("            csm_user u,");
