@@ -118,7 +118,7 @@ public class Queries {
 		  stbr.append(" and pe.attribute=?");
 		  stbr.append(" and u.login_name=?");
 		  stbr.append(" and p.privilege_name=?");
-		  stbr.append(" and pg.application_id=?");
+		  //stbr.append(" and pg.application_id=?");
 		  stbr.append(" and pe.application_id=?");
 
 		  StringBuffer sqlBfr = new StringBuffer();
@@ -136,14 +136,14 @@ public class Queries {
 		  pstmt.setString(i++,attribute);
 		  pstmt.setString(i++,loginName);
 		  pstmt.setString(i++,privilegeName);
-		  pstmt.setInt(i++,application_id);
+		  //pstmt.setInt(i++,application_id);
 		  pstmt.setInt(i++,application_id);
 
 		  pstmt.setString(i++,objectId );
 		  pstmt.setString(i++,attribute);
 		  pstmt.setString(i++,loginName);
 		  pstmt.setString(i++,privilegeName);
-		  pstmt.setInt(i++,application_id);
+		  //pstmt.setInt(i++,application_id);
 		  pstmt.setInt(i++,application_id);
 
 		  return pstmt;
@@ -164,7 +164,7 @@ public class Queries {
 		stbr.append(" and pe.attribute_value=?");
 		stbr.append(" and u.login_name=?");
 		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and pg.application_id=?");
+		//stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
 
 		StringBuffer sqlBfr = new StringBuffer();
@@ -183,7 +183,7 @@ public class Queries {
 		pstmt.setString(i++,attributeValue);
 		pstmt.setString(i++,loginName);
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		pstmt.setString(i++,objectId );
@@ -191,7 +191,7 @@ public class Queries {
 		pstmt.setString(i++,attributeValue);
 		pstmt.setString(i++,loginName);
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		return pstmt;
@@ -207,7 +207,7 @@ public class Queries {
 		stbr.append("and pe.object_id='").append(objectId).append("'");
 		stbr.append(" and u.login_name='").append(loginName).append("'");
 		stbr.append(" and p.privilege_name='").append(privilegeName).append("'");
-		stbr.append(" and pg.application_id=").append(application_id);
+		//stbr.append(" and pg.application_id=").append(application_id);
 		stbr.append(" and pe.application_id=").append(application_id);
 
 		StringBuffer sqlBfr = new StringBuffer();
@@ -263,7 +263,7 @@ public class Queries {
 		stbr.append(" and ugrpg.role_id = rp.role_id ");
 		stbr.append(" and rp.privilege_id = p.privilege_id");
 		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and pg.application_id=?");
+		//stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
 
 		int i=1;
@@ -271,7 +271,7 @@ public class Queries {
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,userName);
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		return pstmt;
@@ -280,32 +280,24 @@ public class Queries {
 	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select 'X'");
-		stbr.append("from csm_protection_group pg,");
-		stbr.append("csm_protection_element pe,");
-		stbr.append("csm_pg_pe pgpe,");
-		stbr.append("csm_user_group_role_pg ugrpg,");
-		stbr.append("csm_group g,");
-		stbr.append("csm_role_privilege rp,");
-		stbr.append("csm_privilege p ");
-		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
-		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append(" and pe.object_id=?");
-		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
-		stbr.append(" and ugrpg.group_id = g.group_id ");
-		stbr.append(" and g.group_name=?");
-		stbr.append(" and ugrpg.role_id = rp.role_id ");
-		stbr.append(" and rp.privilege_id = p.privilege_id");
-		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and pg.application_id=?");
-		stbr.append(" and pe.application_id=?");
+		stbr.append("SELECT 'X'");
+		stbr.append(" FROM csm_protection_group pg,");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
+		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append(" INNER JOIN csm_group g ON g.group_id = ugrpg.group_id");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
+		stbr.append("  WHERE pe.object_id=?");
+		stbr.append(" AND g.group_name=?");
+		stbr.append(" AND p.privilege_name=?");
+		stbr.append(" AND pe.application_id=?");
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,groupName);
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		return pstmt;
@@ -314,32 +306,21 @@ public class Queries {
 	protected static PreparedStatement getQueryForAccessibleGroups(String objectId, String privilegeName, int applicationId, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select distinct g.group_id ");
-		stbr.append("from csm_group g, ");
-		stbr.append("csm_protection_group pg, ");
-		stbr.append("csm_protection_element pe, ");
-		stbr.append("csm_pg_pe pgpe, ");
-		stbr.append("csm_user_group_role_pg ugrpg, ");
-		stbr.append("csm_role_privilege rp, ");
-		stbr.append("csm_privilege p ");
-		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
-		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id ");
-		stbr.append(" and pe.object_id=?");
-		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
-		stbr.append(" and g.group_id = ugrpg.group_id");
-		stbr.append(" and ugrpg.role_id = rp.role_id ");
-		stbr.append(" and rp.privilege_id = p.privilege_id");
-		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and g.application_id=?");
-		stbr.append(" and pg.application_id=?");
-		stbr.append(" and pe.application_id=?");
+		stbr.append("SELECT distinct g.group_id ");
+		stbr.append(" FROM csm_group g ");
+		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.group_id = g.group_id ");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = ugrpg.protection_group_id ");
+		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id ");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id ");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id ");
+		stbr.append("  WHERE pe.object_id=?");
+		stbr.append(" AND p.privilege_name=?");
+		stbr.append(" AND pe.application_id=?");
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,new Integer(applicationId).intValue());
-		pstmt.setInt(i++,new Integer(applicationId).intValue());
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
 
 		return pstmt;
@@ -348,34 +329,23 @@ public class Queries {
 	protected static PreparedStatement getQueryForAccessibleGroupsWithAttribute(String objectId, String attribute, String privilegeName, int applicationId, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select distinct g.group_id ");
-		stbr.append("from csm_group g, ");
-		stbr.append("csm_protection_group pg, ");
-		stbr.append("csm_protection_element pe, ");
-		stbr.append("csm_pg_pe pgpe, ");
-		stbr.append("csm_user_group_role_pg ugrpg, ");
-		stbr.append("csm_role_privilege rp, ");
-		stbr.append("csm_privilege p ");
-		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
-		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id ");
-		stbr.append(" and pe.object_id=?");
-		stbr.append(" and pe.attribute=?");
-		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
-		stbr.append(" and g.group_id = ugrpg.group_id");
-		stbr.append(" and ugrpg.role_id = rp.role_id ");
-		stbr.append(" and rp.privilege_id = p.privilege_id");
-		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and g.application_id=?");
-		stbr.append(" and pg.application_id=?");
-		stbr.append(" and pe.application_id=?");
+		stbr.append("SELECT distinct g.group_id ");
+		stbr.append(" FROM csm_group g ");
+		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.group_id = g.group_id ");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = ugrpg.protection_group_id ");
+		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id ");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id ");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id ");
+		stbr.append("  WHERE pe.object_id=?");
+		stbr.append(" AND pe.attribute=?");
+		stbr.append(" AND p.privilege_name=?");
+		stbr.append(" AND pe.application_id=?");
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,attribute );
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,new Integer(applicationId).intValue());
-		pstmt.setInt(i++,new Integer(applicationId).intValue());
 		pstmt.setInt(i++,new Integer(applicationId).intValue());
 
 		return pstmt;
@@ -397,26 +367,19 @@ public class Queries {
 	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String attributeName, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select 'X'");
-		stbr.append("from csm_protection_group pg,");
-		stbr.append("csm_protection_element pe,");
-		stbr.append("csm_pg_pe pgpe,");
-		stbr.append("csm_user_group_role_pg ugrpg,");
-		stbr.append("csm_group g,");
-		stbr.append("csm_role_privilege rp,");
-		stbr.append("csm_privilege p ");
-		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
-		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append(" and pe.object_id=?");
-		stbr.append(" and pe.attribute=?");
-		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
-		stbr.append(" and ugrpg.group_id = g.group_id ");
-		stbr.append(" and g.group_name=?");
-		stbr.append(" and ugrpg.role_id = rp.role_id ");
-		stbr.append(" and rp.privilege_id = p.privilege_id");
-		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and pg.application_id=?");
-		stbr.append(" and pe.application_id=?");
+		stbr.append("SELECT 'X'");
+		stbr.append(" FROM csm_protection_group pg");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
+		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append(" INNER JOIN csm_group g ON g.group_id = ugrpg.group_id");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id ");
+		stbr.append("  WHERE pe.object_id=?");
+		stbr.append(" AND pe.attribute=?");
+		stbr.append(" AND g.group_name=?");
+		stbr.append(" AND p.privilege_name=?");
+		stbr.append(" AND pe.application_id=?");
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
@@ -424,7 +387,6 @@ public class Queries {
 		pstmt.setString(i++,attributeName );
 		pstmt.setString(i++,groupName );
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		return pstmt;
@@ -446,27 +408,20 @@ public class Queries {
 	protected static PreparedStatement getQueryForCheckPermissionForOnlyGroup(String groupName, String objectId, String attributeName, String attributeValue, String privilegeName, int application_id, Connection cn) throws SQLException
 	{
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select 'X'");
-		stbr.append("from csm_protection_group pg,");
-		stbr.append("csm_protection_element pe,");
-		stbr.append("csm_pg_pe pgpe,");
-		stbr.append("csm_user_group_role_pg ugrpg,");
-		stbr.append("csm_group g,");
-		stbr.append("csm_role_privilege rp,");
-		stbr.append("csm_privilege p ");
-		stbr.append(" where pgpe.protection_group_id = pg.protection_group_id ");
-		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
-		stbr.append(" and pe.object_id=?");
-		stbr.append(" and pe.attribute=?");
-		stbr.append(" and pe.attribute_value=?");
-		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
-		stbr.append(" and ugrpg.group_id = g.group_id ");
-		stbr.append(" and g.group_name=?");
-		stbr.append(" and ugrpg.role_id = rp.role_id ");
-		stbr.append(" and rp.privilege_id = p.privilege_id");
-		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and pg.application_id=?");
-		stbr.append(" and pe.application_id=?");
+		stbr.append("SELECT 'X'");
+		stbr.append(" FROM csm_protection_group pg,");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
+		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append(" INNER JOIN csm_group g ON g.group_id = ugrpg.group_id");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = ugrpg.role_id");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id ");
+		stbr.append("  WHERE pe.object_id=?");
+		stbr.append(" AND pe.attribute=?");
+		stbr.append(" AND pe.attribute_value=?");
+		stbr.append(" AND g.group_name=?");
+		stbr.append(" AND p.privilege_name=?");
+		stbr.append(" AND pe.application_id=?");
 
 		int i=1;
 		PreparedStatement pstmt = cn.prepareStatement(stbr.toString());
@@ -475,7 +430,6 @@ public class Queries {
 		pstmt.setString(i++,attributeValue );
 		pstmt.setString(i++,groupName );
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		return pstmt;
@@ -503,7 +457,7 @@ public class Queries {
 		stbr.append(" and ugrpg.role_id = rp.role_id ");
 		stbr.append(" and rp.privilege_id = p.privilege_id");
 		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and pg.application_id=?");
+		//stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
 
 		int i=1;
@@ -511,7 +465,7 @@ public class Queries {
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,userName );
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		return pstmt;
@@ -520,47 +474,32 @@ public class Queries {
 
 	private static String getStaticStringForUserAndGroupForAttribute(){
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select 'X'");
-		stbr.append(" from csm_protection_group pg,");
-		stbr.append(" csm_protection_element pe,");
-		stbr.append(" csm_pg_pe pgpe,");
-		stbr.append(" csm_user_group_role_pg ugrpg,");
-		stbr.append(" csm_user u,");
-		stbr.append(" csm_role_privilege rp,");
-		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");
-		stbr.append(" where ugrpg.role_id = r.role_id and");
-		stbr.append(" ugrpg.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
-		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
-		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
-		stbr.append(" r.role_id = rp.role_id and");
-		stbr.append(" rp.privilege_id = p.privilege_id ");
+		stbr.append("SELECT 'X'");
+		stbr.append(" FROM csm_protection_group pg,");
+		stbr.append("  INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
+		stbr.append("  INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append("  INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
+		stbr.append("  INNER JOIN csm_user u ON u.user_id = ugrpg.user_id");
+		stbr.append("  INNER JOIN csm_role r ON r.role_id = ugrpg.role_id");
+		stbr.append("  INNER JOIN csm_role_privilege rp ON rp.role_id = r.role_id");
+		stbr.append("  INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
 
 		return stbr.toString();
 	}
+
 	private static String getStaticStringForUserAndGroupForAttribute2(){
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select 'X'");
-		stbr.append(" from csm_protection_group pg,");
-		stbr.append(" csm_protection_element pe,");
-		stbr.append(" csm_pg_pe pgpe,");
-		stbr.append(" csm_user_group_role_pg ugrpg,");
-		stbr.append(" csm_user u,");
-		stbr.append(" csm_user_group ug,");
-		stbr.append(" csm_group g,");
-		stbr.append(" csm_role_privilege rp,");
-		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");
-		stbr.append(" where ugrpg.role_id = r.role_id and");
-		stbr.append(" ugrpg.group_id = g.group_id and");
-		stbr.append(" g.group_id = ug.group_id and");
-		stbr.append(" ug.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
-		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
-		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
-		stbr.append(" r.role_id = rp.role_id and");
-		stbr.append(" rp.privilege_id = p.privilege_id ");
+		stbr.append("SELECT 'X'");
+		stbr.append(" FROM csm_user_group_role_pg ugrpg");
+		stbr.append(" INNER JOIN csm_role r ON r.role_id = ugrpg.role_id");
+		stbr.append(" INNER JOIN csm_group g ON g.group_id = ugrpg.group_id");
+		stbr.append(" INNER JOIN csm_user_group ug ON ug.group_id = g.group_id");
+		stbr.append(" INNER JOIN csm_user u ON u.user_id = ug.user_id");
+		stbr.append(" INNER JOIN csm_protection_group pg ON pg.protection_group_id = ugrpg.protection_group_id");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
+		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = r.role_id");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
 
 		return stbr.toString();
 	}
@@ -570,7 +509,7 @@ public class Queries {
 		stbr.append("and pe.object_id=?");
 		stbr.append(" and u.login_name=?");
 		stbr.append(" and p.privilege_name=?");
-		stbr.append(" and pg.application_id=?");
+		//stbr.append(" and pg.application_id=?");
 		stbr.append(" and pe.application_id=?");
 
 		StringBuffer sqlBfr = new StringBuffer();
@@ -585,64 +524,46 @@ public class Queries {
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,loginName );
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		pstmt.setString(i++,objectId );
 		pstmt.setString(i++,loginName );
 		pstmt.setString(i++,privilegeName);
-		pstmt.setInt(i++,application_id);
+		//pstmt.setInt(i++,application_id);
 		pstmt.setInt(i++,application_id);
 
 		return pstmt;
-
-
 	}
 
 	private static String getQueryForObjectMap_user(){
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select pe.attribute ");
-		stbr.append(" from csm_protection_group pg,");
-		stbr.append(" csm_protection_element pe,");
-		stbr.append(" csm_pg_pe pgpe,");
-		stbr.append(" csm_user_group_role_pg ugrpg,");
-		stbr.append(" csm_user u,");
-		stbr.append(" csm_role_privilege rp,");
-		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");
-		stbr.append(" where ugrpg.role_id = r.role_id and");
-		stbr.append(" ugrpg.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
-		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
-		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
-		stbr.append(" r.role_id = rp.role_id and");
-		stbr.append(" rp.privilege_id = p.privilege_id ");
-
+		stbr.append("SELECT pe.attribute ");
+		stbr.append(" FROM csm_protection_element pe");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append(" INNER JOIN csm_protection_group pg ON pg.protection_group_id = pgpe.protection_group_id		");
+		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pg.protection_group_id");
+		stbr.append(" INNER JOIN csm_user u ON u.user_id = ugrpg.user_id");
+		stbr.append(" INNER JOIN csm_role r ON r.role_id = ugrpg.role_id");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = r.role_id");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
 
 		return stbr.toString();
 	}
+
 	private static String getQueryForObjectMap_group(){
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("select pe.attribute");
-		stbr.append(" from csm_protection_group pg,");
-		stbr.append(" csm_protection_element pe,");
-		stbr.append(" csm_pg_pe pgpe,");
-		stbr.append(" csm_user_group_role_pg ugrpg,");
-		stbr.append(" csm_user u,");
-		stbr.append(" csm_user_group ug,");
-		stbr.append(" csm_group g,");
-		stbr.append(" csm_role_privilege rp,");
-		stbr.append(" csm_role r,");
-		stbr.append(" csm_privilege p");
-		stbr.append(" where ugrpg.role_id = r.role_id and");
-		stbr.append(" ugrpg.group_id = g.group_id and");
-		stbr.append(" g.group_id = ug.group_id and");
-		stbr.append(" ug.user_id = u.user_id and");
-		stbr.append(" ugrpg.protection_group_id  = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id)) and");
-		stbr.append(" pg.protection_group_id = pgpe.protection_group_id and");
-		stbr.append(" pgpe.protection_element_id = pe.protection_element_id and");
-		stbr.append(" r.role_id = rp.role_id and");
-		stbr.append(" rp.privilege_id = p.privilege_id ");
+		stbr.append("SELECT pe.attribute");
+		stbr.append(" FROM csm_protection_element pe");
+		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_element_id = pe.protection_element_id");
+		stbr.append(" INNER JOIN csm_protection_group pg ON pg.protection_group_id = pgpe.protection_group_id");
+		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pg.protection_group_id");
+		stbr.append(" INNER JOIN csm_role r ON r.role_id = ugrpg.role_id");
+		stbr.append(" INNER JOIN csm_group g ON g.group_id = ugrpg.group_id");
+		stbr.append(" INNER JOIN csm_user_group ug ON ug.group_id = g.group_id");
+		stbr.append(" INNER JOIN csm_user u ON u.user_id = ug.user_id");
+		stbr.append(" INNER JOIN csm_role_privilege rp ON rp.role_id = r.role_id");
+		stbr.append(" INNER JOIN csm_privilege p ON p.privilege_id = rp.privilege_id");
 
 		return stbr.toString();
 	}
