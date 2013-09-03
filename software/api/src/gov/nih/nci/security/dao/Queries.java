@@ -256,7 +256,11 @@ public class Queries {
 		stbr.append("where pgpe.protection_group_id = pg.protection_group_id ");
 		stbr.append(" and pgpe.protection_element_id = pe.protection_element_id");
 		stbr.append(" and pe.object_id=?");
-		stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
+		//stbr.append(" and ugrpg.protection_group_id = ANY (select pg1.protection_group_id from csm_protection_group pg1 where pg1.protection_group_id = pg.protection_group_id or pg1.protection_group_id = (select pg2.parent_protection_group_id from csm_protection_group pg2 where pg2.protection_group_id = pg.protection_group_id))");
+		// The following join is done to replace the above commented out line.
+		// The elegant INNER JOIN applied in other methods could not be done for this particular method as
+		// the results of original query and modfied query did not match.
+		stbr.append(" and ugrpg.protection_group_id = pg.protection_group_id");
 		stbr.append(" and ugrpg.group_id = g.group_id ");
 		stbr.append(" and ug.user_id = u.user_id");
 		stbr.append(" and u.login_name=?");
