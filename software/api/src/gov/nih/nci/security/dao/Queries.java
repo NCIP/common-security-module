@@ -285,7 +285,7 @@ public class Queries {
 	{
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("SELECT 'X'");
-		stbr.append(" FROM csm_protection_group pg,");
+		stbr.append(" FROM csm_protection_group pg");
 		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
 		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
 		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
@@ -413,7 +413,7 @@ public class Queries {
 	{
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("SELECT 'X'");
-		stbr.append(" FROM csm_protection_group pg,");
+		stbr.append(" FROM csm_protection_group pg");
 		stbr.append(" INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
 		stbr.append(" INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
 		stbr.append(" INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
@@ -479,7 +479,7 @@ public class Queries {
 	private static String getStaticStringForUserAndGroupForAttribute(){
 		StringBuffer stbr = new StringBuffer();
 		stbr.append("SELECT 'X'");
-		stbr.append(" FROM csm_protection_group pg,");
+		stbr.append(" FROM csm_protection_group pg");
 		stbr.append("  INNER JOIN csm_pg_pe pgpe ON pgpe.protection_group_id = pg.protection_group_id");
 		stbr.append("  INNER JOIN csm_protection_element pe ON pe.protection_element_id = pgpe.protection_element_id");
 		stbr.append("  INNER JOIN csm_user_group_role_pg ugrpg ON ugrpg.protection_group_id = pgpe.protection_group_id");
