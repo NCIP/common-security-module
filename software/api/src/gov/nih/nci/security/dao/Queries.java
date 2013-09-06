@@ -114,7 +114,7 @@ public class Queries {
 
 
 		  StringBuffer stbr = new StringBuffer();
-		  stbr.append("and pe.object_id=?");
+		  stbr.append(" where pe.object_id=?");
 		  stbr.append(" and pe.attribute=?");
 		  stbr.append(" and u.login_name=?");
 		  stbr.append(" and p.privilege_name=?");
@@ -159,7 +159,7 @@ public class Queries {
 
 
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("and pe.object_id=?");
+		stbr.append(" where pe.object_id=?");
 		stbr.append(" and pe.attribute=?");
 		stbr.append(" and pe.attribute_value=?");
 		stbr.append(" and u.login_name=?");
@@ -204,7 +204,7 @@ public class Queries {
 																		 int application_id, Connection cn) throws SQLException{
 
 		StringBuffer stbr = new StringBuffer();
-		stbr.append("and pe.object_id='").append(objectId).append("'");
+		stbr.append(" where pe.object_id='").append(objectId).append("'");
 		stbr.append(" and u.login_name='").append(loginName).append("'");
 		stbr.append(" and p.privilege_name='").append(privilegeName).append("'");
 		//stbr.append(" and pg.application_id=").append(application_id);
@@ -510,7 +510,7 @@ public class Queries {
 
 	public static PreparedStatement getQueryForObjectMap(String loginName,String objectId,String privilegeName,int application_id, Connection cn) throws SQLException{
 		 StringBuffer stbr = new StringBuffer();
-		stbr.append("and pe.object_id=?");
+		stbr.append(" where pe.object_id=?");
 		stbr.append(" and u.login_name=?");
 		stbr.append(" and p.privilege_name=?");
 		//stbr.append(" and pg.application_id=?");
