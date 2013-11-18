@@ -99,52 +99,62 @@ package gov.nih.nci.security.upt.actions;
 
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import gov.nih.nci.logging.api.user.UserInfoHelper;
+import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
+import gov.nih.nci.security.upt.forms.AppUserForm;
 import gov.nih.nci.security.upt.forms.BaseDBForm;
 import gov.nih.nci.security.upt.forms.LoginForm;
 import gov.nih.nci.security.upt.util.JDBCHelper;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.actions.DispatchAction;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.util.ServletContextAware;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
  *
  */
-public class CommonDBAction extends DispatchAction
+public class CommonDBAction extends ActionSupport implements ServletContextAware 
 {
 	private static final Logger logDB = Logger.getLogger(CommonDBAction.class);
 
-	public ActionForward loadHome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
+	protected ServletContext servletContext;
+	
 
+	public void setServletContext(ServletContext arg0) {
+		this.servletContext = arg0;
+	}
+
+	public String loadHome(BaseDBForm form) throws Exception
+	{
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
-				logDB.debug("||"+baseDBForm.getFormName()+"|loadHome|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+				logDB.debug("||"+form.getFormName()+"|loadHome|Failure|No Session or User Object Forwarding to the Login Page||");
+			return ForwardConstants.LOGIN_PAGE;
 		}
 
 		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
@@ -154,23 +164,20 @@ public class CommonDBAction extends DispatchAction
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-					"|"+baseDBForm.getFormName()+"|loadHome|Success|Load the Home Page||");
+					"|"+form.getFormName()+"|loadHome|Success|Load the Home Page||");
 
-		return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));
+		return ForwardConstants.LOAD_HOME_SUCCESS;
 	}
 
-	public ActionForward loadAdd(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String loadAdd(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|loadAdd|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 
 		baseDBForm.resetForm();
@@ -183,22 +190,18 @@ public class CommonDBAction extends DispatchAction
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|loadAdd|Success|Loading the Add Page||");
-
-		return (mapping.findForward(ForwardConstants.LOAD_ADD_SUCCESS));
+		return ForwardConstants.LOAD_ADD_SUCCESS;
 	}
 
-	public ActionForward loadSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String loadSearch(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearch|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 
 		baseDBForm.resetForm();
@@ -209,29 +212,25 @@ public class CommonDBAction extends DispatchAction
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|loadSearch|Success|Loading the Search Page||");
-
-		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_SUCCESS));
+		return ForwardConstants.LOAD_SEARCH_SUCCESS;
 	}
 
-	public ActionForward loadSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String loadSearchResult(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearchResult|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 
 		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){
 			//session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
 			session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 			session.removeAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT);
-			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));
+			return ForwardConstants.LOAD_HOME_SUCCESS;
 		}else{
 				if(session.getAttribute(DisplayConstants.SEARCH_RESULT) == null && session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
 					session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));
@@ -243,31 +242,28 @@ public class CommonDBAction extends DispatchAction
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|loadSearchResult|Success|Loading the Search Result Page||");
-		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));
+		return ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS;
 	}
 
 	/**
 	* Added this method to handle pre-popup search results.
 	*/
 
-	public ActionForward loadOriginalSearchResult(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String loadOriginalSearchResult(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|loadSearchResult|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 
 		if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)!=null){
 			session.removeAttribute(DisplayConstants.CREATE_WORKFLOW);
 			//session.removeAttribute(DisplayConstants.SEARCH_RESULT);
-			return (mapping.findForward(ForwardConstants.LOAD_HOME_SUCCESS));
+			return ForwardConstants.LOAD_HOME_SUCCESS;
 		}else{
 			if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT) != null){
 				session.setAttribute(DisplayConstants.SEARCH_RESULT,session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT));
@@ -279,225 +275,211 @@ public class CommonDBAction extends DispatchAction
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|loadSearchResult|Success|Loading the Search Result Page||");
-		return (mapping.findForward(ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS));
+		return ForwardConstants.LOAD_SEARCH_RESULT_SUCCESS;
 	}
 
 
 
-	public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String create(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|create|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
-			errors = form.validate(mapping, request);
-			if(!errors.isEmpty())
+			List<String> errors = baseDBForm.validate();
+			if(errors != null && errors.size() > 0)
 			{
-				saveErrors(request,errors);
+				for(String error: errors)
+				{
+					addActionError(error);
+				}
 				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 				if (logDB.isDebugEnabled())
 					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 						"|"+baseDBForm.getFormName()+"|create|Failure|Error validating the "+baseDBForm.getFormName()+" object|"
-						+form.toString()+"|");
-				return mapping.getInputForward();
+						+baseDBForm.toString()+"|");
+				return "input";
 			}
-			baseDBForm.buildDBObject(request);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Add Successful"));
-			saveMessages( request, messages );
+			UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+			baseDBForm.setRequest(request);
+			baseDBForm.buildDBObject(userProvisioningManager);
+			addActionMessage("Add Successful");
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|create|Failure|Error Adding the "+baseDBForm.getFormName()+" object|"
-					+form.toString()+"|"+ cse.getMessage());
+					+baseDBForm.toString()+"|"+ cse.getMessage());
 		}
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDBForm.getFormName()+"|create|Success|Adding a  new "+baseDBForm.getFormName()+" object|"
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.CREATE_SUCCESS));
+				+baseDBForm.toString()+"|");
+		return ForwardConstants.CREATE_SUCCESS;
 	}
 
 
-	public ActionForward read(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String read(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
-
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|read|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		if (baseDBForm.getPrimaryId() == null || baseDBForm.getPrimaryId().equalsIgnoreCase(""))
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "A record needs to be selected first to view details" ));
-			saveErrors( request,errors );
+			addActionError( "A record needs to be selected first to view details" );
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|read|Failure|No Primary Id for "+baseDBForm.getFormName()+" object||");
-			return (mapping.findForward(ForwardConstants.READ_FAILURE));
+			return ForwardConstants.READ_FAILURE;
 		}
 		try
 		{
-			baseDBForm.buildDisplayForm(request);
+			UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+			baseDBForm.setRequest(request);
+			baseDBForm.buildDisplayForm(userProvisioningManager);
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|read|Failure|Error Reading the "+baseDBForm.getFormName()+" object|"
-					+form.toString()+"|"+ cse.getMessage());
+					+"|"+ cse.getMessage());
 		}
-
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDBForm.getFormName()+"|read|Success|Success reading "+baseDBForm.getFormName()+" object|"
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.READ_SUCCESS));
+				+"|");
 
+		return ForwardConstants.READ_SUCCESS;
 	}
 
-	public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String update(BaseDBForm baseDBForm) throws Exception
 	{
-//		System.out.println("IN UPDATE COMMON DB ACTION");
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|update|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
-			errors = form.validate(mapping, request);
-			if(!errors.isEmpty())
+			List<String> errors = baseDBForm.validate();
+			if(errors != null && errors.size() > 0)
 			{
-				saveErrors(request,errors);
+				for(String error : errors)
+					addActionError(error);
 				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 				if (logDB.isDebugEnabled())
 					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 						"|"+baseDBForm.getFormName()+"|update|Failure|Error validating the "+baseDBForm.getFormName()+" object|"
-						+form.toString()+"|");
-				return mapping.getInputForward();
+						+"|");
+				return "input";
 			}
-			baseDBForm.buildDBObject(request);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Update Successful"));
-			saveMessages( request, messages );
+			UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+			baseDBForm.setRequest(request);
+			baseDBForm.buildDBObject(userProvisioningManager);
+			addActionMessage("Update Successful");
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError( org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|update|Failure|Error Updating the "+baseDBForm.getFormName()+" object|"
-					+form.toString()+"|"+ cse.getMessage());
+					+"|"+ cse.getMessage());
 		}
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDBForm.getFormName()+"|update|Success|Updating existing "+baseDBForm.getFormName()+" object|"
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.UPDATE_SUCCESS));
+				+"|");
+		return ForwardConstants.UPDATE_SUCCESS;
 	}
 
-	public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String delete(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|delete|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
-			baseDBForm.removeDBObject(request);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Delete Successful"));
-			saveMessages( request, messages );
+			UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+			baseDBForm.setRequest(request);
+			baseDBForm.buildDisplayForm(userProvisioningManager);
+			baseDBForm.removeDBObject(userProvisioningManager);
+			addActionMessage("Delete Successful");
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|delete|Failure|Error Deleting the "+baseDBForm.getFormName()+" object|"
-					+form.toString()+"|"+ cse.getMessage());
+					+"|"+ cse.getMessage());
 		}
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDBForm.getFormName()+"|delete|Success|Success Deleting "+baseDBForm.getFormName()+" object|"
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.DELETE_SUCCESS));
+				+"|");
+		return ForwardConstants.DELETE_SUCCESS;
 	}
 
-	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String search(BaseDBForm baseDBForm) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
 				logDB.debug("||"+baseDBForm.getFormName()+"|search|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
-			SearchResult searchResult = baseDBForm.searchObjects(request,errors,messages);
-
+			UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+			baseDBForm.setRequest(request);
+			SearchResult searchResult = baseDBForm.searchObjects(userProvisioningManager);
 			if ( searchResult.getSearchResultObjects() == null || searchResult.getSearchResultObjects().isEmpty())
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "The search criteria returned zero results"));
-				saveErrors( request,errors );
+				addActionError("The search criteria returned zero results");
 				if (logDB.isDebugEnabled())
 					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 						"|"+baseDBForm.getFormName()+"|search|Failure|No Records found for "+baseDBForm.getFormName()+" object|"
-						+form.toString()+"|");
+						+"|");
 				baseDBForm.resetForm();
-				return (mapping.findForward(ForwardConstants.SEARCH_FAILURE));
+				return ForwardConstants.SEARCH_FAILURE;
 			}
 			if (searchResult.getSearchResultMessage() != null && !(searchResult.getSearchResultMessage().trim().equalsIgnoreCase("")))
 			{
-				messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, searchResult.getSearchResultMessage()));
-				saveMessages( request, messages );
+				addActionMessage(searchResult.getSearchResultMessage());
 			}
 
 
@@ -509,7 +491,6 @@ public class CommonDBAction extends DispatchAction
 				String str = (String) session.getAttribute(DisplayConstants.CREATE_WORKFLOW);
 				if(session.getAttribute(DisplayConstants.CREATE_WORKFLOW)==null){
 						if(session.getAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT)==null){
-
 							session.setAttribute(DisplayConstants.ORIGINAL_SEARCH_RESULT, session.getAttribute(DisplayConstants.SEARCH_RESULT) );
 						}
 				}
@@ -518,76 +499,68 @@ public class CommonDBAction extends DispatchAction
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+baseDBForm.getFormName()+"|search|Failure|Error Searching the "+baseDBForm.getFormName()+" object|"
-					+form.toString()+"|"+ cse.getMessage());
+					+"|"+ cse.getMessage());
 		}
 		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+baseDBForm.getFormName()+"|search|Success|Success in searching "+baseDBForm.getFormName()+" object|"
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.SEARCH_SUCCESS));
+				+"|");
+		return ForwardConstants.SEARCH_SUCCESS;
 	}
 
-	public ActionForward testConnection(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String testConnection(BaseDBForm form) throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		BaseDBForm baseDBForm = (BaseDBForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logDB.isDebugEnabled())
-				logDB.debug("||"+baseDBForm.getFormName()+"|Test Connection|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+				logDB.debug("||"+form.getFormName()+"|Test Connection|Failure|No Session or User Object Forwarding to the Login Page||");
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
 		{
-			errors = form.validate(mapping, request);
-			if(!errors.isEmpty())
+			List<String> errors = form.validate();
+			if(errors != null && errors.size() > 0)
 			{
-				saveErrors(request,errors);
-				session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+				for(String error : errors)
+					addActionError(error);
+				session.setAttribute(DisplayConstants.CURRENT_FORM, form);
 				if (logDB.isDebugEnabled())
 					logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-						"|"+baseDBForm.getFormName()+"|Test Connection|Failure|Error testing Aplication Database Connection"
-						+form.toString()+"|");
-				return mapping.getInputForward();
+						"|"+form.getFormName()+"|Test Connection|Failure|Error testing Aplication Database Connection"
+						+"|");
+				return "input";
 			}
 
 			// Test JDBC Database Connection Properties.
 			//String message = JDBCHelper.testConnectionHibernate(baseDBForm);
-			String message = JDBCHelper.testConnectionJDBC(baseDBForm);
+			String message = JDBCHelper.testConnectionJDBC(form);
 
 			//
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, message));
-			saveMessages( request, messages );
+			addActionMessage(message);
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (logDB.isDebugEnabled())
 				logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-					"|"+baseDBForm.getFormName()+"|Test Connection|Failure|Error Testing Application Database Connection."
-					+form.toString()+"|"+ cse.getMessage());
+					"|"+form.getFormName()+"|Test Connection|Failure|Error Testing Application Database Connection."
+					+"|"+ cse.getMessage());
 		}
-		session.setAttribute(DisplayConstants.CURRENT_FORM, baseDBForm);
+		session.setAttribute(DisplayConstants.CURRENT_FORM, form);
 
 		if (logDB.isDebugEnabled())
 			logDB.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-				"|"+baseDBForm.getFormName()+"|Test Connection|Success|Testing Application Database connection."
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.UPDATE_SUCCESS));
+				"|"+form.getFormName()+"|Test Connection|Success|Testing Application Database connection."
+				+"|");
+		return ForwardConstants.UPDATE_SUCCESS;
 	}
-
-
-
 
 }

@@ -20,7 +20,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -33,19 +32,16 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.WriterAppender;
-import org.apache.struts.util.LabelValueBean;
 import org.directwebremoting.WebContextFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.CacheException;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
@@ -54,6 +50,7 @@ import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.hibernate.type.AssociationType;
 import org.hibernate.type.Type;
+import org.w3c.dom.Document;
 
 
 public class HibernateHelper
@@ -119,10 +116,10 @@ public class HibernateHelper
 	{
 		Map map = sessionFactory.getAllClassMetadata();
 		Set<String> set = map.keySet();
-		ArrayList<LabelValueBean> list = new ArrayList();
+		ArrayList<String> list = new ArrayList();
 		for (String className:set)
 		{
-			list.add(new LabelValueBean(className, className));
+			list.add(className);
 		}
 		return list;
 	}
@@ -251,7 +248,6 @@ public class HibernateHelper
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		logger.removeAppender(appender);
@@ -308,22 +304,18 @@ public class HibernateHelper
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IllegalArgumentException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (InstantiationException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IllegalAccessException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -398,7 +390,6 @@ public class HibernateHelper
 	            result = result.append(w);
 	        }
 	    }
-	    System.out.println("The Query is : " + result.toString());
 	    SessionFactory sessionFactory = session.getSessionFactory();
 	    ClassMetadata classMetadata =sessionFactory.getClassMetadata(filterClause.getClassName());
 	    String columnName = null;
@@ -509,7 +500,6 @@ public class HibernateHelper
 	            result = result.append(w);
 	        }
 	    }
-	    System.out.println("The Query is : " + result.toString());
 	    SessionFactory sessionFactory = session.getSessionFactory();
 	    ClassMetadata classMetadata =sessionFactory.getClassMetadata(filterClause.getClassName());
 	    String columnName = null;

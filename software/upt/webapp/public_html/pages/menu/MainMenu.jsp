@@ -6,20 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
-<%@ taglib uri="http://java.sun.com/jstl/core"
-	prefix="c"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 	
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.DisplayConstants"%>
@@ -59,8 +46,11 @@ function MM_swapImage() { //v3.0
     	
    // -->
 </script>
+	<td class="mainMenu" height="5" valign="top">
+	<table cellpadding="0" cellspacing="0" border="0" height="16">
+<s:if test="#session.LOGIN_OBJECT != null">
 
-<html:form styleId="menuForm" action='<%="/MenuSelection"%>'>
+<s:form name="MenuForm" action="MenuSelection" theme="simple">
 	<%
 		String tableId;
 		try
@@ -79,133 +69,130 @@ function MM_swapImage() { //v3.0
 		}
 		
 	%>
-	<html:hidden property="tableId" value="error" />
-	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='<%="/MenuSelection"%>'/>"/>
-	<td class="mainMenu" height="20">
-	<table cellpadding="0" cellspacing="0" border="0" height="16">
-		<logic:present name="<%=DisplayConstants.LOGIN_OBJECT%>">
+	<s:hidden name="tableId" value="error" />
+	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='MenuSelection.action'/>"/>
 		<tr height="16">
 			<!-- link 1 begins -->
 			<td height="16" class="mainMenuItemOver"
 				onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 				onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-				onclick="javascript: set('<%=DisplayConstants.HOME_ID%>')">
-				<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.HOME_ID%>')" id="menuHome">
+				onclick="javascript: set('Home')">
+				<a class="mainMenuLink"	href="javascript: set('Home')" id="menuHome">
 				HOME</a>
 			</td>
 			<!-- link 1 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 2 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+			<s:if test="#session.ACCESS_UPT_USER_OPERATION != null">
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.USER_ID%>')">
-					<a class="mainMenuLink" href="javascript: set('<%=DisplayConstants.USER_ID%>')" id="menuUser">
+					onclick="javascript: set('User')">
+					<a class="mainMenuLink" href="javascript: set('User')" id="menuUser">
 					USER</a>
 				</td>
-			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+			</s:if>
+			<s:if test="#session.ACCESS_UPT_USER_OPERATION == null">
 				<td height="16" class="mainMenuItemOver">USER</td>
-			</logic:notPresent>
+			</s:if>
 			<!-- link 2 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16"  alt="MainMenu Items Separator"/>
 
 			<!-- link 3 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+			<s:if test="#session.ACCESS_UPT_PROTECTION_ELEMENT_OPERATION != null">
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')">
-					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')" id="menuPE">
+					onclick="javascript: set('ProtectionElement')">
+					<a class="mainMenuLink"	href="javascript: set('ProtectionElement')" id="menuPE">
 					PROTECTION ELEMENT</a>
 				</td>
-			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+			</s:if>
+			<s:if test="#session.ACCESS_UPT_PROTECTION_ELEMENT_OPERATION == null">
 				<td height="16" class="mainMenuItemOver">PROTECTION ELEMENT</td> 
-			</logic:notPresent>
+			</s:if>
 			<!-- link 3 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 4 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+			<s:if test="#session.ACCESS_UPT_PRIVILEGE_OPERATION != null">
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')">
-					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')" id="menuPrivilege">
+					onclick="javascript: set('Privilege')">
+					<a class="mainMenuLink"	href="javascript: set('Privilege')" id="menuPrivilege">
 					PRIVILEGE</a>
 				</td>
-			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+			</s:if>
+			<s:if test="#session.ACCESS_UPT_PRIVILEGE_OPERATION == null">
 				<td height="16" class="mainMenuItemOver">PRIVILEGE</td> 
-			</logic:notPresent>
+			</s:if>
 			<!-- link 4 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 5 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+			<s:if test="#session.ACCESS_UPT_GROUP_OPERATION != null">
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.GROUP_ID%>')">
-					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.GROUP_ID%>')" id="menuGroup">
+					onclick="javascript: set('Group')">
+					<a class="mainMenuLink"	href="javascript: set('Group')" id="menuGroup">
 					GROUP</a>
 				</td>
-			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+			</s:if>
+			<s:if test="#session.ACCESS_UPT_GROUP_OPERATION == null">
 				<td height="16" class="mainMenuItemOver">GROUP</td> 
-			</logic:notPresent>
+			</s:if>
 
 			<!-- link 5 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 6 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+			<s:if test="#session.ACCESS_UPT_PROTECTION_GROUP_OPERATION != null">
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')">
-					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')" id="menuPG">
+					onclick="javascript: set('ProtectionGroup')">
+					<a class="mainMenuLink"	href="javascript: set('ProtectionGroup')" id="menuPG">
 					PROTECTION GROUP</a>
 				</td>
-			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+			</s:if>
+			<s:if test="#session.ACCESS_UPT_PROTECTION_GROUP_OPERATION == null">
 				<td height="16" class="mainMenuItemOver">PROTECTION GROUP</td> 
-			</logic:notPresent>
+			</s:if>
 			<!-- link 6 ends -->
 			<td height="16"><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 7 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
+			<s:if test="#session.ACCESS_UPT_ROLE_OPERATION != null">
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.ROLE_ID%>')">
-					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.ROLE_ID%>')" id="menuRole">
+					onclick="javascript: set('Role')">
+					<a class="mainMenuLink"	href="javascript: set('Role')" id="menuRole">
 					ROLE</a>
 				</td>
-			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
+			</s:if>
+			<s:if test="#session.ACCESS_UPT_ROLE_OPERATION == null">
 				<td height="16" class="mainMenuItemOver">ROLE</td> 
-			</logic:notPresent>
+			</s:if>
 			<!-- link 6 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
 			<!-- link 8 begins -->
-			<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+			<s:if test="#session.ACCESS_UPT_INSTANCE_LEVEL_OPERATION != null">
 				<td height="16" class="mainMenuItemOver"
 					onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 					onmouseout="changeMenuStyle(this,'mainMenuItemOver'),hideCursor()"
-					onclick="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')">
-					<a class="mainMenuLink"	href="javascript: set('<%=DisplayConstants.INSTANCE_LEVEL_ID%>')" id="menuInstance">
+					onclick="javascript: set('InstanceLevel')">
+					<a class="mainMenuLink"	href="javascript: set('InstanceLevel')" id="menuInstance">
 					INSTANCE LEVEL</a>
 				</td>
-			</logic:present>
-			<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+			</s:if>
+			<s:if test="#session.ACCESS_UPT_INSTANCE_LEVEL_OPERATION == null">
 				<td height="16" class="mainMenuItemOver">INSTANCE LEVEL</td> 
-			</logic:notPresent>
+			</s:if>
 			<!-- link 8 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/>
 
@@ -214,13 +201,14 @@ function MM_swapImage() { //v3.0
 				onmouseover="changeMenuStyle(this,'mainMenuItemOver'),showCursor()"
 				onmouseout="changeMenuStyle(this,'mainMenuItem'),hideCursor()">
 				<a class="mainMenuLink"
-					href="javascript: set('<%=DisplayConstants.LOGOUT_ID%>')" id="menulogout">
+					href="javascript: set('Logout')" id="menulogout">
 				LOG OUT</a>
 			</td>
 			<!-- link 9 ends -->
 			<td><img src="images/mainMenuSeparator.gif" width="1" height="16" alt="MainMenu Items Separator"/></td>
 		</tr>
-		</logic:present>
+</s:form>
+</s:if>
+
 	</table>
 	</td>
-</html:form>

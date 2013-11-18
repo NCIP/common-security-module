@@ -1,6 +1,5 @@
 /*L
    Copyright SAIC, SAIC-Frederick
-   
 
    Distributed under the OSI-approved BSD 3-Clause License.
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
@@ -16,7 +15,7 @@ ALTER TABLE CSM_USER ADD PASSWORD_EXPIRY_DATE DATE DEFAULT sysdate;
 CREATE TABLE CSM_PASSWORD_HISTORY (
 	CSM_PASSWORD_HISTORY_ID NUMBER(38) NOT NULL,
 	LOGIN_NAME VARCHAR2(100),
-	PASSWORD VARCHAR2(300)
+	PASSWORD VARCHAR2(255)
 );
 
 CREATE SEQUENCE CSM_PASSWORD_HISTORY_SEQ

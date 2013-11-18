@@ -8,12 +8,6 @@
       <mirrorOf>*</mirrorOf>
       <url>https://ncimvn.nci.nih.gov/nexus/content/groups/public</url>
     </mirror>
-    <mirror>
-      <!-- This sends everything else to /public -->
-      <id>nexus3rdparty</id>
-      <mirrorOf>*</mirrorOf>
-      <url>https://ncimvn.nci.nih.gov/nexus/content/repositories/thirdparty</url>
-    </mirror>
   </mirrors>
   <profiles>
     <profile>

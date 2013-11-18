@@ -6,18 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>	
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.constants.Constants"%>
@@ -58,8 +48,8 @@ function skipNavigation()
 
 	<table summary="Group Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
-		<html:form styleId="GroupForm" action="/GroupDBOperation">
-		<html:hidden property="operation" value="error" />
+		<s:form name="GroupForm" action="GroupDBOperation" theme="simple">
+		<s:hidden name="operation" value="error" />
 		<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/GroupDBOperation'/>"/>
 		<tr>
 			<td valign="top">
@@ -91,9 +81,13 @@ function skipNavigation()
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
-			  				<td class="infoMessage"><html:messages id="message" message="true">
-								<bean:write name="message" />
-							</html:messages></td>
+			  				<td class="infoMessage">
+								<s:if test="hasActionMessages()">
+								   <div class="welcome">
+								      <s:actionmessage/>
+								   </div>
+								</s:if>			  
+							</td>
 						</tr>
 						<tr><td><br></td></tr>
 						<tr>
@@ -104,13 +98,13 @@ function skipNavigation()
 
 									<td class="sidebarTitle" height="20">GROUP LINKS</td>
 								</tr>
-								<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+								<s:if test="#session.CREATE_UPT_GROUP_OPERATION != null">
 									<tr>
 										<td class="sidebarContent"><a
 											href="javascript: setAndSubmit('loadAdd')">Create a New Group</a><br>
 										Click to add a new group.</td>
 									</tr>
-								</logic:present>
+								</s:if>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an
@@ -126,7 +120,7 @@ function skipNavigation()
 			</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>
 
 

@@ -5,13 +5,7 @@
    Distributed under the OSI-approved BSD 3-Clause License.
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
-
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import='gov.nih.nci.security.upt.viewobjects.*'%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
@@ -77,10 +71,10 @@ function skipNavigation()
  	
 // -->
 </script>
-<bean:define id="submitValue" value="error" />
+<s:set var="submitValue" value="error" />
 	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="SystemConfigurationForm" action="/SystemConfiguration">
-	<html:hidden property="operation" value="<%=submitValue%>"/>
+	<s:form name="SystemConfigurationForm" action="SystemConfiguration" theme="simple">
+	<s:hidden name="operation" id="operation" value="error"/>
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/SystemConfiguration'/>"/>
 			<tr>
 			<td valign="top">
@@ -98,82 +92,90 @@ function skipNavigation()
 					<table summary="System Configuration" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
 							<td class="infoMessage" colspan="3">
-			  				<html:messages id="message" message="true">
-			  				<bean:write name="message"/>
-			  				</html:messages>	
+							<s:if test="hasActionMessages()">
+							      <s:actionmessage/>
+							</s:if>			  
 			  				</td>
 						</tr>
 						<tr>
-							<td colspan="3">
-							<html:errors />
+							<td class="errorMessage" colspan="3">
+							<s:if test="hasActionErrors()">
+							      <s:actionerror/>
+							</s:if>
 							</td>
 						</tr>
 						<tr>
 							<td class="formTitle" height="20" colspan="3">SYSTEM CONFIGURATION</td>
-						</tr>							
-						<bean:define name="SystemConfigurationForm" property="displayFormElements" id="formElements" />
-
-						<logic:iterate name="formElements" id="formElement" type="FormElement">
+						</tr>	
+						<s:set var="configForm" value="#session.CURRENT_FORM"/>
+						
+						<s:iterator value="#configForm.formElementList" var="formElement" status="rowstatus">
 							<tr>
-								<logic:equal name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
+								<s:set var="propertyValue" value="#formElement.propertyValue"/>
+								<s:set var="propertyName" value="#formElement.propertyName"/>
+								<s:set var="propertyDisabled" value="#formElement.propertyDisabled"/>
+								<s:if test='#formElement.propertyRequired.equals("REQUIRED")'>
 									<td class="formRequiredNotice" width="5">*</td>
-									<td class="formRequiredLabel2"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
-								</logic:equal>
-								<logic:notEqual name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
+									<td class="formRequiredLabel2">
+										<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/></label>
+									</td>
+								</s:if>
+								<s:else>
 									<td class="formRequiredNotice" width="5">&nbsp;</td>
-									<td class="formLabel"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
-								</logic:notEqual>
-								<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
+									<td class="formLabel"><label for="<s:property value="#formElement.propertyName}"/>"><s:property value="#formElement.propertyLabel"/></label></td>
+								</s:else>
+								<s:if test='(#formElement.propertyType.equals("INPUT_BOX"))'>
 									<td class="formField">
-									<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-										<html:hidden property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>"/>
-										<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" /></label>
-									</logic:equal>
-									<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
-										<html:text  style="formFieldSized" size="30" maxlength="3000" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>
-									</logic:notEqual>
+									<s:if test='(#formElement.propertyReadonly.equals("READONLY"))'>
+										<s:hidden name="%{propertyName}" value="%{propertyValue}"/>
+										<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/></label>
+									</s:if>
+									<s:else>
+										<s:textfield size="30" maxlength="3000" name="%{propertyName}" value="%{propertyValue}" disabled="%{formElement.propertyDisabled}"/>
+									</s:else>
 									</td>
-								</logic:equal>
-								<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.PASSWORD%>">
-									<td class="formField"><html:password style="formFieldSized" size="30" maxlength="100" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
-								</logic:equal>
-								<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("PASSWORD"))'>
+									<td class="formField"><s:password style="formFieldSized" size="30" maxlength="100" name="%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/></td>
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("INPUT_DATE"))'>
 									<td class="formField">
-									<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-										<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
-									</logic:equal>
-									<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
-										<% if(formElement.getPropertyDisabled()){ %>
-											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
-										<% }else{ %>
-										<html:text  style="formFieldSized" size="10" maxlength="10" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
-										<% } %>											
-									</logic:notEqual>
+									<s:if test='(#formElement.propertyReadonly.equals("READONLY"))'>
+										<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/>(MM/DD/YYYY)</label>
+									</s:if>
+									<s:else>
+										<s:if test='#formElement.propertyDisabled'>
+											<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MM/DD/YYYY)</label>
+										</s:if>
+										<s:else>
+										<s:textfield size="10" maxlength="10"  name="%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/>  (MM/DD/YYYY)
+										</s:else>										
+									</s:else>
 									</td>
-								</logic:equal>
-								<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-									<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
-								</logic:equal>
-								<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-									<td class="formField"><html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
-								</logic:equal>
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("INPUT_TEXTAREA"))'>
+									<td class="formField"><s:textarea style="formFieldSized" cols="32" rows="2" name="%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}" /></td>
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("INPUT_RADIO"))'>
+									<td class="formField"><s:radio style="formFieldSized" name="%{propertyName}" list="#{'YES':'Yes','NO':'No'}" value="YES" />&nbsp;Yes&nbsp;&nbsp;<s:radio style="formFieldSized" name="%{propertyName}" list="#{'YES':'Yes','NO':'No'}" value="NO" />&nbsp;No</td>
+								</s:if>
 							</tr>
-						</logic:iterate>
+						</s:iterator>
 												
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>									
-									<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
+									<td><s:submit style="actionButton" onclick="setAndSubmit('update');" value="Update" name="Back" /></td>									
+									<td><s:submit style="actionButton" onclick="setAndSubmit('loadHome');" value="Back" name="Back" /></td>
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
 					</table>
 					</td>
 				</tr>
+				</s:form>
 			</table>
 			</td>
 		</tr>
-		</html:form>
 	</table>
 

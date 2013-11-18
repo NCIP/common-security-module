@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--L
+   Copyright Ekagra Software Technologies Ltd.
    Copyright SAIC, SAIC-Frederick
 
    Distributed under the OSI-approved BSD 3-Clause License.
@@ -17,9 +18,7 @@ L-->
 
 	<changeSet author="uptdb41" id="1">
 		<modifyColumn tableName="CSM_USER">
-			<column name="LOGIN_NAME" type="character varying(500)">
-				<constraints nullable="false" />
-			</column>
+			<column name="LOGIN_NAME" type="character varying(500)" />
 		</modifyColumn>
 		<addColumn tableName="CSM_USER">
 			<column name="MIGRATED_FLAG" type="smallint" defaultValue="0">

@@ -9,15 +9,12 @@
 package gov.nih.nci.security.upt.forms;
 
 
-import org.apache.struts.validator.ValidatorForm;
 
 /**
  * @author Mahidhar Narra (SAIC-F.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ChangePasswordForm extends ValidatorForm
+public class ChangePasswordForm
 {
 	private String loginId;
 	private String password;

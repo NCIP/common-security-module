@@ -6,12 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
@@ -36,7 +32,7 @@ L--%>
     	
     		newwin = window.open("about:blank", "PESearchWindow", "left=100,top=190,scrollbars=1,width=790,height=400");
     		newwin.document.open();
-    		newwin.document.writeln('<form name="ProtectionElementForm" method="post" action="/'+appContext+'/SearchProtectionElementDBOperation.do" id="ProtectionElementForm">');
+    		newwin.document.writeln('<form name="ProtectionElementForm" method="post" action="/'+appContext+'/SearchProtectionElementDBOperation.action" id="ProtectionElementForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
     		newwin.document.writeln('<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>">');
     		newwin.document.writeln('</form>');
@@ -151,7 +147,8 @@ function skipNavigation()
 					<h2><a id="pgAssoc"></a>Protection Group and Protection Elements Association</h2>
 				</td>
 			</tr>
-			<logic:notEqual name="ProtectionGroupForm" property="protectionGroupName" value="<%=DisplayConstants.BLANK%>">			
+			<s:set var="protectionGroupForm" value="#session.CURRENT_FORM"/>
+			<s:if test='!protectionGroupForm.protectionGroupName.equals("")'>
 			<tr>
 				<td>
 					<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
@@ -160,20 +157,20 @@ function skipNavigation()
 						</tr>
 						<tr class="dataRowDark">
 							<td class="formRequiredLabel" width="40%" scope="row"><label for="protectionGroupName">Protection Group Name</label></td>
-							<td class="formField" width="60%"><bean:write name="ProtectionGroupForm" property="protectionGroupName" /></td>
+							<td class="formField" width="60%"><s:property value="#protectionGroupForm.protectionGroupName"/></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
-			</logic:notEqual>
+			</s:if>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
 				<table cellpadding="3" cellspacing="10" border="0" height="100%">
 					<tr>
 						<td class="infoMessage">
-		  				<html:messages id="message" message="true">
-		  				<bean:write name="message"/>
-		  				</html:messages>				
+						<s:if test="hasActionMessages()">
+						      <s:actionmessage/>
+						</s:if>			  
 		  				</td>
 					</tr>
 					<tr>
@@ -184,14 +181,12 @@ function skipNavigation()
 					<!-- large table starts -->
 					
 					<tr>
-					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
-					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
 					<td>
 					<form name="dummyForm">
 							<select name="availableIds"  style="width:0;" size="0">
-							<logic:iterate name="availableIds" id="protectionElement" type="ProtectionElement">
-							</logic:iterate>
-	                    	</select>
+							<s:iterator value="#request.AVAILABLE_SET" var="protectionElement">
+							</s:iterator>
+				                    	</select>
 					</form>
 					</td>
 					
@@ -215,8 +210,11 @@ function skipNavigation()
 					
 					
 					<td width="35%" valign="top">
-					<html:form styleId="ProtectionGroupForm" action="/ProtectionGroupDBOperation">
-					<html:hidden property="operation" value="read"/>
+					<s:form name="ProtectionGroupForm" action="ProtectionGroupDBOperation" theme="simple">
+					<s:hidden name="operation" value="read"/>
+					<s:set var="protectionGroupId" value="#protectionGroupForm.getProtectionGroupId()"/>
+					<s:hidden name="protectionGroupForm.protectionGroupId" value="%{protectionGroupId}"/>
+					
 					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ProtectionGroupDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
@@ -225,9 +223,9 @@ function skipNavigation()
 						<tr>
 						<td class="formField" align="center">
 							<select name="associatedIds" multiple style="width:100%;" size="6">
-							<logic:iterate name="associatedIds" id="protectionElement" type="ProtectionElement">
-								<option value="<bean:write name="protectionElement" property="protectionElementId" />"><bean:write name="protectionElement" property="protectionElementName" /></option>
-							</logic:iterate>
+							<s:iterator value="#request.ASSIGNED_SET" var="protectionElement">
+								<option value='<s:property value="#protectionElement.protectionElementId"/>'><s:property value="#protectionElement.protectionElementName"/></option>
+							</s:iterator>
 	                    	</select>
 	                    </td>
 						</tr>
@@ -241,7 +239,7 @@ function skipNavigation()
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+						<s:if test='#session.UPDATE_UPT_PROTECTION_GROUP_OPERATION != null'>
 							<td>
 							<script>
 								var tempURL = window.location+"";			
@@ -253,13 +251,13 @@ function skipNavigation()
 							</td>
 							<td><input type="button" value="Deassign" style="width:92px;" onclick="selSwitch(this);"></td>
 							<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
-						</logic:present>
-						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+						</s:if>
+						<s:else>
 							<td align="center"><input type="button" value="Assign" style="width:75px;" disabled="disabled"/></td>
 							<td align="center"><input type="button" value="Deassign" style="width:95px;" disabled="disabled"></td>
 							<td align="center"><input type="button" value="Update Association" style="width:125px;" disabled="disabled"></td>
-						</logic:notPresent>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
+						</s:else>
+						<td><s:submit style="actionButton" onclick="setAndSubmit('read');" value="Back"/></td>						
 					</tr>
 				</table>
 				</td>				
@@ -275,7 +273,7 @@ function skipNavigation()
 				</table>
 			</tr>
 			
-			</html:form>
+			</s:form>
 		</table>
 		</td>
 	</tr>

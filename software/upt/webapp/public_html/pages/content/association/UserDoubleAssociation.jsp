@@ -6,18 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
@@ -31,8 +21,7 @@ L--%>
 		document.UserForm.submit();
 	}
 	
-	<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
-
+	<s:if test="%{#session['ONLY_ROLES'] == null}">
 	   	function setAndSubmitPG(target)
 		{
 			var len = document.UserForm.protectionGroupAssociatedIds.length;
@@ -117,7 +106,7 @@ L--%>
 	            options[0].selected = true;
 	      } // end with isavailableProtectionGroupIds
 		} //-->    
-	</logic:notPresent>
+	</s:if>
 
 	function setAndSubmitRole(target)
 	{
@@ -224,7 +213,8 @@ function skipNavigation()
 				<h2><a id="usrAssoc"></a>User, Protection Group and Roles Association</h2>
 				</td>
 			</tr>
-			<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
+			<s:set var="userForm" value="#session.CURRENT_FORM"/>
+			<s:if test='(#userForm.getUserLoginName() != "")'>
 				<tr>
 					<td>
 						<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
@@ -233,44 +223,39 @@ function skipNavigation()
 							</tr>
 							<tr class="dataRowDark">
 								<td class="formRequiredLabel" width="40%" scope="row"><label for="userLoginName">User Login Name</label></td>
-								<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
+								<td class="formField" width="60%"><s:property value="#userForm.userLoginName"/></td>
 							</tr>
 						</table>
 					</td>
 				</tr>
-			</logic:notEqual>
+			</s:if>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
 				<table cellpadding="3" cellspacing="10" border="0"
 					height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
-		  				<html:messages id="message" message="true">
-		  				<bean:write name="message"/>
-		  				</html:messages>				
+							<s:if test="hasActionMessages()">
+							      <s:actionmessage/>
+							</s:if>			  
 		  				</td>
 					</tr>
-					<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
+					<s:if test="#session.ONLY_ROLES == null">
 						<tr>
 							<td class="formMessage">Select a single <b>Protection Group</b> to associate with the selected <b>User</b>.</td>
 						</tr>					
-					</logic:notPresent>
+					</s:if>
 					
-					<!-- comment out
-					<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
-						<tr>
-							<td class="formMessage">Assign or Deassign a <b>Protection Group</b>.</td>
-						</tr>
-					</logic:present> -->
 					
-					<html:form styleId="UserForm"
-						action="/UserDBOperation">
-						<html:hidden property="operation" value="read" />
+					<s:form name="UserForm"
+						action="UserDBOperation" theme="simple">
+						<s:hidden name="operation" value="read" />
+						<s:set var="userId" value="#userForm.getUserId()"/>
+						<s:hidden name="userForm.userId" value="%{userId}"/>
+						
 						<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>
-						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
+						<s:if test="#session.ONLY_ROLES == null">
 							<tr>
-							
-							
 							<!-- protection group section -->
 							
 							<tr>
@@ -279,11 +264,6 @@ function skipNavigation()
 							
 							
 							<tr>  <!-- first row (available protection groups) -->
-							
-							
-								<bean:define
-									name="<%=DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET%>"
-									id="availableProtectionGroupIds" type="java.util.Collection" />
 								<td width="100%" valign="top">
 								<table cellpadding="0" cellspacing="0" border="0"
 									width="100%" class="sidebarSection">
@@ -292,15 +272,16 @@ function skipNavigation()
 										GROUPS</td>
 									</tr>
 									<tr>
-										<td class="formField" align="center"><select
+										<td class="formField" align="center">
+										<select
 											name="availableProtectionGroupIds" style="width:100%;"
 											size="6">
-											<logic:iterate name="availableProtectionGroupIds"
-												id="protectionGroup" type="ProtectionGroup">
+											<s:iterator value="#request.AVAILABLE_PROTECTIONGROUP_SET" var="protectionGroup">
 												<option
-													value="<bean:write name="protectionGroup" property="protectionGroupId" />"><bean:write
-													name="protectionGroup" property="protectionGroupName" /></option>
-											</logic:iterate>
+													value='<s:property value="#protectionGroup.getProtectionGroupId()"/>'>
+													<s:property value="#protectionGroup.getProtectionGroupName()"/>
+												</option>
+											</s:iterator>
 										</select></td>
 									</tr>
 								</table>
@@ -379,27 +360,22 @@ function skipNavigation()
 							
 							
 							
-						</logic:notPresent>
+						</s:if>
 						<!-- end Protection group section-->
 						
 						
 						
-						
-						<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
+						<s:if test="#session.ONLY_ROLES == null">
 						<tr>
 							<td class="formMessage">Select <b>Roles</b> which are to be associated with the selected <b>User</b>.</td>
 						</tr>					
-					</logic:notPresent>
-					<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
+						</s:if>
+						<s:if test="#session.ONLY_ROLES != null">
 						<tr>
 							<td class="formMessage">Assign or Deassign multiple <b>Roles</b> 
 							for the selected <b>User</b> and <b>Protection Group</b>.</td>
 						</tr>
-					</logic:present>
-						
-						
-						
-						
+						</s:if>
 						
 						<!-- role section -->
 						    <tr>
@@ -409,12 +385,6 @@ function skipNavigation()
 						
 						<!-- row 1 starts - available roles -->
 						<tr>
-						    
-						    
-							<bean:define name="<%=DisplayConstants.AVAILABLE_ROLE_SET%>"
-								id="availableRoleIds" type="java.util.Collection" />
-							<bean:define name="<%=DisplayConstants.ASSIGNED_ROLE_SET%>"
-								id="roleAssociatedIds" type="java.util.Collection" />
 							<td width="100%" valign="top">
 							<table cellpadding="0" cellspacing="0" border="0"
 								width="100%" class="sidebarSection">
@@ -424,10 +394,9 @@ function skipNavigation()
 								<tr>
 									<td class="formField" align="center"><select multiple
 										name="availableRoleIds" style="width:100%;" size="6">
-										<logic:iterate name="availableRoleIds" id="role" type="Role">
-											<option value="<bean:write name="role" property="id" />"><bean:write
-												name="role" property="name" /></option>
-										</logic:iterate>
+										<s:iterator value="#request.AVAILABLE_ROLE_SET" var="role">
+											<option value='<s:property value="#role.id"/>'><s:property value="#role.name"/></option>
+										</s:iterator>
 									</select></td>
 								</tr>
 							</table>
@@ -443,19 +412,18 @@ function skipNavigation()
 							<table width="220">
 							<tr>
 							<!-- -->
-							
-							<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+							<s:if test="#session.UPDATE_UPT_USER_OPERATION != null">
 								<td align="center"><input type="button" value="Assign"
 									style="width:75px;" onclick="selSwitchRole(this);"> </td>
 								<td align="center">
 								<input type="button" value="Deassign" style="width:75px;"
 									onclick="selSwitchRole(this);"> 
 								</td>
-							</logic:present>
-							<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+							</s:if>
+							<s:if test="#session.UPDATE_UPT_USER_OPERATION == null">
 								<td align="center"><input type="button" value="Assign"	style="width:75px;" disabled="disabled"></td>
 								<td align="center"><input type="button" value="Deassign" style="width:75px;" disabled="disabled"></td>
-							</logic:notPresent>
+							</s:if>
 							
 							<!-- extra code -->
 							</tr>
@@ -479,10 +447,9 @@ function skipNavigation()
 								<tr>
 									<td class="formField" align="center"><select multiple
 										name="roleAssociatedIds" style="width:100%;" size="6">
-										<logic:iterate name="roleAssociatedIds" id="role" type="Role">
-											<option value="<bean:write name="role" property="id" />"><bean:write
-												name="role" property="name" /></option>
-										</logic:iterate>
+										<s:iterator value="#request.ASSIGNED_ROLE_SET" var="role">
+											<option value='<s:property value="#role.id"/>'> <s:property value="#role.name"/></option>
+										</s:iterator>
 									</select></td>
 								</tr>
 							</table>
@@ -508,24 +475,24 @@ function skipNavigation()
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
-							<logic:notPresent name="<%=DisplayConstants.ONLY_ROLES%>">
+						<s:if test="#session.UPDATE_UPT_USER_OPERATION != null">
+							<s:if test="#session.ONLY_ROLES == null">
 								<td><input type="button" style="actionButton" onclick="setAndSubmitPG('setDoubleAssociation');" value="Update Association"></td>
-							</logic:notPresent>
-							<logic:present name="<%=DisplayConstants.ONLY_ROLES%>">
+							</s:if>	
+							<s:if test="#session.ONLY_ROLES != null">
 								<td><input type="button" style="actionButton" onclick="setAndSubmitRole('setRoleAssociation');" value="Update Association"></td>
-							</logic:present>
-						</logic:present>
-						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+							</s:if>
+						</s:if>
+						<s:if test="#session.UPDATE_UPT_USER_OPERATION == null">
 							<td><input type="button" style="actionButton" disabled="disabled" value="Update Association"/></td>
-						</logic:notPresent>
-						<td><html:submit style="actionButton"
-							onclick="setAndSubmit('loadProtectionGroupAssociation');">Back</html:submit></td>
+						</s:if>
+						<td><s:submit style="actionButton"
+							onclick="setAndSubmit('loadProtectionGroupAssociation');" value="Back"/></td>
 					</tr>
 				</table>
 				</td>
 			</tr>
-			</html:form>
+			</s:form>
 		</table>
 		</td>
 	</tr>

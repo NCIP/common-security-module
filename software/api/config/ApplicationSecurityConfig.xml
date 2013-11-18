@@ -27,12 +27,12 @@ L-->
 					</application>
 </application-list>
 	<backwards-compatibility>
-		<login-application-context-name>upt50</login-application-context-name>
+		<login-application-context-name>upt51</login-application-context-name>
 		<central-upt-configuration>true</central-upt-configuration>
 		<upt-application-list>
 <upt-application>
 					<context-name>csmupt</context-name>
-					<url-context-name>upt50</url-context-name>
+					<url-context-name>upt51</url-context-name>
 					<authorization>
 						<authorization-provider-class>String</authorization-provider-class>
 						<hibernate-config-file>csmupt.csm.new.hibernate.cfg.xml</hibernate-config-file>

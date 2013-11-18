@@ -9,8 +9,6 @@
 /*
  * Created on Dec 3, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.forms;
 
@@ -122,18 +120,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.validator.ValidatorForm;
-
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class RoleForm extends ValidatorForm implements BaseAssociationForm
+public class RoleForm implements BaseAssociationForm
 {
 	
 	private String roleId;
@@ -143,9 +134,17 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	private String roleUpdateDate;
 	
 	private String[] associatedIds;
+	private HttpServletRequest request;
 	
 	
 
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 	/**
 	 * @return Returns the roleActiveFlag.
 	 */
@@ -263,7 +262,7 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 		this.associatedIds = null;
 	}
 
-	public void reset(ActionMapping mapping, HttpServletRequest request)
+	public void reset()
 	{
 		this.roleName = "";
 		this.roleDescription = "";
@@ -274,9 +273,8 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDisplayForm(HttpServletRequest request) throws Exception
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		Role role = userProvisioningManager.getRoleById(this.roleId);
 
 		this.roleName = role.getName();
@@ -290,10 +288,8 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDBObject(HttpServletRequest request) throws Exception
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		
 		Role role = null;
 		
 		if ((this.roleId == null) || ((this.roleId).equalsIgnoreCase("")))
@@ -328,9 +324,8 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void removeDBObject(HttpServletRequest request) throws Exception 
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception 
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.removeRole(this.roleId);
 		this.resetForm();
 	}
@@ -338,9 +333,8 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest)
 	 */
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception 
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception 
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		Role role = new Role();
 		if (this.roleName != null && !(this.roleName.trim().equalsIgnoreCase("")))
 			role.setName(this.roleName);
@@ -373,10 +367,8 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildAssociationObject(HttpServletRequest request) throws Exception 
+	public void buildAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception 
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
 		Collection associatedPrivileges = (Collection)userProvisioningManager.getPrivileges(this.roleId);
 		
 		Privilege privilege = new Privilege();
@@ -392,9 +384,7 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void setAssociationObject(HttpServletRequest request) throws Exception {
-
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void setAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		if (this.associatedIds == null)
 			this.associatedIds = new String[0];
 		userProvisioningManager.assignPrivilegesToRole(this.roleId, this.associatedIds);
@@ -404,6 +394,12 @@ public class RoleForm extends ValidatorForm implements BaseAssociationForm
 	 */
 	public String getFormName() {
 		return DisplayConstants.ROLE_ID;
+	}
+
+	@Override
+	public List<String> validate() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

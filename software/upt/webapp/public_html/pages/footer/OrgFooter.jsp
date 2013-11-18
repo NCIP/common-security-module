@@ -6,9 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/tags/struts-html" prefix="html" %>
-<%@ taglib uri="/tags/struts-logic" prefix="logic" %>
-
+<%@ taglib uri="/struts-tags" prefix="s" %>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="ftrTable">
         <tr>

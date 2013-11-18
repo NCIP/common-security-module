@@ -9,8 +9,6 @@
 /*
  * Created on Jan 12, 2005
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.actions;
 
@@ -113,51 +111,114 @@ import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
 import gov.nih.nci.security.upt.forms.ProtectionGroupForm;
+import gov.nih.nci.security.upt.forms.RoleForm;
 import gov.nih.nci.security.util.ObjectSetUtil;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionMessages;
+import org.apache.struts2.ServletActionContext;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ProtectionGroupAction extends CommonAssociationAction 
 {
 	private static final Logger logProtectionGroup = Logger.getLogger(ProtectionGroupAction.class);
+	ProtectionGroupForm protectionGroupForm;
+	private String operation;
+	private String[] associatedIds;
+	private String[] parentAssociatedIds;
 	
-	public ActionForward loadParentAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+	
+	public ProtectionGroupForm getProtectionGroupForm() {
+		return protectionGroupForm;
+	}
+
+	public void setProtectionGroupForm(ProtectionGroupForm protectionGroupForm) {
+		this.protectionGroupForm = protectionGroupForm;
+	}
+
+	public String[] getAssociatedIds() {
+		return associatedIds;
+	}
+
+	public void setAssociatedIds(String[] associatedIds) {
+		this.associatedIds = associatedIds;
+	}
+	
+	
+	public String[] getParentAssociatedIds() {
+		return parentAssociatedIds;
+	}
+
+	public void setParentAssociatedIds(String[] parentAssociatedIds) {
+		this.parentAssociatedIds = parentAssociatedIds;
+	}
+
+	public String execute() throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
+		if(protectionGroupForm == null)
+			protectionGroupForm = new ProtectionGroupForm();
 		
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;
+		protectionGroupForm.setAssociatedIds(associatedIds);
+		protectionGroupForm.setParentAssociatedIds(parentAssociatedIds);
+		if(operation.equalsIgnoreCase("loadHome"))
+				return loadHome(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("loadAdd"))
+				return loadAdd(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("loadSearch"))
+				return loadSearch(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("LoadSearchResult"))
+				return loadSearchResult(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("create"))
+				return create(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("read"))
+				return read(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("update"))
+			return update(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("delete"))
+			return delete(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("search"))
+			return search(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("loadAssociation"))
+			return loadAssociation(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("setAssociation"))
+			return setAssociation(protectionGroupForm);
+		else if(operation.equalsIgnoreCase("loadParentAssociation"))
+			return loadParentAssociation();
+		else if(operation.equalsIgnoreCase("setParentAssociation"))
+			return setParentAssociation();
+		else
+			return "input";
+			
+	}	
+	public String loadParentAssociation() throws Exception
+	{
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logProtectionGroup.isDebugEnabled())
 				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|loadParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		
 		Collection associatedProtectionGroup = (Collection)new HashSet();
-		
+		protectionGroupForm.buildDisplayForm(userProvisioningManager);
 		if (protectionGroupForm.getProtectionGroupParentProtectionGroup() != null)
 			associatedProtectionGroup.add(protectionGroupForm.getProtectionGroupParentProtectionGroup());
 		
@@ -170,31 +231,27 @@ public class ProtectionGroupAction extends CommonAssociationAction
 		Collection protectionGroupList = (Collection)new HashSet();
 		protectionGroupList.add(userProvisioningManager.getProtectionGroupById(protectionGroupForm.getPrimaryId()));
 		availableProtectionGroups = ObjectSetUtil.minus(availableProtectionGroups,protectionGroupList);
-		
 		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedProtectionGroup);
 		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableProtectionGroups);
 		
 		if (logProtectionGroup.isDebugEnabled())
 			logProtectionGroup.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+protectionGroupForm.getFormName()+"|loadParentAssociation|Success|Success in Loading Parent Association for "+protectionGroupForm.getFormName()+" object|"
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.LOAD_PARENT_ASSOCIATION_SUCCESS));		
+				+"|");
+		return ForwardConstants.LOAD_PARENT_ASSOCIATION_SUCCESS;		
 		
 	}
 	
-	public ActionForward setParentAssociation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String setParentAssociation() throws Exception
 	{
-		ActionErrors errors = new ActionErrors();
-		ActionMessages messages = new ActionMessages();
-		
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		ProtectionGroupForm protectionGroupForm = (ProtectionGroupForm)form;
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
+		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (logProtectionGroup.isDebugEnabled())
 				logProtectionGroup.debug("||"+protectionGroupForm.getFormName()+"|setParentAssociation|Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 		UserInfoHelper.setUserInfo(((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId(), session.getId());
 		try
@@ -209,26 +266,24 @@ public class ProtectionGroupAction extends CommonAssociationAction
 			{
 				parentProtectionGroupId = null;
 			}
-			
 			userProvisioningManager.assignParentProtectionGroup(parentProtectionGroupId, protectionGroupForm.getProtectionGroupId());
-			protectionGroupForm.buildDisplayForm(request);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage(DisplayConstants.MESSAGE_ID, "Association Update Successful"));
-			saveMessages( request, messages );
+			protectionGroupForm.setRequest(request);
+			protectionGroupForm.buildDisplayForm(userProvisioningManager);
+			addActionMessage("Association Update Successful");
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (logProtectionGroup.isDebugEnabled())
 				logProtectionGroup.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|"+protectionGroupForm.getFormName()+"|setParentAssociation|Failure|Error Loading Protection Group Association for the "+protectionGroupForm.getFormName()+" object|"
-					+form.toString()+"|"+ cse.getMessage());			
+					+"|"+ cse.getMessage());			
 		}
 		if (logProtectionGroup.isDebugEnabled())
 			logProtectionGroup.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 				"|"+protectionGroupForm.getFormName()+"|setParentAssociation|Success|Success in Setting Parent Association for "+protectionGroupForm.getFormName()+" object|"
-				+form.toString()+"|");
-		return (mapping.findForward(ForwardConstants.SET_PARENT_ASSOCIATION_SUCCESS));
+				+"|");
+		return ForwardConstants.SET_PARENT_ASSOCIATION_SUCCESS;
 		
 	}
 

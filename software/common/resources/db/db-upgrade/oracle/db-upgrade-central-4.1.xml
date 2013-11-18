@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--L
+   Copyright Ekagra Software Technologies Ltd.
    Copyright SAIC, SAIC-Frederick
 
    Distributed under the OSI-approved BSD 3-Clause License.
@@ -17,9 +18,7 @@ L-->
 
 	<changeSet author="uptdb41" id="1">
 		<modifyColumn tableName="CSM_USER">
-			<column name="LOGIN_NAME" type="VARCHAR2(500)">
-				<constraints nullable="false" />
-			</column>
+			<column name="LOGIN_NAME" type="VARCHAR2(500)" />
 		</modifyColumn>
 		<addColumn tableName="CSM_USER">
 			<column name="MIGRATED_FLAG" type="NUMBER(1)" defaultValue="0">
@@ -34,9 +33,10 @@ L-->
 		</modifyColumn>
 				<dropColumn tableName="CSM_ROLE_PRIVILEGE" columnName="UPDATE_DATE" />
 		<dropColumn tableName="CSM_USER_PE" columnName="UPDATE_DATE" />
-    		<sql>
-			ALTER TABLE CSM_FILTER_CLAUSE RENAME COLUMN GENERATED_SQL TO GENERATED_SQL_USER;
-    		</sql>		
+
+		<modifyColumn tableName="CSM_FILTER_CLAUSE">
+			<column name="GENERATED_SQL" type="VARCHAR2(4000)"/>
+		</modifyColumn>
 		<addColumn tableName="CSM_FILTER_CLAUSE">
 			<column name="GENERATED_SQL_GROUP" type="VARCHAR2(4000)">
 				<constraints nullable="false" />

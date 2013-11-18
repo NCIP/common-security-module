@@ -9,8 +9,19 @@
 L-->
 
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
-<struts-config>
-	<data-sources />
+<struts>
+  	<constant name="struts.enable.DynamicMethodInvocation"
+        value="false" />
+   	<constant name="struts.devMode" value="false" />
+    	<constant name="struts.custom.i18n.resources"
+        value="ApplicationResources" />
+     	<package name="default" extends="struts-default" namespace="/">
+         <result-types>
+             <result-type name="tiles"
+                 class="org.apache.struts2.views.tiles.TilesResult" />
+        </result-types>
+
+
 	<form-beans>
 		<form-bean name="LoginForm"
 			type="gov.nih.nci.security.upt.forms.LoginForm" />
@@ -44,9 +55,13 @@ L-->
 			type="gov.nih.nci.security.upt.forms.AppUserForm" />			
 
 	</form-beans>
-	<global-exceptions>
+	<global-exception-mappings>
+            <exception-mapping
+                    result="error"
+                    exception="gov.nih.nci.security.upt.exceptionHandler.DefaultExceptionHandler"/>
+	
 		<exception key="" scope="request" type="java.lang.Exception" path="Tiles.500.Error.Page" handler="gov.nih.nci.security.upt.exceptionHandler.DefaultExceptionHandler"/>
-	</global-exceptions>
+	</global-exception-mappings>
 	<global-forwards>
 		<forward name="Login" path="/Login.do" />		
 		<forward name="Home" path="/Home.do" />
@@ -68,6 +83,8 @@ L-->
 		<action path="/Home"
 			type="gov.nih.nci.security.upt.actions.HomeAction"
 			input="Tiles.Login.Page">
+			<result type="redirect">list.action</result>
+			<result name="error" type="tiles">Tiles.500.Error.Page</result>
 			<forward name="LoginPage" path="Tiles.Login.Page" />
 			<forward name="HomePage" path="Tiles.Home.Page" />
 		</action>
@@ -382,5 +399,5 @@ L-->
 			value="/WEB-INF/conf/validator-rules.xml,/WEB-INF/conf/validation.xml" />
 	</plug-in>
 
-</struts-config>
+</struts>
 

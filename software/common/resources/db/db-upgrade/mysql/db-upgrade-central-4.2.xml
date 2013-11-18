@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--L
+   Copyright Ekagra Software Technologies Ltd.
    Copyright SAIC, SAIC-Frederick
 
    Distributed under the OSI-approved BSD 3-Clause License.
@@ -31,6 +32,7 @@ L-->
 				<constraints nullable="false" />
 			</column>
 			<column name="OBJECT_PACKAGE_NAME" type="varchar(100)">
+				<constraints nullable="false" />
 			</column>
 			<column name="TABLE_NAME" type="varchar(100)" />
 			<column name="TABLE_NAME_GROUP" type="varchar(100)" />
@@ -50,12 +52,9 @@ L-->
 			tableName="CSM_MAPPING"/>		
     		<dropForeignKeyConstraint baseTableName="CSM_PROTECTION_ELEMENT"
             		constraintName="FK_PE_APPLICATION"/>
-		<sql>
-			ALTER TABLE CSM_MAPPING ADD CONSTRAINT FK_PE_APPLICATION
-			FOREIGN KEY (APPLICATION_ID) REFERENCES csm_application (APPLICATION_ID) ON DELETE CASCADE
-			;
-		</sql>
-
+		<addForeignKeyConstraint baseTableName="CSM_MAPPING"
+			referencedTableName="csm_application" baseColumnNames="APPLICATION_ID"
+			referencedColumnNames="APPLICATION_ID" constraintName="FK_PE_APPLICATION" />
 		<addUniqueConstraint tableName="CSM_MAPPING"
 			columnNames="OBJECT_NAME,ATTRIBUTE_NAME,APPLICATION_ID"
 			constraintName="UQ_MP_OBJ_NAME_ATTRI_NAME_APP_ID" />

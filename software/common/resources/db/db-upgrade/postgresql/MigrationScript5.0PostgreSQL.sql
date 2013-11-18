@@ -1,6 +1,5 @@
 /*L
    Copyright SAIC, SAIC-Frederick
-   
 
    Distributed under the OSI-approved BSD 3-Clause License.
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
@@ -19,7 +18,7 @@ CREATE SEQUENCE CSM_PASSWORD_HISTORY_SEQ;
 CREATE TABLE CSM_PASSWORD_HISTORY (
 	CSM_PASSWORD_HISTORY_ID int8 default nextval('CSM_PASSWORD_HISTORY_SEQ'),
 	LOGIN_NAME character varying(500),
-	PASSWORD character varying(300),
+	PASSWORD character varying(255),
 	PRIMARY KEY(CSM_PASSWORD_HISTORY_ID)
 );
 

@@ -6,14 +6,16 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.Collection"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.Iterator"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
 
     <script> 
@@ -35,7 +37,7 @@ L--%>
     		
     		newwin = window.open("about:blank", "UserSearchWin", "left=100,top=190,scrollbars=1,width=790,height=400");
     		newwin.document.open();
-    		newwin.document.writeln('<form name="UserForm" method="post" action="/'+appContext+'/SearchUserDBOperation.do" id="UserForm">');
+    		newwin.document.writeln('<form name="UserForm" method="post" action="/'+appContext+'/SearchUserDBOperation.action" id="UserForm">');
     		newwin.document.writeln('<input type="hidden" name="operation" value="error">');
     		newwin.document.writeln('<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value/>">');
     		newwin.document.writeln('</form>');
@@ -50,23 +52,24 @@ L--%>
     	{
     			if (target == "read")
     			{
-	    			document.ApplicationForm.operation.value=target;
-	    			document.ApplicationForm.submit();
+	    			document.applicationForm.operation.value=target;
+	    			document.applicationForm.submit();
     			}
     			else
     			{		
-	    			var len = document.ApplicationForm.associatedIds.length;
+	    			var len = document.applicationForm.associatedIds.length;
 	    			for (i=0 ; i < len ; i++)
 	    			{
-	    				document.ApplicationForm.associatedIds[i].selected = true;
+	    				document.applicationForm.associatedIds[i].selected = true;
 	    			}
-	    			document.ApplicationForm.operation.value=target;
-	    			document.ApplicationForm.submit();
+	    			
+	    			document.applicationForm.operation.value=target;
+	    			document.applicationForm.submit();
 				}
 	    }
 
-		function selSwitch(btn)
-		{
+	function selSwitch(btn)
+	{
 		   var i= btnType = 0;
 		   var isavailableIds = doIt = false;
 		
@@ -78,8 +81,7 @@ L--%>
 		      btnType = 3;
 		
 	      isavailableIds = (btn.value.indexOf('Assign') != -1) ? true : false;     
-	
-	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.ApplicationForm.associatedIds) )
+	      with ( ((isavailableIds)? document.dummyForm.availableIds: document.applicationForm.associatedIds) )
 	      {
 	         for (i = 0; i < length; i++)
 	         {
@@ -94,13 +96,13 @@ L--%>
 	            } 
 	            else 
 	               if (!options[i].selected) doIt = true;
-	             
+	        
 	            if (doIt)
 	            {
 	               with (options[i])
 	               {
 	                  if (isavailableIds)
-	                     document.ApplicationForm.associatedIds.options[document.ApplicationForm.associatedIds.length] = new Option( text, value );
+	                     document.applicationForm.applicationForm.associatedIds.options[document.applicationForm.associatedIds.length] = new Option( text, value );
 	                  else
 	                     document.dummyForm.availableIds.options[document.dummyForm.availableIds.length] = new Option( text, value );
 	               } 
@@ -144,7 +146,8 @@ function skipNavigation()
 					<h2><a id="appAssoc"></a>Application And Admin Association</h2>
 				</td>
 			</tr>
-			<logic:notEqual name="ApplicationForm" property="applicationName" value="<%=DisplayConstants.BLANK%>">
+			<s:set var="applicationForm" value="#session.CURRENT_FORM"/>
+			<s:if test='#applicationForm.applicationName != ""'>
 			<tr>
 				<td>
 					<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
@@ -153,20 +156,20 @@ function skipNavigation()
 						</tr>
 						<tr class="dataRowDark">
 							<td class="formRequiredLabel" width="40%" scope="row"><label for="applicationName">Application Name</label></td>
-							<td class="formField" width="60%"><bean:write name="ApplicationForm" property="applicationName" /></td>
+							<td class="formField" width="60%"><s:property value="#applicationForm.applicationName"/></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
-			</logic:notEqual>
+			</s:if>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
 				<table cellpadding="3" cellspacing="10" border="0" height="100%" width="100%">
 					<tr>
 						<td class="infoMessage">
-		  				<html:messages id="message" message="true">
-		  				<bean:write name="message"/>
-		  				</html:messages>				
+							<s:actionerror cssClass="error"/>
+							<s:actionmessage cssClass="message"/>
+							<s:fielderror  cssClass="error"/>
 		  				</td>
 					</tr>
 					<tr>
@@ -175,14 +178,38 @@ function skipNavigation()
 					</tr>
 					
 					<tr>
-					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
-					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
 					<td>
+					<%
+						Collection aSet1 = (Collection)request.getAttribute("AVAILABLE_SET");
+						Map avSetList = new HashMap();
+						if(aSet1 != null)
+						{
+							Iterator iter = aSet1.iterator();
+							while(iter.hasNext())
+							{
+								User user = (User) iter.next();
+								avSetList.put(user.getUserId(), user.getLoginName());
+							}
+						}
+
+						Map asSetList = new HashMap();
+						Collection aSet2 = (Collection)request.getAttribute("ASSIGNED_SET");
+						if(aSet2 != null)
+						{
+							Iterator iter = aSet2.iterator();
+							while(iter.hasNext())
+							{
+								User user = (User) iter.next();
+								asSetList.put(user.getUserId(), user.getLoginName());
+							}
+						}
+					%>
+					
 					<form name="dummyForm">
-							<select name="availableIds"  style="width:0;" size="0">
-							<logic:iterate name="availableIds" id="user" type="User">
-							</logic:iterate>
-	                    	</select>
+						<select name="availableIds"  style="width:0;" size="0">
+							<s:iterator value="#request.AVAILABLE_SET" var="user">
+							</s:iterator>
+	                    			</select>
 					</form>
 					</td>
 					<!-- big table starts -->
@@ -214,8 +241,10 @@ function skipNavigation()
 					<tr>		
 					
 					<td width="100%" valign="top">
-					<html:form styleId="ApplicationForm" action = "/ApplicationDBOperation">
-					<html:hidden property="operation" value="read"/>
+					<s:form name="applicationForm" action="ApplicationDBOperation" theme="simple">
+					<s:hidden name="operation" value="read"/>
+					<s:set var="applicationId" value="#applicationForm.getApplicationId()"/>
+					<s:hidden name="applicationForm.applicationId" value="%{applicationId}"/>
 					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ApplicationDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
@@ -224,12 +253,13 @@ function skipNavigation()
 						</tr>
 						<tr>
 						<td class="formField" align="center">
-							<select name="associatedIds" multiple style="width:100%;" size="6">
-							<logic:iterate name="associatedIds" id="user" type="User">
-								<option value="<bean:write name="user" property="userId" />"><bean:write name="user" property="loginName" /></option>
-							</logic:iterate>
-	                    	</select>
-	                    </td>
+						<select name="associatedIds" multiple style="width:100%;" size="6">
+						<s:iterator value="%{#request.ASSIGNED_SET}" var="user">
+							<option value='<s:property value="#user.userId"/>'><s:property value="#user.loginName"/></option>
+						</s:iterator>
+						
+	                    			</select>
+	                    			</td>
 						</tr>
 					</table>
 					</td>
@@ -263,9 +293,9 @@ function skipNavigation()
 						
 						
 						<td align="center">
-							<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);"></td>
-						<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>
+						<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);"></td>
+						<td><s:submit class="actionButton" onclick="setAndSubmit('setAssociation');" value="Update Association"/></td>
+						<td><s:submit style="actionButton" onclick="setAndSubmit('read');" value="Back"/></td>
 					</tr>
 				</table>
 				</td>				
@@ -281,7 +311,7 @@ function skipNavigation()
 				</table>
 			</tr>
 			
-			</html:form>
+			</s:form>
 		</table>
 		</td>
 	</tr>

@@ -16,10 +16,10 @@ L-->
 
     <session-factory>
         <!-- properties  -->
-    <property name="dialect">@database.dialect@</property>	
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>	
 	<property name="hibernate.show_sql">false</property>
 	<property name="connection.zeroDateTimeBehavior">convertToNull</property>
-	<property name="connection.datasource">java:@datasource.jndi.name@</property>
+	<property name="connection.datasource">java:csmupt</property>
 	<property name="hibernate.c3p0.min_size">5</property>
 	<property name="hibernate.c3p0.max_size">20</property>
 	<property name="hibernate.c3p0.timeout">300</property>

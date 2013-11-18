@@ -6,7 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L-->
 
-<project name="backwards-compatible-upt" basedir="./" default="clean">
+<project name="backwards-compatible-upt" basedir="./" default="clean" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 	<description>Backwards Compatible UPT Project Build File</description>
 
 
@@ -93,26 +93,26 @@ L-->
 		<echo message="${lib.home}" />
 
 
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.1.1nci.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta-1.0.1B.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/jaas.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/jaas-1.0.01.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/xerces-2.6.2.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/xercesImpl.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/xml-apis.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xercesImpl-2.8.1.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/xml-apis-1.3.03.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/jdbc2_0-stdext.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/mysql-connector-java-3.1.11.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.2-504.jdbc3.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-2.3.1.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/mysql-connector-java-5.1.13.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.4-701.jdbc3.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-api-2.4.jar" />
 
 	</target>
 
 	<target name="prepare" depends="prepareDir,prepareBuild" />
 
-	<target name="compile" depends="prepare" description="Compiles all the files in the project">
+	<target name="compile" depends="prepare,getDependencies" description="Compiles all the files in the project">
 
 		<echo message="${src.home} ${build.home}  ${lib.home}" />
 		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true">
@@ -191,21 +191,21 @@ L-->
 		<copy todir="${build.home}">
 			<fileset dir="${web.home}" />
 		</copy>
-		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/commons-logging.jar" />
-		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/commons-logging-1.0.4.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/commons-logging-1.1.1nci.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/log4j-1.2.9.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/log4j.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/jta.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/clm.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/jta-1.0.1B.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/jaas.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/xerces-2.6.2.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/xercesImpl.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/xml-apis.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/jdbc2_0-stdext.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/mysql-connector-java-3.1.11.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.2-504.jdbc3.jar" />
-		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-2.3.1.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/jta-1.0.1B.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/jaas-1.0.01.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/xerces-2.6.2.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/xercesImpl-2.8.1.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/xml-apis-1.3.03.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/jdbc2_0-stdext.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/mysql-connector-java-5.1.13.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/postgresql-8.4-701.jdbc3.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/servlet-api-2.4.jar" />
 
 
 
@@ -214,7 +214,7 @@ L-->
 
 	<target name="prepareLogin" depends="prepareDirLogin,prepareBuildLogin" />
 
-	<target name="compileLogin" depends="initLogin,prepareLogin" description="Compiles all the files in the project">
+	<target name="compileLogin" depends="initLogin,prepareLogin,getDependencies" description="Compiles all the files in the project">
 		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true">
 			<classpath>
 				<fileset dir="${lib.home}" includes="*.jar" />
@@ -231,7 +231,7 @@ L-->
 	</target>
 
 	<target name="distLogin" depends="initLogin,compileLogin" description="Creates war file">
-		<delete file="${build.home}/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+		<delete file="${build.home}/WEB-INF/lib/commons-logging-1.1.1nci.jar"/>
 		<delete file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar"/>
 
 		<jar jarfile="${war.file}" basedir="${build.home}" />
@@ -291,4 +291,20 @@ L-->
 </target>
 
 <target name="all" depends="clean,dist,buildEar,cleanupLogin" description="Builds and deploys the entire application by cleaning the build and dist directories" />
+
+<target name="getDependencies" depends="initLogin">
+	<path id="maven-ant-tasks.classpath" path="${basedir}${file.separator}maven${file.separator}lib${file.separator}maven-ant-tasks.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
+
+	<artifact:dependencies filesetId="dependency.fileset" type="jar" settingsFile="settings.xml">
+	    <pom file="pom.xml" />
+	</artifact:dependencies>
+
+	<!--TODO take care of existing duplicates in the case of changed/upgraded dependencies-->
+	<copy todir="${lib.home}">
+	    <fileset refid="dependency.fileset" />
+	    <mapper type="flatten" from="${dependency.versions}" />
+	</copy>
+</target>
+
 </project>

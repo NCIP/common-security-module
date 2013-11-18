@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--L
+   Copyright Ekagra Software Technologies Ltd.
    Copyright SAIC, SAIC-Frederick
 
    Distributed under the OSI-approved BSD 3-Clause License.
@@ -25,13 +26,13 @@ L-->
 			<column name="ACTIVE_FLAG" type="TINYINT(1)" defaultValue="1" />
 			<column name="PASSWORD_EXPIRY_DATE" type="DATE" defaultValue="2012-10-10" />
 		</addColumn>
-		
+	
 		<createTable tableName="CSM_PASSWORD_HISTORY">
 			<column name="CSM_PASSWORD_HISTORY_ID" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="LOGIN_NAME" type="varchar(500)" />
-			<column name="PASSWORD" type="varchar(300)" />
+			<column name="PASSWORD" type="varchar(255)" />
 		</createTable>
 		<addAutoIncrement columnDataType="BIGINT"
 			columnName="CSM_PASSWORD_HISTORY_ID"

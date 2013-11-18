@@ -27,7 +27,6 @@ public class SessionListen implements HttpSessionListener {
   public void sessionCreated(HttpSessionEvent se) {
 	  HttpSession session = se.getSession();
 	  System.out.println("gov.nih.nci.security.upt.util.SessionListen.sessionCreated()..."+session.getId());
- 
 	  System.out.println("gov.nih.nci.security.upt.util.SessionListen.sessionCreated()..ID=" + session.getId() + " MaxInactiveInterval=" + session.getMaxInactiveInterval());
   }
 
@@ -42,7 +41,6 @@ public class SessionListen implements HttpSessionListener {
     
 	  }catch(Exception e){
 		  e.printStackTrace();
-		  System.out.println(e.getMessage());
 	  }
   }
 }

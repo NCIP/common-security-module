@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--L
+   Copyright Ekagra Software Technologies Ltd.
    Copyright SAIC, SAIC-Frederick
 
    Distributed under the OSI-approved BSD 3-Clause License.
@@ -38,7 +39,7 @@ L-->
 			CREATE TABLE CSM_PASSWORD_HISTORY (
 			CSM_PASSWORD_HISTORY_ID int8 default nextval('CSM_PASSWORD_HISTORY_SEQ'),
 			LOGIN_NAME character varying(500),
-			PASSWORD character varying(300),
+			PASSWORD character varying(255),
 			PRIMARY KEY(CSM_PASSWORD_HISTORY_ID)
 			);
     		</sql>

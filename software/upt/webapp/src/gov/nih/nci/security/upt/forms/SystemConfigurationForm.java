@@ -11,51 +11,37 @@ package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.ConfigurationProperties;
-import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.authorization.domainobjects.User;
-import gov.nih.nci.security.dao.SystemConfigurationSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.dao.SystemConfigurationSearchCriteria;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
-import gov.nih.nci.security.util.ObjectSetUtil;
-import org.apache.commons.configuration.DataConfiguration;
-import org.apache.commons.configuration.AbstractConfiguration;
-import org.apache.commons.configuration.event.ConfigurationListener;
-import org.apache.commons.configuration.event.ConfigurationErrorListener;
-import org.apache.commons.lang.time.DateUtils;
-
 import gov.nih.nci.security.util.ConfigurationHelper;
-import gov.nih.nci.security.authentication.CommonAuthenticationManager;
-import gov.nih.nci.security.authentication.LockoutConfigurationListener;
 
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.configuration.AbstractConfiguration;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.validator.ValidatorForm;
 
-public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
+public class SystemConfigurationForm implements BaseDBForm
 {
 	private static final Logger log = Logger.getLogger(SystemConfigurationForm.class);
 	private String operation;
 	private ArrayList formElementList;
+	private HttpServletRequest request;
 
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 
 	public String getOperation() {
 		return operation;
@@ -78,7 +64,7 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 	{
 	}
 
-	public void reset(ActionMapping mapping, HttpServletRequest request)
+	public void reset()
 	{
 
 	}
@@ -103,9 +89,8 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDisplayForm(HttpServletRequest request) throws Exception
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ConfigurationProperties configurationProperties = new ConfigurationProperties();
 		SearchCriteria searchCriteria = new SystemConfigurationSearchCriteria(configurationProperties);
  		ArrayList formElements = new ArrayList();
@@ -126,18 +111,8 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDBObject(HttpServletRequest request) throws Exception {
-		//UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
-		//SearchCriteria searchCriteria = new SystemConfigurationSearchCriteria(configurationProperties);
-
-		//List configList = userProvisioningManager.getObjects(searchCriteria);
-
-		//DataConfiguration dataConfig = ConfigurationHelper.getConfiguration();
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		AbstractConfiguration dataConfig = ConfigurationHelper.getConfiguration();
-		//ConfigurationListener listener = new LockoutConfigurationListener();
-		//dataConfig.addConfigurationListener(listener);
-		//dataConfig.addErrorListener((ConfigurationErrorListener) listener);
 		Iterator entries = request.getParameterMap().entrySet().iterator();
 		String prevExpiryVal = null;
 		String [] currExpiryVal = null;
@@ -169,8 +144,6 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 		{
 			if(!prevExpiryVal.equalsIgnoreCase(currExpiryVal[0]))
 			{
-				// update expiry dates here
-				UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 				List<User> list = userProvisioningManager.getUsers();
 				if(list != null)
 				{
@@ -195,14 +168,14 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void removeDBObject(HttpServletRequest request) throws Exception {
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		this.resetForm();
 
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest, org.apache.struts.action.ActionErrors, org.apache.struts.action.ActionMessages)
 	 */
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception
 	{
 		return null;
 	}
@@ -218,10 +191,9 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see org.apache.struts.action.ActionForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
 	 */
-	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
+	public List<String> validate(HttpServletRequest request)
 	{
-		ActionErrors errors = new ActionErrors();
-		errors = super.validate(mapping,request);
+		List<String> errors = new ArrayList<String>();
 		Iterator entries = request.getParameterMap().entrySet().iterator();
 		while (entries.hasNext())
 		{
@@ -236,11 +208,93 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 			  		int intValue = new Integer(keyValue[0]).intValue();
 			  		if(intValue <= 0)
 			  		{
-			  			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Invalid Password expiry days. Value should be more than 0."));
+			  			errors.add("Invalid Password expiry days. Value should be more than 0.");
 			  		}
 		  		}
 		  		else
-		  			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Password expiry days value is missing. Value should be more than 0."));
+		  			errors.add("Password expiry days value is missing. Value should be more than 0.");
+		  	}
+		  	else if(keyString!=null && keyString.equalsIgnoreCase("ALLOWED_ATTEMPTS"))
+		  	{
+		  		String[] keyValue = (String[]) thisEntry.getValue();
+		  		if(keyValue != null)
+		  		{
+		  			try{
+		  			int intValue = Integer.parseInt(keyValue[0]);
+			  		if(intValue <= 0)
+			  		{
+			  			errors.add("Invalid Allowed attempts. Value should be more than 0.");
+			  		}
+		  			}
+		  			catch(NumberFormatException e)
+		  			{
+		  				errors.add("Invalid Allowed attempts. Value should be more than 0.");
+		  			}
+		  		}
+		  		else
+		  			errors.add("Allowed attempts value is missing. Value should be more than 0.");
+		  		
+		  	}
+		  	else if(keyString!=null && keyString.equalsIgnoreCase("ALLOWED_LOGIN_TIME"))
+		  	{
+		  		String[] keyValue = (String[]) thisEntry.getValue();
+		  		if(keyValue != null)
+		  		{
+		  			try{
+		  			int intValue = Integer.parseInt(keyValue[0]);
+			  		if(intValue <= 0)
+			  		{
+			  			errors.add("Invalid Allowed login time. Value should be more than 0.");
+			  		}
+		  			}
+		  			catch(NumberFormatException e)
+		  			{
+		  				errors.add("Invalid Allowed login time. Value should be more than 0.");
+		  			}
+		  		}
+		  		else
+		  			errors.add("Allowed login time value is missing. Value should be more than 0.");
+		  		
+		  	}
+		  	else if(keyString!=null && keyString.equalsIgnoreCase("PASSWORD_LOCKOUT_TIME"))
+		  	{
+		  		String[] keyValue = (String[]) thisEntry.getValue();
+		  		if(keyValue != null)
+		  		{
+		  			try{
+		  			int intValue = Integer.parseInt(keyValue[0]);
+			  		if(intValue <= 0)
+			  		{
+			  			errors.add("Invalid Password lockout time. Value should be more than 0.");
+			  		}
+		  			}
+		  			catch(NumberFormatException e)
+		  			{
+		  				errors.add("Invalid Password lockout time. Value should be more than 0.");
+		  			}
+		  		}
+		  		else
+		  			errors.add("Password lockout time value is missing. Value should be more than 0.");
+		  	}
+		  	else if(keyString!=null && keyString.equalsIgnoreCase("PASSWORD_MATCH_NUM"))
+		  	{
+		  		String[] keyValue = (String[]) thisEntry.getValue();
+		  		if(keyValue != null)
+		  		{
+		  			try{
+		  			int intValue = Integer.parseInt(keyValue[0]);
+			  		if(intValue <= 0)
+			  		{
+			  			errors.add("Invalid Password matching number. Value should be more than 0.");
+			  		}
+		  			}
+		  			catch(NumberFormatException e)
+		  			{
+		  				errors.add("Invalid Password matching number. Value should be more than 0.");
+		  			}
+		  		}
+		  		else
+		  			errors.add("Password matching number is missing. Value should be more than 0.");
 		  	}
 		}
 		return errors;
@@ -251,6 +305,12 @@ public class SystemConfigurationForm extends ValidatorForm implements BaseDBForm
 	 */
 	public String getFormName() {
 		return "SystemConfigurationForm";
+	}
+
+	@Override
+	public List<String> validate() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

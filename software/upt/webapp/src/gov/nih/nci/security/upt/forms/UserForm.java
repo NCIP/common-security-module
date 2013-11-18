@@ -9,8 +9,6 @@
 /*
  * Created on Dec 29, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.forms;
 
@@ -122,26 +120,19 @@ import gov.nih.nci.security.util.ObjectSetUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Calendar;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.validator.ValidatorForm;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
+public class UserForm implements BaseDoubleAssociationForm
 {
 
 	private String userId;
@@ -168,7 +159,17 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	private String protectionGroupAssociatedId;
 	private String userMigratedFlag;
 	private String activeFlag;
-
+	private HttpServletRequest request;
+	
+	
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+	
 	/**
 	 * @return Returns the userDepartment.
 	 */
@@ -434,7 +435,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 		this.activeFlag = DisplayConstants.YES;
 	}
 
-	public void reset(ActionMapping mapping, HttpServletRequest request)
+	public void reset()
 	{
 		this.userLoginName = "";
 		this.userPreMigratedLogin = "";
@@ -525,9 +526,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDisplayForm(HttpServletRequest request) throws Exception
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		User user = userProvisioningManager.getUserById(this.userId);
 
 		this.userLoginName = user.getLoginName();
@@ -560,8 +560,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDBObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		User user;
 		if ((this.userId == null) || ((this.userId).equalsIgnoreCase("")))
 		{
@@ -619,8 +618,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void removeDBObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		User user = userProvisioningManager.getUserById(this.userId);
 		user.setActiveFlag(DisplayConstants.ZERO);
 		userProvisioningManager.modifyUser(user);
@@ -631,8 +629,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void deActivateUser(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void deActivateUser(UserProvisioningManager userProvisioningManager) throws Exception {
 		User user = userProvisioningManager.getUserById(this.userId);
 		user.setActiveFlag(DisplayConstants.ZERO);
 		userProvisioningManager.modifyUser(user);
@@ -642,9 +639,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest, org.apache.struts.action.ActionErrors, org.apache.struts.action.ActionMessages)
 	 */
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception {
-
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception 
+	{
 		User user = new User();
 
 		if (this.userLoginName != null && !(this.userLoginName.trim().equalsIgnoreCase("")))
@@ -692,10 +688,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildAssociationObject(HttpServletRequest request) throws Exception
+	public void buildAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
 		Collection associatedGroups = (Collection)userProvisioningManager.getGroups(this.userId);
 		Group group = new Group();
 		SearchCriteria searchCriteria = new GroupSearchCriteria(group);
@@ -710,9 +704,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void setAssociationObject(HttpServletRequest request) throws Exception {
-
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void setAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception 
+	{
 		if (this.associatedIds == null)
 			this.associatedIds = new String[0];
 		userProvisioningManager.assignGroupsToUser(this.userId, this.associatedIds);
@@ -720,9 +713,7 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildDoubleAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDoubleAssociationObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
+	public void buildDoubleAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForUser(this.userId);
 		Collection associatedProtectionGroups = (Collection)new HashSet();
 
@@ -747,8 +738,10 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 
 
 		request.setAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUP_SET, availableProtectionGroups);
+		request.setAttribute(DisplayConstants.ASSIGNED_PROTECTIONGROUP_SET, associatedProtectionGroups);
+		
 		request.setAttribute(DisplayConstants.AVAILABLE_ROLE_SET, totalRoles);
-
+		
 		Collection associatedRoles = (Collection)new HashSet();
 		request.setAttribute(DisplayConstants.ASSIGNED_ROLE_SET, associatedRoles);
 
@@ -756,30 +749,25 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#setDoubleAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void setDoubleAssociationObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void setDoubleAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		userProvisioningManager.assignUserRoleToProtectionGroup(this.userId,this.roleAssociatedIds,this.protectionGroupAssociatedIds[0]);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#removeGroupAssociation(javax.servlet.http.HttpServletRequest)
 	 */
-	public void removeProtectionGroupAssociation(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void removeProtectionGroupAssociation(UserProvisioningManager userProvisioningManager) throws Exception {
 		userProvisioningManager.removeUserFromProtectionGroup(this.protectionGroupAssociatedId, this.userId);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#updateRoleAssociation(javax.servlet.http.HttpServletRequest)
 	 */
-	public void updateRoleAssociation(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void updateRoleAssociation(UserProvisioningManager userProvisioningManager) throws Exception {
 		userProvisioningManager.assignUserRoleToProtectionGroup(this.userId,this.roleAssociatedIds,this.protectionGroupAssociatedId);
 	}
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildGroupAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public Collection buildProtectionGroupAssociationObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
+	public Collection buildProtectionGroupAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		Collection protectionGroupRoleContextList = (Collection)userProvisioningManager.getProtectionGroupRoleContextForUser(this.userId);
 		Collection associatedProtectionGroupRoleContexts = (Collection)new HashSet();
 
@@ -793,10 +781,8 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildRoleAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildRoleAssociationObject(HttpServletRequest request) throws Exception {
-
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
+	public void buildRoleAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception 
+	{
 		Collection protectionGroupRoleContextList = (Collection)(request.getSession()).getAttribute(DisplayConstants.AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET);
 		Collection associatedRoles = (Collection)new HashSet();
 		if (protectionGroupRoleContextList != null && !(protectionGroupRoleContextList.size() == 0))
@@ -838,28 +824,21 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDoubleAssociationForm#buildProtectionElementPrivilegesObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public Collection buildProtectionElementPrivilegesObject(HttpServletRequest request) throws Exception
+	public Collection buildProtectionElementPrivilegesObject(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
 		Collection protectionElementPrivilegesContextList = (Collection)userProvisioningManager.getProtectionElementPrivilegeContextForUser(this.userId);
-
 		return protectionElementPrivilegesContextList;
-
 	}
 
 	/* (non-Javadoc)
 	 * @see org.apache.struts.action.ActionForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
 	 */
-	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
+	public List<String> validate()
 	{
-		ActionErrors errors = new ActionErrors();
-		errors = super.validate(mapping,request);
+		List<String> errors = new ArrayList<String>();
 		if (!this.userPassword.equals(this.userPasswordConfirm))
-		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Confirm Password does not match with User Password"));
-		}
+			errors.add("Confirm Password does not match with User Password");
+		
 		return errors;
 	}
 	public String getUserPreMigratedLogin() {
@@ -868,6 +847,4 @@ public class UserForm extends ValidatorForm implements BaseDoubleAssociationForm
 	public void setUserPreMigratedLogin(String userPreMigratedLogin) {
 		this.userPreMigratedLogin = userPreMigratedLogin;
 	}
-
-
 }

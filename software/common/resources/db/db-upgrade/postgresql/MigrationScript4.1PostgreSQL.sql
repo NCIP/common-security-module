@@ -1,13 +1,12 @@
 /*L
    Copyright SAIC, SAIC-Frederick
-   
 
    Distributed under the OSI-approved BSD 3-Clause License.
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L*/
 
 
-ALTER TABLE CSM_USER ALTER COLUMN LOGIN_NAME TYPE character varying(500) NOT NULL;
+ALTER TABLE CSM_USER ALTER COLUMN LOGIN_NAME TYPE character varying(500);
 ALTER TABLE CSM_USER ADD COLUMN MIGRATED_FLAG smallint DEFAULT 0 NOT NULL;
 ALTER TABLE CSM_USER ADD COLUMN PREMGRT_LOGIN_NAME character varying(100) ;
 

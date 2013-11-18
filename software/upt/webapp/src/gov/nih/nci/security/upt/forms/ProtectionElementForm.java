@@ -9,8 +9,6 @@
 /*
  * Created on Dec 29, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.forms;
 
@@ -122,18 +120,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.validator.ValidatorForm;
-
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ProtectionElementForm extends ValidatorForm implements BaseAssociationForm{
+public class ProtectionElementForm implements BaseAssociationForm{
 
 	private String protectionElementId;
 	private String protectionElementName;
@@ -146,7 +137,17 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	
 	private String[] associatedIds;
 	private String[] ownershipAssociatedIds;
+	private HttpServletRequest request;
 	
+	
+	
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 	
 	/**
 	 * @return Returns the protectionElementAttribute.
@@ -290,7 +291,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		this.ownershipAssociatedIds = null;
 	}
 	
-	public void reset(ActionMapping mapping, HttpServletRequest request)
+	public void reset()
 	{
 		this.protectionElementName = "";
 		this.protectionElementDescription = "";
@@ -359,9 +360,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 		}
 	}
 	
-	public void buildDisplayForm(HttpServletRequest request) throws Exception
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionElement protectionElement = userProvisioningManager.getProtectionElementById(this.protectionElementId);
 
 		this.protectionElementName = protectionElement.getProtectionElementName();
@@ -378,9 +378,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDBObject(HttpServletRequest request) throws Exception
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionElement protectionElement = null;
 		
 		if ((this.protectionElementId == null) || ((this.protectionElementId).equalsIgnoreCase("")))
@@ -418,9 +417,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void removeDBObject(HttpServletRequest request) throws Exception 
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception 
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.removeProtectionElement(this.protectionElementId);
 		this.resetForm();
 	}
@@ -428,9 +426,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest)
 	 */
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception 
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception 
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		ProtectionElement protectionElement = new ProtectionElement();
 		
 		if (this.protectionElementName != null && !(this.protectionElementName.trim().equalsIgnoreCase("")))
@@ -455,10 +452,8 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildAssociationObject(HttpServletRequest request) throws Exception 
+	public void buildAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception 
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
 		Collection associatedProtectionGroups = userProvisioningManager.getProtectionGroups(this.protectionElementId);
 		
 		ProtectionGroup protectionGroup = new ProtectionGroup();
@@ -474,9 +469,7 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void setAssociationObject(HttpServletRequest request) throws Exception {
-
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void setAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		if (this.associatedIds == null)
 			this.associatedIds = new String[0];
 		userProvisioningManager.assignToProtectionGroups(this.protectionElementId, this.associatedIds);
@@ -486,6 +479,12 @@ public class ProtectionElementForm extends ValidatorForm implements BaseAssociat
 	 */
 	public String getFormName() {
 		return DisplayConstants.PROTECTION_ELEMENT_ID;
+	}
+
+	@Override
+	public List<String> validate() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 	
 }

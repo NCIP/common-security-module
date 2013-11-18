@@ -29,18 +29,18 @@ public class SessionFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		String url = request.getServletPath();
-		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..request url="+url);
+		//System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..request url="+url);
 		HttpSession session =null;
 		boolean isAoided=false;
 		if (avoidUrlList.contains(url))
 		{
 			isAoided =true;
-			System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..request URL is contained in:"+avoidUrlList);
+			//System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..request URL is contained in:"+avoidUrlList);
 		}
 		if(!isAoided) 
 		{	
 			session = request.getSession(false);
-			System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..session:"+session);
+			//System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..session:"+session);
 			if (null == session) 
 			{
 					response.sendRedirect(forwardUrl);
@@ -54,7 +54,7 @@ public class SessionFilter implements Filter {
 			      if ("sessionCookie".equals(cookie.getName()))
 			    	  sessionCokie=cookie;
 			}
-			System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter().....sessionId="+session.getId());
+			//System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter().....sessionId="+session.getId());
 			if (sessionCokie==null)
 			{
 				//add cookie with session id
@@ -69,7 +69,7 @@ public class SessionFilter implements Filter {
 				return;
 			}
 		}
-		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..session:"+session);
+		//System.out.println("gov.nih.nci.security.upt.util.SessionFilter.doFilter()..session:"+session);
 		chain.doFilter(req, res);
 	}
 
@@ -77,7 +77,7 @@ public class SessionFilter implements Filter {
 
 		String urls = config.getInitParameter("avoid-urls");
 		forwardUrl=config.getInitParameter("forward-url");
-		System.out.println("gov.nih.nci.security.upt.util.SessionFilter.init()...avoid-urls:"+urls);
+		//System.out.println("gov.nih.nci.security.upt.util.SessionFilter.init()...avoid-urls:"+urls);
 		StringTokenizer token = new StringTokenizer(urls, ",");
 		avoidUrlList = new ArrayList<String>();
 		while (token.hasMoreTokens()) {

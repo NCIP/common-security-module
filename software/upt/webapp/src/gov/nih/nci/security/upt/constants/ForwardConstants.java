@@ -76,6 +76,7 @@ public interface ForwardConstants
 	public static final String PROTECTION_ELEMENT_HOME_PAGE="ProtectionElementHomePage";
 	public static final String APPLICATION_HOME_PAGE="ApplicationHomePage";
 	public static final String INSTANCE_LEVEL_HOME_PAGE="InstanceLevelHomePage";
+	public static final String IMPORT_LDAP_USERS_HOME_PAGE="ImportLDAPUserHomePage";
 
 	public static final String DETAILS_PAGE="DetailsPage";
     public static final String EXPIRED_PASSWORD="ChangePassword";

@@ -9,7 +9,6 @@
 package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.FilterClause;
 import gov.nih.nci.security.authorization.domainobjects.InstanceLevelMappingElement;
 import gov.nih.nci.security.dao.FilterClauseSearchCriteria;
@@ -21,6 +20,7 @@ import gov.nih.nci.security.upt.util.StringUtils;
 import gov.nih.nci.security.upt.viewobjects.FormElement;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,21 +28,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.upload.FormFile;
-import org.apache.struts.validator.ValidatorForm;
 import org.hibernate.SessionFactory;
 
-public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
+public class InstanceLevelForm implements BaseDBForm
 {
 
 	private static final long serialVersionUID = 1L;
 
-	private FormFile uploadedFile1;
-	private FormFile uploadedFile2;
-	private String hibernateFileName;
+	private File uploadedFile1;
+	private File uploadedFile2;
 
 	private String id;
 	private String className;
@@ -56,55 +50,54 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 	private String generatedSQLForUser;
 	private String generatedSQLForGroup;
 	private String updateDate;
+	private HttpServletRequest request;
 	//private String OWASP_CSM_CSRFTOKEN;
-
-
-/*	public String getOWASP_CSM_CSRFTOKEN()
-	{
-		return OWASP_CSM_CSRFTOKEN;
+	private File[] uploadedFile;
+	private String hibernateFileName;
+	private String[] uploadedFileFileName;
+	private String[] uploadedFileContentType;
+	
+	
+	public String[] getUploadedFileFileName() {
+		return uploadedFileFileName;
 	}
 
-	public void setOWASP_CSM_CSRFTOKEN(String OWASP_CSM_CSRFTOKEN)
-	{
-		this.OWASP_CSM_CSRFTOKEN = OWASP_CSM_CSRFTOKEN;
-	}
-*/
-	/**
-	 * @return Returns the uploaded file.
-	 */
-	public FormFile getUploadedFile1()
-	{
-		return uploadedFile1;
+	public void setUploadedFileFileName(String[] filename) {
+		this.uploadedFileFileName = filename;
 	}
 
-	/**
-	 * @return Returns the uploaded file.
-	 */
-	public FormFile getUploadedFile2()
-	{
-		return uploadedFile2;
+	public String[] getUploadedFileContentType() {
+		return uploadedFileContentType;
 	}
 
-	public String getHibernateFileName()
-	{
+	public void setUploadedFileContentType(String[] uploadedFileContentType) {
+		this.uploadedFileContentType = uploadedFileContentType;
+	}
+
+	public File[] getUploadedFile() {
+		return uploadedFile;
+	}
+
+	public void setUploadedFile(File[] uploadedFile) {
+		this.uploadedFile = uploadedFile;
+	}
+
+	public String getHibernateFileName() {
 		return hibernateFileName;
 	}
 
-	public void setHibernateFileName(String hibernateFileName)
-	{
+	public void setHibernateFileName(String hibernateFileName) {
 		this.hibernateFileName = hibernateFileName;
 	}
 
-	public void setUploadedFile1(FormFile uploadedFile1)
-	{
-		this.uploadedFile1 = uploadedFile1;
+
+	public HttpServletRequest getRequest() {
+		return request;
 	}
 
-	public void setUploadedFile2(FormFile uploadedFile2)
-	{
-		this.uploadedFile2 = uploadedFile2;
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
 	}
-
 
 	/**
 	 * @return Returns the className.
@@ -311,7 +304,7 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 
 
 
-	public void reset(ActionMapping mapping, HttpServletRequest request)
+	public void reset()
 	{
 		this.uploadedFile1 = null;
 		this.uploadedFile2 = null;
@@ -368,9 +361,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		return formElementList;
 	}
 
-	public void buildDisplayForm(HttpServletRequest request) throws Exception
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		FilterClause filterClause = userProvisioningManager.getFilterClauseById(this.id);
 
 		this.className = filterClause.getClassName();
@@ -387,11 +379,8 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 
 	}
 
-	public void buildDBObject(HttpServletRequest request) throws Exception
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
-
 		FilterClause filterClause = null;
 
 		if (StringUtils.isBlank(this.id))
@@ -500,16 +489,14 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 		}
 	}
 
-	public void removeDBObject(HttpServletRequest request) throws Exception
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.removeFilterClause(this.id);
 		this.resetForm();
 	}
 
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		FilterClause filterClause = new FilterClause();
 		if (this.className != null && !(this.className.trim().equalsIgnoreCase("")))
 			filterClause.setClassName(this.className);
@@ -548,6 +535,12 @@ public class InstanceLevelForm extends ValidatorForm implements BaseDBForm
 
 	public void setGeneratedSQLForUser(String generatedSQLForUser) {
 		this.generatedSQLForUser = generatedSQLForUser;
+	}
+
+	@Override
+	public List<String> validate() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

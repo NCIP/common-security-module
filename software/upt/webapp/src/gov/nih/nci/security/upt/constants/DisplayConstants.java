@@ -71,6 +71,7 @@ public class DisplayConstants
 	public static final String LOGOUT_ID = "Logout";
 	public static final String INSTANCE_LEVEL_ID = "InstanceLevel";
 	public static final String SYSTEM_CONFIGURATION_ID = "SystemConfiguration";
+	public static final String IMPORT_LDAP_USERS_ID = "ImportLDAPUser";
 
 	public static final String HOME_NAME = "Home";
 	public static final String PRIVILEGE_NAME = "Privilege";
@@ -93,6 +94,7 @@ public class DisplayConstants
 	public static final String ASSIGNED_SET = "ASSIGNED_SET";
 	public static final String AVAILABLE_SET = "AVAILABLE_SET";
 	public static final String AVAILABLE_PROTECTIONGROUP_SET = "AVAILABLE_PROTECTIONGROUP_SET";
+	public static final String ASSIGNED_PROTECTIONGROUP_SET = "ASSIGNED_PROTECTIONGROUP_SET";
 	public static final String AVAILABLE_ROLE_SET = "AVAILABLE_ROLE_SET";
 	public static final String AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET = "AVAILABLE_PROTECTIONGROUPROLECONTEXT_SET";
 	public static final String AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET = "AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET";
@@ -117,7 +119,7 @@ public class DisplayConstants
 	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_DRIVER = "Application Database information is not valid. Correct and test connection. <br>Verify the Application Database Driver.";
 
 	public static final String UPT_AUTHENTICATION_CONTEXT_NAME = "csmupt";
-	public static final String LOGIN_APPLICATION_CONTEXT_NAME = "upt50";
+	public static final String LOGIN_APPLICATION_CONTEXT_NAME = "upt51";
 
 	public static final String EXCEPTION_CSMUPT_CONFIGURATION_DETAILS_LOGIN_APPLICATION_CONTEXT ="Login Application Context Name is invalid in CSM UPT configuration file.";
 	public static final String EXCEPTION_CONFIGURATION_UPT_APPLICATION_AUTHORIZATION_INFORMATION="UPT Application Authorization Information unavailable. ";

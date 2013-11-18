@@ -9,8 +9,6 @@
 /*
  * Created on Dec 3, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.forms;
 
@@ -118,25 +116,26 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.validator.ValidatorForm;
-
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class PrivilegeForm extends ValidatorForm implements BaseDBForm
+public class PrivilegeForm implements BaseDBForm
 {
 	private String privilegeId;
 	private String privilegeName;
 	private String privilegeDescription;
 	private String privilegeUpdateDate;
+	private HttpServletRequest request;
+	
 	
 
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 	/**
 	 * @return Returns the privilegeDescription.
 	 */
@@ -195,7 +194,7 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 		this.privilegeUpdateDate = "";
 	}
 
-	public void reset(ActionMapping mapping, HttpServletRequest request)
+	public void reset()
 	{
 		this.privilegeName = "";
 		this.privilegeDescription = "";
@@ -244,9 +243,8 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDisplayForm(HttpServletRequest request) throws Exception
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		Privilege privilege = userProvisioningManager.getPrivilegeById(this.privilegeId);
 
 		this.privilegeName = privilege.getName();
@@ -257,9 +255,8 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void buildDBObject(HttpServletRequest request) throws Exception
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		Privilege privilege;
 		
 		if ((this.privilegeId == null) || ((this.privilegeId).equalsIgnoreCase("")))
@@ -292,9 +289,8 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
 	 */
-	public void removeDBObject(HttpServletRequest request) throws Exception 
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception 
 	{
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.removePrivilege(this.privilegeId);
 		this.resetForm();
 	}
@@ -303,8 +299,7 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest, org.apache.struts.action.ActionErrors, org.apache.struts.action.ActionMessages)
 	 */
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception {
 		Privilege privilege = new Privilege();
 		
 		if (this.privilegeName != null && !(this.privilegeName.trim().equalsIgnoreCase("")))
@@ -322,6 +317,14 @@ public class PrivilegeForm extends ValidatorForm implements BaseDBForm
 	 */
 	public String getFormName() {
 		return DisplayConstants.PRIVILEGE_ID;
+	}
+	@Override
+	public List<String> validate() {
+		List<String> errors = new ArrayList<String>();
+		if (privilegeName == null || privilegeName.trim().length() == 0)
+			errors.add("Privilege name is required");
+		
+		return errors;
 	}
 
 }

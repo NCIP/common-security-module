@@ -6,8 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.LoginForm"%>
@@ -68,9 +67,9 @@ function skipNavigation()
 	String urlStr = request.getRequestURL().toString();
 	urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
 	urlStr = urlStr.substring(0, urlStr.lastIndexOf("/"));
-	LoginForm form = (LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT);
 %>
-
+	<s:set var="urlStr" value="#urlStr"/>
+	<s:set var="form" value="#session.LOGIN_OBJECT"/>
 				<!--
 				<!-- diagram -->
 
@@ -85,67 +84,67 @@ function skipNavigation()
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+								<s:if test="#session.ACCESS_UPT_USER_OPERATION != null">
 									<td width="100%" height="50"><a
-										href="javascript: set('<%=DisplayConstants.USER_ID%>')"
+										href="javascript: set('User')"
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('user','','images/Users.gif',1)" id="userA" tabindex=1><img
 										name="user" border="0" src="images/Users2.gif" width="98"
 										alt="User"
-										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										Title="Application User"></a></td>
-								</logic:present>
-								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+								</s:if>
+								<s:else>
 									<td width="100%" height="50"><img
 										name="user" border="0" src="images/Users2.gif" width="98"
 										alt="User"
-										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										Title="Application User"></td>
-								</logic:notPresent>
+								</s:else>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+								<s:if test="#session.ACCESS_UPT_PROTECTION_ELEMENT_OPERATION != null">
 									<td width="100%" height="50"><a
-										href="javascript: set('<%=DisplayConstants.PROTECTION_ELEMENT_ID%>')"
+										href="javascript: set('ProtectionElement')"
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('PEs','','images/protectionelements.gif',1)" tabindex=2><img
 										name="PEs" border="0" src="images/protectionelements2.gif"
 										alt="Protection Element"
-										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										width="98" height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										Title="Protection Element"></a></td>
-								</logic:present>
-								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_ELEMENT_OPERATION%>'>
+								</s:if>
+								<s:else>
 									<td width="100%" height="50"><img
 										name="PEs" border="0" src="images/protectionelements2.gif"
 										alt="Protection Element"
-										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										width="98" height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										Title="Protection Element"></td>
-								</logic:notPresent>
+								</s:else>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+								<s:if test="#session.ACCESS_UPT_PRIVILEGE_OPERATION != null">
 									<td width="100%" height="50"><a
-										href="javascript: set('<%=DisplayConstants.PRIVILEGE_ID%>')"
+										href="javascript: set('Privilege')"
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('priv','','images/privileges.gif',1)" tabindex=3><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
 										alt="Privilege"
-										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										Title="Privilege"></a></td>
-								</logic:present>
-								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
+								</s:if>
+								<s:else>
 									<td width="100%" height="50"><img
 										name="priv" border="0" src="images/privileges2.gif" width="98"
 										alt="Privilege"
-										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										Title="Privilege"></td>
-								</logic:notPresent>
+								</s:else>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img src="images/create.gif" alt="Create" 
@@ -155,7 +154,7 @@ function skipNavigation()
 							</td>
 							<td height="100%">
 							<table
-								background="<html:rewrite href="images/dotted_line1.gif"/>"
+								background="<s:url value="images/dotted_line1.gif"/>"
 								width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<td height="100"><img src="images/elbow.gif" width="98"
@@ -184,21 +183,21 @@ function skipNavigation()
 							<td height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+								<s:if test="#session.ACCESS_UPT_GROUP_OPERATION != null">
 									<td width="100%" height="50"><a
-										href="javascript: set('<%=DisplayConstants.GROUP_ID%>')"
+										href="javascript: set('Group')"
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('group','','images/groups.gif',1)" tabindex=4><img
 										name="group" border="0" src="images/groups2.gif" width="98"
 										alt="Group"
-										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										title="Group"></a></td>
-								</logic:present>
-								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_GROUP_OPERATION%>'>
+								</s:if>
+								<s:else>
 									<td width="100%" height="50"><img name="group" border="0" src="images/groups2.gif" width="98"
-										alt="Group" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										alt="Group" height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										title="Group"></td>
-								</logic:notPresent>
+								</s:else>
 								</tr>
 								<tr>
 									<td width="100%" height="50"><img
@@ -208,45 +207,45 @@ function skipNavigation()
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+								<s:if test="#session.ACCESS_UPT_PROTECTION_GROUP_OPERATION != null">
 									<td width="100%" height="50"><a
-										href="javascript: set('<%=DisplayConstants.PROTECTION_GROUP_ID%>')"
+										href="javascript: set('ProtectionGroup')"
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('pgs','','images/protectiongroups.gif',1)" tabindex=5><img
 										name="pgs" border="0" src="images/protectiongroups2.gif"
 										alt="Protectoin Group"
-										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										width="98" height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										title="Protection Group"></a></td>
-								</logic:present>
-								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_PROTECTION_GROUP_OPERATION%>'>
+								</s:if>
+								<s:else>
 									<td width="100%" height="50"><img
 										name="pgs" border="0" src="images/protectiongroups2.gif"
 										alt="Protectoin Group"
-										width="98" height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										width="98" height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										title="Protection Group"></td>
-								</logic:notPresent>
+								</s:else>
 								</tr>
 								<tr>
 									<td width="100%" height="50">&nbsp;</td>
 								</tr>
 								<tr>
-								<logic:present name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
+								<s:if test="#session.ACCESS_UPT_ROLE_OPERATION != null">
 									<td width="100%" height="50"><a
-										href="javascript: set('<%=DisplayConstants.ROLE_ID%>')"
+										href="javascript: set('Role')"
 										onMouseOut="MM_swapImgRestore()"
 										onMouseOver="MM_swapImage('roles','','images/roles.gif',1)" tabindex=6><img
 										name="roles" border="0" src="images/roles2.gif" width="98"
 										alt="Role"
-										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										title="Role"></a></td>
-								</logic:present>
-								<logic:notPresent name='<%=Constants.CSM_ACCESS_PRIVILEGE +"_"+Constants.UPT_ROLE_OPERATION%>'>
+								</s:if>
+								<s:else>
 									<td width="100%" height="50"><img
 										name="roles" border="0" src="images/roles2.gif" width="98"
 										alt="Role"
-										height="50" longdesc="<%=urlStr%>/content/home/longdescription.html"
+										height="50" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html'
 										title="Role"></td>
-								</logic:notPresent>
+								</s:else>
 								</tr>
 
 								<tr>
@@ -257,7 +256,7 @@ function skipNavigation()
 							</td>
 							<td height="100%">
 							<table
-								background="<html:rewrite href="images/dotted_line2.gif"/>"
+								background="<s:url value="images/dotted_line2.gif"/>"
 								width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<td width="100%" height="50"><img
@@ -290,7 +289,7 @@ function skipNavigation()
 							<td valign="top" height="100%">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0">
 								<tr>
-									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Final Association" longdesc="<%=urlStr%>/content/home/longdescription.html" /></td>
+									<td valign="top" height="100%"><img src="images/assoc_block2.gif" width="98" height="300" alt="Final Association" longdesc='<s:property value="#urlStr"/>/content/home/longdescription.html' /></td>
 								</tr>
 
 								<tr>

@@ -571,7 +571,7 @@ public class TestClient {
 		//UserProvisioningManager upm = SecurityServiceProvider.getUserProvisioningManger("Security");
 
 		try{
-			AuthorizationManager authorizationManager = SecurityServiceProvider.getAuthorizationManager("sdk");
+			AuthorizationManager authorizationManager = SecurityServiceProvider.getAuthorizationManager("caarray");
 			for(int i=1;i<101;i++){
 				ProtectionGroup pg = new ProtectionGroup();
 				pg.setProtectionGroupName("protection_group_name_="+i);

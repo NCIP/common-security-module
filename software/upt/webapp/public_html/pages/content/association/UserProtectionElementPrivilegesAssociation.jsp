@@ -6,18 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="java.util.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
@@ -60,8 +50,11 @@ function skipNavigation()
 	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		
-		<html:form styleId="UserForm" action="/UserDBOperation">
-	<html:hidden property="operation" value="read" />
+	<s:form name="UserForm" action="UserDBOperation" theme="simple">
+	<s:set var="userForm" value="#session.CURRENT_FORM"/>
+	<s:hidden name="operation" value="read" />
+	<s:set var="userId" value="#userForm.getUserId()"/>
+	<s:hidden name="userForm.userId" value="%{userId}"/>
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>		
 		<tr>
 			<td>
@@ -72,7 +65,8 @@ function skipNavigation()
 			<td valign="top" width="100%">
 			<table cellpadding="0" cellspacing="0" border="0"
 				width="100%" class="contentBegins">
-				<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
+				
+				<s:if test='#userForm.userLoginName != ""'>
 				<tr>
 					<td>
 						<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
@@ -81,19 +75,21 @@ function skipNavigation()
 							</tr>
 							<tr class="dataRowDark">
 								<td class="formRequiredLabel" width="40%" scope="row"><label for="userLoginName">User Login Name</label></td>
-								<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
+								<td class="formField" width="60%"><s:property value="#userForm.userLoginName"/></td>
 							</tr>
 						</table>
 					</td>
 				</tr>
-				</logic:notEqual>
+				</s:if>
 				<tr>
 					<td>
 					<table cellpadding="0" cellspacing="0" border="0"
 						width="100%">
 						<tr>
-							<td>
-							<html:errors />
+							<td class="errorMessage" colspan="3">
+								<s:if test="hasActionErrors()">
+								      <s:actionerror/>
+								</s:if>
 							</td>
 						</tr>
 						<tr><td><br></td></tr>
@@ -105,8 +101,9 @@ function skipNavigation()
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>
 						<!-- paging begins -->
-						<logic:present name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET%>">
-							<bean:define id="oddRow" value="true" />
+						<s:set var="oddRow" value="true"/>
+
+						<s:if test="#session.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET != null">
 							<!-- paging ends -->
 							<tr>
 								<td>
@@ -125,55 +122,36 @@ function skipNavigation()
 										<th class="dataTableHeader" scope="col" align="center"
 											width="40%">Associated Privileges</th>
 									</tr>
-									<logic:iterate name="<%=DisplayConstants.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET%>" id="protectionElementPrivilegesContext" type="ProtectionElementPrivilegeContext">
-										<bean:define name="protectionElementPrivilegesContext" property="protectionElement" id="protectionElement" type="ProtectionElement"/>
-										<bean:define name="protectionElementPrivilegesContext" property="privileges" id="privileges" type="Set" />
-										<%if (oddRow.equals("true")) { oddRow ="false";%>
+									<s:iterator value="#session.AVAILABLE_PROTECTIONELEMENTPRIVILEGESCONTEXT_SET" var="protectionElementPrivilegeContext">
+										<s:set var="protectionElement" value="#protectionElementPrivilegeContext.getProtectionElement()"/>
+										<s:if test='oddRow.equals("true")'>
+										<s:set var="oddRow" value="false"/>
 											<tr class="dataRowLight">
-												
-												<td class="dataCellText" width="20%"><bean:write
-													name="protectionElement" property="protectionElementName" />
-												</td>
-												
-												<td class="dataCellText" width="20%"><bean:write
-													name="protectionElement" property="objectId" />
-												</td>
-												
-												<td class="dataCellText" width="20%"><bean:write
-													name="protectionElement" property="attribute" />&nbsp;
-												</td>												
-												
-												
-												<td class="dataCellText" width="40%">
-												<logic:iterate name="privileges" id="privilege" type="Privilege">
-													<bean:write	name="privilege" property="name" />&nbsp;
-												</logic:iterate>
-												</td>
-											</tr>
-										<%}else{ oddRow = "true";%>
+										</s:if>
+										<s:else>
+											<s:set var="oddRow" value="true"/>
 											<tr class="dataRowDark">
-												
-												<td class="dataCellText" width="20%"><bean:write
-													name="protectionElement" property="protectionElementName" />
+										</s:else>
+												<td class="dataCellText" width="20%">
+												<s:property value="#protectionElement.protectionElementName"/>
 												</td>
 												
-												<td class="dataCellText" width="20%"><bean:write
-													name="protectionElement" property="objectId" />
+												<td class="dataCellText" width="20%">
+												<s:property value="#protectionElement.objectId"/>
 												</td>
 												
-												<td class="dataCellText" width="20%"><bean:write
-													name="protectionElement" property="attribute" />&nbsp;
+												<td class="dataCellText" width="20%">
+												<s:property value="#protectionElement.attribute"/>
 												</td>												
 												
 												
 												<td class="dataCellText" width="40%">
-												<logic:iterate name="privileges" id="privilege" type="Privilege">
-													<bean:write	name="privilege" property="name" />&nbsp;
-												</logic:iterate>
+												<s:iterator value="#protectionElementPrivilegeContext.privileges" var="privilege">
+													<s:property value="#privilege.name"/>&nbsp;
+												</s:iterator>
 												</td>
 											</tr>
-										<%}%>
-									</logic:iterate>
+									</s:iterator>
 								</table>
 								</td>
 							</tr>
@@ -181,18 +159,18 @@ function skipNavigation()
 								<td align="right" class="actionSection"><!-- action buttons begins -->
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
-										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('read');">Back</html:submit></td>
+										<td><s:submit style="actionButton"
+											onclick="setAndSubmit('read');" value="Back"/></td>
 									</tr>
 								</table>
 								<!-- action buttons end --></td>
 							</tr>
-						</logic:present>
+						</s:if>
 					</table>
 					</td>
 				</tr>
 			</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>

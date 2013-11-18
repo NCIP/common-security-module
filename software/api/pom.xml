@@ -14,213 +14,539 @@ L-->
   <artifactId>csmapi</artifactId>
   <version>5.1</version>
   <dependencies>
-    <dependency>
-      <groupId>aopalliance</groupId>
-      <artifactId>aopalliance</artifactId>
-      <version>1.0</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.acegisecurity</groupId>
-      <artifactId>acegi-security</artifactId>
-      <version>1.0.3</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-beans</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency>    
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-jdbc</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency> 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency> 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-tx</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency> 
-<dependency>
-  <groupId>commons-beanutils</groupId>
-  <artifactId>commons-beanutils</artifactId>
-  <version>1.6.1</version>
-</dependency>
-<dependency>
-  <groupId>commons-codec</groupId>
-  <artifactId>commons-codec</artifactId>
-  <version>1.3</version>
-</dependency>
-<dependency>
-  <groupId>commons-collections</groupId>
-  <artifactId>commons-collections</artifactId>
-  <version>3.2.1</version>
-</dependency>
-<dependency>
-  <groupId>commons-configuration</groupId>
-  <artifactId>commons-configuration</artifactId>
-  <version>1.8</version>
-</dependency>
-<dependency>
-  <groupId>commons-dbcp</groupId>
-  <artifactId>commons-dbcp</artifactId>
-  <version>1.4</version>
-</dependency>
-<dependency>
-  <groupId>commons-digester</groupId>
-  <artifactId>commons-digester</artifactId>
-  <version>1.5</version>
-</dependency>
-<dependency>
-  <groupId>tomcat</groupId>
-  <artifactId>commons-fileupload</artifactId>
-  <version>1.0-5.5.23</version>
-</dependency>
-<dependency>
-  <groupId>commons-httpclient</groupId>
-  <artifactId>commons-httpclient</artifactId>
-  <version>3.1</version>
-</dependency>
-<!--
-<dependency>
-  <groupId>org.apache.commons.io</groupId>
-  <artifactId>commons-io</artifactId>
-  <version>1.4</version>
-</dependency>
--->
-<dependency>
-  <groupId>commons-lang</groupId>
-  <artifactId>commons-lang</artifactId>
-  <version>2.6</version>
-</dependency>
-<dependency>
-  <groupId>commons-logging</groupId>
-  <artifactId>commons-logging</artifactId>
-  <version>1.1.1nci</version>
-</dependency>
-<dependency>
-  <groupId>commons-validator</groupId>
-  <artifactId>commons-validator</artifactId>
-  <version>1.0.2</version>
-</dependency>
-<!--
-    <dependency>
-      <groupId>springsource</groupId>
-      <artifactId>org.springframework.context</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>springsource</groupId>
-      <artifactId>org.springframework.transaction</artifactId>
-      <version>3.0.5.RELEASE</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>apache</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.16</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>jakarta</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>jakarta</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.jdom</groupId>
-      <artifactId>jdom</artifactId>
-      <version>1.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate</artifactId>
-      <version>3.2.0.ga</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-annotations</artifactId>
-      <version>1.0</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>ejb3-persistence</artifactId>
-      <version>1.0.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-      <version>2.4.2</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>ncicb</groupId>
-      <artifactId>clm</artifactId>
-      <version>4.1.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.7</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>javancss</groupId>
-      <artifactId>javancss</artifactId>
-      <version>29.50</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>cobertura</groupId>
-      <artifactId>cobertura</artifactId>
-      <version>1.9</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>checkstyle</groupId>
-      <artifactId>checkstyle</artifactId>
-      <version>4.4</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>pmd</groupId>
-      <artifactId>pmd</artifactId>
-      <version>4.2.1</version>
-      <optional>true</optional>
-    </dependency>
-    -->
-  </dependencies>
+	<dependency>
+		<groupId>gov.nih.nci</groupId>
+		<artifactId>clm</artifactId>
+		<version>4.1.1</version>
+	</dependency>  
+	<dependency>
+		<groupId>gov.nih.nci</groupId>
+		<artifactId>clmwebapp</artifactId>
+		<version>4.1.1</version>
+	</dependency>
+	<dependency>
+		<groupId>edu.oswego</groupId>
+		<artifactId>concurrent</artifactId>
+		<version>1.3.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.bouncycastle</groupId>
+		<artifactId>bcprov-ext-jdk15on</artifactId>
+		<version>1.47</version>
+	</dependency>
+	<dependency>
+		<groupId>org.bouncycastle</groupId>
+		<artifactId>bcprov-jdk15on</artifactId>
+		<version>1.47</version>
+	</dependency>
+	<dependency>
+		<groupId>org.owasp</groupId>
+		<artifactId>csrf-guard</artifactId>
+		<version>3.0.0.596</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.resource</groupId>
+		<artifactId>connector</artifactId>
+		<version>1.0</version>
+		<type>pom</type>
+	</dependency>
+	<dependency>
+		<groupId>antlr</groupId>
+		<artifactId>antlr</artifactId>
+		<version>2.7.6rc1</version>
+	</dependency>
+	<dependency>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+		<version>1.5.3nci</version>
+	</dependency>
+	<dependency>
+		<groupId>asm</groupId>
+		<artifactId>asm-attrs</artifactId>
+		<version>1.5.3nci</version>
+	</dependency>
+	<dependency>
+		<groupId>aspectj</groupId>
+		<artifactId>aspectjrt</artifactId>
+		<version>1.2</version>
+	</dependency>
+	<dependency>
+		<groupId>backport-util-concurrent</groupId>
+		<artifactId>backport-util-concurrent</artifactId>
+		<version>3.1</version>
+	</dependency>
+	<dependency>
+		<groupId>c3p0</groupId>
+		<artifactId>c3p0</artifactId>
+		<version>0.9.1.2</version>
+	</dependency>
+	<dependency>
+		<groupId>cglib</groupId>
+		<artifactId>cglib</artifactId>
+		<version>2.1_3</version>
+	</dependency>
+	<dependency>
+		<groupId>com.tombrus</groupId>
+		<artifactId>cleanimports</artifactId>
+		<version>2.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>junitperf</groupId>
+			<artifactId>junitperf</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>stax</groupId>
+			<artifactId>stax-ri</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>msv</groupId>
+			<artifactId>relaxngDatatype</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>pull-parser</groupId>
+			<artifactId>pull-parser</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>xpp3</groupId>
+			<artifactId>xpp3</artifactId>
+		</exclusion>
+	      </exclusions> 
+	</dependency>
+	<dependency>
+		<groupId>org.directwebremoting</groupId>
+		<artifactId>dwr</artifactId>
+		<version>2.0.1</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>net.sf.ehcache</groupId>
+		<artifactId>ehcache-core</artifactId>
+		<version>2.4.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>ejb3-persistence</artifactId>
+		<version>1.0.1nci</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate</artifactId>
+		<version>3.2.0.ga</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-annotations</artifactId>
+		<version>3.3.1.GA</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-commons-annotations</artifactId>
+		<version>3.3.0.ga</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.security</groupId>
+		<artifactId>jaas</artifactId>
+		<version>1.0.01</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>javax.security</groupId>
+		<artifactId>jacc</artifactId>
+		<version>1.0</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>oro</groupId>
+		<artifactId>oro</artifactId>
+		<version>2.0.6</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>jaxen</groupId>
+		<artifactId>jaxen</artifactId>
+		<version>1.1-beta-4nci</version>
+	</dependency>
+	<dependency>
+		<groupId>org.jdom</groupId>
+		<artifactId>jdom</artifactId>
+		<version>1.1</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>jgroups</groupId>
+		<artifactId>jgroups-all</artifactId>
+		<version>2.2.7</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>jstl</groupId>
+		<artifactId>jstl</artifactId>
+		<version>1.0.5</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>net.sourceforge.jtds</groupId>
+		<artifactId>jtds</artifactId>
+		<version>1.2</version>
+	</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.7</version>
+	</dependency>
+	<dependency>
+		<groupId>javax</groupId>
+		<artifactId>mail</artifactId>
+		<version>0.1nci</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>com.oracle</groupId>
+		<artifactId>ojdbc14</artifactId>
+		<version>10.2.0.4.0</version>
+	</dependency>
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.12</version>
+	</dependency>
+	<dependency>
+		<groupId>postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>8.4-701.jdbc3</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>proxool</groupId>
+		<artifactId>proxool</artifactId>
+		<version>0.8.3</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>swarmcache</groupId>
+		<artifactId>swarmcache</artifactId>
+		<version>1.0RC2</version>
+	</dependency>
+	<dependency>
+		<groupId>xerces</groupId>
+		<artifactId>xercesImpl</artifactId>
+		<version>2.8.1</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>xml-apis</groupId>
+		<artifactId>xml-apis</artifactId>
+		<version>1.3.03</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>aopalliance</groupId>
+		<artifactId>aopalliance</artifactId>
+		<version>1.0</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.acegisecurity</groupId>
+		<artifactId>acegi-security</artifactId>
+		<version>1.0.3</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-beans</artifactId>
+		<version>3.2.3.RELEASE</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>3.2.3.RELEASE</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+		<version>3.2.3.RELEASE</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>    
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>3.2.3.RELEASE</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency> 
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-orm</artifactId>
+		<version>3.2.3.RELEASE</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency> 
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+		<version>3.2.3.RELEASE</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency> 
+	<dependency>
+		<groupId>commons-beanutils</groupId>
+		<artifactId>commons-beanutils</artifactId>
+		<version>1.6.1</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>1.3</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.2.1</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-configuration</groupId>
+		<artifactId>commons-configuration</artifactId>
+		<version>1.8</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-dbcp</groupId>
+		<artifactId>commons-dbcp</artifactId>
+		<version>1.4</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-digester</groupId>
+		<artifactId>commons-digester</artifactId>
+		<version>1.5</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+	  <groupId>commons-fileupload</groupId>
+	  <artifactId>commons-fileupload</artifactId>
+	  <version>1.2.2</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-httpclient</groupId>
+		<artifactId>commons-httpclient</artifactId>
+		<version>3.1</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.commons.io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>1.4</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.6</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-logging</groupId>
+		<artifactId>commons-logging</artifactId>
+		<version>1.1.1nci</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+	<dependency>
+		<groupId>commons-validator</groupId>
+		<artifactId>commons-validator</artifactId>
+		<version>1.0.2</version>
+	      <exclusions>
+		<exclusion>  <!-- declare the exclusion here -->
+			<groupId>*</groupId>
+			<artifactId>*</artifactId>
+		</exclusion>
+	      </exclusions>
+	</dependency>
+</dependencies>
 </project>

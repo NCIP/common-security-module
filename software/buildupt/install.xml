@@ -655,7 +655,7 @@ L-->
 		</then>
 		</if>
 		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${temp.ear.dir}/upt/WEB-INF/lib/clm-4.1.1.jar"/>
-		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/bcprov-jdk15on-147.jar"/>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/bcprov-jdk15on-1.48.jar"/>
 		<copy todir="${jboss.home}/server/${jboss.server.name}/csmconfig/" overwrite="true">
 			<fileset dir="${temp.ear.dir}/upt/WEB-INF/classes">
 				<include name="csmupt.csm.new.hibernate.cfg.xml" />

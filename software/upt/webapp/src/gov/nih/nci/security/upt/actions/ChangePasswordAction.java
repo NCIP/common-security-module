@@ -6,7 +6,7 @@
  *  See http://ncip.github.com/common-security-module/LICENSE.txt for details.
  */
 
-package gov.nih.nci.security.loginapp.actions;
+package gov.nih.nci.security.upt.actions;
 
 
 import gov.nih.nci.logging.api.user.UserInfoHelper;
@@ -15,62 +15,47 @@ import gov.nih.nci.security.AuthorizationManager;
 import gov.nih.nci.security.SecurityServiceProvider;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
-import gov.nih.nci.security.exceptions.CSConfigurationException;
+import gov.nih.nci.security.exceptions.CSCredentialException;
 import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSInputException;
 import gov.nih.nci.security.exceptions.CSLoginException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.ChangePasswordForm;
-import gov.nih.nci.security.exceptions.CSCredentialException;
 
-import gov.nih.nci.security.util.StringUtilities;
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.util.ServletContextAware;
 
-public class ChangePasswordAction extends Action
+import com.opensymphony.xwork2.ActionSupport;
+
+public class ChangePasswordAction extends ActionSupport implements ServletContextAware
 {
 	private static final Logger log = Logger.getLogger(ChangePasswordAction.class);
+	private ChangePasswordForm changePasswordForm;
+	protected ServletContext servletContext;
+
+	public void setServletContext(ServletContext arg0) {
+		this.servletContext = arg0;
+	}
+
+	
+	public ChangePasswordForm getChangePasswordForm() {
+		return changePasswordForm;
+	}
+
+
+	public void setChangePasswordForm(ChangePasswordForm changePasswordForm) {
+		this.changePasswordForm = changePasswordForm;
+	}
+
 
 	@SuppressWarnings("unchecked")
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+	public String execute()
 	{
-
-		ActionErrors errors = new ActionErrors();
-
 		AuthenticationManager authenticationManager = null;
 		AuthorizationManager authorizationManager = null;
 		UserProvisioningManager userProvisioningManager = null;
@@ -79,32 +64,28 @@ public class ChangePasswordAction extends Action
 		String uptApplicationContextName = "";
 
 		Application application = null;
-
-		ChangePasswordForm changePasswordForm = (ChangePasswordForm)form;
+		HttpServletRequest request = ServletActionContext.getRequest();
 		UserInfoHelper.setUserInfo(changePasswordForm.getLoginId(), request.getSession().getId());
-		errors.clear();
-
+		clearActionErrors();
 		try
 		{
 			authenticationManager = SecurityServiceProvider.getAuthenticationManager(uptContextName);
 			if (null == authenticationManager)
 			{
-				errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Unable to initialize Authentication Manager for the given application context"));
-				saveErrors( request,errors );
+				addActionError("Unable to initialize Authentication Manager for the given application context");
 				if (log.isDebugEnabled())
 					log.debug("|"+changePasswordForm.getLoginId()+
 							"||Login|Failure|Unable to instantiate AuthenticationManager for UPT application||");
-				return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+				return ForwardConstants.LOGIN_FAILURE;
 			}
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (log.isDebugEnabled())
 				log.debug("|"+changePasswordForm.getLoginId()+
 						"||Login|Failure|Unable to instantiate AuthenticationManager for UPT application|"+changePasswordForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward(ForwardConstants.LOGIN_FAILURE);
+			return ForwardConstants.LOGIN_FAILURE;
 		}
 		try
 		{
@@ -112,40 +93,36 @@ public class ChangePasswordAction extends Action
 		}
 		catch (CSCredentialException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.EXPIRED_PASSWORD_MESSAGE));
-			saveErrors( request,errors );
+			addActionError(DisplayConstants.EXPIRED_PASSWORD_MESSAGE);
 			if (log.isDebugEnabled())
 				log.debug("|"+changePasswordForm.getLoginId()+
 						"||Login|Failure|Password Expired for user name "+changePasswordForm.getLoginId()+" and"+changePasswordForm.getApplicationContextName()+" application|"+changePasswordForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward("ChangePasswordFailure");
+			return "ChangePasswordFailure";
 		}
 		catch (CSInputException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (log.isDebugEnabled())
 				log.debug("|"+changePasswordForm.getLoginId()+
 						"||Login|Failure|Input exception "+changePasswordForm.getLoginId()+" and"+changePasswordForm.getApplicationContextName()+" application|"+changePasswordForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward("ChangePasswordFailure");
+			return "ChangePasswordFailure";
 		}
 		catch (CSLoginException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage())));
-			saveErrors( request,errors );
+			addActionError(org.apache.commons.lang.StringEscapeUtils.escapeHtml(cse.getMessage()));
 			if (log.isDebugEnabled())
 				log.debug("|"+changePasswordForm.getLoginId()+
 						"||Login|Failure|Login exception "+changePasswordForm.getLoginId()+" and"+changePasswordForm.getApplicationContextName()+" application|"+changePasswordForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward("ChangePasswordFailure");
+			return "ChangePasswordFailure";
 		}
 		catch (CSException cse)
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, DisplayConstants.LOGIN_EXCEPTION_MESSAGE));
-			saveErrors( request,errors );
+			addActionError(DisplayConstants.LOGIN_EXCEPTION_MESSAGE);
 			if (log.isDebugEnabled())
 				log.debug("|"+changePasswordForm.getLoginId()+
 						"||Login|Failure|Login Failed for user name "+changePasswordForm.getLoginId()+" and"+changePasswordForm.getApplicationContextName()+" application|"+changePasswordForm.toString()+"|"+cse.getMessage());
-			return mapping.findForward("ChangePasswordFailure");
+			return "ChangePasswordFailure";
 		}
-	return mapping.findForward("ChangePasswordSuccess");
+	return "ChangePasswordSuccess";
 	}
 }

@@ -191,6 +191,10 @@ td.infoMessage{ /* for the last row in the submenu left of the footer menu */
   font-family:verdana, arial, helvetica, sans-serif;
   color:#0000FF; /* constant: blue */
 }
+td.errorMessage{ /* for the last row in the submenu left of the footer menu */
+  font-family:verdana, arial, helvetica, sans-serif;
+  color:#A90101; /* constant: red */
+}
 
 
 /*############### 
@@ -509,8 +513,23 @@ MISCELLANEOUS BEGINS
 img.img{ /* for images that need a border */
   border:1px solid #5C5C5C; /* constant: dark gray */
 }
-
-
+.errors {
+	background-color:#FFCCCC;
+	border:1px solid #CC0000;
+	width:400px;
+	margin-bottom:8px;
+}
+.errors li{ 
+	list-style: none; 
+}
+.welcome {
+	background-color:#DDFFDD;
+	border:1px solid #009900;
+	width:400px;
+}
+.welcome li{ 
+	list-style: none; 
+}
 /*###############
 Skip Link
 ###############*/
@@ -542,4 +561,22 @@ color: black;
 z-index:100;
 text-align:left;
 margin-bottom:25px;
+}
+
+.error {
+	background-color:#FFCCCC;
+	border:1px solid #CC0000;
+	width:400px;
+	margin-bottom:8px;
+}
+.error li{ 
+	list-style: none; 
+}
+.message {
+	background-color:#DDFFDD;
+	border:1px solid #009900;
+	width:200px;
+}
+.message li{ 
+	list-style: none; 
 }

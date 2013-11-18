@@ -6,15 +6,14 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <table cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
 	<tr>
 		<td valign="top"><!-- target of anchor to skip menus --><a
 			name="content" /></a>
-		<table cellpadding="0" cellspacing="0" border="1"
+		<table cellpadding="0" cellspacing="0" border="0"
 			class="contentPage" width="100%" height="100%">
 
 			<!-- banner begins -->
@@ -34,7 +33,7 @@ L--%>
 						<table summary="Welcome" cellpadding="0" cellspacing="0" border="0"
 							height="100%">
 							<tr>
-								<td class="welcomeTitle" height="20">ELCOME TO THE USER
+								<td class="welcomeTitle" height="20">WELCOME TO THE USER
 								PROVISIONING TOOL</td>
 							</tr>
 							<tr>
@@ -60,7 +59,7 @@ L--%>
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-							<html:form action="/Login"  focus="loginId">
+							<s:form name="loginForm" action="Login.action"  focus="loginId" theme="simple">
 							<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/Login'/>"/>
 								<!-- login begins -->
 								<tr>
@@ -74,29 +73,29 @@ L--%>
 											<td class="sidebarContent">
 											<table cellpadding="2" cellspacing="0" border="0">
 												<tr>
-													<td colspan="2"><html:errors /></td>
+													<td colspan="2"><s:actionerror/></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label for="loginId">LOGIN
 													ID</label></td>
-													<td class="formFieldLogin"><html:text style="formField"
-														size="14" property="loginId" value="" /></td>
+													<td class="formFieldLogin"><s:textfield
+														size="14" name="loginForm.loginId" /></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="password">PASSWORD</label></td>
-													<td class="formFieldLogin"><html:password style="formField"
-														size="14" property="password" value="" /></td>
+													<td class="formFieldLogin"><s:password
+														size="14" name="loginForm.password" /></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="applicationContextName">APPLICATION NAME</label></td>
-													<td class="formFieldLogin"><html:text style="formField"
-														size="14" property="applicationContextName" value="" /></td>
+													<td class="formFieldLogin"><s:textfield
+														size="14" name="loginForm.applicationContextName" /></td>
 												</tr>
 												<tr>
 													<td>&nbsp;</td>
-													<td><html:submit style="actionButton" value="Login" /></td>
+													<td><s:submit style="actionButton" value="Login" /></td>
 												</tr>
 											</table>
 											</td>
@@ -106,7 +105,7 @@ L--%>
 								</tr>
 								<!-- login ends -->
 								
-							</html:form>
+							</s:form>
 							<!-- what's new begins -->
 							<tr>
 								<td valign="top">

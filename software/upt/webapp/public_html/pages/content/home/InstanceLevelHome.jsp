@@ -6,18 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.constants.Constants"%>
@@ -62,8 +52,8 @@ function skipNavigation()
 
 	<table summary="Instance level Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
-		<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation">
-		<html:hidden property="operation" value="error" />
+		<s:form name="InstanceLevelForm" action="InstanceLevelOperation" theme="simple">
+		<s:hidden name="operation" value="error" />
 		<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/InstanceLevelOperation'/>"/>
 		<tr>
 			<td valign="top">
@@ -90,13 +80,17 @@ function skipNavigation()
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
-			  				<td class="infoMessage"><html:messages id="message" message="true">
-								<bean:write name="message" />
-							</html:messages></td>
+		  				<td class="infoMessage" colspan="3">
+							<s:if test="hasActionMessages()">
+							      <s:actionmessage/>
+							</s:if>			  
+						</td>
 						</tr>
 						<tr>
-							<td colspan="3">
-							<html:errors />
+							<td class="errorMessage" colspan="3">
+								<s:if test="hasActionErrors()">
+								      <s:actionerror/>
+								</s:if>
 							</td>
 						</tr>
 						
@@ -108,7 +102,7 @@ function skipNavigation()
 								<tr>
 									<td class="sidebarTitle" height="20">INSTANCE LEVEL LINKS</td>
 								</tr>
-								<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+								<s:if test="#session.UPDATE_UPT_INSTANCE_LEVEL_OPERATION != null">
 									<tr>
 										<td class="sidebarContent"><a
 											href="javascript: setAndSubmit('loadUpload');">Upload the Jar File</a>
@@ -116,15 +110,15 @@ function skipNavigation()
 											Click to upload a Jar File.
 										</td>
 									</tr>
-								</logic:present>
-								<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
+								</s:if>
+								<s:if test="#session.CREATE_UPT_INSTANCE_LEVEL_OPERATION != null">
 									<tr>
 										<td class="sidebarContent"><a
 											href="javascript: setAndSubmit('loadAdd');">Add New Security Filter</a><br>
 											Click to add a new Instance Level Security Setting.
 										</td>
 									</tr>
-								</logic:present>
+								</s:if>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch');">Select an
@@ -140,7 +134,7 @@ function skipNavigation()
 			</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>
 
 

@@ -5,13 +5,8 @@
    Distributed under the OSI-approved BSD 3-Clause License.
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
@@ -82,21 +77,22 @@ function skipNavigation()
 // -->
 
 </script>
-<bean:define id="submitValue" value="error" />
-<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-		<bean:define id="submitValue" value="search" />
-	</logic:equal>
-</logic:equal>
-<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-		<bean:define id="submitValue" value="loadSearchResult" />
-	</logic:equal>
-</logic:notEqual>
+<s:set var="submitValue" value="error"/>
+<s:set var="currentForm" value="#session.CURRENT_FORM"/>
+<s:if test='#currentForm.getPrimaryId().eqauls("")'>
+	<s:if test='#session.CURRENT_ACTION.eqauls("SEARCH")'>
+		<s:set var="submitValue" value="search"/>
+	</s:if>	
+</s:if>	
+<s:else>
+	<s:if test='#session.CURRENT_ACTION.eqauls("SEARCH")'>
+		<s:set var="submitValue" value="loadSearchResult"/>
+	</s:if>
+</s:else>
 
 	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="UserForm" action="/SearchUserDBOperation"  focus="userLoginName">
-	<html:hidden property="operation" value="<%=submitValue%>"/>
+	<s:form name="UserForm" action="/SearchUserDBOperation"  focus="userLoginName" theme="simple">
+	<s:hidden name="operation" value="error"/>
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/SearchUserDBOperation'/>"/>
 			<tr>
 			<td valign="top">
@@ -106,21 +102,21 @@ function skipNavigation()
 					<table summary="Search user detail" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
 							<td class="infoMessage" colspan="3">
-			  				<html:messages id="message" message="true">
-			  				<bean:write name="message"/>
-			  				</html:messages>	
+							<s:if test="hasActionMessages()">
+							      <s:actionmessage/>
+							</s:if>			  
 			  				</td>
 						</tr>
 						<tr>
-							<td colspan="3">
-							<html:errors />
+							<td class="errorMessage" colspan="3">
+							<s:if test="hasActionErrors()">
+							      <s:actionerror/>
+							</s:if>
 							</td>
 						</tr>
-
-						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
-
-							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+						<s:if test="#session.CURRENT_FORM != null">
+							<s:if test='#currentForm.getPrimaryId().equals("")'>
+							<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
 								<tr>
 									<td class="formMessage" colspan="3"><a id="userResult"></a>Search for an existing User by entering the 
 									<b>User Login Name, User First Name, User Last Name, User Organization, User Department</b> or <b>User Email Id</b>.</td>
@@ -128,93 +124,88 @@ function skipNavigation()
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
 								</tr>
-								</logic:equal>
-							</logic:equal>
+								</s:if>
+							</s:if>
 						<tr>
-							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+							<s:if test='#currentForm.getPrimaryId().equals("")'>
+								<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
 									<td class="formTitle" height="20" colspan="3">ENTER THE USER SEARCH CRITERIA</td>
-								</logic:equal>
-							</logic:equal>
-							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+									<s:set var="formElements" value="#currentForm.searchFormElements"/>
+								</s:if>
+							</s:if>
+							<s:else>
 									<td class="formTitle" height="20" colspan="3">USER DETAILS</td>
-							</logic:notEqual>
+									<s:set var="formElements" value="#currentForm.displayFormElements"/>
+							</s:else>
 						</tr>
-							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="searchFormElements" id="formElements" />
-								</logic:equal>
-							</logic:equal>
-							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="displayFormElements" id="formElements" />
-							</logic:notEqual>
-							<logic:iterate name="formElements" id="formElement" type="FormElement">
-								<tr>
-									<logic:equal name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
-										<td class="formRequiredNotice" width="5">*</td>
-										<td class="formRequiredLabel2"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
-									</logic:equal>
-									<logic:notEqual name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
-										<td class="formRequiredNotice" width="5">&nbsp;</td>
-										<td class="formLabel"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
-									</logic:notEqual>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
-										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
-									</logic:equal>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
-										<td class="formField">
-										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
-										</logic:equal>
-										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
-											<% if(formElement.getPropertyDisabled()){ %>
-												<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
-											<% }else{ %>
-											<html:text  style="formFieldSized" size="10" maxlength="10" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
-											<% } %>											
-										</logic:notEqual>
-										</td>
-									</logic:equal>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
-									</logic:equal>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-										<td class="formField"><html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>"  property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
-									</logic:equal>
-								</tr>
-							</logic:iterate>
+							<s:iterator value="formElements" var="formElement">
+							<tr>
+								<s:if test='(#formElement.propertyRequired.equals("REQUIRED"))'>
+									<td class="formRequiredNotice" width="5">*</td>
+									<td class="formRequiredLabel2"><label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/></label></td>
+								</s:if>
+								<s:else>
+									<td class="formRequiredNotice" width="5">&nbsp;</td>
+									<td class="formLabel"><label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/></label></td>
+								</s:else>
+								<s:if test='(#formElement.propertyType.equals("INPUT_BOX"))'>
+									<td class="formField"><s:textfield style="formFieldSized" size="30" maxlength="100" name="userForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/></td>
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("PASSWORD"))'>
+									<td class="formField"><s:password style="formFieldSized" size="30" maxlength="100" name="userForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}" showPassword="true"/></td>
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("INPUT_DATE"))'>
+									<td class="formField">
+									<s:if test='(#formElement.propertyReadonly.equals(DisplayConstants.READONLY))'>
+										<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyValue"/>(MM/DD/YYYY)</label>
+									</s:if>
+									<s:else>
+										<s:if test='#formElement.propertyDisabled'>
+											<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MM/DD/YYYY)</label>
+										</s:if>
+										<s:else>
+										<s:textfield size="10" maxlength="10"  name="userForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/>  (MM/DD/YYYY)
+										</s:else>										
+									</s:else>
+									</td>
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("INPUT_TEXTAREA"))'>
+									<td class="formField"><s:textarea style="formFieldSized" cols="32" rows="2" name="userForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}" /></td>
+								</s:if>
+								<s:if test='(#formElement.propertyType.equals("INPUT_RADIO"))'>
+									<td class="formField"><s:radio name="userForm.%{propertyName}" list="#{'YES':'Yes','NO':'No'}" value="%{propertyValue}" /></td>
+								</s:if>
+							</tr>
+							</s:iterator>
 						<tr>
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									
-									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-									
+									<s:if test='#currentForm.getPrimaryId().equals("")'>
+										<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+											<td><s:submit style="actionButton" onclick="if(chkVal()){setAndSubmit('search');}" value="Search"/></td>
+										</s:if>
                                       
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="if(chkVal()){setAndSubmit('search');}">Search</html:submit></td>
-										</logic:equal>
-                                      
-										<td><html:reset style="actionButton">Reset</html:reset></td>
-										<td><html:button property="action" onclick="window.close();">Exit</html:button></td>
-									</logic:equal>
-									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
-										</logic:equal>
+										<td><s:reset style="actionButton" value="Reset"/></td>
+										<td><s:submit style="actionButton"  onclick="window.close();" value="Exit"/></td>
+									</s:if>
+									<s:else>
+										<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+											<td><s:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');" value="Back"/></td>
+										</s:if>
 										
-									</logic:notEqual>
+									</s:else>
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
-						</logic:present>
+						</s:if>
 					</table>
 					</td>
 				</tr>
 			</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>
 
 

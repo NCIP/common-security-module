@@ -20,7 +20,7 @@ L-->
 	<property name="hibernate.show_sql">false</property>
 	<property name="connection.zeroDateTimeBehavior">convertToNull</property>
 	
-        <property name="connection.url">jdbc:mysql://localhost:3306/csm50</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/upt51</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.username">csmadmin</property>
         <property name="connection.password">csmadmin</property>

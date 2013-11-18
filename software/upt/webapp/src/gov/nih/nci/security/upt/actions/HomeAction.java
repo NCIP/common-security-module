@@ -123,12 +123,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.util.ServletContextAware;
+
+import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
@@ -136,17 +134,16 @@ import org.apache.struts.action.ActionMapping;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class HomeAction extends Action
+public class HomeAction extends CommonBaseAction
 {
 
 	private static final Logger log = Logger.getLogger(HomeAction.class);
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
+	public String execute()
 			throws Exception
 	{
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		ActionErrors errors = new ActionErrors();
 
 		if(request.getAttribute(DisplayConstants.LOGIN_ID)!=null &&
 				request.getAttribute(DisplayConstants.APPLICATION_CONTEXT)!=null ){
@@ -200,12 +197,7 @@ public class HomeAction extends Action
 				serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
 			}
 
-
-			ActionForward newActionForward = new ActionForward() ;
-			newActionForward.setPath(serverInfoPathPort);
-			newActionForward.setRedirect(true);
-
-			return newActionForward;
+			return serverInfoPathPort;
 
 		}
 
@@ -224,7 +216,7 @@ public class HomeAction extends Action
 			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
 					"|Home|Redirect|Success|Already Logged In and Forwarding to the Home Page||");*/
 
-		return mapping.findForward(ForwardConstants.HOME_PAGE);
+		return ForwardConstants.HOME_PAGE;
 	}
 
 }

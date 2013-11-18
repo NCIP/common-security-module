@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
 
+import javax.security.auth.login.LoginException;
+
 
 import junit.framework.TestCase;
 
@@ -1300,7 +1302,15 @@ public class UserProvisioningManagerTest extends TestCase {
 		tempUser.setStartDate(CurrentTime);
 		tempUser.setUpdateDate(CurrentTime);
 
-		userProvisioningManager.modifyUser(tempUser);		
+		try {
+			userProvisioningManager.modifyUser(tempUser);
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		
 		tempUser = userProvisioningManager.getUserById("4");
 		

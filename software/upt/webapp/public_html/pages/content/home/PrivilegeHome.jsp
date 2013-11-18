@@ -6,18 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.constants.Constants"%>
@@ -79,8 +69,8 @@ function skipNavigation()
 
 	<table summary="Privilege Home" cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
-		<html:form styleId="PrivilegeForm" action="/PrivilegeDBOperation">
-		<html:hidden property="operation" value="error" />
+		<s:form name="PrivilegeForm" id="PrivilegeForm" action="/PrivilegeDBOperation" theme="simple">
+		<s:hidden name="operation" id="operation" value="error" />
 		<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/PrivilegeDBOperation'/>"/>
 		<tr>
 			<td valign="top">
@@ -92,7 +82,7 @@ function skipNavigation()
 					<h2>Privilege</h2>
 
 					<h3><a id="privHome"></a>Privilege Home</h3>
-					<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
+					<s:if test="#session[DisplayConstants.ADMIN_USER] != null">
 					<p>This is the Privilege section of the User Provisioning Tool. A
 					Privilege refers to any operation performed upon data.   
 					Assigning privileges helps control access to important components of an application (Protection Elements).  
@@ -101,8 +91,8 @@ function skipNavigation()
 					Privilege details. Please begin by selecting either <b>Create a New
 					Privilege</b> or <b>Select an Existing Privilege</b>.-->
 					This application has a standard set of privileges that you may search for and view in this section.  Please begin by selecting <b>Select an Existing Privilege</b>. </p>
-					</logic:notPresent>
-					<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+					</s:if>
+					<s:else>
 					<p>This is the Privilege section for UPT Super Admins. The UPT installs with CSM Standard Privileges that were agreed upon by the Security Working Group.  If necessary in this section you may create new application-specific Privileges or modify existing
 					Privilege details. 
 					<br>
@@ -110,7 +100,7 @@ function skipNavigation()
 					<br>
 					Please begin by selecting either <b>Create a New
 					Privilege</b> or <b>Select an Existing Privilege</b>. </p>
-					</logic:present>
+					</s:else>
 					</td>
 				</tr>
 				
@@ -120,9 +110,11 @@ function skipNavigation()
 						height="100%">
 						<tr><td><br></td></tr>
 						<tr>
-			  				<td class="infoMessage"><html:messages id="message" message="true">
-								<bean:write name="message" />
-							</html:messages></td>
+			  				<td class="infoMessage" colspan="3">
+							<s:if test="hasActionMessages()">
+							      <s:actionmessage/>
+							</s:if>			  
+							</td>
 						</tr>
 						<tr><td><br></td></tr>
 						<tr>
@@ -133,15 +125,15 @@ function skipNavigation()
 
 									<td class="sidebarTitle" height="20">PRIVILEGE LINKS</td>
 								</tr>
-								<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-									<logic:present name='<%=Constants.CSM_CREATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
-										<tr>
+								<s:if test="#session.ADMIN_USER != null">
+								<s:if test="#session.CREATE_UPT_PRIVILEGE_OPERATION != null">
+								<tr>
 											<td class="sidebarContent"><a
 												href="javascript: setAndSubmit('loadAdd')">Create a New
 											Privilege</a><br>
 											Click to add a new privilege.</td>
 										</tr>
-									</logic:present>
+									</s:if>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an
@@ -149,15 +141,15 @@ function skipNavigation()
 									Enter search criteria to find the privilege you wish to operate
 									on.</td>
 								</tr>
-								</logic:present>
-								<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
+								</s:if>
+								<s:else>
 								<tr>
 									<td class="sidebarContent"><a
 										href="javascript: setAndSubmit('loadSearch')">Select an
 									Existing Privilege</a><br>
 									Enter search criteria to find the privilege you wish to view.</td>
 								</tr>
-								</logic:notPresent>
+								</s:else>
 							</table>
 							</td>
 						</tr>
@@ -167,7 +159,7 @@ function skipNavigation()
 			</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>
 
 

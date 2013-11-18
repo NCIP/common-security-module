@@ -6,18 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"
-	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"
-	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic"
-	prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles"
-	prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template"
-	prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested"
-	prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
@@ -48,13 +38,12 @@ L--%>
 
   		var radioLen = document.SearchUserForm.userId.length;
   		
-  		
   		 var isgroupform = false;
   		 var isapplicationform = false;
   		 var ischecked = false;
   		for(var looop = 0; looop < window.opener.document.forms.length; looop++)
   		{
-  			if(window.opener.document.forms[looop].name == "ApplicationForm")	isapplicationform = true;
+  			if(window.opener.document.forms[looop].name == "applicationForm")	isapplicationform = true;
   			
   			if(window.opener.document.forms[looop].name == "GroupForm")
   			{ isgroupform = true;
@@ -62,19 +51,17 @@ L--%>
   			}
   			
   		}
-  		
 		if(isapplicationform)
 		{
-			
 	  		if(radioLen == undefined)
 	  		{
 	 			if (document.SearchUserForm.userId.checked) 
-				{		
-					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.SearchUserForm.userId.value))
+				{	
+					if(!keySearch(window.opener.document.associatedIds.options, document.SearchUserForm.userId.value))
 					{
-						var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;	
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName.value;
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.SearchUserForm.userId.value;
+						var optLen = window.opener.document.applicationForm.associatedIds.options.length++;	
+						window.opener.document.applicationForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName.value;
+						window.opener.document.applicationForm.associatedIds.options[optLen].value = document.SearchUserForm.userId.value;
 						ischecked = true;
 					}		
 				}
@@ -83,13 +70,12 @@ L--%>
 			{
 				if (document.SearchUserForm.userId[i].checked) 
 				{
-					if(!keySearch(window.opener.document.ApplicationForm.associatedIds.options, document.SearchUserForm.userId[i].value))
+					if(!keySearch(window.opener.document.applicationForm.associatedIds.options, document.SearchUserForm.userId[i].value))
 					{
-						var optLen = window.opener.document.ApplicationForm.associatedIds.options.length++;
+						var optLen = window.opener.document.applicationForm.associatedIds.options.length++;
 
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName[i].value;
-						window.opener.document.ApplicationForm.associatedIds.options[optLen].value = document.SearchUserForm.userId[i].value;
-						
+						window.opener.document.applicationForm.associatedIds.options[optLen].text = document.SearchUserForm.lgName[i].value;
+						window.opener.document.applicationForm.associatedIds.options[optLen].value = document.SearchUserForm.userId[i].value;
 					}
 					ischecked = true;
 				}
@@ -98,10 +84,8 @@ L--%>
 		}		
 		if(isgroupform)
 		{
-		
 			if(radioLen == undefined)
 	  		{
-		  		
 	 			if (document.SearchUserForm.userId.checked) 
 				{		
 					if(!keySearch(window.opener.document.GroupForm.associatedIds.options, document.SearchUserForm.userId.value))
@@ -129,7 +113,6 @@ L--%>
 				}
 			}
 		}		
-		
 		if(ischecked)
 		      window.close();
 		else
@@ -165,9 +148,9 @@ function skipNavigation()
 
 	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
-		<html:form styleId="UserForm"
-	action="/SearchUserDBOperation">
-	<html:hidden property="operation" value="read" />
+		<s:form name="SearchUserForm"
+	action="SearchUserDBOperation" theme="simple">
+	<s:hidden name="operation" value="read" />
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/SearchUserDBOperation'/>"/>
 		<tr>
 			<td>
@@ -185,10 +168,10 @@ function skipNavigation()
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>
-						<logic:present name="<%=DisplayConstants.SEARCH_RESULT%>">
-							<bean:define name="<%=DisplayConstants.SEARCH_RESULT%>"
-								property="searchResultObjects" id="searchResultObjects" />
-							<bean:define id="oddRow" value="true" />
+						<s:if test="#session.SEARCH_RESULT != null">
+							<s:set var="searchResult" value="#session.SEARCH_RESULT"/>
+							<s:set var="searchResults" value="#searchResult.searchResultObjects"/>
+							<s:set var="oddRow" value="true"/>
 							<tr>
 								<td>
 								<table summary="Search results for User" cellpadding="3"
@@ -209,51 +192,43 @@ function skipNavigation()
 										<th class="dataTableHeader" scope="col" align="center"
 											width="15%">User Email Id</th>
 									</tr>
-									<logic:iterate name="searchResultObjects"
-										id="searchResultObject" type="User" length="1000">
-										<%if (oddRow.equals("true")) {oddRow = "false";%>
+									<s:iterator value="searchResults" var="searchResultObject" end="1000">
+									<s:set var="loginName" value="#searchResultObject.getLoginName().toString()"/>
+									<s:set var="userId" value="#searchResultObject.getUserId().toString()"/>
+										<s:if test='oddRow.equals("true")'>
+											<s:set var="oddRow" value="false"/>
 											<tr class="dataRowLight">
 												<td class="dataCellNumerical" width="10%">
 
-												<html:checkbox property="userId" style="formFieldSized" value="<%=searchResultObject.getUserId().toString()%>"></html:checkbox></td>
-											<td class="dataCellText" width="15%"><html:hidden
-												name="logName" property="lgName"
-												value="<%=searchResultObject.getLoginName().toString()%>" /><bean:write
-												name="searchResultObject" property="loginName" />&nbsp;</td>
-											<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="firstName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="lastName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="organization" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="department" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="emailId" />&nbsp;</td>
+												<s:checkbox name="userId" style="formFieldSized" fieldValue="%{userId}" value="false"></s:checkbox></td>
+											<td class="dataCellText" width="15%"><s:hidden
+												name="lgName"
+												value="%{loginName}" /><s:property value="#searchResultObject.loginName"/>&nbsp;</td>
+											<td class="dataCellText" width="15%"><s:property value="#searchResultObject.firstName"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.lastName"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.organization"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.department"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.emailId"/>&nbsp;</td>
 											</tr>
-										<%} else {oddRow = "true";%>
+										</s:if>
+										<s:else>
+										<s:set var="oddRow" value="true"/>
 											<tr class="dataRowDark">
 											<td class="dataCellNumerical" width="10%">
-											<html:checkbox property="userId" style="formFieldSized" value="<%=searchResultObject.getUserId().toString()%>"></html:checkbox>
+											<s:checkbox name="userId" style="formFieldSized" fieldValue="%{userId}" value="false"></s:checkbox>
 											</td>
-											<td class="dataCellText" width="15%"><html:hidden
-												name="logName" property="lgName"
-												value="<%=searchResultObject.getLoginName().toString()%>" /><bean:write
-												name="searchResultObject" property="loginName" />&nbsp;</td>
-											<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="firstName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="lastName" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="organization" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="department" />&nbsp;</td>
-												<td class="dataCellText" width="15%"><bean:write
-													name="searchResultObject" property="emailId" />&nbsp;</td>
+											<td class="dataCellText" width="15%"><s:hidden
+												name="lgName"
+												value="%{loginName}" /><s:property value="#searchResultObject.loginName"/>&nbsp;</td>
+											<td class="dataCellText" width="15%"><s:property value="#searchResultObject.firstName"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.lastName"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.organization"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.department"/>&nbsp;</td>
+												<td class="dataCellText" width="15%"><s:property value="#searchResultObject.emailId"/>&nbsp;</td>
 											</tr>
-										<%}%>
+										</s:else>
 										<% cntResObj=cntResObj+1; %>
-									</logic:iterate>
+									</s:iterator>
 								</table>
 								</td>
 							</tr>
@@ -281,13 +256,13 @@ function skipNavigation()
 										</script>
 										
 										
-										<td><html:submit style="actionButton"
-											onclick="setAndSubmit('loadSearch');">Back</html:submit></td>
+										<td><s:submit style="actionButton"
+											onclick="setAndSubmit('loadSearch');" value="Back"/></td>
 									</tr>
 								</table>
 								<!-- action buttons end --></td>
 							</tr>
-						</logic:present>
+						</s:if>
 											
 					</table>
 					</td>
@@ -295,5 +270,5 @@ function skipNavigation()
 			</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>

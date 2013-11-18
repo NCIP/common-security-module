@@ -108,32 +108,35 @@ import gov.nih.nci.security.upt.util.properties.exceptions.UPTConfigurationExcep
 
 import java.io.File;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.util.ServletContextAware;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
+import com.opensymphony.xwork2.ActionSupport;
+
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
  */
-public class LogoutAction extends Action {
+public class LogoutAction extends ActionSupport implements ServletContextAware{
 
 	private static final Logger log = Logger.getLogger(LogoutAction.class);
+	protected ServletContext servletContext;
+	private String logoutURL;
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
-		
+	public void setServletContext(ServletContext arg0) {
+		this.servletContext = arg0;
+	}
+
+	public String execute() {
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 		String uptContextName = "";
 	
@@ -170,7 +173,6 @@ public class LogoutAction extends Action {
 		request.removeAttribute(DisplayConstants.SEARCH_RESULT);
 
 		String serverInfoPathPort = (request.isSecure()?"https://":"http://") + request.getServerName() + ":"+ request.getServerPort();
-
 		ObjectFactory.initialize("upt-beans.xml");
 		UPTProperties uptProperties = null;
 		String urlContextForLoginApp = "";
@@ -185,18 +187,10 @@ public class LogoutAction extends Action {
 			
 		} catch (UPTConfigurationException e) {
 			serverInfoPathPort = serverInfoPathPort + "/"+ DisplayConstants.LOGIN_APPLICATION_CONTEXT_NAME + "/";
-
 		}
-
-
-		ActionForward newActionForward = new ActionForward();
-		newActionForward.setPath(serverInfoPathPort);
-		newActionForward.setRedirect(true);
-
-		return newActionForward;
-
-		
-		
+		logoutURL =  serverInfoPathPort;
+		return "redirect";
+		//return serverInfoPathPort;
 	}
 
 	private static String getUPTContextName() throws Exception {
@@ -212,5 +206,4 @@ public class LogoutAction extends Action {
 		}
 		return uptContextNameValue;
 	}
-
 }

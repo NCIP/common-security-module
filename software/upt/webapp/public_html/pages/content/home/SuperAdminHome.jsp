@@ -6,9 +6,6 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 
 <script>

@@ -6,12 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean"	prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html"	prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
@@ -38,33 +33,26 @@ L--%>
           <td align="center">
  
             <P>
-               <bean:write name='<%=DisplayConstants.ERROR_DETAILS %>' />
+              <s:property value="exception.message"/>
+            </P>
+            <P>
+              <s:property value="exception.stackTrace"/>
             </P>
           </td>
        </tr>
   		<tr>
   		
-  		<!-- new separate links depending on admin or super admin -->
+  		<!-- news2 separate links depending on admin or super admin -->
 							
-			<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
-				<td align="center"><html:link action="AdminHome.do">Click here to go back to Home Page</html:link></td>
-			</logic:present>
-								
-			<logic:notPresent name="<%=DisplayConstants.ADMIN_USER%>">
-				<td align="center"><html:link action="Home.do">Click here to go back to Home Page</html:link></td>
-			</logic:notPresent>		
+			<s:if test="#session.ADMIN_USER != null">
+				<td align="center"><s:url action="AdminHome.action" var="AdminHome"/><s:a href="%{AdminHome}">Click here to go back to Home Page</s:a></td>
+			</s:if>
+			<s:else test="#session.ADMIN_USER == null">
+				<td align="center"><s:url action="Home.action" var="Home"/><s:a href="%{Home}">Click here to go back to Home Page</s:a></td>
+			</s:else>
+			
 								
 							<!-- end home links -->		   
-  		
-  		
-  		<!--
-          <td align="center">
-           	 <html:link action="Home.do" >
-					Click here to go back to Home Page
-		  	 </html:link>
-		   </td>
-		-->
-
        </tr>
 
   </table>

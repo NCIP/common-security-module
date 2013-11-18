@@ -6,9 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-
+<%@ taglib uri="/struts-tags" prefix="s" %>
 
 <table summary="" cellpadding="0" cellspacing="0" border="0"
 	class="contentPage" width="100%" height="100%">
@@ -61,7 +59,7 @@ L--%>
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table summary="" cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-							<html:form action="/ChangePassword"  focus="loginId">
+							<s:form action="ChangePassword.action"  focus="loginId" theme="simple">
 								<!-- login begins -->
 								<tr>
 									<td valign="top">
@@ -74,41 +72,46 @@ L--%>
 											<td class="sidebarContent">
 											<table cellpadding="2" cellspacing="0" border="0">
 												<tr>
-													<td colspan="2"><html:errors /></td>
+													<td class="infoMessage" colspan="2">
+													<s:if test="hasActionMessages()">
+													      <s:actionmessage/>
+													</s:if>			  
+
+													</td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label for="loginId">LOGIN
 													ID</label></td>
-													<td class="formFieldLogin"><html:text style="formField"
-														size="14" property="loginId" value="" /></td>
+													<td class="formFieldLogin"><s:textfield style="formField"
+														size="14" name="changePasswordForm.loginId" value="" /></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="password">OLD PASSWORD</label></td>
-													<td class="formFieldLogin"><html:password style="formField"
-														size="14" property="password" value="" /></td>
+													<td class="formFieldLogin"><s:password style="formField"
+														size="14" name="changePasswordForm.password" value="" /></td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="newPassword">NEW PASSWORD</label></td>
-													<td class="formFieldLogin"><html:password style="formField"
-														size="14" property="newPassword" value="" /></td>
+													<td class="formFieldLogin"><s:password style="formField"
+														size="14" name="changePasswordForm.newPassword" value="" /></td>
 												</tr>										
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="passwordConfirmation">CONFIRM PASSWORD</label></td>
-													<td class="formFieldLogin"><html:password style="formField"
-														size="14" property="passwordConfirmation" value="" /></td>
+													<td class="formFieldLogin"><s:password style="formField"
+														size="14" name="changePasswordForm.passwordConfirmation" value="" /></td>
 												</tr>												
 												<tr>
 													<td class="sidebarLogin" align="right"><label
 														for="applicationContextName">APPLICATION NAME</label></td>
-													<td class="formFieldLogin"><html:text style="formField"
-														size="14" property="applicationContextName" value="" /></td>
+													<td class="formFieldLogin"><s:textfield style="formField"
+														size="14" name="changePasswordForm.applicationContextName" value="" /></td>
 												</tr>
 												<tr>
 													<td>&nbsp;</td>
-													<td><html:submit style="actionButton" value="Change Password" /></td>
+													<td><s:submit style="actionButton" value="Change Password" /></td>
 												</tr>
 											</table>
 											</td>
@@ -117,7 +120,7 @@ L--%>
 									</td>
 								</tr>
 								<!-- login ends -->
-							</html:form>
+							</s:form>
 							<!-- spacer cell begins (keep for dynamic expanding) -->
 							<tr>
 								<td valign="top" height="100%">

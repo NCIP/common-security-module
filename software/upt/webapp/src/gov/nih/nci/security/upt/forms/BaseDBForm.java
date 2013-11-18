@@ -9,8 +9,6 @@
 /*
  * Created on Dec 3, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.forms;
 
@@ -103,20 +101,17 @@ package gov.nih.nci.security.upt.forms;
  */
 
 
+import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.upt.viewobjects.SearchResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMessages;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public interface BaseDBForm
 {
@@ -128,16 +123,19 @@ public interface BaseDBForm
 	
 	public ArrayList getSearchFormElements();
 
-	public void buildDisplayForm(HttpServletRequest request) throws Exception;
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception;
 	
-	public void buildDBObject(HttpServletRequest request) throws Exception;
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception;
 	
-	public void removeDBObject(HttpServletRequest request) throws Exception;
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception;
 	
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception;
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception;
 
 	public String getPrimaryId();
 	
 	public void resetForm();
-
+	
+	public void setRequest(HttpServletRequest request);
+	
+	public List<String> validate();
 }

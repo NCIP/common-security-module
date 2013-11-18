@@ -16,43 +16,50 @@ import gov.nih.nci.security.upt.forms.AppUserForm;
 import gov.nih.nci.security.upt.forms.LoginForm;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.apache.struts2.ServletActionContext;
 
 
 
 public class AppUserLoginAction extends CommonDBAction
 {
 	private static final Logger log = Logger.getLogger(AppUserLoginAction.class);
-
-	@SuppressWarnings("unchecked")
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	private AppUserForm userForm;
+	
+	public void setUserForm(AppUserForm userForm)
 	{
+		this.userForm = userForm;
+	}
+	
+	public AppUserForm getUserForm()
+	{
+		return userForm;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String execute() throws Exception
+	{
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)session.getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		AppUserForm userForm = (AppUserForm)form;
-		
 		
 		if (userForm != null && userForm.getOperation() != null && userForm.getOperation().equalsIgnoreCase("update"))
 		{
-			update(mapping,  form, request, response);
+			update(userForm);
 			userForm.setOperation("");
-			return read(mapping,  form, request, response);
+			return read(userForm);
 		}
 		else
 		{
+			userForm = new AppUserForm();
 			String loginId = ((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId();
 			User user = userProvisioningManager.getUser(loginId);
 
 			userForm.setUserId(Long.toString(user.getUserId()));
 
-			return read(mapping,  form, request, response);
+			return read(userForm);
 		}						
 	}
-
 }

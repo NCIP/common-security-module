@@ -6,12 +6,8 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <%@ taglib uri="/WEB-INF/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.authorization.domainobjects.*"%>
@@ -121,7 +117,8 @@ function skipNavigation()
 					<h2><a id="userAssoc"></a>User and Groups Association</h2>
 				</td>
 			</tr>
-			<logic:notEqual name="UserForm" property="userLoginName" value="<%=DisplayConstants.BLANK%>">
+			<s:set var="userForm" value="#session.CURRENT_FORM"/>
+			<s:if test='#!userForm.userLoginName.equals(""))'>
 			<tr>
 				<td>
 					<table cellpadding="3" cellspacing="0" border="0" width="90%" align="center">
@@ -130,20 +127,20 @@ function skipNavigation()
 						</tr>
 						<tr class="dataRowDark">
 							<td class="formRequiredLabel" width="40%" scope="row"><label for="userLoginName">User Login Name</label></td>
-							<td class="formField" width="60%"><bean:write name="UserForm" property="userLoginName" /></td>
+							<td class="formField" width="60%"><s:property value="#userForm.userLoginName"/></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
-			</logic:notEqual>
+			</s:if>
 			<tr>
 				<td valign="top" align="center" width="80%"><!-- sidebar begins -->
 				<table cellpadding="3" cellspacing="10" border="0" height="100%" width="100%">
 					<tr>
-						<td class="infoMessage">
-		  				<html:messages id="message" message="true">
-		  				<bean:write name="message"/>
-		  				</html:messages>				
+						<td class="infoMessage" colspan="3">
+							<s:if test="hasActionMessages()">
+							      <s:actionmessage/>
+							</s:if>
 		  				</td>
 					</tr>
 					<tr>
@@ -154,9 +151,6 @@ function skipNavigation()
 					<!-- large table starts -->
 					
 					<tr>
-					<bean:define name="<%=DisplayConstants.AVAILABLE_SET%>" id="availableIds" type="java.util.Collection"/>
-					<bean:define name="<%=DisplayConstants.ASSIGNED_SET%>" id="associatedIds" type="java.util.Collection"/>				
-					
 					<!-- cell begins-->
 					<td width="100%">
 					<table width="100%">
@@ -176,9 +170,9 @@ function skipNavigation()
 						<tr>
 						<td class="formField" align="center">
 							<select name="availableIds" multiple style="width:100%;" size="6">
-							<logic:iterate name="availableIds" id="group" type="Group">
-								<option value="<bean:write name="group" property="groupId" />"><bean:write name="group" property="groupName" /></option>
-							</logic:iterate>
+							<s:iterator value="#request.AVAILABLE_SET" var="group">
+								<option value='<s:property value="#group.groupId"/>'><s:property value="#group.groupName"/></option>
+							</s:iterator>
 	                    	</select>
 	                    </td>
 						</tr>
@@ -196,23 +190,22 @@ function skipNavigation()
 							<table width="220">
 							<tr>
 							<!-- -->
-					
-					<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+					<s:if test="#session.UPDATE_UPT_USER_OPERATION != null">
 						<td align="center">
 							<input type="button" value="Assign" style="width:75px;" onclick="selSwitch(this);">
 						</td>
 						<td align="center">
 							<input type="button" value="Deassign" style="width:75px;" onclick="selSwitch(this);">
 						</td>
-					</logic:present>
-					<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
+					</s:if>
+					<s:if test="#session.UPDATE_UPT_USER_OPERATION == null">
 						<td align="center">
 							<input type="button" value="Assign" style="width:75px;" disabled="disabled" />
 						</td>
 						<td align="center">
 							<input type="button" value="Deassign" style="width:75px;" disabled="disabled" >
 						</td>
-					</logic:notPresent>
+					</s:if>
 					
 					<!-- extra code -->
 							</tr>
@@ -228,8 +221,11 @@ function skipNavigation()
 					
 					
 					<td width="100%" valign="top">
-					<html:form styleId="UserForm" action="/UserDBOperation">
-					<html:hidden property="operation" value="read"/>
+					<s:form name="UserForm" action="UserDBOperation" theme="simple">
+					<s:hidden name="operation" value="read"/>
+					<s:set var="userId" value="#userForm.getUserId()"/>
+					<s:hidden name="userForm.userId" value="%{userId}"/>
+
 					<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/UserDBOperation'/>"/>
 					<table cellpadding="0" cellspacing="0" border="0" width="100%" class="sidebarSection">
 						<tr>
@@ -239,10 +235,10 @@ function skipNavigation()
 						<tr>
 						<td class="formField" align="center">
 							<select name="associatedIds" multiple style="width:100%;" size="6">
-							<logic:iterate name="associatedIds" id="group" type="Group">
-								<option value="<bean:write name="group" property="groupId" />"><bean:write name="group" property="groupName" /></option>
-							</logic:iterate>
-	                    	</select>
+							<s:iterator value="#request.ASSIGNED_SET" var="group2">
+								<option value='<s:property value="#group2.groupId"/>'><s:property value="#group2.groupName"/></option>
+							</s:iterator>
+				                    	</select>
 	                    </td>
 						</tr>
 					</table>
@@ -257,13 +253,13 @@ function skipNavigation()
 				<td align="right" class="actionSection"><!-- action buttons begins -->
 				<table cellpadding="4" cellspacing="0" border="0">
 					<tr>
-						<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
-							<td><button class="actionButton" onclick="setAndSubmit('setAssociation');">Update Association</button></td>
-						</logic:present>
-						<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_USER_OPERATION%>'>
-							<td><button class="actionButton" disabled="disabled">Update Association</button></td>
-						</logic:notPresent>
-						<td><html:submit style="actionButton" onclick="setAndSubmit('read');">Back</html:submit></td>						
+						<s:if test="#session.UPDATE_UPT_USER_OPERATION != null">
+							<td><s:submit class="actionButton" onclick="setAndSubmit('setAssociation');" value="Update Association"/></td>
+						</s:if>
+						<s:if test="#session.UPDATE_UPT_USER_OPERATION == null">
+							<td><s:submit class="actionButton" disabled="disabled" value="Update Association"/></td>
+						</s:if>
+						<td><s:submit style="actionButton" onclick="setAndSubmit('read');" value="Back"/></td>						
 					</tr>
 				</table>
 				</td>				
@@ -278,7 +274,7 @@ function skipNavigation()
 				</table>
 			</tr>
 			
-			</html:form>
+			</s:form>
 		</table>
 		</td>
 	</tr>

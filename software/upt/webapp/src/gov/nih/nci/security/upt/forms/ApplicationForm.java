@@ -9,8 +9,6 @@
 /*
  * Created on Jan 18, 2005
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.forms;
 
@@ -105,14 +103,14 @@ package gov.nih.nci.security.upt.forms;
 
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Application;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.User;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.constants.Constants;
 import gov.nih.nci.security.dao.ApplicationSearchCriteria;
-import gov.nih.nci.security.dao.UserSearchCriteria;
 import gov.nih.nci.security.dao.ProtectionElementSearchCriteria;
 import gov.nih.nci.security.dao.SearchCriteria;
+import gov.nih.nci.security.dao.UserSearchCriteria;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.upt.constants.DisplayConstants;
 import gov.nih.nci.security.upt.util.StringUtils;
@@ -124,24 +122,15 @@ import gov.nih.nci.security.util.StringUtilities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
-import org.apache.struts.validator.ValidatorForm;
-
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ApplicationForm extends ValidatorForm implements BaseAssociationForm{
+public class ApplicationForm implements BaseAssociationForm{
 
 	private String applicationId;
 	private String applicationName;
@@ -155,12 +144,20 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	private String applicationDatabaseConfirmPassword;
 	private String applicationDatabaseDialect;
 	private String applicationDatabaseDriver;
+	private HttpServletRequest request;
 	
 	private String csmVersion;
 	
 	private String[] associatedIds;
 	private Long associatedProtectionElementId;
 	
+	
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 	/**
 	 * @return Returns the applicationActiveFlag.
 	 */
@@ -305,7 +302,6 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#getAssociatedIds()
 	 */
 	public String[] getAssociatedIds() {
-		// TODO Auto-generated method stub
 		return this.associatedIds;
 	}
 
@@ -337,7 +333,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		
 	}
 
-	public void reset(ActionMapping mapping, HttpServletRequest request)
+	public void reset()
 	{
 		this.applicationName = "";
 		this.applicationDescription = "";
@@ -354,23 +350,19 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.apache.struts.action.ActionForm#validate(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
-	 */
-	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) 
+	public List<String> validate() 
 	{
-		ActionErrors errors = new ActionErrors();
-		errors = super.validate(mapping,request);
+		List<String> errors = new ArrayList<String>();
 		if (!this.applicationDatabasePassword.equals(this.applicationDatabaseConfirmPassword))
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Confirm Password does not match with Database Password"));
+			errors.add("Confirm Password does not match with Database Password");
 		}
 		if (!(((StringUtilities.isBlank(applicationDatabaseURL) && StringUtilities.isBlank(applicationDatabaseUserName)
 				&& StringUtilities.isBlank(applicationDatabasePassword) && StringUtilities.isBlank(applicationDatabaseDialect) && StringUtilities.isBlank(applicationDatabaseDriver)))
 			|| (!StringUtilities.isBlank(applicationDatabaseURL) && !StringUtilities.isBlank(applicationDatabaseUserName)
 					&& !StringUtilities.isBlank(applicationDatabasePassword) && !StringUtilities.isBlank(applicationDatabaseDialect) && !StringUtilities.isBlank(applicationDatabaseDriver))))
 		{
-			errors.add(ActionErrors.GLOBAL_ERROR, new ActionError(DisplayConstants.ERROR_ID, "Either all or none of the database properties should be provided"));
+			errors.add( "Either all or none of the database properties should be provided");
 		}
 		return errors;
 	}
@@ -436,11 +428,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		return formElementList;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDisplayForm(javax.servlet.http.HttpServletRequest)
-	 */
-	public void buildDisplayForm(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void buildDisplayForm(UserProvisioningManager userProvisioningManager) throws Exception {
 		ProtectionElement protectionElement = new ProtectionElement();
 		
 		Application application = userProvisioningManager.getApplicationById(this.applicationId);
@@ -469,12 +457,7 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#buildDBObject(javax.servlet.http.HttpServletRequest)
-	 */
-	public void buildDBObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-		
+	public void buildDBObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		Application application = null;
 		ProtectionElement protectionElement = null;
 		
@@ -506,15 +489,14 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		protectionElement.setProtectionElementName(this.applicationName);
 		protectionElement.setObjectId(this.applicationName);
 		
-		if (this.applicationActiveFlag.equals(DisplayConstants.YES)) application.setActiveFlag(DisplayConstants.ONE);
+		if (applicationActiveFlag != null && this.applicationActiveFlag.equals(DisplayConstants.YES)) application.setActiveFlag(DisplayConstants.ONE);
 			else application.setActiveFlag(DisplayConstants.ZERO);
 
-		if (this.applicationDeclarativeFlag.equals(DisplayConstants.YES)) application.setDeclarativeFlag(DisplayConstants.ONE);
+		if (applicationDeclarativeFlag != null && this.applicationDeclarativeFlag.equals(DisplayConstants.YES)) application.setDeclarativeFlag(DisplayConstants.ONE);
 			else application.setDeclarativeFlag(DisplayConstants.ZERO);
 		
 		if ((this.applicationId == null) || ((this.applicationId).equalsIgnoreCase("")))
 		{
-			System.out.println("ApplicationForm.buildDBObject()...create application:"+application.getApplicationName());
 			userProvisioningManager.createApplication(application);
 			userProvisioningManager.createProtectionElement(protectionElement);
 			this.applicationId = application.getApplicationId().toString();
@@ -618,21 +600,15 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		return pe;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#removeDBObject(javax.servlet.http.HttpServletRequest)
-	 */
-	public void removeDBObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void removeDBObject(UserProvisioningManager userProvisioningManager) throws Exception {
+		//UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		userProvisioningManager.removeApplication(this.applicationId);
 		userProvisioningManager.removeProtectionElement(this.associatedProtectionElementId.toString());
 		this.resetForm();		
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.upt.forms.BaseDBForm#searchObjects(javax.servlet.http.HttpServletRequest, org.apache.struts.action.ActionErrors, org.apache.struts.action.ActionMessages)
-	 */
-	public SearchResult searchObjects(HttpServletRequest request, ActionErrors errors, ActionMessages messages) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public SearchResult searchObjects(UserProvisioningManager userProvisioningManager) throws Exception {
+		//UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
 		Application application = new Application();
 		if (this.applicationName != null && !(this.applicationName.trim().equalsIgnoreCase("")))
 			application.setApplicationName(this.applicationName);
@@ -646,32 +622,22 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#buildAssociationObject(javax.servlet.http.HttpServletRequest)
-	 */
-	public void buildAssociationObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
-
+	public void buildAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		Collection associatedUsers = (Collection)userProvisioningManager.getOwners(this.associatedProtectionElementId.toString());
 		
 		User user = new User();
 		SearchCriteria searchCriteria = new UserSearchCriteria(user);
 		Collection totalUsers = (Collection)userProvisioningManager.getObjects(searchCriteria);
-
 		Collection availableUsers = ObjectSetUtil.minus(totalUsers,associatedUsers);
-		
 		request.setAttribute(DisplayConstants.ASSIGNED_SET, associatedUsers);
 		request.setAttribute(DisplayConstants.AVAILABLE_SET, availableUsers);
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.nih.nci.security.upt.forms.BaseAssociationForm#setAssociationObject(javax.servlet.http.HttpServletRequest)
-	 */
-	public void setAssociationObject(HttpServletRequest request) throws Exception {
-		UserProvisioningManager userProvisioningManager = (UserProvisioningManager)(request.getSession()).getAttribute(DisplayConstants.USER_PROVISIONING_MANAGER);
+	public void setAssociationObject(UserProvisioningManager userProvisioningManager) throws Exception {
 		if (this.associatedIds == null)
 			this.associatedIds = new String[0];
+		
 		userProvisioningManager.assignOwners(this.associatedProtectionElementId.toString(), this.associatedIds);
 	}
 	public String getCsmVersion() {
@@ -680,5 +646,4 @@ public class ApplicationForm extends ValidatorForm implements BaseAssociationFor
 	public void setCsmVersion(String csmVersion) {
 		this.csmVersion = csmVersion;
 	}
-
 }

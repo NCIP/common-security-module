@@ -6,12 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
 <%@ page import="gov.nih.nci.security.upt.forms.*"%>
@@ -21,6 +16,26 @@ response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 response.setHeader("Pragma","no-cache"); //HTTP 1.0
 response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
 %>
+
+<style type="text/css">
+.errors {
+	background-color:#FFCCCC;
+	border:1px solid #CC0000;
+	width:400px;
+	margin-bottom:8px;
+}
+.errors li{ 
+	list-style: none; 
+}
+.welcome {
+	background-color:#DDFFDD;
+	border:1px solid #009900;
+	width:200px;
+}
+.welcome li{ 
+	list-style: none; 
+}
+</style>
 
 <script>
 
@@ -57,9 +72,9 @@ function skipNavigation()
 </script>
 
 	<table cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="InstanceLevelForm" action="/InstanceLevelOperation" enctype="multipart/form-data">
-	<html:hidden property="operation" value="upload"/>
-	<html:hidden property="userLoginName" value="upload"/>
+	<s:form name="InstanceLevelForm" action="InstanceLevelOperation" enctype="multipart/form-data" theme="simple">
+	<s:hidden name="operation" value="upload"/>
+	<s:hidden name="userLoginName" value="upload"/>
 		<tr>
 			<td valign="top">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentBegins">
@@ -68,17 +83,20 @@ function skipNavigation()
 							<table summary="Upload jar for Instance level security" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 								<tr>
 									<td class="infoMessage" colspan="3">
-						  				<html:messages id="message" message="true">
-						  				<bean:write name="message"/>
-					  				</html:messages>	
+										<s:if test="hasActionMessages()">
+										      <s:actionmessage/>
+										</s:if>
 					  				</td>
 								</tr>
 								<tr>
-									<td colspan="3">
-										<html:errors />
+									<td class="errorMessage" colspan="3">
+										<s:if test="hasActionErrors()">
+										      <s:actionerror/>
+										</s:if>
 									</td>
 								</tr>
-								<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
+								<s:set var="currentForm" value="#session.CURRENT_FORM"/>
+								<s:if test="#currentForm != null">
 								<tr>
 									<tr>
 										<td class="formMessage" colspan="3"><a id="uploadHome"></a>Enter the path's of the Application Jar files containing the Hibernate Files and the Domain Object. Also you provide 
@@ -98,41 +116,41 @@ function skipNavigation()
 								<tr>
 									<td class="formRequiredNotice" width="5">*</td>
 									<td class="formRequiredLabel2"><label for="uploadedFile1">Application Jar File</label></td>
-									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" styleId="uploadedFile1" property="uploadedFile1" value="" /></td>
+									<td class="formField"><s:file style="formFieldSized" size="30" maxlength="100" styleId="uploadedFile1" name="instanceLevelForm.uploadedFile" value="" /></td>
 								</tr>
 								<tr>
 									<td class="formRequiredNotice" width="5">&nbsp;</td>
 									<td class="formLabel"><label for="uploadedFile2">Application Jar File</label></td>
-									<td class="formField"><html:file style="formFieldSized" size="30" maxlength="100" styleId="uploadedFile2" property="uploadedFile2" value="" /></td>
+									<td class="formField"><s:file style="formFieldSized" size="30" maxlength="100" styleId="uploadedFile2" name="instanceLevelForm.uploadedFile" value="" /></td>
 								</tr>
 								<tr>									
 									<td class="formRequiredNotice" width="5">*</td>
 									<td class="formRequiredLabel2"><label for="hibernateFileName">Hibernate Configuration File Name</label></td>
-									<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" styleId="hibernateFileName" property="hibernateFileName" value=""/></td>
+									<td class="formField"><s:textfield style="formFieldSized" size="30" maxlength="100" styleId="hibernateFileName" name="instanceLevelForm.hibernateFileName" value=""/></td>
 								</tr>
 								<tr>
 									<td align="right" colspan="3"><!-- action buttons begins -->
 										<table cellpadding="4" cellspacing="0" border="0">
 											<tr>
-												<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
-													<td><html:submit style="actionButton" onclick="setAndSubmit('upload');">Upload</html:submit></td>
-												</logic:present>
-												<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_INSTANCE_LEVEL_OPERATION%>'>
-													<td><html:submit style="actionButton" disabled="true">Upload</html:submit></td>
-												</logic:notPresent>
-												<td><html:reset style="actionButton">Reset</html:reset></td>
-												<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
+												<s:if test="#session.UPDATE_UPT_INSTANCE_LEVEL_OPERATION != null">
+													<td><s:submit style="actionButton" onclick="setAndSubmit('upload');" value="Upload"/></td>
+												</s:if>
+												<s:else>
+													<td><s:submit style="actionButton" disabled="true" value="Upload"/></td>
+												</s:else>
+												<td><s:reset style="actionButton" value="Reset"/></td>
+												<td><s:submit style="actionButton" onclick="setAndSubmit('loadHome');" value="Back"/></td>
 											</tr>
 										</table>
 									</td><!-- action buttons end -->
 								</tr>
-								</logic:present>
+								</s:if>
 							</table>
 						</td>
 					</tr>
 				</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>
 

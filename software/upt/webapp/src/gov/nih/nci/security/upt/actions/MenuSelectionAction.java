@@ -9,8 +9,6 @@
 /*
  * Created on Dec 20, 2004
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package gov.nih.nci.security.upt.actions;
 
@@ -108,75 +106,94 @@ import gov.nih.nci.security.upt.constants.ForwardConstants;
 import gov.nih.nci.security.upt.forms.LoginForm;
 import gov.nih.nci.security.upt.forms.MenuForm;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.util.ServletContextAware;
+
+import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * @author Kunal Modi (Ekagra Software Technologies Ltd.)
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
-public class MenuSelectionAction extends Action
+public class MenuSelectionAction extends ActionSupport implements ServletContextAware 
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(MenuSelectionAction.class);
+	protected ServletContext servletContext;
+	private String tableId;
+	
+	
+	public String getTableId() {
+		return tableId;
+	}
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+	public void setTableId(String tableId) {
+		this.tableId = tableId;
+	}
+
+	public void setServletContext(ServletContext arg0) {
+		this.servletContext = arg0;
+	}
+
+	public String execute()
 	{
 		/* perform login task*/
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		MenuForm menuSelectionForm = (MenuForm)form;
 
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null)) {
 			if (log.isDebugEnabled())
 				log.debug("||||Failure|No Session or User Object Forwarding to the Login Page||");
-			return mapping.findForward(ForwardConstants.LOGIN_PAGE);
+			return ForwardConstants.LOGIN_PAGE;
 		}
 
 		session.removeAttribute(DisplayConstants.CURRENT_ACTION);
 		session.removeAttribute(DisplayConstants.CURRENT_FORM);
 		session.removeAttribute(DisplayConstants.SEARCH_RESULT);
 
-		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,menuSelectionForm.getTableId());
+		session.setAttribute(DisplayConstants.CURRENT_TABLE_ID,tableId);
 
 		if (log.isDebugEnabled())
 			log.debug(session.getId()+"|"+((LoginForm)session.getAttribute(DisplayConstants.LOGIN_OBJECT)).getLoginId()+
-					"|"+menuSelectionForm.getTableId()+"|Forward|Success|Forwarding to the "+menuSelectionForm.getTableId()+" Home Page||");
+					"|"+tableId+"|Forward|Success|Forwarding to the "+tableId+" Home Page||");
 
-		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.HOME_ID))
-			return (mapping.findForward(ForwardConstants.HOME_PAGE));
-		if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ADMIN_HOME_ID))
-			return (mapping.findForward(ForwardConstants.ADMIN_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.ROLE_ID))
-			return (mapping.findForward(ForwardConstants.ROLE_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.GROUP_ID))
-			return (mapping.findForward(ForwardConstants.GROUP_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.USER_ID))
-			return (mapping.findForward(ForwardConstants.USER_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID))
-			return (mapping.findForward(ForwardConstants.PRIVILEGE_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID))
-			return (mapping.findForward(ForwardConstants.PROTECTION_GROUP_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID))
-			return (mapping.findForward(ForwardConstants.PROTECTION_ELEMENT_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.APPLICATION_ID))
-			return (mapping.findForward(ForwardConstants.APPLICATION_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID))
-			return (mapping.findForward(ForwardConstants.INSTANCE_LEVEL_HOME_PAGE));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.LOGOUT_ID))
-			return (mapping.findForward(ForwardConstants.LOGOUT_ACTION));
-		else if (menuSelectionForm.getTableId().equalsIgnoreCase(DisplayConstants.SYSTEM_CONFIGURATION_ID))
-			return (mapping.findForward(ForwardConstants.SYSTEM_CONFIGURATION_ACTION));
+		if (tableId.equalsIgnoreCase(DisplayConstants.HOME_ID))
+			return ForwardConstants.HOME_PAGE;
+		if (tableId.equalsIgnoreCase(DisplayConstants.ADMIN_HOME_ID))
+			return ForwardConstants.ADMIN_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.ROLE_ID))
+			return ForwardConstants.ROLE_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.GROUP_ID))
+			return ForwardConstants.GROUP_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.USER_ID))
+			return ForwardConstants.USER_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.PRIVILEGE_ID))
+			return ForwardConstants.PRIVILEGE_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_GROUP_ID))
+			return ForwardConstants.PROTECTION_GROUP_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.PROTECTION_ELEMENT_ID))
+			return ForwardConstants.PROTECTION_ELEMENT_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.APPLICATION_ID))
+			return ForwardConstants.APPLICATION_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.INSTANCE_LEVEL_ID))
+			return ForwardConstants.INSTANCE_LEVEL_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.IMPORT_LDAP_USERS_ID))
+			return ForwardConstants.IMPORT_LDAP_USERS_HOME_PAGE;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.LOGOUT_ID))
+			return ForwardConstants.LOGOUT_ACTION;
+		else if (tableId.equalsIgnoreCase(DisplayConstants.SYSTEM_CONFIGURATION_ID))
+			return ForwardConstants.SYSTEM_CONFIGURATION_ACTION;
 		else
-			return (mapping.findForward(ForwardConstants.HOME_PAGE));
+			return ForwardConstants.HOME_PAGE;
 
 	}
 

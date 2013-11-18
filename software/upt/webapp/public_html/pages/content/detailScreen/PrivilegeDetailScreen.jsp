@@ -6,12 +6,7 @@
    See http://ncip.github.com/common-security-module/LICENSE.txt for details.
 L--%>
 
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="html"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-template" prefix="template"%>
-<%@ taglib uri="http://jakarta.apache.org/struts/tags-nested" prefix="nested"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
 
 <%@ page import="gov.nih.nci.security.upt.viewobjects.*"%>
 <%@ page import="gov.nih.nci.security.upt.constants.*"%>
@@ -84,27 +79,24 @@ function skipNavigation()
 } 	
 // -->
 </script>
-<bean:define id="submitValue" value="error" />
-<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-		<bean:define id="submitValue" value="create" />
-	</logic:equal>-->
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-		<bean:define id="submitValue" value="search" />
-	</logic:equal>
-</logic:equal>
-<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-	<!--<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-		<bean:define id="submitValue" value="loadAdd" />
-	</logic:equal>-->
-	<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-		<bean:define id="submitValue" value="loadSearchResult" />
-	</logic:equal>
-</logic:notEqual>
+
+<s:set var="submitValue" value="error" />
+<s:set var="currentForm" value="#session.CURRENT_FORM"/>
+<s:if test='#currentForm.getPrimaryId().equals("")'>
+	<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+		<s:set var="submitValue" value="search" />
+	</s:if>
+</s:if>
+<s:else>
+	<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+		<s:set var="submitValue" value="loadSearchResult" />
+	</s:if>
+</s:else>
+
 
 	<table summary="" cellpadding="0" cellspacing="0" border="0" class="contentPage" width="100%" height="100%">
-	<html:form styleId="PrivilegeForm" action="/PrivilegeDBOperation">
-	<html:hidden property="operation" value="<%=submitValue%>"/>
+	<s:form name="PrivilegeForm" action="PrivilegeDBOperation"  theme="simple">
+	<s:hidden name="operation" value="error"/>
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/PrivilegeDBOperation'/>"/>
 			<tr>
 			<td valign="top">
@@ -114,187 +106,195 @@ function skipNavigation()
 					<table summary="Privilege Details" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 						<tr>
 							<td class="infoMessage" colspan="3">
-			  				<html:messages id="message" message="true">
-			  				<bean:write name="message"/>
-			  				</html:messages>	
+								<s:if test="hasActionMessages()">
+								      <s:actionmessage/>
+								</s:if>			  
 			  				</td>
 						</tr>
 						<tr>
-							<td colspan="3">
-							<html:errors />
+							<td class="errorMessage" colspan="3">
+								<s:if test="hasActionErrors()">
+								      <s:actionerror/>
+								</s:if>
 							</td>
 						</tr>
 						<tr>
-						<logic:present name="<%=DisplayConstants.CURRENT_FORM%>">
-							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+						
+					<s:if test="#session.CURRENT_FORM != null">
+						<s:if test='#currentForm.getPrimaryId().equals("")'>
+							<s:if test="#session.ADMIN_USER != null">
+								<s:if test='#session.CURRENT_ACTION.equals("ADD")'>
+										<tr>
+											<td class="formMessage" colspan="3"><a id="privDetail"></a>Enter the details to add a new Privilege. 
+											The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
+											The <b>Privilege Description</b> is a brief summary about the Privilege.</td>
+										</tr>
+										<tr>
+											<td class="formMessage" colspan="3">* indicates a required field</td>
+										</tr>
+								</s:if>
 								<!--3.0.1-->
-								<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+							</s:if>
 								<!--3.0.1-->
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-								<tr>
-									<td class="formMessage" colspan="3"><a id="privDetail"></a>Enter the details to add a new Privilege. 
-									The <b>Privilege Name</b> uniquely identifies the Privilege and is a required field. 
-									The <b>Privilege Description</b> is a brief summary about the Privilege.</td>
-								</tr>
-								<tr>
-									<td class="formMessage" colspan="3">* indicates a required field</td>
-								</tr>
-								</logic:equal>
-								<!--3.0.1-->
-								</logic:present>
-								<!--3.0.1-->
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
+							<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
 								<tr>
 									<td class="formMessage" colspan="3"><a id="privDetail"></a>Search for an existing Privilege by entering the <b>Privilege Name</b>.</td>
 								</tr>
 								<tr>
 									<td class="formMessage" colspan="3">Use * to perform wildcard searches</td>
 								</tr>
-								</logic:equal>
-							</logic:equal>
-							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+							</s:if>
+						</s:if>
+						<s:else>
 								<tr>
 									<td class="formMessage" colspan="3"> <a id="privDetail"></a>
 									The <b>Privilege Name</b> uniquely identifies the Privilege. 
 									The <b>Privilege Description</b> is a brief summary about the Privilege. The <b>Update Date</b> indicates the date when this Privilege's Details were last updated.</td>
 								</tr>							
-							</logic:notEqual>
+						</s:else>
 						</tr>
 						<tr>
-							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<!--3.0.1--><logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+						<s:if test='#currentForm.getPrimaryId().equals("")'>
+							<s:if test='#session.CURRENT_ACTION.equals("ADD")'>
+									<!--3.0.1-->
+								<s:if test="#session.ADMIN_USER != null">
 									  <td class="formTitle" height="20" colspan="3">ENTER THE NEW PRIVILEGE DETAILS</td>
-									</logic:present><!--3.0.1-->
-								</logic:equal>
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<td class="formTitle" height="20" colspan="3">ENTER THE PRIVILEGE SEARCH CRITERIA</td>
-								</logic:equal>
-							</logic:equal>
-							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-									<td class="formTitle" height="20" colspan="3">PRIVILEGE DETAILS</td>
-							</logic:notEqual>
+								</s:if><!--3.0.1-->
+							</s:if>
+							<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+								<td class="formTitle" height="20" colspan="3">ENTER THE PRIVILEGE SEARCH CRITERIA</td>
+							</s:if>
+						</s:if>
+						<s:else>
+							<td class="formTitle" height="20" colspan="3">PRIVILEGE DETAILS</td>
+						</s:else>
 						</tr>
-							<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="searchFormElements" id="formElements" />
-								</logic:equal>
+						<s:if test='#currentForm.getPrimaryId().equals("")'>
+							<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+								<s:set var="formElements" value="#currentForm.searchFormElements"/>
+							</s:if>
 								<!--3.0.1-->
-								<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+							<s:if test="#session.ADMIN_USER != null">
 								<!--3.0.1-->
-								<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-									<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="addFormElements" id="formElements" />
-								</logic:equal>
+								<s:if test='#session.CURRENT_ACTION.equals("ADD")'>
+									<s:set var="formElements" value="#currentForm.addFormElements"/>
+							</s:if>
 								<!--3.0.1-->
-								</logic:present>
+						</s:if>
 								<!--3.0.1-->
-							</logic:equal>
-							<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
-								<bean:define name="<%=DisplayConstants.CURRENT_FORM%>" property="displayFormElements" id="formElements" />
-							</logic:notEqual>
-							<logic:iterate name="formElements" id="formElement" type="FormElement">
+						</s:if>
+						<s:else>
+							<s:set var="formElements" value="#currentForm.displayFormElements"/>
+							<s:set var="privilegeId" value="#currentForm.getPrimaryId()"/>
+							<s:hidden name="privilegeForm.privilegeId" value="%{privilegeId}"/>
+							
+						</s:else>
+						<s:iterator value="formElements" var="formElement">
 								<tr>
-									<logic:equal name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
+									<s:if test='(#formElement.propertyRequired.equals("REQUIRED"))'>
 										<td class="formRequiredNotice" width="5">*</td>
-										<td class="formRequiredLabel2"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
-									</logic:equal>
-									<logic:notEqual name="formElement" property="propertyRequired" value="<%=DisplayConstants.REQUIRED%>">
+										<td class="formRequiredLabel2"><label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/></label></td>
+									</s:if>
+									<s:else>
 										<td class="formRequiredNotice" width="5">&nbsp;</td>
-										<td class="formLabel"><label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyLabel" /></label></td>
-									</logic:notEqual>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_BOX%>">
-										<td class="formField"><html:text style="formFieldSized" size="30" maxlength="100" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/></td>
-									</logic:equal>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_DATE%>">
+										<td class="formLabel"><label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/></label></td>
+									</s:else>
+									<s:if test='(#formElement.propertyType.equals("INPUT_BOX"))'>
+										<td class="formField"><s:textfield style="formFieldSized" size="30" maxlength="100" name="privilegeForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/></td>
+									</s:if>
+									<s:if test='(#formElement.propertyType.equals("PASSWORD"))'>
+										<td class="formField"><s:password style="formFieldSized" size="30" maxlength="100" name="privilegeForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}" showPassword="true"/></td>
+									</s:if>
+									<s:if test='(#formElement.propertyType.equals("INPUT_DATE"))'>
 										<td class="formField">
-										<logic:equal name="formElement" property="propertyReadonly" value="<%=DisplayConstants.READONLY%>">
-											<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />   <%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
-										</logic:equal>
-										<logic:notEqual name="formElement" property="propertyReadonly"  value="<%=DisplayConstants.READONLY%>">
-											<% if(formElement.getPropertyDisabled()){ %>
-												<label for="<%=formElement.getPropertyName()%>"><bean:write name="formElement" property="propertyValue" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=DisplayConstants.DISPLAY_DATE_FORMAT%></label>
-											<% }else{ %>
-											<html:text  style="formFieldSized" size="10" maxlength="10" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>"/>  <%=DisplayConstants.DISPLAY_DATE_FORMAT%>
-											<% } %>											
-										</logic:notEqual>
+										<s:if test='(#formElement.propertyReadonly.equals(DisplayConstants.READONLY))'>
+											<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyValue"/>(MM/DD/YYYY)</label>
+										</s:if>
+										<s:else>
+											<s:if test='#formElement.propertyDisabled'>
+												<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MM/DD/YYYY)</label>
+											</s:if>
+											<s:else>
+											<s:textfield size="10" maxlength="10"  name="privilegeForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/>  (MM/DD/YYYY)
+											</s:else>										
+										</s:else>
 										</td>
-									</logic:equal>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_TEXTAREA%>">
-										<td class="formField"><html:textarea style="formFieldSized" cols="32" rows="2" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=formElement.getPropertyValue()%>" disabled="<%=formElement.getPropertyDisabled()%>" /></td>
-									</logic:equal>
-									<logic:equal name="formElement" property="propertyType" value="<%=DisplayConstants.INPUT_RADIO%>">
-										<td class="formField"><html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.YES%>" />&nbsp;Yes&nbsp;&nbsp;<html:radio style="formFieldSized" styleId="<%=formElement.getPropertyName()%>" property="<%=formElement.getPropertyName()%>" value="<%=DisplayConstants.NO%>" />&nbsp;No</td>
-									</logic:equal>
+									</s:if>
+									<s:if test='(#formElement.propertyType.equals("INPUT_TEXTAREA"))'>
+										<td class="formField"><s:textarea style="formFieldSized" cols="32" rows="2" name="privilegeForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}" /></td>
+									</s:if>
+									<s:if test='(#formElement.propertyType.equals("INPUT_RADIO"))'>
+										<td class="formField"><s:radio name="privilegeForm.%{propertyName}" list="#{'YES':'Yes','NO':'No'}" value="%{propertyValue}" /></td>
+									</s:if>
 								</tr>
-							</logic:iterate>
+							</s:iterator>
 						<tr>
 							<td align="right" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<logic:equal name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">						
+									<s:if test='#currentForm.getPrimaryId().equals("")'>
 										<!--3.0.1-->
-										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+										<s:if test="#session.ADMIN_USER != null">
 										<!--3.0.1-->
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('create');">Add</html:submit></td>
-										</logic:equal>
+											<s:if test='#session.CURRENT_ACTION.equals("ADD")'>
+												<td><s:submit style="actionButton" onclick="setAndSubmit('create');" value="Add"/></td>
+											</s:if>
 										<!--3.0.1-->
-										</logic:present>
+										</s:if>
+										<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+											<td><s:submit style="actionButton" onclick="setAndSubmit('search');" value="Search"/></td>
+										</s:if>
 										
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('search');">Search</html:submit></td>
-										</logic:equal>
-										
 										<!--3.0.1-->
-										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+										<s:if test="#session.ADMIN_USER != null">
 										<!--3.0.1-->
-										<td><html:reset style="actionButton">Reset</html:reset></td>
+											<td><s:reset style="actionButton" value="Reset"/></td>
 										<!--3.0.1-->
-										</logic:present>										
-										<td><html:submit style="actionButton" onclick="setAndSubmit('loadHome');">Back</html:submit></td>
-									</logic:equal>
-									<logic:notEqual name="<%=DisplayConstants.CURRENT_FORM%>" property="primaryId" value="<%=DisplayConstants.BLANK%>">
+										</s:if>										
+										<td><s:submit style="actionButton" onclick="setAndSubmit('loadHome');" value="Back"/></td>
+									</s:if>
+									<s:else>
 										<!--3.0.1-->
-										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+										<s:if test="#session.ADMIN_USER != null">
 										<!--3.0.1-->
-											<logic:present name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
-												<td><html:submit style="actionButton" onclick="setAndSubmit('update');">Update</html:submit></td>
-											</logic:present>
-											<logic:notPresent name='<%=Constants.CSM_UPDATE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
-												<td><html:submit disabled="true">Update</html:submit></td>
-											</logic:notPresent>
-											<logic:present name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
-												<td><button class="actionButton" onclick="setAndSubmit('delete');">Delete</button></td>
-											</logic:present>
-											<logic:notPresent name='<%=Constants.CSM_DELETE_PRIVILEGE +"_"+Constants.UPT_PRIVILEGE_OPERATION%>'>
-												<td><html:submit disabled="true">Delete</html:submit></td>
-											</logic:notPresent>
+											<s:if test="#session.UPDATE_UPT_PRIVILEGE_OPERATION != null">
+												<td><s:submit style="actionButton" onclick="setAndSubmit('update');" value="Update"/></td>
+											</s:if>
+											<s:else>
+												<td><s:submit disabled="true" value="Update"/></td>
+											</s:else>
+											<s:if test="#session.DELETE_UPT_PRIVILEGE_OPERATION != null">
+												<td><s:submit class="actionButton" onclick="setAndSubmit('delete');" value="Delete"/></td>
+											</s:if>
+											<s:else>
+												<td><s:submit disabled="true" value="Delete"/></td>
+											</s:else>
 											<!--3.0.1-->
-										</logic:present>
+										</s:if>
 
 										<!--3.0.1-->
-										<logic:present name="<%=DisplayConstants.ADMIN_USER%>">
+										<s:if test="#session.ADMIN_USER != null">
 										<!--3.0.1-->
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.ADD%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadAdd');">Back</html:submit></td>
-										</logic:equal>
+											<s:if test='#session.CURRENT_ACTION.equals("ADD")'>
+												<td><s:submit style="actionButton" onclick="setAndSubmit('loadAdd');" value="Back"/></td>
+											</s:if>
 										<!--3.0.1-->
-										</logic:present>		
-										<logic:equal name="<%=DisplayConstants.CURRENT_ACTION%>" value="<%=DisplayConstants.SEARCH%>">
-											<td><html:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');">Back</html:submit></td>
-										</logic:equal>
-									</logic:notEqual>
+										</s:if>
+										<s:if test='#session.CURRENT_ACTION.equals("SEARCH")'>
+											<td><s:submit style="actionButton" onclick="setAndSubmit('loadSearchResult');" value="Back"/></td>
+										</s:if>
+									</s:else>
 								</tr>
 							</table>
 							</td><!-- action buttons end -->
 						</tr>
-						</logic:present>
+						</s:if>
 					</table>
 					</td>
 				</tr>
 			</table>
 			</td>
 		</tr>
-		</html:form>
+		</s:form>
 	</table>
 

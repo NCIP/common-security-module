@@ -9,49 +9,80 @@
 package gov.nih.nci.security.upt.actions;
 
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 import gov.nih.nci.security.upt.forms.SystemConfigurationForm;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionError;
-import org.apache.struts.action.ActionErrors;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import gov.nih.nci.security.upt.constants.ForwardConstants;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.SessionAware;
 
 
 public class SystemConfigurationAction extends CommonDBAction
 {
 	private static final Logger log = Logger.getLogger(SystemConfigurationAction.class);
+	private SystemConfigurationForm configForm;
+	private String operation;
+
+	
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public SystemConfigurationForm getConfigForm() {
+		return configForm;
+	}
+
+	public void setConfigForm(SystemConfigurationForm configForm) {
+		this.configForm = configForm;
+	}
 
 	@SuppressWarnings("unchecked")
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String execute()
 	{
+		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		SystemConfigurationForm configForm = (SystemConfigurationForm)form;
-
-		if (configForm != null && configForm.getOperation() != null && configForm.getOperation().equalsIgnoreCase("update"))
+		
+		try
 		{
-			update(mapping,  form, request, response);
-			return read(mapping,  form, request, response);
+		if(configForm == null)
+			configForm = new SystemConfigurationForm();
+		
+		List<String> errors = configForm.validate(request);
+		
+		if(errors != null && errors.size() > 0)
+		{
+			for(String error: errors)
+				addActionError(error);
+			return "ReadSuccess";
+		}
+		
+		if (operation != null && operation.equalsIgnoreCase("update"))
+		{
+			update(configForm);
+			return read(configForm);
 		}
 		else
 		{
-			return read(mapping,  form, request, response);
+			configForm = new SystemConfigurationForm();
+			configForm.setRequest(request);
+			return read(configForm);
 		}
+		}
+		catch(Exception e)
+		{
+			addActionError("Error processing System Configuration form: "+e.getMessage());
+			e.printStackTrace();
+		}
+		return "ReadSuccess";
 	}
 
 }
