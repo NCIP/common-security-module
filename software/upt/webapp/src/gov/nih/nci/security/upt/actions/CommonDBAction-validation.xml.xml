@@ -1,0 +1,384 @@
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.2//EN" "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="privilegeName">
+        <field-validator type="required">
+            <message key="PrivilegeForm.privilegeName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="minLength">1</param>
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="PrivilegeForm.privilegeName.displayLabel" />
+        </field-validator>
+    </field>
+    <field name="privilegeDescription">
+    	<field-validator type="stringlength">
+             <param name="maxLength">200</param>
+             <param name="trim">true</param>
+              <message key="PrivilegeForm.privilegeDescription.displayLabel" />
+        </field-validator>
+    </field>
+    
+    <field name="roleName">
+        <field-validator type="required">
+            <message key="RoleForm.roleName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="RoleForm.roleName.displayLabel" />
+        </field-validator>
+    </field>
+    
+    <field name="roleDescription">
+    	<field-validator type="stringlength">
+             <param name="maxLength">200</param>
+             <param name="trim">true</param>
+              <message key="RoleForm.roleDescription.displayLabel" />
+        </field-validator>
+    </field>
+    <field name="roleActiveFlag">
+        <field-validator type="required">
+            <message key="RoleForm.roleActiveFlag.displayLabel"/>
+        </field-validator>
+    </field>
+
+    <field name="applicationName">
+        <field-validator type="required">
+            <message key="ApplicationForm.applicationName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">255</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationName.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="applicationDescription">
+        <field-validator type="required">
+            <message key="ApplicationForm.applicationDescription.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">200</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationDescription.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="applicationDeclarativeFlag">
+        <field-validator type="required">
+            <message key="ApplicationForm.applicationDeclarativeFlag.displayLabel"/>
+        </field-validator>
+    </field>
+
+    <field name="applicationDatabaseURL">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationDatabaseURL.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="applicationDatabaseUserName">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationDatabaseUserName.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="applicationDatabasePassword">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationDatabasePassword.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="applicationDatabaseConfirmPassword">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationDatabaseConfirmPassword.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="applicationDatabaseDialect">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationDatabaseDialect.displayLabel" />
+        </field-validator>
+    </field>
+    
+    <field name="applicationDatabaseDriver">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ApplicationForm.applicationDatabaseDriver.displayLabel" />
+        </field-validator>
+    </field>
+    
+    <field name="groupName">
+        <field-validator type="required">
+            <message key="GroupForm.groupName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">255</param>
+             <param name="trim">true</param>
+              <message key="GroupForm.groupName.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="groupDescription">
+    	<field-validator type="stringlength">
+             <param name="maxLength">200</param>
+             <param name="trim">true</param>
+              <message key="GroupForm.groupDescription.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="protectionGroupName">
+        <field-validator type="required">
+            <message key="ProtectionGroupForm.protectionGroupName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ProtectionGroupForm.protectionGroupName.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="protectionGroupDescription">
+    	<field-validator type="stringlength">
+             <param name="maxLength">200</param>
+             <param name="trim">true</param>
+              <message key="ProtectionGroupForm.protectionGroupDescription.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="protectionGroupLargeCountFlag">
+    	<field-validator type="required">
+              <message key="ProtectionGroupForm.protectionGroupLargeCountFlag.displayLabel" />
+        </field-validator>
+    </field>
+    
+    <field name="protectionElementName">
+        <field-validator type="required">
+            <message key="ProtectionElementForm.protectionElementName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ProtectionElementForm.protectionElementName.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="protectionElementDescription">
+    	<field-validator type="stringlength">
+             <param name="maxLength">200</param>
+             <param name="trim">true</param>
+              <message key="ProtectionElementForm.protectionElementDescription.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="protectionElementType">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ProtectionElementForm.protectionElementType.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="protectionElementObjectId">
+        <field-validator type="required">
+            <message key="ProtectionElementForm.protectionElementObjectId.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ProtectionElementForm.protectionElementObjectId.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="protectionElementAttribute">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="ProtectionElementForm.protectionElementAttribute.displayLabel" />
+        </field-validator>
+    </field>
+    
+    
+    
+    
+    <field name="userLoginName">
+        <field-validator type="required">
+            <message key="UserForm.userLoginName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userLoginName.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="userFirstName">
+        <field-validator type="requiredstring">
+            <message key="UserForm.userFirstName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userFirstName.displayLabel" />
+        </field-validator>
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[0-9a-zA-Z/_]*$]]></param>
+		<message key="errors.special.characters"/>
+	</field-validator>
+    </validator>
+    </field>
+    
+    <field name="userLastName">
+        <field-validator type="requiredstring">
+            <message key="UserForm.userLastName.displayLabel" />
+        </field-validator>
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userLastName.displayLabel" />
+        </field-validator>
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[0-9a-zA-Z/_]*$]]></param>
+		<message key="errors.special.characters"/>
+	</field-validator>
+    </validator>
+    </field>
+
+    <field name="userOrganization">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userOrganization.displayLabel" />
+        </field-validator>
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[0-9a-zA-Z/_]*$]]></param>
+		<message key="errors.special.characters"/>
+	</field-validator>
+    </validator>
+    </field>
+
+    <field name="userDepartment">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userDepartment.displayLabel" />
+        </field-validator>
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[0-9a-zA-Z/_]*$]]></param>
+		<message key="errors.special.characters"/>
+	</field-validator>
+    </validator>
+    </field>
+
+    <field name="userTitle">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userTitle.displayLabel" />
+        </field-validator>
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[0-9a-zA-Z/_]*$]]></param>
+		<message key="errors.special.characters"/>
+	</field-validator>
+    </validator>
+    </field>
+
+    <field name="userPhoneNumber">
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[\d]{3}-[\d]{3}-[\d]{4}$]]></param>
+		<message key="UserForm.userPhoneNumber.displayLabel"/>
+	</field-validator>
+    </validator>
+    </field>
+
+    <field name="userPassword">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userPassword.displayLabel" />
+        </field-validator>
+    </validator>
+    </field>
+
+    <field name="userPasswordConfirm">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userPasswordConfirm.displayLabel" />
+        </field-validator>
+    </validator>
+    </field>
+
+    <field name="userEmailId">
+    	<field-validator type="stringlength">
+             <param name="maxLength">100</param>
+             <param name="trim">true</param>
+              <message key="UserForm.userEmailId.displayLabel" />
+        </field-validator>
+    </validator>
+    </field>
+
+    <field name="userPhoneNumber">
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[\d]{3}-[\d]{3}-[\d]{4}$]]></param>
+		<message key="UserForm.userPhoneNumber.displayLabel"/>
+	</field-validator>
+    </validator>
+    </field>
+
+    <field name="userStartDate">
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[(((0?[1-9])|(1[012]))[- /.]((0?[1-9])|([12][0-9])|(3[01]))[- /.]((19|20)[0-9][0-9]))]></param>
+		<message key="UserForm.userStartDate.displayLabel"/>
+	</field-validator>
+    </validator>
+    </field>
+
+   <field name="userEndDate">
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[(((0?[1-9])|(1[012]))[- /.]((0?[1-9])|([12][0-9])|(3[01]))[- /.]((19|20)[0-9][0-9]))]></param>
+		<message key="UserForm.userEndDate.displayLabel"/>
+	</field-validator>
+    </validator>
+    </field>
+    
+    <field name="className">
+        <field-validator type="required">
+            <message key="InstanceLevelForm.className.displayLabel" />
+        </field-validator>
+    </field>
+    
+    <field name="filterChain">
+        <field-validator type="required">
+            <message key="InstanceLevelForm.filterChain.displayLabel" />
+        </field-validator>
+    </field>
+
+    <field name="targetClassName">
+        <field-validator type="required">
+            <message key="InstanceLevelForm.targetClassName.displayLabel" />
+        </field-validator>
+    </field>
+    <field name="targetClassAttributeName">
+        <field-validator type="required">
+            <message key="InstanceLevelForm.targetClassAttributeName.displayLabel" />
+        </field-validator>
+    </field>
+    
+    <field name="targetClassAttributeType">
+        <field-validator type="required">
+            <message key="InstanceLevelForm.targetClassAttributeType.displayLabel" />
+        </field-validator>
+    </field>    
+</validators>

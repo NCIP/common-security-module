@@ -1,0 +1,23 @@
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.2//EN" "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="loginId">
+        <field-validator type="requiredstring">
+            <message>LoginId is required</message>
+        </field-validator>
+    	<field-validator type="regex">
+    		<param name="expression"><![CDATA[^[0-9a-zA-Z/_]*$]]></param>
+		<message key="errors.special.characters"/>
+	</field-validator>
+    </validator>
+    </field>
+    <field name="password">
+        <field-validator type="required">
+            <message key="LoginForm.password.displayLabel"/>
+        </field-validator>
+    </field>
+    <field name="applicationContextName">
+        <field-validator type="requiredstring">
+            <message key="LoginForm.applicationContextName.displayLabel"/>
+        </field-validator>
+    </field>
+</validators>

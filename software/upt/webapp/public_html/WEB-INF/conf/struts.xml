@@ -1,0 +1,360 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="csmupt" extends="struts-default">
+  	<constant name="struts.enable.DynamicMethodInvocation value="false" />
+   	<constant name="struts.devMode" value="false" />
+    	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+     	<package name="default" extends="struts-default" namespace="/">
+
+	<interceptors>
+	<interceptor-stack name="appDefault">
+	<interceptor-ref name="defaultStack">
+		<param name="exception.logEnabled">true</param>
+		<param name="exception.logLevel">ERROR</param>
+		</interceptor-ref>
+	</interceptor-stack>
+	</interceptors>
+
+	<default-interceptor-ref name="appDefault" />
+     	
+        <result-types>
+             <result-type name="tiles"
+                 class="org.apache.struts2.views.tiles.TilesResult" />
+        </result-types>
+
+        <global-results>
+  		  <result name="error" type="tiles">/Tiles.500.Error.Page</result>
+  	</global-results>
+  		
+
+	<global-exception-mappings>
+	        <exception-mapping exception="gov.nih.nci.security.upt.exceptionHandler.DefaultExceptionHandler" result="error" />
+	        <exception-mapping exception="java.lang.Exception" result="error" />
+	</global-exception-mappings>
+
+	<action-mappings>
+	
+		<action name="/FooterContactUs">
+			<result type="tiles">/Tiles.Footer.ContactUs</result>
+		</action>
+		
+		<action name="/FooterApplicationSupport">
+			<result type="tiles">/Tiles.Footer.ApplicationSupport</result>
+		</action>
+
+		<action name="/FooterAccessibility">
+			<result type="tiles">/Tiles.Footer.Accessibility</result>
+		</action>
+
+		<action name="/FooterPrivacy">
+			<result type="tiles">/Tiles.Footer.Privacy</result>
+		</action>
+
+		<action name="/FooterDisclaimer">
+			<result type="tiles">/Tiles.Footer.Disclaimer</result>
+		</action>
+
+		<action name="/ViewErrorDetails">
+			<result type="tiles">/Tiles.500.Error.DetailsPage</result>
+		</action>
+
+		<action name="Home"
+			class="gov.nih.nci.security.upt.actions.HomeAction"
+			<result type="redirect">/list.action</result>
+			<result class="input" type="tiles">/Tiles.Login.Page</result>
+			<result name="error" type="tiles">/Tiles.500.Error.Page</result>
+			<result name="LoginPage" type="tiles">/Tiles.Login.Page</result>
+			<result name="HomePage" type="tiles">/Tiles.Home.Page</result>
+		</action>
+		<action name="AdminHome"
+			class="gov.nih.nci.security.upt.actions.HomeAction">
+			<result class="input" type="tiles">/Tiles.Login.Page</result>
+			<result name="LoginPage" type="tiles">/Tiles.Login.Page" </result>
+			<result name="HomePage" type="tiles">/Tiles.SuperAdmin.Home.Page" </result>
+		</action>
+		
+		
+		<action name="Login"
+			class="gov.nih.nci.security.upt.actions.LoginAction" 
+			name="LoginForm"
+			validate="true"> 
+			<result class="input" class="tiles">/Tiles.Login.Page</result>
+			<result name="redirect" type="redirectAction">${redirectAction}</result>
+			<result name="LoginSuccess" name="Tiles.Home.Page" />
+			<result name="AdminLoginSuccess" name="Tiles.SuperAdmin.Home.Page" />			
+			<result name="AppUserLoginSuccess" name="/AppUserLogin.do" />
+			<result name="ChangePassword" name="Tiles.Password.Change.Page" />
+			<result name="LoginFailure" name="Tiles.Login.Page" />
+		</action>
+		<action name="/Logout"
+			class="gov.nih.nci.security.upt.actions.LogoutAction" >
+			<result name="LogoutSuccess" name="Tiles.Login.Page" />
+		</action>
+		<action name="ChangePassword"
+			class="gov.nih.nci.security.loginapp.actions.ChangePasswordAction" 
+			name="ChangePasswordForm"
+			validate="false" >
+			<result class="input" class="tiles">/Tiles.Password.Change.Page</result>
+			<result name="ChangePasswordSuccess" name="Tiles.Login.Page" />
+			<result name="ChangePasswordFailure" name="Tiles.Password.Change.Page" />
+		</action>		
+		<action name="/SystemConfiguration"
+			class="gov.nih.nci.security.upt.actions.SystemConfigurationAction"
+			name="SystemConfigurationForm" 
+			validate="false">
+			<result class="input" class="tiles">/Tiles.SuperAdmin.Home.Page</result>
+			<result name="ReadSuccess" name="Tiles.SystemConfiguration.Page" />
+			<result name="UpdateSuccess" name="Tiles.SystemConfiguration.Page" />
+		</action>
+		<action name="/AppUserLogin"
+			class="gov.nih.nci.security.upt.actions.AppUserLoginAction"
+			name="AppUserForm" 
+			validate="false">
+			<result class="input" class="tiles">/Tiles.AppUser.Detail.Screen</result>
+			<result name="ReadSuccess" name="Tiles.AppUser.Detail.Screen" />
+			<result name="UpdateSuccess" name="Tiles.AppUser.Detail.Screen" />
+		</action>		
+		<action name="/MenuSelection"
+			class="gov.nih.nci.security.upt.actions.MenuSelectionAction"
+			name="MenuForm" 
+			validate="true">
+			<result class="input" class="tiles">/Tiles.Login.Page</result>
+			<result name="ApplicationHomePage" name="Tiles.Application.Home" />
+			<result name="RoleHomePage" name="Tiles.Role.Home" />
+			<result name="GroupHomePage" name="Tiles.Group.Home" />
+			<result name="UserHomePage" name="Tiles.User.Home" />
+			<result name="PrivilegeHomePage" name="Tiles.Privilege.Home" />
+			<result name="ProtectionGroupHomePage" name="Tiles.ProtectionGroup.Home" />
+			<result name="ProtectionElementHomePage" name="Tiles.ProtectionElement.Home" />
+			<result name="InstanceLevelHomePage" name="Tiles.InstanceLevel.Home" />
+			<result name="HomePage" name="Tiles.Home.Page" />
+			<result name="AdminHomePage" name="Tiles.SuperAdmin.Home.Page" />			
+			<result name="LogoutAction" name="/Logout.do" />
+			<result name="SystemConfigurationAction" name="/SystemConfiguration.do" />
+		</action>
+		<action name="/PrivilegeDBOperation"
+			class="gov.nih.nci.security.upt.actions.CommonDBAction"
+			name="PrivilegeForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation">
+			<result class="input" class="tiles">/Tiles.Privilege.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.Privilege.Home" />
+			<result name="LoadAddSuccess" name="Tiles.Privilege.Detail.Screen" />
+			<result name="LoadSearchSuccess" name="Tiles.Privilege.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.Privilege.Search.Result" />			
+			<result name="CreateSuccess" name="Tiles.Privilege.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.Privilege.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.Privilege.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.Privilege.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.Privilege.Home" />
+			<result name="SearchSuccess" name="Tiles.Privilege.Search.Result" />
+			<result name="SearchFailure" name="Tiles.Privilege.Detail.Screen" />
+		</action>
+		<action name="/RoleDBOperation"
+			class="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			name="RoleForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"> 
+			<result class="input" class="tiles">/Tiles.Role.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.Role.Home" />
+			<result name="LoadAddSuccess" name="Tiles.Role.Detail.Screen" />
+			<result name="LoadSearchSuccess" name="Tiles.Role.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.Role.Search.Result" />
+			<result name="CreateSuccess" name="Tiles.Role.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.Role.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.Role.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.Role.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.Role.Home" />
+			<result name="SearchSuccess" name="Tiles.Role.Search.Result" />
+			<result name="LoadAssociationSuccess" name="Tiles.Role.Association.Screen" />
+			<result name="SetAssociationSuccess" name="Tiles.Role.Detail.Screen" />
+			<result name="SearchFailure" name="Tiles.Role.Detail.Screen" />
+		</action>
+		<action name="/ProtectionGroupDBOperation"
+			class="gov.nih.nci.security.upt.actions.ProtectionGroupAction"
+			name="ProtectionGroupForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"> 
+			<result class="input" class="tiles">/Tiles.ProtectionGroup.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.ProtectionGroup.Home" />
+			<result name="LoadAddSuccess" name="Tiles.ProtectionGroup.Detail.Screen" />
+			<result name="LoadSearchSuccess" name="Tiles.ProtectionGroup.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.ProtectionGroup.Search.Result" />
+			<result name="CreateSuccess" name="Tiles.ProtectionGroup.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.ProtectionGroup.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.ProtectionGroup.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.ProtectionGroup.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.ProtectionGroup.Home" />
+			<result name="SearchSuccess" name="Tiles.ProtectionGroup.Search.Result" />
+			<result name="SearchFailure" name="Tiles.ProtectionGroup.Detail.Screen" />
+			<result name="LoadAssociationSuccess" name="Tiles.ProtectionGroup.Association.Screen" />
+			<result name="SetAssociationSuccess" name="Tiles.ProtectionGroup.Detail.Screen" />	
+			<result name="LoadParentAssociationSuccess" name="Tiles.ProtectionGroup.ParentAssociation.Screen" />
+			<result name="SetParentAssociationSuccess" name="Tiles.ProtectionGroup.Detail.Screen" />	
+					
+		</action>
+		<action name="/GroupDBOperation"
+			class="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="GroupForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation">
+			<result class="input" class="tiles">/Tiles.Group.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.Group.Home" />
+			<result name="LoadAddSuccess" name="Tiles.Group.Detail.Screen" />
+			<result name="LoadSearchSuccess" name="Tiles.Group.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.Group.Search.Result" />
+			<result name="CreateSuccess" name="Tiles.Group.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.Group.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.Group.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.Group.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.Group.Home" />
+			<result name="SearchSuccess" name="Tiles.Group.Search.Result" />
+			<result name="SearchFailure" name="Tiles.Group.Detail.Screen" />
+			<result name="LoadAssociationSuccess" name="Tiles.Group.Association.Screen" />
+			<result name="SetAssociationSuccess" name="Tiles.Group.Detail.Screen" />
+			<result name="LoadDoubleAssociationSuccess" name="Tiles.Group.DoubleAssociation.Screen" />
+			<result name="LoadProtectionGroupAssociationSuccess" name="Tiles.Group.ProtectionGroupAssociation.Screen" />
+			<result name="LoadProtectionGroupAssociationFailure" name="Tiles.Group.Detail.Screen" />
+			<result name="LoadProtectionElementPrivilegesAssociationSuccess" name="Tiles.Group.ProtectionElementPrivilegesAssociation.Screen" />
+			<result name="LoadProtectionElementPrivilegesAssociationFailure" name="Tiles.Group.Detail.Screen" />
+			<result name="RemoveProtectionGroupAssociationSuccess" name="Tiles.Group.Detail.Screen" />			
+			<result name="LoadRoleAssociationSuccess" name="Tiles.Group.DoubleAssociation.Screen" />
+			<result name="SetDoubleAssociationSuccess" name="Tiles.Group.Detail.Screen" />
+			<result name="SetRoleAssociationSuccess" name="Tiles.Group.Detail.Screen" />			
+		</action>
+		<action name="/ProtectionElementDBOperation"
+			class="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			name="ProtectionElementForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation">
+			<result class="input" class="tiles">/Tiles.ProtectionElement.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.ProtectionElement.Home" />
+			<result name="LoadAddSuccess" name="Tiles.ProtectionElement.Detail.Screen" />
+			<result name="LoadSearchSuccess" name="Tiles.ProtectionElement.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.ProtectionElement.Search.Result" />
+			<result name="CreateSuccess" name="Tiles.ProtectionElement.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.ProtectionElement.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.ProtectionElement.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.ProtectionElement.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.ProtectionElement.Home" />
+			<result name="SearchSuccess" name="Tiles.ProtectionElement.Search.Result" />
+			<result name="SearchFailure" name="Tiles.ProtectionElement.Detail.Screen" />
+			<result name="LoadAssociationSuccess" name="Tiles.ProtectionElement.Association.Screen" />
+			<result name="SetAssociationSuccess" name="Tiles.ProtectionElement.Detail.Screen" />						
+		</action>
+		<action name="/SearchProtectionElementDBOperation"
+			class="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="SearchProtectionElementForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation" >
+			<result class="input" class="tiles">/Tiles.SearchProtectionElement.Detail.Screen</result>
+			<result name="LoadSearchSuccess" name="Tiles.SearchProtectionElement.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.SearchProtectionElement.Search.Result" />
+			<result name="SearchSuccess" name="Tiles.SearchProtectionElement.Search.Result" />
+			<result name="SearchFailure" name="Tiles.SearchProtectionElement.Detail.Screen" />
+		</action>
+		<action name="/UserDBOperation"
+			class="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="UserForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"> 
+			<result class="input" class="tiles">/Tiles.User.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.User.Home" />
+			<result name="LoadAddSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="LoadSearchSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.User.Search.Result" />
+			<result name="CreateSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.User.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="UnlockSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.User.Home" />
+			<result name="SearchSuccess" name="Tiles.User.Search.Result" />
+			<result name="SearchFailure" name="Tiles.User.Detail.Screen" />
+			<result name="LoadAssociationSuccess" name="Tiles.User.Association.Screen" />
+			<result name="SetAssociationSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="LoadDoubleAssociationSuccess" name="Tiles.User.DoubleAssociation.Screen" />
+			<result name="LoadProtectionGroupAssociationSuccess" name="Tiles.User.ProtectionGroupAssociation.Screen" />
+			<result name="LoadProtectionGroupAssociationFailure" name="Tiles.User.Detail.Screen" />
+			<result name="LoadProtectionElementPrivilegesAssociationSuccess" name="Tiles.User.ProtectionElementPrivilegesAssociation.Screen" />
+			<result name="LoadProtectionElementPrivilegesAssociationFailure" name="Tiles.User.Detail.Screen" />
+			<result name="RemoveProtectionGroupAssociationSuccess" name="Tiles.User.Detail.Screen" />			
+			<result name="LoadRoleAssociationSuccess" name="Tiles.User.DoubleAssociation.Screen" />
+			<result name="SetDoubleAssociationSuccess" name="Tiles.User.Detail.Screen" />
+			<result name="SetRoleAssociationSuccess" name="Tiles.User.Detail.Screen" />			
+		</action>
+		
+		<action name="/SearchUserDBOperation"
+			class="gov.nih.nci.security.upt.actions.CommonDoubleAssociationAction"
+			name="SearchUserForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation"> 
+			<result class="input" class="tiles">/Tiles.SearchUser.Detail.Screen</result>
+			<result name="LoadSearchSuccess" name="Tiles.SearchUser.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.SearchUser.Search.Result" />
+			<result name="SearchSuccess" name="Tiles.SearchUser.Search.Result" />
+			<result name="SearchFailure" name="Tiles.SearchUser.Detail.Screen" />
+		</action>
+		
+		<action name="/ApplicationDBOperation" 
+			class="gov.nih.nci.security.upt.actions.CommonAssociationAction"
+			name="ApplicationForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation">
+			<result class="input" class="tiles">/Tiles.Application.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.Application.Home" />
+			<result name="LoadAddSuccess" name="Tiles.Application.Detail.Screen" />
+			<result name="LoadSearchSuccess" name="Tiles.Application.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.Application.Search.Result" />
+			<result name="CreateSuccess" name="Tiles.Application.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.Application.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.Application.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.Application.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.Application.Home" />
+			<result name="SearchSuccess" name="Tiles.Application.Search.Result" />
+			<result name="LoadAssociationSuccess" name="Tiles.Application.Association.Screen" />
+			<result name="SetAssociationSuccess" name="Tiles.Application.Detail.Screen" />
+			<result name="SearchFailure" name="Tiles.Application.Detail.Screen" />
+		</action>
+		
+		<action name="InstanceLevelOperation" 
+			class="gov.nih.nci.security.upt.actions.InstanceLevelAction"
+			name="InstanceLevelForm" 
+			scope="session" 
+			validate="false"
+			parameter="operation">
+			<result class="input" class="tiles">/Tiles.InstanceLevel.Detail.Screen</result>
+			<result name="LoadHomeSuccess" name="Tiles.InstanceLevel.Home" />
+			<result name="LoadUploadSuccess" name="Tiles.InstanceLevel.Upload.Screen" />
+			<result name="LoadAddSuccess" name="Tiles.InstanceLevel.Detail.Screen" />
+			<result name="LoadAddFailure" name="Tiles.InstanceLevel.Home" />
+			<result name="LoadSearchSuccess" name="Tiles.InstanceLevel.Detail.Screen" />
+			<result name="LoadSearchResultSuccess" name="Tiles.InstanceLevel.Search.Result" />
+			<result name="UploadSuccess" name="Tiles.InstanceLevel.Home" />
+			<result name="UploadFailure" name="Tiles.InstanceLevel.Upload.Screen" />
+			<result name="CreateSuccess" name="Tiles.InstanceLevel.Detail.Screen" />
+			<result name="ReadSuccess" name="Tiles.InstanceLevel.Detail.Screen" />
+			<result name="ReadFailure" name="Tiles.InstanceLevel.Search.Result" />
+			<result name="UpdateSuccess" name="Tiles.InstanceLevel.Detail.Screen" />
+			<result name="DeleteSuccess" name="Tiles.InstanceLevel.Home" />
+			<result name="SearchSuccess" name="Tiles.InstanceLevel.Search.Result" />
+			<result name="SearchFailure" name="Tiles.InstanceLevel.Detail.Screen" />
+		</action>
+		
+
+	</action-mappings>
+</struts>
+
