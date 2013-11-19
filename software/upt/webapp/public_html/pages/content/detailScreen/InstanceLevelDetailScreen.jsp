@@ -127,6 +127,7 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
                   tbl.deleteRow(i-1);
             }
             var sel = document.getElementById('filterChainElement1');
+            alert("sel "+sel);
             dwr.util.removeAllOptions(sel);
             dwr.util.addOptions (sel,map);
       }
@@ -292,7 +293,7 @@ function skipNavigation()
 							<s:else>
 								<s:set var="formElements" value="#currentForm.displayFormElements"/>
 								<s:set var="instanceLevelId" value="#currentForm.getPrimaryId()"/>
-								<s:hidden name="InstanceLevelForm.id" value="%{instanceLevelId}"/>
+								<s:hidden name="instanceLevelForm.id" value="%{instanceLevelId}"/>
 							</s:else>
 							<s:iterator value="formElements" var="formElement">
 								<tr>
@@ -307,24 +308,24 @@ function skipNavigation()
 								
 									<s:if test='#formElement.propertyType.equals("INPUT_BOX")'>
 										<s:if test='#formElement.propertyReadonly.equals("READONLY")'>
-											<s:hidden name="instanceLevelForm.%{propertyName}" value="%{propertyValue}"/>
+											<s:hidden name="%{propertyName}" value="%{propertyValue}"/>
 											<td class="formField"><label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyValue"/>&nbsp;</label></td>
 										</s:if>
 										<s:else>
 											<td class="formField">
-											<s:textfield size="60" maxlength="100"  name="instanceLevelForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/>
+											<s:textfield size="60" maxlength="100"  name="%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/>
 											</td>
 										</s:else>
 									</s:if>
 									<s:if test='#formElement.propertyType.equals("INPUT_COMBOBOX")'>
 										<s:if test="formElement.propertyReadonly.equals(DisplayConstants.READONLY)">
-											<s:hidden name="instanceLevelForm.%{propertyName}" value="%{propertyValue}"/>
+											<s:hidden name="%{propertyName}" value="%{propertyValue}"/>
 											<td class="formField"><label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyValue"/>&nbsp;</label></td>
 										</s:if>
 										<s:else>
 											<s:if test='#formElement.propertyName.equals("className")'>
 												<td class="formField">
-													<s:select style="formFieldSized" name="instanceLevelForm.%{propertyName}" list="#session.classNames" disabled="%{propertyDisabled}" onclick="loadFirstChildList();" onchange="loadFirstChildList();" onfocus="loadFirstChildList();"/>
+													<s:select style="formFieldSized" name="%{propertyName}" list="#session.classNames" disabled="%{propertyDisabled}" onclick="loadFirstChildList();" onchange="loadFirstChildList();" onfocus="loadFirstChildList();"/>
 												</td>
 											</s:if>
 											<s:if test='#formElement.propertyName.equals("filterChain")'>
@@ -334,7 +335,7 @@ function skipNavigation()
 													<table id="childClassTable" name="childClassTable" cellpadding="0" cellspacing="0" border="0" width="100%" align="center" >
 														<tr>
 															<td>
-															<s:select styleId="filterChainElement1" style="formFieldSized" name="filterChainElement1" list="%{propertyValue}" disabled="%{propertyDisabled}">
+															<s:select style="formFieldSized" name="filterChainElement1" id="filterChainElement1" list="%{propertyValue}" disabled="%{propertyDisabled}">
 															</s:select>
 															</td>
 														</tr>
@@ -345,10 +346,11 @@ function skipNavigation()
 												</td>
 											</s:if>
 											<s:if test='#formElement.propertyName.equals("targetClassAttributeName")'>
+											111
 												<input type="hidden" id="targetClassAttributeName" name="targetClassAttributeName" />
 												<input type="hidden" id="targetClassAttributeType" name="targetClassAttributeType" />
 												<td class="formField">
-													<s:select styleId='%{propertyName}List' style="formFieldSized" name='instanceLevelForm.%{propertyName}List"%>' list="%{propertyValue}" disabled="%{propertyDisabled}">
+													<s:select id='%{propertyName}List' style="formFieldSized" name='%{propertyName}List"%>' list="%{propertyValue}" disabled="%{propertyDisabled}">
 													</s:select>
 												</td>
 											</s:if>
@@ -364,16 +366,16 @@ function skipNavigation()
 												<label for="<s:property value="#formElement.propertyName"/>"><s:property value="#formElement.propertyLabel"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(MM/DD/YYYY)</label>
 											</s:if>
 											<s:else>
-											<s:textfield size="10" maxlength="10"  name="instanceLevelForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/>  (MM/DD/YYYY)
+											<s:textfield size="10" maxlength="10"  name="%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}"/>  (MM/DD/YYYY)
 											</s:else>										
 										</s:else>
 										</td>
 									</s:if>
 									<s:if test='#formElement.propertyType.equals("INPUT_TEXTAREA")'>
-										<td class="formField"><s:textarea style="formFieldSized" cols="32" rows="2" name="instanceLevelForm.%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}" /></td>
+										<td class="formField"><s:textarea style="formFieldSized" cols="32" rows="2" name="%{propertyName}" value="%{propertyValue}" disabled="%{propertyDisabled}" /></td>
 									</s:if>
 									<s:if test='#formElement.propertyType.equals("INPUT_RADIO")'>
-										<td class="formField"><s:radio name="instanceLevelForm.%{propertyName}" list="#{'YES':'Yes','NO':'No'}" value="%{propertyValue}" /></td>
+										<td class="formField"><s:radio name="%{propertyName}" list="#{'YES':'Yes','NO':'No'}" value="%{propertyValue}" /></td>
 									</s:if>
 								</tr>
 							</s:iterator>
@@ -392,18 +394,19 @@ function skipNavigation()
 										<td><s:submit style="actionButton" onclick="setAndSubmit('loadHome');" value="Back"/></td>
 									</s:if>
 									<s:else>
-										<s:if test="#session.DELETE_UPT_INSTANCE_LEVEL_OPERATION == null">
+										<s:if test="#session.UPDATE_UPT_INSTANCE_LEVEL_OPERATION == null">
+											<td><s:submit disabled="true" value="Update"/></td>
+										</s:if>
+										<s:else>
 											<td><s:submit style="actionButton" onclick="setAndSubmit('update');" value="Update"/></td>
-										</s:if>
+										
+										</s:else>
 										<s:if test="#session.DELETE_UPT_INSTANCE_LEVEL_OPERATION == null">
 											<td><s:submit disabled="true" value="Delete"/></td>
 										</s:if>
-										<s:if test="#session.DELETE_UPT_INSTANCE_LEVEL_OPERATION == null">
-											<td><s:submit class="actionButton" onclick="setAndSubmit('delete');" value="Delete"/></td>
-										</s:if>
-										<s:if test="#session.DELETE_UPT_INSTANCE_LEVEL_OPERATION == null">
-											<td><s:submit disabled="true" value="Delete"/></td>
-										</s:if>
+										<s:else>
+											<td><s:submit class="actionButton" onclick="setAndSubmit('delete');" value="Delete"/></td>	
+										</s:else>
 										<s:if test='#session.CURRENT_ACTION.equals("ADD")'>
 											<td><s:submit style="actionButton" onclick="setAndSubmit('loadAdd');" value="Back"/></td>
 										</s:if>

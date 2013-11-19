@@ -47,7 +47,7 @@ function skipNavigation()
 	<table cellpadding="0" cellspacing="0" border="0"
 		class="contentPage" width="100%" height="100%">
 		<s:form name="ApplicationForm"
-	action="/ApplicationDBOperation" theme="simple">
+	action="ApplicationDBOperation" theme="simple">
 	<s:hidden name="operation" value="read" />
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/ApplicationDBOperation'/>"/>
 	

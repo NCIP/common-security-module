@@ -92,7 +92,6 @@ L-->
 		</copy>
 		<echo message="${lib.home}" />
 
-
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/commons-logging-1.1.1nci.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j-1.2.9.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/log4j.jar" />
@@ -107,12 +106,13 @@ L-->
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/postgresql-8.4-701.jdbc3.jar" />
 		<delete quiet="true" file="${build.home}/WEB-INF/lib/servlet-api-2.4.jar" />
-
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/bcprov-ext-jdk15on-1.47.jar" />
+		<delete quiet="true" file="${build.home}/WEB-INF/lib/bcprov-jdk15on-1.47.jar" />
 	</target>
 
-	<target name="prepare" depends="prepareDir,prepareBuild" />
+	<target name="prepare" depends="prepareDir,getDependencies,prepareBuild" />
 
-	<target name="compile" depends="prepare,getDependencies" description="Compiles all the files in the project">
+	<target name="compile" depends="prepare" description="Compiles all the files in the project">
 
 		<echo message="${src.home} ${build.home}  ${lib.home}" />
 		<javac srcdir="${src.home}" destdir="${build.home}/WEB-INF/classes" debug="true" deprecation="true">
@@ -143,6 +143,7 @@ L-->
 				<exclude name="ObjectStateLoggerConfig.xml" />
 			</fileset>
 		</copy>
+		<echo message="${build.home}" />
 		<jar jarfile="${war.file}" basedir="${build.home}" />
 	</target>
 
@@ -206,6 +207,8 @@ L-->
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/postgresql-8.4-701.jdbc3.jar" />
 		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/servlet-api-2.4.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/bcprov-ext-jdk15on-1.47.jar" />
+		<delete quiet="true" file="${build.home}/webapp/public_html/WEB-INF/lib/bcprov-jdk15on-1.47.jar" />
 
 
 

@@ -35,6 +35,10 @@ L-->
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
 		</exclusion>
+		<exclusion>  <!-- declare the exclusion here -->
+		    <groupId>org.owasp</groupId>
+		    <artifactId>csrf-guard</artifactId>
+		</exclusion>
 	      </exclusions>
 	</dependency>
 	<dependency>
@@ -168,8 +172,7 @@ L-->
 	<dependency>
 	  <groupId>Owasp</groupId>
 	  <artifactId>Owasp.CsrfGuard</artifactId>
-	  <version>3.0.0.594</version>
-	  <type>zip</type>
+	  <version>3.0.0.588</version>
 	</dependency>            	
 </dependencies>
 </project>

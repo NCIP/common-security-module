@@ -59,7 +59,7 @@ function skipNavigation()
 		<s:form name="InstanceLevelForm" action="InstanceLevelOperation" theme="simple">
 	<s:hidden name="operation" value="read" />
 	<input type="hidden" name="<csrf:token-name/>" value="<csrf:token-value uri='/InstanceLevelOperation'/>"/>
-		<tr>
+		<tr height="80">
 			<td>
 			<h2><a id="ilResult"></a>Filter Clause</h2>
 			</td>
@@ -75,8 +75,8 @@ function skipNavigation()
 						<tr>
 							<td class="dataTablePrimaryLabel" height="20">SEARCH RESULTS</td>
 						</tr>
-						<s:if test="%{#session['DisplayConstants.SEARCH_RESULT'] != null}">
-							<s:bean name="<%=DisplayConstants.SEARCH_RESULT%>" var="searchResult">
+						<s:if test="#session.SEARCH_RESULT != null">
+							<s:set var="searchResult" value="#session.SEARCH_RESULT"/>
 							<s:set var="oddRow" value="true"/>
 							<tr>
 								<td>
@@ -92,30 +92,24 @@ function skipNavigation()
 										<th class="dataTableHeader" scope="col" align="center"
 											width="20%">Target Attribute Name</th>
 									</tr>
-									<s:iterator value="searchResult.searchResultObjects" var="searchResultObject" end="1000">
-										<s:if test="oddRow.equals("true")">
+									
+									<s:iterator value="#searchResult.searchResultObjects" var="searchResultObject" end="1000">
+										<s:if test='oddRow.equals("true")'>
 											<s:set var="oddRow" value="false"/>
 											<tr class="dataRowLight">
-												<td class="dataCellNumerical" width="10%"><s:radio
-													style="formFieldSized" property="id"
-													value="<%=searchResultObject.getId().toString()%>" /></td>
-												<td class="dataCellText" width="30%"><s:property value="#searchResultObject.className">&nbsp;</td>
-												<td class="dataCellText" width="30%"><s:property value="#searchResultObject.filterChain">&nbsp;</td>
-												<td class="dataCellText" width="20%"><s:property value="#searchResultObject.targetClassAttributeName">&nbsp;</td>
-											</tr>
 										</s:if>
 										<s:else>
-										<s:set var="oddRow" value="true"/>
+											<s:set var="oddRow" value="true"/>
 											<tr class="dataRowDark">
-												<td class="dataCellNumerical" width="10%"><s:radio
-													style="formFieldSized" property="id"
-													value="<%=searchResultObject.getId().toString()%>" /></td>
-												<td class="dataCellText" width="30%"><s:property value="#searchResultObject.className">&nbsp;</td>
-												<td class="dataCellText" width="30%"><s:property value="#searchResultObject.filterChain">&nbsp;</td>
-												<td class="dataCellText" width="20%"><s:property value="#searchResultObject.targetClassAttributeName">&nbsp;</td>
+										</s:else>	
+												<td class="dataCellNumerical" width="10%">
+												<s:radio
+													name="instanceLevelForm.id"  list="#{#searchResultObject.getId().toString():#searchResultObject.getId().toString()}"/>
+												</td>
+												<td class="dataCellText" width="30%"><s:property value="#searchResultObject.getClassName()"/>&nbsp;</td>
+												<td class="dataCellText" width="30%"><s:property value="#searchResultObject.getFilterChain()"/>&nbsp;</td>
+												<td class="dataCellText" width="20%"><s:property value="#searchResultObject.getTargetClassAttributeName()"/>&nbsp;</td>
 											</tr>
-										</s:else>
-										<% cntResObj=cntResObj+1; %>
 									</s:iterator>
 								</table>
 								</td>
@@ -125,9 +119,9 @@ function skipNavigation()
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
 										<td><s:submit style="actionButton"
-											onclick="setAndSubmit('read');">View Details</s:submit></td>
+											onclick="setAndSubmit('read');" value="View Details"/></td>
 										<td><s:submit style="actionButton"
-											onclick="setAndSubmit('loadSearch');">Back</s:submit></td>
+											onclick="setAndSubmit('loadSearch');" value="Back"/></td>
 										
 									</tr>
 								</table>
