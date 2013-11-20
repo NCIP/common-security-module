@@ -59,7 +59,7 @@ L--%>
 						<td valign="top" width="30%"><!-- sidebar begins -->
 						<table summary="" cellpadding="0" cellspacing="0" border="0"
 							height="100%">
-							<s:form action="ChangePassword.action"  focus="loginId" theme="simple">
+							<s:form action="ChangePassword"  focus="loginId" theme="simple">
 								<!-- login begins -->
 								<tr>
 									<td valign="top">
