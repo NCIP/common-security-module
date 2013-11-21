@@ -73,7 +73,20 @@ L--%>
 											<td class="sidebarContent">
 											<table cellpadding="2" cellspacing="0" border="0">
 												<tr>
-													<td colspan="2"><s:actionerror/></td>
+													<td class="infoMessage" colspan="2">
+													<s:if test="hasActionMessages()">
+													      <s:actionmessage/>
+													</s:if>			  
+
+													</td>
+												</tr>
+												<tr>
+													<td class="errorMessage" colspan="2">
+													<s:if test="hasActionErrors()">
+													      <s:actionerror/>
+													</s:if>			  
+
+													</td>
 												</tr>
 												<tr>
 													<td class="sidebarLogin" align="right"><label for="loginId">LOGIN
