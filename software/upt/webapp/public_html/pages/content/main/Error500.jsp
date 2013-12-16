@@ -33,19 +33,29 @@ L--%>
           </td>
         </tr>
         <tr>
-          <td align="center">
-      	    	<s:url action="ViewErrorDetails" var="ViewErrorDetails" />
-           	 <s:a href="%{ViewErrorDetails}" >
-					Click here to view Error Details
-		  	 </s:a>
-		   </td>
+          <td align="left">
+		<p>
+		<h3>Error Message:</h3>
+		    <s:property value="%{exception.message}"/>
+		</p>
+		<hr/>
+		<h3>Technical Details:</h3>
+		<p>
+		    <s:property value="%{exceptionStack}"/>
+		</p>
+		<hr/>
+	   </td>
+		   
         </tr>
   		<tr>
   		
 	<!-- news separate links depending on admin or super admin -->
-			<s:if test="#session.ADMIN_USER != null">
-				<td align="center"><s:url action="AdminHome.action" var="AdminHome"/><s:a href="%{AdminHome}">Click here to go back to Home Page</s:a></td>
+			<s:if test="#session.LOGIN_OBJECT == null">
+				<td align="center"><s:url action="Home.action" var="Home"/><s:a href="%{Home}">Click here to go back to Login Page</s:a></td>
 			</s:if>
+			<s:elseif test="#session.ADMIN_USER != null">
+				<td align="center"><s:url action="AdminHome.action" var="AdminHome"/><s:a href="javascript: set('AdminHome')">Click here to go back to Admin Home Page</s:a></td>
+			</s:elseif>
 			<s:else>
 				<td align="center"><s:url action="Home.action" var="Home"/><s:a href="%{Home}">Click here to go back to Home Page</s:a></td>
 			</s:else>

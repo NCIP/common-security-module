@@ -38,17 +38,27 @@ L--%>
             <P>
               <s:property value="exception.stackTrace"/>
             </P>
-          </td>
+<h3>Error Message</h3>
+<s:actionerror/>
+<p>
+    <s:property value="%{exception.message}"/>
+</p>
+<hr/>
+<h3>Technical Details</h3>
+<p>
+    <s:property value="%{exceptionStack}"/>
+</p>
+</td>
        </tr>
   		<tr>
   		
   		<!-- news2 separate links depending on admin or super admin -->
 							
 			<s:if test="#session.ADMIN_USER != null">
-				<td align="center"><s:url action="AdminHome.action" var="AdminHome"/><s:a href="%{AdminHome}">Click here to go back to Home Page</s:a></td>
+				<td align="center"><s:url action="AdminHome" var="AdminHome"/><s:a href="%{AdminHome}">Click here to go back to Home Page</s:a></td>
 			</s:if>
-			<s:else test="#session.ADMIN_USER == null">
-				<td align="center"><s:url action="Home.action" var="Home"/><s:a href="%{Home}">Click here to go back to Home Page</s:a></td>
+			<s:else>
+				<td align="center"><s:url action="Home" var="Home"/><s:a href="%{Home}">Click here to go back to Home Page</s:a></td>
 			</s:else>
 			
 								

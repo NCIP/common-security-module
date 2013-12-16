@@ -94,7 +94,7 @@ public class JDBCHelper {
 		} catch(Throwable t){
 			// Depending on the cause of the exception obtain message and throw a CSException.
 			if(t instanceof SQLGrammarException){
-				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getCause().getMessage());
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED + " "+t.getCause().getMessage());
 			}
 			if(t instanceof JDBCConnectionException){
 				if(t.getCause() instanceof CommunicationsException){
@@ -103,13 +103,13 @@ public class JDBCHelper {
 				if(t.getCause() instanceof SQLException){
 					throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL);
 				}
-				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+" "+t.getMessage());
 			}
 			if(t instanceof GenericJDBCException){
 				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS);
 			}
 			if(t instanceof HibernateException){
-				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+" "+t.getMessage());
 			}
 
 			throw new CSException(
@@ -165,7 +165,7 @@ public class JDBCHelper {
 			t.printStackTrace();
 			// Depending on the cause of the exception obtain message and throw a CSException.
 			if(t instanceof SQLGrammarException){
-				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getCause().getMessage());
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+" "+t.getCause().getMessage());
 			}
 			if(t instanceof JDBCConnectionException){
 				if(t.getCause() instanceof CommunicationsException){
@@ -174,17 +174,17 @@ public class JDBCHelper {
 				if(t.getCause() instanceof SQLException){
 					throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL);
 				}
-				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+" "+t.getMessage());
 			}
 			if(t instanceof GenericJDBCException){
-				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS+"<BR>");
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS+" ");
 			}
 			if(t instanceof CacheException){
 				throw new CacheException("Please Try Again.\n ");
 
 			}
 			if(t instanceof HibernateException){
-				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+"<BR>"+t.getMessage());
+				throw new CSException(DisplayConstants.APPLICATION_DATABASE_CONNECTION_FAILED+" "+t.getMessage());
 			}
 
 			throw new CSException(

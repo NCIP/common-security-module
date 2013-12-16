@@ -65,6 +65,7 @@
 			<result name="input" type="tiles">Tiles.Login.Page</result>
 			<result name="LoginPage" type="tiles">Tiles.Login.Page</result>
 			<result name="HomePage" type="tiles">Tiles.Home.Page</result>
+			<result name="*" type="tiles">Tiles.Login.Page</result>
 		</action>
 		<action name="AdminHome"
 			class="gov.nih.nci.security.upt.actions.HomeAction">

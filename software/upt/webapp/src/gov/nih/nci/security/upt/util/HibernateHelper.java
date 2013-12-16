@@ -84,12 +84,12 @@ public class HibernateHelper
 		{
 			e.printStackTrace();
 			ClassPathLoader.releaseJarsFromClassPath(sess);
-			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+"<BR>"+e.getMessage());
+			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+e.getMessage());
 		}
 		catch (Exception exception)
 		{
 			exception.printStackTrace();
-			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+"<BR>"+exception.getMessage());
+			throw new CSConfigurationException("Error in loading the Session Factory from the Hibernate File."+exception.getMessage());
 		}
 
 		if (null == sessionFactory)
@@ -126,9 +126,7 @@ public class HibernateHelper
 
 	public static HashMap getAssociatedClasses(String className) throws CSException
 	{
-
-
-
+		System.out.println("className "+className);
 		boolean isParentClass = false;
 		HttpSession session = WebContextFactory.get().getHttpServletRequest().getSession();
 		if (session.isNew() || (session.getAttribute(DisplayConstants.LOGIN_OBJECT) == null))
@@ -150,6 +148,7 @@ public class HibernateHelper
 		{
 			className = className.substring(0, className.indexOf(" - "));
 		}
+		System.out.println("className2 "+className);
 		ClassMetadata classMetadata = sessionFactory.getClassMetadata(className);
 		String[] properties = classMetadata.getPropertyNames();
 		for (int i = 0 ; i < properties.length ; i++)
@@ -165,13 +164,14 @@ public class HibernateHelper
 				}
 			}
 		}
+		System.out.println("isParentClass "+isParentClass);
 		if (isParentClass)
 		{
 			map.put(className, className  + " - self");
 		}
 		if (map.size() == 0)
 			throw new CSException("No associated Classes Found!");
-
+		System.out.println("map "+map);
 		return map;
 	}
 

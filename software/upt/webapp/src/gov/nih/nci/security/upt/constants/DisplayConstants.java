@@ -109,14 +109,14 @@ public class DisplayConstants
 
 	public static final String UPT_CONTEXT_NAME = "csmupt";
 
-	public static final String LOGIN_EXCEPTION_MESSAGE = "Invalid Login Credentials <br>OR<br> User Name is locked out due to allow invalid attempts reached.";
+	public static final String LOGIN_EXCEPTION_MESSAGE = "Invalid Login Credentials OR User Name is locked out due to allow invalid attempts reached.";
 
 	public static final String APPLICATION_DATABASE_CONNECTION_SUCCESSFUL = "Application Database information is valid. Test connection succesful.";
 	public static final String APPLICATION_DATABASE_CONNECTION_FAILED = "Application Database information is not valid. Correct and test connection.";
-	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL = "Application Database information is not valid. Correct and test connection.<BR> Verify the Database URL.";
-	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL_SERVER_PORT = "Application Database information is not valid. Correct and test connection.<BR> Verify the URL for Server name and Port number.";
-	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS = "Application Database information is not valid. Correct and test connection. <br>Verify the Application Database URL, User Name and Password";
-	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_DRIVER = "Application Database information is not valid. Correct and test connection. <br>Verify the Application Database Driver.";
+	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL = "Application Database information is not valid. Correct and test connection.  Verify the Database URL.";
+	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL_SERVER_PORT = "Application Database information is not valid. Correct and test connection.  Verify the URL for Server name and Port number.";
+	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_URL_USER_PASS = "Application Database information is not valid. Correct and test connection.  Verify the Application Database URL, User Name and Password";
+	public static final String APPLICATION_DATABASE_CONNECTION_FAILED_DRIVER = "Application Database information is not valid. Correct and test connection.  Verify the Application Database Driver.";
 
 	public static final String UPT_AUTHENTICATION_CONTEXT_NAME = "csmupt";
 	public static final String LOGIN_APPLICATION_CONTEXT_NAME = "upt51";

@@ -77,10 +77,9 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
       
       function addRow()
       {
-      alert("test");
             dwr.engine.setErrorHandler(displayErrorMessage);
             var tbl = document.getElementById('childClassTable');
-            var lastRow = tbl.rows.length;
+       	    var lastRow = tbl.rows.length;
             var selectElement = document.getElementById('filterChainElement' + (lastRow));
             var className = selectElement[selectElement.selectedIndex].innerHTML;
             dwr.engine.setErrorHandler(displayErrorMessage);
@@ -94,7 +93,7 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
             var iteration = lastRow + 1;
             var row = tbl.insertRow(lastRow);
             var cell = row.insertCell(0);
-            cell.marginTop
+           // cell.marginTop
             var sel = document.createElement('select');
             sel.name = 'filterChainElement' + iteration;
             sel.id = 'filterChainElement' + iteration;
@@ -127,7 +126,6 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
                   tbl.deleteRow(i-1);
             }
             var sel = document.getElementById('filterChainElement1');
-            alert("sel "+sel);
             dwr.util.removeAllOptions(sel);
             dwr.util.addOptions (sel,map);
       }
@@ -144,6 +142,7 @@ response.setDateHeader ("Expires", 0); //prevent caching at the proxy server
       
       function loadAssociatedAttributeData(map)
       {
+      
             var sel = document.getElementById('targetClassAttributeNameList');
             dwr.util.removeAllOptions(sel);
             dwr.util.addOptions (sel,map);
@@ -340,13 +339,12 @@ function skipNavigation()
 															</td>
 														</tr>
 													</table>
-													<s:submit type="button" value="Add" onclick="addRow()" />
+													<input type="button" value="Add" onclick="addRow()" />
 													<input type="button" value="Remove" onclick="removeRow()" />
 													<input type="button" value="Done" onclick="loadAssociatedAttribute()" />
 												</td>
 											</s:if>
 											<s:if test='#formElement.propertyName.equals("targetClassAttributeName")'>
-											111
 												<input type="hidden" id="targetClassAttributeName" name="targetClassAttributeName" />
 												<input type="hidden" id="targetClassAttributeType" name="targetClassAttributeType" />
 												<td class="formField">
