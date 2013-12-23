@@ -45,7 +45,7 @@ L-->
 					database.driver.file="${lib.dir}/mysql-connector-java-5.1.13.jar"
 					sql.delimiter=";"
 					sql.delimitertype="normal"
-					sql.file="${basedir}/common/resources/db/db-install/upt/uptcentral/mysql/@{db.install.file}"
+					sql.file="${basedir}/common/resources/db/db-install/mysql/@{db.install.file}"
 					onerror="abort"/>	
 			</sequential>
 		</for>
@@ -61,7 +61,7 @@ L-->
 			database.user="${upt.central.database.user}"
 			database.password="${upt.central.database.password}"
 			database.schema="${upt.central.database.name}"
-			database.changelog.file="${basedir}/common/resources/db/db-upgrade/upt/uptcentral/mysql/db-upgrade-central.xml"
+			database.changelog.file="${basedir}/common/resources/db/db-upgrade/mysql/db-upgrade-central.xml"
 			/>			
 	</target>
 	

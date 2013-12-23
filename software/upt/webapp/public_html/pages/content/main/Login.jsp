@@ -18,7 +18,7 @@ L--%>
 
 			<!-- banner begins -->
 			<tr>
-				<td class="bannerHome"><img src="images/bannerHome.gif" height="140"></td>
+				<td class="bannerHome"><img src="images/bannerHome.gif" height="140" alt="CSM UPT Home"></td>
 			</tr>
 			<!-- banner begins -->
 
