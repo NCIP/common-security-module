@@ -288,9 +288,10 @@ L-->
 				</filterset>
 			</filterset>
 		</copy>
-		<!-- <copyInstallSQLFiles upt.version="uptcentral" input.dir="${software.dir}/common/resources/db/db-install"/> -->
-		<echo message="Coping the Upgrade Files to ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql"/>
-		<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql" overwrite="true">
+		<copyInstallSQLFiles upt.version="uptcentral" input.dir="${software.dir}/common/resources/db/db-install"/> 
+		<copyUpgradeSQLFiles upt.version="uptcentral" input.dir="${software.dir}/common/resources/db/db-upgrade"/>
+		<echo message="Coping the Upgrade Files to ${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/mysql"/>
+		<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/mysql" overwrite="true">
 			<fileset dir="${upt.dir}/resources">
 				<include name="**/db-upgrade-central.xml" />
 			</fileset>
@@ -367,7 +368,7 @@ L-->
 					database.driver.file="${build-utils.dir}/mysql-connector-java-5.1.13.jar"
 					sql.delimiter=";"
 					sql.delimitertype="normal"
-					sql.file="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/uptcentral/mysql/@{db.install.file}"
+					sql.file="${dist.exploded.dir}/common/resources/db/db-install/mysql/@{db.install.file}"
 					onerror="abort"/>	
 			</sequential>
 		</for>
@@ -383,7 +384,7 @@ L-->
 			database.user="${upt.central.database.user}"
 			database.password="${upt.central.database.password}"
 			database.schema="${upt.central.database.name}"
-			database.changelog.file="${dist.exploded.dir}/common/resources/db/db-upgrade/${upt.dist.relative.dir}/uptcentral/mysql/db-upgrade-central-bkwrds.xml"
+			database.changelog.file="${dist.exploded.dir}/common/resources/db/db-upgrade/mysql/db-upgrade-central-bkwrds.xml"
 			/>			
 	</target>
 	
@@ -427,17 +428,17 @@ L-->
 		<attribute name="upt.version" default="NOT SET" />
 		<attribute name="input.dir" default="NOT SET" />
 		<sequential>
-			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
+			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/mysql" overwrite="true">
 				<fileset dir="@{input.dir}/mysql">
 					<include name="*MySQL.sql" />
 				</fileset>
 			</copy>
-			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
+			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/oracle" overwrite="true">
 				<fileset dir="@{input.dir}/oracle">
 					<include name="*Oracle.sql" />
 				</fileset>
 			</copy>
-			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/${upt.dist.relative.dir}/@{upt.version}/postgresql" overwrite="true">
+			<copy todir="${dist.exploded.dir}/common/resources/db/db-install/postgresql" overwrite="true">
 				<fileset dir="@{input.dir}/postgresql">
 					<include name="*Postgres.sql" />
 				</fileset>
@@ -450,25 +451,25 @@ L-->
 		<attribute name="upt.version" default="NOT SET" />
 		<attribute name="input.dir" default="NOT SET" />
 		<sequential>
-			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/@{upt.version}/mysql" overwrite="true">
+			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/mysql" overwrite="true">
 				<fileset dir="@{input.dir}/mysql">
 					<include name="**/db-upgrade*.xml" />
 					<include name="**/MigrationScript*MySQL.xml" />
 					<include name="**/MigrationScript*MySQL.sql" />
 				</fileset>
 			</copy>		
-			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/@{upt.version}/oracle" overwrite="true">
+			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/oracle" overwrite="true">
 				<fileset dir="@{input.dir}/oracle">
 					<include name="**/db-upgrade*.xml" />
 					<include name="**/MigrationScript*Oracle.xml" />
 					<include name="**/MigrationScript*Oracle.sql" />
 				</fileset>
 			</copy>		
-			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/${upt.dist.relative.dir}/@{upt.version}/postgres" overwrite="true">
+			<copy todir="${dist.exploded.dir}/${db.dist.relative.dir}/db-upgrade/postgres" overwrite="true">
 				<fileset dir="@{input.dir}/postgresql">
 					<include name="**/db-upgrade*.xml" />
-					<include name="**/MigrationScript*Postgres.xml" />
-					<include name="**/MigrationScript*Postgres.sql" />
+					<include name="**/MigrationScript*PostgreSQL.xml" />
+					<include name="**/MigrationScript*PostgreSQL.sql" />
 				</fileset>
 			</copy>		
 			
