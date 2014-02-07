@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="api/src"/>
-	<classpathentry excluding="migration/src/" kind="src" path="common/resources"/>
-	<classpathentry kind="src" path="common/resources/migration/src"/>
 	<classpathentry kind="src" path="upt/webapp/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/csm-all/software/upt/webapp/public_html/WEB-INF/lib/acegi-security-1.0.3.jar"/>
