@@ -49,7 +49,9 @@ L-->
 				<fail message="Invalid database type ${database.type}"/>
 			</default>
 		</switch>
-		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${database.driver.file}"/>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/mysql-connector-java-5.1.13.jar"/>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/postgresql-8.4-701.jdbc3.jar"/>
+		<copy todir="${jboss.home}/server/${jboss.server.name}/lib" file="${build-utils.dir}/ojdbc14-10.2.0.3.0.jar"/>
 	</target>
 
 	<target name="install:jboss:upt-ear:configure" depends="common:init">

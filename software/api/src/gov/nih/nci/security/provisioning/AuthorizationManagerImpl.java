@@ -1124,7 +1124,7 @@ public class AuthorizationManagerImpl implements UserProvisioningManager {
 	public void modifyUser(User user)throws CSException,LoginException{
 		
 		User currUser = authorizationDAO.getUser(user.getLoginName());
-		if(!currUser.getPassword().equalsIgnoreCase(user.getPassword()))
+		if(currUser.getPassword() == null || !currUser.getPassword().equalsIgnoreCase(user.getPassword()))
 		{
 			authorizationDAO.validateUser(user);
 		}
